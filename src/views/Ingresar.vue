@@ -21,65 +21,47 @@
 	<print-tickets :articles="articles"
 					:articles_id="articles_id_to_print"></print-tickets>
 	<bar-codes :article="article"></bar-codes>
-	<div class="row justify-content-center">
-		<div class="col-lg-7 col-mobile">	
-			<div class="card">
-				<div class="card-header">
-					<h5 class="m-0 d-inline-block">
-						<strong>
-							Ingresar un nuevo artículo
-						</strong>
-					</h5>
-					<!-- <button class="btn btn-secondary btn-sm float-right"
-							@click="showIntro">
-						Ayuda
-					</button> -->
-				</div>
-				<div class="card-body">
-					<h6 class="h6">
-						<strong>Complete con los datos del artículo que quiera ingresar</strong>
-					</h6>
-	
-					<uncontable-date :article="article"
-								:user="user"></uncontable-date>
+	<b-row class="justify-content-center">
+		<b-col lg="7">
+			<b-card header="Ingresar un nuevo producto" no-body>
+				<b-card-body>
+					<uncontable 
+					:article="article"></uncontable>
 					
-					<bar-code-image :article="article"
-							:user="user"
-							@showCamera="showCamera"
-							@setFile="setFile"
-							@isRegister="isRegister"></bar-code-image>
+					<bar-code 
+					:article="article"
+					@showCamera="showCamera"
+					@setFile="setFile"
+					@isRegister="isRegister"></bar-code>
 
-					<name :article="article"
-						:user="user"
-						:categories="categories"
-						@setArticle="setArticle"></name>
+					<name 
+					:article="article"
+					:categories="categories"
+					@setArticle="setArticle"></name>
 	
 					<cost-price :article="article"
 								:user="user"
 								:porcentage_for_price="porcentage_for_price"></cost-price>
 
-					<stock-provider :article="article"
+					<stock-provider-category :article="article"
 									:user="user"
-									:providers="providers"
-									:categories="categories"
-									@saveArticle="saveArticle"></stock-provider>
-
-					<!-- <date-created-at :article="article"></date-created-at> -->
-				</div> 
-				<div class="card-footer p-0">
-					<card-footer :articles_id_to_print="articles_id_to_print"
-								:user="user"
-								:loading_previus="loading_previus"
-								:guardando="guardando"
-								@previus="previus"
-								@saveArticle="saveArticle"></card-footer>
-				</div>
-			</div>
-		</div>
-	</div>
+									:providers="providers_options"
+									:categories="categories_options"
+									@saveArticle="saveArticle"></stock-provider-category>
+				</b-card-body>
+				<template v-slot:footer>
+					<card-footer
+					:articles_id_to_print="articles_id_to_print"
+					:guardando="guardando"></card-footer>
+				</template>
+			</b-card>
+		</b-col>
+	</b-row>
 </div>
 </template>
 <script>
+import toastr from 'toastr'
+
 // Modals
 import Providers from '../components/ingresar/modals/Providers.vue'
 import Categories from '../components/ingresar/modals/Categories.vue'
@@ -90,11 +72,11 @@ import BarCodes from '../components/ingresar/modals/BarCodes.vue'
 import TakePhoto from '../components/ingresar/modals/TakePhoto.vue'
 
 // Components
-import UncontableDate from '../components/ingresar/components/UncontableDate.vue'
-import BarCodeImage from '../components/ingresar/components/BarCodeImage.vue'
+import Uncontable from '../components/ingresar/components/Uncontable.vue'
+import BarCode from '../components/ingresar/components/BarCode.vue'
 import Name from '../components/ingresar/components/Name.vue'
 import CostPrice from '../components/ingresar/components/CostPrice.vue'
-import StockProvider from '../components/ingresar/components/StockProvider.vue'
+import StockProviderCategory from '../components/ingresar/components/StockProviderCategory.vue'
 import CardFooter from '../components/ingresar/components/CardFooter.vue'
 export default {
 	components: {
@@ -106,11 +88,11 @@ export default {
 		BarCodes,
 		TakePhoto,
 
-		UncontableDate,
-		BarCodeImage,
+		Uncontable,
+		BarCode,
 		Name,
 		CostPrice,
-		StockProvider,
+		StockProviderCategory,
 		CardFooter,
 	},
 	data() {
@@ -119,7 +101,7 @@ export default {
 				uncontable: 0,
 				online: false,
 				bar_code: '',
-				category_id: 0,
+				category: 0,
 				new_bar_code: '',
 				name: '',
 				cost: '',
@@ -146,16 +128,18 @@ export default {
 			
 			// Provedores
 			providers: [],
+			providers_options: [],
 			saving_provider: false,
 			deleting_provider: 0,
 
 			// Categorias
 			categories: [],
+			categories_options: [],
 			saving_categorie: false,
 
 			bar_codes: [],
 			// names: [],
-			available_articles: [],
+			names: [],
 			generated_bar_codes: [],
 
 			// Previus articles
@@ -163,21 +147,22 @@ export default {
 			loading_previus: false,
 			loading_next: false,
 
-			// User
-			user: {},
 		}
 	},
-	// created() {
-	// 	this.getUser()
-	// 	this.getAvailableArticles()
-	// 	this.getBarCodes()
-	// 	// this.getNames()
-	// 	this.getGeneratedBarCodes()
-	// 	if (!this.isProvider(this.user)) {
-	// 		this.getProviders()
-	// 	}
-	// 	this.getCategories()
-	// },
+	computed: {
+		user() {
+			return this.$store.state.auth.user
+		}
+	},
+	created() {
+		this.getNames()
+		this.getBarCodes()
+		this.getGeneratedBarCodes()
+		if (!this.isProvider(this.user)) {
+			this.getProviders()
+		}
+		this.getCategories()
+	},
 	methods: {
 		showIntro() {
 			// this.$introJs().setOption('showProgress', true).setOption('hidePrev', true).setOption('hideNext', true).start()
@@ -188,13 +173,22 @@ export default {
 		changeToDate() {
 			this.$jQuery('#created_at').focus()
 		},
-		getAvailableArticles() {
-			this.$api.get('articles/availables')
+		getNames() {
+			this.$api.get('articles/names')
 			.then(res => {
-				this.available_articles = res.data
+				this.names = res.data
 			})
 			.catch(err => {
-				this.getAvailableArticles()
+				// this.getAvailableArticles()
+				console.log(err)
+			})
+		},
+		getBarCodes() {
+			this.$api.get('/articles/bar-codes')
+			.then( res => {
+				this.bar_codes = res.data
+			})
+			.catch( err => {
 				console.log(err)
 			})
 		},
@@ -205,17 +199,8 @@ export default {
 		},
 
 		// Codigos de barra
-		getBarCodes() {
-			this.$api.get('articles/bar-codes')
-			.then( res => {
-				this.bar_codes = res.data
-			})
-			.catch( err => {
-				console.log(err)
-			})
-		},
 		getGeneratedBarCodes() {
-			this.$api.get('bar-codes/generated')
+			this.$api.get('bar-codes')
 			.then( res => {
 				this.generated_bar_codes = res.data
 			})
@@ -240,7 +225,7 @@ export default {
 				this.generated_bar_codes.forEach(bar_code => {
 					if (bar_code.name == this.article.bar_code) {
 						codigo_ya_creado = true
-						this.$toastr.success('Codigo generado por usted, se completo la cantidad')
+						toastr.success('Codigo generado por usted, se completo la cantidad')
 						this.article.stock = bar_code.amount
 						this.$jQuery('#name').focus()
 					}
@@ -266,35 +251,35 @@ export default {
 			var ok = true
 			if (this.article.price == '') {
 				ok = false
-				this.$toastr.error('El campo precio es obligatorio')
+				toastr.error('El campo precio es obligatorio')
 				this.$jQuery('#price').focus()
 			}
 			if (this.article.cost == '') {
 				ok = false
-				this.$toastr.error('El campo costo es obligatorio')
+				toastr.error('El campo costo es obligatorio')
 				this.$jQuery('#cost').focus()
 			}
 			if (this.article.name == '') {
 				ok = false
-				this.$toastr.error('El campo nombre es obligatorio')
+				toastr.error('El campo nombre es obligatorio')
 				this.$jQuery('#name').focus()
 			}
 
 			// Controla que le codigo de barras no este registrado
 			if (this.bar_codes.includes(this.article.bar_code)) {
 				ok = false
-				this.$toastr.error('Ya hay un artículo con este codigo de barras')
+				toastr.error('Ya hay un artículo con este codigo de barras')
 			}
 
 			// Controla que si no tiene codigo de barras no haya otro
 			// articulo sin codigo de barras con el mismo nombre
 			if (this.article.bar_code == '') {
-				if (this.available_articles.length) {
-					this.available_articles.forEach(article => {
+				if (this.names.length) {
+					this.names.forEach(article => {
 						if (article.name.toLowerCase() == this.article.name.toLowerCase() && ok) {
 							if (article.bar_code === null) {
 								ok = false
-								this.$toastr.error('Ya hay un articulo con ese nombre y sin un codigo de barras, cambie el nombre o asignele un codigo de barras');
+								toastr.error('Ya hay un articulo con ese nombre y sin un codigo de barras, cambie el nombre o asignele un codigo de barras');
 							}
 						}
 					})
@@ -341,15 +326,15 @@ export default {
 						this.bar_codes.push(this.article.bar_code)
 					}
 					// this.names.push(this.article.name)
-					this.available_articles.push(article)
+					this.names.push(article)
 					this.articles.push(article)
 					this.articles_id_to_print.push(article.id)
 					this.clearArticle()
-					this.$toastr.success('Artículo guardado correctamente')
+					toastr.success('Artículo guardado correctamente')
 					this.$jQuery('#bar_code').focus()
 				})
 				.catch( err => {
-					this.$toastr.error('Error al guardar el artículo, revise sus datos e intentelo nuevamente por favor')
+					toastr.error('Error al guardar el artículo, revise sus datos e intentelo nuevamente por favor')
 					this.guardando = false
 					console.log(err)
 				})
@@ -367,12 +352,12 @@ export default {
 				this.articles_id_to_print.push(article.id)
 				this.clearArticle()
 				this.bar_codes.push(article.bar_code)
-				this.available_articles.push(article)
-				this.$toastr.success('Artículo actualizado correctamente')
+				this.names.push(article)
+				toastr.success('Artículo actualizado correctamente')
 				this.$jQuery('#edit-article').modal('hide')
 			})
 			.catch( err => {
-				this.$toastr.error('Error al actualizar el artículo, revise sus datos e intentelo nuevamente por favor')
+				toastr.error('Error al actualizar el artículo, revise sus datos e intentelo nuevamente por favor')
 				console.log(err)
 			})
 		},
@@ -448,17 +433,23 @@ export default {
 			// this.previus_next = 0
 		},
 
-		// // Providers
+		// Providers
 		getProviders() {
+			this.providers = []
+			this.providers_options = []
+			this.providers_options.push({text: 'Selecciona un proveedor', value: 0})
 			this.$api.get('providers')
 			.then( res => {
-				if (res.data.length) {
-					this.providers = res.data
-					this.article.provider = this.providers[0].id
-				}
+				this.providers = res.data
+				this.setProviders()
 			})
 			.catch( err => {
 				console.log(err)
+			})
+		},
+		setProviders() {
+			this.providers.forEach(provider => {
+				this.providers_options.push({text: provider.name, value: provider.id})
 			})
 		},
 		showProviders() {
@@ -470,8 +461,8 @@ export default {
 			.then(() => {
 				this.deleting_provider = 0
 				this.getProviders()
-				// this.$jQuery('#providers').modal('hide')
-				this.$toastr.success('El proveedor ' + provider.name + ' se elimino correctamente')
+				this.$bvModal.hide('providers')
+				toastr.success('El proveedor ' + provider.name + ' se elimino correctamente')
 			})
 			.catch( err => {
 				this.deleting_provider = 0
@@ -487,8 +478,8 @@ export default {
 				setTimeout(() => {
 					this.article.provider = res.data.id
 				}, 1000)
-				this.$jQuery('#providers').modal('hide')
-				this.$toastr.success('El proveedor ' + provider.name + ' se guardo correctamente')
+				this.$bvModal.hide('providers')
+				toastr.success('El proveedor ' + provider.name + ' se guardo correctamente')
 			})
 			.catch( err => {
 				console.log(err)
@@ -497,14 +488,22 @@ export default {
 
 		// Categorias
 		getCategories() {
+			this.categories = []
+			this.categories_options = []
+			this.categories_options.push({text: 'Selecciona una categoria', value: 0})
 			this.$api.get('categories')
 			.then(res => {
 				this.categories = res.data
-				// this.article.category = this.categories[0].id
+				this.setCategories()
 			})
 			.catch(err => {
 				console.log(err)
-				this.getCategories()
+				// this.getCategories()
+			})
+		},
+		setCategories() {
+			this.categories.forEach(category => {
+				this.categories_options.push({text: category.name, value: category.id})
 			})
 		},
 
@@ -514,20 +513,22 @@ export default {
 				this.user = res.data
 			})
 			.catch(() => {
-				this.getUser()
+				// this.getUser()
 			})
 		},
 	}
 }
 </script>
-<style scoped>
-.spinner-anterior {
-	margin-bottom: 4px !important;
-}
-.form-group {
-	margin-bottom: .5rem;
-}
-.spinner-border-sm {
-	margin-bottom: 2px;
-}
+<style scoped lang="sass">
+.card-header
+	font-weight: bold
+.card-footer
+	padding: 0
+.spinner-anterior 
+	margin-bottom: 4px !important
+.form-group 
+	margin-bottom: .5rem
+.spinner-border-sm 
+	margin-bottom: 2px
+
 </style>

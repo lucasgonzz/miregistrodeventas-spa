@@ -34,47 +34,6 @@ export default {
 		},
 	},
 	methods: {
-		async showVideo() {
-				navigator.getWebcam = (navigator.getUserMedia || navigator.webKitGetUserMedia || navigator.moxGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia)
-				if (navigator.mediaDevices.getUserMedia) {
-					navigator.mediaDevices.getUserMedia({  audio: true, video: true })
-					.then(function (stream) {
-						//Display the video stream in the video object
-
-						document.querySelector('video').srcObject = stream
-
-					})
-					.catch(function (e) { logError(e.name + ": " + e.message); });
-				} else {
-					navigator.getWebcam({ audio: true, video: true }, 
-					function (stream) {
-						//Display the video stream in the video object
-						document.querySelector('video').srcObject = stream
-					}, 
-					function () { logError("Web cam is not accessible."); });
-				}
-				// const stream = await navigator.mediaDevices.getUserMedia({
-				//     video: true
-				// })
-				// document.querySelector('video').srcObject = stream
-
-				// navigator.mediaDevices.getUserMedia({video: true}, function(stream) {
-				// 	var video = document.getElementById("v");
-				// 	var canvas = document.getElementById("c");
-				// 	var button = document.getElementById("b");
-
-				// 	video.src = stream;
-				// 	button.disabled = false;
-				// 	button.onclick = function() {
-				// 		canvas.getContext("2d").drawImage(video, 0, 0, 300, 300, 0, 0, 300, 300);
-				// 		var img = canvas.toDataURL("image/png");
-				// 		alert("done");
-				// 	};
-				// }, function(err) { alert("there was an error " + err)});
-				// } catch(e) {
-				// 	console.error(e)
-				// }
-		}
 	}
 }
 </script>

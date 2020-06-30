@@ -1,82 +1,65 @@
 <template>
-<div class="modal fade" id="providers" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-scrollable" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">
-					<strong>
-						Proveedores
-					</strong>
-				</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<i class="icon-cancel"></i>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="row">
-					<div class="col">
-						<div class="card">
-							<div class="card-header">
-								<strong>
-									Agregar un nuevo proveedor
-								</strong>
-							</div>
-							<div class="card-body">
-								<div class="form-group">
-									<label for="cost">Nombre del nuevo proveedor</label>
-									<input class="form-control"
-											type="text" name="cost" 
-											@keyup.enter="saveProvider"
-											placeholder="Nombre del nuevo proveedor" 
-											v-model="provider.name">
-								</div>
-							</div>
-							<div class="card-footer">
-								<button type="button" 
-										class="btn btn-primary focus-red" 
-										@click="saveProvider">
-									<i class="icon-check" v-show="!saving_provider"></i>
-									<span v-show="saving_provider"
-											class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-									Guardar proveedor
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="row m-t-10">
-					<div class="col">
-						<div class="card">
-							<div class="card-header">
-								<strong>
-									Mis proveedores
-								</strong>
-							</div>
-							<div class="card-body">
-								<ul class="list-group">
-									<li v-for="provider in providers" class="list-group-item">
-										{{ provider.name }}
-										<button @click="deleteProvider(provider)"
-												class="btn btn-danger btn-sm float-right">
-											<i class="icon-trash-3" v-show="deleting_provider != provider.id"></i>
-											<span v-show="deleting_provider == provider.id"
-													class="spinner-border spinner-border-sm m-r-5" role="status" aria-hidden="true"></span>
-											Eliminar
-										</button>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- <div class="modal-footer">
-				<button type="button" class="btn btn-secondary focus-red" data-dismiss="modal">Cerrar</button>
-			</div> -->
-		</div>
-	</div>
-</div>
-
+<b-modal id="providers" title="Proveedores" scrollable hide-footer>
+	<b-container>
+		<b-row class="m-b-15">
+			<b-col>
+				<b-card header="Agregar proveedor" no-body>
+					<b-card-body>
+						<b-form-row class="m-0">
+							<b-col>
+								<b-form-group
+								label="Nombre del proveedor"
+								label-for="provider-name">
+									<b-form-input
+									type="text"
+									id="provider-name"
+									v-model="provider.name"
+									@keyup.enter="saveProvider"
+									autocomplete="off"
+									placeholder="Ingrese el nombre del proveedor"></b-form-input>
+								</b-form-group>
+							</b-col>
+						</b-form-row>
+					</b-card-body>
+					<template v-slot:footer>
+						<b-button 
+						variant="primary"
+						@click="saveProvider">
+							<i class="icon-check" v-show="!saving_provider"></i>
+							<span class="spinner-border spinner-border-sm" v-show="saving_provider"></span>
+							Guardar Proveedor
+						</b-button>
+					</template>
+				</b-card>
+			</b-col>
+		</b-row>
+		<b-row>
+			<b-col>
+				<b-card header="Lista de proveedores" no-body>
+					<b-card-body>
+						<b-list-group>
+							<b-list-group-item
+							v-for="provider in providers"
+							:key="provider.id">
+								{{ provider.name }}
+								<span class="float-right">
+									<b-button
+									variant="danger"
+									size="sm"
+									@click="deleteProvider(provider)">
+										<i class="icon-trash-3" v-show="!deleting_provider"></i>
+										<span class="spinner-border spinner-border-sm" v-show="deleting_provider == provider.id"></span>
+										Eliminar
+									</b-button>	
+								</span>
+							</b-list-group-item>
+						</b-list-group>
+					</b-card-body>
+				</b-card>
+			</b-col>
+		</b-row>
+	</b-container>
+</b-modal>
 </template>
 <script>
 export default {
@@ -94,7 +77,7 @@ export default {
 			if (this.provider.name != '') {
 				this.$emit('saveProvider', this.provider)
 			} else {
-				toastr.error('Ingrese un nombre para el proveedor')
+				this.$toastr.error('Ingrese un nombre para el proveedor')
 			}
 		}
 	}

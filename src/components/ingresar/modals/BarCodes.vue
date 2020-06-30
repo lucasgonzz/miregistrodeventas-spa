@@ -50,38 +50,38 @@
 									</div>
 									<div class="form-group">
 										<label>Tamaño</label>
-						                <div class="custom-control custom-radio">
+										<div class="custom-control custom-radio">
 											<input type="radio" 
-													v-model="bar_code.size" 
-													value="lg" id="lg" 
-													class="custom-control-input">
+											v-model="bar_code.size" 
+											value="lg" id="lg" 
+											class="custom-control-input">
 											<label class="custom-control-label" for="lg">Grande</label>
-						                </div>
-						                <div class="custom-control custom-radio">
+										</div>
+										<div class="custom-control custom-radio">
 											<input type="radio" 
-													v-model="bar_code.size" 
-													value="md" id="md" 
-													class="custom-control-input">
+											v-model="bar_code.size" 
+											value="md" id="md" 
+											class="custom-control-input">
 											<label class="custom-control-label" for="md">Normal</label>
-						                </div>
-						                <div class="custom-control custom-radio">
+										</div>
+										<div class="custom-control custom-radio">
 											<input type="radio" 
-													v-model="bar_code.size" 
-													value="sm" id="sm" 
-													class="custom-control-input">
+											v-model="bar_code.size" 
+											value="sm" id="sm" 
+											class="custom-control-input">
 											<label class="custom-control-label" for="sm">Chico</label>
-						                </div>
+										</div>
 									</div>
 									<div class="form-group">
-						                <div class="custom-control custom-checkbox my-1 mr-sm-2">
-						                    <input type="checkbox" 
-						                    		v-model="bar_code.text" 
-						                    		class="custom-control-input"  
-						                    		id="bar-code-text">
-						                    <label class="custom-control-label c-p" for="bar-code-text">
-						                    	Colocar numero debajo del código
-						                    </label>
-						                </div>
+										<div class="custom-control custom-checkbox my-1 mr-sm-2">
+											<input type="checkbox" 
+											v-model="bar_code.text" 
+											class="custom-control-input"  
+											id="bar-code-text">
+											<label class="custom-control-label c-p" for="bar-code-text">
+											Colocar numero debajo del código
+											</label>
+										</div>
 									</div>
 								</div>
 								<div class="card-footer">
@@ -113,6 +113,7 @@
 									</p>
 									<ul class="list-group" v-show="bar_codes.length">
 										<li v-for="bar_code_ in bar_codes" 
+											:key="bar_code_.id"
 											class="list-group-item c-p">
 											<div class="row">
 												<div class="col">
@@ -154,6 +155,7 @@
 	</div>
 </template>
 <script>
+import toastr from 'toastr'
 export default {
 	props: ['article'],
 	data() {
@@ -179,7 +181,7 @@ export default {
 			var bar_code_text_id = '#bar-code-text-'+bar_code.id
 
 			// Guarda el input en una varialbe con el nombre del input
-			var input = $(bar_code_text_id)
+			var input = this.$jQuery(bar_code_text_id)
 
 			// Selecciona el contenido del campo
 			input.select();
@@ -188,12 +190,12 @@ export default {
 			document.execCommand("copy");
 
 			toastr.success('Codigo de barras copiado')
-			$('#bar-codes').modal('hide')
+			this.$jQuery('#bar-codes').modal('hide')
 		},
 		useCode(bar_code) {
 			this.article.bar_code = bar_code.name
-			$('#bar-codes').modal('hide')
-			$('#name').focus()
+			this.$jQuery('#bar-codes').modal('hide')
+			this.$jQuery('#name').focus()
 		},
 		generateCode() {
 			var bar_code = 1
@@ -214,7 +216,7 @@ export default {
 			bc = bc.slice(0, 12-largo)
 			bar_code = bc + bar_code
 			this.bar_code.name = bar_code
-			$('#bar-code-amount').focus()
+			this.$jQuery('#bar-code-amount').focus()
 		},
 		saveBarCode() {
 			var codigo_repetido = false
@@ -228,7 +230,7 @@ export default {
 			}
 		},
 		getBarCodes() {
-			axios.get('bar-codes')
+			this.$api.get('bar-codes')
 			.then( res => {
 				this.bar_codes = res.data
 			})
@@ -237,7 +239,7 @@ export default {
 			})
 		},
 		getBarCodesArticles() {
-			axios.get('articles/bar-codes')
+			this.$api.get('articles/bar-codes')
 			.then( res => {
 				this.bar_codes_articles = res.data
 			})
@@ -254,8 +256,8 @@ export default {
 		},
 	},
 	created() {
-		this.getBarCodes()
-		this.getBarCodesArticles()
+		// this.getBarCodes()
+		// this.getBarCodesArticles()
 	}
 }
 </script>

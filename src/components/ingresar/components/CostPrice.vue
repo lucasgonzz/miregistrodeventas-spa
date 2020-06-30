@@ -1,65 +1,40 @@
 <template>
-	<div class="row m-b-10" data-step="6" data-intro="Costo al que compro el articulo, precio al que quiere venderlo.">
-		<div class="col-12" :class="classCost">
-			<label for="cost">Costo</label>
-			<input type="number" 
-					class="form-control focus-red" 
-					placeholder="Costo"
-					required 
-					id="cost"
-					autocomplete="off" 
-					@keyup.enter="changeToPrice"
-					@keyup="calculatePorcentageForPrice"
-					v-model="article.cost">
-		</div>
-		<div :class="classPrice">
-			<label for="price">Precio</label>
-			<br>
-			<input type="number" 
-					class="form-control focus-red" 
-					:class="article.uncontable ? 'input-uncontable-price' : ''"
-					placeholder="Precio"
-					required 
-					autocomplete="off" 
-					@keyup.enter="changeFromPrice"
-					id="price"
-					v-model="article.price">
-			<span class="p-l-5 p-r-5" v-show="article.uncontable">el</span>
-			<select v-show="article.uncontable" 
-					id="measurement" 
-					v-model="article.measurement"
-					class="form-control select-measurement">
-				<option value="kilo" selected>Kilo</option>
-				<option value="gramo">Gramo</option>
-			</select>
-			<template v-if="canUse('percentage_fixed', user)">
-				<a @click.prevent="showPorcentageForPrice"
-					href="#" 
-					class="btn btn-secondary btn-sm m-t-10" v-show="porcentage_for_price == 0">
-					Usar un porcentaje fijo
-				</a>
-				<a @click.prevent="stopPorcentageForPrice"
-					href="#" 
-					class="btn btn-secondary btn-sm" v-show="porcentage_for_price != 0">
-					Dejar de usar porcentaje fijo (%{{ porcentage_for_price }})
-				</a>
-			</template>
-		</div>
-		<div :class="classOnline" v-show="article.online">
-			<label for="online-price">Precio online</label>
-			<input type="number" 
-					class="form-control focus-red" 
-					placeholder="Precio online"
-					required 
-					id="online-price"
-					autocomplete="off" 
-					@keyup.enter="changeToStock"
-					v-model="article.online_price">
-			<small class="text-muted">
-				Si no se llena se usara el precio normal
-			</small>
-		</div>
-	</div>
+	<b-form-row>
+		<b-col cols="12" :sm="col">
+			<b-form-group
+			label="Costo"
+			label-for="article-cost">
+				<b-form-input
+				type="number"
+				id="article-cost"
+				placeholder="Ingresa el costo del producto"
+				v-model="article.cost"
+				autocomplete="off"></b-form-input>
+			</b-form-group>
+		</b-col>
+		<b-col cols="12" :sm="col">
+			<b-form-group
+			label="Precio"
+			label-for="article-price">
+				<b-form-input
+				type="number"
+				id="article-price"
+				placeholder="Ingresa el precio del producto"
+				v-model="article.price"
+				autocomplete="off"></b-form-input>
+			</b-form-group>
+		</b-col>
+		<b-col cols="12" sm="4" v-show="article.uncontable">
+			<b-form-group
+			label="Precio por"
+			label-for="article-measurement">
+				<b-form-select
+				id="article-measurement"
+				v-model="article.measurement"
+				:options="[{text:'Kilo', value:'kilo'}, {text:'Gramo', value:'gramo'}]"></b-form-select>
+			</b-form-group>
+		</b-col>
+	</b-form-row>
 </template>
 <script>
 export default {
@@ -70,54 +45,29 @@ export default {
 		}
 	},
 	computed: {
-		classCost() {
-			if (this.article.uncontable && this.article.online) {
-				return 'col-md-3'
-			} else if (this.article.online) {
-				return 'col-md-4'
-			} else if (this.article.uncontable) {
-				return 'col-md-4'
-			} else {
-				return 'col-md-6'
+		col() {
+			if (this.article.uncontable) {
+				return 4
 			}
-		},
-		classPrice() {
-			if (this.article.uncontable && this.article.online) {
-				return 'col-md-6'
-			} else if (this.article.online) {
-				return 'col-md-4'
-			} else if (this.article.uncontable) {
-				return 'col-md-8'
-			} else {
-				return 'col-6'
-			}
-		},
-		classOnline () {
-			if (this.article.uncontable && this.article.online) {
-				return 'col-md-3'
-			} else if (this.article.online) {
-				return 'col-md-4'
-			} else if (this.article.uncontable) {
-				return ''
-			}
-		},
+			return 6
+		}
 	},
 	methods: {
 		changeToPrice() {
 			if (this.porcentage_for_price == 0) {
-				$('#price').focus()
+				// $('#price').focus()
 			} else {
-				$('#stock').focus()
+				// $('#stock').focus()
 			}
 		},
 		changeToStock() {
-			$('#stock').focus()
+			// $('#stock').focus()
 		},
 		changeFromPrice() {
 			if (this.article.online) {
-				$('#online-price').focus()
+				// $('#online-price').focus()
 			} else {
-				$('#stock').focus()
+				// $('#stock').focus()
 			}
 		},
 		calculatePorcentageForPrice() {
@@ -128,7 +78,7 @@ export default {
 			}
 		},
 		showPorcentageForPrice() {
-			$('#porcentage-for-price').modal('show')
+			// $('#porcentage-for-price').modal('show')
 		},
 		stopPorcentageForPrice() {
 			this.porcentage_for_price = 0
@@ -136,14 +86,14 @@ export default {
 	},
 }
 </script>
-<style scoped>
-.input-uncontable-price {
-	width: 50%;
-	display: inline-block;
-}
-.select-measurement {
-	width: 30%;
-	display: inline-block;
-}
+<style scoped lang="sass">
+.input-uncontable-price 
+	width: 50%
+	display: inline-block
+
+.select-measurement 
+	width: 30%
+	display: inline-block
+
 	
 </style>

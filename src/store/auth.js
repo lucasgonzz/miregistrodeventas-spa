@@ -23,18 +23,16 @@ export default {
 	},
 	actions: {
 		me({commit}) {
-			console.log('arranco')
-			axios.get('/api/user')
+			return axios.get('/api/user')
 			.then(res => {
+				console.log('si')
 				commit('setAuthenticated', true)
 				commit('setUser', res.data)
-				console.log('logeado')
 			})
 			.catch(() => {
+				console.log('no')
 				commit('setAuthenticated', false)
 				commit('setUser', {})
-				// this.$router.push({name: 'Login'})
-				console.log('no logeado')
 			})
 		}
 	},

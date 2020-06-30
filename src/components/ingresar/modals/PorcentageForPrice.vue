@@ -14,15 +14,17 @@
 				<div class="form-inline">
 					<div class="input-group mb-2 mr-sm-2">
 						<div class="input-group-prepend">
-						  	<div class="input-group-text">Porcentaje para los precios</div>
+							<div class="input-group-text">
+								Porcentaje para los precios
+							</div>
 						</div>
 						<input type="number" 
-								@keyup.enter="run"
-								name="porcentage_for_price" 
-								placeholder="Ej: un 30%" 
-								min="0"
-								v-model="porcentage_for_price" 
-								class="form-control">
+						@keyup.enter="run"
+						name="porcentage_for_price" 
+						placeholder="Ej: un 30%" 
+						min="0"
+						v-model="porcentage_for_price" 
+						class="form-control">
 					</div>
 					<button @click="run"
 							class="btn btn-primary mb-2">

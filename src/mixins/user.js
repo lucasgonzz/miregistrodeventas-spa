@@ -6,43 +6,45 @@ export default {
 			}
 			return 'active'
 		},
-		isProvider() {
+		isProvider(user) {
 			var is_provider = false
-			this.$store.state.user.roles.forEach(rol => {
-				if (rol.slug == 'provider') {
-					is_provider = true
-				}
-			})
-			return is_provider
-		},
-		hasPermissionTo(permission_slug, dont_check_owner = false) {
-			var has_permission = false
-			if (!dont_check_owner) {
-				this.$store.state.user.roles.forEach(rol => {
-					if (rol.slug == 'owner') {
-						has_permission = true
+			if (user.roles) {
+				user.roles.forEach(rol => {
+					if (rol.slug == 'provider') {
+						is_provider = true
 					}
 				})
+				return is_provider
 			}
-			if (!has_permission) {
-				this.$store.state.user.permissions.forEach(permission => {
-					if (permission.user_id === null) {
-						if (permission.slug == permission_slug) {
+		},
+		hasPermissionTo(permission_slug, user, dont_check_owner = false) {
+			var has_permission = false
+			if (user.roles) {
+				if (!dont_check_owner) {
+					user.roles.forEach(rol => {
+						if (rol.slug == 'owner') {
 							has_permission = true
 						}
-					}
-				})
-				return has_permission
-			} else {
-				return has_permission
+					})
+				}
+				if (!has_permission) {
+					user.permissions.forEach(permission => {
+						if (permission.user_id === null) {
+							if (permission.slug == permission_slug) {
+								has_permission = true
+							}
+						}
+					})
+					return has_permission
+				} else {
+					return has_permission
+				}
 			}
 		},
-		isAdmin() {
-			console.log(this.$store.state.user)
-			if (this.$store.state.user) {
-				console.log(this.$store.state.user)
-				var is_admin = false
-				this.$store.state.user.roles.forEach(rol => {
+		isAdmin(user) {
+			var is_admin = false
+			if (user.roles) {
+				user.roles.forEach(rol => {
 					if (rol.slug == 'owner') {
 						is_admin = true
 					}
@@ -50,16 +52,18 @@ export default {
 				return is_admin
 			}
 		},
-		canUse(permission_slug) {
+		canUse(permission_slug, user) {
 			var has_permission = false
-			this.$store.state.user.permissions.forEach(permission => {
-				if (permission.user_id === 0) {
-					if (permission.slug == permission_slug) {
-						has_permission = true
-					}
-				} 
-			})
-			return has_permission
+			if (user.permissions) {
+				user.permissions.forEach(permission => {
+					if (permission.user_id === 0) {
+						if (permission.slug == permission_slug) {
+							has_permission = true
+						}
+					} 
+				})
+				return has_permission
+			}
 		},
 	},
 }

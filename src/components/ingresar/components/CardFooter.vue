@@ -1,22 +1,12 @@
 <template>
 	<div class="row m-0">
-		<div class="col-4 p-0" v-if="canUse('tickets', user)" data-step="12" data-intro="Imprima los tickets de los artículos que valla registrando y/o actualizando.">
+		<div class="col-4 p-0" data-step="12" data-intro="Imprima los tickets de los artículos que valla registrando y/o actualizando.">
 			<button @click.prevent="showPrintTickets" 
 					class="btn btn-block btn-left btn-link m-0">
 				<i class="icon-tag"></i>
 				Tickets ({{ articles_id_to_print.length }})
 			</button>
 		</div>
-		<!-- <div class="col-4 p-0" data-step="11" data-intro="Retroceda a sus artículos previamente guardados.">
-			<button @click="previus" 
-					class="btn btn-block btn-center btn-primary m-0">
-				<i class="icon-undo"
-					v-show="!loading_previus"></i>
-				<span v-show="loading_previus"
-						class="spinner-border spinner-border-sm spinner-anterior" role="status" aria-hidden="true"></span>
-				Anterior
-			</button>
-		</div> -->
 		<div class="col p-0" data-step="10" data-intro="Una vez llenado los campos, precione y guarde su artículo.">
 			<button @click.prevent="saveArticle"
 					class="btn btn-block btn-right btn-success m-0">
@@ -31,7 +21,7 @@
 </template>
 <script>
 export default {
-	props: ['articles_id_to_print', 'user', 'loading_previus', 'guardando'],
+	props: ['articles_id_to_print', 'guardando'],
 	methods: {
 		previus() {
 			this.$emit('previus')
@@ -40,11 +30,29 @@ export default {
 			this.$emit('saveArticle')
 		},
 		showPrintTickets() {
-			$('#print-tickets').modal('show')
+			this.$jQuery('#print-tickets').modal('show')
 		},
 	},
 }
 </script>
-<style scoped>
-	
+<style scoped lang="sass">
+.btn-left
+	border-radius: 0 0 0 0.25rem
+	padding: .7rem 0.75rem
+	font-size: 1rem
+	font-weight: bolder
+	&:hover
+		text-decoration: none
+
+.btn-center
+	border-radius: 0px
+	padding: .7rem 0.75rem
+	font-size: 1rem
+	font-weight: bolder
+
+.btn-right
+	border-radius: 0 0 0.25rem 0
+	padding: .7rem 0.75rem
+	font-size: 1rem
+	font-weight: bolder
 </style>

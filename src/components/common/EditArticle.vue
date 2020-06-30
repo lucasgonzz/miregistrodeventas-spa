@@ -25,7 +25,7 @@
 				<div class="form-group">
 					<div class="input-group mb-2 mr-sm-2">
 						<div class="input-group-prepend">
-						  	<div class="input-group-text"><i class="icon-barcode"></i></div>
+							<div class="input-group-text"><i class="icon-barcode"></i></div>
 						</div>
 						<input v-if="article.bar_code"
 								type="text" 
@@ -46,8 +46,9 @@
 					<label for="category">Categoria</label>
 					<select id="category" class="form-control" v-model="article.category_id">
 						<option value="0">Seleccionar categoria</option>
-						<option :value="category.id" 
-								v-for="category in categories">
+						<option v-for="category in categories"
+						:key="category.id"
+						:value="category.id">
 							{{ category.name }}			
 						</option>
 					</select>
@@ -130,7 +131,7 @@
 					</label>
 					<select v-model="article.provider" id="provider" 
 							class="form-control m-b-10">
-						<option v-for="provider in providers" :value="provider.id">
+						<option v-for="provider in providers" :key="provider.id" :value="provider.id">
 							{{ provider.name }}
 						</option>
 					</select>
@@ -151,7 +152,8 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr v-for="provider in article.providers">
+							<tr v-for="provider in article.providers"
+							:key="provider.id">
 								<td>{{ date(provider.pivot.created_at) }}</td>
 								<td>{{ provider.name }}</td>
 								<td>{{ price(provider.pivot.cost) }}</td>
@@ -206,6 +208,7 @@
 
 </template>
 <script>
+import toastr from 'toastr'
 export default {
 	props: ['article', 'user', 'providers', 'categories', 'actualizando'],
 	data() {
@@ -234,17 +237,17 @@ export default {
 			if (this.article.price == '') {
 				ok = false
 				toastr.error('No puede dejar el precio vacio')
-				$('#price_actializar').focus()
+				document.getElementById("price_actializar").focus()
 			}
 			if (this.article.cost == '') {
 				ok = false
 				toastr.error('No puede dejar el costo vacio')
-				$('#cost_actializar').focus()
+				document.getElementById("cost_actializar").focus()
 			}
 			if (this.article.name == '') {
 				ok = false
 				toastr.error('No puede dejar el nombre vacio')
-				$('#name_actializar').focus()
+				document.getElementById("name_actializar").focus()
 			}
 			return ok
 		},

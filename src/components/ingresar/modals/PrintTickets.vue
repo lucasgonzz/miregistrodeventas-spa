@@ -14,13 +14,13 @@
 				<div class="row">
 					<div class="col">
 						<ul class="list-group">
-							<li class="list-group-item" v-for="article in articles">
+							<li class="list-group-item" v-for="article in articles" :key="article.id">
 								{{ article.name }}
 								<span class="float-right">
-									<button class="btn btn-danger"
-											@click="deleteArticle(article)">
-										Quitar
-									</button>
+								<button class="btn btn-danger"
+								@click="deleteArticle(article)">
+									Quitar
+								</button>
 								</span>
 							</li>
 						</ul>
@@ -47,18 +47,18 @@
 				</div>
 				<div class="row">
 					<div class="col">
-		                <div class="custom-control custom-checkbox my-1 mr-sm-2">
-		                  	<input class="custom-control-input" 
-		                  			v-model="show_company_name" 
-		                            true-value="1"
-		                            false-value="0"
-		                  			type="checkbox" 
-		                  			id="show_company_name">
-		                  	<label class="custom-control-label" 
-		                  			for="show_company_name">
-		                  			Mostrar nombre del negocio
-		                  	</label>
-		                </div>
+						<div class="custom-control custom-checkbox my-1 mr-sm-2">
+							<input class="custom-control-input" 
+							v-model="show_company_name" 
+							true-value="1"
+							false-value="0"
+							type="checkbox" 
+							id="show_company_name">
+							<label class="custom-control-label" 
+							for="show_company_name">
+							Mostrar nombre del negocio
+							</label>
+						</div>
 					</div>
 				</div>
 			</div>
