@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Ingresar from '../views/Ingresar.vue'
+import Listado from '../views/Listado.vue'
 
 Vue.use(VueRouter)
 
@@ -20,6 +21,11 @@ Vue.use(VueRouter)
     path: '/ingresar',
     name: 'Ingresar',
     component: Ingresar
+  },
+  {
+    path: '/listado',
+    name: 'Listado',
+    component: Listado
   },
   {
     path: '/about',

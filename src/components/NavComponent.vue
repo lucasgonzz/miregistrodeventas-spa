@@ -14,38 +14,38 @@
                 <div class="cont">
                     <!-- Left Side Of Navbar -->
                     <ul class="navbar-nav mr-auto">
-                        <li :class="currentPage == '/vender' ? 'active' : ''" class="nav-item">
+                        <li :class="currentPage == '/vender' ? 'active-link' : ''" class="nav-item">
                             <router-link :to="{name: 'Ingresar'}" class="nav-link">
                                 <i class="icon-sm icon-tag"></i>
                                 Vender
                             </router-link>
                         </li>
-                        <li :class="currentPage == '/ingresar' ? 'active' : ''" class="nav-item">
+                        <li :class="currentPage == '/ingresar' ? 'active-link' : ''" class="nav-item">
                             <router-link :to="{name: 'Ingresar'}" class="nav-link">
                                 <i class="icon-sm icon-plus"></i>
                                 Ingresar
                             </router-link>
                         </li>
-                        <li :class="currentPage == '/listado' ? 'active' : ''" class="nav-item">
-                            <router-link :to="{name: 'Ingresar'}" class="nav-link">
+                        <li :class="currentPage == '/listado' ? 'active-link' : ''" class="nav-item">
+                            <router-link :to="{name: 'Listado'}" class="nav-link">
                                 <i class="icon-sm icon-list-ol"></i>
                                 Listado
                             </router-link>
                         </li>
-                        <li :class="currentPage == '/ventas' ? 'active' : ''" class="nav-item">
+                        <li :class="currentPage == '/ventas' ? 'active-link' : ''" class="nav-item">
                             <router-link :to="{name: 'Ingresar'}" class="nav-link">
                                 <i class="icon-sm icon-clipboard-3"></i>
                                 Ventas
                             </router-link>
                         </li>
-                        <li :class="currentPage == '/empleados' ? 'active' : ''" class="nav-item">
+                        <li :class="currentPage == '/empleados' ? 'active-link' : ''" class="nav-item">
                             <router-link :to="{name: 'Ingresar'}" class="nav-link">
                                 <i class="icon-sm icon-users"></i>
                                 Empleados
                             </router-link>
                         </li>
-                        <!-- <li :class="currentPage == '/ingresar' ? 'active' : ''" class="nav-item" v-if="isAdmin() || hasPermissionTo('online')">
-                            <router-link :to="{name: 'online'}" class="'nav-link ' + active('online')">
+                        <!-- <li :class="currentPage == '/ingresar' ? 'active-link' : ''" class="nav-item" v-if="isAdmin() || hasPermissionTo('online')">
+                            <router-link :to="{name: 'online'}" class="'nav-link ' + active-link('online')">
                                 <i class="icon-sm icon-network"></i>
                                 Online
                             </router-link>
@@ -128,7 +128,7 @@ export default {
 }
 </script>
 <style lang="sass">
-.active 
+.active-link 
     font-weight: bold
     color: rgb(0, 123, 255) !important
     border-radius: 0px 0px 3px 3px

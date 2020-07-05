@@ -46,13 +46,13 @@
 					<stock-provider-category :article="article"
 									:user="user"
 									:providers="providers_options"
-									:categories="categories_options"
-									@saveArticle="saveArticle"></stock-provider-category>
+									:categories="categories_options"></stock-provider-category>
 				</b-card-body>
 				<template v-slot:footer>
 					<card-footer
 					:articles_id_to_print="articles_id_to_print"
-					:guardando="guardando"></card-footer>
+					:guardando="guardando"
+					@saveArticle="saveArticle"></card-footer>
 				</template>
 			</b-card>
 		</b-col>
@@ -60,8 +60,6 @@
 </div>
 </template>
 <script>
-import toastr from 'toastr'
-
 // Modals
 import Providers from '../components/ingresar/modals/Providers.vue'
 import Categories from '../components/ingresar/modals/Categories.vue'
@@ -214,7 +212,7 @@ export default {
 				this.$api.get('articles/get-by-bar-code/'+this.article.bar_code)
 				.then( res => {
 					this.setArticle(res.data)
-					this.$jQuery('#edit-article').modal('show')
+					this.$bvModal.show('edit-article')
 				})
 				.catch( err => {
 					console.log(err)
@@ -225,16 +223,16 @@ export default {
 				this.generated_bar_codes.forEach(bar_code => {
 					if (bar_code.name == this.article.bar_code) {
 						codigo_ya_creado = true
-						toastr.success('Codigo generado por usted, se completo la cantidad')
+						// toastr.success('Codigo generado por usted, se completo la cantidad')
 						this.article.stock = bar_code.amount
-						this.$jQuery('#name').focus()
+						document.getElementById('article-name').focus()
 					}
 				})
 
 				// Si no esta registrado y no es un codigo creado por nosotros
 				// se pasa al campo del nombre
 				if (!codigo_ya_creado) {
-					this.$jQuery('#name').focus()
+					document.getElementById('article-name').focus()
 				}
 			}
 		},
@@ -251,24 +249,24 @@ export default {
 			var ok = true
 			if (this.article.price == '') {
 				ok = false
-				toastr.error('El campo precio es obligatorio')
+				// toastr.error('El campo precio es obligatorio')
 				this.$jQuery('#price').focus()
 			}
 			if (this.article.cost == '') {
 				ok = false
-				toastr.error('El campo costo es obligatorio')
+				// toastr.error('El campo costo es obligatorio')
 				this.$jQuery('#cost').focus()
 			}
 			if (this.article.name == '') {
 				ok = false
-				toastr.error('El campo nombre es obligatorio')
+				// toastr.error('El campo nombre es obligatorio')
 				this.$jQuery('#name').focus()
 			}
 
 			// Controla que le codigo de barras no este registrado
 			if (this.bar_codes.includes(this.article.bar_code)) {
 				ok = false
-				toastr.error('Ya hay un artículo con este codigo de barras')
+				// toastr.error('Ya hay un artículo con este codigo de barras')
 			}
 
 			// Controla que si no tiene codigo de barras no haya otro
@@ -279,7 +277,7 @@ export default {
 						if (article.name.toLowerCase() == this.article.name.toLowerCase() && ok) {
 							if (article.bar_code === null) {
 								ok = false
-								toastr.error('Ya hay un articulo con ese nombre y sin un codigo de barras, cambie el nombre o asignele un codigo de barras');
+								// toastr.error('Ya hay un articulo con ese nombre y sin un codigo de barras, cambie el nombre o asignele un codigo de barras');
 							}
 						}
 					})
@@ -290,51 +288,26 @@ export default {
 
 		// Articles
 		saveArticle() {
+			console.log('guardando')
 			var ok = true
 			if ( ok ) {
 				this.guardando = true
-                const config = {
-                    headers: {
-                        'content-type': 'multipart/form-data',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    }
-                }
-
-                let formData = new FormData()
-                // ------------------------------------
-                formData.append('file', this.file)
-                // ------------------------------------
-                formData.append('uncontable', this.article.uncontable)
-                formData.append('online', this.article.online)
-                formData.append('created_at', this.article.created_at)
-                formData.append('bar_code', this.article.bar_code)
-                formData.append('name', this.article.name)
-                formData.append('cost', this.article.cost)
-                formData.append('price', this.article.price)
-                formData.append('online_price', this.article.online_price)
-                formData.append('measurement', this.article.measurement)
-                formData.append('stock', this.article.stock)
-                formData.append('provider', this.article.provider)
-                formData.append('category_id', this.article.category_id)
-
-				this.$api.post('articles', formData, config)
+				this.$api.post('articles', this.article)
 				.then( res => {
-					console.log(res.data)
 					this.guardando = false
 					var article = res.data
 					if (this.article.bar_code != '') {
 						this.bar_codes.push(this.article.bar_code)
 					}
-					// this.names.push(this.article.name)
-					this.names.push(article)
+					this.names.push(this.article.name)
 					this.articles.push(article)
 					this.articles_id_to_print.push(article.id)
 					this.clearArticle()
-					toastr.success('Artículo guardado correctamente')
-					this.$jQuery('#bar_code').focus()
+					this.$toast.success('Guardado correctamente')
+					document.getElementById('article-bar-code').focus()
 				})
 				.catch( err => {
-					toastr.error('Error al guardar el artículo, revise sus datos e intentelo nuevamente por favor')
+					// toastr.error('Error al guardar el artículo, revise sus datos e intentelo nuevamente por favor')
 					this.guardando = false
 					console.log(err)
 				})
@@ -353,11 +326,11 @@ export default {
 				this.clearArticle()
 				this.bar_codes.push(article.bar_code)
 				this.names.push(article)
-				toastr.success('Artículo actualizado correctamente')
+				// toastr.success('Artículo actualizado correctamente')
 				this.$jQuery('#edit-article').modal('hide')
 			})
 			.catch( err => {
-				toastr.error('Error al actualizar el artículo, revise sus datos e intentelo nuevamente por favor')
+				// toastr.error('Error al actualizar el artículo, revise sus datos e intentelo nuevamente por favor')
 				console.log(err)
 			})
 		},
@@ -462,7 +435,7 @@ export default {
 				this.deleting_provider = 0
 				this.getProviders()
 				this.$bvModal.hide('providers')
-				toastr.success('El proveedor ' + provider.name + ' se elimino correctamente')
+				// toastr.success('El proveedor ' + provider.name + ' se elimino correctamente')
 			})
 			.catch( err => {
 				this.deleting_provider = 0
@@ -479,7 +452,7 @@ export default {
 					this.article.provider = res.data.id
 				}, 1000)
 				this.$bvModal.hide('providers')
-				toastr.success('El proveedor ' + provider.name + ' se guardo correctamente')
+				// toastr.success('El proveedor ' + provider.name + ' se guardo correctamente')
 			})
 			.catch( err => {
 				console.log(err)

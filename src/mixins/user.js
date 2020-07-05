@@ -1,11 +1,10 @@
 export default {
+	data() {
+		return {
+			api_url: 'http://localhost:8000'
+		}
+	},
 	methods: {
-		active(url) {
-			if (url == '') {
-				return 'active'
-			}
-			return 'active'
-		},
 		isProvider(user) {
 			var is_provider = false
 			if (user.roles) {

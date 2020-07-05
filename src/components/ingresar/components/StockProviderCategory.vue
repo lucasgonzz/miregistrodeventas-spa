@@ -64,9 +64,6 @@ export default {
 		showCategories() {
 			this.$jQuery('#categories').modal('show')
 		},
-		saveArticle() {
-			this.$emit('saveArticle')
-		}
 	},
 }
 </script>

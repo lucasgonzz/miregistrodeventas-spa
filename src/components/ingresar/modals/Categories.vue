@@ -62,7 +62,6 @@
 </b-modal>
 </template>
 <script>
-import toastr from 'toastr'
 export default {
     props: ['categories', 'article'],
     data() {
@@ -84,7 +83,7 @@ export default {
                 .then(res => {
                     this.saving_category = false
                     this.category.name = ''
-                    toastr.success('Categoria creada correctamente')
+                    // toastr.success('Categoria creada correctamente')
                     setTimeout(() => {
                         this.article.category = res.data.id
                     }, 1000)
@@ -94,10 +93,10 @@ export default {
                 .catch(err => {
                     this.saving_category = false
                     console.log(err)
-                    toastr.error('Error al guardar categoria')
+                    // toastr.error('Error al guardar categoria')
                 })
             } else {
-                toastr.error('Ingrese el nombre de la nueva categoria por favor')
+                // toastr.error('Ingrese el nombre de la nueva categoria por favor')
             }
         },
         deleteCategory(category) {
@@ -105,13 +104,13 @@ export default {
             this.$api.delete('categories/'+category.id)
             .then(() => {
                 this.deleting_category = 0
-                toastr.success('Categoria eliminada correctamente')
+                // toastr.success('Categoria eliminada correctamente')
                 this.$emit('getCategories')
             })
             .catch(err => {
                 this.deleting_category = 0
                 console.log(err)
-                toastr.error('Error al eliminar categoria')
+                // toastr.error('Error al eliminar categoria')
             })
         }
         }

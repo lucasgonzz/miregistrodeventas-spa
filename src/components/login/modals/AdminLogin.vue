@@ -47,7 +47,7 @@
 </div>
 </template>
 <script>
-import toastr from 'toastr'
+// import toastr from 'toastr'
 import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = 'http://localhost:8000'
@@ -80,7 +80,7 @@ export default {
 					// }
 				} else {
 					this.loading_login_admin = false
-					toastr.error('Las credenciales no coinciden, intente denuevo, por favor')
+					// toastr.error('Las credenciales no coinciden, intente denuevo, por favor')
 					this.admin.name = ''
 					this.admin.password = ''
 					this.$jQuery('#admin-name').focus()

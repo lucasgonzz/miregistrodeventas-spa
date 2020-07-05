@@ -1,5 +1,10 @@
 import Vue from 'vue'
 
+// Notificaciones
+import VueIziToast from 'vue-izitoast';
+import 'izitoast/dist/css/iziToast.min.css'
+Vue.use(VueIziToast)
+
 // Bootstrap
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 
@@ -33,10 +38,14 @@ import router from './router'
 import store from './store'
 
 import user from './mixins/user'
+Vue.mixin(user)
+import images from './mixins/images'
+Vue.mixin(images)
+import dates from './mixins/dates'
+Vue.mixin(dates)
 
 Vue.config.productionTip = false
 
-Vue.mixin(user)
 new Vue({
 	router,
 	store,

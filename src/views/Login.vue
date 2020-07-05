@@ -107,7 +107,7 @@
 </template>
 <script>
 
-import toastr from 'toastr'
+// import toastr from 'toastr'
 
 import AdminLogin from '../components/login/modals/AdminLogin'
 export default {
@@ -164,14 +164,14 @@ export default {
 							this.$store.commit('auth/setUser', res.data.user)
 							this.$router.replace({name: 'Ingresar'})
 						} else {
-							toastr.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor ;)')
+							this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor ;)')
 							document.getElementById('commerce-name').focus()
 							this.loading_commerce_login = false
 						}
 					})
 				})
 			} else {
-				toastr.error('Complete con sus datos por favor.')
+				this.$toast.error('Complete con sus datos por favor.')
 			}
 		}, 
 		loginEmployee() {
@@ -192,7 +192,7 @@ export default {
 							this.$store.commit('auth/setUser', res.data.user)
 							this.$router.replace({name: 'Ingresar'})
 						} else {
-							toastr.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor ;)')
+							this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor ;)')
 							this.employee.commerce = ''
 							this.employee.name = ''
 							this.employee.password = ''
@@ -202,7 +202,7 @@ export default {
 					})
 				})
 			} else {
-				toastr.error('Complete con sus datos por favor.') 
+				this.$toast.error('Complete con sus datos por favor.') 
 			}
 		}, 
 	},

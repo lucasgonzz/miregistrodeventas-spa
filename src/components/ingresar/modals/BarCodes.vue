@@ -1,103 +1,113 @@
 <template>
-	<div class="modal fade" id="bar-codes">
-		<div class="modal-dialog modal-dialog-scrollable">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title">
-						<strong>
-							<i class="icon-barcode"></i>
-							Codigos de barras
-						</strong>
-					</h5>
-					<button class="close" data-dismiss="modal">
-						<i class="icon-cancel"></i>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="row">
-						<div class="col">
-							<div class="card">
-								<div class="card-header">
-									<strong>
-										Genere un nuevo codigo de barras
-									</strong>
-								</div>
-								<div class="card-body">
-									<div class="form-group">
-										<label for="bar-code">Codigo</label>
-										<input v-model="bar_code.name"
-												type="text" 
-												placeholder="Ingrese su nuevo codigo de barras" 
-												id="bar-code"
-												autocomplete="off" 
-												class="form-control">
-										<button @click.prevent="generateCode"
-												class="btn btn-success btn-sm m-t-5">
-											<i class="icon-refresh"></i>
-											Generar codigo
-										</button>
-									</div>
-									<div class="form-group">
-										<label for="bar-code-amount">
-											Cuantas veces necesita imprimirlo
-										</label>
-										<input v-model="bar_code.amount"
-												id="bar-code-amount"
-												type="number" 
-												min="0" 
-												placeholder="Cantidad de veces que se imprimira" 
-												class="form-control">
-									</div>
-									<div class="form-group">
-										<label>Tamaño</label>
-										<div class="custom-control custom-radio">
-											<input type="radio" 
-											v-model="bar_code.size" 
-											value="lg" id="lg" 
-											class="custom-control-input">
-											<label class="custom-control-label" for="lg">Grande</label>
-										</div>
-										<div class="custom-control custom-radio">
-											<input type="radio" 
-											v-model="bar_code.size" 
-											value="md" id="md" 
-											class="custom-control-input">
-											<label class="custom-control-label" for="md">Normal</label>
-										</div>
-										<div class="custom-control custom-radio">
-											<input type="radio" 
-											v-model="bar_code.size" 
-											value="sm" id="sm" 
-											class="custom-control-input">
-											<label class="custom-control-label" for="sm">Chico</label>
-										</div>
-									</div>
-									<div class="form-group">
-										<div class="custom-control custom-checkbox my-1 mr-sm-2">
-											<input type="checkbox" 
-											v-model="bar_code.text" 
-											class="custom-control-input"  
-											id="bar-code-text">
-											<label class="custom-control-label c-p" for="bar-code-text">
-											Colocar numero debajo del código
-											</label>
-										</div>
-									</div>
-								</div>
-								<div class="card-footer">
-									<button class="btn btn-primary"
-										@click.prevent="saveBarCode"
-										:class="bar_code.name && bar_code.amount > 0 ? '' : 'disabled'"
-										target="_blank">
-										<i class="icon-check"></i>
-										Generar codigo
-									</button>
-								</div>
-							</div>
-						</div>
-					</div>
+<b-modal id="bar-codes" title="Codigos de barras" scrollable hide-footer>
+	<b-container>
+		<b-row class="m-b-15">
+			<b-col>
+				<b-card header="Crear un nuevo codigo" no-body>
+					<b-card-body>
+						<b-form-row class="m-0">
+							<b-col>
+								<b-form-group
+								label="Codigo de barras"
+								label-for="bar-code-name">
+									<b-form-input
+									type="text"
+									id="bar-code-name"
+									v-model="bar_code.name"
+									autocomplete="off"
+									placeholder="Ingrese el codigo de barras"></b-form-input>
+								</b-form-group>
+								<b-form-group>
+									<b-button
+									variant="success"
+									size="sm"
+									@click="generateCode">
+										Generar
+									</b-button>
+								</b-form-group>
+							</b-col>
+						</b-form-row>
+						<b-form-row>
+							<b-col>
+								<b-form-group
+								label="Cuantas veces necesita imprimirlo"
+								label-for="bar-code-amount">
+									<b-form-input
+									id="bar-code-amount"
+									type="number"
+									v-model="bar_code.amount"
+									placeholder="Ingrese la cantidad de veces que necesita imprimirlo"></b-form-input>
+								</b-form-group>
+							</b-col>
+						</b-form-row>
+						<b-form-row>
+							<b-col>
+								<b-form-group
+								label="Tamaño"
+								label-for="bar-code-size">
+									<b-form-radio
+									v-model="bar_code.size"
+									value="sm">
+										Chico
+									</b-form-radio>
+									<b-form-radio
+									v-model="bar_code.size"
+									value="md">
+										Mediano
+									</b-form-radio>
+									<b-form-radio
+									v-model="bar_code.size"
+									value="lg">
+										Grande
+									</b-form-radio>
+								</b-form-group>
+							</b-col>
+						</b-form-row>
+						<b-form-row>
+							<b-col>
+								<b-form-checkbox
+								v-model="bar_code.text"
+								:value="1"
+								:unchecked-value="0">
+									Numero debajo del código
+								</b-form-checkbox>
+							</b-col>
+						</b-form-row>
+					</b-card-body>
+					<template v-slot:footer>
+						<b-button
+						variant="success"
+						@click="saveBarCode">
+							Generar código
+						</b-button>
+					</template>
+				</b-card>
+			</b-col>
+		</b-row>
+		<b-row>
+			<b-col>
+				<p v-if="bar_codes.length > 0">
+					No hay códigos generados aún
+				</p>
+				<b-card header="Códigos generados" no-body v-else>
+					<b-card-header>
+						<b-list-group>
+							<b-list-group-item
+							v-for="bar_code_ in bar_codes"
+							:key="bar_code_.id">
+								{{ bar_code_.name }}
+							</b-list-group-item>
+						</b-list-group>
+					</b-card-header>
+				</b-card>
+			</b-col>
+		</b-row>
+	</b-container>
+</b-modal>
+</template>
+	
 
-					<div class="row m-t-20">
+					<!-- <div class="row m-t-20">
 						<div class="col">
 							<div class="card">
 								<div class="card-header">
@@ -148,14 +158,8 @@
 								</div>
 							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</template>
+					</div> -->
 <script>
-import toastr from 'toastr'
 export default {
 	props: ['article'],
 	data() {
@@ -172,7 +176,6 @@ export default {
 				article: {},
 			},
 			repeated_bar_code: false
-
 		}
 	},
 	methods: {
@@ -189,7 +192,7 @@ export default {
 			// Copia el texto seleccionado
 			document.execCommand("copy");
 
-			toastr.success('Codigo de barras copiado')
+			this.$toast.success('Codigo de barras copiado')
 			this.$jQuery('#bar-codes').modal('hide')
 		},
 		useCode(bar_code) {
@@ -216,7 +219,7 @@ export default {
 			bc = bc.slice(0, 12-largo)
 			bar_code = bc + bar_code
 			this.bar_code.name = bar_code
-			this.$jQuery('#bar-code-amount').focus()
+			document.getElementById('bar-code-amount').focus()
 		},
 		saveBarCode() {
 			var codigo_repetido = false

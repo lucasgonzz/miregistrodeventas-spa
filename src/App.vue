@@ -4,7 +4,9 @@
             <nav-component></nav-component>
         </div>  
         <b-container fluid>
-            <router-view/>
+            <transition name="fade" mode="out-in">
+                <router-view/>
+            </transition>
         </b-container>
     </div>
 </template>
@@ -24,15 +26,11 @@ export default {
         this.$store.dispatch('auth/me')
         .then(() => {
             if (this.authenticated) {
-                console.log('Logeado')
                 if (this.$router.path == '/login') {
-                    console.log('Estaba en login')
                     this.$router.replace({name: 'Ingresar'})
                 }
             } else {
-                console.log('No logeado')
                 if (this.$route.path != '/login') {
-                    console.log('Esta en '+this.$route.path)
                     this.$router.replace({name: 'Login'})
                 }
             }
@@ -41,6 +39,7 @@ export default {
 }
 </script>
 <style lang="sass">
+@import "./sass/fonts/styles.css"
 @import "@/sass/app.sass"
 #app 
     font-family: Avenir, Helvetica, Arial, sans-serif
@@ -48,5 +47,15 @@ export default {
     -moz-osx-font-smoothing: grayscale
     text-align: center
     color: #2c3e50
+.fade-enter-active,
+.fade-leave-active 
+  transition-duration: 0.3s
+  transition-property: opacity
+  transition-timing-function: ease
+
+
+.fade-enter,
+.fade-leave-active 
+  opacity: 0
 
 </style>

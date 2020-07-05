@@ -74,7 +74,6 @@ export default {
 					}
 				} else {
 					this.loading_login_admin = false
-					toastr.error('Las credenciales no coinciden, intente denuevo, por favor')
 					this.admin.name = ''
 					this.admin.password = ''
 					$('#admin-name').focus()

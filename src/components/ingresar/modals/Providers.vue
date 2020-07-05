@@ -77,7 +77,7 @@ export default {
 			if (this.provider.name != '') {
 				this.$emit('saveProvider', this.provider)
 			} else {
-				this.$toastr.error('Ingrese un nombre para el proveedor')
+				// this.$toastr.error('Ingrese un nombre para el proveedor')
 			}
 		}
 	}

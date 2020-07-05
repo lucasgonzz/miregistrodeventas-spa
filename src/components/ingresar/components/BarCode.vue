@@ -8,14 +8,16 @@
 				type="text"
 				id="article-bar-code"
 				autocomplete="off"
+				@keyup.enter="isRegister"
 				v-model="article.bar_code"
 				placeholder="Ingresa el codigo de barras del producto"></b-form-input>
 			</b-form-group>
 		</b-col>
 		<b-col cols="12" class="j-start">
-			<b-button @click="showBarCodes"
-				variant="secondary"
-				size="sm">
+			<b-button
+			variant="secondary"
+			size="sm"
+			v-b-modal="'bar-codes'">
 				<i class="icon-barcode"></i>
 				Crear codigo
 			</b-button>
@@ -28,9 +30,6 @@ export default {
 	methods: {
 		isRegister() {
 			this.$emit('isRegister')
-		},
-		showBarCodes() {
-			this.$jQuery('#bar-codes').modal('show')
 		},
 		onFileChange(e) {
 			this.$emit('setFile', e.target.files[0])
