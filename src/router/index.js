@@ -3,15 +3,11 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Ingresar from '../views/Ingresar.vue'
 import Listado from '../views/Listado.vue'
+import Ventas from '../views/Ventas.vue'
 
 Vue.use(VueRouter)
 
   const routes = [
-  // {
-  //   path: '/',
-  //   name: 'Home',
-  //   component: Home
-  // },
   {
     path: '/login',
     name: 'Login',
@@ -26,6 +22,11 @@ Vue.use(VueRouter)
     path: '/listado',
     name: 'Listado',
     component: Listado
+  },
+  {
+    path: '/ventas',
+    name: 'Ventas',
+    component: Ventas
   },
   {
     path: '/about',

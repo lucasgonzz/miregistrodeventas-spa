@@ -1,8 +1,8 @@
 <template>
 <b-container fluid>
-	<b-row>
+	<b-row class="m-0">
 		<!-- Buscador -->
-		<b-col cols="12" md="6" lg="8" xl="4">
+		<b-col cols="12" class="col-autocomplete" md="6" lg="8" xl="4">
 			<autocomplete 
 			:search="search" 
 			auto-select
@@ -166,7 +166,6 @@ export default {
 				if (res) {
 					this.$emit('setLoading', false)
 				}
-				console.log(res.data)
 				this.$emit('selectPossibleResult', res.data)
 			} catch(err) {
 				console.log(err)
@@ -208,10 +207,13 @@ export default {
 }
 </script>
 <style scoped lang="sass">
+.col-autocomplete
+	display: block
+	z-index: 500
+	text-align: left
 .container-fluid
 	margin: 0
-.dropdown 
-	display: inline-block
+	padding: 0
 .col-12 
 	@media screen and (max-width: 1200px)
 		margin-bottom: .75rem
@@ -223,21 +225,20 @@ export default {
 	align-items: center
 
 .botones-opciones
+	align-items: center	
 	@media screen and (min-width: 576px) and (max-width: 768px)
 		display: flex
 		justify-content: center
 	@media screen and (min-width: 768px) and (max-width: 992px)
 		display: flex
 		justify-content: flex-end
-		align-items: center	
 	@media screen and (min-width: 992px)
 		display: flex
 		justify-content: flex-end
-		align-items: center	
 	@media screen and (min-width: 1200px)
 		display: flex
 		justify-content: center
-		// align-items: center	
+
 .botones-opciones.j-start
 	@media screen and (max-width: 576px)
 		display: flex
@@ -250,22 +251,14 @@ export default {
 	@media screen and (min-width: 768px)
 		display: flex
 		justify-content: flex-end
+		align-items: center
 
 .col-pagination
+	align-items: center
 	@media screen and (min-width: 768px)
 		display: flex
 		justify-content: flex-start
-		align-items: center
 	@media screen and (min-width: 1200px)
 		display: flex
 		justify-content: flex-end
-		align-items: center
-
-.row 
-	// width: 100%
-
-.autocomplete .input
-	background: red !important
-
-
 </style>

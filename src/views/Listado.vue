@@ -77,18 +77,11 @@
 								@updateArticleList="updateArticleList"></card-header>
 				</template>
 				<b-container fluid>
-					<b-row v-show="is_filter || searching">
-						<b-col>
-							<b-button
-							variant="primary"
-							class="float-right"
-							@click="volverAListar">
-								<i class="icon-undo"></i>
-								Volver a listar todos mis artículos
-							</b-button>
-						</b-col>
-					</b-row>
 					<cargando :is_loading="is_loading" size="md"></cargando>
+					<volver-a-listar
+					:searched="searched"
+					:is_filter="is_filter"
+					@volverAListar="volverAListar"></volver-a-listar>
 					<div v-show="!is_loading">
 						<info-filtrados :filtro="filtro" :is_filter="is_filter" 
 										:providers="providers"
@@ -134,6 +127,7 @@ import AddCategory from '../components/listado/modals/AddCategory.vue'
 import InfoFiltrados from '../components/listado/components/InfoFiltrados.vue'
 import CardHeader from '../components/listado/components/CardHeader.vue'
 import ArticlesTable from '../components/listado/components/ArticlesTable.vue'
+import VolverAListar from '../components/listado/components/VolverAListar.vue'
 import Cargando from '../components/common/Cargando.vue'
 			
 export default {
@@ -157,6 +151,7 @@ export default {
 		InfoFiltrados,
 		CardHeader,
 		ArticlesTable,
+		VolverAListar,
 		Cargando,
 	},
 	data() {
@@ -194,7 +189,7 @@ export default {
 			search_query: '',
 			possible_articles: [],
 			loading_possible_articles: true,
-			searching: false,
+			searched: false,
 
 			// Provedores
 			providers: [],
@@ -227,7 +222,8 @@ export default {
 					'min': '',
 					'max': '',
 				},
-				'providers': [],
+				'provider': 0,
+				// 'providers': [],
 			},
 			is_filter: false,
 
@@ -254,6 +250,7 @@ export default {
 		// 	this.$bvModal.show('edit-article')
 		// },
 		selectPossibleResult(result) {
+			this.searched = true
 			this.articles = []
 			this.articles.push(result)
 			this.pagination.current_page = 0
@@ -337,7 +334,7 @@ export default {
 			* Hace una llamada al metodo search del contuserador de articulos
 		----------------------------------------------------------------------------------- */
 		search() {
-			this.searching = true
+			this.searched = true
 			this.is_loading = true
 			this.possible_articles = []
 			this.$api.get('articles/search/'+this.search_query)
@@ -418,7 +415,7 @@ export default {
 			if (after_delete_articles) {
 				this.getArticles(this.pagination.current_page)
 			} else {
-				if (this.searching) {
+				if (this.searched) {
 					this.search()
 				} else if (this.is_filter) {
 					this.filter(this.filtro)
@@ -572,7 +569,7 @@ export default {
 		----------------------------------------------------------------------------------- */
 		volverAListar() {
 			this.is_filter = false
-			this.searching = false
+			this.searched = false
 			this.search_query = ''
 			this.selected_articles.selected_articles = []
 			this.getArticles(this.pagination.current_page)
@@ -832,4 +829,5 @@ td {
 	display: flex;
 	justify-content: flex-end;
 }
+
 </style>

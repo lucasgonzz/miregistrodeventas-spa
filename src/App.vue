@@ -3,7 +3,7 @@
         <div v-if="authenticated">
             <nav-component></nav-component>
         </div>  
-        <b-container fluid>
+        <b-container fluid class="m-t-20">
             <transition name="fade" mode="out-in">
                 <router-view/>
             </transition>
@@ -57,5 +57,4 @@ export default {
 .fade-enter,
 .fade-leave-active 
   opacity: 0
-
 </style>

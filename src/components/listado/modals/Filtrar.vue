@@ -15,14 +15,22 @@
         </b-form-row>
         <b-form-row v-show="!isProvider(user)">
             <b-col cols="12" class="m-b-10">
-                <p class="m-b-10">Los que pertenecan a los siguientes proveedores</p>
+                <b-form-group
+                label="Los que pertenecan a los siguientes proveedores"
+                label-for="providers">
+                    <b-form-select
+                    id="providers"
+                    v-model="filtro.provider"
+                    :options="providers_options"></b-form-select>
+                </b-form-group>
+                <!-- <p class="m-b-10">Los que pertenecan a los siguientes proveedores</p>
                 <b-form-checkbox
                 v-for="provider in providers"
                 :key="provider.id"
                 v-model="filtro.providers"
                 :value="provider.name">
                     {{ provider.name }}
-                </b-form-checkbox>
+                </b-form-checkbox> -->
             </b-col>
             <b-col cols="12">
                 <b-button
@@ -81,6 +89,14 @@
 export default {
     props: ['filtro', 'user', 'providers'],
     computed: {
+        providers_options() {
+            let options = []
+            options.push({text: 'Seleccione un proveedor', value: 0})
+            this.providers.forEach(provider => {
+                options.push({text: provider.name, value: provider.id})
+            })
+            return options
+        },
         order_options() {
             let options = []
             options.push({text: 'De mas nuevos a mas viejos', value: 'nuevos-viejos'})

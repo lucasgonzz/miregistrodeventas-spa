@@ -16,7 +16,7 @@ export default {
 			return moment(d).format('MMMM')
 		},
 		getDay(d) {
-			return moment(d).format('dddd')
+			return moment(d).format('dd')
 		},
 		since(date) {
 			return moment(date).fromNow()

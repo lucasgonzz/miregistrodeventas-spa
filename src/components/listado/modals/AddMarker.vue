@@ -1,5 +1,5 @@
 <template>
-<b-modal id="add-marker" size="lg" :title="`Crear marcardor de ${this.article.name}`">
+<b-modal id="add-marker" size="lg" :title="`Crear marcardor de ${this.article.name}`" scrollable>
 	<b-container fluid>
 		<b-row>
 			<b-col>

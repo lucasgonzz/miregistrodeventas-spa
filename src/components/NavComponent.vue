@@ -33,7 +33,7 @@
                             </router-link>
                         </li>
                         <li :class="currentPage == '/ventas' ? 'active-link' : ''" class="nav-item">
-                            <router-link :to="{name: 'Ingresar'}" class="nav-link">
+                            <router-link :to="{name: 'Ventas'}" class="nav-link">
                                 <i class="icon-sm icon-clipboard-3"></i>
                                 Ventas
                             </router-link>
