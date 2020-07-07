@@ -107,6 +107,7 @@
 								</b-dropdown-item>
 								<b-dropdown-item
 								@click="providersHistory(article)">
+									<i class="icon-eye"></i>
 									Historial
 								</b-dropdown-item>
 							</b-dropdown>

@@ -76,7 +76,7 @@
 								@updateArticlesList="updateArticlesList"
 								@updateArticleList="updateArticleList"></card-header>
 				</template>
-				<b-container fluid>
+				<b-container fluid class="p-t-10">
 					<cargando :is_loading="is_loading" size="md"></cargando>
 					<volver-a-listar
 					:searched="searched"
@@ -651,7 +651,7 @@ export default {
 				ordenar: filtro.ordenar,
 				precio_entre: filtro.precio_entre,
 				fecha_entre: filtro.fecha_entre,
-				providers: filtro.providers
+				provider: filtro.provider
 			})
 			.then( res => {
 				this.is_loading = false
@@ -672,15 +672,9 @@ export default {
 			this.$api.get('providers')
 			.then( res => {
 				this.providers = res.data
-				this.setProvidersFilter()
 			})
 			.catch( err => {
 				console.log(err)
-			})
-		},
-		setProvidersFilter() {
-			this.providers.forEach( p => {
-				this.filtro.providers.push(p.name)
 			})
 		},
 		filterProviders() {

@@ -1,0 +1,29 @@
+[33mcommit 8005f3bfc9fd6d0bd482ed1b55892d39b3dc3e25[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Lucas <lucasgonzalez5500@gmail.com>
+Date:   Tue Jul 7 16:33:13 2020 -0300
+
+    Ventas casi terminado, falta imprimir remitos
+
+[33mcommit 42fac4dcc9f25682f503ac30910ca7618978759f[m
+Author: Lucas <lucasgonzalez5500@gmail.com>
+Date:   Sun Jul 5 16:20:08 2020 -0300
+
+    Listado casi terminado, falta que se puedan abrir los pdf
+
+[33mcommit c85aba87d32af9257299cb0a4a07c37df2582f79[m
+Author: Lucas <lucasgonzalez5500@gmail.com>
+Date:   Tue Jun 30 15:50:56 2020 -0300
+
+    Trabajando en componente ingresar, terminado modals de provedores y categorias, por empezar con boton guardar
+
+[33mcommit d629e94ff26cec4fe459f329315ec40ffd60ba81[m
+Author: Lucas <lucasgonzalez5500@gmail.com>
+Date:   Mon Jun 22 15:43:29 2020 -0300
+
+    Actualizando componente login
+
+[33mcommit 8e564c870ec665fa6df44918f5a67db5f507c0cd[m
+Author: Lucas <lucasgonzalez5500@gmail.com>
+Date:   Tue Jun 16 19:52:01 2020 -0300
+
+    init

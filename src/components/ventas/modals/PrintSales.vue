@@ -83,7 +83,7 @@ export default {
             this.sales_id.forEach(sale_id => {
                 sales_id_.push(sale_id)
             })
-            var link = 'sales/pdf/'+sales_id_.join('-')+
+            var link = this.api_url+'/sales/pdf/'+sales_id_.join('-')+
             '/'+this.company_name+
             '/'+this.articles_cost+
             '/'+this.articles_subtotal_cost+

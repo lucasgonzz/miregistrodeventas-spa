@@ -32,14 +32,14 @@
                     {{ provider.name }}
                 </b-form-checkbox> -->
             </b-col>
-            <b-col cols="12">
+            <!-- <b-col cols="12">
                 <b-button
                 variant="secondary"
                 size="sm"
                 @click="uncheckProviders">
                     Desmarcar todos
                 </b-button>
-            </b-col>
+            </b-col> -->
         </b-form-row>
         <b-form-row>
             <b-col>
