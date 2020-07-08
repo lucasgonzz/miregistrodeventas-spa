@@ -163,12 +163,10 @@ export default {
 	computed: {
 		categories_options() {
 			let options = []
-			if (this.article.category_id) {
-				options.push({text: 'Seleccione una categoria', value: 0})
-				this.categories.forEach(category => {
-					options.push({text: category.name, value: category.id})
-				})
-			}
+			options.push({text: 'Seleccione una categoria', value: 0})
+			this.categories.forEach(category => {
+				options.push({text: category.name, value: category.id})
+			})
 			return options
 		},
 		providers_options() {

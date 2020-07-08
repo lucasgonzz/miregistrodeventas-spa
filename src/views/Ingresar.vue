@@ -110,7 +110,7 @@ export default {
 				new_stock: 0,
 				stock_null: false,
 				provider: 0,
-				act_fecha: true,
+				act_fecha: 1,
 				created_at: new Date().toISOString().slice(0,10),
 			},
 			file: null,
@@ -344,7 +344,11 @@ export default {
 			this.article.actualizado = this.date(article.updated_at) + ' ' 
 										+ this.since(article.updated_at)
 			this.article.id = article.id
-			this.article.category_id = article.category_id
+			if (article.category_id) {
+				this.article.category_id = article.category_id
+			} else {
+				this.article.category_id = 0
+			}
 			this.article.online = article.online
 			this.article.uncontable = article.uncontable
 			this.article.bar_code = article.bar_code
@@ -355,7 +359,7 @@ export default {
 			this.article.online_price = article.online_price
 			this.article.offer_price = article.offer_price
 			if (!this.isProvider(this.user)) {
-				this.article.provider = article.providers[article.providers.length - 1].id
+				this.article.provider_id = article.providers[article.providers.length - 1].id
 				this.article.providers = article.providers
 			}
 			this.article.stock = article.stock

@@ -9,7 +9,9 @@
 		:updating_percentage_card="updating_percentage_card"
 		@updatePercentageCard="updatePercentageCard"></change-percentage-card>
 	<b-row class="justify-content-center">
-		<b-col>
+		<b-col
+		cols="12"
+		lg="8">
 			<b-card>
 				<template v-slot:header>
 					<header-form
@@ -59,10 +61,10 @@ import Clients from '../components/vender/modals/Clients.vue'
 
 // Componentes
 import Cargando from '../components/common/Cargando.vue'
-import HeaderForm from '../components/vender/components/commerce/HeaderForm.vue'
-import ArticlesTable from '../components/vender/components/commerce/ArticlesTable.vue'
-import Markers from '../components/vender/components/common/Markers.vue'
-import TotalPreviusSales from '../components/vender/components/common/TotalPreviusSales.vue'
+import HeaderForm from '../components/vender/components/HeaderForm.vue'
+import ArticlesTable from '../components/vender/components/ArticlesTable.vue'
+import Markers from '../components/vender/components/Markers.vue'
+import TotalPreviusSales from '../components/vender/components/TotalPreviusSales.vue'
 export default {
 	components: {
 		ArticleNotRegister,
