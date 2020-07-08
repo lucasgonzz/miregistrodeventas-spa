@@ -1,10 +1,12 @@
 <template>
 <div id="login">
     <admin-login></admin-login>
-    <div class="row justify-content-center m-t-30">
-        <div class="col col-lg-8 col-mobile">
-            <div class="card">
-                <div class="card-header">
+    <b-row class="j-center">
+		<b-col 
+		md="10"
+		xl="8">
+			<b-card>
+				<template v-slot:header>
                     <h1 class="h3 m-0 d-inline-block">
                         <strong>
                             <i class="icon-user"></i>
@@ -16,93 +18,125 @@
                         <i class="icon-lock"></i>
                         Administrador
                     </button>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-						<div class="col-12 col-md-5">
-							<div class="card m-b-10">
-								<div class="card-header">
-									<p class="strong-card-title">
-										<i class="icon-user"></i>
-										Ingresar como dueño
-									</p>
-								</div>
-								<div class="card-body">
-									<div class="form-group">
-										<input type="text" 
-										id="commerce-name"
-										@keyup.enter="loginCommerce" 
-										v-model="commerce.name"
-										placeholder="Nombre del comercio" class="form-control">
+				</template>
+				<div>
+					<b-container fluid>
+						<b-row>
+							<b-col
+							cols="12"
+							md="5">
+								<b-card header="Ingresar como dueño" no-body>
+									<div class="p-t-15">
+										<b-container fluid>
+											<b-form-row>
+												<b-col
+												cols="12">
+													<b-form-group>
+														<b-form-input
+														id="commerce-name"
+														@keyup.enter="loginCommerce" 
+														placeholder="Nombre del comercio"
+														v-model="commerce.name"></b-form-input>
+													</b-form-group>
+												</b-col>
+												<b-col
+												cols="12">
+													<b-form-group>
+														<b-form-input
+														id="commerce-password"
+														type="password"
+														@keyup.enter="loginCommerce" 
+														placeholder="Contraseña"
+														v-model="commerce.password"></b-form-input>
+													</b-form-group>
+												</b-col>
+												<b-col
+												cols="12"
+												class="j-end">
+													<b-button 
+													:class="commerce.name != '' && commerce.password != '' ? '' : 'disabled'"
+													variant="primary"
+													@click="loginCommerce">
+														<i v-show="!loading_commerce_login"
+														class="icon-check"></i>
+														<span v-show="loading_commerce_login" 
+														class="spinner-border spinner-border-sm p-r-5"></span>
+														Ingresar
+													</b-button>
+												</b-col>
+											</b-form-row>
+										</b-container>
 									</div>
-									<div class="form-group">
-										<input type="password" 
-										id="commerce-password" 
-										v-model="commerce.password"
-										placeholder="Contraseña"
-										@keyup.enter="loginCommerce" 
-										class="form-control">
+								</b-card>
+							</b-col>
+							<b-col
+							cols="12"
+							md="7">
+								<b-card header="Ingresar como empleado" no-body>
+									<div class="p-t-15">
+										<b-container fluid>
+											<b-form-row>
+												<b-col
+												cols="12"
+												md="6">
+													<b-form-group>
+														<b-form-input
+														type="text"
+														id="employee-commerce"
+														placeholder="Nombre del comercio"
+														v-model="employee.commerce"></b-form-input>
+													</b-form-group>
+												</b-col>
+												<b-col
+												cols="12"
+												md="6">
+													<b-form-group>
+														<b-form-input
+														type="text"
+														id="employee-name"
+														placeholder="Nombre de usuario"
+														v-model="employee.name"
+														@keyup.enter="loginEmployee">
+														</b-form-input>
+													</b-form-group>
+												</b-col>
+												<b-col
+												cols="12">
+													<b-form-group>
+														<b-form-input
+														type="password"
+														id="employee-password"
+														placeholder="contraseña"
+														v-model="employee.password"
+														@keyup.enter="loginEmployee">
+														</b-form-input>
+													</b-form-group>
+												</b-col>
+												<b-col
+												cols="12"
+												class="j-end">
+													<b-button 
+													variant="primary"
+													:class="employee.commerce != '' && employee.name != '' && employee.password != '' ? '' : 'disabled'"
+													@click="loginEmployee">
+														<i v-show="!loading_employee_login"
+														class="icon-check"></i>
+														<span v-show="loading_employee_login" 
+														class="spinner-border spinner-border-sm p-r-5"></span>
+														Ingresar
+													</b-button>
+												</b-col>
+											</b-form-row>
+										</b-container>
 									</div>
-									<button type="submit" 
-									:class="commerce.name != '' && commerce.password != '' ? '' : 'disabled'"
-									class="btn btn-primary"
-									@click="loginCommerce">
-										<i v-show="!loading_commerce_login"
-										class="icon-check"></i>
-										<span v-show="loading_commerce_login" 
-										class="spinner-border spinner-border-sm p-r-5"></span>
-										Ingresar
-									</button>
-								</div>
-							</div>
-						</div>
-						<div class="col-12 col-md-7">
-							<div class="card">
-								<div class="card-header">
-									<p class="strong-card-title">
-										<i class="icon-user"></i>
-										Ingresar como empleado
-									</p>
-								</div>
-								<div class="card-body">
-									<form class="form-inline m-b-15 justify-between">
-										<input type="text" 
-										id="employee-commerce" 
-										placeholder="Nombre del comercio" 
-										v-model="employee.commerce"
-										class="form-control input-inline">
-										<input type="text" name="employee_name" 
-										id="employe-name" 
-										placeholder="Nombre de usuario" 
-										@keyup.enter="loginEmployee"
-										v-model="employee.name"
-										class="form-control input-inline">
-									</form>
-									<div class="form-group">
-										<input type="password" 
-										id="employee-password" 
-										placeholder="Contraseña" 
-										v-model="employee.password"
-										@keyup.enter="loginEmployee"
-										class="form-control">
-									</div>
-									<button class="btn btn-primary"
-									:class="employee.commerce != '' && employee.name != '' && employee.password != '' ? '' : 'disabled'"
-									@click="loginEmployee">
-										<i v-show="!loading_employee_login"
-										class="icon-check"></i>
-										<span v-show="loading_employee_login" 
-										class="spinner-border spinner-border-sm p-r-5"></span>
-										Ingresar
-									</button>
-								</div>
-							</div>
-						</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+								</b-card>
+							</b-col>
+						</b-row>
+					</b-container>
+				</div>
+			</b-card>
+		</b-col>
+    </b-row>
 </div>
 </template>
 <script>
@@ -209,6 +243,12 @@ export default {
 }
 </script>
 <style scoped lang="sass">
+.card 
+    width: 100%
+    margin-bottom: 1em
+    .card-header
+        font-weight: bold
+
 .input-inline 
     width: 48%
 

@@ -126,6 +126,10 @@ export default {
 }
 </script>
 <style lang="sass">
+.navbar
+    -webkit-box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)
+    -moz-box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)
+    box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)
 .active-link 
     font-weight: bold
     color: rgb(0, 123, 255) !important
