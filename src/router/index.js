@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
+import Vender from '../views/Vender.vue'
 import Ingresar from '../views/Ingresar.vue'
 import Listado from '../views/Listado.vue'
 import Ventas from '../views/Ventas.vue'
@@ -12,6 +13,11 @@ Vue.use(VueRouter)
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/vender',
+    name: 'Vender',
+    component: Vender
   },
   {
     path: '/ingresar',

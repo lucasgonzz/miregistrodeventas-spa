@@ -142,7 +142,7 @@ export default {
 	},
 	methods: {
 		getArticlesForSearch() {
-			this.$api.get('articles-search')
+			this.$api.get('articles/names')
 			.then(res => {
 				this.articles = res.data
 			})
@@ -207,10 +207,6 @@ export default {
 }
 </script>
 <style scoped lang="sass">
-.col-autocomplete
-	display: block
-	z-index: 500
-	text-align: left
 .container-fluid
 	margin: 0
 	padding: 0

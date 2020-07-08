@@ -1,106 +1,98 @@
 <template>
-	<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-        <div class="container">
-            <a class="navbar-brand" href="">
-                <strong>
-                    Mi registro de ventas
-                </strong>
-            </a>
-            <button type="button" class="nav-toggler d-md-none" id="btn-menu">
-                <i class="icon-bars"></i>
-            </button>
-
-            <div class="nav-items">
-                <div class="cont">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-                        <li :class="currentPage == '/vender' ? 'active-link' : ''" class="nav-item">
-                            <router-link :to="{name: 'Ingresar'}" class="nav-link">
-                                <i class="icon-sm icon-tag"></i>
-                                Vender
-                            </router-link>
-                        </li>
-                        <li :class="currentPage == '/ingresar' ? 'active-link' : ''" class="nav-item">
-                            <router-link :to="{name: 'Ingresar'}" class="nav-link">
-                                <i class="icon-sm icon-plus"></i>
-                                Ingresar
-                            </router-link>
-                        </li>
-                        <li :class="currentPage == '/listado' ? 'active-link' : ''" class="nav-item">
-                            <router-link :to="{name: 'Listado'}" class="nav-link">
-                                <i class="icon-sm icon-list-ol"></i>
-                                Listado
-                            </router-link>
-                        </li>
-                        <li :class="currentPage == '/ventas' ? 'active-link' : ''" class="nav-item">
-                            <router-link :to="{name: 'Ventas'}" class="nav-link">
-                                <i class="icon-sm icon-clipboard-3"></i>
-                                Ventas
-                            </router-link>
-                        </li>
-                        <li :class="currentPage == '/empleados' ? 'active-link' : ''" class="nav-item">
-                            <router-link :to="{name: 'Ingresar'}" class="nav-link">
-                                <i class="icon-sm icon-users"></i>
-                                Empleados
-                            </router-link>
-                        </li>
-                        <!-- <li :class="currentPage == '/ingresar' ? 'active-link' : ''" class="nav-item" v-if="isAdmin() || hasPermissionTo('online')">
-                            <router-link :to="{name: 'online'}" class="'nav-link ' + active-link('online')">
-                                <i class="icon-sm icon-network"></i>
-                                Online
-                            </router-link>
-                        </li> -->
-
-                        <li class="nav-item d-md-none">
-                            <router-link :to="{name: 'Ingresar'}" class="nav-link">
-                                <i class="icon-config"></i>                   
-                                Configuracion
-                            </router-link>
-                        </li>
-                        <li class="nav-item d-md-none">
-                            <button @click="logout" class="nav-link btn" type="submit">
-                                <i class="icon-sign-out"></i>
-                                Salir
-                            </button>
-                        </li>
-                        <!-- <li class="nav-item d-md-none">
-                            <button class="nav-link">
-                                La prueba finaliza el dia
-                                La prueba finaliza el {{ date_format(date_create(Auth()->user()->expire), 'd/m/Y') }}
-                            </button>
-                        </li> -->
-                    </ul>
-                </div>
-
-                <!-- Right Side Of Navbar -->
-                <ul class="navbar-nav ml-auto d-none d-md-block">
-                    <li class="nav-item dropdown">
-                        <button id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                           {{ user.name }}
-                        </button>
-
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <router-link :to="{name: 'configuracion'}" class="dropdown-item">         
-                                <i class="icon-config"></i>                   
-                                Configuracion
-                            </router-link>
-                            <li class="nav-item d-md-none">
-                                <button @click="logout" class="dropdown-item">
-                                    <i class="icon-sign-out"></i>
-                                    Salir
-                                </button>
-                            </li>
-                            <button class="dropdown-item">
-                                La prueba finaliza el dia
-                                <!-- La prueba finaliza el {{ date_format(date_create(Auth()->user()->expire), 'd/m/Y') }} -->
-                            </button>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-    </nav>
+<div>
+    <b-navbar toggleable="lg" class="">
+        <b-navbar-brand>
+            <strong>
+                Mi registro de ventas
+            </strong>
+        </b-navbar-brand>
+        <b-navbar-toggle target="mobile-nav"></b-navbar-toggle>
+        <b-collapse id="nav-collapse" is-nav>
+            <b-navbar-nav>
+                <b-nav-item :to="{name: 'Vender'}"
+                :class="currentPage == '/vender' ? 'active-link' : ''">
+                    <i class="icon-sm icon-tag"></i>
+                    Vender
+                </b-nav-item>
+                <b-nav-item :to="{name: 'Ingresar'}"
+                :class="currentPage == '/ingresar' ? 'active-link' : ''">
+                    <i class="icon-sm icon-plus"></i>
+                    Ingresar
+                </b-nav-item>
+                <b-nav-item :to="{name: 'Listado'}"
+                :class="currentPage == '/listado' ? 'active-link' : ''">
+                    <i class="icon-sm icon-list-ol"></i>
+                    Listado
+                </b-nav-item>
+                <b-nav-item :to="{name: 'Ventas'}"
+                :class="currentPage == '/ventas' ? 'active-link' : ''">
+                    <i class="icon-sm icon-clipboard-3"></i>
+                    Ventas
+                </b-nav-item>
+                <b-nav-item :to="{name: 'Ingresar'}"
+                :class="currentPage == '/empleados' ? 'active-link' : ''">
+                    <i class="icon-sm icon-users"></i>
+                    Empleados
+                </b-nav-item>
+                <b-nav-item-dropdown :text="user.name" right>
+                    <b-dropdown-item 
+                    :to="{name: 'Vender'}">
+                        <i class="icon-config"></i>                   
+                        Configuracion
+                    </b-dropdown-item>
+                    <b-dropdown-item
+                    @click="logout">
+                        <i class="icon-sign-out"></i>
+                        Salir
+                    </b-dropdown-item>
+                </b-nav-item-dropdown>
+            </b-navbar-nav>
+        </b-collapse>
+    </b-navbar>
+    <b-sidebar id="mobile-nav" title="Mi registro de ventas" shadow>
+        <nav>
+            <b-nav vertical>
+                <b-nav-item :to="{name: 'Vender'}"
+                :class="currentPage == '/vender' ? 'active-link-mobile' : ''">
+                    <i class="icon-sm icon-tag"></i>
+                    Vender
+                </b-nav-item>
+                <b-nav-item :to="{name: 'Ingresar'}"
+                :class="currentPage == '/ingresar' ? 'active-link-mobile' : ''">
+                    <i class="icon-sm icon-plus"></i>
+                    Ingresar
+                </b-nav-item>
+                <b-nav-item :to="{name: 'Listado'}"
+                :class="currentPage == '/listado' ? 'active-link-mobile' : ''">
+                    <i class="icon-sm icon-list-ol"></i>
+                    Listado
+                </b-nav-item>
+                <b-nav-item :to="{name: 'Ventas'}"
+                :class="currentPage == '/ventas' ? 'active-link-mobile' : ''">
+                    <i class="icon-sm icon-clipboard-3"></i>
+                    Ventas
+                </b-nav-item>
+                <b-nav-item :to="{name: 'Ingresar'}"
+                :class="currentPage == '/empleados' ? 'active-link-mobile' : ''">
+                    <i class="icon-sm icon-users"></i>
+                    Empleados
+                </b-nav-item>
+                <b-nav-item-dropdown :text="user.name" right>
+                    <b-dropdown-item 
+                    :to="{name: 'Vender'}">
+                        <i class="icon-config"></i>                   
+                        Configuracion
+                    </b-dropdown-item>
+                    <b-dropdown-item
+                    @click="logout">
+                        <i class="icon-sign-out"></i>
+                        Salir
+                    </b-dropdown-item>
+                </b-nav-item-dropdown>
+            </b-nav>
+        </nav>
+    </b-sidebar>
+</div>
 </template>
 <script>
 export default {
@@ -113,8 +105,14 @@ export default {
         }
 	},
 	methods: {
-		async logout() {
-			await this.$api.post('/logout')
+        logout() {
+			this.$axios.post('/logout')
+            .then(() => {
+                location.reload()
+            })
+            .catch(err => {
+                console.log(err)
+            })
 		},
 		isTrial() {
             console.log('aca:')
@@ -133,6 +131,17 @@ export default {
     color: rgb(0, 123, 255) !important
     border-radius: 0px 0px 3px 3px
     border-bottom: 4px solid rgb(0, 123, 255)
+
+#mobile-nav
+    .nav-link 
+        text-align: left
+        color: rgba(0, 123, 255, .6) 
+        font-size: 1.3em
+.active-link-mobile
+    a
+        font-weight: bold
+        color: rgba(0, 123, 255, 1) !important
+    // background: rgba(0,0,0,.2)
 
 .navbar
     position: relative
