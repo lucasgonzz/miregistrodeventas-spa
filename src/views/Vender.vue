@@ -11,7 +11,7 @@
 	<b-row class="justify-content-center">
 		<b-col
 		cols="12"
-		lg="8">
+		xl="8">
 			<b-card>
 				<template v-slot:header>
 					<header-form
@@ -23,31 +23,33 @@
 							@addArticle="addArticle"></header-form>
 				</template>
 				<div>
-					<cargando :is_loading="loading_articles"></cargando>
-					<markers :article="article"
-							:user="user"
-							@addArticle="addArticle"></markers>
+					<b-container fluid>
+						<markers :article="article"
+								:user="user"
+								@addArticle="addArticle"></markers>
 
-					<total-previus-sales :total="total"
-										:cantidad_articulos="cantidad_articulos"
-										:cantidad_unidades="cantidad_unidades"
-										:sales_previus_next_index="sales_previus_next_index"
-										:loading_previus_sale="loading_previus_sale"
-										:loading_next_sale="loading_next_sale"
-										:updating_previus_sale="updating_previus_sale"
-										:previus_sale="previus_sale"
-										:user="user"
-										:percentage_card="percentage_card"
-										:with_card="with_card"
-										:loading_add_article="loading_add_article"
-										@changeWithCard="changeWithCard"
-										@nextSale="nextSale"
-										@previusSale="previusSale"
-										@updatePreviusSale="updatePreviusSale"
-										@cancelPreviusSale="cancelPreviusSale"></total-previus-sales>
-					<articles-table :loading_articles="loading_articles"
-									:articles="articles"
-									@calculateTotal="calculateTotal"></articles-table>
+						<total-previus-sales :total="total"
+											:cantidad_articulos="cantidad_articulos"
+											:cantidad_unidades="cantidad_unidades"
+											:sales_previus_next_index="sales_previus_next_index"
+											:loading_previus_sale="loading_previus_sale"
+											:loading_next_sale="loading_next_sale"
+											:updating_previus_sale="updating_previus_sale"
+											:previus_sale="previus_sale"
+											:user="user"
+											:percentage_card="percentage_card"
+											:with_card="with_card"
+											:loading_add_article="loading_add_article"
+											@changeWithCard="changeWithCard"
+											@nextSale="nextSale"
+											@previusSale="previusSale"
+											@updatePreviusSale="updatePreviusSale"
+											@cancelPreviusSale="cancelPreviusSale"></total-previus-sales>
+						<cargando :is_loading="loading_articles" size="md"></cargando>
+						<articles-table :loading_articles="loading_articles"
+										:articles="articles"
+										@calculateTotal="calculateTotal"></articles-table>
+					</b-container>
 				</div>
 			</b-card>
 		</b-col>
@@ -83,7 +85,6 @@ export default {
 			article: {
 				bar_code: '',
 				name: '',
-				enteredByName: false,
 			},
 			loading_add_article: false,
 			vendiendo: false,
@@ -251,61 +252,56 @@ export default {
 			})
 			return available
 		},
-		addArticle(input_focus = '') {
+		addArticle(article_id = 0) {
+			// Si article_id no es 0 es porque se busco por nombre
 			var repetido = this.isRepeated()
 			if (!repetido) {
 				this.loading_add_article = true
-				if (this.article.name != '') {
-					this.$api.get('articles/get-by-name/'+this.article.name)
+				if (article_id != 0) {
+					this.$api.get(`articles/${article_id}`)
 					.then(res => {
 						this.loading_add_article = false
-						var article = res.data
-						if (article) {
-							article.amount = 1
-							this.articles.unshift(article)
-							if (article.uncontable == 1) {
-								article.measurement_original = article.measurement
-								setTimeout(() => {
-									document.getElementById(`amount-measurement-${article.id}`).focus()
-								}, 500)
-							} else {
-								this.calculateTotal(input_focus)
-							}
-							this.focusHeaderForm()
+						let article = res.data
+						article.amount = 1
+						this.articles.unshift(article)
+						if (article.uncontable == 1) {
+							article.measurement_original = article.measurement
+							setTimeout(() => {
+								document.getElementById(`amount-measurement-${article.id}`).focus()
+							}, 500)
 						} else {
-							this.$bvModal.show('article-not-register')
-							this.focusHeaderForm()
+							this.calculateTotal()
 						}
+						this.focusHeaderForm()
 					})
 					.catch(err => {
+						this.$toast.error('Error, recargue la pagina por favor!')
 						this.loading_add_article = false
-						this.$toast.error('Error, recargue la pagina por favor :)')
 						console.log(err)
 					})
 				} else {
-					this.$api.get('articles/get-by-bar-code/'+this.article.bar_code)
+					this.$api.get(`articles/get-by-bar-code/${this.article.bar_code}`)
 					.then(res => {
 						this.loading_add_article = false
-						var article = res.data
+						let article = res.data
 						if (article) {
 							article.amount = 1
 							this.articles.unshift(article)
-							this.focusHeaderForm()
 							if (article.uncontable == 1) {
 								article.measurement_original = article.measurement
 								setTimeout(() => {
 									document.getElementById(`amount-measurement-${article.id}`).focus()
 								}, 500)
 							} else {
-								this.calculateTotal(input_focus)
+								this.calculateTotal()
 							}
+							this.focusHeaderForm()
 						} else {
 							this.$bvModal.show('article-not-register')
-							this.focusHeaderForm()
 						}
 					})
 					.catch(err => {
-						this.$toast.error('Error, recargue la pagina por favor :)')
+						this.$toast.error('Error, recargue la pagina por favor!')
 						this.loading_add_article = false
 						console.log(err)
 					})
@@ -317,23 +313,15 @@ export default {
 			if (this.article.bar_code.length > 0) {
 				this.article.bar_code = ''
 				document.getElementById('article-bar-code').focus()
-			} else {
-				this.article.name = ''
-				document.getElementById('article-name').focus()
 			}
 		},
-		calculateTotal(input_focus) {
+		calculateTotal() {
 			this.total = 0
 			this.cantidad_articulos = 0
 			this.cantidad_unidades = 0
 			this.articles.forEach(article => {
 				this.cantidad_articulos++
-				var price = 0
-				if (article.offer_price) {
-					price = parseFloat(article.offer_price)
-				} else {
-					price = parseFloat(article.price)
-				}
+				let price = parseFloat(article.price)
 				if (article.uncontable == 0) {
 					this.total += price * article.amount
 					this.cantidad_unidades += article.amount
@@ -378,8 +366,6 @@ export default {
 			}
 			this.article.bar_code = ''
 			this.article.name = ''
-			console.log('Llego esto: '+input_focus)
-			document.getElementById(input_focus).focus()
 		},
 
 		// Metodo que llega del modal clientes

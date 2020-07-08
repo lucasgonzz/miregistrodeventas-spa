@@ -210,11 +210,6 @@ export default {
 .container-fluid
 	margin: 0
 	padding: 0
-.col-12 
-	@media screen and (max-width: 1200px)
-		margin-bottom: .75rem
-		&:last-child
-			margin-bottom: 0
 
 .col-center
 	display: flex

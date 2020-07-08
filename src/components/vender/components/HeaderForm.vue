@@ -17,6 +17,7 @@
 		lg="5"
 		class="col-autocomplete">
             <autocomplete 
+            ref="articleName"
             :search="search" 
 			:get-result-value="getResultValue"
             auto-select
@@ -95,13 +96,18 @@ export default {
             })
         },
         setArticleName(article) {
-            this.article.name = article.name
+            this.$emit('addArticle', article.id)
+			this.$refs.articleName.setValue('')
         },
 		getResultValue(article) {
 			return article.name
 		},
-		addArticle(input = '#article-bar-code') {
-			this.$emit('addArticle', input)
+		addArticle() {
+			if (this.isProvider(this.user)) {
+				document.getElementById('article-amount').focus()
+			} else {
+				this.$emit('addArticle')
+			}
 		},
 
 		vender() {

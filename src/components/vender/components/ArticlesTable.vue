@@ -13,7 +13,9 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr v-for="article in articles">
+					<tr 
+					v-for="article in articles"
+					:key="article.id">
 						<td v-if="article.uncontable == 1"
 							class="td-price">
 							<template v-if="article.offer_price"
@@ -90,7 +92,10 @@
 	</div>
 	<div class="row d-md-none">
 		<div class="col">
-			<ul class="list-group list-group-border m-b-10" v-for="article in articles">
+			<ul  
+			v-for="article in articles"
+			:key="article.id"
+			class="list-group list-group-border m-b-10">
 				<li class="list-group-item active article-name">
 					{{ article.name }}
 				</li>
