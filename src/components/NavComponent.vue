@@ -6,7 +6,12 @@
                 Mi registro de ventas
             </strong>
         </b-navbar-brand>
-        <b-navbar-toggle target="mobile-nav"></b-navbar-toggle>
+
+        <b-navbar-toggle target="mobile-nav">
+            <template v-slot:default>
+                <span class="icon-bars"></span>
+            </template>
+        </b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
                 <b-nav-item :to="{name: 'Vender'}"
@@ -108,6 +113,9 @@ export default {
         logout() {
 			this.$axios.post('/logout')
             .then(() => {
+                console.log('logout, ruta:'+this.$route.path)
+                this.$store.commit('auth/setAuthenticated', false)
+                this.$store.commit('auth/setUser', {})
                 this.$router.replace({name: 'Login'})
             })
             .catch(err => {
@@ -126,6 +134,8 @@ export default {
 }
 </script>
 <style lang="sass">
+.icon-bars
+    color: #333
 .navbar
     -webkit-box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)
     -moz-box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)

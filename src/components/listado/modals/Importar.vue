@@ -78,10 +78,7 @@ export default {
     		var i = this.columns.indexOf(column)
     		var anterior = this.columns[i-1]
     		var actual = column
-    		console.log('Entrooo')
-    		console.log('anterior')
     		console.log(anterior)
-    		console.log('actual')
     		console.log(column)
     		this.columns[i].value = anterior.value
     		this.columns[i].name = anterior.name

@@ -2,7 +2,9 @@
 <b-modal id="sale-details" title="Detalles de la venta" size="lg" hide-footer>
     <b-container fluid>
         <b-row v-if="sale.debt">
-            <b-col>
+            <b-col
+            class="j-start m-b-10"
+            cols="12">
                 <b-button-group>
                     <b-button 
                     variant="secondary">
@@ -19,6 +21,10 @@
                         </strong>
                     </b-button>
                 </b-button-group>
+            </b-col>
+            <b-col
+            class="j-start"
+            cols="12">
                 <div class="form-inline m-b-10">
                     <button v-show="!pagar_deuda"
                             class="btn btn-primary"
@@ -232,11 +238,11 @@ export default {
     }
 }
 </script>
-<style scoped>
-.col {
+<style scoped lang="sass">
+.col 
     padding: 0
-}
-.text-header {
-    font-size: 1.2rem;
-}
+
+.text-header 
+    font-size: 1.2rem
+
 </style>

@@ -23,14 +23,17 @@ export default {
         }
     },
     created() {
+        console.log('se creo app')
         this.$store.dispatch('auth/me')
         .then(() => {
             if (this.authenticated) {
                 if (this.$router.path == '/login') {
+                    console.log('Estaba en login')
                     this.$router.replace({name: 'Ingresar'})
                 }
             } else {
                 if (this.$route.path != '/login') {
+                    console.log('No staba en login')
                     this.$router.replace({name: 'Login'})
                 }
             }

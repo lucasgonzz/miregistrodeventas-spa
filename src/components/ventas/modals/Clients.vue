@@ -15,6 +15,15 @@
         <b-row v-show="!loading_clients">
             <b-col>
                 <b-card header="Lista de clientes">
+                    <template v-slot:header>
+                        Lista de clientes
+                        <b-button
+                        v-show="client_searched"
+                        variant="primary"
+                        @click="backClients">
+                            <i class="icon-undo"></i>
+                        </b-button>
+                    </template>
                     <b-list-group>
                         <b-list-group-item
                         v-for="client in clients"
@@ -67,13 +76,18 @@ export default {
             searching_possible_clients: false,
             updating_client: 0,
             without_clients: false,
-            clients: []
+            clients: [],
+            client_searched: false
         }
     },
     created() {
         this.getClients()
     },
     methods: {
+        backClients() {
+            this.client_searched = false
+            this.getClients()
+        },
         search(input) {
             if (input.length < 1) { return [] }
             return this.clients.filter(client => {
@@ -84,6 +98,7 @@ export default {
             return client.name
         },
         setClient(client) {
+            this.client_searched = true
             this.clients = []
             this.clients.push(client)
         },

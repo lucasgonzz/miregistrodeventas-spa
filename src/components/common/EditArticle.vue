@@ -145,7 +145,6 @@
 </b-modal>
 </template>
 <script>
-// import toastr from 'toastr'
 export default {
 	props: ['article', 'user', 'providers', 'categories', 'actualizando'],
 	data() {
@@ -156,7 +155,7 @@ export default {
 	watch: {
 		show_providers() {
 			if (this.show_providers) {
-				this.$emit('orderProvidersHistory', this.article)
+				this.orderProvidersHistory(this.article)
 			}
 		},
 	},
@@ -170,10 +169,8 @@ export default {
 			return options
 		},
 		providers_options() {
-			console.log('providers_options()')
 			let options = []
 			// if (this.article.provider_id) {
-				console.log('entro')
 				options.push({text: 'Seleccione un proveedor', value: 0})
 				this.providers.forEach(provider => {
 					options.push({text: provider.name, value: provider.id})
@@ -190,17 +187,15 @@ export default {
 		},
 		table_providers_items() {
 			let items = []
-			if (this.article.providers) {
-				this.article.providers.forEach(provider => {
-					let item = {}
-					item.fecha = this.date(provider.pivot.created_at)
-					item.nombre = provider.name
-					item.costo = provider.pivot.cost
-					item.precio = provider.pivot.price
-					item.cantidad = provider.pivot.amount ? provider.pivot.amount : 'Sin uso'
-					items.push(item)
-				})
-			}
+			this.article.providers.forEach(provider => {
+				let item = {}
+				item.fecha = this.date(provider.pivot.created_at)
+				item.nombre = provider.name
+				item.costo = provider.pivot.cost
+				item.precio = provider.pivot.price
+				item.cantidad = provider.pivot.amount ? provider.pivot.amount : 'Sin uso'
+				items.push(item)
+			})
 			return items
 		}
 	},

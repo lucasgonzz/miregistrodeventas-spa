@@ -1,5 +1,4 @@
 <template>
-
 <!-- Modal -->
 <div class="modal fade" id="change-percentage-card" tabindex="-1" role="dialog" aria-labelledby="ventas-resumens" aria-hidden="true">
     <div class="modal-dialog" role="document">

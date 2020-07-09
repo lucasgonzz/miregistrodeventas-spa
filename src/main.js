@@ -43,6 +43,8 @@ import images from './mixins/images'
 Vue.mixin(images)
 import dates from './mixins/dates'
 Vue.mixin(dates)
+import providers from './mixins/providers'
+Vue.mixin(providers)
 
 Vue.config.productionTip = false
 

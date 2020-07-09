@@ -18,7 +18,6 @@
 	:providers="providers" 
 	:categories="categories"
 	:actualizando="actualizando"
-	@orderProvidersHistory="orderProvidersHistory"
 	@updateArticle="updateArticle"
 	@clearArticle="clearArticle"></edit-article>
 	<add-marker 
@@ -370,7 +369,6 @@ export default {
 			.then( res => {
 				this.is_loading = false
 				this.articles = res.data.articles.data;
-				console.log('getarticles')
 				this.pagination = res.data.pagination;
 				this.setArticlesId()
 				this.setIsAllSelected()
@@ -399,8 +397,7 @@ export default {
 		updateArticle() {
 			this.actualizando = true
 			this.$api.put('articles/'+this.article.id, this.article)
-			.then(res => {
-				console.log(res.data)
+			.then(() => {
 				this.actualizando = false
 				this.updateArticlesList()
 				this.$bvModal.hide('edit-article')
@@ -699,13 +696,6 @@ export default {
 			this.article = article
 			this.orderProvidersHistory(this.article)
 			this.$bvModal.show('providers-history')
-		},
-		orderProvidersHistory(article) {
-			article.providers.forEach(provider => {
-				let date = provider.pivot.created_at.substring(0,10)
-				provider.pivot.created_at_ = new Date(date)
-			})
-			article.providers.sort((a, b) => b.pivot.created_at_ - a.pivot.created_at_)
 		},
 
 		// Categorias

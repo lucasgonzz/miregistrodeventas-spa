@@ -155,7 +155,6 @@ export default {
     },
     methods: {
         price(p) {
-            console.log('entro: '+p)
             console.log('salio: '+numeral(p).format('$0,0.00'))
             return numeral(p).format('$0,0.00')
         },

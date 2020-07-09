@@ -112,6 +112,7 @@ export default {
 				new_stock: 0,
 				stock_null: false,
 				provider: 0,
+				providers: [],
 				act_fecha: 1,
 				created_at: new Date().toISOString().slice(0,10),
 			},
@@ -155,13 +156,17 @@ export default {
 		}
 	},
 	created() {
-		this.getNames()
-		this.getBarCodes()
-		this.getGeneratedBarCodes()
-		if (!this.isProvider(this.user)) {
-			this.getProviders()
+		if (this.user) {
+			this.getNames()
+			this.getBarCodes()
+			this.getGeneratedBarCodes()
+			if (!this.isProvider(this.user)) {
+				this.getProviders()
+			}
+			this.getCategories()
+		} else {
+			console.log('No se llamaron los metodos')
 		}
-		this.getCategories()
 	},
 	methods: {
 		showIntro() {
@@ -317,9 +322,7 @@ export default {
 		},
 		updateArticle() {
 			this.actualizando = true
-			this.$api.put('articles/'+this.article.id, {
-				article: this.article
-			})
+			this.$api.put('articles/'+this.article.id, this.article)
 			.then(res => {
 				this.actualizando = false
 				var article = res.data
@@ -328,11 +331,11 @@ export default {
 				this.clearArticle()
 				this.bar_codes.push(article.bar_code)
 				this.names.push(article)
-				// toastr.success('Artículo actualizado correctamente')
-				this.$jQuery('#edit-article').modal('hide')
+				this.$toast.success('Artículo actualizado correctamente')
+				this.$bvModal.show('edit-article')
 			})
 			.catch( err => {
-				// toastr.error('Error al actualizar el artículo, revise sus datos e intentelo nuevamente por favor')
+				this.$toast.error('Error al actualizar el artículo, revise sus datos e intentelo nuevamente por favor')
 				console.log(err)
 			})
 		},
@@ -430,9 +433,6 @@ export default {
 			this.providers.forEach(provider => {
 				this.providers_options.push({text: provider.name, value: provider.id})
 			})
-		},
-		showProviders() {
-			this.$jQuery('#providers').modal('show')
 		},
 		deleteProvider(provider) {
 			this.deleting_provider = provider.id

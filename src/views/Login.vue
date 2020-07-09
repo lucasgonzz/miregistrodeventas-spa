@@ -171,9 +171,9 @@ export default {
 		}
 	},
 	created() {
-		if (this.authenticated) {
-			this.$router.replace({name: 'Ingresar'})
-		}
+		// if (this.authenticated) {
+		// 	this.$router.replace({name: 'Ingresar'})
+		// }
 	},
 	methods: {
 		csrf() {

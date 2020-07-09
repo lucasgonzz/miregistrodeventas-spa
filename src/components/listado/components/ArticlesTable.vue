@@ -192,10 +192,8 @@ export default {
 		showAddMarker(article) {
 			this.$emit('setArticle', article)
 			if (article.marker) {
-				console.log('no entro')
 				this.$bvModal.show('is-marker')
 			} else {
-				console.log('entro')
 				this.$bvModal.show('add-marker')
 			}
 		},
