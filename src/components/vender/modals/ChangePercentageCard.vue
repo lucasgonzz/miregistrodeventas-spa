@@ -1,62 +1,46 @@
 <template>
-<!-- Modal -->
-<div class="modal fade" id="change-percentage-card" tabindex="-1" role="dialog" aria-labelledby="ventas-resumens" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    <strong>
-                        Cambiar porcentaje de tarjeta
-                    </strong>
-                </h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="new_percentage_card">
-                        Nuevo porcentaje
-                    </label>
-                    <input type="number"
-                            min="1" 
-                            max="100" 
-                            id="new_percentage_card"
-                            @keyup.enter="updatePercentageCard"
-                            class="form-control"
-                            v-model="percentage_card_">
-                    <small class="text-muted">Porcentaje actual: {{ percentage_card }}%</small>
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-primary"
-                            @click="updatePercentageCard">
-                        <i v-show="!updating_percentage_card"
-                            class="icon-refresh"></i>
-                        <span v-show="updating_percentage_card"
-                                class="spinner-border spinner-border-sm m-r-5" role="status" aria-hidden="true"></span>
-                        Actualizar porcentaje
-                    </button>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
+<b-modal id="change-percentage-card" title="Cambiar porcentaje de tarjeta">
+    <b-container fluid>
+        <b-row>
+            <b-col>
+                <b-form-group
+                label="Nuevo porcentaje de tarjeta"
+                label-for="new-percentage-card">
+                    <b-form-input
+                    type="number"
+                    min="0"
+                    max="100"
+                    id="new-percentage-card"
+                    v-model="new_percentage_card"
+                    @keyup.enter="updatePercentageCard"
+                    placeholder="Ingrese el nuevo porcentaje de tarjeta"></b-form-input>
+                </b-form-group>
+            </b-col>
+        </b-row>
+    </b-container>
+    <template v-slot:modal-footer>
+        <b-button
+        variant="primary"
+        @click="updatePercentageCard">
+            <i class="icon-check" v-show="!updating_percentage_card"></i>
+            <span class="spinner-border spinner-border-sm" v-show="updating_percentage_card"></span>
+            Actualizar
+        </b-button>
+    </template>
+</b-modal>
 </template>
 <script>
 export default {
     props: ['percentage_card', 'updating_percentage_card'],
     data() {
         return {
-            percentage_card_: 0,
+            new_percentage_card: '',
         }
     },
     methods: {
         updatePercentageCard() {
-            this.$emit('updatePercentageCard', this.percentage_card_)
-            this.percentage_card_ = 0
+            this.$emit('updatePercentageCard', this.new_percentage_card)
+            this.new_percentage_card = ''
         }
     },
 }

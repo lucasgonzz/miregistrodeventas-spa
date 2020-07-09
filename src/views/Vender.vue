@@ -123,6 +123,9 @@ export default {
 		with_card() {
 			this.calculateTotal()
 		},
+		user() {
+			this.percentage_card = this.user.percentage_card
+		}
 	},
 	methods: {
 
