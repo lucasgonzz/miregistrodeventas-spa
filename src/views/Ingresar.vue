@@ -499,8 +499,6 @@ export default {
 }
 </script>
 <style scoped lang="sass">
-.card-header
-	font-weight: bold
 .card-footer
 	padding: 0
 .spinner-anterior 

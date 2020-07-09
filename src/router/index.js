@@ -5,6 +5,7 @@ import Vender from '../views/Vender.vue'
 import Ingresar from '../views/Ingresar.vue'
 import Listado from '../views/Listado.vue'
 import Ventas from '../views/Ventas.vue'
+import Empleados from '../views/Empleados.vue'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ Vue.use(VueRouter)
     path: '/ventas',
     name: 'Ventas',
     component: Ventas
+  },
+  {
+    path: '/empleados',
+    name: 'Empleados',
+    component: Empleados
   },
   {
     path: '/about',

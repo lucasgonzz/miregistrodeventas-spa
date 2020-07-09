@@ -34,7 +34,7 @@
                     <i class="icon-sm icon-clipboard-3"></i>
                     Ventas
                 </b-nav-item>
-                <b-nav-item :to="{name: 'Ingresar'}"
+                <b-nav-item :to="{name: 'Empleados'}"
                 :class="currentPage == '/empleados' ? 'active-link' : ''">
                     <i class="icon-sm icon-users"></i>
                     Empleados
@@ -77,7 +77,7 @@
                     <i class="icon-sm icon-clipboard-3"></i>
                     Ventas
                 </b-nav-item>
-                <b-nav-item :to="{name: 'Ingresar'}"
+                <b-nav-item :to="{name: 'Empleados'}"
                 :class="currentPage == '/empleados' ? 'active-link-mobile' : ''">
                     <i class="icon-sm icon-users"></i>
                     Empleados
