@@ -1,5 +1,5 @@
 <template>
-<b-row v-show="is_loading">
+<b-row v-show="is_loading || is_loading_2 || is_loading_3">
 	<b-col :class="'col-loader-'+size">
 		<div :class="'loader '+size">Loading...</div>
 	</b-col>
@@ -7,7 +7,7 @@
 </template>
 <script>
 export default {
-	props: ['is_loading', 'size']
+	props: ['is_loading', 'is_loading_2', 'is_loading_3', 'size']
 }
 </script>
 <style scoped>

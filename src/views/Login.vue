@@ -3,6 +3,7 @@
     <admin-login></admin-login>
     <b-row class="j-center">
 		<b-col 
+		cols="12"
 		md="10"
 		xl="8">
 			<b-card>

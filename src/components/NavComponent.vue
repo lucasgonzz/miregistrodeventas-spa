@@ -108,7 +108,7 @@ export default {
         logout() {
 			this.$axios.post('/logout')
             .then(() => {
-                location.reload()
+                this.$router.replace({name: 'Login'})
             })
             .catch(err => {
                 console.log(err)

@@ -45,8 +45,12 @@
 											@previusSale="previusSale"
 											@updatePreviusSale="updatePreviusSale"
 											@cancelPreviusSale="cancelPreviusSale"></total-previus-sales>
-						<cargando :is_loading="loading_articles" size="md"></cargando>
-						<articles-table :loading_articles="loading_articles"
+						<cargando 
+						:is_loading="loading_add_article" 
+						:is_loading_2="loading_previus_sale" 
+						:is_loading_3="loading_next_sale" 
+						size="md"></cargando>
+						<articles-table v-show="!loading_add_article && !loading_previus_sale && !loading_next_sale && articles.length"
 										:articles="articles"
 										@calculateTotal="calculateTotal"></articles-table>
 					</b-container>
@@ -437,34 +441,33 @@ export default {
 	}	
 }
 </script>
-<style scoped>
+<style scoped lang="sass">
 
-.list {
-	width: 98%;
-	position: absolute;
-	z-index: 500;
-	max-height: 200px;
-	overflow-y: scroll;
-}
-.article-name {
-	font-size: 1rem;
-	padding: 10px;
-}
-.list-group-border {
-	border: 1px solid rgba(51, 51,51, .6);
-	border-radius: 0.25rem 0.25rem 0 0;
-    /*border-top-right-radius: 0.25rem;*/
-}
-.p-price-mobile {
-	font-size: 1.5rem;
-}
-.btn-movil {
-	padding: 8px 16px;
-}
+.list 
+	width: 98%
+	position: absolute
+	z-index: 500
+	max-height: 200px
+	overflow-y: scroll
 
-.col-relative {
-	position: relative;
-	padding: 0px;
-}
+.article-name 
+	font-size: 1rem
+	padding: 10px
+
+.list-group-border 
+	border: 1px solid rgba(51, 51,51, .6)
+	border-radius: 0.25rem 0.25rem 0 0
+
+.p-price-mobile 
+	font-size: 1.5rem
+
+.btn-movil 
+	padding: 8px 16px
+
+
+.col-relative 
+	position: relative
+	padding: 0px
+
 
 </style>

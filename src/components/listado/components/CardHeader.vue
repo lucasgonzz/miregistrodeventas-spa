@@ -207,6 +207,23 @@ export default {
 }
 </script>
 <style scoped lang="sass">
+.col-12 
+	@media screen and (max-width: 768px)
+		margin-bottom: .75rem
+		&:nth-last-child(2)
+			margin-bottom: 0
+		&:last-child
+			margin-top: .75rem
+			margin-bottom: 0
+
+	@media screen and (min-width: 768px) and (max-width: 1200px)
+		margin-bottom: .75rem
+		&:nth-last-child(2), &:last-child
+			margin-bottom: 0
+	@media screen and (min-width: 1200px)
+		&:last-child
+			margin-top: .75rem
+
 .container-fluid
 	margin: 0
 	padding: 0

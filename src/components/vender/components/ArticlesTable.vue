@@ -1,6 +1,6 @@
 <template>
 <div>
-	<b-row v-show="articles.length">
+	<b-row>
 		<b-col>
 			<div class="table-responsive">
 				<table class="table text-center table-striped">
@@ -104,7 +104,7 @@
 </template>
 <script>
 export default {
-	props: ['articles', 'loading_articles', 'is_desktop'],
+	props: ['articles', 'is_desktop'],
 	methods: {
 		up(article) {
 			article.amount++

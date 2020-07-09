@@ -130,6 +130,7 @@ export default {
 }
 </script>
 <style scoped lang="sass">
+
 .col-12
 	@media screen and (max-width: 992px)
 		margin-bottom: 1em

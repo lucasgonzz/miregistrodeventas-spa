@@ -22,7 +22,9 @@
 					:articles_id="articles_id_to_print"></print-tickets>
 	<bar-codes :article="article"></bar-codes>
 	<b-row class="justify-content-center">
-		<b-col lg="7">
+		<b-col
+		cols="12" 
+		lg="7">
 			<b-card header="Ingresar un nuevo producto" no-body>
 				<b-card-body>
 					<uncontable 

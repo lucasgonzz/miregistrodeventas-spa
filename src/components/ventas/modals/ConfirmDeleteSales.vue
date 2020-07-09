@@ -1,5 +1,5 @@
 <template>
-<b-modal id="delete-sales" title="Eliminar ventas seleccionadas">
+<b-modal id="delete-sales" :title="title">
     <b-container fluid>
         <b-row>
             <b-col>
@@ -24,6 +24,12 @@
 export default {
   props: ['selected_sales', 'deleting_sales'],
     computed: {
+        title() {
+            if (this.selected_sales.length > 1) {
+                return `Eliminar ventas seleccionadas`
+            }      
+            return 'Eliminar venta seleccionada'
+        },
         message() {
             if (this.selected_sales.length > 1) {
                 return `¿Seguro que quiere eliminar estas ${this.selected_sales.length} ventas?`

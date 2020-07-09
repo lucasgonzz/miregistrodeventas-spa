@@ -7,13 +7,9 @@
 		lg="4"
 		class="col-total">
 			<p class="m-0">
-				<strong class="total" v-show="!loading_add_article">
+				<strong class="total">
 					Total: {{ price(total) }}
 				</strong>
-				<span class="text-primary" v-show="loading_add_article">
-					<span class="spinner-border spinner-border-sm"></span>
-					Cargando...
-				</span>
 			</p>
 			<p class="m-0">
 				{{ cantidad_articulos }} artículos, {{ cantidad_unidades }} unidades
@@ -60,8 +56,12 @@
 				</button>
 			</div>
 			<div class="float-right m-l-5">
-				<b-dropdown split text="Anterior"
+				<b-dropdown split
 				@click="previusSale">
+					<template v-slot:button-content>
+						<span class="spinner-border spinner-border-sm" v-show="updating_previus_sale"></span>
+						Anterior
+					</template>
 					<b-dropdown-item
 					v-show="sales_previus_next_index > 1"
 					@click="nextSale">
