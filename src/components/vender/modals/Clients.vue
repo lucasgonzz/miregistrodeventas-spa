@@ -1,10 +1,10 @@
 <template>
-<b-modal id="clients" title="Seleccione un cliente para esta venta">
+<b-modal id="clients" title="Seleccione un cliente para esta venta" hide-footer>
     <b-container fluid>
         <b-row>
             <b-col>
                 <b-card header="Seleccionar un cliente">
-                    <b-container fluid class="p-0">
+                    <b-container fluid>
                         <b-row class="m-b-0">
                             <b-col>
                                 <autocomplete 

@@ -197,7 +197,7 @@ export default {
 							this.loading_commerce_login = false
 							this.$store.commit('auth/setAuthenticated', true)
 							this.$store.commit('auth/setUser', res.data.user)
-							this.$router.replace({name: 'Ingresar'})
+							this.$router.replace('/')
 						} else {
 							this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor ;)')
 							document.getElementById('commerce-name').focus()
@@ -225,7 +225,7 @@ export default {
 							this.loading_employee_login = false
 							this.$store.commit('auth/setAuthenticated', true)
 							this.$store.commit('auth/setUser', res.data.user)
-							this.$router.replace({name: 'Ingresar'})
+							this.$router.replace('/')
 						} else {
 							this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor ;)')
 							this.employee.commerce = ''

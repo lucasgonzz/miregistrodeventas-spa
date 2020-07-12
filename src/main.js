@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import store from '@/store'
 
 // Notificaciones
 import VueIziToast from 'vue-izitoast';
@@ -35,7 +36,6 @@ Vue.use({
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
-import store from './store'
 
 import user from './mixins/user'
 Vue.mixin(user)
@@ -48,9 +48,12 @@ Vue.mixin(providers)
 
 Vue.config.productionTip = false
 
-new Vue({
-	router,
-	store,
-	render: h => h(App)
-}).$mount('#app')
+store.dispatch('auth/me')
+.then(() => {
+	new Vue({
+		router,
+		store,
+		render: h => h(App)
+	}).$mount('#app')
+})
 

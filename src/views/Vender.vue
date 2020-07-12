@@ -61,6 +61,9 @@
 </div>
 </template>
 <script>
+// import store from '@/store'
+// import userMixin from '@/mixins/user'
+
 import ArticleNotRegister from '../components/vender/modals/ArticleNotRegister.vue'
 import ChangePercentageCard from '../components/vender/modals/ChangePercentageCard.vue'
 import Clients from '../components/vender/modals/Clients.vue'
@@ -98,7 +101,6 @@ export default {
 			cantidad_articulos: 0,
 			cantidad_unidades: 0,
 			with_card: false,
-			percentage_card: 0,
 			updating_percentage_card: false,
 
 			// PreviusSale
@@ -115,9 +117,22 @@ export default {
 	computed: {
 		user() {
 			return this.$store.state.auth.user
+		},
+		percentage_card() {
+			return this.user.percentage_card
 		}
 	},
-	created() {
+	beforeRouteLeave(to, from, next) {
+		if (this.articles.length) {
+			let leave = window.confirm('¿Seguro que queres salir? vas a perder los artículos ingresados en esta venta')
+			if (leave) {
+				next()
+			} else {
+				next(false)
+			}
+		} else {
+			next()
+		}
 	},
 	watch: {
 		with_card() {
@@ -358,17 +373,17 @@ export default {
 				var p = 0
 				var percentage_card = 0
 				if (this.previus_sale.percentage_card) {
-					percentage_card = this.previus_sale.percentage_card
-					console.log('1: '+percentage_card)
+					percentage_card = Number(this.previus_sale.percentage_card)
 				} else {
-					console.log('acaaa333')
-					percentage_card = this.percentage_card
+					percentage_card = Number(this.percentage_card)
 				}
+				console.log('porcentaje antes: '+percentage_card)
 				if (percentage_card < 10) {
 					p = Number('1.0'+this.percentage_card)
 				} else {
 					p = Number('1.'+this.percentage_card)
 				}
+				console.log('porcentaje: '+p)
 				this.total = this.total * p
 			}
 			this.article.bar_code = ''

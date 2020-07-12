@@ -1,5 +1,6 @@
 <template>
 <div>
+    <update-password></update-password>
     <b-navbar toggleable="lg" class="">
         <b-navbar-brand>
             <strong>
@@ -15,42 +16,50 @@
         <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
                 <b-nav-item :to="{name: 'Vender'}"
+                v-if="hasPermissionTo('sale.create', user)"
                 :class="currentPage == '/vender' ? 'active-link' : ''">
                     <i class="icon-sm icon-tag"></i>
                     Vender
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Ingresar'}"
+                v-if="hasPermissionTo('article.create', user)"
                 :class="currentPage == '/ingresar' ? 'active-link' : ''">
                     <i class="icon-sm icon-plus"></i>
                     Ingresar
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Listado'}"
+                v-if="hasPermissionTo('article.index', user)"
                 :class="currentPage == '/listado' ? 'active-link' : ''">
                     <i class="icon-sm icon-list-ol"></i>
                     Listado
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Ventas'}"
+                v-if="hasPermissionTo('sale.index', user)"
                 :class="currentPage == '/ventas' ? 'active-link' : ''">
                     <i class="icon-sm icon-clipboard-3"></i>
                     Ventas
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Empleados'}"
+                v-if="isAdmin(user)"
                 :class="currentPage == '/empleados' ? 'active-link' : ''">
                     <i class="icon-sm icon-users"></i>
                     Empleados
                 </b-nav-item>
-                <b-nav-item-dropdown :text="user.name" right>
-                    <b-dropdown-item 
-                    :to="{name: 'Vender'}">
-                        <i class="icon-config"></i>                   
-                        Configuracion
-                    </b-dropdown-item>
-                    <b-dropdown-item
-                    @click="logout">
-                        <i class="icon-sign-out"></i>
-                        Salir
-                    </b-dropdown-item>
-                </b-nav-item-dropdown>
+                <div>
+                    <b-nav-item-dropdown :text="user.name" right>
+                        <b-dropdown-item 
+                        v-if="isAdmin(user)"
+                        v-b-modal="'configuracion'">
+                            <i class="icon-config"></i>                   
+                            Configuracion
+                        </b-dropdown-item>
+                        <b-dropdown-item
+                        @click="logout">
+                            <i class="icon-sign-out"></i>
+                            Salir
+                        </b-dropdown-item>
+                    </b-nav-item-dropdown>
+                </div>
             </b-navbar-nav>
         </b-collapse>
     </b-navbar>
@@ -82,25 +91,39 @@
                     <i class="icon-sm icon-users"></i>
                     Empleados
                 </b-nav-item>
-                <b-nav-item-dropdown :text="user.name" right>
-                    <b-dropdown-item 
-                    :to="{name: 'Vender'}">
-                        <i class="icon-config"></i>                   
-                        Configuracion
-                    </b-dropdown-item>
-                    <b-dropdown-item
-                    @click="logout">
-                        <i class="icon-sign-out"></i>
-                        Salir
-                    </b-dropdown-item>
-                </b-nav-item-dropdown>
+
+                <b-nav-item 
+                class="nav-item-config"
+                @click="logout">
+                    Nombre del comercio
+                </b-nav-item>
+                <b-nav-item 
+                class="nav-item-config"
+                v-b-modal="'update-password'">
+                    Cambiar contraseña
+                </b-nav-item>
+                <b-nav-item 
+                class="nav-item-config"
+                @click="logout">
+                    Compartir app
+                </b-nav-item>
+                <b-nav-item 
+                class="nav-item-config"
+                @click="logout">
+                    <i class="icon-sign-out"></i>
+                    Salir
+                </b-nav-item>
             </b-nav>
         </nav>
     </b-sidebar>
 </div>
 </template>
 <script>
+import UpdatePassword from './config/UpdatePassword'
 export default {
+    components: {
+        UpdatePassword
+    },
 	computed: {
 		user() {
 			return this.$store.state.auth.user
@@ -113,7 +136,6 @@ export default {
         logout() {
 			this.$axios.post('/logout')
             .then(() => {
-                console.log('logout, ruta:'+this.$route.path)
                 this.$store.commit('auth/setAuthenticated', false)
                 this.$store.commit('auth/setUser', {})
                 this.$router.replace({name: 'Login'})
@@ -134,38 +156,34 @@ export default {
 }
 </script>
 <style lang="sass">
-.icon-bars
-    color: #333
-.navbar
-    -webkit-box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)
-    -moz-box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)
-    box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)
-.active-link 
-    font-weight: bold
-    color: rgb(0, 123, 255) !important
-    border-radius: 0px 0px 3px 3px
-    border-bottom: 4px solid rgb(0, 123, 255)
-
 #mobile-nav
+    .nav-item-config
+        a
+            color: #333
+            font-size: 1.1em
+            font-weight: bold
     .nav-link 
         text-align: left
         color: rgba(0, 123, 255, .6) 
         font-size: 1.3em
-.active-link-mobile
-    a
-        font-weight: bold
-        color: rgba(0, 123, 255, 1) !important
-    // background: rgba(0,0,0,.2)
+    .active-link-mobile
+        a
+            font-weight: bold
+            color: rgba(0, 123, 255, 1) !important
 
 .navbar
     position: relative
+    -webkit-box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)
+    -moz-box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)
+    box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)
     @media (min-width: 768px) 
         [class^='icon-sm']
             display: none
     button
         background: none
         border: none
-    #btn-menu 
+    .icon-bars
+        color: #333
         border: none
         background: none
         font-size: 1.4em
@@ -183,9 +201,9 @@ export default {
         .nav-items
             flex-direction: row
 
-        .nav-link-active 
+        .active-link 
             font-weight: bold
-            color: #007bff !important
+            // color: #007bff !important
             border-radius: 0px 0px 3px 3px
             border-bottom: 4px solid #007bff
     @media (max-width: 768px)

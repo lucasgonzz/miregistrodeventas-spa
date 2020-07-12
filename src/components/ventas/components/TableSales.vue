@@ -16,8 +16,8 @@
 							Fecha
 						</th>
 						<th scope="col">Hora</th>
-						<th scope="col">Cant. Artículos</th>
-						<th scope="col">Cant. Unidades</th>
+						<th scope="col" class="d-none d-md-table-cell">Cant. Artículos</th>
+						<th scope="col" class="d-none d-md-table-cell">Cant. Unidades</th>
 						<th scope="col" v-show="hasPermissionTo('article.index.cost', user)">Costo</th>
 						<th scope="col">Total</th>
 						<th>Cliente</th>
@@ -47,8 +47,10 @@
 							<i class="icon-clock-1"></i>
 							{{ hour(sale.created_at) }}
 						</td>
-						<td>{{ getCantidadArticulos(sale) }}</td>
-						<td>{{ getCantidadUnidades(sale) }}</td>
+						<td
+						class="d-none d-md-table-cell">{{ getCantidadArticulos(sale) }}</td>
+						<td
+						class="d-none d-md-table-cell">{{ getCantidadUnidades(sale) }}</td>
 						<th scope="row" v-show="hasPermissionTo('article.index.cost', user)">
 							{{ getCost(sale) }}
 						</th>

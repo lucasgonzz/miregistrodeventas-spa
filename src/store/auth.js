@@ -11,6 +11,9 @@ export default {
 	getters: {
 		authenticated(state) {
 			return state.authenticated
+		},
+		user(state) {
+			return state.user
 		}
 	},
 	mutations: {

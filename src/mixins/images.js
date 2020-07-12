@@ -1,7 +1,11 @@
 export default {
 	methods: {
 		imageUrl(article, user) {
-			let url = `http://localhost:8000/storage/articles/${user.id}/${this.getFirstImage(article)}`
+			let user_id = user.id
+			if (user.owner_id) {
+				user_id = user.owner_id
+			}
+			let url = `http://localhost:8000/storage/articles/${user_id}/${this.getFirstImage(article)}`
 			return url
 		},
 		getFirstImage(article) {

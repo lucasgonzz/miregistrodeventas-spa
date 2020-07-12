@@ -94,6 +94,7 @@ export default {
 .sale-time-hour
 	font-size: .7em
 
+
 .nav-tabs
 	border-bottom: 2px solid rgba(0,0,0,.4)
 .nav-item
@@ -113,7 +114,6 @@ export default {
 	a
 		font-weight: bold
 		color: #333
-
 ul
 	min-width: 100%
 	width: 800px

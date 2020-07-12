@@ -55,7 +55,7 @@
 					Debe {{ price(total - previus_sale.debt) }}
 				</button>
 			</div>
-			<div class="float-right m-l-5">
+			<div class="float-right m-l-5 d-none d-lg-block">
 				<b-dropdown split
 				@click="previusSale">
 					<template v-slot:button-content>
@@ -127,6 +127,13 @@ export default {
 }
 </script>
 <style scoped lang="sass">
+
+.col-12
+	@media screen and (max-width: 992px)
+		margin-bottom: 1em
+		&:last-child
+			margin-bottom: 0
+
 .col-total
 	display: flex
 	flex-direction: column

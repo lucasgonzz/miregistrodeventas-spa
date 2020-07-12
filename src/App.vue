@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+        <configuracion></configuracion>
         <div v-if="authenticated">
             <nav-component></nav-component>
         </div>  
@@ -12,10 +13,12 @@
 </template>
 <script>
 import NavComponent from './components/NavComponent'
+import Configuracion from './components/Configuracion'
 
 export default {
     components: {
         NavComponent,
+        Configuracion
     },
     computed: {
         authenticated() {
@@ -23,21 +26,15 @@ export default {
         }
     },
     created() {
-        console.log('se creo app')
-        this.$store.dispatch('auth/me')
-        .then(() => {
-            if (this.authenticated) {
-                if (this.$router.path == '/login') {
-                    console.log('Estaba en login')
-                    this.$router.replace({name: 'Ingresar'})
-                }
-            } else {
-                if (this.$route.path != '/login') {
-                    console.log('No staba en login')
-                    this.$router.replace({name: 'Login'})
-                }
+        if (this.authenticated) {
+            if (this.$router.path == '/login') {
+                this.$router.replace({name: 'Ingresar'})
             }
-        })
+        } else {
+            if (this.$route.path != '/login') {
+                this.$router.replace({name: 'Login'})
+            }
+        }
     }
 }
 </script>
