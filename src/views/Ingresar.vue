@@ -41,14 +41,17 @@
 					:categories="categories"
 					@setArticle="setArticle"></name>
 	
-					<cost-price :article="article"
-								:user="user"
-								:porcentage_for_price="porcentage_for_price"></cost-price>
+					<cost-price 
+					:article="article"
+					:user="user"
+					:porcentage_for_price="porcentage_for_price"></cost-price>
 
-					<stock-provider-category :article="article"
-									:user="user"
-									:providers="providers_options"
-									:categories="categories_options"></stock-provider-category>
+					<stock-provider-category 
+					:article="article"
+					:user="user"
+					:providers="providers_options"
+					:categories="categories_options"
+					@saveArticle="saveArticle"></stock-provider-category>
 				</b-card-body>
 				<template v-slot:footer>
 					<card-footer
@@ -295,7 +298,6 @@ export default {
 
 		// Articles
 		saveArticle() {
-			console.log('guardando')
 			var ok = true
 			if ( ok ) {
 				this.guardando = true

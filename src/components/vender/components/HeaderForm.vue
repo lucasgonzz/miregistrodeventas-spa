@@ -1,5 +1,5 @@
 <template>
-<b-container fluid>
+<b-container fluid class="p-0">
 	<b-row class="m-0">
 		<b-col
 		class="col-bar-code"

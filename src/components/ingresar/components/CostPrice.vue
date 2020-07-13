@@ -19,6 +19,7 @@
 				<b-form-input
 				type="number"
 				id="article-price"
+				@keyup.enter="changeToStock"
 				placeholder="Ingresa el precio del producto"
 				v-model="article.price"
 				autocomplete="off"></b-form-input>
@@ -54,21 +55,11 @@ export default {
 	},
 	methods: {
 		changeToPrice() {
-			if (this.porcentage_for_price == 0) {
-				// $('#price').focus()
-			} else {
-				// $('#stock').focus()
-			}
+			console.log('cambiando a price')
+			document.getElementById('article-price').focus()
 		},
 		changeToStock() {
-			// $('#stock').focus()
-		},
-		changeFromPrice() {
-			if (this.article.online) {
-				// $('#online-price').focus()
-			} else {
-				// $('#stock').focus()
-			}
+			document.getElementById('article-stock').focus()
 		},
 		calculatePorcentageForPrice() {
 			if (this.porcentage_for_price != 0) {

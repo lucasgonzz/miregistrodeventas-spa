@@ -156,6 +156,7 @@ export default {
                 this.saving_client = false
                 this.new_client.name = ''
                 this.$toast.success('Cliente guardado correctamente')
+                this.getClients()
             })
             .catch(err => {
                 this.saving_client = true

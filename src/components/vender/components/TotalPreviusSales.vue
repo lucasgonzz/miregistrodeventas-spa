@@ -146,6 +146,10 @@ export default {
 	align-items: center
 	@media screen and (max-width: 992px)
 		justify-content: flex-end
+	.btn 
+		&:hover
+			background: #fff
+			color: #007bff
 .icon-credit-card 
 	font-size: 1.5rem
 

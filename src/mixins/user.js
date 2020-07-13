@@ -5,19 +5,6 @@ export default {
 		}
 	},
 	methods: {
-		redirect(user) {
-			if (user.owner_id) {
-				if (this.hasPermissionTo('sale.create', user)) {
-					return '/vender'
-				} else if (this.hasPermissionTo('article.create', user)) {
-					return '/ingresar'
-				} else if (this.hasPermissionTo('article.index', user)) {
-					return 'listado'
-				} 
-				return '/ventas'
-			} 
-			return '/vender'
-		},
 		isProvider(user) {
 			var is_provider = false
 			if (user.roles) {

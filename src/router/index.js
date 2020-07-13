@@ -6,14 +6,12 @@ import Ingresar from '../views/Ingresar.vue'
 import Listado from '../views/Listado.vue'
 import Ventas from '../views/Ventas.vue'
 import Empleados from '../views/Empleados.vue'
-import user from '@/mixins/user'
+// import user from '@/mixins/user'
 import store from '@/store'
 
 function hasPermissionTo(permission_slug) {
     let user = store.getters['auth/user']
     let has_permission = false
-    console.log('roles para el guard:')
-    console.log(user.roles)
     user.roles.forEach(rol => {
         if (rol.slug == 'owner') {
             has_permission = true
@@ -28,13 +26,25 @@ function hasPermissionTo(permission_slug) {
     }
     return has_permission
 }
-
 Vue.use(VueRouter)
 
     const routes = [
     {
         path: '/',
-        redirect: user.methods.redirect(store.state.auth.user)
+        redirect: () => {
+            let route
+            if (hasPermissionTo('sale.create')) {
+                route = '/vender'
+            } else if (hasPermissionTo('article.create')) {
+                route = '/ingresar'
+            } else if (hasPermissionTo('article.index')) {
+                route = '/listado'
+            } else {
+                route = '/ventas'
+            }
+            console.log('ruta: '+route)
+            return route
+        }
     },
     {
         path: '/login',
@@ -42,6 +52,7 @@ Vue.use(VueRouter)
         component: Login,
         beforeEnter: (from, to, next) => {
             if (store.getters['auth/authenticated']) {
+                console.log('redirigido desde login')
                 next('/')
             } else {
                 next()

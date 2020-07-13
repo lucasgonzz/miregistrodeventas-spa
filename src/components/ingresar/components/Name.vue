@@ -65,14 +65,21 @@ export default {
 			return article.name
 		},
 		setArticle(article) {
-			this.$api.get(`articles/${article.id}`)
-			.then(res => {
-				this.$emit('setArticle', res.data)
-				this.$bvModal.show('edit-article')
-			})
-			.catch(err => {
-				console.log(err)
-			})
+			if (article) {
+				console.log('articulo seleccionado de la lista')
+				this.$api.get(`articles/${article.id}`)
+				.then(res => {
+					this.$emit('setArticle', res.data)
+					this.$bvModal.show('edit-article')
+				})
+				.catch(err => {
+					console.log(err)
+				})
+			} else {
+				let input = document.getElementsByClassName('autocomplete-input')[0]
+				this.article.name = input.value
+				document.getElementById('article-cost').focus()
+			}
 		},
 	},
 }

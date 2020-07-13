@@ -42,7 +42,7 @@ export default {
 			if (this.selected_articles.selected_articles.length == 1) {
 				return 'Se eliminara y no podrá volver a restaurarse'
 			} else {
-				return `'Se eliminaran y no podrán volver a restaurarse'`
+				return `Se eliminaran y no podrán volver a restaurarse`
 			}
 		}
 	},

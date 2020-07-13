@@ -22,6 +22,7 @@ export default {
 		},
 		setUser(state, value) {
 			state.user = value
+			console.log('se cargo el usuario desde setUser()')
 		}
 	},
 	actions: {
@@ -30,6 +31,7 @@ export default {
 			.then(res => {
 				commit('setAuthenticated', true)
 				commit('setUser', res.data)
+				console.log('se cargo el usuario desde me()')
 			})
 			.catch(() => {
 				commit('setAuthenticated', false)

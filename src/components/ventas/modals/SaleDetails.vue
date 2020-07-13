@@ -182,10 +182,10 @@ export default {
             }
         },
         price_with_card(article) {
-            return this.price(parseFloat(article.price) * parseFloat('1.' + this.sale.percentage_card))
+            return this.price(parseFloat(article.price) * this.percentageCardFormated(this.sale.percentage_card))
         },
         total_with_card(article) {
-            return this.price(parseFloat(article.price) * parseFloat('1.' + this.sale.percentage_card) * article.pivot.amount)
+            return this.price(parseFloat(article.price) * this.percentageCardFormated(this.sale.percentage_card) * article.pivot.amount)
         },
         getSubTotal(article) {
             var sub_total_price

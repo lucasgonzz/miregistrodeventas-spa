@@ -7,6 +7,7 @@
 				<b-form-input
 				id="article-stock"
 				type="number"
+				@keyup.enter="saveArticle"
 				placeholder="Ingresa la cantidad del producto"
 				v-model="article.stock"
 				autocomplete="off"></b-form-input>
@@ -61,8 +62,8 @@ export default {
 		}
 	},
 	methods: {
-		showCategories() {
-			this.$jQuery('#categories').modal('show')
+		saveArticle() {
+			this.$emit('saveArticle')
 		},
 	},
 }

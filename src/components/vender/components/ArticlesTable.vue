@@ -45,22 +45,20 @@
 								<span>
 									{{ article.amount }}
 								</span>
-								<!-- <input type="number" 
-										min="1"
-										class="form-control input-amount"
-										v-model="article.amount"> -->
 							</td>
 							<td v-else
 							class="d-none d-md-table-cell">
-								<input type="number" 
-										:id="'amount-measurement-'+article.id"
-										min="1"
-										class="form-control input-amount-measurement"
-										@keyup.enter="calculateTotal"
-										v-model="article.amount">
-								<select id="select-measurement" 
-										v-model="article.measurement"
-										class="form-control select-measurement">
+								<input 
+								type="number" 
+								:id="'amount-measurement-'+article.id"
+								min="1"
+								class="form-control input-amount-measurement m-r-5"
+								@keyup.enter="calculateTotal"
+								v-model="article.amount">
+								<select 
+								id="select-measurement" 
+								v-model="article.measurement"
+								class="form-control select-measurement m-r-5">
 									<option value="gramo">Gramo(s)</option>
 									<option value="kilo">Kilo(s)</option>	
 								</select>

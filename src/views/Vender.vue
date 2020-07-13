@@ -8,56 +8,58 @@
 		:percentage_card="percentage_card"
 		:updating_percentage_card="updating_percentage_card"
 		@updatePercentageCard="updatePercentageCard"></change-percentage-card>
-	<b-row class="justify-content-center">
-		<b-col
-		cols="12"
-		xl="8">
-			<b-card>
-				<template v-slot:header>
-					<header-form
-							:article="article"
-							:vendiendo="vendiendo"
-							:articles_length="articles.length"
-							:user="user"
-							@vender="vender"
-							@addArticle="addArticle"></header-form>
-				</template>
-				<div>
-					<b-container fluid>
-						<markers :article="article"
+	<b-container fluid>
+		<b-row class="justify-content-center">
+			<b-col
+			cols="12"
+			xl="8">
+				<b-card>
+					<template v-slot:header>
+						<header-form
+								:article="article"
+								:vendiendo="vendiendo"
+								:articles_length="articles.length"
 								:user="user"
-								@addArticle="addArticle"></markers>
+								@vender="vender"
+								@addArticle="addArticle"></header-form>
+					</template>
+					<div>
+						<b-container fluid>
+							<markers :article="article"
+									:user="user"
+									@addArticle="addArticle"></markers>
 
-						<total-previus-sales :total="total"
-											:cantidad_articulos="cantidad_articulos"
-											:cantidad_unidades="cantidad_unidades"
-											:sales_previus_next_index="sales_previus_next_index"
-											:loading_previus_sale="loading_previus_sale"
-											:loading_next_sale="loading_next_sale"
-											:updating_previus_sale="updating_previus_sale"
-											:previus_sale="previus_sale"
-											:user="user"
-											:percentage_card="percentage_card"
-											:with_card="with_card"
-											:loading_add_article="loading_add_article"
-											@changeWithCard="changeWithCard"
-											@nextSale="nextSale"
-											@previusSale="previusSale"
-											@updatePreviusSale="updatePreviusSale"
-											@cancelPreviusSale="cancelPreviusSale"></total-previus-sales>
-						<cargando 
-						:is_loading="loading_add_article" 
-						:is_loading_2="loading_previus_sale" 
-						:is_loading_3="loading_next_sale" 
-						size="md"></cargando>
-						<articles-table v-show="!loading_add_article && !loading_previus_sale && !loading_next_sale && articles.length"
-										:articles="articles"
-										@calculateTotal="calculateTotal"></articles-table>
-					</b-container>
-				</div>
-			</b-card>
-		</b-col>
-	</b-row>
+							<total-previus-sales :total="total"
+												:cantidad_articulos="cantidad_articulos"
+												:cantidad_unidades="cantidad_unidades"
+												:sales_previus_next_index="sales_previus_next_index"
+												:loading_previus_sale="loading_previus_sale"
+												:loading_next_sale="loading_next_sale"
+												:updating_previus_sale="updating_previus_sale"
+												:previus_sale="previus_sale"
+												:user="user"
+												:percentage_card="percentage_card"
+												:with_card="with_card"
+												:loading_add_article="loading_add_article"
+												@changeWithCard="changeWithCard"
+												@nextSale="nextSale"
+												@previusSale="previusSale"
+												@updatePreviusSale="updatePreviusSale"
+												@cancelPreviusSale="cancelPreviusSale"></total-previus-sales>
+							<cargando 
+							:is_loading="loading_add_article" 
+							:is_loading_2="loading_previus_sale" 
+							:is_loading_3="loading_next_sale" 
+							size="md"></cargando>
+							<articles-table v-show="!loading_add_article && !loading_previus_sale && !loading_next_sale && articles.length"
+											:articles="articles"
+											@calculateTotal="calculateTotal"></articles-table>
+						</b-container>
+					</div>
+				</b-card>
+			</b-col>
+		</b-row>
+	</b-container>
 </div>
 </template>
 <script>
@@ -118,8 +120,13 @@ export default {
 		user() {
 			return this.$store.state.auth.user
 		},
-		percentage_card() {
-			return this.user.percentage_card
+		percentage_card : {
+			set(percentage_card) {
+				this.user.percentage_card = percentage_card
+			},
+			get() {
+				return this.user.percentage_card
+			}
 		}
 	},
 	beforeRouteLeave(to, from, next) {
@@ -243,14 +250,13 @@ export default {
 			})
 		},
 
-		isRepeated() {
+		isRepeated(article_id) {
 			var repetido = false
 			this.articles.forEach(article => {
-				if (article.bar_code == this.article.bar_code || article.name == this.article.name) {
+				if (article.bar_code == this.article.bar_code || article.id == article_id) {
 					if (article.uncontable == 0) {
 						article.amount++
-						this.$toast.warning('El artículo ya esta en la venta, se aumento una unidad')
-						this.resetInputs()
+						this.$toast.success('El artículo ya esta en la venta, se aumento una unidad')
 						this.calculateTotal()
 						repetido = true
 						this.possible_articles = []
@@ -276,7 +282,7 @@ export default {
 		},
 		addArticle(article_id = 0) {
 			// Si article_id no es 0 es porque se busco por nombre
-			var repetido = this.isRepeated()
+			var repetido = this.isRepeated(article_id)
 			if (!repetido) {
 				this.loading_add_article = true
 				if (article_id != 0) {
@@ -370,24 +376,21 @@ export default {
 				}
 			})
 			if (this.with_card) {
-				var p = 0
 				var percentage_card = 0
 				if (this.previus_sale.percentage_card) {
-					percentage_card = Number(this.previus_sale.percentage_card)
+					percentage_card = this.percentageCardFormated(this.previus_sale.percentage_card)
 				} else {
-					percentage_card = Number(this.percentage_card)
+					percentage_card = this.percentageCardFormated(this.percentage_card)
 				}
-				console.log('porcentaje antes: '+percentage_card)
-				if (percentage_card < 10) {
-					p = Number('1.0'+this.percentage_card)
-				} else {
-					p = Number('1.'+this.percentage_card)
-				}
-				console.log('porcentaje: '+p)
-				this.total = this.total * p
+				this.total = this.total * percentage_card
 			}
 			this.article.bar_code = ''
 			this.article.name = ''
+			if (this.article.bar_code != '') {
+				document.getElementById('article-bar-code').focus()
+			} else {
+				document.getElementsByClassName('autocomplete-input')[0].focus()
+			}
 		},
 
 		// Metodo que llega del modal clientes

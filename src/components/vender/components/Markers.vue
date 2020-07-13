@@ -1,6 +1,6 @@
 <template>
 <div>
-	<b-row v-show="(markers.length || marker_groups.length)">
+	<b-row v-show="(markers.length || marker_groups.length) && !loading">
 		<b-col>
 			<b-card no-body>
 				<template v-slot:header>
@@ -43,17 +43,23 @@
 			</b-card>
 		</b-col>
 	</b-row>
+	<cargando :is_loading="loading" size="sm"></cargando>
 </div>
 </template>
 <script>
+import Cargando from '@/components/common/Cargando'
 export default {
 	props: ['article'],
+	components: {
+		Cargando
+	},
 	data() {
 		return {
 			show_markers_prices: true,
 
 			markers: [],
 			marker_groups: [],
+			loading: false
 		}
 	},
 	methods: {
@@ -70,21 +76,20 @@ export default {
 		getMarkers() {
 			this.$api.get('markers')
 			.then(res => {
-				// console.log('marcadores: ')
-				// console.log(res.data)
+				this.loading = false
 				this.markers = res.data
 			})
 			.catch(err => {
+				this.loading = false
 				console.log(err)
-				location.reload()
 			})
 		},
 		getMarkerGroups() {
+			this.loading = true
 			this.$api.get('marker-groups/only-with-markers')
 			.then(res => {
-				// console.log('grupo de marcadores: ')
-				// console.log(res.data)
 				this.marker_groups = res.data
+				this.getMarkers()
 			})
 			.catch(err => {
 				console.log(err)
@@ -93,7 +98,6 @@ export default {
 		},
 	},
 	created() {
-		this.getMarkers()
 		this.getMarkerGroups()
 	}
 }
