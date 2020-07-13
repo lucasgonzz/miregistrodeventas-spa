@@ -36,15 +36,12 @@
 	<update-by-porcentage 
 	@updateArticlesList="updateArticlesList"
 	:selected_articles="selected_articles"></update-by-porcentage>
-	<!-- <confirmar-eliminacion 
-	:article="article" 
-	@destroyArticle="destroyArticle"></confirmar-eliminacion> -->
 	<descargar-pdf 
 	:selected_articles="selected_articles.selected_articles"
 	:articles_id="selected_articles.articles_id"
 	:filtro="filtro"></descargar-pdf>
 	<print-tickets :selected_articles="selected_articles"></print-tickets>
-	<delete-articles }
+	<delete-articles 
 	:deleting_articles="deleting_articles"
 	:selected_articles="selected_articles"
 	@deleteArticles="deleteArticles"></delete-articles>
@@ -55,6 +52,7 @@
 	:filtro="filtro" 
 	:user="user" 
 	:providers="providers"
+	:categories="categories"
 	@uncheckProviders="uncheckProviders"
 	@filter="filter"></filtrar>
 	<b-row class="justify-content-center">
@@ -211,18 +209,18 @@ export default {
 
 			// Filtros
 			filtro: {
-				'mostrar': 'todos',
-				'ordenar': 'nuevos-viejos',
-				'precio_entre': {
-					'min': '',
-					'max': '',
+				mostrar: 'todos',
+				ordenar: 'nuevos-viejos',
+				precio_entre: {
+					min: '',
+					max: '',
 				},
-				'fecha_entre': {
-					'min': '',
-					'max': '',
+				fecha_entre: {
+					min: '',
+					max: '',
 				},
-				'provider': 0,
-				// 'providers': [],
+				provider: 0,
+				category: 0
 			},
 			is_filter: false,
 
@@ -648,7 +646,8 @@ export default {
 				ordenar: filtro.ordenar,
 				precio_entre: filtro.precio_entre,
 				fecha_entre: filtro.fecha_entre,
-				provider: filtro.provider
+				provider: filtro.provider,
+				category: filtro.category
 			})
 			.then( res => {
 				this.is_loading = false

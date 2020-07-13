@@ -64,6 +64,11 @@
                             <i class="icon-share"></i>
                             Compartir app
                         </b-dropdown-item>
+                        <b-dropdown-item 
+                        v-if="user.status == 'trial'"
+                        class="nav-item-config">
+                            La prueba expira el {{ date(user.expire) }}
+                        </b-dropdown-item>
                         <b-dropdown-item
                         @click="logout">
                             <i class="icon-sign-out"></i>
@@ -120,6 +125,11 @@
                 @click="logout">
                     <i class="icon-share"></i>
                     Compartir app
+                </b-nav-item>
+                <b-nav-item 
+                v-if="user.status == 'trial'"
+                class="nav-item-config">
+                    La prueba expira el {{ date(user.expire) }}
                 </b-nav-item>
                 <b-nav-item 
                 class="nav-item-config"

@@ -16,30 +16,26 @@
         <b-form-row v-show="!isProvider(user)">
             <b-col cols="12" class="m-b-10">
                 <b-form-group
-                label="Los que pertenecan a los siguientes proveedores"
+                label="Los que pertenecan al proveedor"
                 label-for="providers">
                     <b-form-select
                     id="providers"
                     v-model="filtro.provider"
                     :options="providers_options"></b-form-select>
                 </b-form-group>
-                <!-- <p class="m-b-10">Los que pertenecan a los siguientes proveedores</p>
-                <b-form-checkbox
-                v-for="provider in providers"
-                :key="provider.id"
-                v-model="filtro.providers"
-                :value="provider.name">
-                    {{ provider.name }}
-                </b-form-checkbox> -->
             </b-col>
-            <!-- <b-col cols="12">
-                <b-button
-                variant="secondary"
-                size="sm"
-                @click="uncheckProviders">
-                    Desmarcar todos
-                </b-button>
-            </b-col> -->
+        </b-form-row>
+        <b-form-row>
+            <b-col cols="12" class="m-b-10">
+                <b-form-group
+                label="Los que pertenecan a la categoría"
+                label-for="categories">
+                    <b-form-select
+                    id="categories"
+                    v-model="filtro.category"
+                    :options="categories_options"></b-form-select>
+                </b-form-group>
+            </b-col>
         </b-form-row>
         <b-form-row>
             <b-col>
@@ -87,13 +83,21 @@
 </template>
 <script>
 export default {
-    props: ['filtro', 'user', 'providers'],
+    props: ['filtro', 'user', 'providers', 'categories'],
     computed: {
         providers_options() {
             let options = []
             options.push({text: 'Seleccione un proveedor', value: 0})
             this.providers.forEach(provider => {
                 options.push({text: provider.name, value: provider.id})
+            })
+            return options
+        },
+        categories_options() {
+            let options = []
+            options.push({text: 'Seleccione una categpría', value: 0})
+            this.categories.forEach(category => {
+                options.push({text: category.name, value: category.id})
             })
             return options
         },
