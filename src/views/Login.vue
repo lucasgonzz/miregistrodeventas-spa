@@ -231,7 +231,6 @@ export default {
 							this.employee.commerce = ''
 							this.employee.name = ''
 							this.employee.password = ''
-							this.$jQuery('#employee-commerce').focus()
 							this.loading_employee_login = false
 						}
 					})
