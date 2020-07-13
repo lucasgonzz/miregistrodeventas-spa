@@ -25,7 +25,27 @@
 		<b-col
 		cols="12" 
 		lg="7">
-			<b-card header="Ingresar un nuevo producto" no-body>
+			<b-card no-body>
+				<template v-slot:header>
+					Ingresar un nuevo producto
+					<b-dropdown 
+					text="Agregar" 
+					size="sm"
+					right>
+						<b-dropdown-item
+						v-b-modal="'bar-codes'">
+							Código de barras
+						</b-dropdown-item>
+						<b-dropdown-item
+						v-b-modal="'providers'">
+							Proveedor
+						</b-dropdown-item>
+						<b-dropdown-item
+						v-b-modal="'categories'">
+							Categoria
+						</b-dropdown-item>
+					</b-dropdown>
+				</template>
 				<b-card-body>
 					<uncontable 
 					:article="article"></uncontable>
@@ -259,24 +279,24 @@ export default {
 			var ok = true
 			if (this.article.price == '') {
 				ok = false
-				// toastr.error('El campo precio es obligatorio')
-				this.$jQuery('#price').focus()
+				this.$toast.error('El campo precio es obligatorio')
+				document.getElementById('article-price').focus()
 			}
 			if (this.article.cost == '') {
 				ok = false
-				// toastr.error('El campo costo es obligatorio')
-				this.$jQuery('#cost').focus()
+				this.$toast.error('El campo costo es obligatorio')
+				document.getElementById('article-cost').focus()
 			}
 			if (this.article.name == '') {
 				ok = false
-				// toastr.error('El campo nombre es obligatorio')
-				this.$jQuery('#name').focus()
+				this.$toast.error('El campo nombre es obligatorio')
+				document.getElementById('article-name').focus()
 			}
 
 			// Controla que le codigo de barras no este registrado
 			if (this.bar_codes.includes(this.article.bar_code)) {
 				ok = false
-				// toastr.error('Ya hay un artículo con este codigo de barras')
+				this.$toast.error('Ya hay un artículo con este codigo de barras')
 			}
 
 			// Controla que si no tiene codigo de barras no haya otro
@@ -287,7 +307,7 @@ export default {
 						if (article.name.toLowerCase() == this.article.name.toLowerCase() && ok) {
 							if (article.bar_code === null) {
 								ok = false
-								// toastr.error('Ya hay un articulo con ese nombre y sin un codigo de barras, cambie el nombre o asignele un codigo de barras');
+								this.$toast.error('Ya hay un articulo con ese nombre y sin un codigo de barras, cambie el nombre o asignele un codigo de barras');
 							}
 						}
 					})
@@ -298,7 +318,7 @@ export default {
 
 		// Articles
 		saveArticle() {
-			var ok = true
+			var ok = this.validate()
 			if ( ok ) {
 				this.guardando = true
 				this.$api.post('articles', this.article)
@@ -372,37 +392,8 @@ export default {
 			this.article.stock = article.stock
 			this.article.stock_null = false
 		},
-		previus() {
-			this.previus_next++
-			this.loading_previus = true
-			this.$api.get('articles/previus-next/'+this.previus_next)
-			.then( res => {
-				this.loading_previus = false
-				this.setArticle(res.data)
-				this.$jQuery('#edit-article').modal('show')
-			})
-			.catch( err => {
-				this.loading_previus = false
-				console.log(err)
-			})
-		},
-		next() {
-			this.previus_next--
-			this.loading_next = true
-			this.$api.get('articles/previus-next/'+this.previus_next)
-			.then( res => {
-				this.loading_next = false
-				this.setArticle(res.data)
-				this.$jQuery('#edit-article').modal('show')
-			})
-			.catch( err => {
-				this.loading_next = false
-				console.log(err)
-			})
-		},
 		clearArticle() {
 			this.article.bar_code = ''
-			// this.article.category_id = 0
 			this.article.name = ''
 			this.article.cost = ''
 			this.article.price = ''
@@ -410,11 +401,12 @@ export default {
 			this.article.stock = 0
 			this.article.new_stock = 0
 			this.article.stock_null = false
+			this.article.provider = 0
+			this.article.category = 0
 			this.file = null
 			if (!this.remember_date) {
 				this.article.created_at = new Date().toISOString().slice(0,10)
 			}
-			// this.previus_next = 0
 		},
 
 		// Providers
@@ -501,6 +493,8 @@ export default {
 }
 </script>
 <style scoped lang="sass">
+.card-header
+	align-items: center
 .card-footer
 	padding: 0
 .spinner-anterior 

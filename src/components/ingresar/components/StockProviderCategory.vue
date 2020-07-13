@@ -1,5 +1,5 @@
 <template>
-	<b-row>
+	<b-row class="m-b-0">
 		<b-col lg="4">
 			<b-form-group
 			label="Cantidad"
@@ -32,24 +32,6 @@
 				v-model="article.category"
 				:options="categories"></b-form-select>
 			</b-form-group>
-		</b-col>
-		<b-col offset="4" class="j-start">
-			<b-button 
-			size="sm"
-			variant="secondary"
-			v-b-modal="'providers'">
-				<i class="icon-user"></i>
-				Proveedores
-			</b-button>
-		</b-col>
-		<b-col class="j-start">
-			<b-button 
-			size="sm"
-			variant="secondary"
-			v-b-modal="'categories'">
-				<i class="icon-user"></i>
-				Categorias
-			</b-button>
 		</b-col>
 	</b-row>
 </template>

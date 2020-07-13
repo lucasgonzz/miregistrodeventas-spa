@@ -1,6 +1,6 @@
 <template>
 	<b-form-row>
-		<b-col cols="12">
+		<b-col>
 			<b-form-group
 			label="Codigo de barras"
 			label-for="article-bar-code">
@@ -12,15 +12,6 @@
 				v-model="article.bar_code"
 				placeholder="Ingresa el codigo de barras del producto"></b-form-input>
 			</b-form-group>
-		</b-col>
-		<b-col cols="12" class="j-start">
-			<b-button
-			variant="secondary"
-			size="sm"
-			v-b-modal="'bar-codes'">
-				<i class="icon-barcode"></i>
-				Crear codigo
-			</b-button>
 		</b-col>
 	</b-form-row>
 </template>
