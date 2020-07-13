@@ -20,16 +20,16 @@
 							</div>
 						</th>
 						<th scope="col">Foto</th>
-						<th scope="col">Codigo</th>
+						<th scope="col" class="d-none d-md-table-cell">Codigo</th>
 						<th scope="col">Nombre</th>
 
 						<th scope="col" v-show="hasPermissionTo('article.index.cost', user)">
 							Costo
 						</th>
 						<th scope="col">Precio</th>
-						<th scope="col" class="td-stock">Stock</th>
-						<th scope="col" v-if="!isProvider(user)">Proveedor/es</th>
-						<th scope="col">Categoria</th>
+						<th scope="col" class="td-stock d-none d-md-table-cell">Stock</th>
+						<th scope="col" class="d-none d-md-table-cell" v-if="!isProvider(user)">Proveedor/es</th>
+						<th scope="col" class="d-none d-md-table-cell">Categoria</th>
 						<th scope="col">Opciones</th>
 					</tr>
 				</thead>
@@ -64,7 +64,7 @@
 								<i class="icon-plus"></i>
 							</button>
 						</td>
-						<td>
+						<td class="d-none d-md-table-cell">
 							{{ barCode(article) }}
 						</td>
 						<td>{{ article.name }}</td>
@@ -95,10 +95,10 @@
 								el  {{ article.measurement }}
 							</span>
 						</td>
-						<td class="td-stock">
+						<td class="td-stock d-none d-md-table-cell">
 							{{ stock(article) }}
 						</td>
-						<td v-if="!isProvider(user)">
+						<td v-if="!isProvider(user)" class="d-none d-md-table-cell">
 							<b-dropdown text="Proveedores">
 								<b-dropdown-item
 								v-for="provider in article.providers_not_repeated"
@@ -112,7 +112,7 @@
 								</b-dropdown-item>
 							</b-dropdown>
 						</td>
-						<td>
+						<td class="d-none d-md-table-cell">
 							{{ category(article) }}
 						</td>
 						<td class="td-options">

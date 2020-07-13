@@ -46,6 +46,9 @@ Vue.mixin(dates)
 import providers from './mixins/providers'
 Vue.mixin(providers)
 
+import BtnLoader from './components/common/BtnLoader'
+Vue.component('bnt-loader', BtnLoader)
+
 Vue.config.productionTip = false
 
 store.dispatch('auth/me')

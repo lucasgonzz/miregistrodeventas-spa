@@ -1,5 +1,5 @@
 <template>
-<b-modal id="add-image" :title="`Agregar foto para ${this.article.name}`">
+<b-modal id="add-image" :title="`Agregar foto para ${this.article.name}`" scrollable>
     <b-container fluid>
         <cargando :is_loading="loading" tam="sm"></cargando>
         <b-row v-show="!loading">
@@ -108,7 +108,7 @@ export default {
             })
         },
         imageUrl(image) {
-            return this.asset + 'storage/articles/' + this.user.id + '/' + image.url
+            return this.api_url + '/storage/articles/' + this.user.id + '/' + image.url
         },
         onFileChange(e) {
             this.file = e.target.files[0]

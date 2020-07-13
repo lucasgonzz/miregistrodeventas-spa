@@ -1,6 +1,7 @@
 <template>
 <div>
     <update-password></update-password>
+    <update-user :user="user"></update-user>
     <b-navbar toggleable="lg" class="">
         <b-navbar-brand>
             <strong>
@@ -18,40 +19,50 @@
                 <b-nav-item :to="{name: 'Vender'}"
                 v-if="hasPermissionTo('sale.create', user)"
                 :class="currentPage == '/vender' ? 'active-link' : ''">
-                    <i class="icon-sm icon-tag"></i>
                     Vender
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Ingresar'}"
                 v-if="hasPermissionTo('article.create', user)"
                 :class="currentPage == '/ingresar' ? 'active-link' : ''">
-                    <i class="icon-sm icon-plus"></i>
                     Ingresar
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Listado'}"
                 v-if="hasPermissionTo('article.index', user)"
                 :class="currentPage == '/listado' ? 'active-link' : ''">
-                    <i class="icon-sm icon-list-ol"></i>
                     Listado
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Ventas'}"
                 v-if="hasPermissionTo('sale.index', user)"
                 :class="currentPage == '/ventas' ? 'active-link' : ''">
-                    <i class="icon-sm icon-clipboard-3"></i>
                     Ventas
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Empleados'}"
                 v-if="isAdmin(user)"
                 :class="currentPage == '/empleados' ? 'active-link' : ''">
-                    <i class="icon-sm icon-users"></i>
                     Empleados
                 </b-nav-item>
                 <div>
                     <b-nav-item-dropdown :text="user.name" right>
+                            <b-dropdown-item 
+                        v-if="isAdmin(user)"
+                        class="nav-item-config"
+                        v-b-modal="'update-user'">
+                            <i class="icon-config"></i>
+                            Cambiar nombre
+                        </b-dropdown-item>
                         <b-dropdown-item 
                         v-if="isAdmin(user)"
-                        v-b-modal="'configuracion'">
-                            <i class="icon-config"></i>                   
-                            Configuracion
+                        class="nav-item-config"
+                        v-b-modal="'update-password'">
+                            <i class="icon-config"></i>
+                            Cambiar contraseña
+                        </b-dropdown-item>
+                        <b-dropdown-item 
+                        v-if="isAdmin(user)"
+                        class="nav-item-config"
+                        v-b-modal="'update-password'">
+                            <i class="icon-share"></i>
+                            Compartir app
                         </b-dropdown-item>
                         <b-dropdown-item
                         @click="logout">
@@ -68,43 +79,46 @@
             <b-nav vertical>
                 <b-nav-item :to="{name: 'Vender'}"
                 :class="currentPage == '/vender' ? 'active-link-mobile' : ''">
-                    <i class="icon-sm icon-tag"></i>
+                    <!-- <i class="icon-sm icon-tag"></i> -->
                     Vender
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Ingresar'}"
                 :class="currentPage == '/ingresar' ? 'active-link-mobile' : ''">
-                    <i class="icon-sm icon-plus"></i>
+                    <!-- <i class="icon-sm icon-plus"></i> -->
                     Ingresar
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Listado'}"
                 :class="currentPage == '/listado' ? 'active-link-mobile' : ''">
-                    <i class="icon-sm icon-list-ol"></i>
+                    <!-- <i class="icon-sm icon-list-ol"></i> -->
                     Listado
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Ventas'}"
                 :class="currentPage == '/ventas' ? 'active-link-mobile' : ''">
-                    <i class="icon-sm icon-clipboard-3"></i>
+                    <!-- <i class="icon-sm icon-clipboard-3"></i> -->
                     Ventas
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Empleados'}"
                 :class="currentPage == '/empleados' ? 'active-link-mobile' : ''">
-                    <i class="icon-sm icon-users"></i>
+                    <!-- <i class="icon-sm icon-users"></i> -->
                     Empleados
                 </b-nav-item>
 
                 <b-nav-item 
                 class="nav-item-config"
-                @click="logout">
-                    Nombre del comercio
+                v-b-modal="'update-user'">
+                    <i class="icon-config"></i>
+                    Cambiar nombre
                 </b-nav-item>
                 <b-nav-item 
                 class="nav-item-config"
                 v-b-modal="'update-password'">
+                    <i class="icon-config"></i>
                     Cambiar contraseña
                 </b-nav-item>
                 <b-nav-item 
                 class="nav-item-config"
                 @click="logout">
+                    <i class="icon-share"></i>
                     Compartir app
                 </b-nav-item>
                 <b-nav-item 
@@ -120,9 +134,11 @@
 </template>
 <script>
 import UpdatePassword from './config/UpdatePassword'
+import UpdateUser from './config/UpdateUser'
 export default {
     components: {
-        UpdatePassword
+        UpdatePassword,
+        UpdateUser
     },
 	computed: {
 		user() {
@@ -176,58 +192,29 @@ export default {
     -webkit-box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)
     -moz-box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)
     box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)
-    @media (min-width: 768px) 
-        [class^='icon-sm']
-            display: none
-    button
-        background: none
-        border: none
+    
+    @media (min-width: 992px)
+        padding-bottom: 0px
+        .navbar-brand
+            margin-top: -5px
+
     .icon-bars
         color: #333
         border: none
         background: none
         font-size: 1.4em
+
+    .active-link 
+        a
+            font-weight: bold
+            color: #007bff !important
+            border-radius: 0px 0px 3px 3px
+            border-bottom: 4px solid #007bff 
     .nav-link
         font-size: 1.2rem
-        color: rgba(#007bff, .7) !important
+        font-weight: bold
+        color: rgba(#007bff, .6) !important
         &:hover
             color: #007bff !important
 
-    .nav-items
-        display: flex
-        width: 100%
-    @media (min-width: 768px)
-        padding-bottom: 0px
-        .nav-items
-            flex-direction: row
-
-        .active-link 
-            font-weight: bold
-            // color: #007bff !important
-            border-radius: 0px 0px 3px 3px
-            border-bottom: 4px solid #007bff
-    @media (max-width: 768px)
-        height: 50px
-        align-items: center
-        .nav-items
-            flex-direction: column
-            position: fixed
-            background: rgba(0, 0, 0, .5)
-            width: 100%
-            height: calc(100vh - 50px)
-            top: 50px
-            left: -110%
-            z-index: 1000
-            .cont 
-                width: 80%
-                background: #FFF
-                height: calc(100vh - 50px)
-            .nav-item
-                padding-left: 1rem
-            .nav-link-active
-                font-weight: bold
-                color: #007bff !important
-        .nav-items-show
-            left: 0% 
-            transition: all .5s 
 </style>
