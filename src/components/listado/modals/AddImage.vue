@@ -1,7 +1,7 @@
 <template>
 <b-modal id="add-image" :title="`Agregar foto para ${this.article.name}`" scrollable>
     <b-container fluid>
-        <cargando :is_loading="loading" tam="sm"></cargando>
+        <cargando :is_loading="loading" tam="md"></cargando>
         <b-row v-show="!loading">
             <b-col cols="12">
                 <b-form-file
@@ -16,47 +16,16 @@
             </b-col>
             <b-col cols="12">
                 <!-- Carrusel -->
-                <div v-show="!loading" id="carrousel-article-images" class="carousel slide m-t-10" data-ride="carousel">
-                    <ol class="carousel-indicators">
-                        <li 
-                        v-for="(image, index) in article.images"
-                        :key="image.id" 
-                        data-target="#carrousel-article-images" 
-                        :data-slide-to="index" 
-                        :class="index == 0 ? 'active' : ''"></li>
-                    </ol>
-                    <div class="carousel-inner">
-                        <div 
-                        v-for="(image, index) in article.images" 
-                        :key="image.id"
-                        class="carousel-item"
-                        :class="index == 0 ? 'active' : ''">
-                            <img :src="imageUrl(image)" class="d-block w-100" :alt="article.name">
-                            <div class="carousel-caption d-none d-md-block">
-                                <button class="btn btn-danger btn-sm"
-                                        @click="deleteImage(image)">
-                                    <i class="icon-trash-3" v-show="!deleting_image"></i>
-                                    <span class="spinner-border spinner-border-sm" v-show="deleting_image"></span>
-                                    Eliminar
-                                </button>
-                                <button class="btn btn-success btn-sm"
-                                        @click="setFirstImage(image)">
-                                    <i class="icon-camera" v-show="!seting_first_image"></i>
-                                    <span class="spinner-border spinner-border-sm" v-show="seting_first_image"></span>
-                                    Principal
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <a class="carousel-control-prev" href="#carrousel-article-images" role="button" data-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Anterior</span>
-                    </a>
-                    <a class="carousel-control-next" href="#carrousel-article-images" role="button" data-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Siguiente</span>
-                    </a>
-                </div>
+                <b-carousel
+                v-show="!loading"
+                id="carousel"
+                controls
+                indicators>
+                    <b-carousel-slide
+                    v-for="image in article.images"
+                    :key="image.id"
+                    :img-src="imageUrl(image)"></b-carousel-slide>                    
+                </b-carousel>
             </b-col>
         </b-row>
     </b-container>
@@ -113,20 +82,14 @@ export default {
         onFileChange(e) {
             this.file = e.target.files[0]
             this.loading = true
-            const config = {
-                headers: {
-                    'content-type': 'multipart/form-data',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                }
-            }
             let formData = new FormData()
             formData.append('file', this.file)
 
-            this.$api.post('articles/image/'+this.article.id, formData, config)
+            this.$api.post('articles/image/'+this.article.id, formData)
             .then(res => {
                 console.log(res.data)
                 this.loading = false
-                this.$bvmodal.hide('add-image')
+                this.$bvModal.hide('add-image')
                 this.$toast.success('Foto añadida correctamente')
                 this.file = null
                 this.$emit('updateArticlesList')
@@ -141,6 +104,3 @@ export default {
     }
 }
 </script>
-<style scoped>
-
-</style>
