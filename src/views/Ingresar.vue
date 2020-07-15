@@ -395,6 +395,9 @@ export default {
 		clearArticle() {
 			this.article.bar_code = ''
 			this.article.name = ''
+			let input = document.getElementsByClassName('autocomplete-input')[0]
+			console.log('valor: '+input.value)
+			input.value = ""
 			this.article.cost = ''
 			this.article.price = ''
 			this.article.online_price = ''

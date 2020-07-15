@@ -9,7 +9,7 @@
 			id="article-bar-code"
 			v-model="article.bar_code"
 			autocomplete="off" 
-			@keyup.enter="addArticle"
+			@keyup.enter="addArticleFromBarCode"
 			placeholder="Ingrese el codigo de barras"></b-form-input>
 		</b-col>
 		<b-col
@@ -22,7 +22,7 @@
 			:get-result-value="getResultValue"
             auto-select
             placeholder="Buscar un artículo"
-            @submit="setArticleName"></autocomplete>
+            @submit="addArticleFromName"></autocomplete>
 		</b-col>
 		<b-col
 		class="col-buttons"
@@ -34,6 +34,7 @@
 			min="1"
 			id="article-amount"
 			v-model="article.amount"
+			@keydown.enter="addArticleFromAmount"
 			placeholder="Cantidad"></b-form-input>
 			<b-button-group
 			v-else>
@@ -95,37 +96,31 @@ export default {
                 return article.name.toLowerCase().startsWith(input.toLowerCase())
             })
         },
-        setArticleName(article) {
-            this.$emit('addArticle', article.id)
-			this.$refs.articleName.setValue('')
-        },
 		getResultValue(article) {
 			return article.name
 		},
-		addArticle() {
+		addArticleFromName(article) {
+			this.article.id = article.id
+			if (this.isProvider(this.user)) {
+				document.getElementById('article-amount').focus()
+			} else {
+				this.$emit('addArticle')
+				this.$refs.articleName.setValue('')
+			}
+		},
+		addArticleFromBarCode() {
 			if (this.isProvider(this.user)) {
 				document.getElementById('article-amount').focus()
 			} else {
 				this.$emit('addArticle')
 			}
 		},
-
+		addArticleFromAmount() {
+			this.$emit('addArticle')
+		},
 		vender() {
 			this.$emit('vender')
 		},
-
-		selectPossibleResult(result) {
-			let input = '#result-name'
-			if (result.bar_code === null) {
-				this.article.bar_code = ''
-				this.article.name = result.name
-			} else {
-				this.article.bar_code = result.bar_code
-				this.article.name = ''
-			}
-			this.addArticle(input)
-		},
-
 	},
 }
 </script>

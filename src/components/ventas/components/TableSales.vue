@@ -51,14 +51,14 @@
 						class="d-none d-md-table-cell">{{ getCantidadArticulos(sale) }}</td>
 						<td
 						class="d-none d-md-table-cell">{{ getCantidadUnidades(sale) }}</td>
-						<th scope="row" v-show="hasPermissionTo('article.index.cost', user)">
+						<td scope="row" v-show="hasPermissionTo('article.index.cost', user)">
 							{{ getCost(sale) }}
-						</th>
-						<th scope="row">
+						</td>
+						<td scope="row">
 							{{ getPrice(sale) }}
 							<i v-show="sale.percentage_card != null"
 								class="icon-credit-card text-primary card-icon"></i>
-						</th>
+						</td>
 						<td v-if="sale.client">
 							<strong v-if="sale.debt"
 									class="text-danger">

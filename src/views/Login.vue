@@ -193,6 +193,7 @@ export default {
 						password: this.commerce.password
 					})
 					.then(res => {
+						console.log(res)
 						if (res.data.login) {
 							this.loading_commerce_login = false
 							this.$store.commit('auth/setAuthenticated', true)

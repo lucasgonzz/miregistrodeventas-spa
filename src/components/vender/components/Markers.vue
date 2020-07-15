@@ -1,7 +1,7 @@
 <template>
 <div>
-	<b-row v-show="(markers.length || marker_groups.length) && !loading">
-		<b-col>
+	<b-row>
+		<b-col v-show="(markers.length || marker_groups.length) && !loading">
 			<b-card no-body>
 				<template v-slot:header>
 					Marcadores
@@ -42,16 +42,19 @@
 				</div>
 			</b-card>
 		</b-col>
+		<b-col v-show="loading">
+			<span class="text-primary">
+				<span class="spinner-border spinner-border-sm"></span>
+				Cargando marcadores
+			</span>
+		</b-col>
 	</b-row>
-	<cargando :is_loading="loading" size="sm"></cargando>
 </div>
 </template>
 <script>
-import Cargando from '@/components/common/Cargando'
 export default {
 	props: ['article'],
 	components: {
-		Cargando
 	},
 	data() {
 		return {

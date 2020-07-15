@@ -32,18 +32,22 @@ Vue.use(VueRouter)
     {
         path: '/',
         redirect: () => {
-            let route
-            if (hasPermissionTo('sale.create')) {
-                route = '/vender'
-            } else if (hasPermissionTo('article.create')) {
-                route = '/ingresar'
-            } else if (hasPermissionTo('article.index')) {
-                route = '/listado'
+            if (store.state.auth.authenticated) {
+                let route
+                if (hasPermissionTo('sale.create')) {
+                    route = '/vender'
+                } else if (hasPermissionTo('article.create')) {
+                    route = '/ingresar'
+                } else if (hasPermissionTo('article.index')) {
+                    route = '/listado'
+                } else {
+                    route = '/ventas'
+                }
+                console.log('ruta: '+route)
+                return route
             } else {
-                route = '/ventas'
+                return '/login'
             }
-            console.log('ruta: '+route)
-            return route
         }
     },
     {

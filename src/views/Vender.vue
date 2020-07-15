@@ -56,6 +56,9 @@
 											@calculateTotal="calculateTotal"></articles-table>
 						</b-container>
 					</div>
+					<template v-slot:footer v-if="isProvider(user)">
+						<card-footer></card-footer>
+					</template>
 				</b-card>
 			</b-col>
 		</b-row>
@@ -63,8 +66,6 @@
 </div>
 </template>
 <script>
-// import store from '@/store'
-// import userMixin from '@/mixins/user'
 
 import ArticleNotRegister from '../components/vender/modals/ArticleNotRegister.vue'
 import ChangePercentageCard from '../components/vender/modals/ChangePercentageCard.vue'
@@ -76,6 +77,7 @@ import HeaderForm from '../components/vender/components/HeaderForm.vue'
 import ArticlesTable from '../components/vender/components/ArticlesTable.vue'
 import Markers from '../components/vender/components/Markers.vue'
 import TotalPreviusSales from '../components/vender/components/TotalPreviusSales.vue'
+import CardFooter from '../components/vender/components/CardFooter.vue'
 export default {
 	components: {
 		ArticleNotRegister,
@@ -88,10 +90,12 @@ export default {
 		ArticlesTable,
 		Markers,
 		TotalPreviusSales,
+		CardFooter,
 	},
 	data() {
 		return {
 			article: {
+				id: null,
 				bar_code: '',
 				name: '',
 			},
@@ -250,10 +254,10 @@ export default {
 			})
 		},
 
-		isRepeated(article_id) {
+		isRepeated() {
 			var repetido = false
 			this.articles.forEach(article => {
-				if (article.bar_code == this.article.bar_code || article.id == article_id) {
+				if (article.bar_code == this.article.bar_code || article.id == this.article.id) {
 					if (article.uncontable == 0) {
 						article.amount++
 						this.$toast.success('El artículo ya esta en la venta, se aumento una unidad')
@@ -280,17 +284,21 @@ export default {
 			})
 			return available
 		},
-		addArticle(article_id = 0) {
-			// Si article_id no es 0 es porque se busco por nombre
-			var repetido = this.isRepeated(article_id)
+		addArticle() {
+			var repetido = this.isRepeated()
 			if (!repetido) {
 				this.loading_add_article = true
-				if (article_id != 0) {
-					this.$api.get(`articles/${article_id}`)
+				// Si el id del articulo no es null es porque se busco por nombre
+				if (this.article.id) {
+					this.$api.get(`articles/${this.article.id}`)
 					.then(res => {
 						this.loading_add_article = false
 						let article = res.data
-						article.amount = 1
+						if (this.isProvider(this.user)) {
+							article.amount = this.article.amount
+						} else {
+							article.amount = 1
+						}
 						this.articles.unshift(article)
 						if (article.uncontable == 1) {
 							article.measurement_original = article.measurement
@@ -313,7 +321,11 @@ export default {
 						this.loading_add_article = false
 						let article = res.data
 						if (article) {
-							article.amount = 1
+							if (this.isProvider(this.user)) {
+								article.amount = this.article.amount
+							} else {
+								article.amount = 1
+							}
 							this.articles.unshift(article)
 							if (article.uncontable == 1) {
 								article.measurement_original = article.measurement
@@ -350,25 +362,26 @@ export default {
 			this.articles.forEach(article => {
 				this.cantidad_articulos++
 				let price = parseFloat(article.price)
+				let amount = Number(article.amount)
 				if (article.uncontable == 0) {
-					this.total += price * article.amount
-					this.cantidad_unidades += article.amount
+					this.total += price * amount
+					this.cantidad_unidades += amount
 				} else {
 					this.cantidad_unidades++
 					if (article.measurement == article.measurement_original) {
-						this.total += price * parseFloat(article.amount)
+						this.total += price * amount
 					} else {
-						this.total += price * parseFloat(article.amount) / 1000
+						this.total += price * amount / 1000
 					}
 				}
 				if (article.stock) {
 					if (article.uncontable == 0) {
-						article.quedarian = article.stock - article.amount
+						article.quedarian = article.stock - amount
 					} else {
 						if (article.measurement == article.measurement_original) {
-							article.quedarian = article.stock - article.amount
+							article.quedarian = article.stock - amount
 						} else {
-							article.quedarian = article.stock - (article.amount / 1000)
+							article.quedarian = article.stock - (amount / 1000)
 						}
 					}
 				} else {
@@ -384,13 +397,17 @@ export default {
 				}
 				this.total = this.total * percentage_card
 			}
-			this.article.bar_code = ''
-			this.article.name = ''
+			let input_name = document.getElementsByClassName('autocomplete-input')[0]
+			input_name.value = ""
 			if (this.article.bar_code != '') {
 				document.getElementById('article-bar-code').focus()
 			} else {
-				document.getElementsByClassName('autocomplete-input')[0].focus()
+				input_name.focus()
 			}
+			this.article.bar_code = ''
+			this.article.name = ''
+			this.article.id = null
+			this.article.amount = ''
 		},
 
 		// Metodo que llega del modal clientes
@@ -442,7 +459,7 @@ export default {
 					this.cantidad_unidades = 0
 					this.with_card = false
 					this.$toast.success('Venta realizada correctamente')
-					document.getElementById('bar_code').focus()
+					document.getElementById('article-bar-code').focus()
 				})
 				.catch(err => {
 					console.log(err)
