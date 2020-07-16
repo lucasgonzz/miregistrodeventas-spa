@@ -15,6 +15,7 @@
 	<edit-article
 				:providers="providers"
 				:categories="categories"
+				:special_prices="special_prices"
 				:user="user"
 				:article="article"
 				:actualizando="actualizando"

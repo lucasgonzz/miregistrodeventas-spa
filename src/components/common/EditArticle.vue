@@ -49,6 +49,7 @@
 			<b-form-input
 			id="article-cost"
 			type="number"
+			min="0"
 			v-model="article.cost"></b-form-input>
 		</b-form-group>
 		<b-form-group
@@ -57,17 +58,24 @@
 			<b-form-input
 			id="article-price"
 			type="number"
+			min="0"
 			v-model="article.price"></b-form-input>
 		</b-form-group>
-		<b-form-group
-		v-if="canUse('online', user) && article.online == 1"
-		label="Precio online"
-		label-for="article-online-price">
-			<b-form-input
-			id="article-online-price"
-			type="number"
-			v-model="article.online_price"></b-form-input>
-		</b-form-group>
+		<!-- Precios especiales -->
+		<template v-if="special_prices.length">
+			<b-form-group
+			v-for="special_price in special_prices"
+			:key="special_price.id"
+			:label="`Precio ${special_price.name}`"
+			:label-for="`article-special-price-${special_price.id}`">
+				<b-form-input
+				:id="`article-special-price-${special_price.id}`"
+				type="number"
+				min="0"
+				v-model="article[special_price.name]"
+				:placeholder="`Ingresar precio para ${special_price.name}`"></b-form-input>
+			</b-form-group>
+		</template>
 		<b-form-group
 		v-show="article.previus_price"
 		label="Precio anterior"
@@ -148,7 +156,7 @@
 </template>
 <script>
 export default {
-	props: ['article', 'user', 'providers', 'categories', 'actualizando'],
+	props: ['article', 'user', 'providers', 'categories', 'actualizando', 'special_prices'],
 	data() {
 		return {
 			show_providers: false,

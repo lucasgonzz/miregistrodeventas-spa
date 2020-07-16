@@ -31,7 +31,7 @@
 							<th scope="col" 
 							v-for="special_price in special_prices"
 							:key="special_price.id">
-								Precio {{ special_price.name }}
+								{{ special_price.name }}
 							</th>
 						</template>
 						<th scope="col" class="td-stock d-none d-md-table-cell">Stock</th>

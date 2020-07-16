@@ -15,6 +15,7 @@
 	<edit-article 
 	:user="user" 
 	:article="article" 
+	:special_prices="special_prices"
 	:providers="providers" 
 	:categories="categories"
 	:actualizando="actualizando"
@@ -497,6 +498,7 @@ export default {
 			})
 		},
 		setArticle(article) {
+			this.clearArticle()
 			this.article.id = article.id
 			this.article.uncontable = article.uncontable
 			this.article.online = article.online
@@ -524,6 +526,13 @@ export default {
 			if (!this.isProvider(this.user)) {
 				this.article.provider_id = article.providers[0].id
 				this.article.providers = article.providers
+			}
+			if (this.special_prices.length) {
+				if (article.special_prices.length) {
+					article.special_prices.forEach(special_price => {
+						this.article[special_price.name] = special_price.pivot.price
+					})
+				}
 			}
 			this.article.created_at = article.created_at
 			this.article.updated_at = article.updated_at
@@ -564,7 +573,12 @@ export default {
 			this.article.stock = 0
 			this.article.new_stock = 0
 			if (!this.isProvider(this.user)) {
-				this.article.provider = this.article.providers[this.article.providers.length - 1].id
+				this.article.provider = 0
+			}
+			if (this.special_prices.length) {
+				this.special_prices.forEach(special_price => {
+					this.article[special_price.name] = ''
+				})
 			}
 			this.article.created_at = ''
 			this.previus_next = 0
