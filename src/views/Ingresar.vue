@@ -431,6 +431,11 @@ export default {
 			if (!this.remember_date) {
 				this.article.created_at = new Date().toISOString().slice(0,10)
 			}
+			if (this.special_prices.length) {
+				this.special_prices.forEach(special_price => {
+					this.article[special_price.name] = ''
+				})
+			}
 		},
 
 		// Providers

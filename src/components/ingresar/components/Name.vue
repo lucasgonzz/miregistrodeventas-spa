@@ -9,6 +9,7 @@
 				v-show="article.bar_code != ''"
 				type="text"
 				id="article-name"
+				@keydown.enter="changeToCost"
 				placeholder="Ingresa el nombre del producto"
 				autocomplete="off"
 				v-model="article.name"></b-form-input>
@@ -52,9 +53,6 @@ export default {
 				console.log(err)
 			})
 		},
-		changeToCost() {
-			// $('#cost').focus()
-		},
 		search(input) {
 			if (input.length < 1) { return [] }
 			return this.articles.filter(article => {
@@ -64,9 +62,11 @@ export default {
 		getResultValue(article) {
 			return article.name
 		},
+		changeToCost() {
+			document.getElementById('article-cost').focus()
+		},
 		setArticle(article) {
 			if (article) {
-				console.log('articulo seleccionado de la lista')
 				this.$api.get(`articles/${article.id}`)
 				.then(res => {
 					this.$emit('setArticle', res.data)

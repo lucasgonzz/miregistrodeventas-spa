@@ -85,16 +85,18 @@
 										:articles-length="articles.length">
 						</info-filtrados>
 
-						<articles-table :is_loading="is_loading"
-										:articles="articles"
-										:article="article"
-										:selected_articles="selected_articles"
-										:pagination="pagination"
-										:user="user"
-										@addImage="addImage"
-										@showImage="showImage"
-										@providersHistory="providersHistory"
-										@setArticle="setArticle"></articles-table>
+						<articles-table 
+						:is_loading="is_loading"
+						:articles="articles"
+						:article="article"
+						:selected_articles="selected_articles"
+						:pagination="pagination"
+						:user="user"
+						:special_prices="special_prices"
+						@addImage="addImage"
+						@showImage="showImage"
+						@providersHistory="providersHistory"
+						@setArticle="setArticle"></articles-table>
 					</div>
 				</b-container>
 			</b-card>
@@ -194,6 +196,9 @@ export default {
 
 			// Categorias
 			categories: [],
+
+			// Precios especiales
+			special_prices: [],
 
 			// Objeto para contuserar el seleccionados de articulos para 
 			// ser importados en pdf, exel y para imprimir los tickets
@@ -374,6 +379,15 @@ export default {
 				// Se pasa el nombre de la medida a español
 			})
 			.catch((err) => {
+				console.log(err)
+			})
+		},
+		getSpecialPrices() {
+			this.$api.get('special-prices')
+			.then(res => {
+				this.special_prices = res.data
+			})
+			.catch(err => {
 				console.log(err)
 			})
 		},
@@ -716,6 +730,7 @@ export default {
 		}
 		this.getMarkerGroups()
 		this.getCategories()
+		this.getSpecialPrices()
 	},
 	computed: {
 		user() {

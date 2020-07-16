@@ -27,6 +27,13 @@
 							Costo
 						</th>
 						<th scope="col">Precio</th>
+						<template v-if="special_prices.length">
+							<th scope="col" 
+							v-for="special_price in special_prices"
+							:key="special_price.id">
+								Precio {{ special_price.name }}
+							</th>
+						</template>
 						<th scope="col" class="td-stock d-none d-md-table-cell">Stock</th>
 						<th scope="col" class="d-none d-md-table-cell" v-if="!isProvider(user)">Proveedor/es</th>
 						<th scope="col" class="d-none d-md-table-cell">Categoria</th>
@@ -75,26 +82,26 @@
 							{{ price(article.cost) }}
 						</td>
 
-						<td v-if="article.offer_price"
-							class="td-price">
-							<i class="icon-sale-ticket ticket-price"></i>
-							<span v-show="article.uncontable == 0">
-								{{ price(article.offer_price) }}
-							</span>
-							<span v-show="article.uncontable == 1">
-								{{ price(article.offer_price) }} el  {{ article.measurement }}
-							</span>
-						</td>
-						<td 
-						v-else
-						class="td-price">
+						<td class="td-price">
 							<strong>
 								{{ price(article.price) }}
 							</strong>
 							<span v-show="article.uncontable == 1">
 								el  {{ article.measurement }}
 							</span>
-						</td>
+						</td> 
+						<template v-if="special_prices.length">
+							<td
+							v-for="(special_price, index) in special_prices"
+							:key="special_price.id">
+								<span v-if="article.special_prices[index]">
+									{{ article.special_prices[index].pivot.price }}
+								</span>
+								<span v-else>
+									No tiene
+								</span>
+							</td>
+						</template>
 						<td class="td-stock d-none d-md-table-cell">
 							{{ stock(article) }}
 						</td>
@@ -152,7 +159,7 @@
 </template>
 <script>
 export default {
-	props: ['is_loading', 'articles', 'article', 'selected_articles', 'pagination', 'user',],
+	props: ['is_loading', 'articles', 'article', 'selected_articles', 'pagination', 'user', 'special_prices'],
 	data() {
 		return {
 			loading_select_all_articles: false,

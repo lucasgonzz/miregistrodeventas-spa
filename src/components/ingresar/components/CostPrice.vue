@@ -39,7 +39,7 @@
 			</b-form-group>
 		</b-col>
 		<b-col v-show="special_prices.length"
-		v-for="special_price in special_prices"
+		v-for="(special_price, index) in special_prices"
 		:key="special_price.id">
 			<b-form-group
 			:label="`Precio ${special_price.name}`"
@@ -47,7 +47,8 @@
 				<b-form-input
 				type="number"
 				min="0"
-				:id="`article-price-${special_price.name}`"
+				@keydown.enter="changeFromSpecialPrice(index)"
+				:id="`article-special-price-${special_price.id}`"
 				v-model="article[special_price.name]"
 				:placeholder="`Ingrese el precio para ${special_price.name}`"></b-form-input>
 			</b-form-group>
@@ -76,7 +77,21 @@ export default {
 			document.getElementById('article-price').focus()
 		},
 		changeToStock() {
-			document.getElementById('article-stock').focus()
+			if (this.special_prices.length) {
+				let first_special_price = this.special_prices[0]
+				document.getElementById(`article-special-price-${first_special_price.id}`).focus()
+			} else {
+				document.getElementById('article-stock').focus()
+			}
+		},
+		changeFromSpecialPrice(index) {
+			index++
+			if (index == this.special_prices.length) {
+				document.getElementById('article-stock').focus()
+			} else {
+				let special_price = this.special_prices[index]
+				document.getElementById(`article-special-price-${special_price.id}`).focus()
+			}
 		},
 		calculatePorcentageForPrice() {
 			if (this.porcentage_for_price != 0) {
