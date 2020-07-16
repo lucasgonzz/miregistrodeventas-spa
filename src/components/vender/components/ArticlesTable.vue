@@ -18,26 +18,12 @@
 						v-for="article in articles"
 						:key="article.id">
 							<td v-if="article.uncontable == 1"
-								class="td-price">
-								<template v-if="article.offer_price"
-										class="text-danger">
-									<i class="icon-sale-ticket ticket-price"></i>
-									{{ price(article.offer_price) }} el {{ article.measurement }}
-								</template>
-								<template v-else>
-										{{ price(article.price) }} el {{ article.measurement_original }}
-								</template>
+							class="td-price">
+								{{ price(article.price) }} el {{ article.measurement_original }}
 							</td>
 							<td v-else
-								class="td-price">
-								<template v-if="article.offer_price"
-										class="text-danger">
-									<i class="icon-sale-ticket ticket-price"></i>
-									{{ price(article.offer_price) }}
-								</template>
-								<template v-else>
-									{{ price(article.price) }}
-								</template>
+							class="td-price">
+								{{ price(article.price) }}
 							</td>
 							<td>{{ article.name }}</td>
 							<td v-if="article.uncontable == 0"

@@ -6,9 +6,11 @@
 			label-for="article-cost">
 				<b-form-input
 				type="number"
+				min="0"
 				id="article-cost"
 				placeholder="Ingresa el costo del producto"
 				v-model="article.cost"
+				@keydown.enter="changeToPrice"
 				autocomplete="off"></b-form-input>
 			</b-form-group>
 		</b-col>
@@ -18,8 +20,9 @@
 			label-for="article-price">
 				<b-form-input
 				type="number"
+				min="0"
 				id="article-price"
-				@keyup.enter="changeToStock"
+				@keydown.enter="changeToStock"
 				placeholder="Ingresa el precio del producto"
 				v-model="article.price"
 				autocomplete="off"></b-form-input>
@@ -35,11 +38,25 @@
 				:options="[{text:'Kilo', value:'kilo'}, {text:'Gramo', value:'gramo'}]"></b-form-select>
 			</b-form-group>
 		</b-col>
+		<b-col v-show="special_prices.length"
+		v-for="special_price in special_prices"
+		:key="special_price.id">
+			<b-form-group
+			:label="`Precio ${special_price.name}`"
+			:label-for="`article-price-${special_price.name}`">
+				<b-form-input
+				type="number"
+				min="0"
+				:id="`article-price-${special_price.name}`"
+				v-model="article[special_price.name]"
+				:placeholder="`Ingrese el precio para ${special_price.name}`"></b-form-input>
+			</b-form-group>
+		</b-col>
 	</b-form-row>
 </template>
 <script>
 export default {
-	props: ['article', 'user', 'porcentage_for_price'],
+	props: ['article', 'user', 'porcentage_for_price', 'special_prices'],
 	data() {
 		return {
 

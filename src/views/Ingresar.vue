@@ -1,6 +1,9 @@
 <template>
 <div id="ingresar">
-	<take-photo :start_video="start_video"></take-photo>
+	<special-prices
+	:special_prices="special_prices"
+	:loading_special_prices="loading_special_prices"
+	@getSpecialPrices="getSpecialPrices"></special-prices>
 	<categories :categories="categories"
 				@getCategories="getCategories"
 				:article="article"></categories>
@@ -17,7 +20,6 @@
 				:actualizando="actualizando"
 				@clearArticle="clearArticle"
 				@updateArticle="updateArticle"></edit-article>
-	<porcentage-for-price @setPorcentageForPrice="setPorcentageForPrice"></porcentage-for-price>
 	<print-tickets :articles="articles"
 					:articles_id="articles_id_to_print"></print-tickets>
 	<bar-codes :article="article"></bar-codes>
@@ -44,6 +46,10 @@
 						v-b-modal="'categories'">
 							Categoria
 						</b-dropdown-item>
+						<b-dropdown-item
+						v-b-modal="'special-prices'">
+							Precio especial
+						</b-dropdown-item>
 					</b-dropdown>
 				</template>
 				<b-card-body>
@@ -64,6 +70,7 @@
 					<cost-price 
 					:article="article"
 					:user="user"
+					:special_prices="special_prices"
 					:porcentage_for_price="porcentage_for_price"></cost-price>
 
 					<stock-provider-category 
@@ -88,11 +95,10 @@
 // Modals
 import Providers from '../components/ingresar/modals/Providers.vue'
 import Categories from '../components/ingresar/modals/Categories.vue'
-import PorcentageForPrice from '../components/ingresar/modals/PorcentageForPrice.vue'
+import SpecialPrices from '../components/ingresar/modals/SpecialPrices.vue'
 import EditArticle from '../components/common/EditArticle.vue'
 import PrintTickets from '../components/ingresar/modals/PrintTickets.vue'
 import BarCodes from '../components/ingresar/modals/BarCodes.vue'
-import TakePhoto from '../components/ingresar/modals/TakePhoto.vue'
 
 // Components
 import Uncontable from '../components/ingresar/components/Uncontable.vue'
@@ -103,13 +109,12 @@ import StockProviderCategory from '../components/ingresar/components/StockProvid
 import CardFooter from '../components/ingresar/components/CardFooter.vue'
 export default {
 	components: {
-		PorcentageForPrice,
 		Providers,
 		Categories,
+		SpecialPrices,
 		EditArticle,
 		PrintTickets,
 		BarCodes,
-		TakePhoto,
 
 		Uncontable,
 		BarCode,
@@ -166,10 +171,9 @@ export default {
 			names: [],
 			generated_bar_codes: [],
 
-			// Previus articles
-			previus_next: 0,
-			loading_previus: false,
-			loading_next: false,
+			// Precios especiales
+			special_prices: [],
+			loading_special_prices: false,
 
 		}
 	},
@@ -183,6 +187,7 @@ export default {
 			this.getNames()
 			this.getBarCodes()
 			this.getGeneratedBarCodes()
+			this.getSpecialPrices()
 			if (!this.isProvider(this.user)) {
 				this.getProviders()
 			}
@@ -220,10 +225,17 @@ export default {
 				console.log(err)
 			})
 		},
-
-		setPorcentageForPrice(porcentage) {
-			this.porcentage_for_price = porcentage
-			this.$jQuery('#porcentage-for-price').modal('hide')
+		getSpecialPrices() {
+			this.loading_special_prices = true
+			this.$api.get('special-prices')
+			.then(res => {
+				this.loading_special_prices = false
+				this.special_prices = res.data
+			})
+			.catch(err => {
+				this.loading_special_prices = false
+				console.log(err)
+			})
 		},
 
 		// Codigos de barra
@@ -297,7 +309,11 @@ export default {
 				this.$toast.error("El nombre no puede contener una barra '/'")
 				document.getElementById('article-name').focus()
 			}
-
+			if (this.article.provider == 0) {
+				ok = false
+				this.$toast.error('Debe seleccionar un preveedor')
+				document.getElementById('article-provider').focus()
+			}
 			// Controla que le codigo de barras no este registrado
 			if (this.bar_codes.includes(this.article.bar_code)) {
 				ok = false
@@ -406,8 +422,8 @@ export default {
 			this.article.cost = ''
 			this.article.price = ''
 			this.article.online_price = ''
-			this.article.stock = 0
-			this.article.new_stock = 0
+			this.article.stock = ''
+			this.article.new_stock = ''
 			this.article.stock_null = false
 			this.article.provider = 0
 			this.article.category = 0

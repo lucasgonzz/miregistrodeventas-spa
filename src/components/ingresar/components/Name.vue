@@ -76,6 +76,7 @@ export default {
 					console.log(err)
 				})
 			} else {
+				console.log('entro')
 				let input = document.getElementsByClassName('autocomplete-input')[0]
 				this.article.name = input.value
 				document.getElementById('article-cost').focus()

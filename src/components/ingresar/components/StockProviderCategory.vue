@@ -7,7 +7,7 @@
 				<b-form-input
 				id="article-stock"
 				type="number"
-				@keyup.enter="saveArticle"
+				@keydown.enter="saveArticle"
 				placeholder="Ingresa la cantidad del producto"
 				v-model="article.stock"
 				autocomplete="off"></b-form-input>
