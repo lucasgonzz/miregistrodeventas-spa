@@ -397,7 +397,8 @@ export default {
 				}
 			}
 		},
-        // Obteine los horarios de ventas que tiene permitidos ver
+
+        // se fija si puede ver las ventas de cualquier horario
 		hasPermissionToShowAllSales() {
 			var has_permission = false
 			if (this.sales_times.length) {
@@ -421,11 +422,12 @@ export default {
 		hasPermissionToShowSaleTime(sale_time) {
 			var has_permission = false
 			if (this.user.roles) {
-				if (this.user.roles[0].slug == 'admin') {
-					has_permission = true
-				}
+				this.user.roles.forEach(rol => {
+					if (rol == 'owner') {
+						has_permission = true
+					}
+				})
 			}
-
 			if (!has_permission) {
 				this.user.permissions.forEach(permission => {
 					if (!has_permission) {
@@ -586,6 +588,7 @@ export default {
 			})
 		},
 		changeSaleTime(sale_time) {
+			console.log('changeSaleTime')
 			this.is_loading = true
 			var link = 'sales/from-sale-time/'
 			var horaInicio = moment(sale_time.from, 'h:mma')
@@ -626,7 +629,6 @@ export default {
 				this.is_loading = true
 				this.$api.get('sales')
 				.then(res => {
-					console.log(res.data)
 					this.is_from_only_one_date = false
 					this.is_loading = false
 					this.sales = res.data
@@ -651,27 +653,10 @@ export default {
 				this.selected_sales = []
 			}
 		},
-
-		// getIsDesktop() {
-		// 	this.$api.get('is-desktop')
-		// 	.then(res => {
-		// 		this.is_desktop = res.data.is_desktop
-		// 		if (this.is_desktop) {
-		// 			this.ventas_a_mostrar = 10
-		// 		} else {
-		// 			this.ventas_a_mostrar = 5
-		// 		}
-		// 		this.ventas_a_mostrar = 5
-		// 	})
-		// 	.catch(err => {
-		// 		console.log(err)
-		// 	})
-		// },
 	},
 	created() {
 		this.is_loading = true
 		this.getSalesTimes()
-		// this.getIsDesktop()
 	}
 }
 </script>

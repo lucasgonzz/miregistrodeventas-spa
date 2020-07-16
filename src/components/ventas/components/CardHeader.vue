@@ -72,6 +72,11 @@ export default {
 }
 </script>
 <style scoped lang="sass">
+.row
+	@media screen and (min-width: 992px)
+		margin-bottom: 10px
+	@media screen and (max-width: 992px)
+		margin-bottom: 0
 .col-12
 	@media screen and (max-width: 992px)
 		margin-bottom: 1.4em

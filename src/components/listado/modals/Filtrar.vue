@@ -95,7 +95,7 @@ export default {
         },
         categories_options() {
             let options = []
-            options.push({text: 'Seleccione una categpría', value: 0})
+            options.push({text: 'Seleccione una categoría', value: 0})
             this.categories.forEach(category => {
                 options.push({text: category.name, value: category.id})
             })

@@ -292,6 +292,11 @@ export default {
 				this.$toast.error('El campo nombre es obligatorio')
 				document.getElementById('article-name').focus()
 			}
+			if (this.article.name.includes('/')) {
+				ok = false
+				this.$toast.error("El nombre no puede contener una barra '/'")
+				document.getElementById('article-name').focus()
+			}
 
 			// Controla que le codigo de barras no este registrado
 			if (this.bar_codes.includes(this.article.bar_code)) {

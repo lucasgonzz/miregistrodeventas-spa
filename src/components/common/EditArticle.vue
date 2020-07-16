@@ -43,6 +43,7 @@
 
 		<!-- Costo y precio -->
 		<b-form-group
+		v-if="hasPermissionTo('article.index.cost', user)"
 		label="Costo"
 		label-for="article-cost">
 			<b-form-input
@@ -73,6 +74,7 @@
 		label-for="article-previus-price">
 			<b-form-input
 			id="article-previus-price"
+			disabled
 			type="number"
 			v-model="article.previus_price"></b-form-input>
 		</b-form-group>

@@ -189,7 +189,7 @@ export default {
 				this.csrf()
 				.then(() => {
 					this.$axios.post('login-owner', {
-						commerce: this.commerce.name,
+						company_name: this.commerce.name,
 						password: this.commerce.password
 					})
 					.then(res => {
