@@ -45,8 +45,8 @@
         </b-row>
         <b-row>
             <b-col>
-                <b-card header="Mis horarios" v-if="sales_times.length">
-                    <b-list-group>
+                <b-card header="Mis horarios">
+                    <b-list-group v-if="sales_times.length">
                         <b-list-group-item
                         v-for="sale_time in sales_times"
                         :key="sale_time.id">
@@ -54,6 +54,7 @@
                                 {{ sale_time.name }}
                                 <b-button 
                                 variant="danger"
+                                class="float-right"
                                 size="sm"
                                 @click="deleteSaleTime(sale_time)">
                                     <i v-show="!deleting_sale_time.includes(sale_time.id)"
@@ -67,10 +68,10 @@
                             </p>
                         </b-list-group-item>
                     </b-list-group>
+                    <p class="text-center m-0" v-else>
+                        No hay horarios de ventas ingresados aún
+                    </p>
                 </b-card>
-                <p class="text-center m-0" v-else>
-                    No hay horarios de ventas ingresados
-                </p>
             </b-col>
         </b-row>
     </b-container>

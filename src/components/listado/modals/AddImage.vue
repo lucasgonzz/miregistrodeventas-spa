@@ -24,7 +24,20 @@
                     <b-carousel-slide
                     v-for="image in article.images"
                     :key="image.id"
-                    :img-src="imageUrl(image)"></b-carousel-slide>                    
+                    :img-src="imageUrl(image)">
+                        <b-button
+                        variant="danger"
+                        @click="deleteImage(image)">
+                            <btn-loader :loading="deleting_image" icon="trash-3"></btn-loader>
+                            Eliminar
+                        </b-button>
+                        <!-- <b-button
+                        variant="success"
+                        @click="setFirstImage(image)">
+                            <btn-loader :loading="seting_first_image"></btn-loader>
+                            Imagen principal
+                        </b-button> -->
+                    </b-carousel-slide>                    
                 </b-carousel>
             </b-col>
         </b-row>
@@ -32,11 +45,13 @@
 </b-modal>
 </template>
 <script>
-import cargando from '../../common/Cargando'
+import Cargando from '../../common/Cargando'
+import BtnLoader from '../../common/BtnLoader'
 export default {
     props: ['article', 'user'],
     components: {
-        cargando
+        Cargando,
+        BtnLoader
     },
     data() {
         return {
@@ -54,7 +69,7 @@ export default {
                 this.deleting_image = false
                 this.$toast.success('Imagen eliminada correctamente')
                 this.$emit('updateArticlesList')
-                this.$bvmodal.hide('add-image')
+                this.$bvModal.hide('add-image')
             })
             .catch(err => {
                 this.deleting_image = false
