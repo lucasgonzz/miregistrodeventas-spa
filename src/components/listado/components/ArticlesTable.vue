@@ -92,14 +92,9 @@
 						</td> 
 						<template v-if="special_prices.length">
 							<td
-							v-for="(special_price, index) in special_prices"
+							v-for="special_price in special_prices"
 							:key="special_price.id">
-								<span v-if="article.special_prices[index]">
-									{{ article.special_prices[index].pivot.price }}
-								</span>
-								<span v-else>
-									No tiene
-								</span>
+								{{ getSpecialPrice(article, special_price) }}
 							</td>
 						</template>
 						<td class="td-stock d-none d-md-table-cell">
@@ -181,6 +176,23 @@ export default {
 				return 'No tiene'
 			}
 		},
+		getSpecialPrice(article, special_price_) {
+			if (article.special_prices.length) {
+				let s_price = 0
+				article.special_prices.forEach(special_price => {
+					if (special_price.pivot.special_price_id == special_price_.id && special_price.pivot.price) {
+						s_price = special_price
+					}
+				})
+				if (s_price != 0) {
+					return this.price(s_price.pivot.price)
+				} else {
+					return '-'
+				}
+			} else {
+				return '-'
+			}
+		},
 		stock(article) {
 			if (article.stock) {
 				if (article.uncontable == 0) {
@@ -193,7 +205,7 @@ export default {
 					return article.stock + ' ' + measurement
 				}
 			} else {
-				return 'No tiene'
+				return '-'
 			}
 		},
 		showAddMarker(article) {

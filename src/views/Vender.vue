@@ -1,68 +1,69 @@
 <template>
 <div id="vender">
-	<clients :total="total"
-			:vendiendo="vendiendo"
-			@vender_a_cliente="vender_a_cliente"></clients>
+	<clients 
+	:total="total"
+	:vendiendo="vendiendo"
+	@vender_a_cliente="vender_a_cliente"></clients>
 	<article-not-register @updateArticles="updateArticlesList"></article-not-register>
 	<change-percentage-card 
 		:percentage_card="percentage_card"
 		:updating_percentage_card="updating_percentage_card"
 		@updatePercentageCard="updatePercentageCard"></change-percentage-card>
-	<b-container fluid>
-		<b-row class="justify-content-center">
-			<b-col
-			cols="12"
-			xl="8">
-				<b-card>
-					<template v-slot:header>
-						<header-form
-								:article="article"
-								:vendiendo="vendiendo"
-								:articles_length="articles.length"
+	<b-row class="justify-content-center">
+		<b-col
+		cols="12"
+		xl="8">
+			<b-card>
+				<template v-slot:header>
+					<header-form
+							:article="article"
+							:vendiendo="vendiendo"
+							:articles_length="articles.length"
+							:user="user"
+							@vender="vender"
+							@addArticle="addArticle"></header-form>
+				</template>
+				<div>
+					<b-container fluid>
+						<markers :article="article"
 								:user="user"
-								@vender="vender"
-								@addArticle="addArticle"></header-form>
-					</template>
-					<div>
-						<b-container fluid>
-							<markers :article="article"
-									:user="user"
-									@addArticle="addArticle"></markers>
-
-							<total-previus-sales :total="total"
-												:cantidad_articulos="cantidad_articulos"
-												:cantidad_unidades="cantidad_unidades"
-												:sales_previus_next_index="sales_previus_next_index"
-												:loading_previus_sale="loading_previus_sale"
-												:loading_next_sale="loading_next_sale"
-												:updating_previus_sale="updating_previus_sale"
-												:previus_sale="previus_sale"
-												:user="user"
-												:percentage_card="percentage_card"
-												:with_card="with_card"
-												:loading_add_article="loading_add_article"
-												@changeWithCard="changeWithCard"
-												@nextSale="nextSale"
-												@previusSale="previusSale"
-												@updatePreviusSale="updatePreviusSale"
-												@cancelPreviusSale="cancelPreviusSale"></total-previus-sales>
-							<cargando 
-							:is_loading="loading_add_article" 
-							:is_loading_2="loading_previus_sale" 
-							:is_loading_3="loading_next_sale" 
-							size="md"></cargando>
-							<articles-table v-show="!loading_add_article && !loading_previus_sale && !loading_next_sale && articles.length"
-											:articles="articles"
-											@calculateTotal="calculateTotal"></articles-table>
-						</b-container>
-					</div>
-					<template v-slot:footer v-if="isProvider(user)">
-						<card-footer></card-footer>
-					</template>
-				</b-card>
-			</b-col>
-		</b-row>
-	</b-container>
+								@addArticle="addArticle"></markers>
+						<special-prices
+						:special_price="special_price"
+						@setSpecialPrice="setSpecialPrice"></special-prices>
+						<total-previus-sales :total="total"
+											:cantidad_articulos="cantidad_articulos"
+											:cantidad_unidades="cantidad_unidades"
+											:sales_previus_next_index="sales_previus_next_index"
+											:loading_previus_sale="loading_previus_sale"
+											:loading_next_sale="loading_next_sale"
+											:updating_previus_sale="updating_previus_sale"
+											:previus_sale="previus_sale"
+											:user="user"
+											:percentage_card="percentage_card"
+											:with_card="with_card"
+											:loading_add_article="loading_add_article"
+											@changeWithCard="changeWithCard"
+											@nextSale="nextSale"
+											@previusSale="previusSale"
+											@updatePreviusSale="updatePreviusSale"
+											@cancelPreviusSale="cancelPreviusSale"></total-previus-sales>
+						<cargando 
+						:is_loading="loading_add_article" 
+						:is_loading_2="loading_previus_sale" 
+						:is_loading_3="loading_next_sale" 
+						size="md"></cargando>
+						<articles-table v-show="!loading_add_article && !loading_previus_sale && !loading_next_sale && articles.length"
+										:articles="articles"
+										@calculateTotal="calculateTotal"></articles-table>
+					</b-container>
+				</div>
+				<template v-slot:footer v-if="isProvider(user)">
+					<card-footer></card-footer>
+				</template>
+			</b-card>
+		</b-col>
+	</b-row>
 </div>
 </template>
 <script>
@@ -74,6 +75,7 @@ import Clients from '../components/vender/modals/Clients.vue'
 // Componentes
 import Cargando from '../components/common/Cargando.vue'
 import HeaderForm from '../components/vender/components/HeaderForm.vue'
+import SpecialPrices from '../components/vender/components/SpecialPrices.vue'
 import ArticlesTable from '../components/vender/components/ArticlesTable.vue'
 import Markers from '../components/vender/components/Markers.vue'
 import TotalPreviusSales from '../components/vender/components/TotalPreviusSales.vue'
@@ -87,6 +89,7 @@ export default {
 		// Componentes
 		Cargando,
 		HeaderForm,
+		SpecialPrices,
 		ArticlesTable,
 		Markers,
 		TotalPreviusSales,
@@ -108,6 +111,9 @@ export default {
 			cantidad_unidades: 0,
 			with_card: false,
 			updating_percentage_card: false,
+
+			// Precios especiales
+			special_price: 0,
 
 			// PreviusSale
 			sales_previus_next_index: 0,
@@ -131,7 +137,10 @@ export default {
 			get() {
 				return this.user.percentage_card
 			}
-		}
+		},
+		special_prices() {
+			return this.$store.state.special_prices
+		},
 	},
 	beforeRouteLeave(to, from, next) {
 		if (this.articles.length) {
@@ -151,10 +160,12 @@ export default {
 		},
 		user() {
 			this.percentage_card = this.user.percentage_card
+		},
+		special_price() {
+			this.calculateTotal()
 		}
 	},
 	methods: {
-
 		// Metodos de total y previus sales
 		changeWithCard() {
 			if (this.with_card) {
@@ -361,7 +372,13 @@ export default {
 			this.cantidad_unidades = 0
 			this.articles.forEach(article => {
 				this.cantidad_articulos++
-				let price = parseFloat(article.price)
+				let price
+				if (this.special_price == 0) {
+					price = parseFloat(article.price)
+				} else {
+					price = this.getSpecialPrice(article)
+					console.log(`price llegado: ${price}`)
+				}
 				let amount = Number(article.amount)
 				if (article.uncontable == 0) {
 					this.total += price * amount
@@ -408,6 +425,22 @@ export default {
 			this.article.name = ''
 			this.article.id = null
 			this.article.amount = ''
+		},
+		getSpecialPrice(article) {
+			console.log(article)
+			let special_price = 0
+			article.special_prices.forEach(special_price => {
+				console.log(`Buscadno para ${this.special_price}`)
+				if (special_price.id == this.special_price) {
+					console.log(`Coincidio ${special_price.id} con ${this.special_price}`)
+					special_price = Number(special_price.pivot.price)
+				}
+			})
+			console.log(`retornando ${special_price}`)
+			return special_price
+		},
+		setSpecialPrice(special_price) {
+			this.special_price = special_price
 		},
 
 		// Metodo que llega del modal clientes

@@ -180,7 +180,7 @@ export default {
 			all_selected_articles: false,
 
 			// Marcadores
-			marker_groups: [],
+			// marker_groups: [],
 			saving_marker_in_marker_group: 0,
 			deleting_marker_group: 0,
 			deleting_marker: false,
@@ -197,9 +197,6 @@ export default {
 
 			// Categorias
 			categories: [],
-
-			// Precios especiales
-			special_prices: [],
 
 			// Objeto para contuserar el seleccionados de articulos para 
 			// ser importados en pdf, exel y para imprimir los tickets
@@ -380,15 +377,6 @@ export default {
 				// Se pasa el nombre de la medida a español
 			})
 			.catch((err) => {
-				console.log(err)
-			})
-		},
-		getSpecialPrices() {
-			this.$api.get('special-prices')
-			.then(res => {
-				this.special_prices = res.data
-			})
-			.catch(err => {
 				console.log(err)
 			})
 		},
@@ -742,13 +730,29 @@ export default {
 		if (!this.isProvider(this.user)) {
 			this.getProviders()
 		}
-		this.getMarkerGroups()
+
+		if (!this.markers_loaded) {
+			this.$store.dispatch('markers/getMarkers')
+			this.$store.dispatch('markers/getMarkerGroups')
+		} 
+		// this.getMarkerGroups()
 		this.getCategories()
-		this.getSpecialPrices()
 	},
 	computed: {
+		markers() {
+			return this.$store.state.markers.markers
+		},
+		marker_groups() {
+			return this.$store.state.markers.marker_groups
+		},
+		markers_loaded() {
+			return this.$store.state.markers.markers_loaded
+		},
 		user() {
 			return this.$store.state.auth.user
+		},
+		special_prices() {
+			return this.$store.state.special_prices
 		},
 		isActived: function(){
 			return this.pagination.current_page;

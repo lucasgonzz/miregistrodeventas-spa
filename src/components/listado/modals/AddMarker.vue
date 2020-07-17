@@ -103,7 +103,7 @@ export default {
 			})
 			.then(() => {
 				this.saving_marker_group = false
-				this.getMarkerGroups()
+				this.$store.dispatch('markers/getMarkerGroups')
 				this.$toast.success('Grupo de marcadores creado correctamente')
 				this.marker_group.name = ''
 			})
@@ -131,9 +131,6 @@ export default {
 			.catch(err => {
 				console.log(err)
 			})
-		},
-		getMarkerGroups() {
-			this.$emit('getMarkerGroups')
 		},
 	},
 }

@@ -59,15 +59,13 @@ export default {
 	data() {
 		return {
 			show_markers_prices: true,
-
-			markers: [],
-			marker_groups: [],
 			loading: false
 		}
 	},
 	methods: {
 		addMarker(marker) {
-			this.$emit('addArticle', marker.article.id)
+			this.article.id = marker.article.id
+			this.$emit('addArticle')
 		},
 		showMarkers() {
 			if (this.show_markers) {
@@ -76,32 +74,23 @@ export default {
 				this.show_markers = true
 			}
 		},
-		getMarkers() {
-			this.$api.get('markers')
-			.then(res => {
-				this.loading = false
-				this.markers = res.data
-			})
-			.catch(err => {
-				this.loading = false
-				console.log(err)
-			})
+	},
+	computed: {
+		markers() {
+			return this.$store.state.markers.markers
 		},
-		getMarkerGroups() {
-			this.loading = true
-			this.$api.get('marker-groups/only-with-markers')
-			.then(res => {
-				this.marker_groups = res.data
-				this.getMarkers()
-			})
-			.catch(err => {
-				console.log(err)
-				location.reload()
-			})
+		marker_groups() {
+			return this.$store.state.markers.marker_groups
 		},
+		markers_loaded() {
+			return this.$store.state.markers.markers_loaded
+		}
 	},
 	created() {
-		this.getMarkerGroups()
+		if (!this.markers_loaded) {
+			this.$store.dispatch('markers/getMarkers')
+			this.$store.dispatch('markers/getMarkerGroups')
+		} 
 	}
 }
 </script>

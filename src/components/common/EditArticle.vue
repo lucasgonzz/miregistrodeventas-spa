@@ -1,5 +1,5 @@
 <template>
-<b-modal id="edit-article" title="Editar artículo" scrollable>
+<b-modal id="edit-article" :title="`Editar ${this.article.name}`" scrollable>
 	<b-container fluid>
 		<b-form-group
 		label="Creado"

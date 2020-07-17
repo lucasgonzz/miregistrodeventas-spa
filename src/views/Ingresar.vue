@@ -2,8 +2,7 @@
 <div id="ingresar">
 	<special-prices
 	:special_prices="special_prices"
-	:loading_special_prices="loading_special_prices"
-	@getSpecialPrices="getSpecialPrices"></special-prices>
+	:loading_special_prices="loading_special_prices"></special-prices>
 	<categories :categories="categories"
 				@getCategories="getCategories"
 				:article="article"></categories>
@@ -173,7 +172,6 @@ export default {
 			generated_bar_codes: [],
 
 			// Precios especiales
-			special_prices: [],
 			loading_special_prices: false,
 
 		}
@@ -181,6 +179,9 @@ export default {
 	computed: {
 		user() {
 			return this.$store.state.auth.user
+		},
+		special_prices() {
+			return this.$store.state.special_prices
 		}
 	},
 	created() {
@@ -188,7 +189,6 @@ export default {
 			this.getNames()
 			this.getBarCodes()
 			this.getGeneratedBarCodes()
-			this.getSpecialPrices()
 			if (!this.isProvider(this.user)) {
 				this.getProviders()
 			}
@@ -223,18 +223,6 @@ export default {
 				this.bar_codes = res.data
 			})
 			.catch( err => {
-				console.log(err)
-			})
-		},
-		getSpecialPrices() {
-			this.loading_special_prices = true
-			this.$api.get('special-prices')
-			.then(res => {
-				this.loading_special_prices = false
-				this.special_prices = res.data
-			})
-			.catch(err => {
-				this.loading_special_prices = false
 				console.log(err)
 			})
 		},
@@ -376,7 +364,7 @@ export default {
 				this.bar_codes.push(article.bar_code)
 				this.names.push(article)
 				this.$toast.success('Artículo actualizado correctamente')
-				this.$bvModal.show('edit-article')
+				this.$bvModal.hide('edit-article')
 			})
 			.catch( err => {
 				this.$toast.error('Error al actualizar el artículo, revise sus datos e intentelo nuevamente por favor')
