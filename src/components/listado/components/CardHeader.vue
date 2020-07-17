@@ -118,38 +118,18 @@ export default {
 		// Components
 		Autocomplete
 	},
-	data() {
-		return {
-			search_query: '',
-			possible_articles: [],
-			loading_possible_articles: false,
-			without_possible_articles: false,
-			possible_artice_focus_id: 0, 
-
-			articles: [],
-		}
-	},
-	created() {
-		this.getArticlesForSearch()
-	},
 	computed: {
 		show_selected_articles_options() {
 			if (this.selected_articles.selected_articles.length) { 
 				return true 
 			}
 			return false
+		},
+		articles() {
+			return this.$store.state.articles.articles_names
 		}
 	},
 	methods: {
-		getArticlesForSearch() {
-			this.$api.get('articles/names')
-			.then(res => {
-				this.articles = res.data
-			})
-			.catch(err => {
-				console.log(err)
-			})
-		},
 		search(input) {
 			if (input.length < 1) { return [] }
 			return this.articles.filter(article => {

@@ -23,7 +23,7 @@
 							</td>
 							<td v-else
 							class="td-price">
-								{{ price(article.price) }}
+								{{ articlePrice(article) }}
 							</td>
 							<td>{{ article.name }}</td>
 							<td v-if="article.uncontable == 0"
@@ -88,8 +88,19 @@
 </template>
 <script>
 export default {
-	props: ['articles', 'is_desktop'],
+	props: ['articles', 'special_price_id'],
 	methods: {
+		articlePrice(article) {
+			if (this.special_price_id == 0) {
+				return this.price(article.price)
+			} else {
+				for (var i = article.special_prices.length - 1; i >= 0; i--) {
+					if (article.special_prices[i].pivot.special_price_id == this.special_price_id) {
+						return article.special_prices[i].pivot.price
+					}
+				}
+			}
+		},
 		up(article) {
 			article.amount++
 			this.$emit('calculateTotal')

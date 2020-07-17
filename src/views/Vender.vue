@@ -29,7 +29,6 @@
 								:user="user"
 								@addArticle="addArticle"></markers>
 						<special-prices
-						:special_price="special_price"
 						@setSpecialPrice="setSpecialPrice"></special-prices>
 						<total-previus-sales :total="total"
 											:cantidad_articulos="cantidad_articulos"
@@ -53,9 +52,14 @@
 						:is_loading_2="loading_previus_sale" 
 						:is_loading_3="loading_next_sale" 
 						size="md"></cargando>
-						<articles-table v-show="!loading_add_article && !loading_previus_sale && !loading_next_sale && articles.length"
-										:articles="articles"
-										@calculateTotal="calculateTotal"></articles-table>
+						<articles-table 
+						v-show="!loading_add_article 
+								&& !loading_previus_sale 
+								&& !loading_next_sale 
+								&& articles.length"
+						:articles="articles"
+						:special_price_id="special_price_id"
+						@calculateTotal="calculateTotal"></articles-table>
 					</b-container>
 				</div>
 				<template v-slot:footer v-if="isProvider(user)">
@@ -113,7 +117,7 @@ export default {
 			updating_percentage_card: false,
 
 			// Precios especiales
-			special_price: 0,
+			special_price_id: 0,
 
 			// PreviusSale
 			sales_previus_next_index: 0,
@@ -161,7 +165,7 @@ export default {
 		user() {
 			this.percentage_card = this.user.percentage_card
 		},
-		special_price() {
+		special_price_id() {
 			this.calculateTotal()
 		}
 	},
@@ -373,11 +377,10 @@ export default {
 			this.articles.forEach(article => {
 				this.cantidad_articulos++
 				let price
-				if (this.special_price == 0) {
+				if (this.special_price_id == 0) {
 					price = parseFloat(article.price)
 				} else {
 					price = this.getSpecialPrice(article)
-					console.log(`price llegado: ${price}`)
 				}
 				let amount = Number(article.amount)
 				if (article.uncontable == 0) {
@@ -427,20 +430,16 @@ export default {
 			this.article.amount = ''
 		},
 		getSpecialPrice(article) {
-			console.log(article)
-			let special_price = 0
+			let special_price_ = 0
 			article.special_prices.forEach(special_price => {
-				console.log(`Buscadno para ${this.special_price}`)
-				if (special_price.id == this.special_price) {
-					console.log(`Coincidio ${special_price.id} con ${this.special_price}`)
-					special_price = Number(special_price.pivot.price)
+				if (special_price.pivot.special_price_id == this.special_price_id) {
+					special_price_ = Number(special_price.pivot.price)
 				}
 			})
-			console.log(`retornando ${special_price}`)
-			return special_price
+			return special_price_
 		},
 		setSpecialPrice(special_price) {
-			this.special_price = special_price
+			this.special_price_id = special_price
 		},
 
 		// Metodo que llega del modal clientes
