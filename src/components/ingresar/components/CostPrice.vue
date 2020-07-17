@@ -43,6 +43,7 @@
 		:key="special_price.id">
 			<b-form-group
 			:label="`Precio ${special_price.name}`"
+			description="Si se deja vacio se completara con el precio normal"
 			:label-for="`article-price-${special_price.name}`">
 				<b-form-input
 				type="number"
