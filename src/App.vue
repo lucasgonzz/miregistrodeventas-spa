@@ -27,6 +27,7 @@ export default {
     },
     created() {
         this.$store.dispatch('getSpecialPrices')
+        this.$store.dispatch('articles/getArticlesNames')
         if (this.authenticated) {
             if (this.$router.path == '/login') {
                 this.$router.replace({name: 'Ingresar'})

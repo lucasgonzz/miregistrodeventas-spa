@@ -74,22 +74,14 @@ export default {
 	},
 	data() {
 		return {
-			articles: []
 		}
 	},
-	created() {
-		this.getArticles()
+	computed: {
+		articles() {
+			return this.$store.state.articles.articles_names
+		}
 	},
 	methods: {
-		getArticles() {
-			this.$api.get('articles/names')
-			.then(res => {
-				this.articles = res.data
-			})
-			.catch(err => {
-				console.log(err)
-			})
-		},
         search(input) {
             if (input.length < 1) { return [] }
             return this.articles.filter(article => {

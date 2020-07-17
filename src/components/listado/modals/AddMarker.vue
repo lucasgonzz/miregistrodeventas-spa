@@ -127,6 +127,7 @@ export default {
 				this.$bvModal.hide('add-marker')
 				this.$emit('updateArticlesList')
 				this.$toast.success('Marcador creado correctamente')
+				this.$store.dispatch('markers/getMarkers')
 			})
 			.catch(err => {
 				console.log(err)
