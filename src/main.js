@@ -45,7 +45,6 @@ Vue.use({
 
 import App from './App.vue'
 import './registerServiceWorker'
-console.log('antes de importar router')
 import router from './router'
 
 Vue.config.productionTip = false

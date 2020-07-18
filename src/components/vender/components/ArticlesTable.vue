@@ -23,7 +23,7 @@
 							</td>
 							<td v-else
 							class="td-price">
-								{{ articlePrice(article) }}
+								{{ price(article.price) }}
 							</td>
 							<td>{{ article.name }}</td>
 							<td v-if="article.uncontable == 0"
@@ -89,17 +89,31 @@
 <script>
 export default {
 	props: ['articles', 'special_price_id'],
+	watch: {
+		special_price_id() {
+			this.setArticlesPrice()
+		}
+	},
 	methods: {
-		articlePrice(article) {
-			if (this.special_price_id == 0) {
-				return this.price(article.price)
-			} else {
-				for (var i = article.special_prices.length - 1; i >= 0; i--) {
-					if (article.special_prices[i].pivot.special_price_id == this.special_price_id) {
-						return article.special_prices[i].pivot.price
+		// Se setea el precio especial del articulo para que ya le quede
+		// asignado en el objeto y se envie a salecontroller@store
+		setArticlesPrice() {
+			this.articles.forEach(article => {
+				if (this.special_price_id != 0) {
+					if (article.special_prices.length) {
+						article.special_prices.forEach(special_price => {
+							if (special_price.id == this.special_price_id) {
+								article.old_price = article.price
+								article.price = special_price.pivot.price
+							}
+						})
+					} else {
+						article.old_price = article.price
 					}
+				} else {
+					article.price = article.old_price
 				}
-			}
+			})
 		},
 		up(article) {
 			article.amount++

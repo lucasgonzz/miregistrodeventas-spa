@@ -23,6 +23,7 @@ export default new Vuex.Store({
 		getSpecialPrices({commit}) {
 			axios.get('/api/special-prices')
 			.then(res => {
+				console.log('se cargaron precios especiales')
 				commit('setSpecialPrices', res.data)
 			})
 			.catch(err => {

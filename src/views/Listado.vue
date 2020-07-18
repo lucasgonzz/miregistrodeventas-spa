@@ -345,9 +345,7 @@ export default {
 					this.articles = res.data
 					this.filterProviders()
 					this.setArticlesId()
-				} else {
-					this.$toast.error('No se encontraron artículos con ese criterio')
-				}
+				} 
 			})
 			.catch((err) => {
 				console.log(err)

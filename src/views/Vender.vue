@@ -378,7 +378,11 @@ export default {
 				this.cantidad_articulos++
 				let price
 				if (this.special_price_id == 0) {
-					price = parseFloat(article.price)
+					if (article.old_price) {
+						price = Number(article.old_price)
+					} else {
+						price = Number(article.price)
+					}
 				} else {
 					price = this.getSpecialPrice(article)
 				}
@@ -430,7 +434,7 @@ export default {
 			this.article.amount = ''
 		},
 		getSpecialPrice(article) {
-			let special_price_ = 0
+			let special_price_ = article.price
 			article.special_prices.forEach(special_price => {
 				if (special_price.pivot.special_price_id == this.special_price_id) {
 					special_price_ = Number(special_price.pivot.price)
@@ -451,6 +455,7 @@ export default {
 					with_card: this.with_card,
 					client_id: client_id,
 					debt: debt,
+					special_price_id: this.special_price_id
 				})
 				.then(() => {
 					this.$bvModal.hide('clients')
@@ -481,6 +486,7 @@ export default {
 					with_card: this.with_card,
 					client_id: -1,
 					debt: -1,
+					special_price_id: this.special_price_id
 				})
 				.then(res => {
 					this.vendiendo = false

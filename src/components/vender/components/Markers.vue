@@ -86,12 +86,12 @@ export default {
 			return this.$store.state.markers.markers_loaded
 		}
 	},
-	created() {
-		if (!this.markers_loaded) {
-			this.$store.dispatch('markers/getMarkers')
-			this.$store.dispatch('markers/getMarkerGroups')
-		} 
-	}
+	// created() {
+	// 	if (!this.markers_loaded) {
+	// 		this.$store.dispatch('markers/getMarkers')
+	// 		this.$store.dispatch('markers/getMarkerGroups')
+	// 	} 
+	// }
 }
 </script>
 <style scoped>

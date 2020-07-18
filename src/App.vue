@@ -25,10 +25,20 @@ export default {
             return this.$store.state.auth.authenticated
         }
     },
+    watch: {
+        authenticated() {
+            console.log('watch authenticated')
+            if (this.authenticated) {
+                console.log('esta logeado')
+                this.callMethods()
+            } else {
+                console.log('no esta logeado')
+            }
+        }
+    },
     created() {
-        this.$store.dispatch('getSpecialPrices')
-        this.$store.dispatch('articles/getArticlesNames')
         if (this.authenticated) {
+            this.callMethods()
             if (this.$router.path == '/login') {
                 this.$router.replace({name: 'Ingresar'})
             }
@@ -36,6 +46,15 @@ export default {
             if (this.$route.path != '/login') {
                 this.$router.replace({name: 'Login'})
             }
+        }
+    },
+    methods: {
+        callMethods() {
+            console.log('llamando metodos')
+            this.$store.dispatch('getSpecialPrices')
+            this.$store.dispatch('articles/getArticlesNames')
+            this.$store.dispatch('markers/getMarkers')
+            this.$store.dispatch('markers/getMarkerGroups')
         }
     }
 }
