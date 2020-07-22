@@ -1,61 +1,22 @@
 <template>
 <b-modal id="sale-details" title="Detalles de la venta" size="lg" hide-footer>
+    <!-- <template v-slot:modal-header>
+        <h5 class="modal-title">
+            Detalles de la venta
+        </h5>
+        <strong v-if="sale.client">
+            <i class="icon-user"></i>
+            {{ sale.client.name }}
+        </strong>
+        <strong v-if="sale.special_price">
+            <i class="icon-user"></i>
+            {{ sale.special_price.name }}
+        </strong>
+    </template> -->
     <b-container fluid>
-        <b-row v-if="sale.debt">
-            <b-col
-            class="j-start m-b-10"
-            cols="12">
-                <b-button-group>
-                    <b-button 
-                    variant="secondary">
-                        Total de la venta: <strong>{{ getPrice() }}</strong>
-                    </b-button>
-                    <b-button 
-                    variant="secondary">
-                        Lo que pago: <strong>{{ price(sale.debt) }}</strong>
-                    </b-button>
-                    <b-button 
-                    variant="danger">
-                        <strong>
-                            Lo que debe: {{ price(getPrice(false) - sale.debt) }}
-                        </strong>
-                    </b-button>
-                </b-button-group>
-            </b-col>
-            <b-col
-            class="j-start"
-            cols="12">
-                <div class="form-inline m-b-10">
-                    <button v-show="!pagar_deuda"
-                            class="btn btn-primary"
-                            @click="change_pagar_deuda">
-                        Cobrar deuda
-                    </button>
-                    <button v-show="pagar_deuda"
-                            @click="change_pagar_deuda"
-                            class="btn btn-secondary">
-                        Cancelar
-                    </button>
-                    
-                    <label class="m-l-10" v-show="pagar_deuda" for="a_pagar">   
-                        ¿Cuanto va a pagar?
-                    </label>
-                    <input v-show="pagar_deuda" 
-                            v-model="debt"
-                            @keyup.enter="pagarDeuda"
-                            type="number" id="a_pagar" 
-                            class="form-control m-l-10">
-                    <button v-show="pagar_deuda" 
-                            @click="pagarDeuda"
-                            class="btn btn-success m-l-10">
-                        <i class="icon-check" v-show="!cobrando_deuda"></i>
-                        <span v-show="cobrando_deuda"
-                                class="spinner-border spinner-border-sm"></span>
-                        Cobrar
-                    </button>
-                </div>
-            </b-col>
-        </b-row>
+        <cobrar-deuda 
+        :sale="sale"
+        @salesFromClient="salesFromClient"></cobrar-deuda>
         <b-row>
             <b-col>
                 <div class="table-responsive">                      
@@ -121,65 +82,20 @@
 </b-modal>
 </template>
 <script>
-import numeral from 'numeral'
+import CobrarDeuda from '../components/CobrarDeuda'
 export default {
     props: ['sale', 'user'],
+    components: {
+        CobrarDeuda
+    },
     data() {
         return {
             actual_prices: false,
-            pagar_deuda: false,
-            debt: 0,
-            cobrando_deuda: false,
         }
     },
     methods: {
-        change_pagar_deuda() {
-            this.debt = this.getPrice(false) - this.sale.debt
-            if (this.pagar_deuda) {
-                this.pagar_deuda = false
-            } else {
-                this.pagar_deuda = true
-            }
-        },
-        pagarDeuda() {
-            this.cobrando_deuda = true
-            this.$api.get('sales/pagar-deuda/'+this.sale.id+'/'+this.debt)
-            .then(() => {
-                this.cobrando_deuda = false
-                this.debt = 0
-                this.pagar_deuda = false
-                this.$toast.success('Deuda cobrada correctamente')
-                this.$emit('salesFromClient', this.sale.client)
-                this.$bvModal.hide('sale-details')
-            })
-            .catch(err => {
-                console.log(err)
-            })
-        },
-        getPrice(formated = true) {
-            if (this.sale.articles) {
-                var price = 0
-                this.sale.articles.forEach(article => {
-                    if (article.uncontable == 0) {
-                        price += parseFloat(article.price) * article.pivot.amount
-                    } else {
-                        if (article.pivot.measurement == article.measurement) {
-                            price += parseFloat(article.price) * article.pivot.amount
-                        } else {
-                            price += parseFloat(article.price) * article.pivot.amount / 1000
-                        }               
-                    }
-                })
-                if (this.sale.percentage_card) {
-                    var p = Number('1.'+parseInt(this.sale.percentage_card))
-                    price = price * p
-                }
-                if (formated) {
-                    return numeral(price).format('$0,0.00')
-                } else {
-                    return price
-                }
-            }
+        salesFromClient(client) {
+            this.$emit('salesFromClient', client)
         },
         price_with_card(article) {
             return this.price(parseFloat(article.price) * this.percentageCardFormated(this.sale.percentage_card))
@@ -191,7 +107,6 @@ export default {
             var sub_total_price
             if (article.uncontable == 1) {
                 if (article.pivot.measurement != article.measurement) {
-                    // console.log('diferente: '+article.name)
                     sub_total_price = parseFloat(article.pivot.price) * article.pivot.amount / 1000
                 } else {
                     sub_total_price = parseFloat(article.pivot.price) * article.pivot.amount
@@ -199,7 +114,6 @@ export default {
             } else {
                 sub_total_price = parseFloat(article.pivot.price) * article.pivot.amount
             }
-            // var sub_total = parseFloat(article.pivot.price) * article.pivot.amount
             return this.price(sub_total_price)
         },
         getSubTotalCost(article) {
@@ -219,13 +133,6 @@ export default {
             return 'No disponible'
         },
         generatePdf() {
-            // var link = 'sales/pdf/'+this.sale.id+
-            //             '/1/'+
-            //             '/'+ this.show_costs ? '1' : '0' +
-            //             '/'+ this.show_costs ? '1' : '0' +
-            //             '/1/'+
-            //             '/'+ this.show_costs ? '1' : '0' +
-            //             '/0'
             var link = 'sales/pdf/'+this.sale.id+
                         '/1'+
                         '/1'+

@@ -55,6 +55,8 @@ export default {
             this.$store.dispatch('articles/getArticlesNames')
             this.$store.dispatch('markers/getMarkers')
             this.$store.dispatch('markers/getMarkerGroups')
+            this.$store.dispatch('markers/getMarkerGroupsWithMarkers')
+            this.$store.dispatch('clients/getClients')
         }
     }
 }

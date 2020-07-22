@@ -12,7 +12,7 @@
 							@change="selectAllSales"></b-form-checkbox>
 						</th>
 						<th scope="col">Ver</th>
-						<th v-show="is_from_date || is_from_only_one_date || sales_from_client || show_date" scope="col">
+						<th v-show="is_from_date || sales_from_client || show_date" scope="col">
 							Fecha
 						</th>
 						<th scope="col">Hora</th>
@@ -28,11 +28,6 @@
 					:key="sale.id"
 						:class="selected_sales.selected_sales.includes(sale.id) ? 'bg-warning' : ''">
 						<td class="td-special-price">
-							<span
-							class="bg-success" 
-							v-if="sale.special_price">
-								{{ sale.special_price.name }}
-							</span>
 							<b-form-checkbox
 							:value="sale.id"
 							v-model="selected_sales.selected_sales"></b-form-checkbox>
@@ -44,7 +39,7 @@
 								<i class="icon-eye"></i>
 							</b-button>
 						</td>
-						<td v-show="is_from_date || is_from_only_one_date || sales_from_client || show_date">
+						<td v-show="is_from_date || sales_from_client || show_date">
 							<i class="icon-calendar"></i>
 							{{ date(sale.created_at) }}
 						</td>
@@ -57,10 +52,14 @@
 						<td
 						class="d-none d-md-table-cell">{{ getCantidadUnidades(sale) }}</td>
 						<td scope="row" v-show="hasPermissionTo('article.index.cost', user)">
-							{{ getCost(sale) }}
+							{{ getTotalCostSale(sale) }}
 						</td>
 						<td scope="row">
-							{{ getPrice(sale) }}
+							{{ getTotalSale(sale) }}
+							<b-badge v-if="sale.special_price"
+							class="bg-success">
+								{{ sale.special_price.name }}
+							</b-badge>
 							<i v-show="sale.percentage_card != null"
 								class="icon-credit-card text-primary card-icon"></i>
 						</td>
@@ -97,6 +96,8 @@
 </template>
 <script>
 import numeral from 'numeral'
+// Mixins
+import Sales from '@/mixins/sales'
 export default {
 	props: [
 		'showing_statistics',
@@ -106,6 +107,7 @@ export default {
 		'mostrar_entrego',
 		'show_date', 'user',
 		],
+	mixins: [Sales],
 	methods: {
 		getCantidadArticulos(sale) {
 			return sale.articles.length
@@ -157,10 +159,6 @@ export default {
 		getPrice(sale, formated = true) {
 			var price = 0
 			sale.articles.forEach(article => {
-				// if (sale.special_price) {
-				// 	price = this.getArticleSpecialPriceForSale(sale, article)
-				// }
-				
 				if (article.uncontable == 0) {
 					price += parseFloat(article.pivot.price) * article.pivot.amount
 				} else {
@@ -199,15 +197,5 @@ export default {
 	color: #0069d9
 	border: none
 	font-size: 1.4em
-.td-special-price
-	position: relative
-	span
-		position: absolute
-		left: 0
-		top: 0
-		color: #FFF
-		padding: .2em
-		border-radius: .4em
-		z-index: 10
 
 </style>

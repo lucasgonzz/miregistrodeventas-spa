@@ -85,15 +85,25 @@
 </template>
 <script>
 export default {
-	props: ['article', 'marker_groups', 'saving_marker_in_marker_group', 'deleting_marker_group'],
+	props: ['article'],
 	data() {
 		return {
 			saving_marker: false,
 			saving_marker_group: false,
 			marker_group: {
 				'name': ''
-			}
+			},
+
+			// Marcadores
+			saving_marker_in_marker_group: 0,
+			deleting_marker_group: 0,
+			deleting_marker: false,
 		}
+	},
+	computed: {
+		marker_groups() {
+			return this.$store.state.markers.marker_groups
+		},
 	},
 	methods: {
 		saveMarkerGroup() {
@@ -112,10 +122,26 @@ export default {
 			})
 		},
 		deleteMarkerGroup(marker_group) {
-			this.$emit('deleteMarkerGroup', marker_group.id)
+			this.deleting_marker_group = marker_group.id
+			this.$api.delete('marker-groups/'+marker_group.id)
+			.then(() => {
+				this.deleting_marker_group = 0
+				this.$store.dispatch('markers/getMarkerGroups')
+				this.$emit('updateArticlesList')
+				this.$toast.success('Grupo de marcadores eliminado correctamente')
+			})
 		},
 		addMarkerToGroup(marker_group) {
-			this.$emit('addMarkerToGroup', marker_group.id, this.article.id)
+			this.saving_marker_in_marker_group = marker_group.id
+			this.$api.get('marker-groups/add-marker-to-group/'+marker_group.id+'/'+this.article.id)
+			.then(() => {
+				this.$store.dispatch('markers/getMarkerGroups')
+				this.$store.dispatch('markers/getMarkerGroupsWithMarkers')
+				this.saving_marker_in_marker_group = 0
+				this.$emit('updateArticlesList')
+				this.$bvModal.hide('add-marker')
+				this.$toast.success('Marcador agregado correctamente')
+			})
 		},
 		addMarker() {
 			this.saving_marker = true

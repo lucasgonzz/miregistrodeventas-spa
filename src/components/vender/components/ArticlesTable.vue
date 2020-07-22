@@ -92,6 +92,9 @@ export default {
 	watch: {
 		special_price_id() {
 			this.setArticlesPrice()
+		},
+		articles() {
+			this.setArticlesPrice()
 		}
 	},
 	methods: {
@@ -99,19 +102,15 @@ export default {
 		// asignado en el objeto y se envie a salecontroller@store
 		setArticlesPrice() {
 			this.articles.forEach(article => {
+				article.price = article.original_price
 				if (this.special_price_id != 0) {
 					if (article.special_prices.length) {
 						article.special_prices.forEach(special_price => {
 							if (special_price.id == this.special_price_id) {
-								article.old_price = article.price
 								article.price = special_price.pivot.price
 							}
 						})
-					} else {
-						article.old_price = article.price
 					}
-				} else {
-					article.price = article.old_price
 				}
 			})
 		},

@@ -22,13 +22,7 @@
 	@updateArticle="updateArticle"
 	@clearArticle="clearArticle"></edit-article>
 	<add-marker 
-	@deleteMarkerGroup="deleteMarkerGroup"
-	@addMarkerToGroup="addMarkerToGroup"
-	@getMarkerGroups="getMarkerGroups"
 	@updateArticlesList="updateArticlesList"
-	:marker_groups="marker_groups"
-	:deleting_marker_group="deleting_marker_group"
-	:saving_marker_in_marker_group="saving_marker_in_marker_group"
 	:article="article"></add-marker>
 	<is-marker 
 	:article="article"
@@ -179,12 +173,6 @@ export default {
 			is_loading: false,
 			all_selected_articles: false,
 
-			// Marcadores
-			// marker_groups: [],
-			saving_marker_in_marker_group: 0,
-			deleting_marker_group: 0,
-			deleting_marker: false,
-
 			// Buscar
 			search_query: '',
 			possible_articles: [],
@@ -197,6 +185,9 @@ export default {
 
 			// Categorias
 			categories: [],
+
+			// Marcadores
+			deleting_marker: false,
 
 			// Objeto para contuserar el seleccionados de articulos para 
 			// ser importados en pdf, exel y para imprimir los tickets
@@ -436,43 +427,15 @@ export default {
 				this.updateArticlesList()
 				this.$bvModal.hide('is-marker')
 				this.$toast.success('Marcador eliminado correctamente')
-			})
-			.catch((err) => {
-				console.log(err)
-			})
-		},
-		addMarkerToGroup(marker_group_id, article_id) {
-			this.saving_marker_in_marker_group = marker_group_id
-			this.$api.get('marker-groups/add-marker-to-group/'+marker_group_id+'/'+article_id)
-			.then(() => {
-				this.saving_marker_in_marker_group = 0
-				this.updateArticlesList()
-				this.$bvModal.hide('add-marker')
-				this.$toast.success('Marcador agregado correctamente')
-				this.getMarkerGroups()
-			})
-		},
-
-		getMarkerGroups() {
-			this.$api.get('marker-groups')
-			.then(res => {
-				this.marker_groups = res.data
+				this.$store.dispatch('markers/getMarkers')
+				this.$store.dispatch('markers/getMarkerGroups')
+				this.$store.dispatch('markers/getMarkerGroupsWithMarkers')
 			})
 			.catch((err) => {
 				console.log(err)
 			})
 		},
 
-		deleteMarkerGroup(marker_group_id) {
-			this.deleting_marker_group = marker_group_id
-			this.$api.delete('marker-groups/'+marker_group_id)
-			.then(() => {
-				this.deleting_marker_group = 0
-				this.getMarkerGroups()
-				this.updateArticlesList()
-				this.$toast.success('Grupo de marcadores eliminado correctamente')
-			})
-		},
 		deleteOffer(article) {
 			this.$api.delete('articles/delete-offer/'+article.id)
 			.then(() => {
@@ -739,9 +702,6 @@ export default {
 	computed: {
 		markers() {
 			return this.$store.state.markers.markers
-		},
-		marker_groups() {
-			return this.$store.state.markers.marker_groups
 		},
 		markers_loaded() {
 			return this.$store.state.markers.markers_loaded

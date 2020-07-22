@@ -309,6 +309,7 @@ export default {
 					.then(res => {
 						this.loading_add_article = false
 						let article = res.data
+						article.original_price = article.price
 						if (this.isProvider(this.user)) {
 							article.amount = this.article.amount
 						} else {
@@ -336,6 +337,7 @@ export default {
 						this.loading_add_article = false
 						let article = res.data
 						if (article) {
+							article.original_price = article.price
 							if (this.isProvider(this.user)) {
 								article.amount = this.article.amount
 							} else {
@@ -378,11 +380,7 @@ export default {
 				this.cantidad_articulos++
 				let price
 				if (this.special_price_id == 0) {
-					if (article.old_price) {
-						price = Number(article.old_price)
-					} else {
-						price = Number(article.price)
-					}
+					price = Number(article.original_price)
 				} else {
 					price = this.getSpecialPrice(article)
 				}
@@ -434,7 +432,7 @@ export default {
 			this.article.amount = ''
 		},
 		getSpecialPrice(article) {
-			let special_price_ = article.price
+			let special_price_ = article.original_price
 			article.special_prices.forEach(special_price => {
 				if (special_price.pivot.special_price_id == this.special_price_id) {
 					special_price_ = Number(special_price.pivot.price)
@@ -466,7 +464,7 @@ export default {
 					this.cantidad_unidades = 0
 					this.with_card = false
 					this.$toast.success('Venta realizada correctamente')
-					document.getElementById('bar-code').focus()
+					document.getElementById('article-bar-code').focus()
 				})
 				.catch(err => {
 					console.log(err)

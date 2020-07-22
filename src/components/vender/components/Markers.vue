@@ -80,7 +80,7 @@ export default {
 			return this.$store.state.markers.markers
 		},
 		marker_groups() {
-			return this.$store.state.markers.marker_groups
+			return this.$store.state.markers.marker_groups_with_markers
 		},
 		markers_loaded() {
 			return this.$store.state.markers.markers_loaded

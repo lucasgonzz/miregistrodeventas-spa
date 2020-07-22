@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import auth from './auth'
 import markers from './markers'
 import articles from './articles'
+import clients from './clients'
 
 Vue.use(Vuex)
 
@@ -34,6 +35,7 @@ export default new Vuex.Store({
 	modules: {
 		auth,
 		markers,
-		articles
+		articles,
+		clients
 	}
 })

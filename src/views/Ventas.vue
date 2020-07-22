@@ -128,6 +128,7 @@ import SalesTimesNav from '../components/ventas/components/SalesTimesNav.vue'
 import TableSales from '../components/ventas/components/TableSales.vue'
 import Chart from '../components/ventas/components/Chart.vue'
 
+
 export default {
 	components: {
 		// Modals

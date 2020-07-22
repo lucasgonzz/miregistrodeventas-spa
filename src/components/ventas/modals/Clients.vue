@@ -26,13 +26,13 @@
                     </template>
                     <b-list-group>
                         <b-list-group-item
-                        v-for="client in clients"
-                        :key="client.id">
+                        v-for="(client, index) in clients"
+                        :key="'a'+client.id">
                             <b-form-group
                             label="Nombre"
-                            :label-for="`client-name-${client.id}`">
+                            :label-for="`client-name-${client.id}-${index}`">
                                 <b-form-input
-                                :id="`client-name-${client.id}`"
+                                :id="`client-name-${client.id}-${index}`"
                                 v-model="client.name"></b-form-input>
                             </b-form-group>
                             <b-button 
@@ -72,21 +72,31 @@ export default {
     data() {
         return {
             loading_clients: false,
+            clients: [],
             client_name_search: '',
             searching_possible_clients: false,
             updating_client: 0,
             without_clients: false,
-            clients: [],
             client_searched: false
         }
     },
+    computed: {
+        clients_() {
+            return this.$store.state.clients.clients
+        }
+    },
+    watch: {
+        clients_() {
+            this.clients = this.clients_
+        }
+    },
     created() {
-        this.getClients()
+        this.clients = this.clients_
     },
     methods: {
         backClients() {
             this.client_searched = false
-            this.getClients()
+            this.$store.dispatch('clients/getClients')
         },
         search(input) {
             if (input.length < 1) { return [] }
@@ -101,19 +111,6 @@ export default {
             this.client_searched = true
             this.clients = []
             this.clients.push(client)
-        },
-        getClients() {
-            console.log('se llamo')
-            this.loading_clients = true
-            this.$api.get('clients')
-            .then(res => {
-                this.loading_clients = false
-                this.clients = res.data
-            })
-            .catch(err => {
-                this.loading_clients = false
-                console.log(err)
-            })
         },
         updateClient(client) {
             this.updating_client = client.id

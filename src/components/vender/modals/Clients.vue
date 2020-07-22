@@ -74,6 +74,8 @@
                             placeholder="Nombre del nuevo cliente"
                             v-model="new_client.name"></b-form-input>
                         </b-form-group>
+                    </div>
+                    <template v-slot:footer>
                         <b-form-group>
                             <b-button 
                             variant="primary"
@@ -85,7 +87,7 @@
                                 Guardar cliente
                             </b-button>
                         </b-form-group>
-                    </div>
+                    </template>
                 </b-card>
             </b-col>
         </b-row>
@@ -108,11 +110,15 @@ export default {
             },
 
             client: null,
-            clients: [],
             without_debt: true,
             debt: -1,
 
             saving_client: false,
+        }
+    },
+    computed: {
+        clients() {
+            return this.$store.state.clients.clients
         }
     },
     watch: {
@@ -123,9 +129,6 @@ export default {
                 this.debt = 0
             }
         }
-    },
-    created() {
-        this.getClients()
     },
     methods: {
         search(input) {
@@ -140,13 +143,6 @@ export default {
         setClient(client) {
             this.client = client
         },
-        getClients() {
-            this.$api.get('clients')
-            .then(res => {
-                console.log(res.data)
-                this.clients = res.data
-            })
-        },
         saveClient() {
             this.saving_client = true
             this.$api.post('clients', {
@@ -156,7 +152,7 @@ export default {
                 this.saving_client = false
                 this.new_client.name = ''
                 this.$toast.success('Cliente guardado correctamente')
-                this.getClients()
+                this.$store.dispatch('clients/getClients')
             })
             .catch(err => {
                 this.saving_client = true
