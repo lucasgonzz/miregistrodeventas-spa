@@ -61,7 +61,7 @@ export default {
 					this.$router.replace('/')
 				} else {
 					this.loading_login_admin = false
-					this.$toast.error('Las credenciales no coinciden, intente denuevo, por favor')
+					this.$toast.error('Las credenciales no coinciden, intente de nuevo, por favor')
 					this.admin.name = ''
 					this.admin.password = ''
 					this.getElementById('admin-name').focus()

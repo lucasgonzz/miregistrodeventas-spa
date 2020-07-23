@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Admin from '../views/Admin.vue'
+import Super from '../views/Super.vue'
 import Vender from '../views/Vender.vue'
 import Ingresar from '../views/Ingresar.vue'
 import Listado from '../views/Listado.vue'
@@ -73,18 +74,30 @@ Vue.use(VueRouter)
         }
     },
     {
+        path: '/super',
+        name: 'Super',
+        component: Super,
+        beforeEnter: (from, to, next) => {
+            let user = store.getters['auth/user']
+            if (user.status == 'super') {
+                next()
+            } else {
+                next('/') 
+            }
+        }
+    },
+    {
         path: '/admin',
         name: 'Admin',
         component: Admin,
-        // beforeEnter: (from, to, next) => {
-        //     let user = store.getters['auth/user']
-        //     console.log(user)
-        //     if (user.status == 'admin') {
-        //         next()
-        //     } else {
-        //         next('/') 
-        //     }
-        // }
+        beforeEnter: (from, to, next) => {
+            let user = store.getters['auth/user']
+            if (user.status == 'admin') {
+                next()
+            } else {
+                next('/') 
+            }
+        }
     },
     {
         path: '/vender',
