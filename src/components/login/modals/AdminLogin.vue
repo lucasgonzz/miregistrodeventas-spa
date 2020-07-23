@@ -1,58 +1,43 @@
 <template>
-<div class="modal fade" id="admin-login">
-	<div class="modal-dialog modal-dialog-scrollable">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">
-					<strong>
-						<i class="icon-lock"></i>
-						Login Admin
-					</strong>
-				</h5>
-				<button class="close" data-dismiss="modal">
-					<i class="icon-cancel"></i>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="form-group">
-					<input type="text" 
-							id="admin-name"
-							v-model="admin.name"
-							class="form-control" 
-							placeholder="Nombre de administrador">
-				</div>
-				<div class="form-group">
-					<input type="password" 
-							v-model="admin.password"
-							class="form-control" 
-							@keyup.enter="loginAdmin"
-							placeholder="Contraseña de administrador">
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-secondary" data-dismiss="modal">
-					Cerrar
-				</button>
-				<button class="btn btn-primary"
-						@click="loginAdmin">
-					<span v-show="loading_login_admin" 
-						class="spinner-border spinner-border-sm"></span>
-					<i v-show="!loading_login_admin" 
-						class="icon-check"></i>
-					Login
-				</button>
-			</div>
-		</div>
-	</div>
-</div>
+<b-modal id="admin-login" title="Login admin">
+	<b-container fluid>
+		<b-row class="m-b-0">
+			<b-col>
+				<b-form-group>
+					<b-form-input
+					id="admin-name"
+					v-model="admin.name"
+					placeholder="Nombre"
+					@keydown.enter="loginAdmin"></b-form-input>
+				</b-form-group>
+				<b-form-group>
+					<b-form-input
+					id="admin-password"
+					type="password"
+					v-model="admin.password"
+					placeholder="Contraseña"
+					@keydown.enter="loginAdmin"></b-form-input>
+				</b-form-group>
+			</b-col>
+		</b-row>
+	</b-container>
+	<template v-slot:modal-footer>
+		<b-button
+		variant="primary"
+		@click="loginAdmin">
+			<btn-loader :loading="loading_login_admin"></btn-loader>
+			Ingresar
+		</b-button>
+	</template>
+</b-modal>
 </template>
 <script>
-// import toastr from 'toastr'
-import axios from 'axios'
-axios.defaults.withCredentials = true
-axios.defaults.baseURL = 'http://localhost:8000'
+import BtnLoader from '@/components/common/BtnLoader'
+
 export default {
-	props: [''],
+	components: {
+		BtnLoader
+	},
 	data() {
 		return {
 			admin: {
@@ -65,25 +50,21 @@ export default {
 	methods: {
 		loginAdmin() {
 			this.loading_login_admin = true
-			axios.post('/login-admin', {
+			this.$axios.post('/login-admin', {
 				name: this.admin.name,
 				password: this.admin.password,
 			})
 			.then(res => {
 				if (res.data.login) {
 					this.$store.commit('auth/setAuthenticated', true)
-					this.$store.commit('auth/setUser', res.data)
-					// if (res.data.super) {
-					// 	window.location.replace('super')
-					// } else {
-					// 	window.location.replace('admin')
-					// }
+					this.$store.commit('auth/setUser', res.data.user)
+					this.$router.replace('/')
 				} else {
 					this.loading_login_admin = false
-					// toastr.error('Las credenciales no coinciden, intente denuevo, por favor')
+					this.$toast.error('Las credenciales no coinciden, intente denuevo, por favor')
 					this.admin.name = ''
 					this.admin.password = ''
-					this.$jQuery('#admin-name').focus()
+					this.getElementById('admin-name').focus()
 				}
 			})
 			.catch(err => {
@@ -93,6 +74,3 @@ export default {
 	},
 }
 </script>
-<style scoped>
-	
-</style>

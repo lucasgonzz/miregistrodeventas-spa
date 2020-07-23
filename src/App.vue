@@ -23,6 +23,9 @@ export default {
     computed: {
         authenticated() {
             return this.$store.state.auth.authenticated
+        },
+        user() {
+            return this.$store.state.auth.user
         }
     },
     watch: {
@@ -38,9 +41,11 @@ export default {
     },
     created() {
         if (this.authenticated) {
-            this.callMethods()
-            if (this.$router.path == '/login') {
-                this.$router.replace({name: 'Ingresar'})
+            if (this.user.admin_id) {
+                this.callMethods()
+                if (this.$router.path == '/login') {
+                    this.$router.replace({name: 'Ingresar'})
+                }
             }
         } else {
             if (this.$route.path != '/login') {

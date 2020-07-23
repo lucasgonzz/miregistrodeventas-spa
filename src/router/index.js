@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
+import Admin from '../views/Admin.vue'
 import Vender from '../views/Vender.vue'
 import Ingresar from '../views/Ingresar.vue'
 import Listado from '../views/Listado.vue'
 import Ventas from '../views/Ventas.vue'
 import Empleados from '../views/Empleados.vue'
-// import user from '@/mixins/user'
 import store from '@/store'
 
 function hasPermissionTo(permission_slug) {
@@ -33,15 +33,24 @@ Vue.use(VueRouter)
         path: '/',
         redirect: () => {
             if (store.state.auth.authenticated) {
+                let user = store.getters['auth/user']
                 let route
-                if (hasPermissionTo('sale.create')) {
-                    route = '/vender'
-                } else if (hasPermissionTo('article.create')) {
-                    route = '/ingresar'
-                } else if (hasPermissionTo('article.index')) {
-                    route = '/listado'
+                if (user.admin_id) {
+                    if (hasPermissionTo('sale.create')) {
+                        route = '/vender'
+                    } else if (hasPermissionTo('article.create')) {
+                        route = '/ingresar'
+                    } else if (hasPermissionTo('article.index')) {
+                        route = '/listado'
+                    } else {
+                        route = '/ventas'
+                    }
                 } else {
-                    route = '/ventas'
+                    if (user.status == 'super') {
+                        route = '/super'
+                    } else {
+                        route = '/admin'
+                    }
                 }
                 console.log('ruta: '+route)
                 return route
@@ -62,6 +71,20 @@ Vue.use(VueRouter)
                 next()
             }
         }
+    },
+    {
+        path: '/admin',
+        name: 'Admin',
+        component: Admin,
+        // beforeEnter: (from, to, next) => {
+        //     let user = store.getters['auth/user']
+        //     console.log(user)
+        //     if (user.status == 'admin') {
+        //         next()
+        //     } else {
+        //         next('/') 
+        //     }
+        // }
     },
     {
         path: '/vender',

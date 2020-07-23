@@ -14,11 +14,13 @@
                             Ingresar
                         </strong>
                     </h1>
-                    <button class="btn btn-primary float-right"
-                            @click="showAdminLogin">
+                    <b-button
+                    variant="primary"
+                    class="float-right"
+                    v-b-modal="'admin-login'">
                         <i class="icon-lock"></i>
                         Administrador
-                    </button>
+                    </b-button>
 				</template>
 				<div>
 					<b-container fluid>
@@ -179,10 +181,6 @@ export default {
 		csrf() {
 			return this.$axios.get('/sanctum/csrf-cookie')
 		},
-        showAdminLogin() {
-            this.$jQuery('#admin-login').modal('show')
-            this.$jQuery('#admin-name').focus()
-        },
 		loginCommerce() {
 			if (this.commerce.name != '' && this.commerce.password != '') {
 				this.loading_commerce_login = true
