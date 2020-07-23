@@ -2,7 +2,7 @@
 	<b-row>
 		<b-col>
 			<b-card header="Comercios en uso">
-				<div class="table-responsive">
+				<div class="table-responsive" v-show="!loading_users">
 					<table class="table table-striped text-center">
 						<thead class="thead-dark">
 							<tr>
@@ -33,25 +33,34 @@
 						</tbody>
 					</table>
 				</div>
+				<cargando :is_loading="loading_users" size="sm"></cargando>
 			</b-card>
 		</b-col>
 	</b-row>
 </template>
 <script>
+import Cargando from '@/components/common/Cargando'
 export default {
+	components: {
+		Cargando
+	},
 	data() {
 		return {
 			users_in_use: [],
-			user: null
+			user: null,
+			loading_users: false
 		}
 	},
 	methods: {
 		getUsersInUse() {
+			this.loading_users = true
 			this.$api.get('admin/users/in-use')
 			.then(res => {
+				this.loading_users = false
 				this.users_in_use = res.data
 			})
 			.catch(err => {
+				this.loading_users = false
 				console.log(err)
 			})
 		},

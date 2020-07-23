@@ -557,7 +557,7 @@ export default {
 		onlyOneDate(date) {
 			this.only_one_date = date			
 			this.is_loading = true
-			if (this.hasPermissionToShowAllSales()) {
+			// if (this.hasPermissionToShowAllSales()) {
 				this.$bvModal.hide('from-date')
 				this.$api.get('sales/only-one-date/'+date)
 				.then(res => {
@@ -569,13 +569,16 @@ export default {
 					this.is_from_only_one_date = true
 					this.sale_time = 0
 					this.sales = res.data
+					if (!this.hasPermissionToShowAllSales()) {
+						this.changeSaleTimeAllowed()
+					}
 				})
 				.catch(err => {
 					console.log(err)
 				})
-			} else {
-				this.changeSaleTimeAllowed()
-			}
+			// } else {
+			// 	this.changeSaleTimeAllowed()
+			// }
 		},
 		changeSaleTimeAllowed() {
 			var permiso_encontrado = false

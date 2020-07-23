@@ -47,7 +47,7 @@
 									variant="danger"
 									size="sm"
 									@click="deleteProvider(provider)">
-										<i class="icon-trash-3" v-show="!deleting_provider"></i>
+										<i class="icon-trash-3" v-show="deleting_provider != provider.id"></i>
 										<span class="spinner-border spinner-border-sm" v-show="deleting_provider == provider.id"></span>
 										Eliminar
 									</b-button>	

@@ -564,26 +564,6 @@ export default {
 				console.log(err)
 			})
 		},
-		// updateArticlesList(cost, price, decimals) {
-		// 	this.updating_by_porcentage = true
-		// 	this.$api.post('articles/update-by-porcentage', {
-		// 		cost,
-		// 		price,
-		// 		decimals,
-		// 		articles_ids: this.selected_articles.selected_articles
-		// 	})
-		// 	.then(res => {
-		// 		this.updating_by_porcentage = false
-		// 		// console.log(res.data)
-		// 		this.updateArticlesList()
-		// 		$('#update-by-porcentage').modal('hide')
-		// 	})
-		// 	.catch(err => {
-		// 		this.$toast.error('Error al actualizar')
-		// 		this.updating_by_porcentage = false
-		// 		console.log(err)
-		// 	})
-		// },
 		deleteArticles() {
 			this.deleting_articles = true
 			this.$api.delete('articles/delete-articles/'+this.selected_articles.selected_articles.join('-'))

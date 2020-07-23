@@ -39,7 +39,7 @@
 				</span>
 			</b-button>
 			<b-button
-			v-show="total_cost != 0"
+			v-show="total_cost != 0 && hasPermissionTo('article.index.cost', user)"
 			variant="danger">
 				<span v-show="is_loading">
 					<span class="spinner-border spinner-border-sm"></span>
@@ -49,29 +49,6 @@
 					Total costos: {{ price(total_cost) }}
 				</span>
 			</b-button>
-			<!-- <b-button
-			variant="primary"
-			v-if="canUse('percentage_card', user)"><span v-show="is_loading"
-			@click="salesWithCard">
-				<span class="spinner-border spinner-border-sm"></span>
-					Calculando...
-				</span>
-				<span v-show="!is_loading">
-					<span v-show="showing_only_with_card_sales">
-						<i class="icon-undo"></i>
-						Todas las ventas
-					</span>
-					<span v-show="!showing_only_with_card_sales">
-						<i class="icon-credit-card p-r-5"></i>
-						<span v-show="cantCardSales() > 0">
-							{{ cantCardSales() }} Tarjetas
-						</span>
-						<span v-show="cantCardSales() == 0">
-							Sin tarjetas
-						</span>
-					</span>
-				</span>
-			</b-button> -->
 		</b-button-group>
 	</b-col>
 	<b-col
@@ -79,13 +56,15 @@
 	cols="12"
 	md="2"
 	:lg="selected_sales_length ? '1' : '4'">
-		<b-dropdown text="Ver" right>
+		<b-dropdown text="Mas" right>
 			<b-dropdown-item
+			v-if="hasPermissionTo('client', user)"
 			v-b-modal="'clients'">
 				<i class="icon-user"></i>
 				Clientes
 			</b-dropdown-item>
 			<b-dropdown-item
+			v-if="isAdmin(user)"
 			v-b-modal="'sales-times'">
 				<i class="icon-clock-1"></i>
 				Horarios de ventas

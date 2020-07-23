@@ -47,7 +47,7 @@
                                     variant="danger"
                                     size="sm"
                                     @click="deleteCategory(category)">
-                                        <i class="icon-trash-3" v-show="!deleting_category"></i>
+                                        <i class="icon-trash-3" v-show="deleting_category != category.id"></i>
                                         <span class="spinner-border spinner-border-sm" v-show="deleting_category == category.id"></span>
                                         Eliminar
                                     </b-button> 

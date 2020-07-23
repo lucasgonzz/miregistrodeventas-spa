@@ -9,7 +9,7 @@
 							<tr>
 								<th>Comercio</th>
 								<th>Nombre</th>
-								<th>Vence</th>
+								<th>Termina</th>
 							</tr>
 						</thead>
 						<tbody>

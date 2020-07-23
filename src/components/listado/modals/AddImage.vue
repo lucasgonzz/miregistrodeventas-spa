@@ -1,7 +1,7 @@
 <template>
 <b-modal id="add-image" :title="`Agregar foto para ${this.article.name}`" scrollable>
     <b-container fluid>
-        <cargando :is_loading="loading" tam="md"></cargando>
+        <cargando :is_loading="loading" size="md"></cargando>
         <b-row v-show="!loading">
             <b-col cols="12">
                 <b-form-file

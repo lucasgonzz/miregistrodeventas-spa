@@ -17,10 +17,10 @@
 							v-for="commerce in admin.commerces_in_use"
 							:key="commerce.id">
 								<td>
-									{{ commerce.name }}
+									{{ commerce.company_name }}
 								</td>
 								<td>
-									{{ commerce.company_name }}
+									{{ commerce.name }}
 								</td>
 								<td>
 									{{ date(commerce.expire) }}

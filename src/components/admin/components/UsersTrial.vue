@@ -1,12 +1,12 @@
 <template>
 	<b-card header="Comercios probandoce">
-		<div class="table-responsive">
+		<div class="table-responsive" v-show="!loading_users">
 			<table class="table table-striped text-center">
 				<thead class="thead-dark">
 					<tr>
 						<th>Comercio</th>
 						<th>Dueño</th>
-						<th>Vence</th>
+						<th>Termina</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -22,22 +22,31 @@
 				</tbody>
 			</table>
 		</div>
+		<cargando :is_loading="loading_users" size="sm"></cargando>
 	</b-card>
 </template>
 <script>
+import Cargando from '@/components/common/Cargando'
 export default {
+	components: {
+		Cargando
+	},
 	data() {
 		return {
-			users_trial: []
+			users_trial: [],
+			loading_users: false
 		}
 	},
 	methods: {
 		getUsersTrial() {
+			this.loading_users = true
 			this.$api.get('admin/users/trial')
 			.then(res => {
+				this.loading_users = false
 				this.users_trial = res.data
 			})
 			.catch(err => {
+				this.loading_users = false
 				console.log(err)
 			})
 		}

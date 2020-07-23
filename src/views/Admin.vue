@@ -49,7 +49,7 @@ export default {
 	},
 	methods: {
 		getUsersTrial() {
-			this.$refs.usesTrial.getUsersTrial()
+			this.$refs.usersTrial.getUsersTrial()
 		},
 		getUsersInUse() {
 			this.$refs.usersInUse.getUsersInUse()
