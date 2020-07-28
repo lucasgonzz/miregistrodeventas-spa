@@ -1,8 +1,9 @@
 <template>
 	<div class="row m-0">
 		<div class="col-4 p-0" data-step="12" data-intro="Imprima los tickets de los artículos que valla registrando y/o actualizando.">
-			<button @click.prevent="showPrintTickets" 
-					class="btn btn-block btn-left btn-link m-0">
+			<button 
+			v-b-modal="'print-tickets'"
+			class="btn btn-block btn-left btn-link m-0">
 				<i class="icon-tag"></i>
 				Tickets ({{ articles_id_to_print.length }})
 			</button>
@@ -28,9 +29,6 @@ export default {
 		},
 		saveArticle() {
 			this.$emit('saveArticle')
-		},
-		showPrintTickets() {
-			this.$jQuery('#print-tickets').modal('show')
 		},
 	},
 }

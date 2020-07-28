@@ -227,7 +227,7 @@ export default {
 			let without_cost = false
 			this.sales.forEach(sale => {
 				sale.articles.forEach(article => {
-					if (!article.pivot.cost) {
+					if (!article.pivot.cost || article.pivot.cost == 0) {
 						without_cost = true
 					}
 					if (article.uncontable == 1) {

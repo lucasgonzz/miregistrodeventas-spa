@@ -1,9 +1,4 @@
 export default {
-	data() {
-		return {
-			api_url: 'http://localhost:8000'
-		}
-	},
 	methods: {
 		isProvider(user) {
 			var is_provider = false

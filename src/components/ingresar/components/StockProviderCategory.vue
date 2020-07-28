@@ -13,7 +13,7 @@
 				autocomplete="off"></b-form-input>
 			</b-form-group>
 		</b-col>
-		<b-col lg="4">
+		<b-col lg="4" v-if="!isProvider(user)">
 			<b-form-group
 			label="Proveedor"
 			label-for="article-provider">

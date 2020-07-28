@@ -43,7 +43,7 @@ export default {
 	},
 	methods: {
 		printTickets() {
-			var link = this.api_url + '/imprimir-precios/'
+			var link = process.env.VUE_APP_API_URL + '/imprimir-precios/'
 						+this.selected_articles.selected_articles.join('-')+'/'
 						+this.show_company_name
 			window.open(link)

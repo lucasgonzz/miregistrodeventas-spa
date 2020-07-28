@@ -1,6 +1,9 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true
-axios.defaults.baseURL = 'http://localhost:8000'
+axios.defaults.baseURL = process.env.VUE_APP_API_URL
+console.log(process.env.VUE_APP_API_URL)
+// axios.defaults.baseURL = 'https://micovid.online'
+// axios.defaults.baseURL = 'http://localhost:8000'
 export default {
 	namespaced: true,
 	state: {
@@ -26,6 +29,11 @@ export default {
 	},
 	actions: {
 		me({commit}) {
+			console.log('pidiendo cookie')
+			axios.get('/sanctum/csrf-cookie', {withCredentials: true})
+			.then(() => {
+				console.log('se pidio cookie')
+			})
 			return axios.get('/api/user')
 			.then(res => {
 				commit('setAuthenticated', true)

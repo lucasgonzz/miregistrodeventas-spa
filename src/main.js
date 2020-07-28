@@ -29,7 +29,7 @@ import axios from 'axios'
 Vue.use({
 	install (Vue) {
 		Vue.prototype.$axios = axios.create({
-			baseURL: 'http://localhost:8000',
+			baseURL: process.env.VUE_APP_API_URL,
 			withCredentials: true
 		})
 	}
@@ -37,7 +37,7 @@ Vue.use({
 Vue.use({
 	install (Vue) {
 		Vue.prototype.$api = axios.create({
-			baseURL: 'http://localhost:8000/api',
+			baseURL: process.env.VUE_APP_API_URL+'/api',
 			withCredentials: true
 		})
 	}

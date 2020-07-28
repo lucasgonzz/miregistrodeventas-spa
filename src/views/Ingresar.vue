@@ -39,6 +39,7 @@
 							Código de barras
 						</b-dropdown-item>
 						<b-dropdown-item
+						v-if="!isProvider(user)"
 						v-b-modal="'providers'">
 							Proveedor
 						</b-dropdown-item>
@@ -65,6 +66,8 @@
 					<name 
 					:article="article"
 					:categories="categories"
+					:articles_names="articles_names"
+					ref="name"
 					@setArticle="setArticle"></name>
 	
 					<cost-price 
@@ -167,8 +170,6 @@ export default {
 			saving_categorie: false,
 
 			bar_codes: [],
-			// names: [],
-			names: [],
 			generated_bar_codes: [],
 
 			// Precios especiales
@@ -182,20 +183,18 @@ export default {
 		},
 		special_prices() {
 			return this.$store.state.special_prices
+		},
+		articles_names() {
+			return this.$store.state.articles.articles_names
 		}
 	},
 	created() {
-		if (this.user) {
-			this.getNames()
-			this.getBarCodes()
-			this.getGeneratedBarCodes()
-			if (!this.isProvider(this.user)) {
-				this.getProviders()
-			}
-			this.getCategories()
-		} else {
-			console.log('No se llamaron los metodos')
+		this.getBarCodes()
+		this.getGeneratedBarCodes()
+		if (!this.isProvider(this.user)) {
+			this.getProviders()
 		}
+		this.getCategories()
 	},
 	methods: {
 		showIntro() {
@@ -206,16 +205,6 @@ export default {
 		},
 		changeToDate() {
 			this.$jQuery('#created_at').focus()
-		},
-		getNames() {
-			this.$api.get('articles/names')
-			.then(res => {
-				this.names = res.data
-			})
-			.catch(err => {
-				// this.getAvailableArticles()
-				console.log(err)
-			})
 		},
 		getBarCodes() {
 			this.$api.get('/articles/bar-codes')
@@ -283,11 +272,11 @@ export default {
 				this.$toast.error('El campo precio es obligatorio')
 				document.getElementById('article-price').focus()
 			}
-			if (this.article.cost == '') {
-				ok = false
-				this.$toast.error('El campo costo es obligatorio')
-				document.getElementById('article-cost').focus()
-			}
+			// if (this.article.cost == '') {
+			// 	ok = false
+			// 	this.$toast.error('El campo costo es obligatorio')
+			// 	document.getElementById('article-cost').focus()
+			// }
 			if (this.article.name == '') {
 				ok = false
 				this.$toast.error('El campo nombre es obligatorio')
@@ -298,7 +287,7 @@ export default {
 				this.$toast.error("El nombre no puede contener una barra '/'")
 				document.getElementById('article-name').focus()
 			}
-			if (this.article.provider == 0) {
+			if (this.article.provider == 0 && !this.isProvider(this.user)) {
 				ok = false
 				this.$toast.error('Debe seleccionar un preveedor')
 				document.getElementById('article-provider').focus()
@@ -312,8 +301,8 @@ export default {
 			// Controla que si no tiene codigo de barras no haya otro
 			// articulo sin codigo de barras con el mismo nombre
 			if (this.article.bar_code == '') {
-				if (this.names.length) {
-					this.names.forEach(article => {
+				if (this.articles_names.length) {
+					this.articles_names.forEach(article => {
 						if (article.name.toLowerCase() == this.article.name.toLowerCase() && ok) {
 							if (article.bar_code === null) {
 								ok = false
@@ -338,7 +327,7 @@ export default {
 					if (this.article.bar_code != '') {
 						this.bar_codes.push(this.article.bar_code)
 					}
-					this.names.push(this.article.name)
+					this.$store.commit('articles/addArticleName', article)
 					this.articles.push(article)
 					this.articles_id_to_print.push(article.id)
 					this.clearArticle()
@@ -362,7 +351,7 @@ export default {
 				this.articles_id_to_print.push(article.id)
 				this.clearArticle()
 				this.bar_codes.push(article.bar_code)
-				this.names.push(article)
+				this.$store.commit('articles/getArticlesNames')
 				this.$toast.success('Artículo actualizado correctamente')
 				this.$bvModal.hide('edit-article')
 			})
@@ -376,6 +365,11 @@ export default {
 			window.open(link)
 		},
 		setArticle(article) {
+			if (this.special_prices.length && article.special_prices.length) {
+				article.special_prices.forEach(special_price => {
+					this.article[special_price.name] = special_price.pivot.price
+				})
+			}
 			this.article.creado = this.date(article.created_at) + ' ' 
 									+ this.since(article.created_at)
 			this.article.actualizado = this.date(article.updated_at) + ' ' 
@@ -405,17 +399,14 @@ export default {
 		clearArticle() {
 			this.article.bar_code = ''
 			this.article.name = ''
-			let input = document.getElementsByClassName('autocomplete-input')[0]
-			console.log('valor: '+input.value)
-			input.value = ""
 			this.article.cost = ''
 			this.article.price = ''
 			this.article.online_price = ''
 			this.article.stock = ''
 			this.article.new_stock = ''
 			this.article.stock_null = false
-			this.article.provider = 0
-			this.article.category = 0
+			// this.article.provider = 0
+			// this.article.category = 0
 			this.file = null
 			if (!this.remember_date) {
 				this.article.created_at = new Date().toISOString().slice(0,10)
@@ -425,6 +416,7 @@ export default {
 					this.article[special_price.name] = ''
 				})
 			}
+			this.$refs.name.clearName()
 		},
 
 		// Providers

@@ -14,12 +14,14 @@
 				autocomplete="off"
 				v-model="article.name"></b-form-input>
 				<autocomplete 
+				ref="articleName"
 				v-show="article.bar_code == ''"
 				:search="search" 
 				auto-select
 				:get-result-value="getResultValue"
 				placeholder="Buscar un artículo"
 				@submit="setArticle"></autocomplete>
+				<small>Precionar Enter para cambiar a Costo</small>
 			</b-form-group>
 		</b-col>
 	</b-form-row>
@@ -28,20 +30,15 @@
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
 export default {
-	props: ['article'],
+	props: ['article', 'articles_names'],
 	components: {
 		Autocomplete
-	},
-	computed: {
-		articles() {
-			return this.$store.state.articles.articles_names
-		}
 	},
 	methods: {
 		search(input) {
 			if (input.length < 1) { return [] }
-			return this.articles.filter(article => {
-				return article.name.toLowerCase().startsWith(input.toLowerCase())
+			return this.articles_names.filter(article => {
+				return article.name.toLowerCase().includes(input.toLowerCase())
 			})
 		},
 		getResultValue(article) {
@@ -67,6 +64,10 @@ export default {
 				document.getElementById('article-cost').focus()
 			}
 		},
+		clearName() {
+			console.log('se limpio el nombre')
+			this.$refs.articleName.setValue('')
+		}
 	},
 }
 </script>

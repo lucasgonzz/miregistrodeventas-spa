@@ -182,12 +182,15 @@ export default {
 	display: flex
 	justify-content: flex-end
 .col-info
+	@media screen and (max-width: 778px)
+		display: flex
+		justify-content: flex-end
 	@media screen and (min-width: 778px)
 		display: flex
 		justify-content: flex-start
 .col-selected-sales
-	@media screen and (min-width: 992px)
-		display: flex
-		justify-content: flex-end
+	// @media screen and (min-width: 992px)
+	display: flex
+	justify-content: flex-end
 
 </style>

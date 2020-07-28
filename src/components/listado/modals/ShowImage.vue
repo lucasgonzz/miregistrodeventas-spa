@@ -28,7 +28,7 @@ export default {
 	},
 	methods: {
 		getImageName() {
-			return this.api_url + 'images/articles/' + this.user.id + '/' + this.article.image
+			return process.env.VUE_APP_API_URL + '/images/articles/' + this.user.id + '/' + this.article.image
 		}
 	}
 }

@@ -69,11 +69,11 @@
 								@updateArticleList="updateArticleList"></card-header>
 				</template>
 				<b-container fluid class="p-t-10">
-					<cargando :is_loading="is_loading" size="md"></cargando>
 					<volver-a-listar
 					:searched="searched"
 					:is_filter="is_filter"
 					@volverAListar="volverAListar"></volver-a-listar>
+					<cargando :is_loading="is_loading" size="md"></cargando>
 					<div v-show="!is_loading">
 						<info-filtrados :filtro="filtro" :is_filter="is_filter" 
 										:providers="providers"
@@ -357,6 +357,8 @@ export default {
 			this.is_loading = true
 			this.$api.get('articles?page=' + page)
 			.then( res => {
+				console.log('llegaron estos articulos:')
+				console.log(res.data.articles.data);
 				this.is_loading = false
 				this.articles = res.data.articles.data;
 				this.pagination = res.data.pagination;
@@ -565,15 +567,16 @@ export default {
 			})
 		},
 		deleteArticles() {
+			let articles_id = this.selected_articles.selected_articles.join('-')
 			this.deleting_articles = true
-			this.$api.delete('articles/delete-articles/'+this.selected_articles.selected_articles.join('-'))
-			.then((res) => {
+			this.$api.delete(`articles/delete-articles/${articles_id}`)
+			.then(() => {
 				this.deleting_articles = false
 				this.selected_articles.selected_articles = []
 				this.updateArticlesList(true)
-				this.$toast.success('Artículos eliminados correctamente')
 				this.$bvModal.hide('delete-articles')
-				console.log(res.data)
+				this.$toast.success('Artículos eliminados correctamente')
+				this.$store.dispatch('articles/getArticlesNames')				
 			})
 			.catch((err) => {
 				this.deleting_articles = false

@@ -25,4 +25,7 @@ export default {
 .row {
 	margin-bottom: 15px;
 }
+.col {
+	padding: 0 15px;
+}
 </style>

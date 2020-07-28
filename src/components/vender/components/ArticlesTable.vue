@@ -53,9 +53,15 @@
 									<i class="icon-check"></i>
 								</button>
 							</td>
-							<td class="d-none d-md-table-cell">
-								{{ article.quedarian }}
+							<td class="d-none d-md-table-cell" 
+							v-if="article.quedarian">
+								{{ article.quedarian }} 
+								<span 
+								v-show="article.uncontable == 1 && article.quedarian != 'sin datos'">
+									{{ article.measurement_original }}(s)
+								</span>
 							</td>
+							<td v-else></td>
 							<td>
 								<b-button @click="up(article)"
 								v-show="article.uncontable == 0"

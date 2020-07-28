@@ -9,7 +9,9 @@ Vue.use(Vuex)
 
 import axios from 'axios'
 axios.defaults.withCredentials = true
-axios.defaults.baseURL = 'http://localhost:8000'
+axios.defaults.baseURL = process.env.VUE_APP_API_URL
+// axios.defaults.baseURL = 'https://micovid.online'
+// axios.defaults.baseURL = 'http://localhost:8000'
 
 export default new Vuex.Store({
 	state: {

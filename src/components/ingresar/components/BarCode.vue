@@ -8,7 +8,7 @@
 				type="text"
 				id="article-bar-code"
 				autocomplete="off"
-				@keyup.enter="isRegister"
+				@keydown.enter="isRegister"
 				v-model="article.bar_code"
 				placeholder="Ingresa el codigo de barras del producto"></b-form-input>
 			</b-form-group>

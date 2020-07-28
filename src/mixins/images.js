@@ -5,7 +5,7 @@ export default {
 			if (user.owner_id) {
 				user_id = user.owner_id
 			}
-			let url = `http://localhost:8000/storage/articles/${user_id}/${this.getFirstImage(article)}`
+			let url = `${process.env.VUE_APP_API_URL}/storage/articles/${user_id}/${this.getFirstImage(article)}`
 			return url
 		},
 		getFirstImage(article) {

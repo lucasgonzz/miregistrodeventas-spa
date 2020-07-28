@@ -92,7 +92,7 @@ export default {
             })
         },
         imageUrl(image) {
-            return this.api_url + '/storage/articles/' + this.user.id + '/' + image.url
+            return process.env.VUE_APP_API_URL + '/storage/articles/' + this.user.id + '/' + image.url
         },
         onFileChange(e) {
             this.file = e.target.files[0]

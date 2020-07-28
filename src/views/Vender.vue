@@ -4,6 +4,8 @@
 	:total="total"
 	:vendiendo="vendiendo"
 	@vender_a_cliente="vender_a_cliente"></clients>
+	<successful-sale
+	:sale="sale"></successful-sale>
 	<article-not-register @updateArticles="updateArticlesList"></article-not-register>
 	<change-percentage-card 
 		:percentage_card="percentage_card"
@@ -71,10 +73,11 @@
 </div>
 </template>
 <script>
-
+// Modals
 import ArticleNotRegister from '../components/vender/modals/ArticleNotRegister.vue'
 import ChangePercentageCard from '../components/vender/modals/ChangePercentageCard.vue'
 import Clients from '../components/vender/modals/Clients.vue'
+import SuccessfulSale from '../components/vender/modals/SuccessfulSale.vue'
 
 // Componentes
 import Cargando from '../components/common/Cargando.vue'
@@ -84,11 +87,15 @@ import ArticlesTable from '../components/vender/components/ArticlesTable.vue'
 import Markers from '../components/vender/components/Markers.vue'
 import TotalPreviusSales from '../components/vender/components/TotalPreviusSales.vue'
 import CardFooter from '../components/vender/components/CardFooter.vue'
+
+// Mixins
+import Vender from '@/mixins/vender'
 export default {
 	components: {
 		ArticleNotRegister,
 		ChangePercentageCard,
 		Clients,
+		SuccessfulSale,
 		
 		// Componentes
 		Cargando,
@@ -99,6 +106,7 @@ export default {
 		TotalPreviusSales,
 		CardFooter,
 	},
+	mixins: [Vender],
 	data() {
 		return {
 			article: {
@@ -127,7 +135,7 @@ export default {
 			previus_sale: {},
 			loading_articles: false,
 
-
+			sale: {}
 		}
 	},
 	computed: {
@@ -188,7 +196,7 @@ export default {
 				this.loading_articles = false
 				this.loading_previus_sale = false
 				this.previus_sale = res.data
-				this.articles = res.data.articles
+				this.articles = this.setPreviusSalePirces(res.data.articles)
 				this.formatPreviusSale()
 				this.calculateTotal()
 			})
@@ -315,6 +323,7 @@ export default {
 						} else {
 							article.amount = 1
 						}
+						article.quedarian = null
 						this.articles.unshift(article)
 						if (article.uncontable == 1) {
 							article.measurement_original = article.measurement
@@ -343,6 +352,7 @@ export default {
 							} else {
 								article.amount = 1
 							}
+							article.quedarian = null
 							this.articles.unshift(article)
 							if (article.uncontable == 1) {
 								article.measurement_original = article.measurement
@@ -405,6 +415,7 @@ export default {
 						} else {
 							article.quedarian = article.stock - (amount / 1000)
 						}
+						console.log('quedarian: '+article.quedarian)
 					}
 				} else {
 					article.quedarian = 'sin datos'
@@ -455,7 +466,7 @@ export default {
 					debt: debt,
 					special_price_id: this.special_price_id
 				})
-				.then(() => {
+				.then(res => {
 					this.$bvModal.hide('clients')
 					this.vendiendo = false
 					this.articles = []	
@@ -465,6 +476,10 @@ export default {
 					this.with_card = false
 					this.$toast.success('Venta realizada correctamente')
 					document.getElementById('article-bar-code').focus()
+					if (this.isProvider(this.user)) {
+						this.sale = res.data
+						this.$bvModal.show('successful-sale')
+					}
 				})
 				.catch(err => {
 					console.log(err)

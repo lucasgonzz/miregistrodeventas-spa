@@ -47,22 +47,13 @@
                         v-if="isAdmin(user)"
                         class="nav-item-config"
                         v-b-modal="'update-user'">
-                            <i class="icon-config"></i>
                             Cambiar nombre
                         </b-dropdown-item>
                         <b-dropdown-item 
                         v-if="isAdmin(user)"
                         class="nav-item-config"
                         v-b-modal="'update-password'">
-                            <i class="icon-config"></i>
                             Cambiar contraseña
-                        </b-dropdown-item>
-                        <b-dropdown-item 
-                        v-if="isAdmin(user)"
-                        class="nav-item-config"
-                        v-b-modal="'update-password'">
-                            <i class="icon-share"></i>
-                            Compartir app
                         </b-dropdown-item>
                         <b-dropdown-item 
                         v-if="user.status == 'trial'"
@@ -83,48 +74,42 @@
         <nav>
             <b-nav vertical>
                 <b-nav-item :to="{name: 'Vender'}"
+                v-if="hasPermissionTo('sale.create', user)"
                 :class="currentPage == '/vender' ? 'active-link-mobile' : ''">
-                    <!-- <i class="icon-sm icon-tag"></i> -->
                     Vender
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Ingresar'}"
+                v-if="hasPermissionTo('article.create', user)"
                 :class="currentPage == '/ingresar' ? 'active-link-mobile' : ''">
-                    <!-- <i class="icon-sm icon-plus"></i> -->
                     Ingresar
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Listado'}"
+                v-if="hasPermissionTo('article.index', user)"
                 :class="currentPage == '/listado' ? 'active-link-mobile' : ''">
-                    <!-- <i class="icon-sm icon-list-ol"></i> -->
                     Listado
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Ventas'}"
+                v-if="hasPermissionTo('sale.index', user)"
                 :class="currentPage == '/ventas' ? 'active-link-mobile' : ''">
-                    <!-- <i class="icon-sm icon-clipboard-3"></i> -->
                     Ventas
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Empleados'}"
+                v-if="isAdmin(user)"
                 :class="currentPage == '/empleados' ? 'active-link-mobile' : ''">
-                    <!-- <i class="icon-sm icon-users"></i> -->
                     Empleados
                 </b-nav-item>
 
                 <b-nav-item 
                 class="nav-item-config"
+                v-if="isAdmin(user)"
                 v-b-modal="'update-user'">
-                    <i class="icon-config"></i>
                     Cambiar nombre
                 </b-nav-item>
                 <b-nav-item 
                 class="nav-item-config"
+                v-if="isAdmin(user)"
                 v-b-modal="'update-password'">
-                    <i class="icon-config"></i>
                     Cambiar contraseña
-                </b-nav-item>
-                <b-nav-item 
-                class="nav-item-config"
-                @click="logout">
-                    <i class="icon-share"></i>
-                    Compartir app
                 </b-nav-item>
                 <b-nav-item 
                 v-if="user.status == 'trial'"
@@ -209,10 +194,13 @@ export default {
             margin-top: -5px
 
     .icon-bars
-        color: #333
-        border: none
+        color: #000
         background: none
-        font-size: 1.4em
+        font-size: 1.2em
+    .navbar-toggler
+        border: none
+        &:focus
+            outline: 0 !important
 
     .active-link 
         a

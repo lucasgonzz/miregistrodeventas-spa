@@ -109,7 +109,7 @@
 														<b-form-input
 														type="password"
 														id="employee-password"
-														placeholder="contraseña"
+														placeholder="Contraseña"
 														v-model="employee.password"
 														@keyup.enter="loginEmployee">
 														</b-form-input>
@@ -179,30 +179,28 @@ export default {
 	},
 	methods: {
 		csrf() {
+			console.log('se mando cookie')
 			return this.$axios.get('/sanctum/csrf-cookie')
 		},
 		loginCommerce() {
 			if (this.commerce.name != '' && this.commerce.password != '') {
 				this.loading_commerce_login = true
-				this.csrf()
-				.then(() => {
-					this.$axios.post('login-owner', {
-						company_name: this.commerce.name,
-						password: this.commerce.password
-					})
-					.then(res => {
-						console.log(res)
-						if (res.data.login) {
-							this.loading_commerce_login = false
-							this.$store.commit('auth/setAuthenticated', true)
-							this.$store.commit('auth/setUser', res.data.user)
-							this.$router.replace('/')
-						} else {
-							this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor ;)')
-							document.getElementById('commerce-name').focus()
-							this.loading_commerce_login = false
-						}
-					})
+				this.$axios.post('login-owner', {
+					company_name: this.commerce.name,
+					password: this.commerce.password
+				})
+				.then(res => {
+					console.log(res)
+					if (res.data.login) {
+						this.loading_commerce_login = false
+						this.$store.commit('auth/setAuthenticated', true)
+						this.$store.commit('auth/setUser', res.data.user)
+						this.$router.replace('/')
+					} else {
+						this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor ;)')
+						document.getElementById('commerce-name').focus()
+						this.loading_commerce_login = false
+					}
 				})
 			} else {
 				this.$toast.error('Complete con sus datos por favor.')
@@ -210,29 +208,26 @@ export default {
 		}, 
 		loginEmployee() {
 			if (this.employee.commerce != '' && this.employee.name != '' && this.employee.password != '') {
-				this.csrf()
-				.then(() => {
-					this.loading_employee_login = true
-					this.$axios.post('login-employee', {
-						commerce: this.employee.commerce,
-						name: this.employee.name,
-						password: this.employee.password
-					})
-					.then(res => {
-						console.log(res.data)
-						if (res.data.login) {
-							this.loading_employee_login = false
-							this.$store.commit('auth/setAuthenticated', true)
-							this.$store.commit('auth/setUser', res.data.user)
-							this.$router.replace('/')
-						} else {
-							this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor ;)')
-							this.employee.commerce = ''
-							this.employee.name = ''
-							this.employee.password = ''
-							this.loading_employee_login = false
-						}
-					})
+				this.loading_employee_login = true
+				this.$axios.post('login-employee', {
+					commerce: this.employee.commerce,
+					name: this.employee.name,
+					password: this.employee.password
+				})
+				.then(res => {
+					console.log(res.data)
+					if (res.data.login) {
+						this.loading_employee_login = false
+						this.$store.commit('auth/setAuthenticated', true)
+						this.$store.commit('auth/setUser', res.data.user)
+						this.$router.replace('/')
+					} else {
+						this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor ;)')
+						this.employee.commerce = ''
+						this.employee.name = ''
+						this.employee.password = ''
+						this.loading_employee_login = false
+					}
 				})
 			} else {
 				this.$toast.error('Complete con sus datos por favor.') 

@@ -1,5 +1,5 @@
 <template>
-<b-modal id="from-date" title="Mostrar ventas por fecha" scrollable>
+<b-modal id="from-date" title="Mostrar ventas por fecha">
     <b-container fluid class="m-0">
         <b-row 
         class="m-b-15"

@@ -85,7 +85,7 @@ export default {
         search(input) {
             if (input.length < 1) { return [] }
             return this.articles.filter(article => {
-                return article.name.toLowerCase().startsWith(input.toLowerCase())
+                return article.name.toLowerCase().includes(input.toLowerCase())
             })
         },
 		getResultValue(article) {
@@ -109,6 +109,7 @@ export default {
 		},
 		addArticleFromAmount() {
 			this.$emit('addArticle')
+			this.$refs.articleName.setValue('')
 		},
 		vender() {
 			this.$emit('vender')

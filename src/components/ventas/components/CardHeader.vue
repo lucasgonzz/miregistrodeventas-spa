@@ -3,7 +3,7 @@
 	<b-row>
 		<b-col 
 		cols="12"
-		lg="3"
+		:lg="lg_header_title"
 		class="col-header-title">
 			<!-- Titulos del header -->
 			<header-title   
@@ -19,11 +19,11 @@
 		</b-col>
 
 		<b-col 
-		v-if="!hasPermissionTo('sale.index.only_day', user, true)"
+		v-if="!hasPermissionTo('sale.index.only_day', user, true) && !is_from_date"
 		cols="12"
 		lg="6">
 			<!-- Navegar entre las ventas anteriores -->
-			<pervius-sales v-show="!is_from_date"
+			<pervius-sales 
 			:is_from_only_one_date="is_from_only_one_date" 
 			:only_one_date="only_one_date"
 			@getSales="getSales"
@@ -54,6 +54,14 @@ export default {
 		HeaderTitle,
 		PerviusSales,
 		HeaderButtons
+	},
+	computed: {
+		lg_header_title() {
+			if (this.is_from_date) {
+				return 9
+			}
+			return 3
+		}
 	},
 	methods: {
 		removeSalesFromClient() {

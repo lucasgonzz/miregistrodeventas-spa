@@ -1,7 +1,7 @@
 <template>
 <div class="row m-b-10" v-show="sales_times.length && !is_from_date && !sales_from_client && !showing_statistics">
 	<div class="col">
-		<ul class="nav nav-tabs justify-content-center"
+		<ul class="nav nav-tabs"
 			data-step="7"
 			data-intro="Navegue entre las ventas de sus horarios.">
 			<li 

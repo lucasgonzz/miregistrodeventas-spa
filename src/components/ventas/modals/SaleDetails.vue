@@ -1,5 +1,5 @@
 <template>
-<b-modal id="sale-details" title="Detalles de la venta" size="lg" hide-footer>
+<b-modal id="sale-details" title="Detalles de la venta" size="lg" scrollable hide-footer>
     <!-- <template v-slot:modal-header>
         <h5 class="modal-title">
             Detalles de la venta
