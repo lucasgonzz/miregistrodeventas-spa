@@ -5,29 +5,7 @@
 	md="10"
 	lg="8"
 	class="col-info">
-		<b-button-group>
-			<b-button
-			class="d-none d-sm-inline-block"
-			variant="secondary">
-				<span v-show="is_loading">
-					<span class="spinner-border spinner-border-sm"></span>
-					Calculando...
-				</span>
-				<span v-show="!is_loading">
-					{{ sales.length }} Ventas
-				</span>
-			</b-button>
-			<b-button
-			class="d-none d-sm-inline-block"
-			variant="secondary">
-				<span v-show="is_loading">
-					<span class="spinner-border spinner-border-sm"></span>
-					Calculando...
-				</span>
-				<span v-show="!is_loading">
-					{{ total_articles }} Artículos
-				</span>
-			</b-button>
+		<b-button-group class="btn-group-totales">
 			<b-button
 			variant="success">
 				<span v-show="is_loading">
@@ -182,9 +160,6 @@ export default {
 	display: flex
 	justify-content: flex-end
 .col-info
-	@media screen and (max-width: 778px)
-		display: flex
-		justify-content: flex-end
 	@media screen and (min-width: 778px)
 		display: flex
 		justify-content: flex-start
@@ -192,5 +167,10 @@ export default {
 	// @media screen and (min-width: 992px)
 	display: flex
 	justify-content: flex-end
-
+.btn-group-totales 
+	@media screen and (max-width: 778px)
+		width: 100%
+		.btn
+			&:first-child, &:last-child
+				border-radius: 0px	
 </style>

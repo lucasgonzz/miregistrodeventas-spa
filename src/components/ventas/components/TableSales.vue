@@ -1,6 +1,6 @@
 <template>
 <div class="row" v-show="!is_loading && sales.length && !showing_statistics">
-	<div class="col col-sm-al-borde">
+	<div class="col al-borde">
 		<div class="table-responsive">
 			<table class="table table-striped text-center">
 				<thead class="thead-dark">

@@ -1,6 +1,6 @@
 <template>
 <div class="row" v-show="!is_loading && user">
-	<div class="col col-sm-al-borde">
+	<div class="col al-borde">
 		<div class="table-responsive">						
 			<table class="table table-striped text-center">
 				<thead class="thead-dark">
@@ -166,14 +166,14 @@ export default {
 			if (article.bar_code) {
 				return article.bar_code
 			} else {
-				return 'No tiene'
+				return '-'
 			}
 		},
 		category(article) {
 			if (article.category) {
 				return article.category.name
 			} else {
-				return 'No tiene'
+				return '-'
 			}
 		},
 		getSpecialPrice(article, special_price_) {

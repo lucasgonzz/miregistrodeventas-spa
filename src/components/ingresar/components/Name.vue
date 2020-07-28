@@ -21,7 +21,6 @@
 				:get-result-value="getResultValue"
 				placeholder="Buscar un artículo"
 				@submit="setArticle"></autocomplete>
-				<small>Precionar Enter para cambiar a Costo</small>
 			</b-form-group>
 		</b-col>
 	</b-form-row>
@@ -58,14 +57,12 @@ export default {
 					console.log(err)
 				})
 			} else {
-				console.log('entro')
 				let input = document.getElementsByClassName('autocomplete-input')[0]
 				this.article.name = input.value
 				document.getElementById('article-cost').focus()
 			}
 		},
 		clearName() {
-			console.log('se limpio el nombre')
 			this.$refs.articleName.setValue('')
 		}
 	},

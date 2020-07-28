@@ -10,6 +10,9 @@ export default {
 			return moment(d).format('HH:mm')
 		},
 		price(p) {
+			if (p === null) {
+				return '-'
+			}
 			return numeral(p).format('$0,0.00')
 		},
 		getMonth(d) {

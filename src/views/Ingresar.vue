@@ -54,6 +54,10 @@
 					</b-dropdown>
 				</template>
 				<b-card-body>
+					<p>
+						<i class="icon-sign-out"></i>
+						Enter para cambiar los campos
+					</p>
 					<uncontable 
 					:article="article"></uncontable>
 					
@@ -195,8 +199,16 @@ export default {
 			this.getProviders()
 		}
 		this.getCategories()
+		this.listenEditArticle()
 	},
 	methods: {
+		listenEditArticle() {
+			this.$root.$on('bv::modal::hide', (bvEvent, modalId) => {
+				if (this.article.name != '' && modalId == 'edit-article') {
+					this.clearArticle()
+				}
+			})
+		},
 		showIntro() {
 			// this.$introJs().setOption('showProgress', true).setOption('hidePrev', true).setOption('hideNext', true).start()
 		},
@@ -351,7 +363,7 @@ export default {
 				this.articles_id_to_print.push(article.id)
 				this.clearArticle()
 				this.bar_codes.push(article.bar_code)
-				this.$store.commit('articles/getArticlesNames')
+				this.$store.dispatch('articles/getArticlesNames')
 				this.$toast.success('Artículo actualizado correctamente')
 				this.$bvModal.hide('edit-article')
 			})
@@ -405,12 +417,6 @@ export default {
 			this.article.stock = ''
 			this.article.new_stock = ''
 			this.article.stock_null = false
-			// this.article.provider = 0
-			// this.article.category = 0
-			this.file = null
-			if (!this.remember_date) {
-				this.article.created_at = new Date().toISOString().slice(0,10)
-			}
 			if (this.special_prices.length) {
 				this.special_prices.forEach(special_price => {
 					this.article[special_price.name] = ''

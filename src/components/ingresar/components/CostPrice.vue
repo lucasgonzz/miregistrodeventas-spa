@@ -74,7 +74,6 @@ export default {
 	},
 	methods: {
 		changeToPrice() {
-			console.log('cambiando a price')
 			document.getElementById('article-price').focus()
 		},
 		changeToStock() {

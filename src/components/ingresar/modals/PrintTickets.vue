@@ -1,77 +1,48 @@
 <template>
-<div class="modal fade" id="print-tickets" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog modal-dialog-scrollable" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title">
-					<strong>
-						<i class="icon-print"></i>
-						Imprimir tickets de los siguientes artículos
-					</strong>
-				</h5>
-			</div>
-			<div class="modal-body">
-				<div class="row">
-					<div class="col">
-						<ul class="list-group">
-							<li class="list-group-item" v-for="article in articles" :key="article.id">
-								{{ article.name }}
-								<span class="float-right">
-								<button class="btn btn-danger"
-								@click="deleteArticle(article)">
-									Quitar
-								</button>
-								</span>
-							</li>
-						</ul>
-						<!-- <table class="table">
-							<thead class="thead-dark">
-								<tr>
-									<th scope="col">Articulo</th>
-									<th scope="col">Eliminar</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr v-for="article in articles">
-									<td>{{ article.name }}</td>
-									<td>
-										<button @click="deleteArticle(article)"
-												class="btn btn-danger">
-											<i class="icon-trash-3"></i>
-										</button>
-									</td>
-								</tr>
-							</tbody>
-						</table> -->
-					</div>
-				</div>
-				<div class="row">
-					<div class="col">
-						<div class="custom-control custom-checkbox my-1 mr-sm-2">
-							<input class="custom-control-input" 
-							v-model="show_company_name" 
-							true-value="1"
-							false-value="0"
-							type="checkbox" 
-							id="show_company_name">
-							<label class="custom-control-label" 
-							for="show_company_name">
-							Mostrar nombre del negocio
-							</label>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button class="btn btn-secondary Close" data-dismiss="modal">Cerrar</button>
-				<button class="btn btn-primary" @click="printTickets">
-					<i class="icon-print"></i>
-					Imprimir tickets
-				</button>
+<b-modal id="print-tickets" title="Imprimir tickets de los siguientes artículos"
+		body-class="al-borde">
+	<b-container>
+		<div class="row">
+			<div class="col">
+				<ul class="list-group">
+					<li class="list-group-item" v-for="article in articles" :key="article.id">
+						{{ article.name }}
+						<span class="float-right">
+						<b-button 
+						size="sm"
+						variant="danger"
+						@click="deleteArticle(article)">
+							Quitar
+						</b-button>
+						</span>
+					</li>
+				</ul>
 			</div>
 		</div>
-	</div>
-</div>
+		<div class="row">
+			<div class="col">
+				<div class="custom-control custom-checkbox my-1 mr-sm-2">
+					<input class="custom-control-input" 
+					v-model="show_company_name" 
+					true-value="1"
+					false-value="0"
+					type="checkbox" 
+					id="show_company_name">
+					<label class="custom-control-label" 
+					for="show_company_name">
+					Mostrar nombre del negocio
+					</label>
+				</div>
+			</div>
+		</div>
+	</b-container>
+	<template v-slot:modal-footer>
+		<button class="btn btn-danger" @click="printTickets">
+			<i class="icon-print"></i>
+			Generar pdf
+		</button>
+	</template>
+</b-modal>
 </template>
 <script>
 export default {
@@ -83,7 +54,7 @@ export default {
 	},
 	methods: {
 		printTickets() {
-			var link = 'imprimir-precios/'
+			var link = process.env.VUE_APP_API_URL+'/imprimir-precios/'
 						+this.articles_id.join('-')+'/'
 						+this.show_company_name
 			window.open(link)

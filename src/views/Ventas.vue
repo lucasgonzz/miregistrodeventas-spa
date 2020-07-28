@@ -20,7 +20,7 @@
 	@deleteSales="deleteSales"></confirm-delete-sales>
 	<b-row>
 		<b-col>
-			<b-card no-body>
+			<b-card no-body header-class="al-borde">
 				<template v-slot:header>
 					<card-header
 					:is_from_date="is_from_date"
@@ -37,7 +37,7 @@
 					@onlyOneDate="onlyOneDate"
 					@today="today"></card-header>
 				</template>
-				<b-card-body> 
+				<b-card-body class="al-borde"> 
 					<b-container fluid>
 						<card-body-header 
 						:user="user" 
