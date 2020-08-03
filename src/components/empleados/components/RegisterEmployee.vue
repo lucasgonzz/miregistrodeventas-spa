@@ -8,6 +8,8 @@
 			label="Nombre del empleado"
 			label-for="employee-name">
 				<b-form-input
+				v-intro-step="1"
+				v-intro="'Nombre del empleado'"
 				id="employee-name"
 				autocomplete="off"
 				@keydown.enter="changeToPassword"
@@ -18,6 +20,8 @@
 			label="Contraseña"
 			label-for="employee-password">
 				<b-form-input
+				v-intro-step="2"
+				v-intro="'Contraseña para que el empleado ingrese en el sistema'"
 				id="employee-password"
 				v-model="employee.password"
 				autocomplete="off"
@@ -27,6 +31,8 @@
 				Seleccione los permisos para su empleado
 			</p>
 			<permissions-list 
+			v-intro-step="3"
+			v-intro="'Permisos que el empleado va a tener dentro del sistema'"
 			:user="user"
 			:employee="employee"
 			:permissions="permissions"
@@ -34,6 +40,8 @@
 		</div>
 		<template v-slot:footer>
 			<b-button
+			v-intro-step="4"
+			v-intro="'Agregar empleado'"
 			variant="primary"
 			@click="saveEmployee">
 				<i class="icon-check" v-show="!saving_employee"></i>
