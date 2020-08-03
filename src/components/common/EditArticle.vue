@@ -105,6 +105,11 @@
 					min="0"
 					type="number"
 					v-model="article.new_stock"></b-form-input>
+					<b-form-checkbox
+					v-model="article.stock_null"
+					id="article-stock-null">
+						Dejar de controlar stock
+					</b-form-checkbox>
 				</b-form-group>
 
 				<!-- Proveedor -->

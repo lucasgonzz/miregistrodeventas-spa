@@ -416,6 +416,7 @@ export default {
 			this.article.online_price = ''
 			this.article.stock = ''
 			this.article.new_stock = ''
+			this.article.stock_null = 0
 			this.article.stock_null = false
 			if (this.special_prices.length) {
 				this.special_prices.forEach(special_price => {

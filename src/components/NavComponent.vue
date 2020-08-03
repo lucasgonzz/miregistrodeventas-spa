@@ -56,6 +56,11 @@
                             Cambiar contraseña
                         </b-dropdown-item>
                         <b-dropdown-item 
+                        @click="startIntrojs"
+                        class="nav-item-config">
+                            Tutorial
+                        </b-dropdown-item>
+                        <b-dropdown-item 
                         v-if="user.status == 'trial'"
                         class="nav-item-config">
                             La prueba expira el {{ date(user.expire) }}
@@ -144,6 +149,16 @@ export default {
         }
 	},
 	methods: {
+        startIntrojs() {
+            this.$intro('#vender')
+            this.$intro()
+            .setOption("showProgress", true)
+            .setOption('doneLabel', 'Listo')
+            .setOption('nextLabel', 'Siguiente')
+            .setOption('prevLabel', 'Atras')
+            .setOption('skipLabel', 'Listo').start()
+            // introJs().setOption('showProgress', true).setOption('hidePrev', true).setOption('hideNext', true).start()
+        },
         logout() {
 			this.$axios.post('/logout')
             .then(() => {
@@ -207,7 +222,8 @@ export default {
             font-weight: bold
             color: #007bff !important
             border-radius: 0px 0px 3px 3px
-            border-bottom: 4px solid #007bff 
+            border-bottom: 4px solid #007bff
+            // text-shadow: 0 2px 0px #007bff 
     .nav-link
         font-size: 1.2rem
         font-weight: bold

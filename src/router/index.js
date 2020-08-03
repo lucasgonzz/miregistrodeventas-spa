@@ -41,6 +41,7 @@ Vue.use(VueRouter)
     {
         path: '/',
         redirect: () => {
+            console.log('redirect')
             if (store.state.auth.authenticated) {
                 let user = store.getters['auth/user']
                 let route

@@ -1,5 +1,5 @@
 <template>
-<b-modal id="sale-details" title="Detalles de la venta" size="lg" scrollable hide-footer>
+<b-modal id="sale-details" title="Detalles de la venta" size="lg" body-class="al-borde" header-class="header-class" scrollable hide-footer>
     <!-- <template v-slot:modal-header>
         <h5 class="modal-title">
             Detalles de la venta
@@ -17,7 +17,7 @@
         <cobrar-deuda 
         :sale="sale"
         @salesFromClient="salesFromClient"></cobrar-deuda>
-        <b-row>
+        <b-row class="m-b-0">
             <b-col>
                 <div class="table-responsive">                      
                     <table class="table table-striped text-center">
@@ -47,7 +47,7 @@
                                         {{ price(article.pivot.cost) }}
                                     </span>
                                     <span v-else>
-                                        No disponible
+                                        -
                                     </span>
                                 </td>
                                 <td class="td-lg">
@@ -63,10 +63,10 @@
                                     </p>
                                 </td>
                                 <td v-show="hasPermissionTo('article.index.cost', user)">
-                                    {{ getSubTotalCost(article) }}
+                                    {{ price(getSubTotalCostArticle(article)) }}
                                 </td>
                                 <td>
-                                    {{ getSubTotal(article) }}
+                                    {{ price(getSubTotalPriceArticle(article)) }}
                                     <p v-show="sale.percentage_card != null">
                                         <i class="icon-credit-card text-primary"></i>
                                         {{ total_with_card(article) }}
@@ -83,11 +83,13 @@
 </template>
 <script>
 import CobrarDeuda from '../components/CobrarDeuda'
+import Sales from '@/mixins/sales'
 export default {
     props: ['sale', 'user'],
     components: {
         CobrarDeuda
     },
+    mixins: [Sales],
     data() {
         return {
             actual_prices: false,
@@ -103,35 +105,35 @@ export default {
         total_with_card(article) {
             return this.price(parseFloat(article.price) * this.percentageCardFormated(this.sale.percentage_card) * article.pivot.amount)
         },
-        getSubTotal(article) {
-            var sub_total_price
-            if (article.uncontable == 1) {
-                if (article.pivot.measurement != article.measurement) {
-                    sub_total_price = parseFloat(article.pivot.price) * article.pivot.amount / 1000
-                } else {
-                    sub_total_price = parseFloat(article.pivot.price) * article.pivot.amount
-                }
-            } else {
-                sub_total_price = parseFloat(article.pivot.price) * article.pivot.amount
-            }
-            return this.price(sub_total_price)
-        },
-        getSubTotalCost(article) {
-            let sub_total_cost
-            if (article.pivot.cost) {
-                if (article.uncontable == 1) {
-                    if (article.pivot.measurement != article.measurement) {
-                        sub_total_cost = parseFloat(article.pivot.cost) * article.pivot.amount / 1000
-                    } else {
-                        sub_total_cost = parseFloat(article.pivot.cost) * article.pivot.amount
-                    }
-                } else {
-                    sub_total_cost = parseFloat(article.pivot.cost) * article.pivot.amount
-                }
-                return this.price(sub_total_cost)
-            }
-            return 'No disponible'
-        },
+        // getSubTotal(article) {
+        //     var sub_total_price
+        //     if (article.uncontable == 1) {
+        //         if (article.pivot.measurement != article.measurement) {
+        //             sub_total_price = parseFloat(article.pivot.price) * article.pivot.amount / 1000
+        //         } else {
+        //             sub_total_price = parseFloat(article.pivot.price) * article.pivot.amount
+        //         }
+        //     } else {
+        //         sub_total_price = parseFloat(article.pivot.price) * article.pivot.amount
+        //     }
+        //     return this.price(sub_total_price)
+        // },
+        // getSubTotalCost(article) {
+        //     let sub_total_cost
+        //     if (article.pivot.cost) {
+        //         if (article.uncontable == 1) {
+        //             if (article.pivot.measurement != article.measurement) {
+        //                 sub_total_cost = parseFloat(article.pivot.cost) * article.pivot.amount / 1000
+        //             } else {
+        //                 sub_total_cost = parseFloat(article.pivot.cost) * article.pivot.amount
+        //             }
+        //         } else {
+        //             sub_total_cost = parseFloat(article.pivot.cost) * article.pivot.amount
+        //         }
+        //         return this.price(sub_total_cost)
+        //     }
+        //     return 'No disponible'
+        // },
         generatePdf() {
             var link = 'sales/pdf/'+this.sale.id+
                         '/1'+
@@ -151,5 +153,7 @@ export default {
 
 .text-header 
     font-size: 1.2rem
-
+.header-class 
+    display: flex !important
+    align-items: center !important
 </style>

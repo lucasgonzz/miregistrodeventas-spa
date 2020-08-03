@@ -1,12 +1,12 @@
 <template>
-<b-modal id="clients" title="Seleccione un cliente para esta venta" hide-footer>
+<b-modal id="clients" title="Seleccione un cliente para esta venta" body-class="al-borde-md" hide-footer>
     <b-container fluid>
         <b-row>
             <b-col>
                 <b-card header="Seleccionar un cliente">
                     <b-container fluid>
                         <b-row class="m-b-0">
-                            <b-col>
+                            <b-col class="al-borde">
                                 <autocomplete 
                                 :search="search" 
                                 auto-select

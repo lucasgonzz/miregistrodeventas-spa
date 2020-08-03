@@ -29,11 +29,11 @@ export default {
 	},
 	actions: {
 		me({commit}) {
-			console.log('pidiendo cookie')
-			axios.get('/sanctum/csrf-cookie', {withCredentials: true})
-			.then(() => {
-				console.log('se pidio cookie')
-			})
+			// console.log('pidiendo cookie')
+			// axios.get('/sanctum/csrf-cookie', {withCredentials: true})
+			// .then(() => {
+			// 	console.log('se pidio cookie')
+			// })
 			return axios.get('/api/user')
 			.then(res => {
 				commit('setAuthenticated', true)

@@ -51,10 +51,10 @@
 						class="d-none d-md-table-cell">{{ getCantidadArticulos(sale) }}</td>
 						<td
 						class="d-none d-md-table-cell">{{ getCantidadUnidades(sale) }}</td>
-						<td scope="row" v-show="hasPermissionTo('article.index.cost', user)">
+						<td v-show="hasPermissionTo('article.index.cost', user)">
 							{{ getTotalCostSale(sale) }}
 						</td>
-						<td scope="row">
+						<td>
 							{{ getTotalSale(sale) }}
 							<b-badge v-if="sale.special_price"
 							class="bg-success">
@@ -116,7 +116,7 @@ export default {
 			var cantidad_unidades = 0
 			sale.articles.forEach(article => {
 				if (article.uncontable == 0) {
-					cantidad_unidades += article.pivot.amount
+					cantidad_unidades += Number(article.pivot.amount)
 				} else {
 					cantidad_unidades ++
 				}

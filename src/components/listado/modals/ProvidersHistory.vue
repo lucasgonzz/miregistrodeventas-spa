@@ -1,6 +1,8 @@
 <template>
 <b-modal id="providers-history" size="lg" :title="`Proveedores de ${this.article.name}`" hide-footer body-class="al-borde">
-	<b-table class="text-center" striped hover :items="items"></b-table>
+	<div class="table-responsive">
+		<b-table class="text-center" striped hover :items="items"></b-table>
+	</div>
 </b-modal>
 </template>
 <script>

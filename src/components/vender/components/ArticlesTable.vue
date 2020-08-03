@@ -10,6 +10,7 @@
 							<th scope="col">Nombre</th>
 							<th scope="col" class="d-none d-md-table-cell">Cantidad</th>
 							<th scope="col" class="d-none d-md-table-cell">Quedarian</th>
+							<th scope="col">Total</th>
 							<th scope="col">Opciones</th>
 						</tr>
 					</thead>
@@ -39,7 +40,8 @@
 								:id="'amount-measurement-'+article.id"
 								min="1"
 								class="form-control input-amount-measurement m-r-5"
-								@keyup.enter="calculateTotal"
+								@keyup.enter="calculateTotalFromAmount(article)"
+								@keyup.right="changeToTotal(article)"
 								v-model="article.amount">
 								<select 
 								id="select-measurement" 
@@ -48,20 +50,29 @@
 									<option value="gramo">Gramo(s)</option>
 									<option value="kilo">Kilo(s)</option>	
 								</select>
-								<button @click="calculateTotal"
+								<!-- <button @click="calculateTotal"
 										class="btn btn-primary btn-sm">
 									<i class="icon-check"></i>
-								</button>
+								</button> -->
 							</td>
 							<td class="d-none d-md-table-cell" 
 							v-if="article.quedarian">
 								{{ article.quedarian }} 
-								<span 
-								v-show="article.uncontable == 1 && article.quedarian != 'sin datos'">
-									{{ article.measurement_original }}(s)
-								</span>
 							</td>
 							<td v-else></td>
+							<td v-if="article.uncontable == 1">
+								$
+								<input 
+								type="number" 
+								:id="'total-'+article.id"
+								min="1"
+								class="form-control input-total"
+								@keyup.enter="calculateTotalFromTotal(article)"
+								v-model="article.total">
+							</td>
+							<td v-else>
+								{{ price(article.total) }}
+							</td>
 							<td>
 								<b-button @click="up(article)"
 								v-show="article.uncontable == 0"
@@ -120,6 +131,9 @@ export default {
 				}
 			})
 		},
+		changeToTotal(article) {
+			document.getElementById(`total-${article.id}`).focus()
+		},
 		up(article) {
 			article.amount++
 			this.$emit('calculateTotal')
@@ -137,6 +151,14 @@ export default {
 			var i = this.articles.indexOf(article)
 			this.articles.splice(i, 1)
 			this.$emit('calculateTotal')
+		},
+		calculateTotalFromAmount(article) {
+			article.calculate_from_total = false
+			this.calculateTotal()
+		},
+		calculateTotalFromTotal(article) {
+			article.calculate_from_total = true
+			this.calculateTotal()
 		},
 		calculateTotal() {
 			this.$emit('calculateTotal')
@@ -175,7 +197,10 @@ export default {
 	width: 100px
 
 .input-amount-measurement 
-	width: 70px
+	width: 90px
+	display: inline-block
+.input-total 
+	width: 120px
 	display: inline-block
 
 </style>

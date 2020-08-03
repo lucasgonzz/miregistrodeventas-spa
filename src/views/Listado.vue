@@ -52,7 +52,7 @@
 	@filter="filter"></filtrar>
 	<b-row class="justify-content-center">
 		<b-col>
-			<b-card no-body>
+			<b-card no-body header-class="al-borde-md">
 				<template v-slot:header>
 					<card-header :is_desktop="is_desktop"
 								:is_loading="is_loading"
@@ -523,6 +523,7 @@ export default {
 			this.article.price = ''
 			this.article.stock = 0
 			this.article.new_stock = 0
+			this.article.stock_null = 0
 			if (!this.isProvider(this.user)) {
 				this.article.provider = 0
 			}

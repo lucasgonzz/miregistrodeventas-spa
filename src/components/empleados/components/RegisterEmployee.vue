@@ -10,6 +10,7 @@
 				<b-form-input
 				id="employee-name"
 				autocomplete="off"
+				@keydown.enter="changeToPassword"
 				v-model="employee.name"
 				placeholder="Ingrese el nombre del empleado"></b-form-input>
 			</b-form-group>
@@ -22,7 +23,7 @@
 				autocomplete="off"
 				placeholder="Ingrese la contraseña para el empleado"></b-form-input>
 			</b-form-group>
-			<p>
+			<p class="m-b-0 m-t-10">
 				Seleccione los permisos para su empleado
 			</p>
 			<permissions-list 
@@ -60,6 +61,9 @@ export default {
 		}
 	},
 	methods: {
+		changeToPassword() {
+			document.getElementById('employee-password').focus()
+		},
 		saveEmployee() {
 			this.$emit('saveEmployee')
 		},

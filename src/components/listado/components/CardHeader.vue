@@ -131,7 +131,7 @@ export default {
 	},
 	methods: {
 		search(input) {
-			if (input.length < 1) { return [] }
+			if (input.length < 2) { return [] }
 			return this.articles.filter(article => {
 				return article.name.toLowerCase().startsWith(input.toLowerCase())
 			})

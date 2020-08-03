@@ -603,11 +603,13 @@ export default {
 				this.show_date = false
 			}
 			if (sale_time.showInModal) {
-				link += sale_time.id + '/0/'
+				link += sale_time.id + '/0'
 			} else {
-				link += sale_time.id_to_send + '/1/' 
+				link += sale_time.id_to_send + '/1' 
 			}
-			link += this.only_one_date
+			if (this.only_one_date != '') {
+				link += '/'+this.only_one_date
+			}
 			console.log(`link: ${link}`)
 			this.$api.get(link)
 			.then(res => {

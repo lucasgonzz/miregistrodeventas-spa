@@ -14,7 +14,7 @@
                     <div class="card-body">
                         <div class="row">                            
                             <div class="col-12 col-md-8">
-                                <bar-chart :chart-data="statistics.first" :options="options" :height="200"></bar-chart>
+                                <bar-chart :chart-data="statistics.first" :options="options" :height="300"></bar-chart>
                             </div>
                             <div class="col-12 col-md-4 p-t-30">
                                 <ul class="list-group">

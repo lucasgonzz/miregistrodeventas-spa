@@ -6,9 +6,12 @@
 		cols="12"
 		lg="4">
 			<b-form-input
+			v-intro-step="1"
+			v-intro="'Ingresa el codigo del producto que quieras agregar a la venta'"
 			id="article-bar-code"
 			v-model="article.bar_code"
 			autocomplete="off" 
+			@keydown.shift="vender"
 			@keyup.enter="addArticleFromBarCode"
 			placeholder="Ingrese el codigo de barras"></b-form-input>
 		</b-col>
@@ -17,8 +20,11 @@
 		lg="5"
 		class="col-autocomplete">
             <autocomplete 
+			v-intro-step="2"
+			v-intro="'Busca el producto que quieras agregar a la venta'"
             ref="articleName"
             :search="search" 
+            @keydown.shift="vender"
 			:get-result-value="getResultValue"
             auto-select
             placeholder="Buscar un artículo"
@@ -39,6 +45,8 @@
 			<b-button-group
 			v-else>
 				<b-button 
+				v-intro-step="4"
+				v-intro="'Guarda la venta'"
 				variant="primary"
 				@click="vender"
 				:class="articles_length > 0 ? '' : 'disabled'" >
@@ -47,6 +55,8 @@
 					Vender
 				</b-button>
 				<b-button 
+				v-intro-step="3"
+				v-intro="'Selecciona un cliente para la venta (opcional)'"
 				v-if="canUse('client', user) && hasPermissionTo('client', user)"
 				variant="success"
 				:class="articles_length > 0 ? '' : 'disabled'"
@@ -83,7 +93,7 @@ export default {
 	},
 	methods: {
         search(input) {
-            if (input.length < 1) { return [] }
+            if (input.length < 2) { return [] }
             return this.articles.filter(article => {
                 return article.name.toLowerCase().includes(input.toLowerCase())
             })

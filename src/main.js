@@ -18,6 +18,12 @@ import VueIziToast from 'vue-izitoast';
 import 'izitoast/dist/css/iziToast.min.css'
 Vue.use(VueIziToast)
 
+// Introjs
+// import introJs from 'intro.js'
+import VueIntro from 'vue-introjs'
+import 'intro.js/introjs.css';
+Vue.use(VueIntro)
+
 // Bootstrap
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'

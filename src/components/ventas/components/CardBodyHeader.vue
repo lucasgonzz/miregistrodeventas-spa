@@ -27,6 +27,7 @@
 					Total costos: {{ price(total_cost) }}
 				</span>
 			</b-button>
+			
 		</b-button-group>
 	</b-col>
 	<b-col

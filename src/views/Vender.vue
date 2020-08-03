@@ -6,7 +6,7 @@
 	@vender_a_cliente="vender_a_cliente"></clients>
 	<successful-sale
 	:sale="sale"></successful-sale>
-	<article-not-register @updateArticles="updateArticlesList"></article-not-register>
+	<article-not-register></article-not-register>
 	<change-percentage-card 
 		:percentage_card="percentage_card"
 		:updating_percentage_card="updating_percentage_card"
@@ -14,7 +14,7 @@
 	<b-row class="justify-content-center">
 		<b-col
 		cols="12"
-		xl="8">
+		xl="10">
 			<b-card>
 				<template v-slot:header>
 					<header-form
@@ -326,6 +326,7 @@ export default {
 						article.quedarian = null
 						this.articles.unshift(article)
 						if (article.uncontable == 1) {
+							article.calculate_from_total = false
 							article.measurement_original = article.measurement
 							setTimeout(() => {
 								document.getElementById(`amount-measurement-${article.id}`).focus()
@@ -355,6 +356,7 @@ export default {
 							article.quedarian = null
 							this.articles.unshift(article)
 							if (article.uncontable == 1) {
+								article.calculate_from_total = false
 								article.measurement_original = article.measurement
 								setTimeout(() => {
 									document.getElementById(`amount-measurement-${article.id}`).focus()
@@ -369,7 +371,6 @@ export default {
 					})
 					.catch(err => {
 						this.$toast.error('Error, recargue la pagina por favor!')
-						this.loading_add_article = false
 						console.log(err)
 					})
 				}
@@ -386,36 +387,45 @@ export default {
 			this.total = 0
 			this.cantidad_articulos = 0
 			this.cantidad_unidades = 0
+			let price
+			let amount
 			this.articles.forEach(article => {
 				this.cantidad_articulos++
-				let price
 				if (this.special_price_id == 0) {
 					price = Number(article.original_price)
 				} else {
 					price = this.getSpecialPrice(article)
 				}
-				let amount = Number(article.amount)
+				amount = Number(article.amount)
 				if (article.uncontable == 0) {
-					this.total += price * amount
+					article.total = price * amount
 					this.cantidad_unidades += amount
 				} else {
 					this.cantidad_unidades++
-					if (article.measurement == article.measurement_original) {
-						this.total += price * amount
+					if (article.calculate_from_total) {
+						// console.log(`amount: ${article.total} / ${price} = ${article.total / price}`)
+						article.amount = Number((article.total / price).toFixed(2))
 					} else {
-						this.total += price * amount / 1000
+						if (article.measurement == article.measurement_original) {
+							// console.log(`total: ${price} * ${amount} = ${price * amount}`)
+							article.total = Number((price * amount).toFixed(2))
+						} else {
+							// article.total = Number((price * amount / 1000).toFixed(2))
+						}
 					}
 				}
+				this.total += Number(article.total)
 				if (article.stock) {
 					if (article.uncontable == 0) {
 						article.quedarian = article.stock - amount
 					} else {
-						if (article.measurement == article.measurement_original) {
-							article.quedarian = article.stock - amount
-						} else {
-							article.quedarian = article.stock - (amount / 1000)
-						}
-						console.log('quedarian: '+article.quedarian)
+						article.quedarian = '-'
+						// if (article.measurement == article.measurement_original) {
+						// 	article.quedarian = article.stock - amount
+						// } else {
+						// 	article.quedarian = article.stock - (amount / 1000)
+						// }
+						// console.log('quedarian: '+article.quedarian)
 					}
 				} else {
 					article.quedarian = 'sin datos'
@@ -501,9 +511,8 @@ export default {
 					debt: -1,
 					special_price_id: this.special_price_id
 				})
-				.then(res => {
+				.then(() => {
 					this.vendiendo = false
-					console.log('aca: '+res.data)
 					this.articles = []	
 					this.total = 0
 					this.cantidad_articulos = 0
@@ -520,12 +529,6 @@ export default {
 				this.bar_code = ''
 				document.getElementById('bar_code').focus()
 			}
-		},
-		updateArticlesList() {
-			this.getBarCodes()
-			this.getNames()
-			this.getAvailableArticles()
-			this.$bvModal.hide('article-not-register')
 		},
 	}	
 }

@@ -30,13 +30,9 @@ export default {
     },
     watch: {
         authenticated() {
-            console.log('watch authenticated')
             if (this.authenticated) {
-                console.log('esta logeado')
                 this.callMethods()
-            } else {
-                console.log('no esta logeado')
-            }
+            } 
         }
     },
     created() {
@@ -55,13 +51,15 @@ export default {
     },
     methods: {
         callMethods() {
-            console.log('llamando metodos')
-            this.$store.dispatch('getSpecialPrices')
-            this.$store.dispatch('articles/getArticlesNames')
-            this.$store.dispatch('markers/getMarkers')
-            this.$store.dispatch('markers/getMarkerGroups')
-            this.$store.dispatch('markers/getMarkerGroupsWithMarkers')
-            this.$store.dispatch('clients/getClients')
+            if (this.user.admin_id) {
+                console.log('llamando metodos')
+                this.$store.dispatch('getSpecialPrices')
+                this.$store.dispatch('articles/getArticlesNames')
+                this.$store.dispatch('markers/getMarkers')
+                this.$store.dispatch('markers/getMarkerGroups')
+                this.$store.dispatch('markers/getMarkerGroupsWithMarkers')
+                this.$store.dispatch('clients/getClients')
+            }
         }
     }
 }
