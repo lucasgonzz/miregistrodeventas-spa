@@ -4,6 +4,8 @@
 		<!-- Buscador -->
 		<b-col cols="12" class="col-autocomplete" md="6" lg="8" xl="4">
 			<autocomplete 
+			v-intro-step="1"
+			v-intro="'Busca un producto mediante su nombre'"
 			:search="search" 
 			auto-select
 			:get-result-value="getResultValue"
@@ -17,11 +19,17 @@
 		md="6"
 		lg="4"
 		xl="4">
-			<a href="articles/exel" class="btn btn-sm-only-sm btn-success m-l-5">
+			<a 
+			v-intro-step="2"
+			v-intro="'Exporta un exel de tus productos'"
+			href="articles/exel" 
+			class="btn btn-sm-only-sm btn-success m-l-5">
 				<i class="icon-download"></i>
 				Exel
 			</a>
 			<b-button 
+			v-intro-step="3"
+			v-intro="'Genera un PDF de tus productos'"
 			variant="danger"
 			v-b-modal="'descargar-pdf'"
 			class="m-l-5">
@@ -30,6 +38,9 @@
 			</b-button>
 			<b-button 
 			variant="secondary"
+			v-intro-step="4"
+			v-intro-position="'left'"
+			v-intro="'Filtra tus productos mediante diferentes opciones'"
 			class="m-l-5" 
 			v-b-modal="'listado-filtrar'"
 			data-step="2"
@@ -43,8 +54,8 @@
 		md="6" 
 		xl="4">
 			<pagination @changePage="changePage" 
-				data-step="3"
-				data-intro="Pagine sus artículos de 10 en 10."
+				v-intro-step="5"
+				v-intro="'Pagina tus productos de 10 en 10'"
 				:is_filter="is_filter"
 				:pagination="pagination"
 				:is_loading="is_loading"

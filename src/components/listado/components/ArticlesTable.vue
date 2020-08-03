@@ -101,7 +101,10 @@
 							{{ stock(article) }}
 						</td>
 						<td v-if="!isProvider(user)" class="d-none d-md-table-cell">
-							<b-dropdown text="Proveedores">
+							<b-dropdown text="Proveedores"
+							v-intro-step="6"
+							v-intro-position="'left'"
+							v-intro="'Mira los proveedores de un producto, los costos y precios que se pagaron en cada fecha'">
 								<b-dropdown-item
 								v-for="provider in article.providers_not_repeated"
 								:key="provider.id">
@@ -121,6 +124,9 @@
 							<!-- Editar -->
 							<b-button 
 							variant="primary"
+							v-intro-step="7"
+							v-intro-position="'left'"
+							v-intro="'Actualiza los datos de un producto'"
 							size="sm"
 							@click="editArticle(article)" 
 							class="btn-listado btn-listado-edit">
@@ -129,11 +135,11 @@
 
 							<!-- Marcaodres -->
 							<button class="btn btn-sm"
-									:class="article.marker ? 'btn-warning' : 'btn-primary'"
-									data-position="left"
-									data-step="5"
-									data-intro="Cree un marcador del artículo para un rapido acceso desde la seccion de ventas."
-									@click="showAddMarker(article)">
+							v-intro-step="8"
+							v-intro-position="'left'"
+							v-intro="'Crea un marcador de tu producto para un rapido acceso en la seccion VENDER'"
+							:class="article.marker ? 'btn-warning' : 'btn-primary'"
+							@click="showAddMarker(article)">
 								<i class="icon-star-1"></i>
 							</button>
 
