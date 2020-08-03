@@ -2,6 +2,8 @@
 	<b-form-row>
 		<b-col>
 			<b-form-group
+			v-intro-step="3"
+			v-intro="'Ingresa el nombre para tu producto'"
 			class="col-autocomplete"
 			label="Nombre"
 			label-for="article-name">

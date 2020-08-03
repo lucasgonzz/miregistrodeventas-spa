@@ -2,6 +2,8 @@
 	<b-form-row>
 		<b-col cols="12" :sm="col">
 			<b-form-group
+			v-intro-step="4"
+			v-intro="'Completa con el costo de tu producto (opcional)'"
 			label="Costo"
 			label-for="article-cost">
 				<b-form-input
@@ -16,6 +18,8 @@
 		</b-col>
 		<b-col cols="12" :sm="col">
 			<b-form-group
+			v-intro-step="5"
+			v-intro="'Completa con el precio al que vas a vender tu producto'"
 			label="Precio"
 			label-for="article-price">
 				<b-form-input

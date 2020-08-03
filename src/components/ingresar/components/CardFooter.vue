@@ -1,6 +1,8 @@
 <template>
 	<div class="row m-0">
-		<div class="col-4 p-0" data-step="12" data-intro="Imprima los tickets de los artículos que valla registrando y/o actualizando.">
+		<div class="col-4 p-0"
+		v-intro-step="8"
+		v-intro="'Por cada producto que guardes vas a tener disponible su ticket para imprimir'">
 			<button 
 			v-b-modal="'print-tickets'"
 			class="btn btn-block btn-left btn-link m-0">
@@ -8,7 +10,9 @@
 				Tickets ({{ articles_id_to_print.length }})
 			</button>
 		</div>
-		<div class="col p-0" data-step="10" data-intro="Una vez llenado los campos, precione y guarde su artículo.">
+		<div class="col p-0" 
+		v-intro-step="7"
+		v-intro="'Guarda tu producto'">
 			<button @click.prevent="saveArticle"
 					class="btn btn-block btn-right btn-success m-0">
 				<i v-show="!guardando"

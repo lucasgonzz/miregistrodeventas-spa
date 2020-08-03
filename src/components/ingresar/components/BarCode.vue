@@ -2,6 +2,8 @@
 	<b-form-row>
 		<b-col>
 			<b-form-group
+			v-intro-step="2"
+			v-intro="'Ingresa el codigo de tu producto para agregarlo rapidamente a una nueva venta'"
 			label="Codigo de barras"
 			label-for="article-bar-code">
 				<b-form-input

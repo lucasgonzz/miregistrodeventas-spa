@@ -2,6 +2,8 @@
 	<b-row class="m-b-0">
 		<b-col lg="4">
 			<b-form-group
+			v-intro-step="6"
+			v-intro="'Ingresa la cantidad de tu producto, para tener un control del stock a medida que vayas vendiendo unidades del mismo'"
 			label="Cantidad"
 			label-for="article-stock">
 				<b-form-input

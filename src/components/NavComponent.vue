@@ -150,7 +150,6 @@ export default {
 	},
 	methods: {
         startIntrojs() {
-            this.$intro('#vender')
             this.$intro()
             .setOption("showProgress", true)
             .setOption('doneLabel', 'Listo')

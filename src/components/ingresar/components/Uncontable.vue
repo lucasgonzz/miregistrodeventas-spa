@@ -1,7 +1,9 @@
 <template>
 	<b-form-row>
 		<b-col md="4">
-			<b-form-group>
+			<b-form-group
+				v-intro-step="1"
+				v-intro="'Indica si tu producto es incontable para guardar su precio por kilos o gramos'">
 				<b-form-checkbox 
 				class="j-between"
 				id="uncontable"
