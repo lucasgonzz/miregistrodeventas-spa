@@ -7,6 +7,8 @@
 			Volver
 		</button>
 		<button v-if="!hasPermissionTo('sale.index.only_day', user, true)"
+		v-intro-step="2"
+		v-intro="'Busca las ventas de un dia en especifico'"
 		class="btn btn-primary m-l-5 btn-sm-only-sm" 
 		v-b-modal="'from-date'">
 			<i class="icon-calendar"></i>

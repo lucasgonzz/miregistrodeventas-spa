@@ -1,7 +1,7 @@
 <template>
 <nav aria-label="Page navigation" class="pagination-nav"
-	data-step="1"
-	data-intro="Aqui se mostraran los dias de la semana para poder ver sus ventas.">
+	v-intro-step="1"
+	v-intro="'Selecciona el dia de la semana para ver sus ventas'">
 	<ul class="pagination m-0" v-show="!loading_days_previus_sales">
 		<li class="page-item">
 			<a class="page-link" href="#"	

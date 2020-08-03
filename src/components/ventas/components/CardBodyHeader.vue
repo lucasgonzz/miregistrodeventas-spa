@@ -7,6 +7,8 @@
 	class="col-info">
 		<b-button-group class="btn-group-totales">
 			<b-button
+			v-intro-step="3"
+			v-intro="'Total vendido en el día'"
 			variant="success">
 				<span v-show="is_loading">
 					<span class="spinner-border spinner-border-sm"></span>
