@@ -71,6 +71,7 @@
 								<i class="icon-plus"></i>
 							</button>
 						</td>
+						
 						<td class="d-none d-md-table-cell">
 							{{ barCode(article) }}
 						</td>

@@ -28,7 +28,8 @@ export default {
             window.open('ingresar')
         },
         run() {
-            this.$store.dispatch('articles/getArticlesNames')
+            this.$store.dispatch('articles/getArticles')
+            this.$store.dispatch('articles/getBarCodes')
             this.$bvModal.hide('article-not-register')
         }
     }

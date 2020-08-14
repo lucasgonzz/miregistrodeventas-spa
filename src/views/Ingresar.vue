@@ -339,7 +339,8 @@ export default {
 					if (this.article.bar_code != '') {
 						this.bar_codes.push(this.article.bar_code)
 					}
-					this.$store.commit('articles/addArticleName', article)
+					this.$store.commit('articles/addArticle', article)
+					this.$store.commit('articles/addBarCode', article.bar_code)
 					this.articles.push(article)
 					this.articles_id_to_print.push(article.id)
 					this.clearArticle()
@@ -363,7 +364,7 @@ export default {
 				this.articles_id_to_print.push(article.id)
 				this.clearArticle()
 				this.bar_codes.push(article.bar_code)
-				this.$store.dispatch('articles/getArticlesNames')
+				this.$store.dispatch('articles/getArticles')
 				this.$toast.success('Artículo actualizado correctamente')
 				this.$bvModal.hide('edit-article')
 			})

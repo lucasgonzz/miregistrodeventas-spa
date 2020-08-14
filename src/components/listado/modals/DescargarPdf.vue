@@ -118,7 +118,7 @@ export default {
     },
     methods: {
         getLink() {
-            var link = 'pdf/' + this.getColumnasParaImpirimir().join('-') + '/'
+            var link = process.env.VUE_APP_API_URL+'/pdf/' + this.getColumnasParaImpirimir().join('-') + '/'
             if (this.articulosADescargar == 'esta-pagina') {
                 this.articles_id.forEach( id => {
                     link += id + '-'

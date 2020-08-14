@@ -54,19 +54,20 @@
 		<b-col>
 			<b-card no-body header-class="al-borde-md">
 				<template v-slot:header>
-					<card-header :is_desktop="is_desktop"
-								:is_loading="is_loading"
-								:selected_articles="selected_articles"
-								:user="user"
-								:is_filter="is_filter"
-								:pagination="pagination"
-								:pagesNumber="pagesNumber"
-								@setLoading="setLoading"
-								@getArticles="getArticles"
-								@setArticle="setArticle"
-								@selectPossibleResult="selectPossibleResult"
-								@updateArticlesList="updateArticlesList"
-								@updateArticleList="updateArticleList"></card-header>
+					<card-header 
+					:is_desktop="is_desktop"
+					:is_loading="is_loading"
+					:selected_articles="selected_articles"
+					:user="user"
+					:is_filter="is_filter"
+					:pagination="pagination"
+					:pagesNumber="pagesNumber"
+					@setLoading="setLoading"
+					@getArticles="getArticles"
+					@setArticle="setArticle"
+					@selectPossibleResult="selectPossibleResult"
+					@updateArticlesList="updateArticlesList"
+					@updateArticleList="updateArticleList"></card-header>
 				</template>
 				<b-container fluid class="p-t-10">
 					<volver-a-listar
@@ -355,7 +356,7 @@ export default {
 		*/
 		getArticles(page) {
 			this.is_loading = true
-			this.$api.get('articles?page=' + page)
+			this.$api.get('articles/paginated?page=' + page)
 			.then( res => {
 				console.log('llegaron estos articulos:')
 				console.log(res.data.articles.data);
@@ -394,6 +395,7 @@ export default {
 				this.updateArticlesList()
 				this.$bvModal.hide('edit-article')
 				this.$toast.success(`${this.article.name} se actualizo con exito`)
+				this.$store.dispatch('articles/getArticles')
 				this.clearArticle()
 			})
 			.catch((err) => {
@@ -547,6 +549,7 @@ export default {
 			this.searched = false
 			this.search_query = ''
 			this.selected_articles.selected_articles = []
+			document.getElementsByClassName('autocomplete-input')[0].value = ''
 			this.getArticles(this.pagination.current_page)
 		},
 

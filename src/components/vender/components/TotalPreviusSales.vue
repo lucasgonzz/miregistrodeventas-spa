@@ -55,7 +55,7 @@
 					Debe {{ price(total - previus_sale.debt) }}
 				</button>
 			</div>
-			<div class="float-right m-l-5 d-none d-lg-block">
+			<div class="float-right m-l-5 d-none d-sm-block">
 				<b-dropdown split
 				@click="previusSale">
 					<template v-slot:button-content>

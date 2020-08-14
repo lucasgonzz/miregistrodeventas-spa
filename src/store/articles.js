@@ -7,11 +7,25 @@ export default {
 	namespaced: true,
 	state: {
 		articles_names: [],
+		articles: [],
+		bar_codes: [],
 		articles_names_loaded: false
 	},
 	getters: {
 	},
 	mutations: {
+		setArticles(state, articles) {
+			state.articles = articles
+		},
+		addArticle(state, article) {
+			state.articles.push(article)
+		},
+		setBarCodes(state, bar_codes) {
+			state.bar_codes = bar_codes
+		},
+		addBarCode(state, bar_code) {
+			state.bar_codes.push(bar_code)
+		},
 		setArticlesNames(state, value) {
 			state.articles_names = value
 		},
@@ -23,6 +37,25 @@ export default {
 		},
 	},
 	actions: {
+		getArticles({ commit }) {
+			axios.get('/api/articles')
+			.then(res => {
+				commit('setArticles', res.data)
+				console.log('Se cargaron  articulos')
+			})
+			.catch(err => {
+				console.log(err)
+			})
+		},
+		getBarCodes({ commit }) {
+			axios.get('/api/articles/bar-codes')
+			.then(res => {
+				commit('setBarCodes', res.data)
+			})
+			.catch(err => {
+				console.log(err)
+			})
+		},
 		getArticlesNames({commit}) {
 			axios.get('api/articles/names')
 			.then(res => {

@@ -50,6 +50,7 @@
         <b-button
         variant="danger"
         @click="generatePdf">
+            <i class="icon-print"></i>
             Generar remito
         </b-button>
     </template>

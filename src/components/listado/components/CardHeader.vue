@@ -8,6 +8,7 @@
 			v-intro="'Busca un producto mediante su nombre'"
 			:search="search" 
 			auto-select
+			ref="article-search"			
 			:get-result-value="getResultValue"
 			placeholder="Buscar un artículo"
 			@submit="setArticle"></autocomplete>
@@ -137,18 +138,29 @@ export default {
 			return false
 		},
 		articles() {
-			return this.$store.state.articles.articles_names
+			return this.$store.state.articles.articles
+		},
+		bar_codes() {
+			return this.$store.state.articles.bar_codes
 		}
 	},
 	methods: {
 		search(input) {
-			if (input.length < 2) { return [] }
-			return this.articles.filter(article => {
-				return article.name.toLowerCase().startsWith(input.toLowerCase())
-			})
+			if (input.length < 3) { return [] }
+			if (this.bar_codes.includes(input)) {
+				console.log('entro')
+				this.$api.get(`articles/get-by-bar-code/${input}`)
+				.then(res => {
+					this.$emit('selectPossibleResult', res.data)
+				})
+			} else {
+				return this.articles.filter(article => {
+					return article.name.toLowerCase().startsWith(input.toLowerCase())
+				})
+			}
 		},
 		getResultValue(article) {
-			return article.name
+			return `${article.name}  |  ${this.price(article.price)}`
 		},
 		async setArticle(article) {
 			try {
@@ -156,8 +168,8 @@ export default {
 				let res = await this.$api.get(`articles/${article.id}`)
 				if (res) {
 					this.$emit('setLoading', false)
+					this.$emit('selectPossibleResult', res.data)
 				}
-				this.$emit('selectPossibleResult', res.data)
 			} catch(err) {
 				console.log(err)
 			}

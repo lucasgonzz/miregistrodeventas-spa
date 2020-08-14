@@ -153,6 +153,9 @@ export default {
 		special_prices() {
 			return this.$store.state.special_prices
 		},
+		articles_store() {
+			return this.$store.state.articles.articles
+		}
 	},
 	beforeRouteLeave(to, from, next) {
 		if (this.articles.length) {
@@ -282,8 +285,16 @@ export default {
 			this.articles.forEach(article => {
 				if (article.bar_code == this.article.bar_code || article.id == this.article.id) {
 					if (article.uncontable == 0) {
-						article.amount++
-						this.$toast.success('El artículo ya esta en la venta, se aumento una unidad')
+						if (this.isProvider(this.user)) {
+							article.amount = Number(article.amount)
+							article.amount += Number(this.article.amount)
+							console.log(article.amount)
+							console.log(Number(this.article.amount))
+							this.$toast.success(`El artículo ya esta en la venta, se aumentaron ${this.article.amount} unidades`)
+						} else {
+							article.amount++
+							this.$toast.success('El artículo ya esta en la venta, se aumento una unidad')
+						}
 						this.calculateTotal()
 						repetido = true
 						this.possible_articles = []
@@ -310,80 +321,28 @@ export default {
 		addArticle() {
 			var repetido = this.isRepeated()
 			if (!repetido) {
-				this.loading_add_article = true
-				// Si el id del articulo no es null es porque se busco por nombre
-				if (this.article.id) {
-					this.$api.get(`articles/${this.article.id}`)
-					.then(res => {
-						this.loading_add_article = false
-						let article = res.data
-						article.original_price = article.price
-						if (this.isProvider(this.user)) {
-							article.amount = this.article.amount
-						} else {
-							article.amount = 1
-						}
-						article.quedarian = null
-						this.articles.unshift(article)
-						if (article.uncontable == 1) {
-							article.calculate_from_total = false
-							article.measurement_original = article.measurement
-							setTimeout(() => {
-								document.getElementById(`amount-measurement-${article.id}`).focus()
-							}, 500)
-						} else {
-							this.calculateTotal()
-						}
-						this.focusHeaderForm()
-					})
-					.catch(err => {
-						this.$toast.error('Error, recargue la pagina por favor!')
-						this.loading_add_article = false
-						console.log(err)
-					})
+				let article = this.articles_store.find(article => article.id == this.article.id)
+				article.original_price = article.price
+				if (this.isProvider(this.user)) {
+					article.amount = this.article.amount
 				} else {
-					this.$api.get(`articles/get-by-bar-code/${this.article.bar_code}`)
-					.then(res => {
-						this.loading_add_article = false
-						let article = res.data
-						if (article) {
-							article.original_price = article.price
-							if (this.isProvider(this.user)) {
-								article.amount = this.article.amount
-							} else {
-								article.amount = 1
-							}
-							article.quedarian = null
-							this.articles.unshift(article)
-							if (article.uncontable == 1) {
-								article.calculate_from_total = false
-								article.measurement_original = article.measurement
-								setTimeout(() => {
-									document.getElementById(`amount-measurement-${article.id}`).focus()
-								}, 500)
-							} else {
-								this.calculateTotal()
-							}
-							this.focusHeaderForm()
-						} else {
-							this.$bvModal.show('article-not-register')
-						}
-					})
-					.catch(err => {
-						this.$toast.error('Error, recargue la pagina por favor!')
-						console.log(err)
-					})
+					article.amount = 1
+				}
+				article.quedarian = null
+				this.articles.unshift(article)
+				if (article.uncontable == 1) {
+					article.calculate_from_total = false
+					article.measurement_original = article.measurement
+					setTimeout(() => {
+						document.getElementById(`amount-measurement-${article.id}`).focus()
+					}, 500)
+				} else {
+					this.calculateTotal()
 				}
 			}
 		},
-		focusHeaderForm() {
-			this.article.amount = ''
-			if (this.article.bar_code.length > 0) {
-				this.article.bar_code = ''
-				document.getElementById('article-bar-code').focus()
-			}
-		},
 		calculateTotal() {
+			console.log('calculateTotal')
 			this.total = 0
 			this.cantidad_articulos = 0
 			this.cantidad_unidades = 0
@@ -403,14 +362,12 @@ export default {
 				} else {
 					this.cantidad_unidades++
 					if (article.calculate_from_total) {
-						// console.log(`amount: ${article.total} / ${price} = ${article.total / price}`)
 						article.amount = Number((article.total / price).toFixed(2))
 					} else {
 						if (article.measurement == article.measurement_original) {
-							// console.log(`total: ${price} * ${amount} = ${price * amount}`)
 							article.total = Number((price * amount).toFixed(2))
 						} else {
-							// article.total = Number((price * amount / 1000).toFixed(2))
+							article.total = Number((price * amount / 1000).toFixed(2))
 						}
 					}
 				}
@@ -420,12 +377,6 @@ export default {
 						article.quedarian = article.stock - amount
 					} else {
 						article.quedarian = '-'
-						// if (article.measurement == article.measurement_original) {
-						// 	article.quedarian = article.stock - amount
-						// } else {
-						// 	article.quedarian = article.stock - (amount / 1000)
-						// }
-						// console.log('quedarian: '+article.quedarian)
 					}
 				} else {
 					article.quedarian = 'sin datos'
@@ -451,6 +402,8 @@ export default {
 			this.article.name = ''
 			this.article.id = null
 			this.article.amount = ''
+			this.articles.push({})
+			this.articles.splice(this.articles.length-1,1)
 		},
 		getSpecialPrice(article) {
 			let special_price_ = article.original_price

@@ -12,7 +12,7 @@
 			v-model="article.bar_code"
 			autocomplete="off" 
 			@keydown.shift="vender"
-			@keyup.enter="addArticleFromBarCode"
+			@keydown.enter="addArticle"
 			placeholder="Ingrese el codigo de barras"></b-form-input>
 		</b-col>
 		<b-col
@@ -28,7 +28,7 @@
 			:get-result-value="getResultValue"
             auto-select
             placeholder="Buscar un artículo"
-            @submit="addArticleFromName"></autocomplete>
+            @submit="addArticle"></autocomplete>
 		</b-col>
 		<b-col
 		class="col-buttons"
@@ -82,47 +82,57 @@ export default {
 	components: {
 		Autocomplete
 	},
-	data() {
-		return {
-		}
-	},
 	computed: {
 		articles() {
-			return this.$store.state.articles.articles_names
+			return this.$store.state.articles.articles
 		}
 	},
 	methods: {
         search(input) {
-            if (input.length < 2) { return [] }
+            if (input.length < 3) { return [] }
             return this.articles.filter(article => {
                 return article.name.toLowerCase().includes(input.toLowerCase())
             })
         },
 		getResultValue(article) {
-			return article.name
+			return `${article.name}  |  ${this.price(article.price)}`
 		},
-		addArticleFromName(article) {
-			this.article.id = article.id
+		addArticle(article) {
+			if (this.article.bar_code != '') {
+				let article_finded = this.articles.find(
+										article => article.bar_code == this.article.bar_code
+									)
+				if (typeof article_finded === 'undefined') {
+					this.$bvModal.show('article-not-register')
+					return
+				} else {
+					this.article.id = article_finded.id
+				}
+			} else {
+				this.article.id = article.id
+			}
 			if (this.isProvider(this.user)) {
 				document.getElementById('article-amount').focus()
 			} else {
 				this.$emit('addArticle')
-				this.$refs.articleName.setValue('')
+				this.clearArticle()
 			}
 		},
-		addArticleFromBarCode() {
-			if (this.isProvider(this.user)) {
-				document.getElementById('article-amount').focus()
-			} else {
-				this.$emit('addArticle')
-			}
+		clearArticle() {
+			this.$refs.articleName.setValue('')
+			this.article.bar_code = ''
+			this.article.name = ''
+			this.article.amount = null
+			console.log('se limpio article')
 		},
 		addArticleFromAmount() {
 			this.$emit('addArticle')
-			this.$refs.articleName.setValue('')
+			this.clearArticle()
 		},
 		vender() {
-			this.$emit('vender')
+			if (!this.isProvider(this.user)) {
+				this.$emit('vender')
+			}
 		},
 	},
 }

@@ -50,7 +50,7 @@
 				<i class="icon-clock-1"></i>
 				Horarios de ventas
 			</b-dropdown-item>
-			<b-dropdown-item 
+			<!-- <b-dropdown-item 
 			v-show="isAdmin(user) && !showing_statistics"
 			@click="showStatistics">
 				<i class="icon-chart" v-show="!loading_statistics && !showing_statistics"></i>
@@ -61,7 +61,7 @@
 				<span v-show="!loading_statistics">
 					Estadisticas
 				</span>
-			</b-dropdown-item>
+			</b-dropdown-item> -->
 		</b-dropdown>
 	</b-col>
 	<b-col

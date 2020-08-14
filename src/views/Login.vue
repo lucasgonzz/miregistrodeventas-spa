@@ -1,6 +1,14 @@
 <template>
 <div id="login">
     <admin-login></admin-login>
+	<b-row class="j-center m-b-0">
+		<b-col class="d-none d-md-block" cols="4">
+			<img class="logo" src="@/assets/logo.png" alt="logo">
+			<p class="text-center">
+				<strong>Mi registro de ventas</strong>
+			</p>
+		</b-col>
+	</b-row>
     <b-row class="j-center">
 		<b-col 
 		cols="12"
@@ -23,8 +31,9 @@
                     </b-button>
 				</template>
 				<b-container fluid>
-					<b-row>
+					<b-row class="m-b-0">
 						<b-col
+						class="col-margin"
 						cols="12"
 						md="5">
 							<b-card header="Ingresar como dueño" no-body>
@@ -58,6 +67,7 @@
 												<b-button 
 												:class="commerce.name != '' && commerce.password != '' ? '' : 'disabled'"
 												variant="primary"
+												block
 												@click="loginCommerce">
 													<i v-show="!loading_commerce_login"
 													class="icon-check"></i>
@@ -72,6 +82,7 @@
 							</b-card>
 						</b-col>
 						<b-col
+						class="col-margin"
 						cols="12"
 						md="7">
 							<b-card header="Ingresar como empleado" no-body>
@@ -119,6 +130,7 @@
 											class="j-end">
 												<b-button 
 												variant="primary"
+												block
 												:class="employee.commerce != '' && employee.name != '' && employee.password != '' ? '' : 'disabled'"
 												@click="loginEmployee">
 													<i v-show="!loading_employee_login"
@@ -203,6 +215,8 @@ export default {
 						}
 					})
 					.catch(err => {
+						this.loading_commerce_login = false
+						this.$toast.error(`${err}`)
 						console.log(err)
 					})
 				}) 
@@ -247,20 +261,28 @@ export default {
 }
 </script>
 <style scoped lang="sass">
+#login 
+	@media screen and (max-width: 778px)
+		margin-top: -20px
+.col-margin
+	@media screen and (max-width: 778px)
+		margin-bottom: 20px
+
 .card 
-    width: 100%
-    margin-bottom: 1em
-    .card-header
-        font-weight: bold
+	width: 100%
+	.card-header
+		font-weight: bold
 
 .input-inline 
-    width: 48%
+	width: 48%
 
 .strong-card-title
-    display: block
-    width: 100%
-    font-weight: bold
-    font-size: 1rem
-    text-align: center
-    margin: 0
+	display: block
+	width: 100%
+	font-weight: bold
+	font-size: 1rem
+	text-align: center
+	margin: 0
+.logo 
+	width: 100px
 </style>

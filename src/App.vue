@@ -54,7 +54,7 @@ export default {
             if (this.user.admin_id) {
                 console.log('llamando metodos')
                 this.$store.dispatch('getSpecialPrices')
-                this.$store.dispatch('articles/getArticlesNames')
+                this.$store.dispatch('articles/getArticles')
                 this.$store.dispatch('markers/getMarkers')
                 this.$store.dispatch('markers/getMarkerGroups')
                 this.$store.dispatch('markers/getMarkerGroupsWithMarkers')
