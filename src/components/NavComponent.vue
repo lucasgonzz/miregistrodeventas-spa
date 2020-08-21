@@ -197,6 +197,7 @@ export default {
             color: rgba(0, 123, 255, 1) !important
 
 .navbar
+    margin-bottom: 1em
     position: relative
     -webkit-box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)
     -moz-box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)

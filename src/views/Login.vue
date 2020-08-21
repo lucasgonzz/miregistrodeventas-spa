@@ -1,155 +1,80 @@
 <template>
 <div id="login">
     <admin-login></admin-login>
-	<b-row class="j-center m-b-0">
-		<b-col class="d-none d-md-block" cols="4">
-			<img class="logo" src="@/assets/logo.png" alt="logo">
-			<p class="text-center">
-				<strong>Mi registro de ventas</strong>
-			</p>
+    <register></register>
+	<b-row>
+		<b-col 
+		class="d-none d-xl-block"
+		xl="8">
+			<img src="@/assets/precentacion.jpg" alt="Imagen">
 		</b-col>
-	</b-row>
-    <b-row class="j-center">
 		<b-col 
 		cols="12"
-		md="10"
-		xl="8">
-			<b-card body-class="al-borde-md">
-				<template v-slot:header>
-                    <h1 class="h3 m-0 d-inline-block">
-                        <strong>
-                            <i class="icon-user"></i>
-                            Ingresar
-                        </strong>
-                    </h1>
-                    <b-button
-                    variant="primary"
-                    class="float-right"
-                    v-b-modal="'admin-login'">
-                        <i class="icon-lock"></i>
-                        Administrador
-                    </b-button>
-				</template>
-				<b-container fluid>
-					<b-row class="m-b-0">
-						<b-col
-						class="col-margin"
-						cols="12"
-						md="5">
-							<b-card header="Ingresar como dueño" no-body>
-								<div class="p-t-15">
-									<b-container fluid>
-										<b-form-row>
-											<b-col
-											cols="12">
-												<b-form-group>
-													<b-form-input
-													id="commerce-name"
-													@keyup.enter="loginCommerce" 
-													placeholder="Nombre del comercio"
-													v-model="commerce.name"></b-form-input>
-												</b-form-group>
-											</b-col>
-											<b-col
-											cols="12">
-												<b-form-group>
-													<b-form-input
-													id="commerce-password"
-													type="password"
-													@keyup.enter="loginCommerce" 
-													placeholder="Contraseña"
-													v-model="commerce.password"></b-form-input>
-												</b-form-group>
-											</b-col>
-											<b-col
-											cols="12"
-											class="j-end">
-												<b-button 
-												:class="commerce.name != '' && commerce.password != '' ? '' : 'disabled'"
-												variant="primary"
-												block
-												@click="loginCommerce">
-													<i v-show="!loading_commerce_login"
-													class="icon-check"></i>
-													<span v-show="loading_commerce_login" 
-													class="spinner-border spinner-border-sm p-r-5"></span>
-													Ingresar
-												</b-button>
-											</b-col>
-										</b-form-row>
-									</b-container>
-								</div>
-							</b-card>
-						</b-col>
-						<b-col
-						class="col-margin"
-						cols="12"
-						md="7">
-							<b-card header="Ingresar como empleado" no-body>
-								<div class="p-t-15">
-									<b-container fluid>
-										<b-form-row>
-											<b-col
-											cols="12"
-											md="6">
-												<b-form-group>
-													<b-form-input
-													type="text"
-													id="employee-commerce"
-													placeholder="Nombre del comercio"
-													v-model="employee.commerce"></b-form-input>
-												</b-form-group>
-											</b-col>
-											<b-col
-											cols="12"
-											md="6">
-												<b-form-group>
-													<b-form-input
-													type="text"
-													id="employee-name"
-													placeholder="Nombre de usuario"
-													v-model="employee.name"
-													@keyup.enter="loginEmployee">
-													</b-form-input>
-												</b-form-group>
-											</b-col>
-											<b-col
-											cols="12">
-												<b-form-group>
-													<b-form-input
-													type="password"
-													id="employee-password"
-													placeholder="Contraseña"
-													v-model="employee.password"
-													@keyup.enter="loginEmployee">
-													</b-form-input>
-												</b-form-group>
-											</b-col>
-											<b-col
-											cols="12"
-											class="j-end">
-												<b-button 
-												variant="primary"
-												block
-												:class="employee.commerce != '' && employee.name != '' && employee.password != '' ? '' : 'disabled'"
-												@click="loginEmployee">
-													<i v-show="!loading_employee_login"
-													class="icon-check"></i>
-													<span v-show="loading_employee_login" 
-													class="spinner-border spinner-border-sm p-r-5"></span>
-													Ingresar
-												</b-button>
-											</b-col>
-										</b-form-row>
-									</b-container>
-								</div>
-							</b-card>
-						</b-col>
-					</b-row>
-				</b-container>
+		sm="8"
+		md="6"
+		class="col-form"
+		xl="3">
+			<b-card>
+				<div>
+					<img src="@/assets/logo.png" alt="">
+					<b-form-group>
+						<b-form-input
+						id="company-name"
+						v-model="user.company_name"
+						@keydown.enter="login"
+						placeholder="Nombre de comercio"></b-form-input>
+					</b-form-group>
+					<b-form-group 
+					v-show="login_employee">
+						<b-form-input
+						id="name"
+						v-model="user.name"
+						@keydown.enter="login"
+						placeholder="Nombre de empleado"></b-form-input>
+					</b-form-group>
+					<b-form-group>
+						<b-form-input
+						id="password"
+						type="password"
+						v-model="user.password"
+						@keydown.enter="login"
+						placeholder="Contraseña"></b-form-input>
+					</b-form-group>
+					<b-button 
+					@click="login"
+					variant="primary"
+					block>
+						<span 
+						v-show="loading"
+						class="spinner-border spinner-border-sm"></span>
+						<span 
+						v-show="!loading">
+							Ingresar
+						</span>
+					</b-button>
+					<b-button 
+					block
+					class="m-b-10"
+					size="sm"
+					@click="login_employee ? login_employee = false : login_employee = true"
+					variant="link">
+						<span v-show="login_employee">
+							Ingresar como dueño
+						</span>
+						<span v-show="!login_employee">
+							Ingresar como empleado
+						</span>
+					</b-button>
+					<b-button
+					size="sm"
+					v-b-modal="'register'"
+					variant="link">
+						¿No tenes cuenta? Registrate
+					</b-button>
+				</div>
 			</b-card>
 		</b-col>
-    </b-row>
+	</b-row>
 </div>
 </template>
 <script>
@@ -157,24 +82,24 @@
 // import toastr from 'toastr'
 
 import AdminLogin from '../components/login/modals/AdminLogin'
+import Register from '../components/login/modals/Register'
+import fondo from '@/assets/fondo.png'
 export default {
 	name: 'Login',
     components: {
         AdminLogin,
+        Register,
     },
 	data() {
 		return {
-			commerce: {
+			image: {backgroundImage: `url(${fondo})`},
+			user: {
+				company_name: '',
 				name: '',
 				password: '',
 			},
-			employee: {
-				commerce: '',
-				name: '',
-				password: '',
-			},
-			loading_commerce_login: false,
-			loading_employee_login: false,
+			loading: false,
+			login_employee: false,
 		}
 	},
 	computed: {
@@ -190,80 +115,81 @@ export default {
 	methods: {
 		csrf() {
 			console.log('se mando cookie')
+			this.loading = true
 			return this.$axios.get('/sanctum/csrf-cookie')
 		},
-		loginCommerce() {
-			if (this.commerce.name != '' && this.commerce.password != '') {
-				this.loading_commerce_login = true
-				this.csrf()
-				.then(() => {
-					this.$axios.post('login-owner', {
-						company_name: this.commerce.name,
-						password: this.commerce.password
-					})
+		login() {
+			this.csrf()
+			.then(() => {
+				if (this.user.name == '') {
+					this.$axios.post('login-owner', this.user)
 					.then(res => {
-						console.log(res)
 						if (res.data.login) {
-							this.loading_commerce_login = false
+							this.loading = false
 							this.$store.commit('auth/setAuthenticated', true)
 							this.$store.commit('auth/setUser', res.data.user)
 							this.$router.replace('/')
 						} else {
-							this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor ;)')
-							document.getElementById('commerce-name').focus()
-							this.loading_commerce_login = false
+							this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor.')
+							document.getElementById('company-name').focus()
+							this.loading = false
 						}
 					})
 					.catch(err => {
-						this.loading_commerce_login = false
+						this.loading = false
 						this.$toast.error(`${err}`)
 						console.log(err)
 					})
-				}) 
-			} else {
-				this.$toast.error('Complete con sus datos por favor.')
-			}
-		}, 
-		loginEmployee() {
-			if (this.employee.commerce != '' && this.employee.name != '' && this.employee.password != '') {
-				this.loading_employee_login = true
-				this.csrf()
-				.then(() => {
-					this.$axios.post('login-employee', {
-						commerce: this.employee.commerce,
-						name: this.employee.name,
-						password: this.employee.password
-					})
+				} else {
+					this.$axios.post('login-employee', this.user)
 					.then(res => {
-						console.log(res.data)
 						if (res.data.login) {
 							this.loading_employee_login = false
 							this.$store.commit('auth/setAuthenticated', true)
 							this.$store.commit('auth/setUser', res.data.user)
 							this.$router.replace('/')
 						} else {
-							this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor ;)')
-							this.employee.commerce = ''
-							this.employee.name = ''
-							this.employee.password = ''
-							this.loading_employee_login = false
+							this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor.')
+							document.getElementById('company-name').focus()
+							this.loading = false
 						}
 					})
 					.catch(err => {
 						console.log(err)
 					})
-				})
-			} else {
-				this.$toast.error('Complete con sus datos por favor.') 
-			}
+				}
+			})
 		}, 
 	},
 }
 </script>
 <style scoped lang="sass">
 #login 
+	height: 100vh
+	.card 
+		border: none
+		border-radius: 0
+		box-shadow: none
+		background: #FFF
+		@media screen and (max-width: 1200px)
+			box-shadow: none
+	.row
+		height: 100vh
+		@media screen and (min-width: 778px) and (max-width: 1200px)
+			background: #333
+		// @media screen and (min-width: 1200px)
+		border-top: 4px solid #007bff
+		display: flex
+		justify-content: center
+		align-items: center
+		margin-bottom: 0
 	@media screen and (max-width: 778px)
 		margin-top: -20px
+.col-form 
+	img 
+		width: 100px
+		margin-bottom: 1em
+	// height: 500px
 .col-margin
 	@media screen and (max-width: 778px)
 		margin-bottom: 20px

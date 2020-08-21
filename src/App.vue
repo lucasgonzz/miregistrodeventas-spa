@@ -4,7 +4,7 @@
         <div v-if="authenticated">
             <nav-component></nav-component>
         </div>  
-        <b-container fluid class="m-t-20">
+        <b-container fluid>
             <transition name="fade" mode="out-in">
                 <router-view/>
             </transition>

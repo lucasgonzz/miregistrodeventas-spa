@@ -1,7 +1,7 @@
 <template>
 <div class="row" v-show="!is_loading && user">
 	<div class="col al-borde">
-		<div class="table-responsive">						
+		<div class="table-responsive" v-if="articles.length">						
 			<table class="table table-striped text-center">
 				<thead class="thead-dark">
 					<tr>
@@ -156,6 +156,10 @@
 				</tbody>
 			</table>
 		</div>
+		<p v-else 
+		class="text-center">
+			Todavia no has ingresado ningun producto
+		</p>
 	</div>
 </div>
 </template>
