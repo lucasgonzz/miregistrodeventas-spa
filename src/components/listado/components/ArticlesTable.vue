@@ -121,6 +121,7 @@
 						<td class="d-none d-md-table-cell">
 							{{ category(article) }}
 						</td>
+						<!-- Opciones -->
 						<td class="td-options">
 							<!-- Editar -->
 							<b-button 
@@ -143,14 +144,14 @@
 							@click="showAddMarker(article)">
 								<i class="icon-star-1"></i>
 							</button>
-
-							<!-- Borrar oferta -->
-							<button @click="deleteOffer(article)"
-								v-show="article.offer_price"
-								class="btn btn-danger btn-sm">
-								<i class="icon-sale-ticket"></i>
-								<i class="icon-cancel"></i>
-							</button>
+							
+							<b-button
+							@click="setFeatured(article)"
+							v-if="user.online"
+							:variant="isFeatured(article)"
+							size="sm">
+								<i class="icon-check"></i>
+							</b-button>
 						</td>
 					</tr>
 				</tbody>
@@ -173,6 +174,23 @@ export default {
 		}
 	},
 	methods: {
+		isFeatured(article) {
+			if (article.featured === null) {
+				return 'outline-success'
+			} 
+			return 'success'
+		},
+		setFeatured(article) {
+			this.$api.get(`/articles/set-featured/${article.id}`)
+			.then(res => {
+				this.$emit('updateArticlesList')
+				this.$toast.success('Se agrego a destacados correctamente')
+				console.log(res)
+			})
+			.catch(err => {
+				console.log(err)
+			})
+		},
 		barCode(article) {
 			if (article.bar_code) {
 				return article.bar_code
@@ -289,7 +307,7 @@ img {
 }
 .td-options {
 	position: relative;
-	min-width: 130px;
+	min-width: 170px;
 }
 .td-options .btn {
 	/*display: inline-block;*/

@@ -11,6 +11,9 @@ export default {
 }
 </script>
 <style scoped>
+.row {
+  margin-top: 1em;
+}
 .col-loader-md {
 	min-height: 300px;
 }

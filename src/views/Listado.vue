@@ -89,6 +89,7 @@
 						:pagination="pagination"
 						:user="user"
 						:special_prices="special_prices"
+						@updateArticlesList="updateArticlesList"
 						@addImage="addImage"
 						@showImage="showImage"
 						@providersHistory="providersHistory"

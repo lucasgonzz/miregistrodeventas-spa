@@ -8,6 +8,7 @@ import Ingresar from '../views/Ingresar.vue'
 import Listado from '../views/Listado.vue'
 import Ventas from '../views/Ventas.vue'
 import Empleados from '../views/Empleados.vue'
+import Online from '../views/Online.vue'
 import PruebaTerminada from '../views/PruebaTerminada.vue'
 import store from '@/store'
 
@@ -170,6 +171,11 @@ Vue.use(VueRouter)
                 next('/')
             }
         }
+    },
+    {
+        path: '/tienda-online',
+        name: 'Online',
+        component: Online,
     },
     {
         path: '/prueba-terminada',

@@ -41,6 +41,11 @@
                 :class="currentPage == '/empleados' ? 'active-link' : ''">
                     Empleados
                 </b-nav-item>
+                <b-nav-item :to="{name: 'Online'}"
+                v-if="hasOnline(user)"
+                :class="currentPage == '/tienda-online' ? 'active-link' : ''">
+                    Online
+                </b-nav-item>
                 <div>
                     <b-nav-item-dropdown :text="user.name" right>
                             <b-dropdown-item 
@@ -102,6 +107,11 @@
                 v-if="isAdmin(user)"
                 :class="currentPage == '/empleados' ? 'active-link-mobile' : ''">
                     Empleados
+                </b-nav-item>
+                <b-nav-item :to="{name: 'Online'}"
+                v-if="hasOnline(user)"
+                :class="currentPage == '/tienda-online' ? 'active-link-mobile' : ''">
+                    Online
                 </b-nav-item>
 
                 <b-nav-item 
@@ -176,7 +186,13 @@ export default {
 				return true
 			} 
 			return false
-		}
+		},
+        hasOnline(user) {
+            if (user.online) {
+                return true
+            }
+            return false
+        }
 	}
 }
 </script>
