@@ -13,73 +13,77 @@ import PruebaTerminada from '../views/PruebaTerminada.vue'
 import store from '@/store'
 
 function hasPermissionTo(permission_slug) {
-    let user = store.getters['auth/user']
-    let has_permission = false
-    user.roles.forEach(rol => {
-        if (rol.slug == 'owner') {
-            has_permission = true
-        }
-    })
-    if (!has_permission) {
-        user.permissions.forEach(permission => {
-            if (permission.slug == permission_slug) {
-                has_permission = true
+    if (store.state.auth.authenticated) {
+        let user = store.getters['auth/user']
+        let has_permission = false
+        if (user.roles) {
+            user.roles.forEach(rol => {
+                if (rol.slug == 'owner') {
+                    has_permission = true
+                }
+            })
+            if (!has_permission) {
+                user.permissions.forEach(permission => {
+                    if (permission.slug == permission_slug) {
+                        has_permission = true
+                    }
+                })
             }
-        })
-    }
-    return has_permission
+        }
+        return has_permission
+    } 
+    return true
 }
 function trialFinish() {
     let user = store.getters['auth/user']
     if (user.status == 'trial' && new Date(user.expire) < new Date()) {
-        return true
+        return false
     }
     return false
 }
 Vue.use(VueRouter)
 
     const routes = [
-    {
-        path: '/',
-        redirect: () => {
-            console.log('redirect')
-            if (store.state.auth.authenticated) {
-                let user = store.getters['auth/user']
-                let route
-                if (trialFinish()) {
-                    route = '/prueba-terminada'
-                } else {
-                    if (user.admin_id) {
-                        if (hasPermissionTo('sale.create')) {
-                            route = '/vender'
-                        } else if (hasPermissionTo('article.create')) {
-                            route = '/ingresar'
-                        } else if (hasPermissionTo('article.index')) {
-                            route = '/listado'
-                        } else {
-                            route = '/ventas'
-                        }
-                    } else {
-                        if (user.status == 'super') {
-                            route = '/super'
-                        } else {
-                            route = '/admin'
-                        }
-                    }
-                }
-                return route
-            } else {
-                return '/login'
-            }
-        }
-    },
+    // {
+    //     path: '/',
+    //     redirect: () => {
+    //         console.log('redirect')
+    //         if (store.state.auth.authenticated) {
+    //             let user = store.getters['auth/user']
+    //             let route
+    //             if (trialFinish()) {
+    //                 route = '/prueba-terminada'
+    //             } else {
+    //                 if (user.admin_id) {
+    //                     if (hasPermissionTo('sale.create')) {
+    //                         route = '/vender'
+    //                     } else if (hasPermissionTo('article.create')) {
+    //                         route = '/ingresar'
+    //                     } else if (hasPermissionTo('article.index')) {
+    //                         route = '/listado'
+    //                     } else {
+    //                         route = '/ventas'
+    //                     }
+    //                 } else {
+    //                     if (user.status == 'super') {
+    //                         route = '/super'
+    //                     } else {
+    //                         route = '/admin'
+    //                     }
+    //                 }
+    //             }
+    //             return route
+    //         } else {
+    //             return '/login'
+    //         }
+    //     }
+    // },
     {
         path: '/login',
         name: 'Login',
         component: Login,
         beforeEnter: (from, to, next) => {
             if (store.getters['auth/authenticated']) {
-                console.log('redirigido desde login')
                 next('/')
             } else {
                 next()
@@ -120,6 +124,9 @@ Vue.use(VueRouter)
             if (hasPermissionTo('sale.create') && !trialFinish()) {
                 next()
             } else {
+                if (trialFinish()) {
+                    next({name: 'PruebaTerminada'})
+                }
                 next('/')
             }
         }
@@ -132,6 +139,9 @@ Vue.use(VueRouter)
             if (hasPermissionTo('article.create') && !trialFinish()) {
                 next()
             } else {
+                if (trialFinish()) {
+                    next({name: 'PruebaTerminada'})
+                }
                 next('/')
             }
         }
@@ -144,6 +154,9 @@ Vue.use(VueRouter)
             if (hasPermissionTo('article.index') && !trialFinish()) {
                 next()
             } else {
+                if (trialFinish()) {
+                    next({name: 'PruebaTerminada'})
+                }
                 next('/')
             }
         }
@@ -156,6 +169,9 @@ Vue.use(VueRouter)
             if (hasPermissionTo('sale.index') && !trialFinish()) {
                 next()
             } else {
+                if (trialFinish()) {
+                    next({name: 'PruebaTerminada'})
+                }
                 next('/')
             }
         }
@@ -168,6 +184,9 @@ Vue.use(VueRouter)
             if (!trialFinish()) {
                 next()
             } else {
+                if (trialFinish()) {
+                    next({name: 'PruebaTerminada'})
+                }
                 next('/')
             }
         }

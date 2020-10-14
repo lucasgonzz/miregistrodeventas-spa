@@ -1,9 +1,11 @@
 <template>
 <div id="vender">
 	<clients 
+	@setClient="setClient"
 	:total="total"
+	:client="client"
 	:vendiendo="vendiendo"
-	@vender_a_cliente="vender_a_cliente"></clients>
+	@vender="vender"></clients>
 	<successful-sale
 	:sale="sale"></successful-sale>
 	<article-not-register></article-not-register>
@@ -73,6 +75,8 @@
 </div>
 </template>
 <script>
+// import Vue from 'vue'
+
 // Modals
 import ArticleNotRegister from '../components/vender/modals/ArticleNotRegister.vue'
 import ChangePercentageCard from '../components/vender/modals/ChangePercentageCard.vue'
@@ -117,6 +121,8 @@ export default {
 			loading_add_article: false,
 			vendiendo: false,
 			articles: [],
+
+            client: null,
 
 			total: 0,
 			cantidad_articulos: 0,
@@ -216,7 +222,7 @@ export default {
 				this.loading_articles = false
 				this.loading_next_sale = false
 				this.previus_sale = res.data
-				this.articles = res.data.articles
+				this.articles = this.setPreviusSalePirces(res.data.articles)
 				this.formatPreviusSale()
 				this.calculateTotal()
 			})
@@ -263,6 +269,10 @@ export default {
 				console.log('sin tarjeta')
 				this.with_card = false
 			}
+		},
+
+		setClient(client) {
+			this.client = client
 		},
 
 		// Porcentaje de tarjetas
@@ -322,6 +332,7 @@ export default {
 			var repetido = this.isRepeated()
 			if (!repetido) {
 				let article = this.articles_store.find(article => article.id == this.article.id)
+				console.log(article)
 				article.original_price = article.price
 				if (this.isProvider(this.user)) {
 					article.amount = this.article.amount
@@ -398,10 +409,12 @@ export default {
 			} else {
 				input_name.focus()
 			}
-			this.article.bar_code = ''
-			this.article.name = ''
-			this.article.id = null
-			this.article.amount = ''
+			// this.article.bar_code = ''
+			// this.article.name = ''
+			// this.article.id = null
+			// this.article.amount = ''
+			// this.$set(this.article, 'amount', '')
+			// Vue.set(this.article, 'amount', '')
 			this.articles.push({})
 			this.articles.splice(this.articles.length-1,1)
 		},
@@ -419,13 +432,13 @@ export default {
 		},
 
 		// Metodo que llega del modal clientes
-		vender_a_cliente(client_id, debt) {
+		vender_a_cliente(debt) {
 			if (this.articles.length > 0) {
 				this.vendiendo = true
 				this.$api.post('sales', {
 					articles: this.articles,
 					with_card: this.with_card,
-					client_id: client_id,
+					client_id: this.client.id,
 					debt: debt,
 					special_price_id: this.special_price_id
 				})
@@ -433,16 +446,13 @@ export default {
 					this.$bvModal.hide('clients')
 					this.vendiendo = false
 					this.articles = []	
+					this.client = null
 					this.total = 0
 					this.cantidad_articulos = 0
 					this.cantidad_unidades = 0
 					this.with_card = false
 					this.$toast.success('Venta realizada correctamente')
 					document.getElementById('article-bar-code').focus()
-					if (this.isProvider(this.user)) {
-						this.sale = res.data
-						this.$bvModal.show('successful-sale')
-					}
 				})
 				.catch(err => {
 					console.log(err)
@@ -454,25 +464,32 @@ export default {
 			}
 		},
 
-		vender() {
+		vender(debt = null) {
 			if (this.articles.length > 0) {
 				this.vendiendo = true
 				this.$api.post('sales', {
 					articles: this.articles,
 					with_card: this.with_card,
-					client_id: -1,
-					debt: -1,
+					client_id: this.client ? this.client.id : null,
+					debt: debt,
 					special_price_id: this.special_price_id
 				})
-				.then(() => {
+				.then(res => {
 					this.vendiendo = false
 					this.articles = []	
 					this.total = 0
+					this.client = null
+					this.debt = null
 					this.cantidad_articulos = 0
 					this.cantidad_unidades = 0
 					this.with_card = false
 					this.$toast.success('Venta realizada correctamente')
+					this.$bvModal.hide('clients')
 					document.getElementById('article-bar-code').focus()
+					if (this.isProvider(this.user)) {
+						this.sale = res.data
+						this.$bvModal.show('successful-sale')
+					}
 				})
 				.catch(err => {
 					console.log(err)

@@ -16,7 +16,7 @@ export default {
 			return numeral(p).format('$0,0.00')
 		},
 		getMonth(d) {
-			return moment(d).format('MMMM')
+			return moment(d).format('MMM')
 		},
 		getDay(d) {
 			return moment(d).format('dd')

@@ -14,12 +14,18 @@
 				v-model="article.bar_code"
 				placeholder="Ingresa el codigo de barras del producto"></b-form-input>
 			</b-form-group>
+			<p
+			class="m-b-0"
+			v-show="loading_is_register">
+				<span class="text-primary spinner-border spinner-border-sm"></span>
+				Verificando codigo
+			</p>
 		</b-col>
 	</b-form-row>
 </template>
 <script>
 export default {
-	props: ['article'],
+	props: ['article', 'loading_is_register'],
 	methods: {
 		isRegister() {
 			this.$emit('isRegister')

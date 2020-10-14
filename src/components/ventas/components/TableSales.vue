@@ -31,6 +31,11 @@
 							<b-form-checkbox
 							:value="sale.id"
 							v-model="selected_sales.selected_sales"></b-form-checkbox>
+							<b-badge
+							variant="success"
+							v-show="sale.buyer">
+								Online
+							</b-badge>
 						</td>
 						<td class="td-options">
 							<b-button 
@@ -63,11 +68,18 @@
 							<i v-show="sale.percentage_card != null"
 								class="icon-credit-card text-primary card-icon"></i>
 						</td>
-						<td v-if="sale.client">
+						<td v-if="sale.client || sale.buyer">
 							<strong v-if="sale.debt"
 									class="text-danger">
 								<i class="icon-user"></i>
-								{{ sale.client.name }}
+								<span
+								v-if="sale.client">
+									{{ sale.client.name }}
+								</span>
+								<span
+								v-else>
+									{{ sale.buyer.name }}
+								</span>
 								<p class="c-p"
 									@click="changeEntrego">
 									<i class="icon-undo"></i>
@@ -81,7 +93,14 @@
 							</strong>
 							<span v-else>
 								<i class="icon-user"></i>
-								{{ sale.client.name }}
+								<span
+								v-if="sale.client">
+									{{ sale.client.name }}
+								</span>
+								<span
+								v-else>
+									{{ sale.buyer.name }}
+								</span>
 							</span>
 						</td>
 						<td v-else>

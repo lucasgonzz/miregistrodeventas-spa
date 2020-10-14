@@ -31,7 +31,6 @@ export default {
 		getMarkers({commit}) {
 			axios.get('/api/markers')
 			.then(res => {
-				console.log('se cargaron marcadores')
 				commit('setMarkers', res.data)
 				commit('setMarkersLoaded', true)
 			})
@@ -56,7 +55,6 @@ export default {
 			this.loading = true
 			axios.get('/api/marker-groups')
 			.then(res => {
-				console.log(res.data)
 				commit('setMarkerGroups', res.data)
 				commit('setMarkersLoaded', true)
 			})

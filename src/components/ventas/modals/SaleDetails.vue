@@ -39,7 +39,7 @@
                                         {{ article.pivot.amount }} {{ article.pivot.measurement }}(s)
                                     </span>
                                     <span v-else>
-                                        {{ article.pivot.amount }}
+                                        {{ amount(article.pivot.amount) }}
                                     </span>
                                 </td>
                                 <td v-show="hasPermissionTo('article.index.cost', user)">

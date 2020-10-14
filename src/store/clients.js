@@ -25,7 +25,6 @@ export default {
 			.then(res => {
 				commit('setClients', res.data)
 				commit('setClientsLoaded', true)
-				console.log('Se cargaron clientes')
 			})
 			.catch(err => {
 				console.log(err)

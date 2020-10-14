@@ -1,5 +1,6 @@
 let webpack = require('webpack')
 module.exports = {
+	lintOnSave: false,
 	configureWebpack: {
 		plugins: [
 			new webpack.ProvidePlugin({
@@ -9,6 +10,7 @@ module.exports = {
 		]
 	},
 	devServer: {
-    	host: 'localhost'
+    	host: 'miregistrodeventas',
+    	port: '8081'
     },
 };

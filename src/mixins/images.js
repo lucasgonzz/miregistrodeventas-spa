@@ -13,7 +13,7 @@ export default {
 			if (article.images) {
 				article.images.forEach(image => {
 					if (image.url.charAt(0) == 'F') {
-						first_image = image
+						first_image = image.url
 					}
 				})
 			}

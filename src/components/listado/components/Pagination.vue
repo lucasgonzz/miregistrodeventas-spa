@@ -34,9 +34,15 @@ export default {
 	components: {
 		// Cargando
 	},
+	computed: {
+		current_page() {
+			return this.$store.articles.pagination.current_page
+		}
+	},
 	methods: {
 		changePage(page) {
-			this.$emit('changePage', page)
+			this.$store.commit('articles/setPagination', page)
+			let articles = this.articles.slice()
 		}
 	}
 }

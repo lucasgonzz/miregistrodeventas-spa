@@ -45,6 +45,11 @@
                 v-if="hasOnline(user)"
                 :class="currentPage == '/tienda-online' ? 'active-link' : ''">
                     Online
+                    <b-badge
+                    variant="primary"
+                    v-show="unconfirmedOrders_questions_length > 0">
+                        {{ unconfirmedOrders_questions_length }}
+                    </b-badge>
                 </b-nav-item>
                 <div>
                     <b-nav-item-dropdown :text="user.name" right>
@@ -156,6 +161,14 @@ export default {
 		},
         currentPage() {
             return this.$route.path
+        },
+        unconfirmedOrders_questions_length() {
+            if (this.hasOnline(this.user)) {
+                let unconfirmed_orders = this.$store.state.online.unconfirmed_orders
+                let questions = this.$store.state.online.questions
+                return unconfirmed_orders.length + questions.length
+            }
+            return null
         }
 	},
 	methods: {
@@ -169,8 +182,10 @@ export default {
             // introJs().setOption('showProgress', true).setOption('hidePrev', true).setOption('hideNext', true).start()
         },
         logout() {
+            this.$store.commit('auth/setLoading', true)
 			this.$axios.post('/logout')
             .then(() => {
+                this.$store.commit('auth/setLoading', false)
                 this.$store.commit('auth/setAuthenticated', false)
                 this.$store.commit('auth/setUser', {})
                 this.$router.replace({name: 'Login'})
@@ -187,12 +202,6 @@ export default {
 			} 
 			return false
 		},
-        hasOnline(user) {
-            if (user.online) {
-                return true
-            }
-            return false
-        }
 	}
 }
 </script>

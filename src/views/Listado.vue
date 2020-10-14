@@ -65,6 +65,7 @@
 					@setLoading="setLoading"
 					@getArticles="getArticles"
 					@setArticle="setArticle"
+					@setPossibleResults="setPossibleResults"
 					@selectPossibleResult="selectPossibleResult"
 					@updateArticlesList="updateArticlesList"
 					@updateArticleList="updateArticleList"></card-header>
@@ -82,8 +83,8 @@
 						</info-filtrados>
 
 						<articles-table 
+						:is_filter="is_filter"
 						:is_loading="is_loading"
-						:articles="articles"
 						:article="article"
 						:selected_articles="selected_articles"
 						:pagination="pagination"
@@ -152,7 +153,6 @@ export default {
 	},
 	data() {
 		return {
-			articles: [],
 			actualizando: false,
 			article: {
 				id: 0, 
@@ -206,6 +206,7 @@ export default {
 			// Filtros
 			filtro: {
 				mostrar: 'todos',
+				type: 0,
 				ordenar: 'nuevos-viejos',
 				precio_entre: {
 					min: '',
@@ -238,14 +239,22 @@ export default {
 		}
 	},
 	methods: {
-		// editArticle(article) {
-		// 	this.setArticle(article)
-		// 	this.$bvModal.show('edit-article')
-		// },
+		setArticles() {
+			let articles = this.$store.state.articles.articles
+			let articles_listado = articles.slice(0, 10)
+			this.$store.commit('articles/incrementPage')
+			this.$store.commit('articles/setArticlesListado', articles_listado)
+		},
 		selectPossibleResult(result) {
 			this.searched = true
 			this.articles = []
 			this.articles.push(result)
+			this.pagination.current_page = 0
+		},
+		setPossibleResults(results) {
+			console.log(results)
+			this.searched = true
+			this.articles = results
 			this.pagination.current_page = 0
 		},
 		setLoading(value) {
@@ -327,6 +336,7 @@ export default {
 			* Hace una llamada al metodo search del contuserador de articulos
 		----------------------------------------------------------------------------------- */
 		search() {
+			console.log('searchMethod')
 			this.searched = true
 			this.is_loading = true
 			this.possible_articles = []
@@ -362,6 +372,8 @@ export default {
 				console.log('llegaron estos articulos:')
 				console.log(res.data.articles.data);
 				this.is_loading = false
+				this.is_filter = false
+				this.searched = false
 				this.articles = res.data.articles.data;
 				this.pagination = res.data.pagination;
 				this.setArticlesId()
@@ -608,6 +620,7 @@ export default {
 			this.$bvModal.hide('listado-filtrar')
 			this.$api.post('articles/filter', {
 				mostrar: filtro.mostrar,
+				type: filtro.type,
 				ordenar: filtro.ordenar,
 				precio_entre: filtro.precio_entre,
 				fecha_entre: filtro.fecha_entre,
@@ -675,7 +688,8 @@ export default {
 		},
 	},
 	created() {
-		this.getArticles(1)
+		// this.setArticles()
+		console.log(this.articles.length)
 		if (!this.isProvider(this.user)) {
 			this.getProviders()
 		}
@@ -702,6 +716,9 @@ export default {
 		},
 		isActived: function(){
 			return this.pagination.current_page;
+		},
+		articles() {
+			return this.$store.state.articles.articles_listado
 		},
 		pagesNumber(){
 

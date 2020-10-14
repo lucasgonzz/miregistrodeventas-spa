@@ -40,6 +40,11 @@
 						@keydown.enter="login"
 						placeholder="Contraseña"></b-form-input>
 					</b-form-group>
+					<b-form-checkbox
+					v-model="user.remember"
+					class="remember">
+						Recordarme
+					</b-form-checkbox>
 					<b-button 
 					@click="login"
 					variant="primary"
@@ -97,6 +102,7 @@ export default {
 				company_name: '',
 				name: '',
 				password: '',
+				remember: false,
 			},
 			loading: false,
 			login_employee: false,
@@ -115,50 +121,51 @@ export default {
 	methods: {
 		csrf() {
 			console.log('se mando cookie')
-			this.loading = true
 			return this.$axios.get('/sanctum/csrf-cookie')
 		},
 		login() {
-			this.csrf()
-			.then(() => {
-				if (this.user.name == '') {
-					this.$axios.post('login-owner', this.user)
-					.then(res => {
-						if (res.data.login) {
-							this.loading = false
-							this.$store.commit('auth/setAuthenticated', true)
-							this.$store.commit('auth/setUser', res.data.user)
-							this.$router.replace('/')
-						} else {
-							this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor.')
-							document.getElementById('company-name').focus()
-							this.loading = false
-						}
-					})
-					.catch(err => {
+			// this.csrf()
+			// .then(() => {
+			this.loading = true
+			if (this.user.name == '') {
+				this.$axios.post('/login-owner', this.user)
+				.then(res => {
+					console.log(res.data)
+					if (res.data.login) {
 						this.loading = false
-						this.$toast.error(`${err}`)
-						console.log(err)
-					})
-				} else {
-					this.$axios.post('login-employee', this.user)
-					.then(res => {
-						if (res.data.login) {
-							this.loading_employee_login = false
-							this.$store.commit('auth/setAuthenticated', true)
-							this.$store.commit('auth/setUser', res.data.user)
-							this.$router.replace('/')
-						} else {
-							this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor.')
-							document.getElementById('company-name').focus()
-							this.loading = false
-						}
-					})
-					.catch(err => {
-						console.log(err)
-					})
-				}
-			})
+						this.$store.commit('auth/setAuthenticated', true)
+						this.$store.commit('auth/setUser', res.data.user)
+						this.$router.replace('/')
+					} else {
+						this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor.')
+						document.getElementById('company-name').focus()
+						this.loading = false
+					}
+				})
+				.catch(err => {
+					this.loading = false
+					this.$toast.error(`${err}`)
+					console.log(err)
+				})
+			} else {
+				this.$axios.post('login-employee', this.user)
+				.then(res => {
+					if (res.data.login) {
+						this.loading_employee_login = false
+						this.$store.commit('auth/setAuthenticated', true)
+						this.$store.commit('auth/setUser', res.data.user)
+						this.$router.replace('/')
+					} else {
+						this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor.')
+						document.getElementById('company-name').focus()
+						this.loading = false
+					}
+				})
+				.catch(err => {
+					console.log(err)
+				})
+			}
+			// })
 		}, 
 	},
 }
@@ -211,4 +218,6 @@ export default {
 	margin: 0
 .logo 
 	width: 100px
+.remember
+	margin-bottom: .5em
 </style>

@@ -99,7 +99,7 @@ import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
 
 export default {
-    props: ['total', 'vendiendo'],
+    props: ['total', 'vendiendo', 'client'],
     components: {
         Autocomplete
     },
@@ -109,9 +109,8 @@ export default {
                 name: '',
             },
 
-            client: null,
             without_debt: true,
-            debt: -1,
+            debt: null,
 
             saving_client: false,
         }
@@ -124,7 +123,7 @@ export default {
     watch: {
         without_debt() {
             if (this.without_debt) {
-                this.debt = -1
+                this.debt = null
             } else {
                 this.debt = 0
             }
@@ -141,7 +140,7 @@ export default {
             return client.name
         },
         setClient(client) {
-            this.client = client
+            this.$emit('setClient', client)
         },
         saveClient() {
             this.saving_client = true
@@ -161,9 +160,8 @@ export default {
             })
         },
         vender() {
-            this.$emit('vender_a_cliente', this.client.id, this.debt)
-            this.client = null
-            this.debt = 0
+            this.$emit('vender', this.debt)
+            this.$emit('setClient', null)
             this.without_debt = true
         },
     }

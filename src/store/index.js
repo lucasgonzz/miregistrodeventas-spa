@@ -4,6 +4,7 @@ import auth from './auth'
 import markers from './markers'
 import articles from './articles'
 import clients from './clients'
+import online from './online'
 
 Vue.use(Vuex)
 
@@ -26,7 +27,6 @@ export default new Vuex.Store({
 		getSpecialPrices({commit}) {
 			axios.get('/api/special-prices')
 			.then(res => {
-				console.log('se cargaron precios especiales')
 				commit('setSpecialPrices', res.data)
 			})
 			.catch(err => {
@@ -38,6 +38,7 @@ export default new Vuex.Store({
 		auth,
 		markers,
 		articles,
-		clients
+		clients,
+		online,
 	}
 })

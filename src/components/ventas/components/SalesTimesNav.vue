@@ -88,22 +88,15 @@ export default {
 	display: none
 .col 
 	overflow-x: scroll
-
 .sale-time-hour
 	font-size: .7em
-
-
 .nav-tabs
 	border-bottom: 2px solid rgba(0,0,0,.4)
 .nav-item
-	margin: 0 .3rem
 	&:hover
 		a
 			color: #333
 			font-weight: bold
-		// border-radius: .4em .4em 0 0
-		// border: 1px solid rgba(0,0,0,.2)
-		// border-bottom: none
 
 .nav-item.active
 	border-radius: .4em .4em 0 0

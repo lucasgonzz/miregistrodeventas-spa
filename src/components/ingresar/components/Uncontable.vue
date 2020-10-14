@@ -22,6 +22,3 @@ export default {
 	props: ['article'], 
 }
 </script>
-<style scoped>
-	
-</style>

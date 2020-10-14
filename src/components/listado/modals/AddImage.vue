@@ -1,121 +1,79 @@
 <template>
-<b-modal id="add-image" :title="`Agregar foto para ${this.article.name}`" scrollable>
+<b-modal id="add-image" :title="`Agregar foto para ${this.article.name}`" size="xl" hide-footer>
     <b-container fluid>
-        <cargando :is_loading="loading" size="md"></cargando>
-        <b-row v-show="!loading">
-            <b-col cols="12">
-                <b-form-file
-                v-model="file"
-                :state="Boolean(file)"
-                v-on:change="onFileChange" 
-                lang="es"
-                placeholder="Elegi una foto o arrastrala hasta aca..."
-                drop-placeholder="Arrastra el archivo hasta aca..."
-                ></b-form-file>
-                <div class="mt-3" v-if="file">Foto seleccionada: {{ file.name }}</div>
-            </b-col>
-            <b-col cols="12">
-                <!-- Carrusel -->
-                <b-carousel
-                v-show="!loading"
-                id="carousel"
-                controls
-                indicators>
-                    <b-carousel-slide
-                    v-for="image in article.images"
-                    :key="image.id"
-                    :img-src="imageUrl(image)">
-                        <b-button
-                        variant="danger"
-                        @click="deleteImage(image)">
-                            <btn-loader :loading="deleting_image" icon="trash-3"></btn-loader>
-                            Eliminar
-                        </b-button>
-                        <!-- <b-button
-                        variant="success"
-                        @click="setFirstImage(image)">
-                            <btn-loader :loading="seting_first_image"></btn-loader>
-                            Imagen principal
-                        </b-button> -->
-                    </b-carousel-slide>                    
-                </b-carousel>
+        <b-row>
+            <b-col 
+            cols="12">
+                <add-image-nav
+                :view="view"
+                @setView="setView"></add-image-nav>
             </b-col>
         </b-row>
+        <add-image-carousel
+        @updateArticlesList="updateArticlesList"
+        v-if="view == 'images'"
+        :article="article"></add-image-carousel>
+        <add-image-new-image
+        @updateArticlesList="updateArticlesList"
+        v-if="view == 'add-image'"
+        :article="article"></add-image-new-image>
     </b-container>
 </b-modal>
 </template>
 <script>
+import AddImageNav from '@/components/listado/components/AddImageNav'
+import AddImageCarousel from '@/components/listado/components/AddImageCarousel'
+import AddImageNewImage from '@/components/listado/components/AddImageNewImage'
 import Cargando from '../../common/Cargando'
-import BtnLoader from '../../common/BtnLoader'
 export default {
     props: ['article', 'user'],
     components: {
+        AddImageNav,
+        AddImageCarousel,
+        AddImageNewImage,
         Cargando,
-        BtnLoader
     },
     data() {
         return {
             loading: false,
-            file: null,
-            deleting_image: false,
-            seting_first_image: false,
+            view: 'add-image'
+            // copperSrc: null
         }
     },
     methods: {
-        deleteImage(image) {
-            this.deleting_image = true
-            this.$api.get('articles/delete-image/'+image.id)
-            .then(() => {
-                this.deleting_image = false
-                this.$toast.success('Imagen eliminada correctamente')
-                this.$emit('updateArticlesList')
-                this.$bvModal.hide('add-image')
-            })
-            .catch(err => {
-                this.deleting_image = false
-                console.log(err)
-                this.$toast.error('Error al eliminar la imagen')
-            })
-        },
-        setFirstImage(image) {
-            this.seting_first_image = true
-            this.$api.get('articles/set-first-image/'+image.id)
-            .then(() => {
-                this.$toast.success('Imagen actualizada correctamente')
-                this.$emit('updateArticlesList')
-                this.seting_first_image = false
-            })
-            .catch(err => {
-                this.seting_first_image = false
-                console.log(err)
-                this.$toast.error('Error al actualizar la imagen')
-            })
+        setView(view) {
+            this.view = view
         },
         imageUrl(image) {
             return process.env.VUE_APP_API_URL + '/storage/articles/' + this.user.id + '/' + image.url
         },
-        onFileChange(e) {
-            this.file = e.target.files[0]
-            this.loading = true
-            let formData = new FormData()
-            formData.append('file', this.file)
-
-            this.$api.post('articles/image/'+this.article.id, formData)
-            .then(res => {
-                console.log(res.data)
-                this.loading = false
-                this.$bvModal.hide('add-image')
-                this.$toast.success('Foto añadida correctamente')
-                this.file = null
-                this.$emit('updateArticlesList')
-            })
-            .catch(err => {
-                this.loading = false
-                console.log(err)
-                this.$toast.error('Error al guardar la foto')
-            })
-
-        }
+        updateArticlesList() {
+            this.$emit('updateArticlesList')
+        },
+    },
+    created() {
+        this.$root.$on('bv::modal::show', (bvEvent, modalId) => {
+            if (modalId == 'add-image') {
+                if (!this.article.images || this.article.images.length == 0) {
+                    this.view = 'add-image'
+                }
+            }
+        })
     }
 }
 </script>
+<style scoped lang="sass">
+.col-12 
+    flex-direction: column !important   
+    @media screen and (max-width: 778px)
+        margin-bottom: 1em
+.add-image-title
+    font-size: 1.2em
+.img-container
+    width: 100%
+    .img-preview
+        display: block
+
+        /* This rule is very important, please don't ignore this */
+        max-width: 100%
+</style>

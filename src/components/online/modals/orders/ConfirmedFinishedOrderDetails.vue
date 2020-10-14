@@ -1,32 +1,39 @@
 <template>
-	<b-modal id="unconfirmed-order-details" title="Detalles del pedido" hide-footer>
+	<b-modal id="confirmed-order-details" title="Detalles del pedido" hide-footer>
 		<b-container fluid>
-			<b-row
-			class="m-b-0">
+			<b-row>
 				<b-col>
 					<article-order
 					v-for="article in order.articles"
 					:key="article.id"
 					:article="article"></article-order>
 					<p class="total">
-						Total: {{ total }}
+						Total: {{ price(total(order)) }}
+					</p>
+					<p
+					class="deliver">
+						<span v-if="order.deliver == 1">
+							Para enviar a {{ order.address }} {{ order.address_number }}
+						</span>
+						<span v-else>
+							Para retirar
+						</span>
 					</p>
 					<b-button
 					block
-					@click="confirm"
+					@click="finish"
 					variant="primary">
 						<span
 						v-show="loading" 
 						class="spinner-border spinner-border-sm"></span>
 						<span
-						v-show="!loading">
-							Confirmar Pedido
+						v-show="!loading && order.deliver">
+							Listo para enviar
 						</span>
-					</b-button>
-					<b-button
-					block
-					variant="danger">
-						Cancelar Pedido
+						<span
+						v-show="!loading && !order.deliver">
+							Listo para retirar
+						</span>
 					</b-button>
 				</b-col>
 			</b-row>
@@ -35,38 +42,29 @@
 </template>
 <script>
 import ArticleOrder from '@/components/online/components/ArticleOrder'
+import Mixin from '@/mixins/online'
 export default {
+	name: 'ConfirmedFinishedOrderDetails',
 	props: ['order'],
 	components: {
 		ArticleOrder
 	},
+	mixins: [Mixin],
 	data() {
 		return {
 			loading: false
 		}
 	},
 	computed: {
-		total() {
-			if (this.order.articles) {
-				let total = 0
-				this.order.articles.forEach(article => {
-					total += article.pivot.price * article.pivot.amount 
-				})
-				return this.price(total)
-			}
-			return null
-		}
 	},
 	methods: {
-		confirm() {
-			console.log('Confirm')
+		finish() {
 			this.loading = true
-			this.$api.get(`/orders/confirm/${this.order.id}`)
-			.then(res => {
+			this.$api.get(`/orders/finish/${this.order.id}`)
+			.then(() => {
 				this.loading = false
-				this.$emit('updateOrders')
-				this.$bvModal.hide('unconfirmed-order-details')
-				console.log(res)
+				this.$emit('getConfirmedFinishedOrders')
+				this.$bvModal.hide('confirmed-order-details')
 			})
 			.catch(err => {
 				console.log(err)
@@ -79,5 +77,7 @@ export default {
 .total 
 	font-size: 1.2em
 	font-weight: bold
-	margin: 1em 0
+	margin: 1em 0 
+.deliver 
+	font-size: 1.2em
 </style>

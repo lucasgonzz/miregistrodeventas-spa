@@ -5,6 +5,6 @@ export default {
 				article.original_price = article.price
 			})
 			return articles
-		}
+		},
 	}
 }

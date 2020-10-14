@@ -122,7 +122,8 @@
 					:options="providers_options"
 					v-model="article.provider_id"></b-form-select>
 				</b-form-group>
-				<b-form-group>
+				<b-form-group
+				v-if="!isProvider(user)">
 					<b-button
 					@click="show_providers ? show_providers = false : show_providers = true"
 					variant="secondary"

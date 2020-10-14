@@ -1,7 +1,6 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
-console.log(process.env.VUE_APP_API_URL)
 // axios.defaults.baseURL = 'https://micovid.online'
 // axios.defaults.baseURL = 'http://localhost:8000'
 export default {
@@ -9,7 +8,8 @@ export default {
 	state: {
 		authenticated: false,
 		permissions: [],
-		user: {}
+		user: {},
+		loading: true,
 	},
 	getters: {
 		authenticated(state) {
@@ -25,6 +25,9 @@ export default {
 		},
 		setUser(state, value) {
 			state.user = value
+		},
+		setLoading(state, value) {
+			state.loading = value
 		}
 	},
 	actions: {

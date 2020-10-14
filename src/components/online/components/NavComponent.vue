@@ -1,0 +1,60 @@
+<template>
+	<b-row>
+		<b-col
+		cols="12"
+		class="col-nav">
+			<b-nav tabs>
+				<b-nav-item
+				@click="setView('orders')"
+				:active="view == 'orders' ? true : false">
+					Pedidos
+					<b-badge
+					variant="primary"
+					v-show="orders.length">
+						{{ orders.length }}
+					</b-badge>
+				</b-nav-item>
+				<b-nav-item
+				@click="setView('questions')"
+				:active="view == 'questions' ? true : false">
+					Preguntas
+					<b-badge
+					variant="primary"
+					v-show="questions.length">
+						{{ questions.length }}
+					</b-badge>
+				</b-nav-item>
+				<b-nav-item
+				@click="setView('examine')"
+				:active="view == 'examine' ? true : false">
+					Examinar
+				</b-nav-item>
+			</b-nav>
+		</b-col>
+	</b-row>
+</template>
+<script>
+export default {
+	name: 'NavComponentOnline',
+	props: ['view'],
+	computed: {
+		orders() {
+			return this.$store.state.online.unconfirmed_orders
+		},
+		questions() {
+			return this.$store.state.online.questions
+		},
+	},
+	methods: {
+		setView(view) {
+			this.$emit('setView', view)
+		}
+	}
+}
+</script>
+<style scoped lang="sass">
+.nav-tabs
+	width: 100%
+	.nav-item
+		margin: 0 .2em
+</style>

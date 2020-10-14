@@ -13,10 +13,15 @@ Vue.mixin(providers)
 import percentageCard from './mixins/percentageCard'
 Vue.mixin(percentageCard)
 
-// Notificaciones
-import VueIziToast from 'vue-izitoast';
-import 'izitoast/dist/css/iziToast.min.css'
-Vue.use(VueIziToast)
+// Notifications
+import VueToast from 'vue-toast-notification';
+// Import one of available themes
+// import 'vue-toast-notification/dist/theme-default.css';
+import 'vue-toast-notification/dist/theme-sugar.css';
+ 
+Vue.use(VueToast, {
+	position: 'bottom'
+});
 
 // Introjs
 // import introJs from 'intro.js'
@@ -49,18 +54,28 @@ Vue.use({
 	}
 })
 
+// Laravel-echo
+window.Pusher = require('pusher-js');
+import Echo from "laravel-echo"
+
+Vue.prototype.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: '097847a6c6eba580084d',
+    cluster: 'us2',
+    forceTLS: false
+});
+
+// import Pusher from 'pusher-js'; 
+
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 
 Vue.config.productionTip = false
 
-store.dispatch('auth/me')
-.then(() => {
-	new Vue({
-		router,
-		store,
-		render: h => h(App)
-	}).$mount('#app')
-})
+new Vue({
+	router,
+	store,
+	render: h => h(App)
+}).$mount('#app')
 

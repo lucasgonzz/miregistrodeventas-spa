@@ -16,6 +16,7 @@
 				autocomplete="off"
 				v-model="article.name"></b-form-input>
 				<autocomplete 
+ 			 	data-position="below"
 				ref="articleName"
 				v-show="article.bar_code == ''"
 				:search="search" 
@@ -31,14 +32,19 @@
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
 export default {
-	props: ['article', 'articles_names'],
+	props: ['article'],
 	components: {
 		Autocomplete
+	},
+	computed: {
+		articles() {
+			return this.$store.state.articles.articles
+		}
 	},
 	methods: {
 		search(input) {
 			if (input.length < 1) { return [] }
-			return this.articles_names.filter(article => {
+			return this.articles.filter(article => {
 				return article.name.toLowerCase().includes(input.toLowerCase())
 			})
 		},
@@ -50,14 +56,11 @@ export default {
 		},
 		setArticle(article) {
 			if (article) {
-				this.$api.get(`articles/${article.id}`)
-				.then(res => {
-					this.$emit('setArticle', res.data)
-					this.$bvModal.show('edit-article')
+				let art = this.articles.find(art_ => {
+					return art_.id == article.id
 				})
-				.catch(err => {
-					console.log(err)
-				})
+				this.$emit('setArticle', art)
+				this.$bvModal.show('edit-article')
 			} else {
 				let input = document.getElementsByClassName('autocomplete-input')[0]
 				this.article.name = input.value

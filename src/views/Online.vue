@@ -2,37 +2,25 @@
 	<div id="online">
 		<answer
 		:question="question"></answer>
-		<unconfirmed-order-details
-		@updateOrders="updateOrders"
-		:order="order"></unconfirmed-order-details>
-		<confirmed-order-details
-		:order="order"></confirmed-order-details>
+		<views></views>
 		<b-row>
 			<b-col
 			cols="12">
 				<b-card
 				header="Tienda Online">
 					<b-container fluid>
-						<b-row>
-							<b-col
-							class="col-orders"
-							cols="12"
-							lg="9">
-								<unconfirmed-orders
-								ref="unconfirmedOrders"
-								@setOrder="setOrder"></unconfirmed-orders>
-								<confirmed-orders
-								ref="confirmedOrders"
-								@setOrder="setOrder"></confirmed-orders>
-							</b-col>
-							<b-col
-							class="col-questions"
-							cols="12"
-							lg="3">
-								<questions
-								@answer="answer"></questions>
-							</b-col>
-						</b-row>
+						<nav-component
+						:view="view"
+						@setView="setView"></nav-component>
+						<orders
+						v-show="view == 'orders'"></orders>
+						<questions
+						v-show="view == 'questions'"
+						ref="questions"
+						@answer="answer"></questions>
+						<examine
+						v-show="view == 'examine'"
+						ref="examine"></examine>
 					</b-container>
 				</b-card>
 			</b-col>
@@ -40,43 +28,46 @@
 	</div>
 </template>
 <script>
-import Questions from '@/components/online/components/Questions'
-import UnconfirmedOrders from '@/components/online/components/UnconfirmedOrders'
-import ConfirmedOrders from '@/components/online/components/ConfirmedOrders'
-import UnconfirmedOrderDetails from '@/components/online/modals/UnconfirmedOrderDetails'
-import ConfirmedOrderDetails from '@/components/online/modals/ConfirmedOrderDetails'
+import NavComponent from '@/components/online/components/NavComponent'
+import Orders from '@/components/online/components/orders/Orders'
+import Questions from '@/components/online/components/questions/Questions'
+import Examine from '@/components/online/components/examine/Examine'
 import Answer from '@/components/online/modals/Answer'
+import Views from '@/components/online/modals/examine/Views'
 export default {
 	components: {
+		NavComponent,
+		Orders,
 		Questions,
-		UnconfirmedOrders,
-		ConfirmedOrders,
-		UnconfirmedOrderDetails,
-		ConfirmedOrderDetails,
+		Examine,
 		Answer,
+		Views,
 	},
 	data() {
 		return {
 			question: {},
-			order: {}
+			order: {},
+			view: 'orders'
 		}
 	},
+	computed: {
+	},
 	methods: {
+		setView(view) {
+			this.view = view
+		},
 		answer(question) {
 			this.question = question
+			console.log(question)
 			this.$bvModal.show('answer')
-		},
-		setOrder(order) {
-			this.order = order
-		},
-		updateOrders() {
-			this.$refs.unconfirmedOrders.getOrders()
-			this.$refs.confirmedOrders.getOrders()
 		},
 	}
 }
 </script>
 <style scoped lang="sass">
+.col-nav 
+	justify-content: flex-start
+	margin-bottom: 1em
 .col-orders
 	flex-wrap: wrap
 	.card 

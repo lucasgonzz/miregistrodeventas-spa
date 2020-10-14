@@ -22,7 +22,8 @@
 				@updateArticle="updateArticle"></edit-article>
 	<print-tickets :articles="articles"
 					:articles_id="articles_id_to_print"></print-tickets>
-	<bar-codes :article="article"></bar-codes>
+	<bar-codes 
+	:article="article"></bar-codes>
 	<b-row class="justify-content-center">
 		<b-col
 		cols="12" 
@@ -63,6 +64,7 @@
 					
 					<bar-code 
 					:article="article"
+					:loading_is_register="loading_is_register"
 					@showCamera="showCamera"
 					@setFile="setFile"
 					@isRegister="isRegister"></bar-code>
@@ -70,8 +72,7 @@
 					<name 
 					:article="article"
 					:categories="categories"
-					:articles_names="articles_names"
-					ref="name"
+					ref="nameComponent"
 					@setArticle="setArticle"></name>
 	
 					<cost-price 
@@ -157,8 +158,7 @@ export default {
 			// Spinners
 			guardando: false,
 			actualizando: false,
-
-			articles: [],
+			loading_is_register: false,
 			articles_id_to_print: [],
 			porcentage_for_price: 0,
 			
@@ -173,7 +173,6 @@ export default {
 			categories_options: [],
 			saving_categorie: false,
 
-			bar_codes: [],
 			generated_bar_codes: [],
 
 			// Precios especiales
@@ -188,12 +187,14 @@ export default {
 		special_prices() {
 			return this.$store.state.special_prices
 		},
-		articles_names() {
-			return this.$store.state.articles.articles_names
+		articles() {
+			return this.$store.state.articles.articles
+		},
+		bar_codes() {
+			return this.$store.state.articles.bar_codes
 		}
 	},
 	created() {
-		this.getBarCodes()
 		this.getGeneratedBarCodes()
 		if (!this.isProvider(this.user)) {
 			this.getProviders()
@@ -218,15 +219,6 @@ export default {
 		changeToDate() {
 			this.$jQuery('#created_at').focus()
 		},
-		getBarCodes() {
-			this.$api.get('/articles/bar-codes')
-			.then( res => {
-				this.bar_codes = res.data
-			})
-			.catch( err => {
-				console.log(err)
-			})
-		},
 
 		// Codigos de barra
 		getGeneratedBarCodes() {
@@ -239,16 +231,22 @@ export default {
 			})
 		},
 		isRegister() {
+			// this.loading_is_register = true
 			// Controla que el codigo no este registrado con otro articulo
 			if (this.bar_codes.includes(this.article.bar_code)) {
-				this.$api.get('articles/get-by-bar-code/'+this.article.bar_code)
-				.then( res => {
-					this.setArticle(res.data)
-					this.$bvModal.show('edit-article')
+				let article = this.articles.find(art => {
+					return art.bar_code == this.article.bar_code
 				})
-				.catch( err => {
-					console.log(err)
-				})
+				// console.log(article)
+				this.setArticle(article)
+				this.$bvModal.show('edit-article')
+				// this.$api.get('articles/get-by-bar-code/'+this.article.bar_code)
+				// .then( res => {
+				// 	this.loading_is_register = false
+				// })
+				// .catch( err => {
+				// 	console.log(err)
+				// })
 			} else {
 				// Controla que el codigo haya sido creado por nosotros
 				var codigo_ya_creado = false
@@ -264,6 +262,7 @@ export default {
 				// Si no esta registrado y no es un codigo creado por nosotros
 				// se pasa al campo del nombre
 				if (!codigo_ya_creado) {
+					this.loading_is_register = false
 					document.getElementById('article-name').focus()
 				}
 			}
@@ -313,8 +312,8 @@ export default {
 			// Controla que si no tiene codigo de barras no haya otro
 			// articulo sin codigo de barras con el mismo nombre
 			if (this.article.bar_code == '') {
-				if (this.articles_names.length) {
-					this.articles_names.forEach(article => {
+				if (this.articles.length) {
+					this.articles.forEach(article => {
 						if (article.name.toLowerCase() == this.article.name.toLowerCase() && ok) {
 							if (article.bar_code === null) {
 								ok = false
@@ -337,18 +336,18 @@ export default {
 					this.guardando = false
 					var article = res.data
 					if (this.article.bar_code != '') {
-						this.bar_codes.push(this.article.bar_code)
+						this.$store.commit('articles/addBarCode', this.article.bar_code)
 					}
 					this.$store.commit('articles/addArticle', article)
-					this.$store.commit('articles/addBarCode', article.bar_code)
-					this.articles.push(article)
+					this.$store.commit('articles/setArticlesListado')
+					this.$store.commit('articles/setPage', 1)
 					this.articles_id_to_print.push(article.id)
 					this.clearArticle()
 					this.$toast.success('Guardado correctamente')
 					document.getElementById('article-bar-code').focus()
 				})
 				.catch( err => {
-					// toastr.error('Error al guardar el artículo, revise sus datos e intentelo nuevamente por favor')
+					this.$toast.error('Error al guardar el artículo, revise sus datos e intentelo nuevamente por favor')
 					this.guardando = false
 					console.log(err)
 				})
@@ -360,11 +359,9 @@ export default {
 			.then(res => {
 				this.actualizando = false
 				var article = res.data
-				this.articles.push(article)
 				this.articles_id_to_print.push(article.id)
 				this.clearArticle()
-				this.bar_codes.push(article.bar_code)
-				this.$store.dispatch('articles/getArticles')
+				this.$store.dispatch('articles/updateArticle', article)
 				this.$toast.success('Artículo actualizado correctamente')
 				this.$bvModal.hide('edit-article')
 			})
@@ -407,6 +404,7 @@ export default {
 				this.article.providers = article.providers
 			}
 			this.article.stock = article.stock
+			this.article.new_stock = 0
 			this.article.stock_null = false
 		},
 		clearArticle() {
@@ -424,7 +422,7 @@ export default {
 					this.article[special_price.name] = ''
 				})
 			}
-			this.$refs.name.clearName()
+			this.$refs.nameComponent.clearName()
 		},
 
 		// Providers

@@ -2,12 +2,11 @@
 <b-container fluid>
 	<b-row class="m-0">
 		<!-- Buscador -->
-		<b-col cols="12" class="col-autocomplete" md="6" lg="8" xl="4">
+		<b-col cols="12" class="col-autocomplete" md="6" lg="6" xl="4">
 			<autocomplete 
 			v-intro-step="1"
 			v-intro="'Busca un producto mediante su nombre'"
 			:search="search" 
-			auto-select
 			ref="article-search"			
 			:get-result-value="getResultValue"
 			placeholder="Buscar un artículo"
@@ -18,7 +17,7 @@
 		cols="12" 
 		sm="12" 
 		md="6"
-		lg="4"
+		lg="6"
 		xl="4">
 			<a 
 			v-intro-step="2"
@@ -51,7 +50,7 @@
 			</b-button>
 		</b-col>
 		<!-- Pagination -->
-		<b-col class="col-pagination" cols="12" 
+		<!-- <b-col class="col-pagination" cols="12" 
 		md="6" 
 		xl="4">
 			<pagination @changePage="changePage" 
@@ -61,7 +60,7 @@
 				:pagination="pagination"
 				:is_loading="is_loading"
 				:pages-number="pagesNumber"></pagination>
-		</b-col>
+		</b-col> -->
 		<!-- Opciones articulos seleccionados -->
 		<b-col cols="12" 
 		md="6"
@@ -155,7 +154,7 @@ export default {
 				})
 			} else {
 				return this.articles.filter(article => {
-					return article.name.toLowerCase().startsWith(input.toLowerCase())
+					return article.name.toLowerCase().includes(input.toLowerCase())
 				})
 			}
 		},
@@ -164,11 +163,17 @@ export default {
 		},
 		async setArticle(article) {
 			try {
-				this.$emit('setLoading', true)
-				let res = await this.$api.get(`articles/${article.id}`)
-				if (res) {
-					this.$emit('setLoading', false)
-					this.$emit('selectPossibleResult', res.data)
+				if (typeof article == 'undefined') {
+					let query = this.$refs['article-search'].value
+					let articles = this.articles.filter(art => {
+						return art.name.toLowerCase().includes(query.toLowerCase())
+					})
+					this.$emit('setPossibleResults', articles)
+				} else {
+					let article_finded = this.articles.find(art => {
+						return art.id == article.id
+					})
+					this.$emit('selectPossibleResult', article_finded)
 				}
 			} catch(err) {
 				console.log(err)
@@ -236,18 +241,16 @@ export default {
 	align-items: center
 
 .botones-opciones
+	display: flex
+	flex-direction: row
 	align-items: center	
 	@media screen and (min-width: 576px) and (max-width: 768px)
-		display: flex
 		justify-content: center
 	@media screen and (min-width: 768px) and (max-width: 992px)
-		display: flex
 		justify-content: flex-end
 	@media screen and (min-width: 992px)
-		display: flex
 		justify-content: flex-end
 	@media screen and (min-width: 1200px)
-		display: flex
 		justify-content: center
 
 .botones-opciones.j-start
@@ -263,13 +266,12 @@ export default {
 		display: flex
 		justify-content: flex-end
 		align-items: center
-
 .col-pagination
+	display: flex
 	align-items: center
+	flex-direction: row
 	@media screen and (min-width: 768px)
-		display: flex
-		justify-content: flex-start
+		justify-content: flex-start 
 	@media screen and (min-width: 1200px)
-		display: flex
 		justify-content: flex-end
 </style>

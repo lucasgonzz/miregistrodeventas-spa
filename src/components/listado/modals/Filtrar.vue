@@ -1,7 +1,7 @@
 <template>
 <b-modal id="listado-filtrar" title="Filtrar" scrollable>
     <b-container>
-        <b-form-row>
+        <b-row>
             <b-col>
                 <b-form-group
                 label="Ordenar los artículos"
@@ -11,66 +11,60 @@
                     v-model="filtro.ordenar"
                     :options="order_options"></b-form-select>
                 </b-form-group>
-            </b-col>
-        </b-form-row>
-        <b-form-row v-show="!isProvider(user)">
-            <b-col cols="12" class="m-b-10">
                 <b-form-group
-                label="Los que pertenecan al proveedor"
+                label="Los que articulos que sean"
+                label-for="providers">
+                    <b-form-select
+                    id="providers"
+                    v-model="filtro.type"
+                    :options="type_options"></b-form-select>
+                </b-form-group>
+                <!-- <b-form-group
+                v-show="!isProvider(user)"
+                label="Los que pertenescan al proveedor"
                 label-for="providers">
                     <b-form-select
                     id="providers"
                     v-model="filtro.provider"
                     :options="providers_options"></b-form-select>
-                </b-form-group>
-            </b-col>
-        </b-form-row>
-        <b-form-row>
-            <b-col cols="12" class="m-b-10">
+                </b-form-group> -->
                 <b-form-group
-                label="Los que pertenecan a la categoría"
+                label="Los que pertenescan a la categoría"
                 label-for="categories">
                     <b-form-select
                     id="categories"
                     v-model="filtro.category"
                     :options="categories_options"></b-form-select>
                 </b-form-group>
-            </b-col>
-        </b-form-row>
-        <b-form-row>
-            <b-col>
-                <label>Los que tengan un precio entre</label>
-                <b-form-group>
+                <b-form-group
+                label="Los que tengan un precio entre">
                     <b-form-input
+                    class="m-b-10"
                     type="number"
                     placeholder="Precio minimo"
                     v-model="filtro.precio_entre.min"></b-form-input>
-                </b-form-group>
-                <b-form-group>
                     <b-form-input
                     type="number"
                     placeholder="Precio maximo"
                     v-model="filtro.precio_entre.max"></b-form-input>
                 </b-form-group>
+                <b-form-group
+                label="Los que hayan sido ingresados entre">
+                    <b-form-datepicker class="m-b-10">
+                        <b-form-input
+                        type="number"
+                        placeholder="Fecha inicio"
+                        v-model="filtro.fecha_entre.min"></b-form-input>
+                    </b-form-datepicker>
+                    <b-form-datepicker>
+                        <b-form-input
+                        type="number"
+                        placeholder="Fecha fin"
+                        v-model="filtro.fecha_entre.max"></b-form-input>
+                    </b-form-datepicker>
+                </b-form-group>
             </b-col>
-        </b-form-row>
-        <b-form-row>
-            <b-col>
-                <label>Los que hayan sido ingresados entre</label>
-                <b-form-datepicker class="m-b-10">
-                    <b-form-input
-                    type="number"
-                    placeholder="Fecha inicio"
-                    v-model="filtro.fecha_entre.min"></b-form-input>
-                </b-form-datepicker>
-                <b-form-datepicker>
-                    <b-form-input
-                    type="number"
-                    placeholder="Fecha fin"
-                    v-model="filtro.fecha_entre.max"></b-form-input>
-                </b-form-datepicker>
-            </b-col>
-        </b-form-row>
+        </b-row>
     </b-container>
     <template v-slot:modal-footer>
         <b-button
@@ -108,6 +102,15 @@ export default {
             options.push({text: 'De mayor a menor precio', value: 'caros-baratos'})
             options.push({text: 'De menor a mayor precio', value: 'baratos-caros'})
             return options
+        },
+        type_options() {
+            let options = []
+            options.push({text: 'Seleccione el tipo de articulo', value: 0})
+            options.push({text: 'Marcadores', value: 'markers'})
+            if (this.user.online) {
+                options.push({text: 'Destacados', value: 'featured'})
+            }
+            return options
         }
     },
     methods: {
@@ -120,3 +123,7 @@ export default {
     }
 }
 </script>
+<style scoped lang="sass">
+.form-group
+    margin-bottom: 1.5em
+</style>

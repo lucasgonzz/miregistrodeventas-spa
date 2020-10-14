@@ -1,20 +1,20 @@
 <template>
 	<b-card
 	no-body
-	header="Pedidos por entregar">
-		<ul class="card-confirmed-body" v-show="!loading">
+	header="Pedidos por confirmar">
+		<ul class="card-unconfirmed-body" v-show="!loading && orders.length">
 			<li
 			v-for="order in orders"
 			:key="order.id">
 				<b-card
 				@click="orderDetails(order)"
-				class="confirmed-order"
+				class="unconfirmed-order"
 				no-body>
 					<div
-					class="confirmed-order-body">
+					class="unconfirmed-order-body">
 						<p
 						class="buyer-name">
-							Pedido de <strong>{{ buyerName(order) }}</strong> 
+							<strong>{{ buyerName(order) }}</strong> quiere hacer un pedido
 						</p>
 						<p class="since">
 							{{ since(order.created_at) }}
@@ -23,6 +23,12 @@
 				</b-card>
 			</li>
 		</ul>
+		<p
+		v-show="orders.length == 0 && !loading"
+		class="no-orders text-success">
+			<i class="icon-check icon"></i>
+			No hay pedidos por confirmar
+		</p>
 		<cargando
 		size="sm"
 		:is_loading="loading"></cargando>
@@ -30,45 +36,44 @@
 </template>
 <script>
 import Cargando from '@/components/common/Cargando'
+import Mixin from '@/mixins/online'
 export default {
-	name: 'ConfirmedOrders',
+	name: 'UnconfirmedOrders',
 	components: {
 		Cargando
 	},
+	mixins: [Mixin],
 	data() {
 		return {
-			orders: [],
-			loading: false
+		}
+	},
+	computed: {
+		orders() {
+			return this.$store.state.online.unconfirmed_orders
+		},
+		loading() {
+			return this.$store.state.online.loading_unconfirmed_orders
 		}
 	},
 	methods: {
-		getOrders() {
-			this.loading = true
-			this.$api.get('/orders/confirmed')
-			.then(res => {
-				this.loading = false
-				this.orders = res.data.orders
-			})
-			.catch(err => {
-				this.loading = false
-				console.log(err)
-			})
-		},
-		buyerName(order) {
-			return `${order.buyer.name} ${order.buyer.surname}`
-		},
 		orderDetails(order) {
 			this.$emit('setOrder', order)
-			this.$bvModal.show('confirmed-order-details')
+			this.$bvModal.show('unconfirmed-order-details')
 		}
 	},
 	created() {
-		this.getOrders()
 	}
 }
 </script>
 <style scoped lang="sass">
-.card-confirmed-body
+.no-orders
+	text-align: center
+	font-size: 1.2em
+	margin: 1em 0
+	.icon 
+		display: block
+		font-size: 3em
+.card-unconfirmed-body
 	width: 100%
 	padding: .5em
 	margin: 0
@@ -80,7 +85,7 @@ export default {
 		display: table
 		padding: 0 .5em
 		width: 200px
-		.confirmed-order
+		.unconfirmed-order
 			cursor: pointer
 			border: none
 			-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
@@ -90,7 +95,7 @@ export default {
 				-webkit-box-shadow: 0px 0px 7px 0px rgba(0,0,0,1)
 				-moz-box-shadow: 0px 0px 7px 0px rgba(0,0,0,1)
 				box-shadow: 0px 0px 7px 0px rgba(0,0,0,1)	
-			.confirmed-order-body
+			.unconfirmed-order-body
 				padding: 1em
 				.buyer-name 
 					text-align: center
@@ -101,5 +106,11 @@ export default {
 					font-size: .7em
 					text-align: right
 					color: rgba(0,0,0,.5)
+			.card-footer
+				display: flex
+				justify-content: flex-end
+				padding: 0
+				button 
+					margin: .5em
 		// @media screen and (max-width: 576px)
 </style>
