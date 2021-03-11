@@ -15,16 +15,17 @@ Vue.mixin(percentageCard)
 
 // Notifications
 import VueToast from 'vue-toast-notification';
-// Import one of available themes
-// import 'vue-toast-notification/dist/theme-default.css';
 import 'vue-toast-notification/dist/theme-sugar.css';
  
 Vue.use(VueToast, {
 	position: 'bottom'
 });
 
+// Vue offline
+import VueOffline from 'vue-offline'
+Vue.use(VueOffline)
+
 // Introjs
-// import introJs from 'intro.js'
 import VueIntro from 'vue-introjs'
 import 'intro.js/introjs.css';
 Vue.use(VueIntro)
@@ -54,6 +55,13 @@ Vue.use({
 	}
 })
 
+// Cloudnary
+import Cloudinary, { CldImage } from "cloudinary-vue";
+Vue.use(Cloudinary, {
+  configuration: { cloudName: "lucas-cn" },
+  components: [ "CldImage" ]
+});
+
 // Laravel-echo
 window.Pusher = require('pusher-js');
 import Echo from "laravel-echo"
@@ -72,7 +80,6 @@ import './registerServiceWorker'
 import router from './router'
 
 Vue.config.productionTip = false
-
 new Vue({
 	router,
 	store,

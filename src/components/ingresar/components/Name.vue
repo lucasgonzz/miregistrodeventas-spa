@@ -23,7 +23,7 @@
 				auto-select
 				:get-result-value="getResultValue"
 				placeholder="Buscar un artículo"
-				@submit="setArticle"></autocomplete>
+				@submit="setSelectedArticle"></autocomplete>
 			</b-form-group>
 		</b-col>
 	</b-form-row>
@@ -31,11 +31,13 @@
 <script>
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
+import edit_articles from '@/mixins/edit_articles'
 export default {
 	props: ['article'],
 	components: {
 		Autocomplete
 	},
+	mixins: [edit_articles],
 	computed: {
 		articles() {
 			return this.$store.state.articles.articles
@@ -54,12 +56,12 @@ export default {
 		changeToCost() {
 			document.getElementById('article-cost').focus()
 		},
-		setArticle(article) {
+		setSelectedArticle(article) {
 			if (article) {
 				let art = this.articles.find(art_ => {
 					return art_.id == article.id
 				})
-				this.$emit('setArticle', art)
+				this.$store.commit('articles/setEdit', this.setArticle(art))
 				this.$bvModal.show('edit-article')
 			} else {
 				let input = document.getElementsByClassName('autocomplete-input')[0]

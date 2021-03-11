@@ -1,16 +1,15 @@
 <template>
-	<b-row v-show="special_prices.length">
-		<b-col
-		sm="6"
-		md="4">
-			<b-form-group>
-				<b-form-select
-				v-model="special_price"
-				@change="setSpecialPrice"
-				:options="special_prices_options"></b-form-select>
-			</b-form-group>
-		</b-col>
-	</b-row>
+	<b-col
+	cols="12"
+	v-show="special_prices.length"
+	lg="3">
+		<b-form-group>
+			<b-form-select
+			v-model="special_price"
+			@change="setSpecialPrice"
+			:options="special_prices_options"></b-form-select>
+		</b-form-group>
+	</b-col>
 </template>
 <script>
 export default {
@@ -21,7 +20,7 @@ export default {
 	},
 	computed: {
 		special_prices() {
-			return this.$store.state.special_prices
+			return this.$store.state.special_prices.special_prices
 		},
 		special_prices_options() {
 			let options = []
@@ -34,8 +33,12 @@ export default {
 	},
 	methods: {
 		setSpecialPrice() {
-			this.$emit('setSpecialPrice', this.special_price)
+			this.$store.commit('vender/setSpecialPriceId', this.special_price)
 		}
 	}
 }
 </script>
+<style scoped lang="sass">
+.col-12
+	align-items: center
+</style>

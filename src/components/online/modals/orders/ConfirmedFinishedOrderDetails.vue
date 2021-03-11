@@ -1,44 +1,38 @@
 <template>
-	<b-modal id="confirmed-order-details" title="Detalles del pedido" hide-footer>
-		<b-container fluid>
-			<b-row>
-				<b-col>
-					<article-order
-					v-for="article in order.articles"
-					:key="article.id"
-					:article="article"></article-order>
-					<p class="total">
-						Total: {{ price(total(order)) }}
-					</p>
-					<p
-					class="deliver">
-						<span v-if="order.deliver == 1">
-							Para enviar a {{ order.address }} {{ order.address_number }}
-						</span>
-						<span v-else>
-							Para retirar
-						</span>
-					</p>
-					<b-button
-					block
-					@click="finish"
-					variant="primary">
-						<span
-						v-show="loading" 
-						class="spinner-border spinner-border-sm"></span>
-						<span
-						v-show="!loading && order.deliver">
-							Listo para enviar
-						</span>
-						<span
-						v-show="!loading && !order.deliver">
-							Listo para retirar
-						</span>
-					</b-button>
-				</b-col>
-			</b-row>
-		</b-container>
-	</b-modal>
+<b-modal id="confirmed-order-details" title="Detalles del pedido" hide-footer>
+	<article-order
+	v-for="article in order.articles"
+	:key="article.id"
+	:article="article"></article-order>
+	<p class="total">
+		Total: {{ price(total(order)) }}
+	</p>
+	<p
+	class="deliver">
+		<span v-if="order.deliver == 1">
+			Para enviar a {{ order.address }} {{ order.address_number }}
+		</span>
+		<span v-else>
+			Para retirar
+		</span>
+	</p>
+	<b-button
+	block
+	@click="finish"
+	variant="primary">
+		<span
+		v-show="loading" 
+		class="spinner-border spinner-border-sm"></span>
+		<span
+		v-show="!loading && order.deliver">
+			Listo para enviar
+		</span>
+		<span
+		v-show="!loading && !order.deliver">
+			Listo para retirar
+		</span>
+	</b-button>
+</b-modal>
 </template>
 <script>
 import ArticleOrder from '@/components/online/components/ArticleOrder'

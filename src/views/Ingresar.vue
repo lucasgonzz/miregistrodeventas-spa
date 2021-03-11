@@ -1,100 +1,43 @@
 <template>
 <div id="ingresar">
-	<special-prices
-	:special_prices="special_prices"
-	:loading_special_prices="loading_special_prices"></special-prices>
-	<categories :categories="categories"
-				@getCategories="getCategories"
-				:article="article"></categories>
-	<providers :providers="providers"
-				:saving_provider="saving_provider"
-				:deleting_provider="deleting_provider"
-				@deleteProvider="deleteProvider" 
-				@saveProvider="saveProvider"></providers>
+	<delete-category></delete-category>
+	<delete-provider></delete-provider>
+	<delete-special-price></delete-special-price>
+	<special-prices></special-prices>
+	<categories
+	@setArticleCategory="setArticleCategory"></categories>
+	<providers
+	@setArticleProvider="setArticleProvider"></providers>
 	<edit-article
-				:providers="providers"
-				:categories="categories"
-				:special_prices="special_prices"
-				:user="user"
-				:article="article"
-				:actualizando="actualizando"
-				@clearArticle="clearArticle"
-				@updateArticle="updateArticle"></edit-article>
-	<print-tickets :articles="articles"
-					:articles_id="articles_id_to_print"></print-tickets>
-	<bar-codes 
-	:article="article"></bar-codes>
+	@clearArticle="clearArticle"></edit-article>
+	<print-tickets :articles="articles_to_print"></print-tickets>
 	<b-row class="justify-content-center">
 		<b-col
 		cols="12" 
-		lg="7">
-			<b-card no-body>
-				<template v-slot:header>
-					Ingresar un nuevo producto
-					<b-dropdown 
-					text="Agregar" 
-					size="sm"
-					right>
-						<b-dropdown-item
-						v-b-modal="'bar-codes'">
-							Código de barras
-						</b-dropdown-item>
-						<b-dropdown-item
-						v-if="!isProvider(user)"
-						v-b-modal="'providers'">
-							Proveedor
-						</b-dropdown-item>
-						<b-dropdown-item
-						v-b-modal="'categories'">
-							Categoria
-						</b-dropdown-item>
-						<b-dropdown-item
-						v-b-modal="'special-prices'">
-							Precio especial
-						</b-dropdown-item>
-					</b-dropdown>
-				</template>
-				<b-card-body>
-					<p>
-						<i class="icon-sign-out"></i>
-						Enter para cambiar los campos
-					</p>
-					<uncontable 
-					:article="article"></uncontable>
-					
-					<bar-code 
-					:article="article"
-					:loading_is_register="loading_is_register"
-					@showCamera="showCamera"
-					@setFile="setFile"
-					@isRegister="isRegister"></bar-code>
+		lg="6">
+			<!-- <uncontable 
+			:article="article"></uncontable> -->
+			<title-agregar></title-agregar>
+			<bar-code 
+			:article="article"></bar-code>
 
-					<name 
-					:article="article"
-					:categories="categories"
-					ref="nameComponent"
-					@setArticle="setArticle"></name>
-	
-					<cost-price 
-					:article="article"
-					:user="user"
-					:special_prices="special_prices"
-					:porcentage_for_price="porcentage_for_price"></cost-price>
+			<name 
+			:article="article"
+			ref="nameComponent"
+			@setArticle="setArticle"></name>
 
-					<stock-provider-category 
-					:article="article"
-					:user="user"
-					:providers="providers_options"
-					:categories="categories_options"
-					@saveArticle="saveArticle"></stock-provider-category>
-				</b-card-body>
-				<template v-slot:footer>
-					<card-footer
-					:articles_id_to_print="articles_id_to_print"
-					:guardando="guardando"
-					@saveArticle="saveArticle"></card-footer>
-				</template>
-			</b-card>
+			<cost-price 
+			:article="article"
+			:user="user"
+			:porcentage_for_price="porcentage_for_price"></cost-price>
+
+			<stock-provider-category 
+			:article="article"
+			@saveArticle="saveArticle"></stock-provider-category>
+			<card-footer
+			:articles="articles_to_print"
+			:guardando="guardando"
+			@saveArticle="saveArticle"></card-footer>
 		</b-col>
 	</b-row>
 </div>
@@ -107,15 +50,22 @@ import SpecialPrices from '../components/ingresar/modals/SpecialPrices.vue'
 import EditArticle from '../components/common/EditArticle.vue'
 import PrintTickets from '../components/ingresar/modals/PrintTickets.vue'
 import BarCodes from '../components/ingresar/modals/BarCodes.vue'
+import DeleteProvider from '../components/ingresar/modals/DeleteProvider.vue'
+import DeleteCategory from '../components/ingresar/modals/DeleteCategory.vue'
+import DeleteSpecialPrice from '../components/ingresar/modals/DeleteSpecialPrice.vue'
 
 // Components
-import Uncontable from '../components/ingresar/components/Uncontable.vue'
 import BarCode from '../components/ingresar/components/BarCode.vue'
 import Name from '../components/ingresar/components/Name.vue'
 import CostPrice from '../components/ingresar/components/CostPrice.vue'
 import StockProviderCategory from '../components/ingresar/components/StockProviderCategory.vue'
 import CardFooter from '../components/ingresar/components/CardFooter.vue'
+import TitleAgregar from '../components/ingresar/components/TitleAgregar.vue'
+
+// Mixins
+import mixin from '@/mixins/ingresar'
 export default {
+	name: 'Ingresar',
 	components: {
 		Providers,
 		Categories,
@@ -123,61 +73,41 @@ export default {
 		EditArticle,
 		PrintTickets,
 		BarCodes,
+		DeleteProvider,
+		DeleteCategory,
+		DeleteSpecialPrice,
 
-		Uncontable,
+		// Uncontable,
 		BarCode,
 		Name,
 		CostPrice,
 		StockProviderCategory,
 		CardFooter,
+		TitleAgregar,
 	},
+	mixins: [mixin],
 	data() {
 		return {
 			article: {
-				uncontable: 0,
-				online: false,
 				bar_code: '',
-				category: 0,
+				category_id: 0,
+				provider_id: 0,
 				new_bar_code: '',
 				name: '',
 				cost: '',
 				price: '',
-				online_price: '',
-				measurement: 'kilo',
 				stock: '',
 				new_stock: 0,
 				stock_null: false,
-				provider: 0,
-				providers: [],
 				act_fecha: 1,
 				created_at: new Date().toISOString().slice(0,10),
 			},
-			file: null,
-			start_video: false,
 
 			// Spinners
 			guardando: false,
-			actualizando: false,
 			loading_is_register: false,
-			articles_id_to_print: [],
+			articles_to_print: [],
 			porcentage_for_price: 0,
-			
-			// Provedores
-			providers: [],
-			providers_options: [],
-			saving_provider: false,
-			deleting_provider: 0,
-
-			// Categorias
-			categories: [],
-			categories_options: [],
-			saving_categorie: false,
-
-			generated_bar_codes: [],
-
-			// Precios especiales
-			loading_special_prices: false,
-
 		}
 	},
 	computed: {
@@ -185,7 +115,7 @@ export default {
 			return this.$store.state.auth.user
 		},
 		special_prices() {
-			return this.$store.state.special_prices
+			return this.$store.state.special_prices.special_prices
 		},
 		articles() {
 			return this.$store.state.articles.articles
@@ -195,11 +125,6 @@ export default {
 		}
 	},
 	created() {
-		this.getGeneratedBarCodes()
-		if (!this.isProvider(this.user)) {
-			this.getProviders()
-		}
-		this.getCategories()
 		this.listenEditArticle()
 	},
 	methods: {
@@ -230,43 +155,6 @@ export default {
 				console.log(err)
 			})
 		},
-		isRegister() {
-			// this.loading_is_register = true
-			// Controla que el codigo no este registrado con otro articulo
-			if (this.bar_codes.includes(this.article.bar_code)) {
-				let article = this.articles.find(art => {
-					return art.bar_code == this.article.bar_code
-				})
-				// console.log(article)
-				this.setArticle(article)
-				this.$bvModal.show('edit-article')
-				// this.$api.get('articles/get-by-bar-code/'+this.article.bar_code)
-				// .then( res => {
-				// 	this.loading_is_register = false
-				// })
-				// .catch( err => {
-				// 	console.log(err)
-				// })
-			} else {
-				// Controla que el codigo haya sido creado por nosotros
-				var codigo_ya_creado = false
-				this.generated_bar_codes.forEach(bar_code => {
-					if (bar_code.name == this.article.bar_code) {
-						codigo_ya_creado = true
-						// toastr.success('Codigo generado por usted, se completo la cantidad')
-						this.article.stock = bar_code.amount
-						document.getElementById('article-name').focus()
-					}
-				})
-
-				// Si no esta registrado y no es un codigo creado por nosotros
-				// se pasa al campo del nombre
-				if (!codigo_ya_creado) {
-					this.loading_is_register = false
-					document.getElementById('article-name').focus()
-				}
-			}
-		},
 		showCamera() {
 			this.$jQuery('#take-photo').modal('show')
 			this.start_video = true
@@ -283,11 +171,6 @@ export default {
 				this.$toast.error('El campo precio es obligatorio')
 				document.getElementById('article-price').focus()
 			}
-			// if (this.article.cost == '') {
-			// 	ok = false
-			// 	this.$toast.error('El campo costo es obligatorio')
-			// 	document.getElementById('article-cost').focus()
-			// }
 			if (this.article.name == '') {
 				ok = false
 				this.$toast.error('El campo nombre es obligatorio')
@@ -298,7 +181,7 @@ export default {
 				this.$toast.error("El nombre no puede contener una barra '/'")
 				document.getElementById('article-name').focus()
 			}
-			if (this.article.provider == 0 && !this.isProvider(this.user)) {
+			if (this.article.provider_id == 0 && !this.isProvider(this.user)) {
 				ok = false
 				this.$toast.error('Debe seleccionar un preveedor')
 				document.getElementById('article-provider').focus()
@@ -328,20 +211,18 @@ export default {
 
 		// Articles
 		saveArticle() {
-			var ok = this.validate()
-			if ( ok ) {
+			if (this.validate()) {
 				this.guardando = true
 				this.$api.post('articles', this.article)
 				.then( res => {
 					this.guardando = false
-					var article = res.data
+					var article = res.data.article
 					if (this.article.bar_code != '') {
 						this.$store.commit('articles/addBarCode', this.article.bar_code)
 					}
 					this.$store.commit('articles/addArticle', article)
-					this.$store.commit('articles/setArticlesListado')
-					this.$store.commit('articles/setPage', 1)
-					this.articles_id_to_print.push(article.id)
+					this.$store.commit('articles/setArticlesToShow')
+					this.articles_to_print.push(article)
 					this.clearArticle()
 					this.$toast.success('Guardado correctamente')
 					document.getElementById('article-bar-code').focus()
@@ -359,9 +240,9 @@ export default {
 			.then(res => {
 				this.actualizando = false
 				var article = res.data
-				this.articles_id_to_print.push(article.id)
+				this.articles_to_print.push(article)
 				this.clearArticle()
-				this.$store.dispatch('articles/updateArticle', article)
+				this.$store.dispatch('articles/update', article)
 				this.$toast.success('Artículo actualizado correctamente')
 				this.$bvModal.hide('edit-article')
 			})
@@ -371,7 +252,8 @@ export default {
 			})
 		},
 		toPrintTickets() {
-			var link = 'imprimir-precios/'+this.articles_id_to_print.join('-')
+			articles_id = this.getIds(this.articles_to_print)
+			var link = 'imprimir-precios/'+articles_id.join('-')
 			window.open(link)
 		},
 		setArticle(article) {
@@ -408,6 +290,7 @@ export default {
 			this.article.stock_null = false
 		},
 		clearArticle() {
+			console.log(2)
 			this.article.bar_code = ''
 			this.article.name = ''
 			this.article.cost = ''
@@ -424,87 +307,12 @@ export default {
 			}
 			this.$refs.nameComponent.clearName()
 		},
-
-		// Providers
-		getProviders() {
-			this.providers = []
-			this.providers_options = []
-			this.providers_options.push({text: 'Selecciona un proveedor', value: 0})
-			this.$api.get('providers')
-			.then( res => {
-				this.providers = res.data
-				this.setProviders()
-			})
-			.catch( err => {
-				console.log(err)
-			})
+		setArticleProvider(provider) {
+			this.article.provider_id = provider.id
 		},
-		setProviders() {
-			this.providers.forEach(provider => {
-				this.providers_options.push({text: provider.name, value: provider.id})
-			})
-		},
-		deleteProvider(provider) {
-			this.deleting_provider = provider.id
-			this.$api.delete('providers/'+provider.id)
-			.then(() => {
-				this.deleting_provider = 0
-				this.getProviders()
-				this.$bvModal.hide('providers')
-				// toastr.success('El proveedor ' + provider.name + ' se elimino correctamente')
-			})
-			.catch( err => {
-				this.deleting_provider = 0
-				console.log(err)
-			})
-		},
-		saveProvider(provider) {
-			this.saving_provider = true
-			this.$api.get('providers/'+provider.name)
-			.then( res => {
-				this.saving_provider = false
-				this.getProviders()
-				setTimeout(() => {
-					this.article.provider = res.data.id
-				}, 1000)
-				this.$bvModal.hide('providers')
-				// toastr.success('El proveedor ' + provider.name + ' se guardo correctamente')
-			})
-			.catch( err => {
-				console.log(err)
-			})
-		},
-
-		// Categorias
-		getCategories() {
-			this.categories = []
-			this.categories_options = []
-			this.categories_options.push({text: 'Selecciona una categoria', value: 0})
-			this.$api.get('categories')
-			.then(res => {
-				this.categories = res.data
-				this.setCategories()
-			})
-			.catch(err => {
-				console.log(err)
-				// this.getCategories()
-			})
-		},
-		setCategories() {
-			this.categories.forEach(category => {
-				this.categories_options.push({text: category.name, value: category.id})
-			})
-		},
-
-		getUser() {
-			this.$api.get('user')
-			.then(res => {
-				this.user = res.data
-			})
-			.catch(() => {
-				// this.getUser()
-			})
-		},
+		setArticleCategory(category) {
+			this.article.category_id = category.id
+		}
 	}
 }
 </script>
@@ -519,5 +327,6 @@ export default {
 	margin-bottom: .5rem
 .spinner-border-sm 
 	margin-bottom: 2px
-
+.col-12
+	flex-direction: column
 </style>

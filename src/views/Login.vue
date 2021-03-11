@@ -16,18 +16,17 @@
 		xl="3">
 			<b-card>
 				<div>
-					<img src="@/assets/logo.png" alt="">
+					<img src="@/assets/logo2.png" alt="">
 					<b-form-group>
 						<b-form-input
-						id="company-name"
+						id="name"
 						v-model="user.company_name"
 						@keydown.enter="login"
 						placeholder="Nombre de comercio"></b-form-input>
 					</b-form-group>
-					<b-form-group 
-					v-show="login_employee">
+					<b-form-group >
 						<b-form-input
-						id="name"
+						id="employee-name"
 						v-model="user.name"
 						@keydown.enter="login"
 						placeholder="Nombre de empleado"></b-form-input>
@@ -40,42 +39,29 @@
 						@keydown.enter="login"
 						placeholder="Contraseña"></b-form-input>
 					</b-form-group>
-					<b-form-checkbox
-					v-model="user.remember"
-					class="remember">
-						Recordarme
-					</b-form-checkbox>
-					<b-button 
-					@click="login"
-					variant="primary"
-					block>
-						<span 
-						v-show="loading"
-						class="spinner-border spinner-border-sm"></span>
-						<span 
-						v-show="!loading">
-							Ingresar
-						</span>
-					</b-button>
-					<b-button 
-					block
-					class="m-b-10"
-					size="sm"
-					@click="login_employee ? login_employee = false : login_employee = true"
-					variant="link">
-						<span v-show="login_employee">
-							Ingresar como dueño
-						</span>
-						<span v-show="!login_employee">
-							Ingresar como empleado
-						</span>
-					</b-button>
-					<b-button
-					size="sm"
-					v-b-modal="'register'"
-					variant="link">
-						¿No tenes cuenta? Registrate
-					</b-button>
+					<b-form-group>
+						<b-form-checkbox
+						v-model="user.remember"
+						class="remember">
+							Recordarme
+						</b-form-checkbox>
+					</b-form-group>
+					<b-form-group>
+						<b-button 
+						@click="login"
+						variant="primary"
+						block>
+							<btn-loader text="Ingresar" :loader="loading"></btn-loader>
+						</b-button>
+					</b-form-group>
+					<b-form-group>
+						<b-button
+						size="sm"
+						v-b-modal="'register'"
+						variant="link">
+							¿No tenes cuenta? Registrate
+						</b-button>
+					</b-form-group>
 				</div>
 			</b-card>
 		</b-col>
@@ -83,15 +69,14 @@
 </div>
 </template>
 <script>
-
-// import toastr from 'toastr'
-
+import BtnLoader from '@/components/common/BtnLoader'
 import AdminLogin from '../components/login/modals/AdminLogin'
 import Register from '../components/login/modals/Register'
 import fondo from '@/assets/fondo.png'
 export default {
 	name: 'Login',
     components: {
+    	BtnLoader,
         AdminLogin,
         Register,
     },
@@ -100,23 +85,18 @@ export default {
 			image: {backgroundImage: `url(${fondo})`},
 			user: {
 				company_name: '',
+				// company_name: 'mi negocio',
 				name: '',
 				password: '',
 				remember: false,
 			},
 			loading: false,
-			login_employee: false,
 		}
 	},
 	computed: {
 		authenticated() {
 			return this.$store.state.auth.authenticated
-		}
-	},
-	created() {
-		// if (this.authenticated) {
-		// 	this.$router.replace({name: 'Ingresar'})
-		// }
+		},
 	},
 	methods: {
 		csrf() {
@@ -124,48 +104,32 @@ export default {
 			return this.$axios.get('/sanctum/csrf-cookie')
 		},
 		login() {
-			// this.csrf()
-			// .then(() => {
 			this.loading = true
-			if (this.user.name == '') {
-				this.$axios.post('/login-owner', this.user)
+			this.$axios.get('/sanctum/csrf-cookie')
+			.then(() => {
+				this.$axios.post('/login', this.user)
 				.then(res => {
-					console.log(res.data)
+					console.log(res)
+					this.loading = false
 					if (res.data.login) {
-						this.loading = false
+						console.log('bien')
 						this.$store.commit('auth/setAuthenticated', true)
 						this.$store.commit('auth/setUser', res.data.user)
 						this.$router.replace('/')
 					} else {
-						this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor.')
-						document.getElementById('company-name').focus()
 						this.loading = false
+						console.log('no bien')
+						this.$toast.error('Sus datos no corresponden a un usuario registrado, intentelo denuevo')
+						this.$store.commit('auth/setAuthenticated', false)
+						this.$store.commit('auth/setUser', null)
 					}
 				})
 				.catch(err => {
 					this.loading = false
-					this.$toast.error(`${err}`)
+					this.$toast.error('Error al ingresar, intentelo mas tarde')
 					console.log(err)
 				})
-			} else {
-				this.$axios.post('login-employee', this.user)
-				.then(res => {
-					if (res.data.login) {
-						this.loading_employee_login = false
-						this.$store.commit('auth/setAuthenticated', true)
-						this.$store.commit('auth/setUser', res.data.user)
-						this.$router.replace('/')
-					} else {
-						this.$toast.error('Sus credenciales no coinciden, verifique e intente denuevo, por favor.')
-						document.getElementById('company-name').focus()
-						this.loading = false
-					}
-				})
-				.catch(err => {
-					console.log(err)
-				})
-			}
-			// })
+			})
 		}, 
 	},
 }
@@ -175,22 +139,24 @@ export default {
 	height: 100vh
 	.card 
 		border: none
-		border-radius: 0
+		border-radius: .4em
 		box-shadow: none
 		background: #FFF
-		@media screen and (max-width: 1200px)
-			box-shadow: none
+		@media screen and (min-width: 768px) and (max-width: 1200px)
+			-webkit-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.75)
+			-moz-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.75)
+			box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.75)
+			border-radius: .4em !important
 	.row
 		height: 100vh
-		@media screen and (min-width: 778px) and (max-width: 1200px)
-			background: #333
+		@media screen and (min-width: 768px) and (max-width: 1200px)
+			background: #4a2c82
 		// @media screen and (min-width: 1200px)
-		border-top: 4px solid #007bff
 		display: flex
 		justify-content: center
 		align-items: center
 		margin-bottom: 0
-	@media screen and (max-width: 778px)
+	@media screen and (max-width: 768px)
 		margin-top: -20px
 .col-form 
 	img 

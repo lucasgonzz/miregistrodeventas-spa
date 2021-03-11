@@ -27,7 +27,6 @@
 </template>
 <script>
 export default {
-    props: ['selected_articles', 'article', 'categories'],
     data() {
         return {
             loading: false,
@@ -42,6 +41,9 @@ export default {
                 options.push({text: category.name, value: category.id})
             })
             return options
+        },
+        categories() {
+            return this.$store.state.categories.categories
         }
     },
     methods: {

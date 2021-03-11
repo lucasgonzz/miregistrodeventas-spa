@@ -8,8 +8,8 @@ export default {
 	state: {
 		authenticated: false,
 		permissions: [],
-		user: {},
-		loading: true,
+		user: null,
+		loading: false,
 	},
 	getters: {
 		authenticated(state) {
@@ -32,15 +32,46 @@ export default {
 	},
 	actions: {
 		me({commit}) {
+			commit('setLoading', true)
 			return axios.get('/api/user')
 			.then(res => {
+				commit('setLoading', false)
 				commit('setAuthenticated', true)
-				commit('setUser', res.data)
+				commit('setUser', res.data.user)
 			})
 			.catch(() => {
+				commit('setLoading', false)
 				commit('setAuthenticated', false)
-				commit('setUser', {})
+				commit('setUser', null)
 			})
+		},
+		// login({ commit }, user) {
+		// 	commit('setAuthenticated', false)
+		// 	commit('setLoading', true)
+		// 	return axios.post('/login', user)
+		// 	.then(res => {
+		// 		commit('setLoading', false)
+		// 		if (res.data.login == 200) {
+		// 			commit('setAuthenticated', true)
+		// 			commit('setUser', res.data.user)
+		// 		} 
+		// 	})
+		// 	.catch(err => {
+		// 		commit('setLoading', false)
+		// 		console.log(err)
+		// 	})
+		// },
+		logout({ commit }) {
+			commit('setLoading', true)
+			return axios.post('/logout')
+            .then(() => {
+                commit('setLoading', false)
+                commit('setAuthenticated', false)
+                commit('setUser', null)
+            })
+            .catch(err => {
+                console.log(err)
+            })
 		}
 	},
 	modules: {

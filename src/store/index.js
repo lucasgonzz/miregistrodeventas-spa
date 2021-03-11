@@ -5,6 +5,15 @@ import markers from './markers'
 import articles from './articles'
 import clients from './clients'
 import online from './online'
+import sales from './sales/sales'
+import vender from './vender/vender'
+import categories from './categories'
+import special_prices from './special_prices'
+import providers from './providers'
+import discounts from './discounts'
+import sellers from './sellers'
+import commissioners from './commissioners'
+import sale_types from './sale_types'
 
 Vue.use(Vuex)
 
@@ -16,23 +25,10 @@ axios.defaults.baseURL = process.env.VUE_APP_API_URL
 
 export default new Vuex.Store({
 	state: {
-		special_prices: [],
 	},
 	mutations: {
-		setSpecialPrices(state, value) {
-			state.special_prices = value
-		},
 	},
 	actions: {
-		getSpecialPrices({commit}) {
-			axios.get('/api/special-prices')
-			.then(res => {
-				commit('setSpecialPrices', res.data)
-			})
-			.catch(err => {
-				console.log(err)
-			})
-		},
 	},
 	modules: {
 		auth,
@@ -40,5 +36,14 @@ export default new Vuex.Store({
 		articles,
 		clients,
 		online,
+		sales, 
+		vender,
+		categories,
+		special_prices,
+		providers,
+		discounts,
+		sellers,
+		commissioners,
+		sale_types,
 	}
 })

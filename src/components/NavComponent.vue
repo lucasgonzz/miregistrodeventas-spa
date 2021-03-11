@@ -2,7 +2,7 @@
 <div>
     <update-password></update-password>
     <update-user :user="user"></update-user>
-    <b-navbar toggleable="lg" class="">
+    <b-navbar toggleable="lg" variant="primary">
         <b-navbar-brand>
             <strong>
                 Mi registro de ventas
@@ -17,33 +17,35 @@
         <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
                 <b-nav-item :to="{name: 'Vender'}"
-                v-if="hasPermissionTo('sale.create', user)"
-                :class="currentPage == '/vender' ? 'active-link' : ''">
+                v-if="can('sale.create')"
+                :class="activeLink('vender')">
                     Vender
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Ingresar'}"
-                v-if="hasPermissionTo('article.create', user)"
-                :class="currentPage == '/ingresar' ? 'active-link' : ''">
+                v-if="can('article.create')"
+                :class="activeLink('ingresar')">
                     Ingresar
                 </b-nav-item>
-                <b-nav-item :to="{name: 'Listado'}"
-                v-if="hasPermissionTo('article.index', user)"
-                :class="currentPage == '/listado' ? 'active-link' : ''">
+                <b-nav-item 
+                @click="toListado"
+                v-if="can('article.index')"
+                :class="activeLink('listado')">
                     Listado
                 </b-nav-item>
-                <b-nav-item :to="{name: 'Ventas'}"
-                v-if="hasPermissionTo('sale.index', user)"
-                :class="currentPage == '/ventas' ? 'active-link' : ''">
+                <b-nav-item
+                @click="toVentas"
+                v-if="can('sale.index')"
+                :class="activeLink('ventas')">
                     Ventas
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Empleados'}"
                 v-if="isAdmin(user)"
-                :class="currentPage == '/empleados' ? 'active-link' : ''">
+                :class="activeLink('empleados')">
                     Empleados
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Online'}"
                 v-if="hasOnline(user)"
-                :class="currentPage == '/tienda-online' ? 'active-link' : ''">
+                :class="activeLink('online')">
                     Online
                     <b-badge
                     variant="primary"
@@ -51,9 +53,19 @@
                         {{ unconfirmedOrders_questions_length }}
                     </b-badge>
                 </b-nav-item>
-                <div>
-                    <b-nav-item-dropdown :text="user.name" right>
-                            <b-dropdown-item 
+                <b-nav-item
+                @click="logout">
+                    <i class="icon-sign-out"></i>
+                    Salir
+                </b-nav-item>
+            </b-navbar-nav>
+            <!-- <b-navbar-nav class="ml-auto">
+                <b-nav-item>
+                    <b-dropdown
+                    variant="primary" 
+                    :text="user.name" 
+                    right>
+                        <b-dropdown-item 
                         v-if="isAdmin(user)"
                         class="nav-item-config"
                         v-b-modal="'update-user'">
@@ -80,31 +92,32 @@
                             <i class="icon-sign-out"></i>
                             Salir
                         </b-dropdown-item>
-                    </b-nav-item-dropdown>
-                </div>
-            </b-navbar-nav>
+                    </b-dropdown>
+                </b-nav-item>
+            </b-navbar-nav> -->
         </b-collapse>
     </b-navbar>
+    <p v-if="isOffline">Se perdio la conexion</p>
     <b-sidebar id="mobile-nav" title="Mi registro de ventas" shadow>
         <nav>
             <b-nav vertical>
                 <b-nav-item :to="{name: 'Vender'}"
-                v-if="hasPermissionTo('sale.create', user)"
+                v-if="can('sale.create')"
                 :class="currentPage == '/vender' ? 'active-link-mobile' : ''">
                     Vender
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Ingresar'}"
-                v-if="hasPermissionTo('article.create', user)"
+                v-if="can('article.create')"
                 :class="currentPage == '/ingresar' ? 'active-link-mobile' : ''">
                     Ingresar
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Listado'}"
-                v-if="hasPermissionTo('article.index', user)"
+                v-if="can('article.index')"
                 :class="currentPage == '/listado' ? 'active-link-mobile' : ''">
                     Listado
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Ventas'}"
-                v-if="hasPermissionTo('sale.index', user)"
+                v-if="can('sale.index')"
                 :class="currentPage == '/ventas' ? 'active-link-mobile' : ''">
                     Ventas
                 </b-nav-item>
@@ -150,7 +163,12 @@
 <script>
 import UpdatePassword from './config/UpdatePassword'
 import UpdateUser from './config/UpdateUser'
+
+// Mixins
+import mixin from '@/mixins/nav'
 export default {
+    name: 'NavComponent',
+    mixins: [mixin],
     components: {
         UpdatePassword,
         UpdateUser
@@ -169,9 +187,12 @@ export default {
                 return unconfirmed_orders.length + questions.length
             }
             return null
-        }
+        },
 	},
 	methods: {
+        activeLink(url) {
+            return this.currentPage == '/'+url ? 'active-link' : ''
+        },
         startIntrojs() {
             this.$intro()
             .setOption("showProgress", true)
@@ -182,16 +203,9 @@ export default {
             // introJs().setOption('showProgress', true).setOption('hidePrev', true).setOption('hideNext', true).start()
         },
         logout() {
-            this.$store.commit('auth/setLoading', true)
-			this.$axios.post('/logout')
+            this.$store.dispatch('auth/logout')
             .then(() => {
-                this.$store.commit('auth/setLoading', false)
-                this.$store.commit('auth/setAuthenticated', false)
-                this.$store.commit('auth/setUser', {})
                 this.$router.replace({name: 'Login'})
-            })
-            .catch(err => {
-                console.log(err)
             })
 		},
 		isTrial() {
@@ -209,32 +223,27 @@ export default {
 #mobile-nav
     .nav-item-config
         a
-            color: #333
             font-size: 1.1em
             font-weight: bold
     .nav-link 
         text-align: left
-        color: rgba(0, 123, 255, .6) 
+        color: lighten(#4a2c82, 30)
         font-size: 1.3em
+        font-weight: bold
     .active-link-mobile
         a
-            font-weight: bold
-            color: rgba(0, 123, 255, 1) !important
+            color: #4a2c82
 
 .navbar
+    // position: relative
+    padding: 1em 0 0 0
     margin-bottom: 1em
-    position: relative
-    -webkit-box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)
-    -moz-box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)
-    box-shadow: 0px 1px 10px 0px rgba(0,0,0,0.75)
-    
-    @media (min-width: 992px)
-        padding-bottom: 0px
-        .navbar-brand
-            margin-top: -5px
-
+    .navbar-brand 
+        color: #FFF !important
+        margin: 0 .5em
+        padding: 0
     .icon-bars
-        color: #000
+        color: #fff
         background: none
         font-size: 1.2em
     .navbar-toggler
@@ -242,18 +251,17 @@ export default {
         &:focus
             outline: 0 !important
 
+    .nav-link
+        padding: 0
+        font-size: 1.2em
+        color: rgba(255,255,255,.7) !important
+        &:hover
+            color: #FFF !important
+        &:active 
+            transform: scale(.9)
     .active-link 
         a
             font-weight: bold
-            color: #007bff !important
-            border-radius: 0px 0px 3px 3px
-            border-bottom: 4px solid #007bff
-            // text-shadow: 0 2px 0px #007bff 
-    .nav-link
-        font-size: 1.2rem
-        font-weight: bold
-        color: rgba(#007bff, .6) !important
-        &:hover
-            color: #007bff !important
+            color: #FFF !important
 
 </style>

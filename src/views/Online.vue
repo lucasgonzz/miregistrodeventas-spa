@@ -2,16 +2,14 @@
 	<div id="online">
 		<answer
 		:question="question"></answer>
-		<views></views>
+		<!-- <views></views> -->
 		<b-row>
 			<b-col
 			cols="12">
 				<b-card
 				header="Tienda Online">
 					<b-container fluid>
-						<nav-component
-						:view="view"
-						@setView="setView"></nav-component>
+						<nav-component></nav-component>
 						<orders
 						v-show="view == 'orders'"></orders>
 						<questions
@@ -33,7 +31,7 @@ import Orders from '@/components/online/components/orders/Orders'
 import Questions from '@/components/online/components/questions/Questions'
 import Examine from '@/components/online/components/examine/Examine'
 import Answer from '@/components/online/modals/Answer'
-import Views from '@/components/online/modals/examine/Views'
+// import Views from '@/components/online/modals/examine/Views'
 export default {
 	components: {
 		NavComponent,
@@ -41,21 +39,20 @@ export default {
 		Questions,
 		Examine,
 		Answer,
-		Views,
+		// Views,
 	},
 	data() {
 		return {
 			question: {},
 			order: {},
-			view: 'orders'
 		}
 	},
 	computed: {
+		view() {
+			return this.$store.state.online.view
+		}
 	},
 	methods: {
-		setView(view) {
-			this.view = view
-		},
 		answer(question) {
 			this.question = question
 			console.log(question)

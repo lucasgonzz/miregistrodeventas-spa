@@ -59,7 +59,6 @@
 </template>
 <script>
 export default {
-    props: ['sale'],
     data() {
         return {
             company_name: 1,
@@ -67,6 +66,11 @@ export default {
             articles_per_page: 0,
             max: 0,
             min: 0,
+        }
+    },
+    computed: {
+        sale() {
+            return this.$store.state.vender.sale
         }
     },
     watch: {
@@ -86,9 +90,7 @@ export default {
             window.open(link)
         },
         pdfCommerce() {
-            var link = process.env.VUE_APP_API_URL+'/sales/comercio/'+this.company_name+
-                        '/'+this.borders+
-                        '/'+this.sale.id
+            var link = process.env.VUE_APP_API_URL+`/sales/pdf/${this.sale.id}/${this.company_name}/1/1/1/1/${this.borders}`
             window.open(link)
         },
     }

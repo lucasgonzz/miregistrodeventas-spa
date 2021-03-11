@@ -1,62 +1,58 @@
 <template>
 <b-modal id="clients" title="Clientes" hide-footer scrollable>
-    <b-container fluid class="m-0">
-        <b-row class="m-b-15">
-            <b-col>
+    <b-card no-body>
+        <div>
+            <b-form-group>
                 <autocomplete 
                 :search="search" 
                 auto-select
                 :get-result-value="getResultValue"
                 placeholder="Buscar un cliente..."
                 @submit="setClient"></autocomplete>
-            </b-col>
-        </b-row>
-        <cargando :is_loading="loading_clients" size="md"></cargando>
-        <b-row v-show="!loading_clients">
-            <b-col>
-                <b-card header="Lista de clientes">
-                    <template v-slot:header>
-                        Lista de clientes
-                        <b-button
-                        v-show="client_searched"
+            </b-form-group>
+            <b-form-group>
+                <b-list-group>
+                    <b-list-group-item
+                    v-for="(client, index) in clients_to_show"
+                    :key="'a'+client.id">
+                        <b-form-group
+                        label="Nombre"
+                        :label-for="`client-name-${client.id}-${index}`">
+                            <b-form-input
+                            :id="`client-name-${client.id}-${index}`"
+                            v-model="client.name"></b-form-input>
+                        </b-form-group>
+                        <b-button 
                         variant="primary"
-                        @click="backClients">
-                            <i class="icon-undo"></i>
+                        size="sm"
+                        class="float-right"
+                        @click="salesFromClient(client)">
+                            <i class="icon-eye"></i>
+                            Ventas
                         </b-button>
-                    </template>
-                    <b-list-group>
-                        <b-list-group-item
-                        v-for="(client, index) in clients"
-                        :key="'a'+client.id">
-                            <b-form-group
-                            label="Nombre"
-                            :label-for="`client-name-${client.id}-${index}`">
-                                <b-form-input
-                                :id="`client-name-${client.id}-${index}`"
-                                v-model="client.name"></b-form-input>
-                            </b-form-group>
-                            <b-button 
-                            variant="primary"
-                            size="sm"
-                            class="float-right"
-                            @click="salesFromClient(client)">
-                                Ventas
-                            </b-button>
-                            <b-button
-                            variant="success"
-                            size="sm"
-                            class="float-right m-r-5"
-                            @click="updateClient(client)">
-                                <i class="icon-undo" v-show="updating_client != client.id"></i>
-                                <span class="spinner-border spinner-border-sm" v-show="updating_client == client.id"></span>
-                                Actualizar nombre
-                            </b-button>
-                        </b-list-group-item>                        
-                    </b-list-group>
-                </b-card>
-            </b-col>
-        </b-row>
-    </b-container>
+                        <b-button
+                        variant="success"
+                        size="sm"
+                        class="float-right m-r-5"
+                        @click="updateClient(client)">
+                            <i class="icon-undo" v-show="updating_client != client.id"></i>
+                            <span class="spinner-border spinner-border-sm" v-show="updating_client == client.id"></span>
+                            Actualizar nombre
+                        </b-button>
+                    </b-list-group-item>      
+                </b-list-group>
+            </b-form-group>
+            <b-form-group
+            v-show="clients_to_show.length < clients.length">
+                <b-button
+                variant="primary"
+                block
+                @click="addClients">
+                    Cargar mas
+                </b-button>                  
+            </b-form-group>
+        </div>
+    </b-card>
 </b-modal>
 </template>
 <script>
@@ -71,38 +67,32 @@ export default {
     },
     data() {
         return {
-            loading_clients: false,
-            clients: [],
-            client_name_search: '',
-            searching_possible_clients: false,
             updating_client: 0,
-            without_clients: false,
-            client_searched: false
         }
     },
     computed: {
-        clients_() {
+        clients() {
             return this.$store.state.clients.clients
-        }
-    },
-    watch: {
-        clients_() {
-            this.clients = this.clients_
-        }
-    },
-    created() {
-        this.clients = this.clients_
+        },
+        clients_to_show() {
+            return this.$store.state.clients.clients_to_show
+        },
     },
     methods: {
-        backClients() {
-            this.client_searched = false
-            this.$store.dispatch('clients/getClients')
+        addClients() {
+            this.$store.commit('clients/addClientsToShow')
         },
         search(input) {
-            if (input.length < 1) { return [] }
-            return this.clients.filter(client => {
-                return client.name.toLowerCase().startsWith(input.toLowerCase())
+            if (input.length < 1) { 
+                this.$store.commit('clients/setClientsToShow', [])
+                this.$store.commit('clients/addClientsToShow')
+                return [] 
+            }
+            let clients = this.clients.filter(cli => {
+                return cli.name.toLowerCase().includes(input.toLowerCase())
             })
+            this.$store.commit('clients/setClientsToShow', clients)
+            return []
         },
         getResultValue(client) {
             return client.name
@@ -126,7 +116,21 @@ export default {
             })
         },
         salesFromClient(client) {
-            this.$emit('salesFromClient', client)
+            console.log(client)
+            this.$store.commit('sales/days_previus_sales/setDaySelected', null)
+            this.$store.commit('sales/setSelectedClient', client)
+            this.$store.commit('sales/setLoading', true)
+            this.$api.get('/sales/client/'+client.id)
+            .then(res => {
+                console.log(res)
+                this.$store.commit('sales/setLoading', false)
+                this.$store.commit('sales/setSalesToShow', res.data.sales)
+            })
+            .catch(err => {
+                this.$store.commit('sales/setLoading', false)
+                this.$toast.error('Error al buscar las ventas de '+client.name+', recargue la página e intente denuevo, por favor')
+                console.log(err)
+            })
             this.$bvModal.hide('clients')
         },
         setPossibleClients() {
@@ -167,5 +171,5 @@ export default {
     }
 }
 </script>
-<style scoped>
+<style lang="sass">
 </style>

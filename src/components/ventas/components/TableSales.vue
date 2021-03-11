@@ -1,144 +1,247 @@
 <template>
-<div class="row" v-show="!is_loading && sales.length && !showing_statistics">
-	<div class="col al-borde">
-		<div class="table-responsive">
-			<table class="table table-striped text-center">
-				<thead class="thead-dark">
-					<tr>
-						<th>
-							<b-form-checkbox
-							id="is_all_selected"
-							v-model="selected_sales.is_all_selected" 
-							@change="selectAllSales"></b-form-checkbox>
-						</th>
-						<th scope="col">Ver</th>
-						<th v-show="is_from_date || sales_from_client || show_date" scope="col">
-							Fecha
-						</th>
-						<th scope="col">Hora</th>
-						<th scope="col" class="d-none d-md-table-cell">Cant. Artículos</th>
-						<th scope="col" class="d-none d-md-table-cell">Cant. Unidades</th>
-						<th scope="col" v-show="hasPermissionTo('article.index.cost', user)">Costo</th>
-						<th scope="col">Total</th>
-						<th>Cliente</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="sale in sales"
-					:key="sale.id"
-						:class="selected_sales.selected_sales.includes(sale.id) ? 'bg-warning' : ''">
-						<td class="td-special-price">
-							<b-form-checkbox
-							:value="sale.id"
-							v-model="selected_sales.selected_sales"></b-form-checkbox>
-							<b-badge
-							variant="success"
-							v-show="sale.buyer">
-								Online
-							</b-badge>
-						</td>
-						<td class="td-options">
-							<b-button 
-							class="btn-eye"
-							@click="showSaleDetails(sale)">
-								<i class="icon-eye"></i>
-							</b-button>
-						</td>
-						<td v-show="is_from_date || sales_from_client || show_date">
-							<i class="icon-calendar"></i>
-							{{ date(sale.created_at) }}
-						</td>
-						<td>
-							<i class="icon-clock-1"></i>
-							{{ hour(sale.created_at) }}
-						</td>
-						<td
-						class="d-none d-md-table-cell">{{ getCantidadArticulos(sale) }}</td>
-						<td
-						class="d-none d-md-table-cell">{{ getCantidadUnidades(sale) }}</td>
-						<td v-show="hasPermissionTo('article.index.cost', user)">
-							{{ getTotalCostSale(sale) }}
-						</td>
-						<td>
-							{{ getTotalSale(sale) }}
-							<b-badge v-if="sale.special_price"
-							class="bg-success">
-								{{ sale.special_price.name }}
-							</b-badge>
-							<i v-show="sale.percentage_card != null"
-								class="icon-credit-card text-primary card-icon"></i>
-						</td>
-						<td v-if="sale.client || sale.buyer">
-							<strong v-if="sale.debt"
-									class="text-danger">
-								<i class="icon-user"></i>
-								<span
-								v-if="sale.client">
-									{{ sale.client.name }}
-								</span>
-								<span
-								v-else>
-									{{ sale.buyer.name }}
-								</span>
-								<p class="c-p"
-									@click="changeEntrego">
-									<i class="icon-undo"></i>
-									<span v-show="mostrar_entrego">
-										(entrego {{ price(sale.debt) }})
-									</span>
-									<span v-show="!mostrar_entrego">
-										(debe {{ price(getPrice(sale, false) - sale.debt) }})
-									</span>
-								</p>
-							</strong>
-							<span v-else>
-								<i class="icon-user"></i>
-								<span
-								v-if="sale.client">
-									{{ sale.client.name }}
-								</span>
-								<span
-								v-else>
-									{{ sale.buyer.name }}
-								</span>
-							</span>
-						</td>
-						<td v-else>
-							<i class="icon-user-delete"></i>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+<b-row>
+	<b-col>
+		<div
+		v-if="!loading">
+			<b-table 
+			v-show="sales.length"
+			:items="items" 
+			head-variant="dark" 
+			:fields="fields" 
+			responsive 
+			ref="tableSales"
+			hover 
+			selectable 
+			select-mode="multi"
+			@row-selected="onRowSelected">
+				<template #cell(selected)="{ rowSelected }">
+					<template v-if="rowSelected">
+						<span aria-hidden="true">
+							<i class="icon-check text-primary"></i>
+						</span>
+					</template>
+					<template v-else>
+						<span aria-hidden="true">&nbsp;</span>
+					</template>
+				</template>
+				<template #cell(ver)="data">
+					<b-button 
+					class="btn-eye"
+					@click="showSaleDetails(sales[data.index])">
+						<i class="icon-eye"></i>
+					</b-button>
+					<!-- <div class="badges">
+						<b-badge
+						class="badge-percentage-card"
+						variant="primary"
+						v-if="sales[data.index].percentage_card">
+							<i class="icon-credit-card"></i>
+							{{ sales[data.index].percentage_card }} %
+						</b-badge>
+						<b-badge
+						class="badge-special-price"
+						variant="success"
+						v-if="sales[data.index].special_price">
+							{{ getSpecialPrice(sales[data.index]) }}
+						</b-badge> 
+					</div> -->
+				</template>
+				<!-- <template #cell(total)="data">
+					{{ getTotalSale(sales[data.index]) }}
+					<div class="badges">
+						<b-badge
+						class="badge-percentage-card"
+						variant="primary"
+						v-if="sales[data.index].percentage_card">
+							<i class="icon-credit-card"></i>
+							{{ sales[data.index].percentage_card }} %
+						</b-badge>
+						<b-badge
+						class="badge-special-price"
+						variant="success"
+						v-if="sales[data.index].special_price">
+							{{ getSpecialPrice(sales[data.index]) }}
+						</b-badge>
+					</div>
+				</template> -->
+				<template #cell(client)="data">
+					<b-button
+					v-if="sales[data.index].client"
+					@click="showCurrentAcounts(sales[data.index].client)"
+					variant="link">
+						{{ getClient(sales[data.index]) }}
+					</b-button>
+					<span v-else>
+						<i class="icon-user-delete"></i>
+					</span>
+					<b-badge
+					variant="danger"
+					v-if="sales[data.index].debt">
+						{{ getSaleDebt(sales[data.index]) }}
+					</b-badge>
+				</template>
+				<!-- <template #cell(options)="data">
+					<b-button 
+					variant="danger"
+					class="m-r-10"
+					@click="deleteSale(sales[data.index])">
+						<i class="icon-trash-3"></i>
+					</b-button>
+					<b-button 
+					variant="primary"
+					@click="printSale(sales[data.index])">
+						<i class="icon-print"></i>
+					</b-button>
+				</template> -->
+			</b-table>
+			<div 
+			v-show="!sales.length"
+			class="no-content">
+				<i class="icon-not-2"></i>
+				<p>
+					No hay ventas
+				</p>
+			</div>
 		</div>
-	</div>
-</div>
+		<b-skeleton-table
+			v-else
+			:hide-header="false"
+			:rows="8"
+			:columns="10"
+			:table-props="{ bordered: true, striped: true }"
+		></b-skeleton-table>
+	</b-col>
+</b-row>
 </template>
 <script>
 import numeral from 'numeral'
 // Mixins
 import Sales from '@/mixins/sales'
+import Clients from '@/mixins/clients'
 export default {
-	props: [
-		'showing_statistics',
-		'is_loading', 'sales', 'selected_sales', 
-		'is_from_date', 'is_from_only_one_date',
-		'sales_from_client', 
-		'mostrar_entrego',
-		'show_date', 'user',
-		],
-	mixins: [Sales],
+	name: 'TableSales',
+	mixins: [Sales, Clients],
+	computed: {
+		all_sales_selected() {
+			return this.$store.state.sales.all_sales_selected
+		},
+		sales() {
+			return this.$store.state.sales.sales_to_show
+		},
+		loading() {
+			return this.$store.state.sales.loading
+		},
+		items() {
+			let items = []
+			this.sales.forEach(sale => { 
+				items.push({
+					id: sale.id,
+					articles: sale.articles,
+					date: sale.created_at,
+					hour: this.hour(sale.created_at),
+					cantidad_articulos: this.getCantidadArticulos(sale),
+					cantidad_unidades: this.getCantidadUnidades(sale),
+					cost: this.getTotalCostSale(sale),
+					total: this.getTotalSale(sale, false),
+					_rowVariant: this.getRowVariant(sale),
+				})
+			})
+			return items
+		},
+		fields() {
+			if (this.only_one_date != '' || this.to != '') {
+				return [
+					{ key: 'selected', label: '' },
+					{ key: 'ver', label: 'Ver' },
+					{ key: 'date', label: 'Fecha', formatter: 'date_format', sortable: true },
+					{ key: 'hour', label: 'Hora', sortable: true },
+					{ key: 'cantidad_articulos', label: 'Cant. Articulos', sortable: true },
+					{ key: 'cantidad_unidades', label: 'Cant. Unidades', sortable: true },
+					{ key: 'cost', label: 'Costo', sortable: true },
+					{ key: 'total', sortable: true, formatter: 'total_format'},
+					{ key: 'client', label: 'Cliente', sortable: true},
+				]
+			} else {
+				return [
+					{ key: 'selected', label: '' },
+					{ key: 'ver', label: 'Ver' },
+					{ key: 'hour', label: 'Hora', sortable: true },
+					{ key: 'cantidad_articulos', label: 'Cant. Articulos', sortable: true },
+					{ key: 'cantidad_unidades', label: 'Cant. Unidades', sortable: true },
+					{ key: 'cost', label: 'Cost', sortable: true },
+					{ key: 'total', sortable: true, formatter: 'total_format'},
+					{ key: 'client', label: 'Cliente', sortable: true},
+				]
+			}
+		},
+	},
+	watch: {
+		all_sales_selected() {
+			if (this.all_sales_selected) {
+				this.$refs.tableSales.selectAllRows()
+			} else {
+				this.$refs.tableSales.clearSelected()
+				console.log('engro')
+			}
+		}
+	},
 	methods: {
+		getRowVariant(sale) {
+			let variant = ''
+			sale.impressions.forEach(impression => {
+				if (impression.type == 'commerce') {
+					if (variant == 'warning') {
+						variant = 'primary'
+					} else {
+						variant = 'danger'
+					}
+				} else if (impression.type == 'client') {
+					if (variant == 'danger') {
+						variant = 'primary'
+					} else {
+						variant = 'warning'
+					}
+				}
+			})
+			return variant
+			// if (sale.special_price) {
+			// 	return 'success'
+			// }
+			// if (sale.percentage_card) {
+			// 	return 'primary'
+			// }
+			// return ''
+		},
+		onRowSelected(items) {
+			this.$store.commit('sales/setSelectedSales', items)
+		},
+		date_format(value) {
+			return this.date(value)
+		},
+		total_format(value) {
+			return this.price(value)
+		},
+		getSpecialPrice(sale) {
+			return sale.special_price.name
+		},
+		getClient(sale) {
+			if (sale.client) {
+				return sale.client.name
+			}
+			return '-'
+		},
+		getSaleDebt(sale) {
+			if (sale.debt) {
+				return '-'+this.price(this.getTotalSale(sale, false) - sale.debt)
+			}
+		},
 		getCantidadArticulos(sale) {
 			return sale.articles.length
 		},
 		getCantidadUnidades(sale) {
 			var cantidad_unidades = 0
 			sale.articles.forEach(article => {
-				if (article.uncontable == 0) {
-					cantidad_unidades += Number(article.pivot.amount)
-				} else {
-					cantidad_unidades ++
-				}
+				cantidad_unidades += Number(article.pivot.amount)
 			})
 			return cantidad_unidades
 		},
@@ -202,15 +305,34 @@ export default {
 			this.$emit('selectAllSales')
 		},
 		showSaleDetails(sale) {
-			this.$emit('showSaleDetails', sale)
+			this.$store.commit('sales/setSaleDetails', sale)
+			this.$bvModal.show('sale-details')
 		},
 		changeEntrego() {
 			this.$emit('changeEntrego')
+		},
+		printSale(sale) {
+			this.$store.commit('sales/setSelectedSales', [sale])
+			// this.$store.commit('sales/setPrint', sale)
+			this.$bvModal.show('print-sales')
+		},
+		deleteSale(sale) {
+			this.$store.commit('sales/setDelete', sale)
+			this.$bvModal.show('delete-sales')
 		}
 	},
 }
 </script>
 <style scoped lang="sass">
+.badges
+	.badge 
+		margin: 0 .5em
+.badge-percentage-card
+	// position: absolute
+	top: 10%
+.badge-special-price
+	// position: absolute
+	top: 50%
 .btn-eye 
 	background: none
 	color: #0069d9

@@ -6,7 +6,7 @@ export default {
 	state: {
 		unconfirmed_orders: [],
 		loading_unconfirmed_orders: false,
-
+		view: 'orders',
 		questions: [],
 	},
 	mutations: {
@@ -19,7 +19,9 @@ export default {
 		setLoadingUnconfirmedOrders(state, value) {
 			state.loading_unconfirmed_orders = value
 		},
-
+		setView(state, value) {
+			state.view = value
+		},
 		setQuestions(state, questions) {
 			state.questions = questions
 		},

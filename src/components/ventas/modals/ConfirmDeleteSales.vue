@@ -1,53 +1,63 @@
 <template>
-<b-modal id="delete-sales" :title="title">
-    <b-container fluid>
+<b-modal id="delete-sales" hide-footer hide-header size="sm">
+    <b-container>
         <b-row>
             <b-col>
-                <p>{{ message }}</p>
-                <p class="m-0">Se repondran las unidades de sus artículos</p>
+                <p
+                class="text-center">¿Seguro que quiere eliminar las venta seleccionadas? Se repondran los articulos</p>
+                <b-button
+                block
+                @click="deleteSales"
+                variant="danger">
+                    <btn-loader
+                    text="Eliminar"
+                    :loader="loading"></btn-loader>
+                </b-button>
             </b-col>
         </b-row>
     </b-container>
-    <template v-slot:modal-footer>
-        <b-button 
-        variant="danger" 
-        @click="deleteSales">
-            <i class="icon-trash-3" v-show="!deleting_sales"></i>
-            <span v-show="deleting_sales" 
-                class="spinner-border spinner-border-sm"></span>
-            {{ button_text }}
-        </b-button>
-    </template>
 </b-modal>
 </template>
 <script>
+import BtnLoader from '@/components/common/BtnLoader'
 export default {
-  props: ['selected_sales', 'deleting_sales'],
-    computed: {
-        title() {
-            if (this.selected_sales.length > 1) {
-                return `Eliminar ventas seleccionadas`
-            }      
-            return 'Eliminar venta seleccionada'
-        },
-        message() {
-            if (this.selected_sales.length > 1) {
-                return `¿Seguro que quiere eliminar estas ${this.selected_sales.length} ventas?`
-            }      
-            return '¿Seguro que quiere eliminar esta venta?'
-        },
-        button_text() {
-            if (this.selected_sales.length > 1) {
-                return 'Eliminar ventas'
-            } 
-            return 'Eliminar venta'
-
+    name: 'DeleteSales',
+    components: {
+        BtnLoader
+    },
+    data() {
+        return {
+            loading: false
         }
     },
-	methods: {
-        deleteSales() {
-            this.$emit('deleteSales')
+    computed: {
+        selected_sales() {
+            return this.$store.state.sales.selected_sales
         }
-	}
+    },
+    methods: {
+        deleteSales() {
+            this.loading = true
+            let sales_id = []
+            this.selected_sales.forEach(sale => {
+                sales_id.push(sale.id)
+            })
+            this.$api.delete('sales/'+sales_id.join('-'))
+            .then(() => {
+                this.loading = false
+                this.$bvModal.hide('delete-sales')
+                console.log(this.selected_sales)
+                this.$store.commit('articles/updateStock', this.selected_sales)
+                this.$store.commit('sales/delete')
+                this.$store.commit('sales/setTotal')
+                this.$toast.success('Venta eliminada')
+            })
+            .catch((err) => {
+                this.$toast.error('Error al eliminar la venta, intentelo mas tarde')
+                this.loading = false
+                console.log(err)
+            })
+        },
+    }
 }
 </script>

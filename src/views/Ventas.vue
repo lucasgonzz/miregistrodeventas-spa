@@ -1,62 +1,42 @@
 <template>
 <div id="ventas">	
-	<clients 
+	<!-- <clients 
 	@salesFromClient="salesFromClient"></clients>
 	<sales-times 
 	@getSalesTimes="getSalesTimes"></sales-times>
 	<summary 
-	:sales="sales"></summary>
-	<from-date 
-	@fromDate="fromDate"
-	@onlyOneDate="onlyOneDate"></from-date>
-	<sale-details 
-	:sale="sale"
-	:user="user"
-	@salesFromClient="salesFromClient"></sale-details>
-	<print-sales :sales_id="selected_sales.selected_sales"></print-sales>
-	<confirm-delete-sales 
-	:deleting_sales="deleting_sales"
-	:selected_sales="selected_sales.selected_sales"
-	@deleteSales="deleteSales"></confirm-delete-sales>
-	<b-row>
-		<b-col>
-			<b-card no-body header-class="al-borde">
-				<template v-slot:header>
-					<card-header
-					:is_from_date="is_from_date"
-					:from="from"
-					:to="to"
-					:is_from_only_one_date="is_from_only_one_date"
-					:only_one_date="only_one_date"
-					:sales_from_client="sales_from_client"
-					:client="client"
-					:showing_statistics="showing_statistics"
-					:user="user"
-					@removeSalesFromClient="removeSalesFromClient"
-					@getSales="getSales"
-					@onlyOneDate="onlyOneDate"
-					@today="today"></card-header>
-				</template>
-				<b-card-body class="al-borde"> 
-					<b-container fluid>
-						<card-body-header 
-						:user="user" 
-						:showing_statistics="showing_statistics"
-						:loading_statistics="loading_statistics"
-						:sales="sales"
-						:total_articles="total_articles"
-						:total="total"
-						:total_cost="total_cost"
-						:is_loading="is_loading"
-						:showing_only_with_card_sales="showing_only_with_card_sales"
-						:sales_length="sales.length"
-						:selected_sales="selected_sales"
-						@showStatistics="showStatistics"
-						@salesWithCard="salesWithCard"></card-body-header>
+	:sales="sales"></summary> -->
+	<discounts></discounts>
+	<create-discount></create-discount>
+	<edit-discount></edit-discount>
+	<commissioner-pago></commissioner-pago>
+	<current-acounts></current-acounts>
+	<current-acounts-pago></current-acounts-pago>
+	<current-acounts-nota-credito></current-acounts-nota-credito>
+	<clients></clients>
+	<edit-client></edit-client>
+	<delete-client></delete-client>
+	<saldo-inicial-client></saldo-inicial-client>
+	<commissioners></commissioners>
+	<from-date></from-date>
+	<sale-details></sale-details>
+	<print-sales></print-sales> 
+	<confirm-delete-sales></confirm-delete-sales> 
+	
+	<title-previus-sales-buttons></title-previus-sales-buttons>
+	<total-dropdown></total-dropdown>
+	<table-sales 
+	:sales="sales"
+	:is_from_date="is_from_date"
+	:is_from_only_one_date="is_from_only_one_date"
+	:sales_from_client="sales_from_client"
+	:show_date="show_date"
+	@selectAllSales="selectAllSales"
+	@showSaleDetails="showSaleDetails"
+	@changeEntrego="changeEntrego"></table-sales>
 
-						<sales-times-nav 
+						<!-- <sales-times-nav 
 						v-if="canUse('sale_time', user)"
-						:showing_statistics="showing_statistics"
 						:sales_times="sales_times"
 						:sale_time="sale_time"
 						:sales="sales"
@@ -65,46 +45,11 @@
 						:sales_from_client="sales_from_client"
 						@getAllSales="getAllSales"
 						@hasPermissionToShowSaleTime="hasPermissionToShowSaleTime"
-						@changeSaleTime="changeSaleTime"></sales-times-nav>
+						@changeSaleTime="changeSaleTime"></sales-times-nav> -->
 						<!-- Termina menu de horarios de ventas -->
 
-						<!-- Cargando -->
-						<cargando :is_loading="is_loading" size="md"></cargando>
-						<!-- Termina cargando -->
-
 						<!-- Tabla para mostrar las ventas -->
-						<table-sales :showing_statistics="showing_statistics" 
-									:is_loading="is_loading" 
-									:sales="sales"
-									:selected_sales="selected_sales"
-									:is_from_date="is_from_date"
-									:is_from_only_one_date="is_from_only_one_date"
-									:sales_from_client="sales_from_client"
-									:mostrar_entrego="mostrar_entrego"
-									:show_date="show_date"
-									:user="user"
-									@selectAllSales="selectAllSales"
-									@showSaleDetails="showSaleDetails"
-									@changeEntrego="changeEntrego"></table-sales>
 						<!-- Termina la tabla para mostrar las ventas -->
-
-						<chart :statistics="statistics" 
-								:user="user"
-								:sales_times_length="sales_times.length"
-								v-show="showing_statistics && !is_loading"></chart>
-
-						<!-- Mensaje si no hay ventas -->
-						<no-sales
-						:showing_statistics="showing_statistics"
-						:sales="sales"
-						:is_loading="is_loading"
-						></no-sales>
-					</b-container>
-
-				</b-card-body>
-			</b-card>
-		</b-col>
-	</b-row>
 </div>
 </template>
 <script>
@@ -112,76 +57,76 @@
 import moment from 'moment'
 
 // Modals
+import Discounts from '@/components/ventas/modals/discounts/Index.vue'
+import CreateDiscount from '@/components/ventas/modals/discounts/Create.vue'
+import EditDiscount from '@/components/ventas/modals/discounts/Edit.vue'
+import CurrentAcounts from '@/components/ventas/modals/currentAcounts/CurrentAcounts.vue'
+import CommissionerPago from '@/components/ventas/modals/commissioners/CommissionerPago.vue'
+import CurrentAcountsPago from '@/components/ventas/modals/currentAcounts/Pago.vue'
+import CurrentAcountsNotaCredito from '@/components/ventas/modals/currentAcounts/NotaCredito.vue'
 import FromDate from '../components/ventas/modals/FromDate.vue'
 import SaleDetails from '../components/ventas/modals/SaleDetails.vue'
 import ConfirmDeleteSales from '../components/ventas/modals/ConfirmDeleteSales.vue'
 import PrintSales from '../components/ventas/modals/PrintSales.vue'
-import SalesTimes from '../components/ventas/modals/SalesTimes.vue'
-import Clients from '../components/ventas/modals/Clients.vue'
+// import SalesTimes from '../components/ventas/modals/SalesTimes.vue'
+import Clients from '../components/ventas/modals/clients/Index.vue'
+import EditClient from '../components/ventas/modals/clients/EditClient.vue'
+import DeleteClient from '../components/ventas/modals/clients/Delete.vue'
+import SaldoInicialClient from '../components/ventas/modals/clients/SaldoInicial.vue'
+import Commissioners from '../components/ventas/modals/commissioners/Index.vue'
 
 // Componentes
-import Cargando from '../components/common/Cargando.vue'
-import CardHeader from '../components/ventas/components/CardHeader.vue'
-import CardBodyHeader from '../components/ventas/components/CardBodyHeader.vue'
-import NoSales from '../components/ventas/components/NoSales.vue'
-import SalesTimesNav from '../components/ventas/components/SalesTimesNav.vue'
+// import Cargando from '../components/common/Cargando.vue'
+import TitlePreviusSalesButtons from '../components/ventas/components/TitlePreviusSalesButtons.vue'
+import TotalDropdown from '../components/ventas/components/TotalDropdown.vue'
+// import NoSales from '../components/ventas/components/NoSales.vue'
+// import SalesTimesNav from '../components/ventas/components/SalesTimesNav.vue'
 import TableSales from '../components/ventas/components/TableSales.vue'
-import Chart from '../components/ventas/components/Chart.vue'
+// import Chart from '../components/ventas/components/Chart.vue'
 
 
 export default {
 	components: {
 		// Modals
 		FromDate,
+		CurrentAcounts,
+		CommissionerPago,
+		CurrentAcountsPago,
+		CurrentAcountsNotaCredito,
 		SaleDetails,
 		ConfirmDeleteSales,
 		PrintSales,
+		Discounts,
+		EditDiscount,
+		CreateDiscount,
 		// Summary,
-		SalesTimes,
+		// SalesTimes,
 		Clients,
+		EditClient,
+		DeleteClient,
+		SaldoInicialClient,
+		Commissioners,
 
 		// Components
-		Cargando,
-		CardHeader,
-		CardBodyHeader,
-		NoSales,
+		// Cargando,
+		TitlePreviusSalesButtons,
+		TotalDropdown,
+		// NoSales,
 		// SelectedSalesOptions,
-		SalesTimesNav,
+		// SalesTimesNav,
 		TableSales,
-		Chart,
+		// Chart,
 	},
 	data() {
 		return {
-			// Statistics
-			statistics: {
-				first: {
-					labels: [],
-					datasets: [
-						{
-							label: '',
-							backgroundColor: '#38c172',
-							data: [],
-						}
-					],
-				},
-				second: {
-					pie: [],
-				},
-			},
-			showing_statistics: false,
-			loading_statistics: false,
 
 			// Cargando...
-			is_loading: false,
 			is_from_date: false,
 			is_from_only_one_date: false,
 			deleting_sales: false,
 
 			// Clientes
 			sales_from_client: false,
-            clients: [],
-            loading_clients: false,
-			client: {},
 			mostrar_entrego: true,
 
 			// Buscar por fechas
@@ -197,12 +142,7 @@ export default {
 			// Se usa para mostrar las ventas con tarjeta
 			previus_sales: [],
 
-			sales: [],
-			showing_only_with_card_sales: false,
 			sale: {},
-			total: 0,
-			total_cost: 0,
-			total_articles: 0,
 			last_day_inclusive: false,
 			selected_sales: {
 				is_all_selected: false,
@@ -217,41 +157,56 @@ export default {
 	computed: {
 		user() {
 			return this.$store.state.auth.user
-		}
+		},
+		sales() {
+			return this.$store.state.sales.sales
+		},
+		total() {
+			return this.$store.state.sales.total
+		},
+		total_cost() {
+			return this.$store.state.sales.total_cost
+		},
+		total_articles() {
+			return this.$store.state.sales.total_articles
+		},
+		without_cost() {
+			return this.$store.state.sales.without_cost
+		},
 	},
 	watch: {
-		sales() {
-			this.total = 0
-			this.total_cost = 0
-			this.total_articles = 0
-			let without_cost = false
-			this.sales.forEach(sale => {
-				sale.articles.forEach(article => {
-					if (!article.pivot.cost || article.pivot.cost == 0) {
-						without_cost = true
-					}
-					if (article.uncontable == 1) {
-						if (article.pivot.measurement == article.measurement) {
-							this.total += parseFloat(article.pivot.price) * article.pivot.amount
-							this.total_cost += parseFloat(article.pivot.cost) * article.pivot.amount
-						} else {
-							this.total += parseFloat(article.pivot.price) * article.pivot.amount / 1000
-							this.total_cost += parseFloat(article.pivot.cost) * article.pivot.amount / 1000
-						}
-					} else {
-						this.total += parseFloat(article.pivot.price) * article.pivot.amount
-						this.total_cost += parseFloat(article.pivot.cost) * article.pivot.amount
-					}
-					this.total_articles++
-				})
-				if (sale.percentage_card) {
-					this.total = this.total + (this.total * sale.percentage_card / 100)
-				}
-			})
-			if (without_cost) {
-				this.total_cost = 0
-			}
-		}
+		// sales() {
+		// 	this.total = 0
+		// 	this.total_cost = 0
+		// 	this.total_articles = 0
+		// 	let without_cost = false
+		// 	this.sales.forEach(sale => {
+		// 		sale.articles.forEach(article => {
+		// 			if (!article.pivot.cost || article.pivot.cost == 0) {
+		// 				without_cost = true
+		// 			}
+		// 			if (article.uncontable == 1) {
+		// 				if (article.pivot.measurement == article.measurement) {
+		// 					this.total += parseFloat(article.pivot.price) * article.pivot.amount
+		// 					this.total_cost += parseFloat(article.pivot.cost) * article.pivot.amount
+		// 				} else {
+		// 					this.total += parseFloat(article.pivot.price) * article.pivot.amount / 1000
+		// 					this.total_cost += parseFloat(article.pivot.cost) * article.pivot.amount / 1000
+		// 				}
+		// 			} else {
+		// 				this.total += parseFloat(article.pivot.price) * article.pivot.amount
+		// 				this.total_cost += parseFloat(article.pivot.cost) * article.pivot.amount
+		// 			}
+		// 			this.total_articles++
+		// 		})
+		// 		if (sale.percentage_card) {
+		// 			this.total = this.total + (this.total * sale.percentage_card / 100)
+		// 		}
+		// 	})
+		// 	if (without_cost) {
+		// 		this.total_cost = 0
+		// 	}
+		// }
 	},
 	methods: {
 		setInitIndex() {
@@ -264,72 +219,72 @@ export default {
 		},
 
 		// Header buttons
-		today() {
-			this.is_from_date = false
-			this.is_from_only_one_date = false
-			this.showing_statistics = false
-			this.only_one_date = ''
-			this.getSales()
-		},
-		showStatistics() {
-			if (!this.showing_statistics) {
-				this.showing_statistics = true
-				this.is_loading = true
-				this.loading_statistics = true
-				this.$api.get('sales/statistics')
-				.then(res => {
-					var response = res.data
-					this.statistics.first.labels = response.first.labels
-					this.statistics.first.datasets[0].label = 'Recaudado'
-					this.statistics.first.datasets[0].backgroundColor = '#38c172'
-					this.statistics.first.datasets[0].data = response.first.data
+		// today() {
+		// 	this.is_from_date = false
+		// 	this.is_from_only_one_date = false
+		// 	this.showing_statistics = false
+		// 	this.only_one_date = ''
+		// 	this.getSales()
+		// },
+		// showStatistics() {
+		// 	if (!this.showing_statistics) {
+		// 		this.showing_statistics = true
+		// 		this.is_loading = true
+		// 		this.loading_statistics = true
+		// 		this.$api.get('sales/statistics')
+		// 		.then(res => {
+		// 			var response = res.data
+		// 			this.statistics.first.labels = response.first.labels
+		// 			this.statistics.first.datasets[0].label = 'Recaudado'
+		// 			this.statistics.first.datasets[0].backgroundColor = '#38c172'
+		// 			this.statistics.first.datasets[0].data = response.first.data
 
-					let index = 0
-					response.second.data.forEach(data => {
-						let obj = {
-							labels: response.second.labels,
-							datasets: [
-								{
-									label: response.first.labels[index],
-									// backgroundColor: '#38c172',
-									backgroundColor: ['#007bff', '#28a745', '#dc3545', '#ffc107', '#17a2b8'],
-									data: data
-								}
-							],
-						}
-						this.statistics.second.pie.push(obj)
-					})
+		// 			let index = 0
+		// 			response.second.data.forEach(data => {
+		// 				let obj = {
+		// 					labels: response.second.labels,
+		// 					datasets: [
+		// 						{
+		// 							label: response.first.labels[index],
+		// 							// backgroundColor: '#38c172',
+		// 							backgroundColor: ['#007bff', '#28a745', '#dc3545', '#ffc107', '#17a2b8'],
+		// 							data: data
+		// 						}
+		// 					],
+		// 				}
+		// 				this.statistics.second.pie.push(obj)
+		// 			})
 
-					this.is_loading = false
-					this.loading_statistics = false
+		// 			this.is_loading = false
+		// 			this.loading_statistics = false
 
-					// this.formatStatistics()
-				})
-				.catch(err => {
-					console.log(err)
-				})
-			} else {
-				this.showing_statistics = false
-			}
-		},
+		// 			// this.formatStatistics()
+		// 		})
+		// 		.catch(err => {
+		// 			console.log(err)
+		// 		})
+		// 	} else {
+		// 		this.showing_statistics = false
+		// 	}
+		// },
 
 		// Card header
-		salesWithCard() {
-			if (!this.showing_only_with_card_sales) {
-				var sales = []
-				this.sales.forEach(sale => {
-					if (!sale.percentage_card === null) {
-						sales.push(sale)
-					} 
-				})
-				this.showing_only_with_card_sales = true
-				this.previus_sales = this.sales
-				this.sales = sales
-			} else {
-				this.showing_only_with_card_sales = false
-				this.sales = this.previus_sales
-			}
-		},
+		// salesWithCard() {
+		// 	if (!this.showing_only_with_card_sales) {
+		// 		var sales = []
+		// 		this.sales.forEach(sale => {
+		// 			if (!sale.percentage_card === null) {
+		// 				sales.push(sale)
+		// 			} 
+		// 		})
+		// 		this.showing_only_with_card_sales = true
+		// 		this.previus_sales = this.sales
+		// 		this.sales = sales
+		// 	} else {
+		// 		this.showing_only_with_card_sales = false
+		// 		this.sales = this.previus_sales
+		// 	}
+		// },
 
 		// Clientes
 		// getClients() {
@@ -348,23 +303,23 @@ export default {
 		setClients(clients) {
 			this.clients = clients
 		},
-		salesFromClient(client) {
-			this.is_loading = true
-			this.is_from_only_one_date = false
-			this.is_from_date = false
-			this.$api.get('sales/client/'+client.id)
-			.then(res => {
-				this.client = client
-				this.sales_from_client = true
-				this.is_loading = false
-				this.sales = res.data
-			})
-			.catch(err => {
-				this.is_loading = false
-				this.$toast.error('Error al buscar las ventas de '+client.name+', recargue la página e intente denuevo, por favor')
-				console.log(err)
-			})
-		},
+		// salesFromClient(client) {
+		// 	this.is_loading = true
+		// 	this.is_from_only_one_date = false
+		// 	this.is_from_date = false
+		// 	this.$api.get('sales/client/'+client.id)
+		// 	.then(res => {
+		// 		this.client = client
+		// 		this.sales_from_client = true
+		// 		this.is_loading = false
+		// 		this.sales = res.data
+		// 	})
+		// 	.catch(err => {
+		// 		this.is_loading = false
+		// 		this.$toast.error('Error al buscar las ventas de '+client.name+', recargue la página e intente denuevo, por favor')
+		// 		console.log(err)
+		// 	})
+		// },
 
 		// Horarios de ventas
 		// Obtinene los horarios de ventas
@@ -661,8 +616,8 @@ export default {
 		},
 	},
 	created() {
-		this.is_loading = true
-		this.getSalesTimes()
+		// this.is_loading = true
+		// this.getSalesTimes()
 	}
 }
 </script>

@@ -1,19 +1,23 @@
 <template>
-	<div class="d-inline-block">
-		<i :class="`icon-${this.icon}`" v-show="!loading"></i>
-		<span class="spinner-border spinner-border-sm" v-show="loading"></span>
-	</div>
+	<span>
+		<span 
+		v-show="loader"
+		class="spinner-border spinner-border-sm"></span>
+		<span v-show="!loader && text != ''">
+			{{ text }}
+		</span>
+		<span v-show="!loader && icon != ''">
+			<i :class="'icon-'+icon"></i>
+		</span>
+	</span>
 </template>
 <script>
 export default {
-	props: {
-		loading: {
-			type: Boolean
-		},
-		icon: {
-			type: String,
-			default: 'check'
-		}
-	}
+	props: ['loader', 'text', 'icon']
 }
 </script>
+<style scoped lang="sass">
+.spinner-border
+	margin-bottom: .2em
+	margin-right: .1em
+</style>

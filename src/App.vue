@@ -2,7 +2,9 @@
     <div id="app">
         <div
         v-if="loading">
-            <logo-loading></logo-loading>
+            <logo-loading
+            :loading="loading"
+            :loading_message="loading_message"></logo-loading>
         </div>
         <div
         v-else>
@@ -30,103 +32,141 @@ export default {
         LogoLoading,
     },
     computed: {
-        loading() {
-            return this.$store.state.auth.loading
-        },
         authenticated() {
             return this.$store.state.auth.authenticated
         },
         user() {
             return this.$store.state.auth.user
         },
-        path() {
+        route() {
             return this.$route.path
         },
+        loading() {
+            return this.$store.state.auth.loading
+        }
     },
     watch: {
-        path() {
+        route() {
             this.setView()
+        },
+        authenticated() {
+            if (this.authenticated) {
+                console.log('watch de authenticated')
+                this.callMethods()
+            }
         }
     },
     created() {
-        this.$store.commit('auth/setLoading', true)
-        this.csrf()
+        console.log('se creo app')
+        this.$store.dispatch('auth/me')
         .then(() => {
-            this.$store.dispatch('auth/me')
-            .then(() => {
-                this.$store.commit('auth/setLoading', false)
-                this.setView()
+            console.log('termino auth/me')
+            this.setView()
+            if (this.authenticated) {
                 this.callMethods()
-            })
-            .catch(err => {
-                console.log(err)
-            })
+            }
         })
     },
+    data() {
+        return {
+            // loading: false,
+            loading_message: 'informacion'
+        }
+    },
     methods: {
-        csrf() {
-            return this.$axios.get('/sanctum/csrf-cookie')
-        },
         setView() {
-            let route = this.$route.path
-            if (this.authenticated) {
+            console.log('setView')
+            if (!this.authenticated) {
+                if (this.$route.name != 'Login') {
+                    this.$router.push({name: 'Login'})
+                }
+            } else {
+                let route = this.$route.path
                 if (route == '/' || 
                     route == '/login' || 
-                    ! this.hasPermissionForRoute(route, this.user)) {
+                    ! this.hasPermissionForRoute(route)) {
                     this.redirect()
-                } 
-            } else {
-                if (route != '/login') {
-                    this.$router.replace({name: 'Login'})
                 }
             }
         },
         redirect() {
             let route = ''
-            if (this.user.admin_id) {
-                if (this.hasPermissionTo('sale.create', this.user)) {
-                    route = '/vender'
-                } else if (this.hasPermissionTo('article.create', this.user)) {
-                    route = '/ingresar'
-                } else if (this.hasPermissionTo('article.index', this.user)) {
-                    route = '/listado'
-                } else {
-                    route = '/ventas'
-                }
+            if (this.can('sale.create')) {
+                route = '/vender'
+            } else if (this.can('article.create')) {
+                route = '/ingresar'
+            } else if (this.can('article.index')) {
+                route = '/listado'
             } else {
-                if (this.user.status == 'super') {
-                    route = '/super'
-                } else {
-                    route = '/admin'
-                }
+                route = '/ventas'
             }
+            console.log('redireccionando a: '+route)
             this.$router.replace(route)
         },
-        callMethods() {
-            if (this.authenticated) {
-                if (this.user.admin_id) {
-                    this.$store.dispatch('getSpecialPrices')
-                    this.$store.dispatch('articles/getArticles')
-                    this.$store.dispatch('markers/getMarkers')
-                    this.$store.dispatch('markers/getMarkerGroups')
-                    this.$store.dispatch('markers/getMarkerGroupsWithMarkers')
-                    this.$store.dispatch('clients/getClients')
+        async callMethods() {
+            // this.loading = true
+            if (this.isOnline) {
+                this.$store.commit('auth/setLoading', true)
+                this.$store.dispatch('special_prices/getSpecialPrices')
+                this.loading_message = 'proveedores'
+                await this.$store.dispatch('providers/getProviders')
+                this.loading_message = 'categorias'
+                await this.$store.dispatch('categories/getCategories')
+                this.loading_message = 'articulos'
+                await this.$store.dispatch('articles/getArticles')
+                this.loading_message = 'clientes'
+                await this.$store.dispatch('clients/getClients')
+                this.loading_message = 'ventas'
+                await this.$store.dispatch('sales/days_previus_sales/getDaysPreviusSales')
+                await this.$store.dispatch('sales/getSales')
+                if (this.isProvider()) {
+                    this.loading_message = 'descuentos'
+                    this.$store.dispatch('discounts/getDiscounts')
+                    .then(() => {
+                        this.loading_message = 'vendedores'
+                        this.$store.dispatch('sellers/getSellers')
+                        .then(() => {
+                            this.loading_message = 'comisionados'
+                            this.$store.dispatch('commissioners/getCommissioners')
+                            .then(() => {
+                                this.$store.dispatch('sale_types/getSaleTypes')
+                                .then(() => {
+                                    this.$store.commit('vender/setSaleType', 1)
+                                })
+                                this.$store.commit('auth/setLoading', false)
+                                this.loading_message = 'informacion'
+                                // this.loading = false
+                            })
+                        })
+                    })
+                } else {
+                    this.$store.commit('auth/setLoading', false)
+                    this.loading_message = 'informacion'
+                    // this.loading = false
                 }
-                if (this.hasOnline(this.user)) {
-                    this.$store.dispatch('online/getUnconfirmedOrders')
-                    this.$store.dispatch('online/getQuestions')
-                    this.Echo.channel('orderChannel')
-                    .listen('UnconfirmedOrderEvent', (e) => {
-                        this.$store.commit('online/addUnconfirmedOrder', e.order)
-                        this.$toast.success(`${e.order.buyer.name} quiere hacer un pedido`)
-                    }); 
-                    this.Echo.channel('questionChannel')
-                    .listen('QuestionCreatedEvent', (e) => {
-                        let question = e.question
-                        this.$store.commit('online/addQuestion', question)
-                        this.$toast.success(`${question.buyer.name} te ha hecho una pregunta`)
-                    }); 
-                }
+            } else {
+                let articles = this.$offlineStorage.get('articles')
+                console.log('cargando del cache')
+                console.log(articles)
+                this.$store.commit('articles/setArticles', articles)
+            }
+            // this.$store.dispatch('markers/getMarkers')
+            // this.$store.dispatch('markers/getMarkerGroups')
+            // this.$store.dispatch('markers/getMarkerGroupsWithMarkers')
+            if (this.hasOnline(this.user)) {
+                this.$store.dispatch('online/getUnconfirmedOrders')
+                this.$store.dispatch('online/getQuestions')
+                this.Echo.channel('orderChannel')
+                .listen('UnconfirmedOrderEvent', (res) => {
+                    this.$store.commit('online/addUnconfirmedOrder', res.order)
+                    this.$toast.success(`${res.order.buyer.name} quiere hacer un pedido`)
+                }); 
+                this.Echo.channel('questionChannel')
+                .listen('QuestionCreatedEvent', (e) => {
+                    let question = e.question
+                    this.$store.commit('online/addQuestion', question)
+                    this.$toast.success(`${question.buyer.name} te ha hecho una pregunta`)
+                }); 
             }
         }
     }
@@ -136,19 +176,23 @@ export default {
 @import "./sass/fonts/styles.css"
 @import "@/sass/app.sass"
 #app 
-    font-family: Avenir, Helvetica, Arial, sans-serif
+    background: #FFF
+    font-family: Nunito, Helvetica, Arial, sans-serif
     -webkit-font-smoothing: antialiased
     -moz-osx-font-smoothing: grayscale
     text-align: center
     color: #2c3e50
+    height: 100vh
+.container-fluid
+    padding-bottom: 1em
 .fade-enter-active,
 .fade-leave-active 
-  transition-duration: 0.3s
-  transition-property: opacity
-  transition-timing-function: ease
+    transition-duration: 0.3s
+    transition-property: opacity
+    transition-timing-function: ease
 
 
 .fade-enter,
 .fade-leave-active 
-  opacity: 0
+    opacity: 0
 </style>

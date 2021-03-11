@@ -1,93 +1,74 @@
 <template>
-<b-modal id="sale-details" title="Detalles de la venta" size="lg" body-class="al-borde" header-class="header-class" scrollable hide-footer>
-    <!-- <template v-slot:modal-header>
-        <h5 class="modal-title">
-            Detalles de la venta
-        </h5>
-        <strong v-if="sale.client">
-            <i class="icon-user"></i>
-            {{ sale.client.name }}
-        </strong>
-        <strong v-if="sale.special_price">
-            <i class="icon-user"></i>
-            {{ sale.special_price.name }}
-        </strong>
-    </template> -->
-    <b-container fluid>
-        <cobrar-deuda 
-        :sale="sale"
-        @salesFromClient="salesFromClient"></cobrar-deuda>
-        <b-row class="m-b-0">
-            <b-col>
-                <div class="table-responsive">                      
-                    <table class="table table-striped text-center">
-                        <thead class="thead-dark">
-                            <th scope="col">Nombre</th>    
-                            <th scope="col">Cantidad</th>      
-                            <th scope="col" v-show="hasPermissionTo('article.index.cost', user)">Costo</th>      
-                            <th scope="col" class="td-lg">Precio</th>      
-                            <th scope="col" v-show="hasPermissionTo('article.index.cost', user)">Sub Total Costos</th>      
-                            <th scope="col">Sub Total</th>      
-                        </thead>
-                        <tbody>
-                            <tr 
-                            v-for="article in sale.articles"
-                            :key="article.id">
-                                <td>{{ article.name }}</td>
-                                <td>
-                                    <span v-if="article.uncontable == 1">                                    
-                                        {{ article.pivot.amount }} {{ article.pivot.measurement }}(s)
-                                    </span>
-                                    <span v-else>
-                                        {{ amount(article.pivot.amount) }}
-                                    </span>
-                                </td>
-                                <td v-show="hasPermissionTo('article.index.cost', user)">
-                                    <span v-if="article.pivot.cost">
-                                        {{ price(article.pivot.cost) }}
-                                    </span>
-                                    <span v-else>
-                                        -
-                                    </span>
-                                </td>
-                                <td class="td-lg">
-                                    <span v-if="article.uncontable == 1">
-                                        {{ price(article.pivot.price) }} el {{ article.measurement }}
-                                    </span>
-                                    <span v-else>
-                                        {{ price(article.pivot.price) }}
-                                    </span>
-                                    <p v-show="sale.percentage_card != null">
-                                        <i class="icon-credit-card text-primary"></i>
-                                        {{ price_with_card(article) }}
-                                    </p>
-                                </td>
-                                <td v-show="hasPermissionTo('article.index.cost', user)">
-                                    {{ price(getSubTotalCostArticle(article)) }}
-                                </td>
-                                <td>
-                                    {{ price(getSubTotalPriceArticle(article)) }}
-                                    <p v-show="sale.percentage_card != null">
-                                        <i class="icon-credit-card text-primary"></i>
-                                        {{ total_with_card(article) }}
-                                    </p>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </b-col>
-        </b-row>
-    </b-container>
+<b-modal id="sale-details" title="Detalles de la venta" size="lg" header-class="header-class" scrollable hide-footer body-class="p-0">
+    <cobrar-deuda 
+    :sale="sale"
+    @salesFromClient="salesFromClient"></cobrar-deuda>
+    <div class="table-responsive">                      
+        <table class="table table-striped text-center">
+            <thead>
+                <th scope="col">Nombre</th>    
+                <th scope="col">Cantidad</th>      
+                <th scope="col" v-show="can('article.index.cost')">Costo</th>      
+                <th scope="col" class="td-lg">Precio</th>      
+                <th scope="col" v-show="can('article.index.cost')">Sub Total Costos</th>      
+                <th scope="col">Sub Total</th>      
+            </thead>
+            <tbody>
+                <tr 
+                v-for="article in sale.articles"
+                :key="article.id">
+                    <td>{{ article.name }}</td>
+                    <td>
+                        {{ article.pivot.amount }}
+                    </td>
+                    <td v-show="can('article.index.cost')">
+                        <span v-if="article.pivot.cost">
+                            {{ price(article.pivot.cost) }}
+                        </span>
+                        <span v-else>
+                            -
+                        </span>
+                    </td>
+                    <td class="td-lg">
+                        <span v-if="article.uncontable == 1">
+                            {{ price(article.pivot.price) }} el {{ article.measurement }}
+                        </span>
+                        <span v-else>
+                            {{ price(article.pivot.price) }}
+                        </span>
+                        <p v-show="sale.percentage_card != null">
+                            <i class="icon-credit-card text-primary"></i>
+                            {{ price_with_card(article) }}
+                        </p>
+                    </td>
+                    <td v-show="can('article.index.cost')">
+                        {{ price(getSubTotalCostArticle(article)) }}
+                    </td>
+                    <td>
+                        {{ price(getSubTotalPriceArticle(article)) }}
+                        <p v-show="sale.percentage_card != null">
+                            <i class="icon-credit-card text-primary"></i>
+                            {{ total_with_card(article) }}
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </b-modal>
 </template>
 <script>
 import CobrarDeuda from '../components/CobrarDeuda'
 import Sales from '@/mixins/sales'
 export default {
-    props: ['sale', 'user'],
+    name: 'SaleDetails',
     components: {
         CobrarDeuda
+    },
+    computed: {
+        sale() {
+            return this.$store.state.sales.sale_details
+        }
     },
     mixins: [Sales],
     data() {

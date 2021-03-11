@@ -1,97 +1,83 @@
 <template>
 <b-modal id="clients" title="Seleccione un cliente para esta venta" body-class="al-borde-md" hide-footer>
-    <b-container fluid>
-        <b-row>
-            <b-col>
-                <b-card header="Seleccionar un cliente">
-                    <b-container fluid>
-                        <b-row class="m-b-0">
-                            <b-col class="al-borde">
-                                <autocomplete 
-                                :search="search" 
-                                auto-select
-                                :get-result-value="getResultValue"
-                                placeholder="Buscar un cliente..."
-                                @submit="setClient"></autocomplete>
-                            </b-col>
-                        </b-row>
-                        <b-row v-if="client" class="m-t-10 m-b-0">
-                            <b-col>
-                                <b-form-group>
-                                    <strong class="client-name">
-                                        Cliente seleccionado: {{ client.name }}
-                                        <span class="p-l-10">
-                                            <span v-if="client.debt"
-                                                class="text-danger">
-                                                Debe {{ price(client.debt) }}
-                                            </span>
-                                            <span class="text-success" v-else>
-                                                <i class="icon-check"></i>
-                                                Sin deudas
-                                            </span>
-                                        </span>
-                                    </strong>
-                                    <b-form-checkbox
-                                    v-model="without_debt">
-                                        <strong>Paga los {{ price(total) }}</strong>
-                                    </b-form-checkbox>
-                                </b-form-group>
-                                <b-form-group
-                                v-show="!without_debt"
-                                :label="`¿Cuango paga de los ${ this.price(total) }?`"
-                                label-for="parte_paga">
-                                    <b-form-input
-                                    type="number"
-                                    min="0"
-                                    :max="total"
-                                    v-model="debt"
-                                    @keyup.enter="vender"></b-form-input>
-                                </b-form-group>
-                            </b-col>
-                        </b-row>
-                    </b-container>
-                    <template v-show="client" v-slot:footer>
-                        <b-button 
-                        variant="primary"
-                        @click.prevent="vender">
-                            <i v-show="!vendiendo" 
-                                class="icon-check"></i>
-                            <span v-show="vendiendo"
-                                    class="spinner-border spinner-border-sm"></span>
-                            Vender
-                        </b-button>
-                    </template>
-                </b-card>
-            </b-col>
-        </b-row>
-        <b-row>
-            <b-col>
-                <b-card header="Registrar un cliente">
-                    <div>
-                        <b-form-group>
-                            <b-form-input
-                            @keyup.enter="saveClient"
-                            placeholder="Nombre del nuevo cliente"
-                            v-model="new_client.name"></b-form-input>
-                        </b-form-group>
-                    </div>
-                    <template v-slot:footer>
-                        <b-form-group>
-                            <b-button 
-                            variant="primary"
-                            @click="saveClient">
-                                <span v-show="saving_client"
-                                        class="spinner-border spinner-border-sm"></span>
-                                <i v-show="!saving_client"
-                                    class="icon-check"></i>
-                                Guardar cliente
-                            </b-button>
-                        </b-form-group>
-                    </template>
-                </b-card>
-            </b-col>
-        </b-row>
-    </b-container>
+    <div>
+        <b-card header="Seleccionar un cliente existente" no-body>
+            <div>
+                <b-form-group>
+                    <autocomplete 
+                    :search="search" 
+                    auto-select
+                    :get-result-value="getResultValue"
+                    placeholder="Buscar un cliente..."
+                    @submit="setClient"></autocomplete>
+                </b-form-group>
+                <b-form-group 
+                v-if="client">
+                    <strong class="client-name">
+                        Cliente seleccionado: {{ client.name }}
+                        <span class="p-l-10">
+                            <span v-if="client.debt"
+                                class="text-danger">
+                                Debe {{ price(client.debt) }}
+                            </span>
+                            <span class="text-success" v-else>
+                                <i class="icon-check"></i>
+                                Sin deudas
+                            </span>
+                        </span>
+                    </strong>
+                    <b-form-checkbox
+                    v-model="without_debt">
+                        <strong>Paga los {{ price(total) }}</strong>
+                    </b-form-checkbox>
+                </b-form-group>
+                <b-form-group
+                v-show="!without_debt"
+                :label="`¿Cuango paga de los ${ this.price(total) }?`"
+                label-for="parte_paga">
+                    <b-form-input
+                    type="number"
+                    min="0"
+                    :max="total"
+                    v-model="debt"
+                    @keyup.enter="vender"></b-form-input>
+                </b-form-group>
+                <b-form-group>
+                    <b-button 
+                    block
+                    variant="primary"
+                    @click.prevent="vender">
+                        <i v-show="!vendiendo" 
+                            class="icon-check"></i>
+                        <span v-show="vendiendo"
+                                class="spinner-border spinner-border-sm"></span>
+                        Vender
+                    </b-button>
+                </b-form-group>
+            </div>
+        </b-card>
+        <b-card header="Registrar un nuevo cliente" no-body>
+
+            <b-form-group>
+                <b-form-input
+                @keyup.enter="saveClient"
+                placeholder="Nombre del nuevo cliente"
+                v-model="new_client.name"></b-form-input>
+            </b-form-group>
+            <b-form-group>
+                <b-button 
+                block
+                variant="primary"
+                @click="saveClient">
+                    <span v-show="saving_client"
+                            class="spinner-border spinner-border-sm"></span>
+                    <i v-show="!saving_client"
+                        class="icon-check"></i>
+                    Guardar cliente
+                </b-button>
+            </b-form-group>
+        </b-card>
+    </div>
 </b-modal>
 </template>
 <script>
@@ -99,7 +85,6 @@ import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
 
 export default {
-    props: ['total', 'vendiendo', 'client'],
     components: {
         Autocomplete
     },
@@ -118,7 +103,16 @@ export default {
     computed: {
         clients() {
             return this.$store.state.clients.clients
-        }
+        },
+        client() {
+            return this.$store.state.vender.client
+        },
+        total() {
+            return this.$store.state.vender.total
+        },
+        vendiendo() {
+            return this.$store.state.vender.vendiendo
+        },
     },
     watch: {
         without_debt() {
@@ -140,7 +134,8 @@ export default {
             return client.name
         },
         setClient(client) {
-            this.$emit('setClient', client)
+            this.$store.commit('vender/setClient', client)
+            // this.$emit('setClient', client)
         },
         saveClient() {
             this.saving_client = true
@@ -160,8 +155,13 @@ export default {
             })
         },
         vender() {
-            this.$emit('vender', this.debt)
-            this.$emit('setClient', null)
+            this.$store.commit('vender/setDebt', this.debt)
+            this.$store.dispatch('vender/vender', this.debt)
+            this.$store.commit('vender/setClient', null)
+            this.$bvModal.hide('clients')
+            if (this.isProvider()) {
+                this.$bvModal.show('successful-sale')
+            }
             this.without_debt = true
         },
     }

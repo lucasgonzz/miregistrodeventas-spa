@@ -6,23 +6,9 @@
         sm="8"
         md="6"
         lg="6">
-            <div 
-            v-show="!loading"
-            class="card-img-overlay">
-                <b-button 
-                variant="primary"
-                size="sm"
-                block
-                class="m-b-10"
-                id="pick-avatar">Seleccionar una imagen</b-button>
-                <avatar-cropper
-                :labels="{submit: 'Listo', cancel: 'Cancelar'}"
-                trigger="#pick-avatar"
-                :inline="true"
-                :upload-handler="upload"/>
-            </div>
-            <cargando
-            :is_loading="loading"></cargando>
+            <b-button
+            @click="addWidget">Widget</b-button>
+            <!-- <b-form-file class="mt-3" plain multiple @change="onAddFiles"></b-form-file> -->
         </b-col>
     </b-row>
 </template>
@@ -36,6 +22,7 @@ export default {
 			img_selected: false,
             image: null,
             loading: false,
+            myWidget: null,
 		}
 	},
     components: {
@@ -53,7 +40,28 @@ export default {
     		return 'Recorta la imagen'
     	}
     },
+    created() {
+        this.setCn()
+    },
 	methods: {
+        setCn() {
+            this.myWidget = cloudinary.createUploadWidget({
+                cloudName: 'lucas-cn', 
+                uploadPreset: 'my_preset',
+                cropping: true
+            }, (error, result) => { 
+                    if (!error && result && result.event === "success") { 
+                        console.log('Done! Here is the image info: ', result.info); 
+                    }
+                }
+            )
+        },
+        addWidget() {
+            this.myWidget.open()
+        },
+        onAddFiles(files) {
+            console.log(files)
+        },
         upload(cropper) {
             this.loading = true
             let formData = new FormData()

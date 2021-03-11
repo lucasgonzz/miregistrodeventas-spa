@@ -13,6 +13,9 @@ export default {
 			if (p === null) {
 				return '-'
 			}
+			if (typeof p == 'undefined') {
+				return '-'
+			}
 			return numeral(p).format('$0,0.00')
 		},
 		getMonth(d) {

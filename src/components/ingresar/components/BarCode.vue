@@ -24,11 +24,37 @@
 	</b-form-row>
 </template>
 <script>
+import edit_articles from '@/mixins/edit_articles'
 export default {
-	props: ['article', 'loading_is_register'],
+	name: 'BarCode',
+	mixins: [edit_articles],
+	props: ['article'],
+	computed: {
+		bar_codes() {
+			return this.$store.state.articles.bar_codes
+		},
+		articles() {
+			return this.$store.state.articles.articles
+		},
+	},
+	data() {
+		return {
+			loading_is_register: false,
+		}
+	},
 	methods: {
 		isRegister() {
-			this.$emit('isRegister')
+			// this.loading_is_register = true
+			// Controla que el codigo no este registrado con otro articulo
+			if (this.bar_codes.includes(this.article.bar_code)) {
+				let article = this.articles.find(art => {
+					return art.bar_code == this.article.bar_code
+				})
+				this.$store.commit('articles/setEdit', this.setArticle(article))
+				this.$bvModal.show('edit-article')
+			} else {
+				document.getElementById('article-name').focus()
+			}
 		},
 		onFileChange(e) {
 			this.$emit('setFile', e.target.files[0])

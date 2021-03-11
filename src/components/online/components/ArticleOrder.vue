@@ -1,8 +1,9 @@
 <template>
-	<b-card>
+	<b-card
+	no-body>
 		<div class="card-body">
 			<div class="img-container">
-				<img :src="imageUrl(article, user)" alt="imagen-producto">
+				<img :src="articleImageUrl(article)" alt="imagen-producto">
 			</div>
 			<div class="product-data-container">
 				<p class="product-name">{{ amount(article.pivot.amount) }} {{ article.name }}</p>
@@ -36,7 +37,7 @@ export default {
 <style scoped lang="sass">
 .card 
 	border: none
-	margin: .5em 0
+	margin-bottom: 1em
 	-webkit-box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.75)
 	-moz-box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.75)
 	box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.75)
@@ -53,7 +54,7 @@ export default {
 		display: flex
 		flex-direction: column
 		justify-content: space-around
-		padding: 1em 0
+		padding: 1em 
 		@media screen and (max-width: 576px)
 			padding: 1em
 	.product-name, .product-price

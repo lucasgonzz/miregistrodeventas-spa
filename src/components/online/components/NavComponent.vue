@@ -36,8 +36,10 @@
 <script>
 export default {
 	name: 'NavComponentOnline',
-	props: ['view'],
 	computed: {
+		view() {
+			return this.$store.state.online.view
+		},
 		orders() {
 			return this.$store.state.online.unconfirmed_orders
 		},
@@ -47,7 +49,7 @@ export default {
 	},
 	methods: {
 		setView(view) {
-			this.$emit('setView', view)
+			this.$store.commit('online/setView', view)
 		}
 	}
 }

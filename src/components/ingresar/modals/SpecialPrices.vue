@@ -3,7 +3,7 @@
 	<b-container fluid>
 		<b-row>
 			<b-col>
-				<b-card header="Crear precio especial">
+				<b-card header="Agregar precio especial" no-body>
 					<b-form-group
 					label="Nombre para el precio especial"
 					label-for="special-price-price">
@@ -15,20 +15,20 @@
 					</b-form-group>
 					<b-form-group>
 						<b-button
+						block
 						variant="primary"
 						@click="saveSpecialPrice">
-							<btn-loader :loading="saving_special_price"></btn-loader>
-							Guardar
+							<btn-loader text="Guardar" :loader="saving_special_price"></btn-loader>
 						</b-button>
 					</b-form-group>
 				</b-card>
 			</b-col>
 		</b-row>
-		<b-row>
+		<b-row v-if="special_prices.length">
 			<b-col>
-				<b-card header="Mis precios especiales">
-					<div v-show="!loading_special_prices">
-						<b-list-group v-show="special_prices.length">
+				<b-card header="Mis precios especiales" no-body>
+					<div>
+						<b-list-group>
 							<b-list-group-item
 							v-for="special_price in special_prices"
 							:key="special_price.id">
@@ -38,18 +38,11 @@
 								class="float-right"
 								size="sm"
 								@click="deleteSpecialPrice(special_price)">
-									<i class="icon-trash-3" v-show="deleting_special_price != special_price.id"></i>
-									<span class="spinner-border spinner-border-sm" v-show="deleting_special_price == special_price.id"></span>
+									<i class="icon-trash-3"></i>
 								</b-button>
 							</b-list-group-item>
 						</b-list-group>
-						<p 
-						class="text-center"
-						v-show="special_prices.length == 0">
-							No hay precios especiales aún
-						</p>
 					</div>
-					<cargando size="sm" :is_loading="loading_special_prices"></cargando>
 				</b-card>
 			</b-col>
 		</b-row>
@@ -60,10 +53,14 @@
 import BtnLoader from '@/components/common/BtnLoader'
 import Cargando from '@/components/common/Cargando'
 export default {
-	props: ['special_prices', 'loading_special_prices'],
 	components: {
 		BtnLoader,
 		Cargando,
+	},
+	computed: {
+		special_prices() {
+			return this.$store.state.special_prices.special_prices
+		}
 	},
 	data() {
 		return {
@@ -71,38 +68,31 @@ export default {
 				name: ''
 			},
 			saving_special_price: false,
-			deleting_special_price: 0
 		}
 	},
 	methods: {
 		saveSpecialPrice() {
 			this.saving_special_price = true
 			this.$api.post('special-prices', this.special_price)
-			.then(() => {
-				this.special_price.name = ''
+			.then(res => {
 				this.saving_special_price = false
 				this.$toast.success('Precio guardado correctamente')
-				this.$store.dispatch('getSpecialPrices')
+				this.$store.commit('special_prices/add', res.data.special_price)
 				this.$bvModal.hide('special-prices')
+				this.clear()
 			})
 			.catch(err => {
 				console.log(err)
+				this.$toast.error('Error al guardad precio especial, intentelo mas tarte')
 				this.saving_special_price = false
 			})
 		},
+		clear() {
+			this.special_price.name = ''
+		},
 		deleteSpecialPrice(special_price) {
-			this.deleting_special_price = special_price.id
-			this.$api.delete(`special-prices/${special_price.id}`)
-			.then(() => {
-				this.$emit('getSpecialPrices')
-				this.$store.dispatch('getSpecialPrices')
-				this.deleting_special_price = 0
-				this.$toast.success('Precio eliminado correctamente')
-			})
-			.catch(err => {
-				console.log(err)
-				this.deleting_special_price = 0
-			})
+			this.$store.commit('special_prices/setDelete', special_price)
+			this.$bvModal.show('delete-special-price')
 		}
 	},
 }

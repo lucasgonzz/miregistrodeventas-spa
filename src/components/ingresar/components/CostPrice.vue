@@ -26,28 +26,19 @@
 				type="number"
 				min="0"
 				id="article-price"
-				@keydown.enter="changeToStock"
+				@keydown.enter="changeToProvider"
 				placeholder="Ingresa el precio del producto"
 				v-model="article.price"
 				autocomplete="off"></b-form-input>
 			</b-form-group>
 		</b-col>
-		<b-col cols="12" sm="4" v-show="article.uncontable">
-			<b-form-group
-			label="Precio por"
-			label-for="article-measurement">
-				<b-form-select
-				id="article-measurement"
-				v-model="article.measurement"
-				:options="[{text:'Kilo', value:'kilo'}, {text:'Gramo', value:'gramo'}]"></b-form-select>
-			</b-form-group>
-		</b-col>
 		<b-col v-show="special_prices.length"
+		cols="6"
+		class="m-t-10"
 		v-for="(special_price, index) in special_prices"
 		:key="special_price.id">
 			<b-form-group
 			:label="`Precio ${special_price.name}`"
-			description="Si se deja vacio se completara con el precio normal"
 			:label-for="`article-price-${special_price.name}`">
 				<b-form-input
 				type="number"
@@ -62,13 +53,16 @@
 </template>
 <script>
 export default {
-	props: ['article', 'user', 'porcentage_for_price', 'special_prices'],
+	props: ['article', 'user', 'porcentage_for_price'],
 	data() {
 		return {
 
 		}
 	},
 	computed: {
+		special_prices() {
+			return this.$store.state.special_prices.special_prices
+		},
 		col() {
 			if (this.article.uncontable) {
 				return 4
@@ -80,12 +74,16 @@ export default {
 		changeToPrice() {
 			document.getElementById('article-price').focus()
 		},
-		changeToStock() {
+		changeToProvider() {
 			if (this.special_prices.length) {
 				let first_special_price = this.special_prices[0]
 				document.getElementById(`article-special-price-${first_special_price.id}`).focus()
 			} else {
-				document.getElementById('article-stock').focus()
+				if (!this.isProvider()) {
+					document.getElementById('article-provider').focus()
+				} else {
+					document.getElementById('article-stock').focus()
+				}
 			}
 		},
 		changeFromSpecialPrice(index) {

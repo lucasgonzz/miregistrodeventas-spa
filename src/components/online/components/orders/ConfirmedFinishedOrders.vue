@@ -91,9 +91,10 @@ export default {
 		delivered(order) {
 			this.loading_deliver = true
 			this.$api.get(`/orders/deliver/${order.id}`)
-			.then(() => {
+			.then(res => {
 				this.loading_deliver = false
 				this.getOrders()
+				this.$store.commit('sales/addSale', res.data.sale)
 			})
 			.catch(err => {
 				this.loading_deliver = false

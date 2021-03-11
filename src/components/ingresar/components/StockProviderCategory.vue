@@ -1,5 +1,16 @@
 <template>
-	<b-row class="m-b-0">
+	<b-row>
+		<b-col lg="4" v-if="!isProvider()">
+			<b-form-group
+			label="Proveedor"
+			label-for="article-provider">
+				<b-form-select
+				@change="changeToStock"
+				id="article-provider"
+				v-model="article.provider_id"
+				:options="providers_options"></b-form-select>
+			</b-form-group>
+		</b-col>
 		<b-col lg="4">
 			<b-form-group
 			v-intro-step="6"
@@ -15,40 +26,38 @@
 				autocomplete="off"></b-form-input>
 			</b-form-group>
 		</b-col>
-		<b-col lg="4" v-if="!isProvider(user)">
-			<b-form-group
-			label="Proveedor"
-			label-for="article-provider">
-				<b-form-select
-				id="article-provider"
-				v-model="article.provider"
-				:options="providers"></b-form-select>
-			</b-form-group>
-		</b-col>
 		<b-col lg="4">
 			<b-form-group
 			label="Categoria"
 			label-for="article-category">
 				<b-form-select
 				id="article-category"
-				v-model="article.category"
-				:options="categories"></b-form-select>
+				v-model="article.category_id"
+				:options="categories_options"></b-form-select>
 			</b-form-group>
 		</b-col>
 	</b-row>
 </template>
 <script>
+import categories from '@/mixins/categories'
 export default {
-	props: ['article', 'user', 'providers', 'categories'],
+	name: 'StockProviderCategory',
+	props: ['article'],
+	mixins: [categories],
 	data() {
 		return {
-			providers_options: [],
 		}
+	},
+	computed: {
 	},
 	methods: {
 		saveArticle() {
 			this.$emit('saveArticle')
 		},
+		changeToStock() {
+			console.log('entrooo')
+			document.getElementById('article-stock').focus()
+		}
 	},
 }
 </script>

@@ -1,117 +1,85 @@
 <template>
-<div>
-	<b-row>
-		<b-col>
-			<div class="table-responsive">
-				<table class="table text-center table-striped">
-					<thead>
-						<tr>
-							<th scope="col">Precio</th>
-							<th scope="col">Nombre</th>
-							<th scope="col" class="d-none d-md-table-cell">Cantidad</th>
-							<th scope="col" class="d-none d-md-table-cell">Quedarian</th>
-							<th scope="col">Total</th>
-							<th scope="col">Opciones</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr 
-						v-for="article in articles"
-						:key="article.id">
-							<td v-if="article.uncontable == 1"
-							class="td-price">
-								{{ price(article.price) }} el {{ article.measurement_original }}
-							</td>
-							<td v-else
-							class="td-price">
-								{{ price(article.price) }}
-							</td>
-							<td>{{ article.name }}</td>
-							<td v-if="article.uncontable == 0"
-							class="d-none d-md-table-cell">
-								<span>
-									{{ article.amount }}
-								</span>
-							</td>
-							<td v-else
-							class="d-none d-md-table-cell">
-								<input 
-								type="number" 
-								:id="'amount-measurement-'+article.id"
-								min="1"
-								class="form-control input-amount-measurement m-r-5"
-								@keyup.enter="calculateTotalFromAmount(article)"
-								@keyup.right="changeToTotal(article)"
-								v-model="article.amount">
-								<select 
-								id="select-measurement" 
-								v-model="article.measurement"
-								class="form-control select-measurement m-r-5">
-									<option value="gramo">Gramo(s)</option>
-									<option value="kilo">Kilo(s)</option>	
-								</select>
-								<!-- <button @click="calculateTotal"
-										class="btn btn-primary btn-sm">
-									<i class="icon-check"></i>
-								</button> -->
-							</td>
-							<td class="d-none d-md-table-cell" 
-							v-if="article.quedarian">
-								{{ article.quedarian }} 
-							</td>
-							<td v-else></td>
-							<td v-if="article.uncontable == 1">
-								$
-								<input 
-								type="number" 
-								:id="'total-'+article.id"
-								min="1"
-								class="form-control input-total"
-								@keyup.enter="calculateTotalFromTotal(article)"
-								v-model="article.total">
-							</td>
-							<td v-else>
-								{{ price(article.total) }}
-							</td>
-							<td>
-								<b-button @click="up(article)"
-								v-show="article.uncontable == 0"
-								variant="primary"
-								class="btn-options"
-								size="sm">
-									<i class="icon-plus"></i>
-								</b-button>
-								<b-button @click="down(article)"
-								v-show="article.uncontable == 0"
-								variant="primary"
-								class="btn-options"
-								size="sm">
-									<i class="icon-minus"></i>
-								</b-button>
-								<b-button @click="removeArticle(article)"
-								variant="danger"
-								class="btn-options"
-								size="sm">
-									<i class="icon-cancel"></i>
-								</b-button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</b-col>
-	</b-row>
-</div>
+<b-row>
+	<b-col>
+		<div class="table-responsive" v-show="articles.length">
+			<table class="table text-center table-striped">
+				<thead>
+					<tr>
+						<th scope="col">Precio</th>
+						<th scope="col">Nombre</th>
+						<th scope="col" class="d-none d-md-table-cell">Cantidad</th>
+						<th scope="col">Total</th>
+						<th scope="col">Opciones</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr 
+					v-for="article in articles"
+					:key="article.id">
+						<td
+						class="td-price">
+							{{ price(article.price) }}
+						</td>
+						<td>{{ article.name }}</td>
+						<td class="d-none d-md-table-cell">
+							<span>
+								{{ article.amount }}
+							</span>
+						</td>
+						<td>
+							{{ price(article.price * article.amount) }}
+						</td>
+						<td>
+							<b-button @click="up(article)"
+							variant="primary"
+							class="btn-options"
+							size="sm">
+								<i class="icon-plus"></i>
+							</b-button>
+							<b-button @click="down(article)"
+							variant="primary"
+							class="btn-options"
+							size="sm">
+								<i class="icon-minus"></i>
+							</b-button>
+							<b-button @click="removeArticle(article)"
+							variant="danger"
+							class="btn-options"
+							size="sm">
+								<i class="icon-cancel"></i>
+							</b-button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div v-show="articles.length == 0">
+			<p
+			class="empty-articles">
+				<i class="icon-clipboard-1"></i>
+				Remito en blanco
+			</p>
+		</div>
+	</b-col>
+</b-row>
 </template>
 <script>
 export default {
-	props: ['articles', 'special_price_id'],
 	watch: {
 		special_price_id() {
 			this.setArticlesPrice()
+			this.$store.commit('vender/setTotal')
 		},
 		articles() {
 			this.setArticlesPrice()
+		}
+	},
+	computed: {
+		special_price_id() {
+			return this.$store.state.vender.special_price_id
+		},
+		articles() {
+			return this.$store.state.vender.articles
 		}
 	},
 	methods: {
@@ -136,21 +104,28 @@ export default {
 		},
 		up(article) {
 			article.amount++
-			this.$emit('calculateTotal')
+			this.$store.commit('vender/updateArticle', article)
+			this.$store.commit('vender/setTotal')
 		},
 		down(article) {
 			if (article.amount > 1) {
 				article.amount--
-				this.$emit('calculateTotal')
+				this.$store.commit('vender/updateArticle', article)
+				this.$store.commit('vender/setTotal')
 			} else {
 				// toastr.error('No se pueden restar mas unidades')
 				this.removeArticle(article)
 			}
 		},
 		removeArticle(article) {
-			var i = this.articles.indexOf(article)
-			this.articles.splice(i, 1)
-			this.$emit('calculateTotal')
+			let index = this.articles.findIndex(art => {
+				return art.id == article.id
+			})
+			this.$store.commit('vender/removeArticle', index)
+			this.$store.commit('vender/setTotal')
+			// var i = this.articles.indexOf(article)
+			// this.articles.splice(i, 1)
+			// this.$emit('calculateTotal')
 		},
 		calculateTotalFromAmount(article) {
 			article.calculate_from_total = false
@@ -168,6 +143,12 @@ export default {
 }
 </script>
 <style scoped lang="sass">
+.empty-articles
+	font-size: 2em
+	text-align: center
+	i 
+		font-size: 3em
+		display: block
 .td-price 
 	position: relative
 	font-weight: bold

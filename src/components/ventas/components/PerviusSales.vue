@@ -2,9 +2,9 @@
 <nav aria-label="Page navigation" class="pagination-nav"
 	v-intro-step="1"
 	v-intro="'Selecciona el dia de la semana para ver sus ventas'">
-	<ul class="pagination m-0" v-show="!loading_days_previus_sales">
+	<ul class="pagination m-0" v-show="!loading">
 		<li class="page-item">
-			<a class="page-link" href="#"	
+			<a class="page-link" href="#"
 				v-show="days_previus_sales.length == 7"
 				@click.prevent="getBeforeDaysPreviusSales">
 				<span aria-hidden="true">
@@ -15,11 +15,11 @@
 		<li class="page-item" 
 			v-for="(day, index) in days_previus_sales"
 			:key="index"
-			:class="((date(only_one_date) == date(day.date) && is_from_only_one_date) || (!is_from_only_one_date && date(day.date) == today)) ? 'active' : ''">
+			:class="date(day_selected) == date(day.date) ? 'active' : ''">
 			<span class="pagination-mes">
 				{{ getMonth(day.date) }}
 			</span>
-			<template v-if="date(day.date) != today">
+			<template v-if="date(day.date) != date(today)">
 				<a v-if="day.sales.length"
 					class="page-link" 
 					href="#"
@@ -40,7 +40,7 @@
 					Hoy
 				</a>
 			</template>
-			<span class="pagination-dia">
+			<span class="pagination-dia bg-primary">
 				{{ getDay(day.date) }}
 			</span>
 		</li>
@@ -54,7 +54,7 @@
 			</a>
 		</li>
 	</ul>
-	<span v-show="loading_days_previus_sales"
+	<span v-show="loading"
 		class="text-primary">
 		<span class="spinner-border spinner-border-sm"></span>
 	</span>
@@ -62,19 +62,28 @@
 </template>
 <script>
 import moment from 'moment'
+import sales_from_date from '@/mixins/sales_from_date'
 export default {
-	props: ['only_one_date', 'is_from_only_one_date'],
+	name: 'PreviusSales',
+    mixins: [sales_from_date],
 	data() {
 		return {
-			last_date: '',
-			loading_previus: false,
-			loading_next: false,
-			days_previus_sales: [],
-			days_previus_sales_index: 0,
-			fecha_limite: '',
-			loading_days_previus_sales: false,
 			today: '',
 		}
+	},
+	computed: {
+		day_selected() {
+			return this.$store.state.sales.days_previus_sales.day_selected
+		},
+		days_previus_sales() {
+			return this.$store.state.sales.days_previus_sales.days_previus_sales
+		},
+		days_previus_sales_index() {
+			return this.$store.state.sales.days_previus_sales.index
+		},
+		loading() {
+			return this.$store.state.sales.days_previus_sales.loading
+		},
 	},
 	methods: {
 		dayFormat(d) {
@@ -86,45 +95,38 @@ export default {
 		showNotSales() {
 			this.$toast.error('No hay ventas en este dia')
 		},
-		getDaysPreviusSales() {
-			var link = 'sales/prev/'+this.days_previus_sales_index
-			this.loading_days_previus_sales = true
-			this.$api.get(link)
-			.then(res => {
-				this.loading_days_previus_sales = false
-				if (res.data.length > 0) {
-					this.days_previus_sales = res.data
-				} else {
-					if (this.days_previus_sales_index > 1) {
-						this.$toast.error('No hay ventas anteriores')
-					}
-				}
-			})
-			.catch(err => {
-				console.log(err)
-			})
-		},
 		getBeforeDaysPreviusSales() {
-			this.days_previus_sales_index++
-			this.getDaysPreviusSales()
+			this.$store.commit('sales/days_previus_sales/incrementIndex')
+			this.$store.dispatch('sales/days_previus_sales/getDaysPreviusSales')
 		},
 		getNextDaysPreviusSales() {
-			this.days_previus_sales_index--
-			this.getDaysPreviusSales()
+			this.$store.commit('sales/days_previus_sales/decrementIndex')
+			this.$store.dispatch('sales/days_previus_sales/getDaysPreviusSales')
 		},
-		changeFromDate(d) {
-			if (this.date(d) == this.today) {
-				this.$emit('getSales')
+		changeFromDate(d) { 
+			this.$store.commit('sales/setSelectedSales', [])
+			this.$store.commit('sales/setAllSalesSelected', false)
+            this.$store.commit('sales/setSelectedClient', null)
+			this.$store.commit('sales/days_previus_sales/setDaySelected', d)
+			if (this.date(d) == this.date(this.today)) {
+				let sales = this.$store.state.sales.sales
+				this.$store.commit('sales/setOnlyOneDate', '')
+				this.$store.commit('sales/setFrom', '')
+				this.$store.commit('sales/setTo', '')
+				this.$store.commit('sales/setSalesToShow', sales)
+				this.$store.commit('sales/setTotal', sales)
 			} else {
 				var date = moment(d).format('YYYY-MM-DD')
-				this.$emit('onlyOneDate', date)
+				this.$store.commit('sales/setOnlyOneDate', date)
+				this.onlyOneDate()
 			}
-			// this.onlyOneDate(date)
 		},
 	},
 	created() {
-		this.getDaysPreviusSales()
-		this.today = moment().format('DD/MM/YY')
+		// this.getDaysPreviusSales()
+		this.today = moment().format('YYYY/MM/DD')
+		// this.$store.commit('sales/days_previus_sales/setDaySelected', moment().format('YYYY/MM/DD'))
+		// this.day_selected = moment().format('YYYY/MM/DD')
 	}
 }
 </script>
@@ -152,7 +154,6 @@ export default {
 
 .pagination-dia
 	position: absolute
-	background: #3490dc
 	text-align: center
 	top: 100%
 	color: #fff
@@ -167,5 +168,6 @@ export default {
 .day-not-sale 
 	text-decoration: line-through
 	font-weight: normal
+	cursor: not-allowed
 
 </style>

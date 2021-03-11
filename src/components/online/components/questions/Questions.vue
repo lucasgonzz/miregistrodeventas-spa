@@ -5,7 +5,9 @@
 			<b-card
 			no-body
 			header="Preguntas por responder">
-				<ul class="card-questions-body" v-show="!loading && questions.length">
+				<ul 
+				class="card-questions-body" 
+				v-show="!loading && questions.length">
 					<li
 					v-for="question in questions"
 					:key="question.id">

@@ -1,50 +1,52 @@
 <template>
-	<b-modal id="unconfirmed-order-details" title="Detalles del pedido" hide-footer>
-		<b-container fluid>
-			<b-row
-			class="m-b-0">
-				<b-col>
-					<article-order
-					v-for="article in order.articles"
-					:key="article.id"
-					:article="article"></article-order>
-					<p class="total">
-						Total: {{ price(total(order)) }}
-					</p>
-					<p
-					class="deliver">
-						<span v-if="order.deliver == 1">
-							Para enviar a {{ order.address }} {{ order.address_number }}
-						</span>
-						<span v-else>
-							Para retirar
-						</span>
-					</p>
-					<b-button
-					block
-					@click="confirm"
-					variant="primary">
-						<span
-						v-show="loading" 
-						class="spinner-border spinner-border-sm"></span>
-						<span
-						v-show="!loading">
-							Confirmar Pedido
-						</span>
-					</b-button>
-					<b-button
-					@click="cancel"
-					block
-					variant="danger">
-						<btn-loader
-						:loader="loading_cancel">
-							Cancelar Pedido
-						</btn-loader>
-					</b-button>
-				</b-col>
-			</b-row>
-		</b-container>
-	</b-modal>
+<b-modal id="unconfirmed-order-details" title="Detalles del pedido" hide-footer>
+	<article-order
+	v-for="article in order.articles"
+	:key="article.id"
+	:article="article"></article-order>
+	<p>
+		<strong>
+			Total: {{ price(total(order)) }}
+		</strong>
+	</p>
+	<p>
+		<span v-show="order.payment_method == 'tarjeta'">
+			Paga con tarjeta
+		</span>
+		<span v-show="order.payment_method == 'efectivo'">
+			Paga en efectivo
+		</span>
+	</p>
+	<p>
+		<span v-if="order.deliver == 1">
+			Para enviar a {{ order.address }} {{ order.address_number }}
+		</span>
+		<span v-else>
+			Para retirar
+		</span>
+	</p>
+	<b-button
+	block
+	@click="confirm"
+	variant="primary">
+		<span
+		v-show="loading" 
+		class="spinner-border spinner-border-sm"></span>
+		<span
+		v-show="!loading">
+			Confirmar Pedido
+		</span>
+	</b-button>
+	<b-button
+	@click="cancel"
+	block
+	variant="danger">
+		<btn-loader
+		:loader="loading_cancel">
+			Cancelar Pedido
+		</btn-loader>
+	</b-button>
+</b-modal>
 </template>
 <script>
 import ArticleOrder from '@/components/online/components/ArticleOrder'
@@ -96,10 +98,4 @@ export default {
 }
 </script>
 <style scoped lang="sass">
-.total 
-	font-size: 1.2em
-	font-weight: bold
-	margin: 1em 0
-.deliver 
-	font-size: 1.2em
 </style>

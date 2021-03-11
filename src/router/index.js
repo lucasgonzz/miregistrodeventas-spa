@@ -82,114 +82,114 @@ Vue.use(VueRouter)
         path: '/login',
         name: 'Login',
         component: Login,
-        beforeEnter: (from, to, next) => {
-            if (store.getters['auth/authenticated']) {
-                next('/')
-            } else {
-                next()
-            }
-        }
+        // beforeEnter: (from, to, next) => {
+        //     if (store.getters['auth/authenticated']) {
+        //         next('/')
+        //     } else {
+        //         next()
+        //     }
+        // }
     },
     {
         path: '/super',
         name: 'Super',
         component: Super,
-        beforeEnter: (from, to, next) => {
-            let user = store.getters['auth/user']
-            if (user.status == 'super') {
-                next()
-            } else {
-                next('/') 
-            }
-        }
+        // beforeEnter: (from, to, next) => {
+        //     let user = store.getters['auth/user']
+        //     if (user.status == 'super') {
+        //         next()
+        //     } else {
+        //         next('/') 
+        //     }
+        // }
     },
     {
         path: '/admin',
         name: 'Admin',
         component: Admin,
-        beforeEnter: (from, to, next) => {
-            let user = store.getters['auth/user']
-            if (user.status == 'admin') {
-                next()
-            } else {
-                next('/') 
-            }
-        }
+        // beforeEnter: (from, to, next) => {
+        //     let user = store.getters['auth/user']
+        //     if (user.status == 'admin') {
+        //         next()
+        //     } else {
+        //         next('/') 
+        //     }
+        // }
     },
     {
         path: '/vender',
         name: 'Vender',
         component: Vender,
-        beforeEnter: (from, to, next) => {
-            if (hasPermissionTo('sale.create') && !trialFinish()) {
-                next()
-            } else {
-                if (trialFinish()) {
-                    next({name: 'PruebaTerminada'})
-                }
-                next('/')
-            }
-        }
+        // beforeEnter: (from, to, next) => {
+        //     if (hasPermissionTo('sale.create') && !trialFinish()) {
+        //         next()
+        //     } else {
+        //         if (trialFinish()) {
+        //             next({name: 'PruebaTerminada'})
+        //         }
+        //         next('/')
+        //     }
+        // }
     },
     {
         path: '/ingresar',
         name: 'Ingresar',
         component: Ingresar,
-        beforeEnter: (from, to, next) => {
-            if (hasPermissionTo('article.create') && !trialFinish()) {
-                next()
-            } else {
-                if (trialFinish()) {
-                    next({name: 'PruebaTerminada'})
-                }
-                next('/')
-            }
-        }
+        // beforeEnter: (from, to, next) => {
+        //     if (hasPermissionTo('article.create') && !trialFinish()) {
+        //         next()
+        //     } else {
+        //         if (trialFinish()) {
+        //             next({name: 'PruebaTerminada'})
+        //         }
+        //         next('/')
+        //     }
+        // }
     },
     {
         path: '/listado',
         name: 'Listado',
         component: Listado,
-        beforeEnter: (from, to, next) => {
-            if (hasPermissionTo('article.index') && !trialFinish()) {
-                next()
-            } else {
-                if (trialFinish()) {
-                    next({name: 'PruebaTerminada'})
-                }
-                next('/')
-            }
-        }
+        // beforeEnter: (from, to, next) => {
+        //     if (hasPermissionTo('article.index') && !trialFinish()) {
+        //         next()
+        //     } else {
+        //         if (trialFinish()) {
+        //             next({name: 'PruebaTerminada'})
+        //         }
+        //         next('/')
+        //     }
+        // }
     },
     {
         path: '/ventas',
         name: 'Ventas',
         component: Ventas,
-        beforeEnter: (from, to, next) => {
-            if (hasPermissionTo('sale.index') && !trialFinish()) {
-                next()
-            } else {
-                if (trialFinish()) {
-                    next({name: 'PruebaTerminada'})
-                }
-                next('/')
-            }
-        }
+        // beforeEnter: (from, to, next) => {
+        //     if (hasPermissionTo('sale.index') && !trialFinish()) {
+        //         next()
+        //     } else {
+        //         if (trialFinish()) {
+        //             next({name: 'PruebaTerminada'})
+        //         }
+        //         next('/')
+        //     }
+        // }
     },
     {
         path: '/empleados',
         name: 'Empleados',
         component: Empleados,
-        beforeEnter: (from, to, next) => {
-            if (!trialFinish()) {
-                next()
-            } else {
-                if (trialFinish()) {
-                    next({name: 'PruebaTerminada'})
-                }
-                next('/')
-            }
-        }
+        // beforeEnter: (from, to, next) => {
+        //     if (!trialFinish()) {
+        //         next()
+        //     } else {
+        //         if (trialFinish()) {
+        //             next({name: 'PruebaTerminada'})
+        //         }
+        //         next('/')
+        //     }
+        // }
     },
     {
         path: '/tienda-online',

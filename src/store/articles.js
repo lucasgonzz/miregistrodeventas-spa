@@ -1,21 +1,19 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
-// axios.defaults.baseURL = 'https://micovid.online'
-// axios.defaults.baseURL = 'http://localhost:8000'
+import { VueOfflineStorage  } from 'vue-offline'
 export default {
 	namespaced: true,
 	state: {
 		articles: [],
-		loading: false,
-		articles_listado: [],
-		current_page: 1,
-		per_page: 10,
-		article_views: {},
+		articles_to_show: [],
+		article_to_edit: {},
+		article_to_delete: {},
+		article_providers_history: {},
+		images_to_show: {},
 		bar_codes: [],
-		articles_names_loaded: false
-	},
-	getters: {
+		selected_articles: [],
+		loading: false,
 	},
 	mutations: {
 		setLoading(state, value) {
@@ -24,51 +22,117 @@ export default {
 		setArticles(state, articles) {
 			state.articles = articles
 		},
-		setArticlesListado(state, articles_listado) {
-			state.articles_listado = state.articles.slice(0, state.per_page)
+		setArticlesToShow(state, value) {
+			if (value) {
+				state.articles_to_show = value
+			} else {
+				state.articles_to_show = state.articles.slice(0, 10)
+			}
 		},
-		addArticlesListado(state, articles_listado) {
-			state.articles_listado = state.articles_listado.concat(articles_listado)
+		addArticlesToShow(state) {
+			let length = state.articles_to_show.length
+			let articles_to_add = state.articles.slice(length, length+10)
+			state.articles_to_show = state.articles_to_show.concat(articles_to_add)
+			console.log('addArticlesToShow')
+			console.log(articles_to_add)
 		},
-		incrementPage(state) {
-			state.current_page++
-		},
-		setPage(state, page) {
-			state.current_page = page
-		},
-		setArticleViews(state, article) {
-			state.article_views = article
+		addArticleToShow(state, value) {
+			state.articles_to_show.unshift(value)
 		},
 		addArticle(state, article) {
 			state.articles.unshift(article)
 		},
-		setBarCodes(state) {
-			state.articles.forEach(art => {
-				state.bar_codes.push(art.bar_code)
-			})
+		addBarCode(state, value) {
+			state.bar_codes.unshift(value)
 		},
-		updateArticle(state, article) {
-			let index = state.articles.find(art => {
+		update(state, article) {
+			let index 
+			index = state.articles.findIndex(art => {
 				return art.id == article.id
 			})
 			state.articles.splice(index, 1, article)
 			state.bar_codes.splice(index, 1, article.bar_code)
+
+			index = state.articles_to_show.findIndex(art => {
+				return art.id == article.id
+			})
+			if (index != -1) {
+				state.articles_to_show.splice(index, 1, article)
+			}
 		},	
-		addBarCode(state, bar_code) {
-			state.bar_codes.push(bar_code)
+		setImagesToShow(state, value) {
+			state.images_to_show = value
 		},
-		setArticlesNames(state, value) {
-			state.articles_names = value
+		setSelectedArticles(state, value) {
+			state.selected_articles = value
 		},
-		addArticleName(state, article) {
-			state.articles_names.push({id: article.id, name: article.name})
+		setEdit(state, value) {
+			state.article_to_edit = value
 		},
-		setArticlesNamesLoaded(state, value) {
-			state.articles_names_loaded = value
+		setDelete(state, value) {
+			state.article_to_delete = value
 		},
+		delete(state) {
+			let index 
+			state.selected_articles.forEach(selected_article => {
+				index = state.articles.findIndex(art => {
+					return art.id == selected_article.id
+				})
+				state.articles.splice(index, 1)
+				
+				index = state.articles_to_show.findIndex(art => {
+					return art.id == selected_article.id
+				})
+				if (index != -1) {
+					state.articles_to_show.splice(index, 1)
+				}
+			})
+		},
+		setProvidersHistory(state, value) {
+			state.article_providers_history = value
+		},
+		setBarCodes(state) {
+			state.bar_codes = []
+			state.articles.forEach(article => {
+				state.bar_codes.push(article.bar_code)
+			})
+		},
+		// update(state, updated_article) {
+		// 	let index = state.articles.findIndex(article => {
+		// 		return article.id == updated_article.id
+		// 	})
+		// 	state.articles.splice(index, 1, updated_article)
+		// 	state.articles_to_show.splice(index, 1, updated_article)
+		// },
+		updateStock(state, sales) {
+			sales.forEach(sale => {
+				sale.articles.forEach(art => {
+					let article = state.articles.find(ar => {
+						return ar.id == art.id
+					})
+					if (typeof article != 'undefined' && article.stock) {
+						article.stock += Number(art.pivot.amount)
+					}
+				})
+			})
+		},
+		removeStock(state, articles) {
+			console.log(articles)
+			console.log(state.articles)
+			let article = {}
+			articles.forEach(art => {
+				article = state.articles.find(ar => {
+					return ar.id == art.id
+				})
+				console.log(article)
+				if (article.stock) {
+					article.stock -= art.amount
+				}
+			})
+		}
 	},
 	actions: {
-		setArticlesListado({ commit, state }) {
+		setArticlesToShow({ commit, state }) {
 			let current_page = state.current_page
 			let articles = state.articles
 			let articles_listado = articles.slice(current_page*state.per_page, current_page*state.per_page+state.per_page)
@@ -77,35 +141,17 @@ export default {
 		},
 		getArticles({ commit }) {
 			commit('setLoading', true)
-			axios.get('/api/articles')
+			return axios.get('/api/articles')
 			.then(res => {
+				VueOfflineStorage.set('articles', res.data.articles)
 				commit('setLoading', false)
-				console.log(res.data)
+				console.log(res.data.articles)
 				commit('setArticles', res.data.articles)
-				commit('setArticlesListado')
+				commit('addArticlesToShow')
 				commit('setBarCodes')
 			})
 			.catch(err => {
 				commit('setLoading', false)
-				console.log(err)
-			})
-		},
-		getBarCodes({ commit }) {
-			axios.get('/api/articles/bar-codes')
-			.then(res => {
-				commit('setBarCodes', res.data)
-			})
-			.catch(err => {
-				console.log(err)
-			})
-		},
-		getArticlesNames({commit}) {
-			axios.get('api/articles/names')
-			.then(res => {
-				commit('setArticlesNames', res.data)
-				commit('setArticlesNamesLoaded', true)
-			})
-			.catch(err => {
 				console.log(err)
 			})
 		},

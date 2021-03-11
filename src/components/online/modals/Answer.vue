@@ -8,7 +8,7 @@
 						{{ question.buyer.name }} pregunto por {{ question.article.name }}
 					</p>
 					<div class="img-container">
-						<img :src="imageUrl(question.article, user)" :alt="question.article.name">
+						<img :src="articleImageUrl(question.article, false)" :alt="question.article.name">
 					</div>
 					<p>
 						{{ question.text }}
@@ -23,19 +23,18 @@
 					block
 					variant="primary">
 						<btn-loader
-						:loading="loading">
+						text="Responder"
+						:loader="loading">
 						</btn-loader>
-						Responder
 					</b-button>
 					<b-button
 					@click="deleteQuestion"
 					block
 					variant="danger">
 						<btn-loader
-						icon="cancel"
-						:loading="loading_delete">
+						text="Eliminar pregunta"
+						:loader="loading_delete">
 						</btn-loader>
-						Eliminar pregunta
 					</b-button>
 				</b-col>
 			</b-row>
