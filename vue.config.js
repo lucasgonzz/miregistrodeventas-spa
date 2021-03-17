@@ -10,7 +10,7 @@ module.exports = {
 		]
 	},
 	devServer: {
-    	host: 'miregistrodeventas',
+    	host: 'miregistrodeventas.local',
     	port: '8081'
     },
 };

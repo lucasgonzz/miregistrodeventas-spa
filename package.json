@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --port 8080",
+    "serve": "vue-cli-service serve --port 8081",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
@@ -13,7 +13,7 @@
     "@trevoreyre/autocomplete-vue": "^2.2.0",
     "array-move": "^2.2.2",
     "array-sort": "^1.0.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap-vue": "^2.17.0",
     "chart.js": "^2.9.3",
     "cloudinary-vue": "^1.1.2",

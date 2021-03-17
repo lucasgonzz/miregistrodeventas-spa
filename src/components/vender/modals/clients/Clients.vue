@@ -13,34 +13,10 @@
             v-if="client">
                 <strong class="client-name">
                     Cliente seleccionado: {{ client.name }}
-                    <!-- <span class="p-l-10">
-                        <span v-if="client.debt"
-                            class="text-danger">
-                            Debe {{ price(client.debt) }}
-                        </span>
-                        <span class="text-success" v-else>
-                            <i class="icon-check"></i>
-                            Sin deudas
-                        </span>
-                    </span> -->
                 </strong>
-                <!-- <b-form-checkbox
-                v-model="without_debt">
-                    <strong>Paga los {{ price(total) }}</strong>
-                </b-form-checkbox> -->
             </b-form-group>
-            <!-- <b-form-group
-            v-show="!without_debt"
-            :label="`¿Cuango paga de los ${ this.price(total) }?`"
-            label-for="parte_paga">
-                <b-form-input
-                type="number"
-                min="0"
-                :max="total"
-                v-model="debt"
-                @keyup.enter="vender"></b-form-input>
-            </b-form-group> -->
-            <b-form-group>
+            <b-form-group
+            v-show="client">
                 <b-button 
                 v-if="isProvider()"
                 block
@@ -129,7 +105,6 @@ export default {
         },
         setClient(client) {
             this.$store.commit('vender/setClient', client)
-            // this.$emit('setClient', client)
         },
         vender() {
             if (!this.isProvider()) {

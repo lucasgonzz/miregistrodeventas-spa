@@ -1,6 +1,6 @@
 <template>
 <b-row
-v-if="isProvider() && articles.length"
+v-if="isProvider() && articles.length && index_previus_sales == 0"
 class="j-center">
 	<b-col 
 	cols="12"
@@ -22,6 +22,9 @@ export default {
 	computed: {
 		articles() {
 			return this.$store.state.vender.articles
+		},
+		index_previus_sales() {
+			return this.$store.state.vender.previus_sales.index
 		}
 	}
 }
