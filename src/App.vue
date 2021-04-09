@@ -24,6 +24,8 @@
 import NavComponent from './components/NavComponent'
 import Configuracion from './components/Configuracion'
 import LogoLoading from '@/components/common/LogoLoading'
+import web_sockets from '@/mixins/web_sockets'
+import online from '@/mixins/online'
 
 export default {
     components: {
@@ -31,6 +33,7 @@ export default {
         Configuracion,
         LogoLoading,
     },
+    mixins: [web_sockets, online],
     computed: {
         authenticated() {
             return this.$store.state.auth.authenticated
@@ -112,6 +115,8 @@ export default {
                 await this.$store.dispatch('providers/getProviders')
                 this.loading_message = 'categorias'
                 await this.$store.dispatch('categories/getCategories')
+                this.loading_message = 'subcategorias'
+                await this.$store.dispatch('sub_categories/getSubCategories')
                 this.loading_message = 'articulos'
                 await this.$store.dispatch('articles/getArticles')
                 this.loading_message = 'clientes'
@@ -153,20 +158,9 @@ export default {
             // this.$store.dispatch('markers/getMarkers')
             // this.$store.dispatch('markers/getMarkerGroups')
             // this.$store.dispatch('markers/getMarkerGroupsWithMarkers')
-            if (this.hasOnline(this.user)) {
-                this.$store.dispatch('online/getUnconfirmedOrders')
-                this.$store.dispatch('online/getQuestions')
-                this.Echo.channel('orderChannel')
-                .listen('UnconfirmedOrderEvent', (res) => {
-                    this.$store.commit('online/addUnconfirmedOrder', res.order)
-                    this.$toast.success(`${res.order.buyer.name} quiere hacer un pedido`)
-                }); 
-                this.Echo.channel('questionChannel')
-                .listen('QuestionCreatedEvent', (e) => {
-                    let question = e.question
-                    this.$store.commit('online/addQuestion', question)
-                    this.$toast.success(`${question.buyer.name} te ha hecho una pregunta`)
-                }); 
+            if (this.hasOnline()) {
+                this.getOrdersAndQuestions()
+                this.listenChannels()
             }
         }
     }

@@ -3,11 +3,12 @@ import Vuex from 'vuex'
 import auth from './auth'
 import markers from './markers'
 import articles from './articles'
-import clients from './clients'
-import online from './online'
+import clients from './clients/clients'
+import online from './online/index'
 import sales from './sales/sales'
 import vender from './vender/vender'
 import categories from './categories'
+import sub_categories from './sub_categories'
 import special_prices from './special_prices'
 import providers from './providers'
 import discounts from './discounts'
@@ -39,6 +40,7 @@ export default new Vuex.Store({
 		sales, 
 		vender,
 		categories,
+		sub_categories,
 		special_prices,
 		providers,
 		discounts,

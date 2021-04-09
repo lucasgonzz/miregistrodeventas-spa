@@ -1,12 +1,19 @@
 <template>
 	<b-card
+	class="border-radius"
 	no-body>
 		<div class="card-body">
 			<div class="img-container">
-				<img :src="articleImageUrl(article)" alt="imagen-producto">
+				<img 
+				v-if="article.pivot.variant_id"
+				:src="imageCropedUrlfromImage(getVariant())" alt="imagen-producto">
+				<img 
+				v-else
+				:src="articleImageUrl(article)" alt="imagen-producto">
 			</div>
 			<div class="product-data-container">
-				<p class="product-name">{{ amount(article.pivot.amount) }} {{ article.name }}</p>
+				<p class="product-name">{{ article_name }}</p>
+				<p class="product-name">Cantidad: {{ amount(article.pivot.amount) }}</p>
 				<p class="product-price">
 					{{ price(article.pivot.price) }}
 				</p>
@@ -28,9 +35,19 @@ export default {
 	computed: {
 		user() {
 			return this.$store.state.auth.user
+		},
+		article_name() {
+			if (this.article.pivot.variant_id) {
+				return this.article.name + ' ' + this.getVariant().description
+			}
 		}
 	},
 	methods: {
+		getVariant() {
+			return this.article.variants.find(variant => {
+				return variant.id == this.article.pivot.variant_id
+			})
+		}
 	}
 }
 </script>

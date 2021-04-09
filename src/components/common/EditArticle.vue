@@ -2,6 +2,12 @@
 <b-modal id="edit-article" :title="`Editar ${this.article.name}`" hide-footer>
 	<div>
 		<b-form-group
+		v-if="article.images && article.images.length">
+			<img 
+			class="article-image"
+			:src="articleImageUrl(article, false)">
+		</b-form-group>
+		<b-form-group
 		label="Creado"
 		label-for="creado">
 			<b-form-input
@@ -40,6 +46,17 @@
 			@keydown.enter="updateArticle"
 			:options="categories_options"
 			v-model="article.category_id"></b-form-select>
+		</b-form-group>
+
+		<!-- SubCategoria -->
+		<b-form-group
+		label="Subcategoría"
+		label-for="article-sub-category">
+			<b-form-select
+			id="article-sub-category"
+			@keydown.enter="updateArticle"
+			:options="sub_categories_options(article)"
+			v-model="article.sub_category_id"></b-form-select>
 		</b-form-group>
 
 		<!-- Costo y precio -->
@@ -92,7 +109,18 @@
 
 		<!-- Stock -->
 		<b-form-group
-		v-show="article.stock"
+		v-if="article.variants && article.variants.length"
+		label="Stock"
+		label-for="article-stock">
+			<b-button
+			size="sm"
+			variant="primary"
+			@click="showVariants()">
+				Ver stock
+			</b-button>
+		</b-form-group>
+		<b-form-group
+		v-else
 		label="Stock"
 		label-for="article-stock">
 			<b-form-input
@@ -103,7 +131,7 @@
 			v-model="article.stock"></b-form-input>
 		</b-form-group>
 		<b-form-group
-		v-show="article.stock"
+		v-show="article.stock && article.variants && !article.variants.length"
 		label="Cantidad para agregar"
 		label-for="article-new-stock">
 			<b-form-input
@@ -170,8 +198,8 @@
 		class="m-b-10"
 		id="article-act-fecha"
 		v-model="article.act_fecha"
-		:value="1"
-		:unchecked-value="0">
+		:value="true"
+		:unchecked-value="false">
 			Actualizar fecha
 		</b-form-checkbox>
 		<b-form-group
@@ -190,9 +218,10 @@
 </template>
 <script>
 import categories from '@/mixins/categories'
+import edit_articles from '@/mixins/edit_articles'
 export default {
 	name: 'EditArticle',
-	mixins: [categories],
+	mixins: [categories, edit_articles],
 	data() {
 		return {
 			show_providers: false,
@@ -237,6 +266,10 @@ export default {
 		}
 	},
 	methods: {
+		showVariants() {
+			this.$store.commit('articles/setImagesToShow', this.article)
+			this.$bvModal.show('article-variants')
+		},
 		showProviders() {
 			if (this.show_providers) {
 				this.show_providers = false
@@ -258,7 +291,6 @@ export default {
 					this.$store.commit('articles/update', res.data.article)
 					this.$toast.success('Articulo actualizado')
 					this.$bvModal.hide('edit-article')
-					console.log(res)
 					this.clearArticle()
 				})
 				.catch(err => {
@@ -296,11 +328,13 @@ export default {
 	}
 }
 </script>
-<style scoped>
-.container-fluid {
-	margin: 0;
-}
-.form-group {
-	margin-bottom: 1rem;
-}
+<style scoped lang="sass">
+.container-fluid 
+	margin: 0
+
+.form-group 
+	margin-bottom: 1rem
+.article-image
+	width: 100%
+article-image
 </style>

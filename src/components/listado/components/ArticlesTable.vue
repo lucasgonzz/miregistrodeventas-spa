@@ -136,7 +136,7 @@ export default {
 				{ key: 'cost', label: 'Costo', sortable: true },
 				{ key: 'price', label: 'Precio', sortable: true },
 				{ key: 'stock', label: 'Stock', sortable: true },
-				{ key: 'category', label: 'Categoria', sortable: true},
+				{ key: 'sub_category', label: 'Subcategoria', sortable: true},
 				{ key: 'options', label: 'Opciones', sortable: true},
 			]
 			// if (!this.isProvider()) {
@@ -154,7 +154,7 @@ export default {
 					cost: this.price(article.cost),
 					price: this.price(article.price),
 					stock: this.stock(article),
-					category: this.category(article),
+					sub_category: this.subCategory(article),
 				})
 			})
 			return items
@@ -202,9 +202,9 @@ export default {
 				return '-'
 			}
 		},
-		category(article) {
-			if (article.category) {
-				return article.category.name
+		subCategory(article) {
+			if (article.sub_category) {
+				return article.sub_category.name
 			} else {
 				return '-'
 			}
@@ -225,12 +225,6 @@ export default {
 			} else {
 				return '-'
 			}
-		},
-		stock(article) {
-			if (article.stock) {
-				return article.stock
-			}
-			return '-'
 		},
 		providersHistory(article) {
 			this.orderProvidersHistory(article)
@@ -279,7 +273,7 @@ export default {
 	top: 4px;
 }
 img {
-	width: 64px;
+	width: 150px;
 	border-radius: 10%;
 }
 .td-checkbox {

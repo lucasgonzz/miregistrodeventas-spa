@@ -7,5 +7,22 @@ export default {
             }
             return amount
         },
+		stock(article, formated = true) {
+			if (article.variants && article.variants.length) {
+				let stock = 0
+				article.variants.forEach(variant => {
+					stock += variant.stock
+				})
+				return stock
+			}
+			if (article.stock) {
+				return article.stock
+			}
+			if (formated) {
+				return '-'
+			} else {
+				return null
+			}
+		},
 	}
 }

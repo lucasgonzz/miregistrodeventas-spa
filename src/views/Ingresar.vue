@@ -1,11 +1,16 @@
 <template>
 <div id="ingresar">
+	<article-variants></article-variants>
 	<delete-category></delete-category>
 	<delete-provider></delete-provider>
 	<delete-special-price></delete-special-price>
 	<special-prices></special-prices>
+	<create-category></create-category>
+	<create-sub-category></create-sub-category>
 	<categories
 	@setArticleCategory="setArticleCategory"></categories>
+	<edit-category></edit-category>
+	<edit-sub-category></edit-sub-category>
 	<providers
 	@setArticleProvider="setArticleProvider"></providers>
 	<edit-article
@@ -14,7 +19,7 @@
 	<b-row class="justify-content-center">
 		<b-col
 		cols="12" 
-		lg="6">
+		lg="8">
 			<!-- <uncontable 
 			:article="article"></uncontable> -->
 			<title-agregar></title-agregar>
@@ -44,8 +49,13 @@
 </template>
 <script>
 // Modals
+import ArticleVariants from '../components/listado/modals/images/ArticleVariants.vue'
 import Providers from '../components/ingresar/modals/Providers.vue'
-import Categories from '../components/ingresar/modals/Categories.vue'
+import Categories from '../components/ingresar/modals/categories/Index.vue'
+import CreateCategory from '../components/ingresar/modals/categories/CreateCategory.vue'
+import CreateSubCategory from '../components/ingresar/modals/categories/CreateSubCategory.vue'
+import EditCategory from '../components/ingresar/modals/categories/EditCategory.vue'
+import EditSubCategory from '../components/ingresar/modals/categories/EditSubCategory.vue'
 import SpecialPrices from '../components/ingresar/modals/SpecialPrices.vue'
 import EditArticle from '../components/common/EditArticle.vue'
 import PrintTickets from '../components/ingresar/modals/PrintTickets.vue'
@@ -67,8 +77,13 @@ import mixin from '@/mixins/ingresar'
 export default {
 	name: 'Ingresar',
 	components: {
+		ArticleVariants,
 		Providers,
 		Categories,
+		CreateCategory,
+		CreateSubCategory,
+		EditCategory,
+		EditSubCategory,
 		SpecialPrices,
 		EditArticle,
 		PrintTickets,
@@ -90,7 +105,7 @@ export default {
 		return {
 			article: {
 				bar_code: '',
-				category_id: 0,
+				category_id: 9,
 				provider_id: 0,
 				new_bar_code: '',
 				name: '',
@@ -290,7 +305,6 @@ export default {
 			this.article.stock_null = false
 		},
 		clearArticle() {
-			console.log(2)
 			this.article.bar_code = ''
 			this.article.name = ''
 			this.article.cost = ''

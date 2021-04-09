@@ -4,6 +4,8 @@ import store from '@/store'
 // Mixins
 import user from './mixins/user'
 Vue.mixin(user)
+import general from './mixins/general'
+Vue.mixin(general)
 import images from './mixins/images'
 Vue.mixin(images)
 import dates from './mixins/dates'

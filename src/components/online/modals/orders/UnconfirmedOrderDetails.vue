@@ -2,7 +2,7 @@
 <b-modal id="unconfirmed-order-details" title="Detalles del pedido" hide-footer>
 	<article-order
 	v-for="article in order.articles"
-	:key="article.id"
+	:key="article.key"
 	:article="article"></article-order>
 	<p>
 		<strong>
@@ -24,6 +24,9 @@
 		<span v-else>
 			Para retirar
 		</span>
+	</p>
+	<p class="since">
+		{{ since(order.created_at) }}
 	</p>
 	<b-button
 	block
@@ -53,7 +56,6 @@ import ArticleOrder from '@/components/online/components/ArticleOrder'
 import BtnLoader from '@/components/common/BtnLoader2'
 import Mixin from '@/mixins/online'
 export default {
-	props: ['order'],
 	components: {
 		ArticleOrder,
 		BtnLoader,
@@ -66,6 +68,9 @@ export default {
 		}
 	},
 	computed: {
+		order() {
+			return this.$store.state.online.orders.unconfirmed_order_details
+		}
 	},
 	methods: {
 		confirm() {
@@ -73,7 +78,7 @@ export default {
 			this.$api.get(`/orders/confirm/${this.order.id}`)
 			.then(() => {
 				this.loading = false
-				this.$emit('updateOrders')
+				this.getOrders()
 				this.$bvModal.hide('unconfirmed-order-details')
 			})
 			.catch(err => {
@@ -86,7 +91,7 @@ export default {
 			this.$api.get(`/orders/cancel/${this.order.id}`)
 			.then(() => {
 				this.loading_cancel = false
-				this.$emit('updateOrders')
+				this.getOrders()
 				this.$bvModal.hide('unconfirmed-order-details')
 			})
 			.catch(err => {

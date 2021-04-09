@@ -20,6 +20,7 @@ export default {
 			state.loading = value
 		},
 		setArticles(state, articles) {
+			state.articles = null
 			state.articles = articles
 		},
 		setArticlesToShow(state, value) {
@@ -61,6 +62,7 @@ export default {
 			}
 		},	
 		setImagesToShow(state, value) {
+			state.images_to_show = null
 			state.images_to_show = value
 		},
 		setSelectedArticles(state, value) {
@@ -147,7 +149,7 @@ export default {
 				commit('setLoading', false)
 				console.log(res.data.articles)
 				commit('setArticles', res.data.articles)
-				commit('addArticlesToShow')
+				commit('setArticlesToShow')
 				commit('setBarCodes')
 			})
 			.catch(err => {

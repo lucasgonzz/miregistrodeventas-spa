@@ -6,8 +6,21 @@
 			no-body
 			header="Preguntas por responder">
 				<ul 
-				class="card-questions-body" 
-				v-show="!loading && questions.length">
+				v-if="loading"
+				class="horizontal-ul">
+					<li
+					v-for="i in 3"
+					:key="i">
+						<b-card
+						class="order">
+							<b-skeleton width="100%"></b-skeleton>
+							<b-skeleton width="100%"></b-skeleton>
+						</b-card>
+					</li>
+				</ul>
+				<ul 
+				class="card-questions-body horizontal-ul" 
+				v-else>
 					<li
 					v-for="question in questions"
 					:key="question.id">
@@ -34,9 +47,6 @@
 					<i class="icon-check icon"></i>
 					No hay preguntas por responder
 				</p>
-				<cargando
-				size="sm"
-				:is_loading="loading"></cargando>
 			</b-card>
 		</b-col>
 	</b-row>
@@ -49,15 +59,13 @@ export default {
 		Cargando,
 	},
 	mixins: [online],
-	data() {
-		return {
-			loading: false
-		}
-	},
 	computed: {
 		questions() {
-			return this.$store.state.online.questions
-		}
+			return this.$store.state.online.questions.questions
+		},
+		loading() {
+			return this.$store.state.online.questions.loading
+		},
 	},
 	methods: {
 		answer(question) {

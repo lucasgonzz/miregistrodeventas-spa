@@ -1,14 +1,6 @@
 <template>
 <b-modal id="listado-filtrar" title="Filtrar" hide-footer>
     <div>
-        <!-- <b-form-group
-        label="Ordenar los artículos"
-        label-for="articles-order">
-            <b-form-select
-            id="articles-order"
-            v-model="filtro.ordenar"
-            :options="order_options"></b-form-select>
-        </b-form-group> -->
         <b-form-group
         label="Los que pertenescan a la categoría"
         label-for="categories">
@@ -16,6 +8,14 @@
             id="categories"
             v-model="filtro.category_id"
             :options="categories_options"></b-form-select>
+        </b-form-group>
+        <b-form-group
+        label="Los que pertenescan a la subcategoría"
+        label-for="sub-categories">
+            <b-form-select
+            id="sub-categories"
+            v-model="filtro.sub_category_id"
+            :options="sub_categories_options(filtro)"></b-form-select>
         </b-form-group>
         <b-form-group
         label="Los que tengan un precio mayor a">
@@ -51,6 +51,12 @@
         </b-form-group>
         <b-form-group>
             <b-form-checkbox
+            v-model="filtro.with_images">
+                Que tengan foto
+            </b-form-checkbox>
+        </b-form-group>
+        <b-form-group>
+            <b-form-checkbox
             v-model="filtro.mantener">
                 Mantener filtro
             </b-form-checkbox>
@@ -68,11 +74,15 @@
 </template>
 <script>
 import moment from 'moment'
+import categories from '@/mixins/categories'
 export default {
+    mixins: [categories],
     data() {
         return {
             filtro: {
                 category_id: 0,
+                sub_category_id: 0,
+                with_images: false,
                 precio_min: '',
                 precio_max: '',
                 fecha_min: '',
@@ -94,14 +104,6 @@ export default {
             options.push({text: 'Seleccione un proveedor', value: 0})
             this.providers.forEach(provider => {
                 options.push({text: provider.name, value: provider.id})
-            })
-            return options
-        },
-        categories_options() {
-            let options = []
-            options.push({text: 'Seleccione una categoría', value: 0})
-            this.categories.forEach(category => {
-                options.push({text: category.name, value: category.id})
             })
             return options
         },
@@ -132,6 +134,8 @@ export default {
             let fecha_min
             let fecha_max
             let category_id = this.filtro.category_id
+            let sub_category_id = this.filtro.sub_category_id
+            let with_images = this.filtro.with_images
             let precio_min = Number(this.filtro.precio_min)
             let precio_max = Number(this.filtro.precio_max)
             if (this.filtro.fecha_min != '') {
@@ -164,9 +168,18 @@ export default {
                     return moment(art.created_at).isBefore(fecha_max)
                 })
             }
-            if (category_id != 0) {
+            if (sub_category_id != 0) {
                 filters = filters.filter(art => {
-                    return art.category_id == category_id
+                    return art.sub_category_id == sub_category_id
+                })
+            } else if (category_id != 0) {
+                filters = filters.filter(art => {
+                    return art.sub_category ? art.sub_category.category_id == category_id : false
+                })
+            }
+            if (with_images) {
+                filters = filters.filter(art => {
+                    return art.images.length
                 })
             }
             if (filters.length == this.articles.length) {
@@ -184,6 +197,7 @@ export default {
         },
         clear() {
             this.filtro.category_id = 0
+            this.filtro.sub_category_id = 0
             this.filtro.precio_min = ''
             this.filtro.precio_max = ''
             this.filtro.fecha_min = ''

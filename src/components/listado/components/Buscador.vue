@@ -27,6 +27,11 @@
 				Aumentar %
 			</b-dropdown-item>
 			<b-dropdown-item
+			v-b-modal="'update-category'">
+				<i class="icon-redo"></i>
+				Categoria
+			</b-dropdown-item>
+			<b-dropdown-item
 			v-b-modal="'delete-articles'">
 				<i class="icon-trash-3"></i>
 				Eliminar

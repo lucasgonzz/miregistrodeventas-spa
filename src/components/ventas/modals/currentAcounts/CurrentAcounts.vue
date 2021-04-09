@@ -1,29 +1,20 @@
 <template>
 <b-modal id="current-acounts" :title="title" hide-footer size="lg" body-class="p-0">
     <b-card no-body>
+        <current-acounts-nav></current-acounts-nav>
         <div
         v-if="!loading && client">
             <div 
-            v-if="client.current_acounts.length">
+            v-if="current_acounts.length">
                 <b-table
                 :fields="fields"
                 :items="items">
                     <template #cell(detalle)="data">
                         <strong
-                        :class="getDetalleColorText(client.current_acounts[data.index])">
-                            {{ client.current_acounts[data.index].detalle }}
+                        :class="getDetalleColorText(current_acounts[data.index])">
+                            {{ current_acounts[data.index].detalle }}
                         </strong>
                     </template>
-                    <!-- <template #cell(saldo)="data">
-                        <span>
-                            {{ price(client.current_acounts[data.index].saldo) }}
-                        </span>
-                        <p
-                        v-if="client.current_acounts[data.index].description"
-                        class="text-right m-b-0">
-                            {{ client.current_acounts[data.index].description }}
-                        </p>
-                    </template> -->
                 </b-table>
                 <b-form-group
                 class="m-b-10 j-end p-r-10">
@@ -58,8 +49,10 @@
 </b-modal>
 </template>
 <script>
+import CurrentAcountsNav from '@/components/ventas/modals/currentAcounts/Nav'
 export default {
     components: {
+        CurrentAcountsNav
     },
     data() {
         return {
@@ -67,10 +60,13 @@ export default {
     },
     computed: {
         client() {
-            return this.$store.state.clients.client_current_acounts
+            return this.$store.state.clients.current_acounts.client
+        },
+        current_acounts() {
+            return this.$store.state.clients.current_acounts.current_acounts
         },
         loading() {
-            return this.$store.state.clients.loading_current_acounts
+            return this.$store.state.clients.current_acounts.loading
         },
         title() {
             if (this.client) {
@@ -90,17 +86,15 @@ export default {
         }, 
         items() {
             let items = []
-            if (this.client) {
-                this.client.current_acounts.forEach(current_acount => {
-                    items.push({
-                        fecha: this.date(current_acount.created_at),
-                        debe: this.price(current_acount.debe),
-                        haber: this.price(current_acount.haber),
-                        saldo: this.price(current_acount.saldo),
-                        description: current_acount.description,
-                    })
+            this.current_acounts.forEach(current_acount => {
+                items.push({
+                    fecha: this.date(current_acount.created_at),
+                    debe: this.price(current_acount.debe),
+                    haber: this.price(current_acount.haber),
+                    saldo: this.price(current_acount.saldo),
+                    description: current_acount.description,
                 })
-            }
+            })
             return items
         }
     },

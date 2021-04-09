@@ -35,7 +35,7 @@ export default {
     },
     computed: {
         client() {
-            return this.$store.state.clients.client_current_acounts
+            return this.$store.state.clients.current_acounts.client
         },
         title() {
             return `Cuentas corriente de ${this.client.name}`
@@ -56,7 +56,7 @@ export default {
                 // client.current_acounts.push(res.data.current_acount)
                 // this.$store.commit('clients/setClientCurrentAcounts', null)
                 // this.$store.commit('clients/setClientCurrentAcounts', client)
-                this.$store.dispatch('clients/getClientCurrentAcounts', this.client)
+                this.$store.dispatch('clients/current_acounts/getCurrentAcounts')
     			this.loading = false
     			this.$toast.success('Pago registrado correctamente')
                 this.$bvModal.hide('current-acounts-pago')

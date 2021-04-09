@@ -11,6 +11,8 @@ export default {
 	namespaced: true,
 	state: {
 		articles: [],
+		article_for_sale: {},
+		article_variant: {},
 		total: 0,
 		client: null,
 		debt: null,
@@ -26,7 +28,13 @@ export default {
 			state.articles = articles
 		},
 		addArticle(state, article) {
-			state.articles.unshift(article)
+			state.articles.unshift(state.article_for_sale)
+		},
+		setVariant(state, value) {
+			state.article_variant = value
+		},
+		setArticleForSale(state, value) {
+			state.article_for_sale = value
 		},
 		setVendiendo(state, value) {
 			state.vendiendo = value

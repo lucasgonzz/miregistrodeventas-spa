@@ -48,6 +48,16 @@ export default {
 				let percentage_card = this.percentageCardFormated(sale.percentage_card)
 				total = total*percentage_card
 			}
+			if (sale.discounts.length) {
+				sale.discounts.forEach(dis => {
+					total -= total * this.percentageFormated(dis.pivot.percentage)
+				})
+			}
+			if (sale.commissions.length) {
+				sale.commissions.forEach(com => {
+					total -= com.monto
+				})
+			}
 			if (formated) {
 				return this.price(total)
 			} else {
@@ -74,6 +84,13 @@ export default {
 				return Number('1.0'+percentage_card)
 			} 
 			return Number('1.'+percentage_card)
-		}
+		},
+		percentageFormated(p) {
+			let percentage_card = Number(p)
+			if (percentage_card < 10) {
+				return Number('0.0'+percentage_card)
+			} 
+			return Number('0.'+percentage_card)
+		},
 	}
 }

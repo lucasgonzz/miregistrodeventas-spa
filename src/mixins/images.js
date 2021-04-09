@@ -4,6 +4,10 @@ export default {
 			let url = `https://res.cloudinary.com/lucas-cn/image/upload/${image.url}`
 			return url
 		},
+		imageCropedUrlfromImage(image) {
+			let url = `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom/${image.url}`
+			return url
+		},
 		articleImageUrl(article, cropped = true) {
 			let url = `https://res.cloudinary.com/lucas-cn/image/upload`
 			if (cropped) {
@@ -28,7 +32,7 @@ export default {
 			var myCropWidget = cloudinary.createUploadWidget({
 				cloudName: 'lucas-cn', 
 				uploadPreset: 'my_preset',
-				sources: ['local', 'camera', 'instagram', 'facebook', 'google_drive'],
+				sources: ['camera', 'local', 'instagram', 'facebook', 'google_drive'],
 				cropping: true,
 				cropping_aspect_ratio: 1, 
 				showSkipCropButton: false,
@@ -120,10 +124,13 @@ export default {
 					})
 					.then(res => {
 						this.$store.commit('articles/setLoading', false)
-						console.log('imagen guardada')
-						console.log(res)
-						this.$store.commit('articles/update', res.data.article)
+						let article = res.data.article
+						this.$store.commit('articles/update', article)
+						this.$store.commit('articles/setImagesToShow', article)
 						this.$bvModal.hide('article-images')
+						if (article.variants.length) {
+							this.$bvModal.show('article-variants')
+						}
 					})
 					.catch(err => {
 						this.$store.commit('articles/setLoading', false)

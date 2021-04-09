@@ -55,11 +55,6 @@ export default {
 			answer: {text: ''}
 		}
 	},
-	computed: {
-		user() {
-			return this.$store.state.auth.user
-		}
-	},
 	methods: {
 		deleteQuestion() {
 			this.loading_delete = true
@@ -68,7 +63,7 @@ export default {
 				this.loading_delete = false
 				this.$bvModal.hide('answer')
 				this.$toast.success('Pregunta eliminada correctamente')
-                this.$store.dispatch('online/getQuestions')
+                this.$store.dispatch('online/questions/getQuestions')
 			})
 			.catch(err => {
 				this.loading_delete = false
@@ -86,7 +81,7 @@ export default {
 				this.$toast.success('Respuesta enviada correctamente')
 				this.$bvModal.hide('answer')
 				this.answer.text = ''
-				this.$store.dispatch('online/getQuestions')
+				this.$store.dispatch('online/questions/getQuestions')
 				this.loading = false
 			})
 			.catch(err => {

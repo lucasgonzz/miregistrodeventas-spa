@@ -75,10 +75,10 @@
 				<i class="icon-trash-3"></i>
 				Eliminar
 			</b-dropdown-item>
-			<b-dropdown-item
+			<!-- <b-dropdown-item
 			variant="success">
 				Total: {{ total_selected_sales }}
-			</b-dropdown-item>
+			</b-dropdown-item> -->
 		</b-dropdown>
 	</b-col>
 	<b-col

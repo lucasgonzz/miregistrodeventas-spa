@@ -2,8 +2,7 @@ import Vue from 'vue'
 import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
-// axios.defaults.baseURL = 'https://micovid.online'
-// axios.defaults.baseURL = 'http://localhost:8000'
+import current_acounts from '@/store/clients/current_acounts'
 export default {
 	namespaced: true,
 	state: {
@@ -92,23 +91,24 @@ export default {
 				console.log(err)
 			})
 		},
-        getClientCurrentAcounts({ commit }, client) {
-            commit('setClientCurrentAcounts', client)
-        	commit('setLoadingCurrentAcounts', true)
-            return axios.get(`/api/clients/current-acounts/${client.id}`)
-            .then(res => {
-            	client.current_acounts = res.data.current_acounts
-                console.log(res.data.current_acounts)
-        		commit('setLoadingCurrentAcounts', false)
-                commit('setClientCurrentAcounts', null)
-                commit('setClientCurrentAcounts', client)
-            })
-            .catch(err => {
-        		commit('setLoadingCurrentAcounts', false)
-                console.log(err)
-            })
-        },
+        // getClientCurrentAcounts({ commit }, client) {
+        //     commit('setClientCurrentAcounts', client)
+        // 	commit('setLoadingCurrentAcounts', true)
+        //     return axios.get(`/api/clients/current-acounts/${client.id}`)
+        //     .then(res => {
+        //     	client.current_acounts = res.data.current_acounts
+        //         console.log(res.data.current_acounts)
+        // 		commit('setLoadingCurrentAcounts', false)
+        //         commit('setClientCurrentAcounts', null)
+        //         commit('setClientCurrentAcounts', client)
+        //     })
+        //     .catch(err => {
+        // 		commit('setLoadingCurrentAcounts', false)
+        //         console.log(err)
+        //     })
+        // },
 	},
 	modules: {
+		current_acounts,
 	}
 }

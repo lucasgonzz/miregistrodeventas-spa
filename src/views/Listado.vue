@@ -4,11 +4,11 @@
 	<add-category ></add-category>
 	<edit-article></edit-article>
 	<update-by-porcentage></update-by-porcentage>
-	<!-- <descargar-pdf ></descargar-pdf> -->
-	<!-- <print-tickets></print-tickets> -->
+	<update-category></update-category>
 	<providers-history></providers-history>
 	<filtrar></filtrar>
 	<article-images></article-images>
+	<article-variants></article-variants>
 	
 	<buscador></buscador>
 	<articles-table></articles-table>
@@ -19,10 +19,12 @@
 <script>
 // Modals
 // import DescargarPdf from '../components/listado/modals/DescargarPdf.vue'
-import ArticleImages from '@/components/listado/modals/ArticleImages.vue'
+import ArticleImages from '@/components/listado/modals/images/ArticleImages.vue'
+import ArticleVariants from '@/components/listado/modals/images/ArticleVariants.vue'
 import Filtrar from '../components/listado/modals/Filtrar.vue'
 import EditArticle from '../components/common/EditArticle.vue'
 import UpdateByPorcentage from '../components/listado/modals/UpdateByPorcentage.vue'
+import UpdateCategory from '../components/listado/modals/UpdateCategory.vue'
 // import PrintTickets from '../components/listado/modals/PrintTickets.vue'
 import ConfirmDelete from '../components/listado/modals/ConfirmDelete.vue'
 import ProvidersHistory from '../components/listado/modals/ProvidersHistory.vue'
@@ -37,9 +39,11 @@ export default {
 	components: {
 		// DescargarPdf,
 		ArticleImages,
+		ArticleVariants,
 		Filtrar,
 		EditArticle,
 		UpdateByPorcentage,
+		UpdateCategory,
 		ConfirmDelete,
 		// PrintTickets,
 		ProvidersHistory,

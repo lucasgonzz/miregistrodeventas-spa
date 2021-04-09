@@ -2,16 +2,31 @@
 	<b-card
 	no-body
 	header="Pedidos por entregar">
-		<ul class="card-confirmed-body" v-show="!loading && orders.length">
+		<ul
+		v-if="loading" 
+		class="horizontal-ul">
+			<li
+			v-for="i in 3"
+			:key="i+'0'">
+				<b-card
+				class="order">
+					<b-skeleton width="100%"></b-skeleton>
+					<b-skeleton width="100%"></b-skeleton>
+				</b-card>
+			</li>
+		</ul>
+		<ul 
+		v-else
+		class="horizontal-ul">
 			<li
 			v-for="order in orders"
 			:key="order.id">
 				<b-card
 				@click="orderDetails(order)"
-				class="confirmed-order"
+				class="order"
 				no-body>
 					<div
-					class="confirmed-order-body">
+					class="order-body">
 						<p
 						class="buyer-name">
 							Pedido de <strong>{{ buyerName(order) }}</strong> 
@@ -54,47 +69,39 @@
 			<i class="icon-check icon"></i>
 			No hay pedidos por entregar
 		</p>
-		<cargando
-		size="sm"
-		:is_loading="loading"></cargando>
 	</b-card>
 </template>
 <script>
 import Cargando from '@/components/common/Cargando'
 import Mixin from '@/mixins/online'
+import Loading from '@/components/online/components/orders/Loading'
 export default {
 	name: 'ConfirmedFinishedOrders',
 	components: {
-		Cargando
+		Loading,
 	},
 	mixins: [Mixin],
 	data() {
 		return {
-			orders: [],
-			loading: false,
 			loading_deliver: false,
 		}
 	},
-	methods: {
-		getOrders() {
-			this.loading = true
-			this.$api.get('/orders/confirmed-finished')
-			.then(res => {
-				this.loading = false
-				this.orders = res.data.orders
-			})
-			.catch(err => {
-				this.loading = false
-				console.log(err)
-			})
+	computed: {
+		orders() {
+			return this.$store.state.online.orders.confirmed_finished_orders
 		},
+		loading() {
+			return this.$store.state.online.orders.loading_confirmed_finished_orders
+		},
+	},
+	methods: {
 		delivered(order) {
 			this.loading_deliver = true
 			this.$api.get(`/orders/deliver/${order.id}`)
 			.then(res => {
 				this.loading_deliver = false
-				this.getOrders()
 				this.$store.commit('sales/addSale', res.data.sale)
+				this.$store.dispatch('online/orders/getConfirmedFinishedOrders')
 			})
 			.catch(err => {
 				this.loading_deliver = false
@@ -103,61 +110,27 @@ export default {
 		},
 		orderDetails(order) {
 			if (order.status == 'confirmed') {
-				this.$emit('setOrder', order)
-				this.$bvModal.show('confirmed-order-details')
+				this.$store.commit('online/orders/setConfirmedFinishedOrderDetails', order)
+				this.$bvModal.show('confirmed-finished-order-details')
 			}
 		}
 	},
-	created() {
-		this.getOrders()
-	}
 }
 </script>
 <style scoped lang="sass">
-.no-orders
+button 
+	margin-top: .5em
+.buyer-name 
 	text-align: center
-	font-size: 1.2em
-	margin: 1em 0
-	.icon 
-		display: block
-		font-size: 3em
-.card-confirmed-body
-	width: 100%
-	padding: .5em
-	margin: 0
-	overflow-x: scroll
-	display: flex
-	flex-direction: row
-	flex-wrap: nowrap
-	li 
-		display: table
-		padding: 0 .5em
-		width: 200px
-		.confirmed-order
-			cursor: pointer
-			border: none
-			-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
-			-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
-			box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)	
-			&:hover
-				-webkit-box-shadow: 0px 0px 7px 0px rgba(0,0,0,1)
-				-moz-box-shadow: 0px 0px 7px 0px rgba(0,0,0,1)
-				box-shadow: 0px 0px 7px 0px rgba(0,0,0,1)	
-			.confirmed-order-body
-				padding: 1em
-				button 
-					margin-top: .5em
-				.buyer-name 
-					text-align: center
-					margin-bottom: .5em
-				.total
-					text-align: center
-					margin-bottom: 0
-					font-weight: bold
-				.since 
-					margin-top: .5em
-					margin-bottom: 0
-					font-size: .7em
-					text-align: right
-					color: rgba(0,0,0,.5)
+	margin-bottom: .5em
+.total
+	text-align: center
+	margin-bottom: 0
+	font-weight: bold
+.since 
+	margin-top: .5em
+	margin-bottom: 0
+	font-size: .7em
+	text-align: right
+	color: rgba(0,0,0,.5)
 </style>

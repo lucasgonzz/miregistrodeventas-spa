@@ -1,9 +1,9 @@
 <template>
-<b-modal id="article-images" hide-footer hide-header body-class="p-0">
+<b-modal id="article-images" hide-footer hide-header body-class="p-0" size="lg">
 	<b-carousel
 	id="article-images-carousel"
-	v-model="slide"
-	:interval="4000"
+	v-model="slide" 
+	:interval="0"
 	controls
 	indicators
 	background="#ababab"
@@ -11,8 +11,19 @@
 	img-height="480">
 		<b-carousel-slide 
 		v-for="image in article.images"
-		:key="image.id"
-		:img-src="imageUrl(image)">
+		:key="image.id">
+			<template v-slot:img>
+				<vue-load-image>
+					<div slot="image" :data-src="imageUrl(image)"></div>
+					<img slot="preloader" src="@/assets/spinner3.gif" />
+					<div slot="error">Error al cargar la imagen</div>
+				</vue-load-image>
+				<img
+				class="d-block img-fluid"
+				:src="imageUrl(image)"
+				:alt="article.name+'-image-'+image.id"
+				>
+			</template>
 			<b-button
 			@click="imagenPrincipal(image)"
 			variant="success">
@@ -38,15 +49,20 @@
 		@click="uploadPhoto(article)">
 			Agregar foto
 		</b-button>
+		<variant-info></variant-info>
 	</div>
 </b-modal>
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
+import VariantInfo from '@/components/listado/modals/images/VariantInfo'
+import VueLoadImage from 'vue-load-image'
 export default {
 	name: 'ArticleImages',
 	components: {
-		BtnLoader
+		BtnLoader,
+		VariantInfo,
+		VueLoadImage,
 	},
 	data() {
 		return {
@@ -84,7 +100,7 @@ export default {
 				this.deleting = false
 				this.$store.commit('articles/update', res.data.article)
 				this.$bvModal.hide('article-images')
-				this.$toast.error('Imagen eliminada')
+				this.$toast.success('Imagen eliminada')
 			})
 			.catch(err => {
 				console.log(err)
@@ -95,3 +111,5 @@ export default {
 	}
 }
 </script>
+<style lang="sass">
+</style>

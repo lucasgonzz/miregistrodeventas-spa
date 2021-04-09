@@ -99,10 +99,12 @@ export default {
 		updating_previus_sale() {
 			return this.$store.state.vender.previus_sales.updating
 		},
+		article_for_sale() {
+			return this.$store.state.vender.article_for_sale
+		},
 	},
 	data() {
 		return  {
-			new_article: {},
 			article: {
 				bar_code: '',
 				amount: null,
@@ -126,30 +128,36 @@ export default {
 				})
 			} 
 			if (this.isRegister(article)) {
-				this.new_article = this.setOriginalPrice(article)
+				this.$store.commit('vender/setArticleForSale', this.setOriginalPrice(article)) 
 			}
 			if (this.isProvider()) {
 				document.getElementById('article-amount').focus()
 			} else {
 				if (!this.isRepeat()) {
-					this.new_article.amount = 1
+					this.article_for_sale.amount = 1
 					this.addNewArticle()
 				} 
 			}
 		},
 		addNewArticle() {
-			console.log(this.new_article)
+			console.log(this.article_for_sale)
 			if (this.isProvider()) {
 				if (!this.isRepeat()) {
-					this.new_article.amount = this.article.amount
-					this.$store.commit('vender/addArticle', this.new_article)
+					this.article_for_sale.amount = this.article.amount
+					this.$store.commit('vender/addArticle')
 					this.$store.commit('vender/setTotal')
 					this.clearArticle()
 				}
 			} else {
-				this.$store.commit('vender/addArticle', this.new_article)
-				this.$store.commit('vender/setTotal')
-				this.clearArticle()
+				if (this.hasVariants()) {
+					this.$store.commit('vender/setVariant', this.article_for_sale)
+					this.$bvModal.show('select-variant')
+					this.clearArticle()
+				} else {
+					this.$store.commit('vender/addArticle')
+					this.$store.commit('vender/setTotal')
+					this.clearArticle()
+				}
 			}
 		},
 		clearArticle() {
@@ -158,7 +166,7 @@ export default {
 			this.article.bar_code = ''
 			this.article.name = ''
 			this.article.amount = ''
-			// this.new_article.amount = ''
+			// this.article_for_sale.amount = ''
 		},
 		vender() {
 			if (!this.isProvider() && this.articles_for_sale.length) {
@@ -171,7 +179,7 @@ export default {
 		},
 		isRepeat() {
 			let finded = this.articles_for_sale.find(art => {
-				return art.id == this.new_article.id
+				return art.id == this.article_for_sale.id
 			})
 			if (typeof finded == 'undefined') {
 				return false
@@ -200,7 +208,13 @@ export default {
 				return false
 			}
 			return true
-		}
+		},
+		hasVariants() {
+			if (this.article_for_sale.variants.length) {
+				return true
+			}
+			return false
+		},
 	},
 }
 </script>

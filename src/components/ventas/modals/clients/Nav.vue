@@ -1,16 +1,24 @@
 <template>
-	<b-nav tabs class="m-b-10">
-		<b-nav-item 
-		:active="isActive('mios')"
-		@click="setSelectedSeller(null)">Mios</b-nav-item>
-		<b-nav-item
-		@click="setSelectedSeller(seller)"
-		:active="isActive(seller)"
-		v-for="seller in sellers"
-		:key="seller.id">
-			{{ seller.name }}
-		</b-nav-item>
-	</b-nav>
+	<div
+	class="nav-clients">
+		<b-nav tabs class="m-b-10">
+			<b-nav-item 
+			:active="isActive('mios')"
+			@click="setSelectedSeller(null)">Mios</b-nav-item>
+			<b-nav-item
+			@click="setSelectedSeller(seller)"
+			:active="isActive(seller)"
+			v-for="seller in sellers"
+			:key="seller.id">
+				{{ seller.name }}
+			</b-nav-item>
+		</b-nav>
+		<b-button
+		@click="printClients"
+		variant="danger">
+			<i class="icon-print"></i>
+		</b-button>
+	</div>
 </template>
 <script>
 export default {
@@ -35,7 +43,19 @@ export default {
 		},
 		setSelectedSeller(seller) {
 			this.$store.commit('sales/clients/setSelectedSeller', seller)
+		},
+		printClients() {
+			let url = process.env.VUE_APP_API_URL+'/clients/pdf/'+this.selected_seller.id
+            window.open(url)
 		}
 	}
 }
 </script>
+<style lang="sass">
+.nav-clients
+	display: flex
+	align-items: center
+	justify-content: space-between
+	.nav-tabs
+		width: 90%
+</style>

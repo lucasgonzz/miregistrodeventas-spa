@@ -61,6 +61,16 @@ export default {
 				if (sale.percentage_card) {
 					state.total = state.total + (state.total * sale.percentage_card / 100)
 				}
+				if (sale.discounts.length) {
+					sale.discounts.forEach(dis => {
+						state.total -= state.total * dis.pivot.percentage / 100
+					})
+				}
+				if (sale.commissions.length) {
+					sale.commissions.forEach(com => {
+						state.total -= com.monto
+					})
+				}
 			})
 		},
 		setOnlyOneDate(state, value) {

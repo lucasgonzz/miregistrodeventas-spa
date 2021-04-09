@@ -24,11 +24,11 @@
 						{{ questions.length }}
 					</b-badge>
 				</b-nav-item>
-				<b-nav-item
+				<!-- <b-nav-item
 				@click="setView('examine')"
 				:active="view == 'examine' ? true : false">
 					Examinar
-				</b-nav-item>
+				</b-nav-item> -->
 			</b-nav>
 		</b-col>
 	</b-row>
@@ -41,15 +41,27 @@ export default {
 			return this.$store.state.online.view
 		},
 		orders() {
-			return this.$store.state.online.unconfirmed_orders
+			return this.$store.state.online.orders.unconfirmed_orders
 		},
 		questions() {
-			return this.$store.state.online.questions
+			return this.$store.state.online.questions.questions
 		},
 	},
 	methods: {
 		setView(view) {
 			this.$store.commit('online/setView', view)
+			if (view == 'orders') {
+				this.getOrders()
+			} else if (view == 'questions') {
+				this.getQuestions()
+			}
+		},
+		getOrders() {
+			this.$store.dispatch('online/orders/getUnconfirmedOrders')
+			this.$store.dispatch('online/orders/getConfirmedFinishedOrders')
+		},
+		getQuestions() {
+			this.$store.dispatch('online/questions/getQuestions')
 		}
 	}
 }

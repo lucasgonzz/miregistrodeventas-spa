@@ -20,7 +20,8 @@ export default {
 	},
     methods: {
         showCurrentAcounts(client) {
-            this.$store.dispatch('clients/getClientCurrentAcounts', client)
+            this.$store.commit('clients/current_acounts/setClient', client)
+            this.$store.dispatch('clients/current_acounts/getCurrentAcounts')
             this.$bvModal.show('current-acounts')
         },
     }

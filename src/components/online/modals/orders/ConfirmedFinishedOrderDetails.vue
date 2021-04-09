@@ -1,20 +1,30 @@
 <template>
-<b-modal id="confirmed-order-details" title="Detalles del pedido" hide-footer>
+<b-modal id="confirmed-finished-order-details" title="Detalles del pedido" hide-footer>
 	<article-order
 	v-for="article in order.articles"
-	:key="article.id"
+	:key="article.key"
 	:article="article"></article-order>
 	<p class="total">
 		Total: {{ price(total(order)) }}
 	</p>
-	<p
-	class="deliver">
+	<p>
+		<span v-show="order.payment_method == 'tarjeta'">
+			Paga con tarjeta
+		</span>
+		<span v-show="order.payment_method == 'efectivo'">
+			Paga en efectivo
+		</span>
+	</p>
+	<p>
 		<span v-if="order.deliver == 1">
 			Para enviar a {{ order.address }} {{ order.address_number }}
 		</span>
 		<span v-else>
 			Para retirar
 		</span>
+	</p>
+	<p class="since">
+		{{ since(order.created_at) }}
 	</p>
 	<b-button
 	block
@@ -39,7 +49,6 @@ import ArticleOrder from '@/components/online/components/ArticleOrder'
 import Mixin from '@/mixins/online'
 export default {
 	name: 'ConfirmedFinishedOrderDetails',
-	props: ['order'],
 	components: {
 		ArticleOrder
 	},
@@ -50,6 +59,9 @@ export default {
 		}
 	},
 	computed: {
+		order() {
+			return this.$store.state.online.orders.confirmed_finished_order_details
+		}
 	},
 	methods: {
 		finish() {
@@ -57,8 +69,8 @@ export default {
 			this.$api.get(`/orders/finish/${this.order.id}`)
 			.then(() => {
 				this.loading = false
-				this.$emit('getConfirmedFinishedOrders')
-				this.$bvModal.hide('confirmed-order-details')
+				this.$store.dispatch('online/orders/getConfirmedFinishedOrders')
+				this.$bvModal.hide('confirmed-finished-order-details')
 			})
 			.catch(err => {
 				console.log(err)

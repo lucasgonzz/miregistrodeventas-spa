@@ -1,3 +1,42 @@
 .select-examine
 	width: 200px
 	margin-left: 1em
+
+
+.no-orders
+	text-align: center
+	font-size: 1.2em
+	margin: 0
+	.icon 
+		display: block
+		margin-bottom: -.3em
+		font-size: 3em
+
+.horizontal-ul
+	width: 100%
+	padding: .5em
+	margin: 0
+	overflow-x: scroll
+	display: flex
+	flex-direction: row
+	flex-wrap: nowrap
+	&::-webkit-scrollbar 
+		display: none
+		width: 5px
+	li 
+		display: table
+		padding: 0 .5em
+		width: 200px
+		.order
+			border-radius: .3em !important
+			cursor: pointer
+			border: none
+			-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
+			-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
+			box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)	
+			&:hover
+				-webkit-box-shadow: 0px 0px 7px 0px rgba(0,0,0,1)
+				-moz-box-shadow: 0px 0px 7px 0px rgba(0,0,0,1)
+				box-shadow: 0px 0px 7px 0px rgba(0,0,0,1)	
+			.order-body
+				padding: 1em

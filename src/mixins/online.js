@@ -16,5 +16,14 @@ export default {
 			}
 			return null
 		},
+		getOrders() {
+			this.$store.dispatch('online/orders/getUnconfirmedOrders')
+			this.$store.dispatch('online/orders/getConfirmedFinishedOrders')
+		},
+		getOrdersAndQuestions() {
+            this.$store.dispatch('online/orders/getUnconfirmedOrders')
+            this.$store.dispatch('online/orders/getConfirmedFinishedOrders')
+            this.$store.dispatch('online/questions/getQuestions')
+		},
 	}
 }

@@ -1,5 +1,7 @@
 import moment from 'moment'
+import online from '@/mixins/online'
 export default {
+	mixins: [online],
 	methods: {
 		toVentas() {
 			if (this.$route.name == 'Ventas') {
@@ -20,6 +22,13 @@ export default {
 				this.$store.dispatch('articles/getArticles')
 			} else {
 				this.$router.replace({name: 'Listado'})
+			}
+		},
+		toOnline() {
+			if (this.$route.name == 'Online') {
+				this.getOrdersAndQuestions()
+			} else {
+				this.$router.replace({name: 'Online'})
 			}
 		},
 	}

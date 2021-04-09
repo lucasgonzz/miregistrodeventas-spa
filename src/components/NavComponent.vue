@@ -43,12 +43,13 @@
                 :class="activeLink('empleados')">
                     Empleados
                 </b-nav-item>
-                <b-nav-item :to="{name: 'Online'}"
+                <b-nav-item 
+                @click="toOnline"
                 v-if="hasOnline(user)"
-                :class="activeLink('online')">
+                :class="activeLink('tienda-online')">
                     Online
                     <b-badge
-                    variant="primary"
+                    variant="danger"
                     v-show="unconfirmedOrders_questions_length > 0">
                         {{ unconfirmedOrders_questions_length }}
                     </b-badge>
@@ -181,9 +182,9 @@ export default {
             return this.$route.path
         },
         unconfirmedOrders_questions_length() {
-            if (this.hasOnline(this.user)) {
-                let unconfirmed_orders = this.$store.state.online.unconfirmed_orders
-                let questions = this.$store.state.online.questions
+            if (this.hasOnline()) {
+                let unconfirmed_orders = this.$store.state.online.orders.unconfirmed_orders
+                let questions = this.$store.state.online.questions.questions
                 return unconfirmed_orders.length + questions.length
             }
             return null

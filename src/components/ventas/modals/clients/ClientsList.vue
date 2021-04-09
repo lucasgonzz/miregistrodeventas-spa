@@ -86,6 +86,7 @@ export default {
 					return client.name.toLowerCase().includes(this.search_query.toLowerCase())
 				})
 			}
+			clients_to_show.sort((a, b) => (a.name > b.name) ? 1 : -1)
 			return clients_to_show
 		}
 	},

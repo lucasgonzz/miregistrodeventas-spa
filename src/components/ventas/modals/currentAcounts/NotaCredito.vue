@@ -45,7 +45,7 @@ export default {
     },
     computed: {
         client() {
-            return this.$store.state.clients.client_current_acounts
+            return this.$store.state.clients.current_acounts.client
         },
         placeholder() {
         	return `Ingrese el monto de la nota de credito para ${this.client.name}`

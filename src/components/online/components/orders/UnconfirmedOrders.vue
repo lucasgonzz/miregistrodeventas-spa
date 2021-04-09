@@ -2,16 +2,31 @@
 	<b-card
 	no-body
 	header="Pedidos por confirmar">
-		<ul class="card-unconfirmed-body" v-show="!loading && orders.length">
+		<ul 
+		v-if="loading"
+		class="horizontal-ul">
+			<li
+			v-for="i in 3"
+			:key="i">
+				<b-card
+				class="order">
+					<b-skeleton width="100%"></b-skeleton>
+					<b-skeleton width="100%"></b-skeleton>
+				</b-card>
+			</li>
+		</ul>
+		<ul
+		v-else 
+		class="horizontal-ul">
 			<li
 			v-for="order in orders"
 			:key="order.id">
 				<b-card
 				@click="orderDetails(order)"
-				class="unconfirmed-order"
+				class="order"
 				no-body>
 					<div
-					class="unconfirmed-order-body">
+					class="order-body">
 						<p
 						class="buyer-name">
 							<strong>{{ buyerName(order) }}</strong> quiere hacer un pedido
@@ -29,18 +44,15 @@
 			<i class="icon-check icon"></i>
 			No hay pedidos por confirmar
 		</p>
-		<cargando
-		size="sm"
-		:is_loading="loading"></cargando>
 	</b-card>
 </template>
 <script>
-import Cargando from '@/components/common/Cargando'
+import Loading from '@/components/online/components/orders/Loading'
 import Mixin from '@/mixins/online'
 export default {
 	name: 'UnconfirmedOrders',
 	components: {
-		Cargando
+		Loading,
 	},
 	mixins: [Mixin],
 	data() {
@@ -49,15 +61,15 @@ export default {
 	},
 	computed: {
 		orders() {
-			return this.$store.state.online.unconfirmed_orders
+			return this.$store.state.online.orders.unconfirmed_orders
 		},
 		loading() {
-			return this.$store.state.online.loading_unconfirmed_orders
+			return this.$store.state.online.orders.loading_unconfirmed_orders
 		}
 	},
 	methods: {
 		orderDetails(order) {
-			this.$emit('setOrder', order)
+			this.$store.commit('online/orders/setUnconfirmedOrderDetails', order)
 			this.$bvModal.show('unconfirmed-order-details')
 		}
 	},
@@ -66,51 +78,20 @@ export default {
 }
 </script>
 <style scoped lang="sass">
-.no-orders
+.buyer-name 
 	text-align: center
-	font-size: 1.2em
-	margin: 1em 0
-	.icon 
-		display: block
-		font-size: 3em
-.card-unconfirmed-body
-	width: 100%
-	padding: .5em
-	margin: 0
-	overflow-x: scroll
+	margin-bottom: 0
+.since 
+	margin-top: .5em
+	margin-bottom: 0
+	font-size: .7em
+	text-align: right
+	color: rgba(0,0,0,.5)
+.card-footer
 	display: flex
-	flex-direction: row
-	flex-wrap: nowrap
-	li 
-		display: table
-		padding: 0 .5em
-		width: 200px
-		.unconfirmed-order
-			cursor: pointer
-			border: none
-			-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
-			-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
-			box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)	
-			&:hover
-				-webkit-box-shadow: 0px 0px 7px 0px rgba(0,0,0,1)
-				-moz-box-shadow: 0px 0px 7px 0px rgba(0,0,0,1)
-				box-shadow: 0px 0px 7px 0px rgba(0,0,0,1)	
-			.unconfirmed-order-body
-				padding: 1em
-				.buyer-name 
-					text-align: center
-					margin-bottom: 0
-				.since 
-					margin-top: .5em
-					margin-bottom: 0
-					font-size: .7em
-					text-align: right
-					color: rgba(0,0,0,.5)
-			.card-footer
-				display: flex
-				justify-content: flex-end
-				padding: 0
-				button 
-					margin: .5em
+	justify-content: flex-end
+	padding: 0
+	button 
+		margin: .5em
 		// @media screen and (max-width: 576px)
 </style>

@@ -1,6 +1,7 @@
 <template>
 <div id="vender">
 	<clients></clients>
+	<select-variant></select-variant>
 	<create-client></create-client>
 	<successful-sale
 	:sale="sale"></successful-sale>
@@ -30,6 +31,7 @@
 import ArticleNotRegister from '../components/vender/modals/ArticleNotRegister.vue'
 import ChangePercentageCard from '../components/vender/modals/ChangePercentageCard.vue'
 import Clients from '../components/vender/modals/clients/Index.vue'
+import SelectVariant from '../components/vender/modals/SelectVariant.vue'
 import CreateClient from '../components/vender/modals/clients/CreateClient.vue'
 import SuccessfulSale from '../components/vender/modals/SuccessfulSale.vue'
 
@@ -50,6 +52,7 @@ export default {
 		ArticleNotRegister,
 		ChangePercentageCard,
 		Clients,
+		SelectVariant,
 		CreateClient,
 		SuccessfulSale,
 		
