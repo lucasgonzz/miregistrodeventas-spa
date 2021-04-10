@@ -25,9 +25,9 @@
 					v-model="variants[index].stock"></b-form-input>
 				</b-form-group>
 				<b-form-group
-				label="Stock">
+				label="Cantidad para agregar">
 					<b-form-input
-					placeholder="Stock para agregar"
+					placeholder="Cantidad para agregar"
 					type="number"
 					min="0"
 					@keyup.enter="save"
