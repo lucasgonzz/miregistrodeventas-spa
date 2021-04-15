@@ -27,6 +27,7 @@
 		{{ since(order.created_at) }}
 	</p>
 	<b-button
+	v-show="order.status == 'confirmed'"
 	block
 	@click="finish"
 	variant="primary">

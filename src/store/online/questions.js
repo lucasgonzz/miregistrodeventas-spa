@@ -5,6 +5,7 @@ export default {
 	namespaced: true,
 	state: {
 		questions: [],
+		answer: {},
 		loading: false,
 	},
 	mutations: {
@@ -13,6 +14,9 @@ export default {
 		},
 		addQuestion(state, question) {
 			state.questions.push(question)
+		},
+		setAnswer(state, value) {
+			state.answer = value
 		},
 		setLoading(state, value) {
 			state.loading = value

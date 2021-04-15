@@ -1,52 +1,49 @@
 <template>
-	<b-modal id="answer" title="Repsonder" v-if="question.buyer" hide-footer>
-		<b-container>
-			<b-row
-			class="m-b-0">
-				<b-col>
-					<p>
-						{{ question.buyer.name }} pregunto por {{ question.article.name }}
-					</p>
-					<div class="img-container">
-						<img :src="articleImageUrl(question.article, false)" :alt="question.article.name">
-					</div>
-					<p>
-						{{ question.text }}
-					</p>
-					<b-form-group>
-						<b-form-textarea
-						v-model="answer.text"
-						:placeholder="`Repsonder a ${this.question.buyer.name}`"></b-form-textarea>
-					</b-form-group>
-					<b-button
-					@click="sendAnswer"
-					block
-					variant="primary">
-						<btn-loader
-						text="Responder"
-						:loader="loading">
-						</btn-loader>
-					</b-button>
-					<b-button
-					@click="deleteQuestion"
-					block
-					variant="danger">
-						<btn-loader
-						text="Eliminar pregunta"
-						:loader="loading_delete">
-						</btn-loader>
-					</b-button>
-				</b-col>
-			</b-row>
-		</b-container>
-	</b-modal>
+<b-modal id="answer" title="Repsonder" v-if="question.buyer" hide-footer>
+	<p>
+		{{ question.buyer.name }} pregunto por {{ question.article.name }}
+	</p>
+	<div class="img-container">
+		<img :src="articleImageUrl(question.article, false)" :alt="question.article.name">
+	</div>
+	<p>
+		Pregunta: {{ question.text }}
+	</p>
+	<b-form-group>
+		<b-form-textarea
+		v-model="answer.text"
+		:placeholder="`Repsonder a ${this.question.buyer.name}`"></b-form-textarea>
+	</b-form-group>
+	<b-button
+	@click="sendAnswer"
+	block
+	variant="primary">
+		<btn-loader
+		text="Responder"
+		:loader="loading">
+		</btn-loader>
+	</b-button>
+	<b-button
+	@click="deleteQuestion"
+	block
+	variant="danger">
+		<btn-loader
+		text="Eliminar pregunta"
+		:loader="loading_delete">
+		</btn-loader>
+	</b-button>
+</b-modal>
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
 export default {
-	props: ['question'],
 	components: {
 		BtnLoader
+	},
+	computed: {
+		question() {
+			return this.$store.state.online.questions.answer
+		}
 	},
 	data() {
 		return {

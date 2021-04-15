@@ -17,29 +17,29 @@
         <b-collapse id="nav-collapse" is-nav>
             <b-navbar-nav>
                 <b-nav-item :to="{name: 'Vender'}"
-                v-if="can('sale.create')"
+                v-if="can('Vender')"
                 :class="activeLink('vender')">
                     Vender
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Ingresar'}"
-                v-if="can('article.create')"
+                v-if="can('Ingresar articulos')"
                 :class="activeLink('ingresar')">
                     Ingresar
                 </b-nav-item>
                 <b-nav-item 
                 @click="toListado"
-                v-if="can('article.index')"
+                v-if="can('Ver articulos')"
                 :class="activeLink('listado')">
                     Listado
                 </b-nav-item>
                 <b-nav-item
                 @click="toVentas"
-                v-if="can('sale.index')"
+                v-if="can('Ver ventas')"
                 :class="activeLink('ventas')">
                     Ventas
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Empleados'}"
-                v-if="isAdmin(user)"
+                v-if="isAdmin()"
                 :class="activeLink('empleados')">
                     Empleados
                 </b-nav-item>
@@ -54,48 +54,26 @@
                         {{ unconfirmedOrders_questions_length }}
                     </b-badge>
                 </b-nav-item>
-                <b-nav-item
+                <!-- <b-nav-item
                 @click="logout">
                     <i class="icon-sign-out"></i>
                     Salir
-                </b-nav-item>
+                </b-nav-item> -->
             </b-navbar-nav>
-            <!-- <b-navbar-nav class="ml-auto">
-                <b-nav-item>
-                    <b-dropdown
-                    variant="primary" 
-                    :text="user.name" 
-                    right>
-                        <b-dropdown-item 
-                        v-if="isAdmin(user)"
-                        class="nav-item-config"
-                        v-b-modal="'update-user'">
-                            Cambiar nombre
-                        </b-dropdown-item>
-                        <b-dropdown-item 
-                        v-if="isAdmin(user)"
-                        class="nav-item-config"
-                        v-b-modal="'update-password'">
-                            Cambiar contraseña
-                        </b-dropdown-item>
-                        <b-dropdown-item 
-                        @click="startIntrojs"
-                        class="nav-item-config">
-                            Tutorial
-                        </b-dropdown-item>
-                        <b-dropdown-item 
-                        v-if="user.status == 'trial'"
-                        class="nav-item-config">
-                            La prueba expira el {{ date(user.expire) }}
-                        </b-dropdown-item>
-                        <b-dropdown-item
-                        @click="logout">
-                            <i class="icon-sign-out"></i>
-                            Salir
-                        </b-dropdown-item>
-                    </b-dropdown>
-                </b-nav-item>
-            </b-navbar-nav> -->
+            <b-nav-item-dropdown right>
+                <template v-slot:button-content>
+                    {{ user.name }}
+                </template>
+                <b-dropdown-item>
+                    <i class="icon-settings"></i>
+                    Configuracion
+                </b-dropdown-item>
+                <b-dropdown-item 
+                @click="logout">
+                    <i class="icon-sign-out"></i>
+                    Salir
+                </b-dropdown-item>
+            </b-nav-item-dropdown>
         </b-collapse>
     </b-navbar>
     <p v-if="isOffline">Se perdio la conexion</p>

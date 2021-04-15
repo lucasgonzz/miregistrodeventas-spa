@@ -1,98 +1,84 @@
 <template>
 	<b-card header="Registrar un nuevo empleado">
-		<div>
-			<p>
-				Registra un nuevo empleado y asignale permisos para controlar que puede y que no hacer dentro del sistema.
-			</p>
-			<b-form-group
-			label="Nombre del empleado"
-			label-for="employee-name">
-				<b-form-input
-				v-intro-step="1"
-				v-intro="'Nombre del empleado'"
-				id="employee-name"
-				autocomplete="off"
-				@keydown.enter="changeToPassword"
-				v-model="employee.name"
-				placeholder="Ingrese el nombre del empleado"></b-form-input>
-			</b-form-group>
-			<b-form-group
-			label="Contraseña"
-			label-for="employee-password">
-				<b-form-input
-				v-intro-step="2"
-				v-intro="'Contraseña para que el empleado ingrese en el sistema'"
-				id="employee-password"
-				v-model="employee.password"
-				autocomplete="off"
-				placeholder="Ingrese la contraseña para el empleado"></b-form-input>
-			</b-form-group>
-			<p class="m-b-0 m-t-10">
-				Seleccione los permisos para su empleado
-			</p>
-			<permissions-list 
-			v-intro-step="3"
-			v-intro="'Permisos que el empleado va a tener dentro del sistema'"
-			:user="user"
-			:employee="employee"
-			:permissions="permissions"
-			:permissions_sale_time="permissions_sale_time"></permissions-list>
-		</div>
-		<template v-slot:footer>
+		<p>
+			Registra un nuevo empleado y asignale permisos para controlar que puede y que no hacer dentro del sistema.
+		</p>
+		<b-form-group
+		label="Nombre del empleado"
+		label-for="employee-name">
+			<b-form-input
+			id="employee-name"
+			autocomplete="off"
+			@keydown.enter="changeToPassword"
+			v-model="employee.name"
+			placeholder="Ingrese el nombre del empleado"></b-form-input>
+		</b-form-group>
+		<b-form-group
+		label="Contraseña"
+		label-for="employee-password">
+			<b-form-input
+			id="employee-password"
+			v-model="employee.password"
+			autocomplete="off"
+			placeholder="Ingrese la contraseña para el empleado"></b-form-input>
+		</b-form-group>
+		<p class="m-b-0 m-t-10">
+			Seleccione los permisos para su empleado
+		</p>
+		<permissions-list
+		:employee="employee"></permissions-list>
+		<b-form-group>
 			<b-button
-			v-intro-step="4"
-			v-intro="'Agregar empleado'"
+			block
 			variant="primary"
 			@click="saveEmployee">
-				<i class="icon-check" v-show="!saving_employee"></i>
-				<span class="spinner-border spinner-border-sm" v-show="saving_employee"></span>
-				Registrar empleado
+				<btn-loader
+				text="Registrar empleado"
+				:loader="loading"></btn-loader>
 			</b-button>
-		</template>
+		</b-form-group>
 	</b-card>
 </template>
 <script>
-import PermissionsList from './PermissionsList.vue'
-
-// Mixins
-import Validate from '../mixins/Validate.js'
+import PermissionsList from '@/components/empleados/components/PermissionsList.vue'
+import BtnLoader from '@/components/common/BtnLoader.vue'
 export default {
 	name: 'RegisterEmployee',
-	mixins: [Validate],
-	props: ['employee', 'saving_employee', 'permissions', 'permissions_sale_time', 'user', 'intro_start'],
 	components: {
 		PermissionsList,
+		BtnLoader,
+	},
+	computed: {
+		employee() {
+			return this.$store.state.employees.employee_to_create
+		},
 	},
 	data() {
 		return {
-
+			loading: false,
 		}
 	},
 	methods: {
-		changeToPassword() {
-			document.getElementById('employee-password').focus()
-		},
 		saveEmployee() {
-			this.$emit('saveEmployee')
-		},
-		getPermissionToShowAllSales() {
-			var permission_show_all_sales = {}
-			this.permissions.forEach(permission => {
-				if (permission.slug == 'sale.index.all') {
-					permission_show_all_sales = permission
-				}
+			this.loading = true
+			this.$api.post('/employees', this.employee)
+			.then(res => {
+				this.loading = false
+				this.$toast.success('Empleado guardado')
+				this.$store.commit('employees/add', res.data.employee)
+				this.clear()
 			})
-			return permission_show_all_sales
-		},
-		getPermissionToShowOnlyDaySales() {
-			var permission_show_only_date_sales = {}
-			this.permissions.forEach(permission => {
-				if (permission.slug == 'sale.index.only_day') {
-					permission_show_only_date_sales = permission
-				}
+			.catch(err => {
+				this.loading = false
+				console.log(err)
+				this.$toast.error('Error al guardar empleado')
 			})
-			return permission_show_only_date_sales
 		},
+		clear() {
+			this.$store.commit('employees/setEmployeeToCreate', {
+				name: '', password: '', permissions: [],
+			})
+		}
 	},
 }
 </script>

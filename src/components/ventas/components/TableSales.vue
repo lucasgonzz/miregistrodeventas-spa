@@ -30,40 +30,7 @@
 					@click="showSaleDetails(sales[data.index])">
 						<i class="icon-eye"></i>
 					</b-button>
-					<!-- <div class="badges">
-						<b-badge
-						class="badge-percentage-card"
-						variant="primary"
-						v-if="sales[data.index].percentage_card">
-							<i class="icon-credit-card"></i>
-							{{ sales[data.index].percentage_card }} %
-						</b-badge>
-						<b-badge
-						class="badge-special-price"
-						variant="success"
-						v-if="sales[data.index].special_price">
-							{{ getSpecialPrice(sales[data.index]) }}
-						</b-badge> 
-					</div> -->
 				</template>
-				<!-- <template #cell(total)="data">
-					{{ getTotalSale(sales[data.index]) }}
-					<div class="badges">
-						<b-badge
-						class="badge-percentage-card"
-						variant="primary"
-						v-if="sales[data.index].percentage_card">
-							<i class="icon-credit-card"></i>
-							{{ sales[data.index].percentage_card }} %
-						</b-badge>
-						<b-badge
-						class="badge-special-price"
-						variant="success"
-						v-if="sales[data.index].special_price">
-							{{ getSpecialPrice(sales[data.index]) }}
-						</b-badge>
-					</div>
-				</template> -->
 				<template #cell(client)="data">
 					<b-button
 					v-if="sales[data.index].client"
@@ -74,25 +41,7 @@
 					<span v-else>
 						<i class="icon-user-delete"></i>
 					</span>
-					<b-badge
-					variant="danger"
-					v-if="sales[data.index].debt">
-						{{ getSaleDebt(sales[data.index]) }}
-					</b-badge>
 				</template>
-				<!-- <template #cell(options)="data">
-					<b-button 
-					variant="danger"
-					class="m-r-10"
-					@click="deleteSale(sales[data.index])">
-						<i class="icon-trash-3"></i>
-					</b-button>
-					<b-button 
-					variant="primary"
-					@click="printSale(sales[data.index])">
-						<i class="icon-print"></i>
-					</b-button>
-				</template> -->
 			</b-table>
 			<div 
 			v-show="!sales.length"

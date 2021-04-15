@@ -32,28 +32,22 @@
 	block
 	@click="confirm"
 	variant="primary">
-		<span
-		v-show="loading" 
-		class="spinner-border spinner-border-sm"></span>
-		<span
-		v-show="!loading">
-			Confirmar Pedido
-		</span>
+		<btn-loader
+		text="Confirmar Pedido"
+		:loader="loading">
+		</btn-loader>
 	</b-button>
 	<b-button
 	@click="cancel"
 	block
 	variant="danger">
-		<btn-loader
-		:loader="loading_cancel">
-			Cancelar Pedido
-		</btn-loader>
+		Cancelar Pedido
 	</b-button>
 </b-modal>
 </template>
 <script>
 import ArticleOrder from '@/components/online/components/ArticleOrder'
-import BtnLoader from '@/components/common/BtnLoader2'
+import BtnLoader from '@/components/common/BtnLoader'
 import Mixin from '@/mixins/online'
 export default {
 	components: {
@@ -64,7 +58,6 @@ export default {
 	data() {
 		return {
 			loading: false,
-			loading_cancel: false,
 		}
 	},
 	computed: {
@@ -87,17 +80,7 @@ export default {
 			})
 		},
 		cancel() {
-			this.loading_cancel = true
-			this.$api.get(`/orders/cancel/${this.order.id}`)
-			.then(() => {
-				this.loading_cancel = false
-				this.getOrders()
-				this.$bvModal.hide('unconfirmed-order-details')
-			})
-			.catch(err => {
-				this.loading_cancel = false
-				console.log(err)
-			})
+			this.$bvModal.show('cancel-order')
 		}
 	}
 }

@@ -151,7 +151,7 @@ export default {
 					id: article.id,
 					bar_code: this.barCode(article),
 					name: article.name,
-					cost: this.price(article.cost),
+					cost: this.can('Ver costos de articulos') ? this.price(article.cost) : '-',
 					price: this.price(article.price),
 					stock: this.stock(article),
 					sub_category: this.subCategory(article),

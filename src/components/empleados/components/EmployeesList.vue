@@ -1,6 +1,6 @@
 <template>
 	<b-card header="Mis empleados">
-		<div v-show="!loading_employees">
+		<div>
 			<b-list-group 
 			v-show="employees.length">
 				<b-list-group-item
@@ -28,42 +28,55 @@
 						@click="deleteEmployee(employee)"
 						variant="danger"
 						size="sm">
-							<i class="icon-trash-3" v-show="deleting_employee != employee.id"></i>
-							<span v-show="deleting_employee == employee.id"
-									class="spinner-border spinner-border-sm m-r-5" role="status" aria-hidden="true"></span>
-							Eliminar
+							<btn-loader
+							text="Eliminar"
+							:loader="deleting"></btn-loader>
 						</b-button>
 					</div>
 				</b-list-group-item>
 			</b-list-group>
 			<p 
-			v-show="employees.length == 0"
+			v-show="!employees.length"
 			class="text-center">
 				No hay empleados registrados aún
 			</p>
 		</div>
-		<cargando :is_loading="loading_employees"></cargando>
 	</b-card>
 </template>
 <script>
-import Cargando from '../../common/Cargando'
+import BtnLoader from '@/components/common/BtnLoader'
 export default {
 	name: 'EmployeesList',
-	props: ['employees', 'loading_employees', 'deleting_employee'],
-	components:{
-		Cargando
+	components: {
+		BtnLoader,
+	},
+	computed: {
+		employees() {
+			return this.$store.state.employees.employees
+		}
 	},
 	data() {
 		return {
-
+			deleting: false,
 		}
 	},
 	methods: {
 		showPermissions(employee) {
-			this.$emit('showPermissions', employee)
+			this.$store.commit('employees/setEmployeeToShowPermissions', employee)
+			this.$bvModal.show('employee-permissions')
 		},
 		deleteEmployee(employee) {
-			this.$emit('deleteEmployee', employee)
+			this.deleting = true
+			this.$api.delete('/employees/'+employee.id)
+			.then(res => {
+				this.deleting = false
+				this.$store.commit('employees/delete', employee)
+				this.$toast.success('Empleado eliminado')
+			})
+			.catch(err => {
+				this.deleting = false
+				console.log(err)
+			})
 		},
 	},
 }

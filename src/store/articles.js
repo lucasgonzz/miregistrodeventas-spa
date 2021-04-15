@@ -88,6 +88,13 @@ export default {
 				if (index != -1) {
 					state.articles_to_show.splice(index, 1)
 				}
+				
+				index = state.bar_codes.findIndex(bar_code => {
+					return bar_code == selected_article.bar_code
+				})
+				if (index != -1) {
+					state.bar_codes.splice(index, 1)
+				}
 			})
 		},
 		setProvidersHistory(state, value) {

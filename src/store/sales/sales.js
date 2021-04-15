@@ -49,28 +49,32 @@ export default {
 			state.total_cost = 0
 			state.total_articles = 0
 			state.without_cost = false
+			let total_sale = 0
 			state.sales_to_show.forEach(sale => {
 				sale.articles.forEach(article => {
 					if (!article.pivot.cost || article.pivot.cost == 0) {
 						state.without_cost = true
 					}
-					state.total += parseFloat(article.pivot.price) * article.pivot.amount
+					total_sale += parseFloat(article.pivot.price) * article.pivot.amount
 					state.total_cost += parseFloat(article.pivot.cost) * article.pivot.amount
 					state.total_articles++
 				})
+				
 				if (sale.percentage_card) {
-					state.total = state.total + (state.total * sale.percentage_card / 100)
+					total_sale = total_sale + (total_sale * sale.percentage_card / 100)
 				}
 				if (sale.discounts.length) {
 					sale.discounts.forEach(dis => {
-						state.total -= state.total * dis.pivot.percentage / 100
+						total_sale -= total_sale * dis.pivot.percentage / 100
 					})
 				}
 				if (sale.commissions.length) {
 					sale.commissions.forEach(com => {
-						state.total -= com.monto
+						total_sale -= com.monto
 					})
 				}
+				state.total += total_sale
+				total_sale = 0
 			})
 		},
 		setOnlyOneDate(state, value) {

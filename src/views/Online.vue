@@ -1,8 +1,7 @@
 <template>
 	<div id="online">
-		<answer
-		:question="question"></answer>
-		<!-- <views></views> -->
+		<answer></answer>
+		<cancel-order></cancel-order>
 		<b-row>
 			<b-col
 			cols="12">
@@ -31,6 +30,7 @@ import Orders from '@/components/online/components/orders/Orders'
 import Questions from '@/components/online/components/questions/Questions'
 import Examine from '@/components/online/components/examine/Examine'
 import Answer from '@/components/online/modals/Answer'
+import CancelOrder from '@/components/online/modals/orders/CancelOrder'
 // import Views from '@/components/online/modals/examine/Views'
 export default {
 	components: {
@@ -39,13 +39,7 @@ export default {
 		Questions,
 		Examine,
 		Answer,
-		// Views,
-	},
-	data() {
-		return {
-			question: {},
-			order: {},
-		}
+		CancelOrder,
 	},
 	computed: {
 		view() {
@@ -55,8 +49,6 @@ export default {
 	methods: {
 		answer(question) {
 			this.question = question
-			console.log(question)
-			this.$bvModal.show('answer')
 		},
 	}
 }

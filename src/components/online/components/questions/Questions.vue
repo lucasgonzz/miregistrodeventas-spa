@@ -19,17 +19,17 @@
 					</li>
 				</ul>
 				<ul 
-				class="card-questions-body horizontal-ul" 
+				class="horizontal-ul" 
 				v-else>
 					<li
 					v-for="question in questions"
 					:key="question.id">
 						<b-card
 						@click="answer(question)"
-						class="question"
+						class="order"
 						no-body>
 							<div
-							class="question-body">
+							class="order-body">
 								<p
 								class="buyer-name">
 									<strong>{{ buyerName(question) }}</strong> te hizo una pregunta
@@ -43,7 +43,7 @@
 				</ul>
 				<p
 				v-show="questions.length == 0 && !loading"
-				class="no-questions text-success">
+				class="no-orders text-success">
 					<i class="icon-check icon"></i>
 					No hay preguntas por responder
 				</p>
@@ -69,56 +69,9 @@ export default {
 	},
 	methods: {
 		answer(question) {
-			this.$emit('answer', question)
+			this.$store.commit('online/questions/setAnswer', question)
+			this.$bvModal.show('answer')
 		},
 	},
 }
 </script>
-<style scoped lang="sass">
-.card-questions-body
-	width: 100%
-	padding: .5em
-	margin: 0
-	overflow-x: scroll
-	display: flex
-	flex-direction: row
-	flex-wrap: nowrap
-	li 
-		display: table
-		padding: 0 .5em
-		width: 200px
-		.question
-			cursor: pointer
-			border: none
-			-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
-			-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)
-			box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75)	
-			&:hover
-				-webkit-box-shadow: 0px 0px 7px 0px rgba(0,0,0,1)
-				-moz-box-shadow: 0px 0px 7px 0px rgba(0,0,0,1)
-				box-shadow: 0px 0px 7px 0px rgba(0,0,0,1)	
-			.question-body
-				padding: 1em
-				button 
-					margin-top: .5em
-				.buyer-name 
-					text-align: center
-					margin-bottom: .5em
-				.total
-					text-align: center
-					margin-bottom: 0
-					font-weight: bold
-				.since 
-					margin-top: .5em
-					margin-bottom: 0
-					font-size: .7em
-					text-align: right
-					color: rgba(0,0,0,.5)
-.no-questions
-	text-align: center
-	font-size: 1.2em
-	margin: 1em 0
-	.icon 
-		display: block
-		font-size: 3em
-</style>

@@ -15,6 +15,8 @@ import discounts from './discounts'
 import sellers from './sellers'
 import commissioners from './commissioners'
 import sale_types from './sale_types'
+import employees from './employees'
+import permissions from './permissions'
 
 Vue.use(Vuex)
 
@@ -47,5 +49,7 @@ export default new Vuex.Store({
 		sellers,
 		commissioners,
 		sale_types,
+		employees,
+		permissions,
 	}
 })

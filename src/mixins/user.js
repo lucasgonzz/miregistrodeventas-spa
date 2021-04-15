@@ -8,16 +8,16 @@ export default {
 		},
 	},
 	methods: {
-		can(permission_slug, user = this.auth_user) {
+		can(permission_name, user = this.auth_user) {
 			if (user) {
 				let has_permission = false
 				let role = user.roles[0]
-				if (role.slug == 'admin') {
+				if (role.name == 'Super Admin') {
 					has_permission = true
 				}
 				if (!has_permission) {
 					user.permissions.forEach(per => {
-						if (per.slug == permission_slug) {
+						if (per.name == permission_name) {
 							has_permission = true
 						}
 					})
@@ -25,11 +25,11 @@ export default {
 				return has_permission
 			}
 		},
-		hasRole(role_slug, user = this.auth_user) {
+		hasRole(role_name, user = this.auth_user) {
 			if (user) {
 				let has_role = false
 				user.roles.forEach(r => {
-					if (r.slug == role_slug) {
+					if (r.name == role_name) {
 						has_role = true
 					}
 				})
@@ -38,25 +38,25 @@ export default {
 		},
 		hasPermissionForRoute(route, user = this.auth_user) {
 			if (user) {
-				let permission_slug = ''
+				let permission_name = ''
 				if (route == '/vender') {
-					permission_slug = 'sale.create'
+					permission_name = 'Vender'
 				} else if (route == '/ingresar') {
-					permission_slug = 'article.create'
+					permission_name = 'Ingresar articulos'
 				} else if (route == '/listado') {
-					permission_slug = 'article.index'
+					permission_name = 'Ver articulos'
 				} else if (route == '/ventas') {
-					permission_slug = 'sale.index'
+					permission_name = 'Ver ventas'
 				}
 			    let has_permission = false
 			    user.roles.forEach(rol => {
-			        if (rol.slug == 'admin') {
+			        if (rol.name == 'Super Admin') {
 			            has_permission = true
 			        }
 			    })
 			    if (!has_permission) {
 			        user.permissions.forEach(permission => {
-			            if (permission.slug == permission_slug) {
+			            if (permission.name == permission_name) {
 			                has_permission = true
 			            }
 			        })
@@ -77,7 +77,7 @@ export default {
 				var is_provider = false
 				if (user.roles) {
 					user.roles.forEach(rol => {
-						if (rol.slug == 'provider') {
+						if (rol.name == 'provider') {
 							is_provider = true
 						}
 					})
@@ -85,23 +85,21 @@ export default {
 				}
 			}
 		},
-		hasPermissionTo(permission_slug, user, dont_check_owner = false) {
+		hasPermissionTo(permission_name, user, dont_check_admin = false) {
 			if (user) {
 				var has_permission = false
 				if (user.roles) {
-					if (!dont_check_owner) {
+					if (!dont_check_admin) {
 						user.roles.forEach(rol => {
-							if (rol.slug == 'owner') {
+							if (rol.name == 'Super Admin') {
 								has_permission = true
 							}
 						})
 					}
 					if (!has_permission) {
 						user.permissions.forEach(permission => {
-							if (permission.user_id === null) {
-								if (permission.slug == permission_slug) {
-									has_permission = true
-								}
+							if (permission.name == permission_name) {
+								has_permission = true
 							}
 						})
 						return has_permission
@@ -116,26 +114,11 @@ export default {
 				var is_admin = false
 				if (user.roles) {
 					user.roles.forEach(rol => {
-						if (rol.slug == 'owner') {
+						if (rol.name == 'Super Admin') {
 							is_admin = true
 						}
 					})
 					return is_admin
-				}
-			}
-		},
-		canUse(permission_slug, user) {
-			if (user) {
-				var has_permission = false
-				if (user.permissions) {
-					user.permissions.forEach(permission => {
-						if (permission.user_id === 0) {
-							if (permission.slug == permission_slug) {
-								has_permission = true
-							}
-						} 
-					})
-					return has_permission
 				}
 			}
 		},

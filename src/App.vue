@@ -94,11 +94,11 @@ export default {
         },
         redirect() {
             let route = ''
-            if (this.can('sale.create')) {
+            if (this.can('Vender')) {
                 route = '/vender'
-            } else if (this.can('article.create')) {
+            } else if (this.can('Ingresar articulos')) {
                 route = '/ingresar'
-            } else if (this.can('article.index')) {
+            } else if (this.can('Ver articulos')) {
                 route = '/listado'
             } else {
                 route = '/ventas'
@@ -124,6 +124,12 @@ export default {
                 this.loading_message = 'ventas'
                 await this.$store.dispatch('sales/days_previus_sales/getDaysPreviusSales')
                 await this.$store.dispatch('sales/getSales')
+                this.loading_message = 'permisos'
+                this.$store.dispatch('permissions/getPermissions')
+                .then(() => {
+                    this.loading_message = 'empleados'
+                    this.$store.dispatch('employees/getEmployees')
+                })
                 if (this.isProvider()) {
                     this.loading_message = 'descuentos'
                     this.$store.dispatch('discounts/getDiscounts')

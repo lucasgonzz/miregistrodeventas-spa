@@ -36,7 +36,7 @@
 						</p>
 						<b-button
 						size="sm"
-						@click="delivered(order)"
+						@click.stop="delivered(order)"
 						block
 						variant="success"
 						v-show="order.status == 'finished' && order.deliver">
@@ -47,7 +47,7 @@
 						</b-button>
 						<b-button
 						size="sm"
-						@click="delivered(order)"
+						@click.stop="delivered(order)"
 						block
 						variant="success"
 						v-show="order.status == 'finished' && !order.deliver">
@@ -109,28 +109,11 @@ export default {
 			})
 		},
 		orderDetails(order) {
-			if (order.status == 'confirmed') {
+			// if (order.status == 'confirmed') {
 				this.$store.commit('online/orders/setConfirmedFinishedOrderDetails', order)
 				this.$bvModal.show('confirmed-finished-order-details')
-			}
+			// }
 		}
 	},
 }
 </script>
-<style scoped lang="sass">
-button 
-	margin-top: .5em
-.buyer-name 
-	text-align: center
-	margin-bottom: .5em
-.total
-	text-align: center
-	margin-bottom: 0
-	font-weight: bold
-.since 
-	margin-top: .5em
-	margin-bottom: 0
-	font-size: .7em
-	text-align: right
-	color: rgba(0,0,0,.5)
-</style>

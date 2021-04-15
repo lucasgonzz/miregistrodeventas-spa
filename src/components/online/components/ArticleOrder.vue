@@ -40,6 +40,7 @@ export default {
 			if (this.article.pivot.variant_id) {
 				return this.article.name + ' ' + this.getVariant().description
 			}
+			return this.article.name
 		}
 	},
 	methods: {

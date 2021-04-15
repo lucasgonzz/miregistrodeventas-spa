@@ -88,7 +88,7 @@
 	md="2">
 		<b-dropdown text="Mas" right variant="primary">
 			<b-dropdown-item
-			v-if="can('client')"
+			v-if="can('Ver clientes')"
 			v-b-modal="'clients'">
 				<i class="icon-user"></i>
 				Clientes
