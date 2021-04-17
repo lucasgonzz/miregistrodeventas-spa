@@ -59,21 +59,22 @@
                     <i class="icon-sign-out"></i>
                     Salir
                 </b-nav-item> -->
+                <b-nav-item-dropdown right>
+                    <template v-slot:button-content>
+                        {{ user.name }}
+                    </template>
+                    <b-dropdown-item
+                    v-b-modal="'config'">
+                        <i class="icon-config"></i>
+                        Configuracion
+                    </b-dropdown-item>
+                    <b-dropdown-item 
+                    @click="logout">
+                        <i class="icon-sign-out"></i>
+                        Salir
+                    </b-dropdown-item>
+                </b-nav-item-dropdown>
             </b-navbar-nav>
-            <b-nav-item-dropdown right>
-                <template v-slot:button-content>
-                    {{ user.name }}
-                </template>
-                <b-dropdown-item>
-                    <i class="icon-settings"></i>
-                    Configuracion
-                </b-dropdown-item>
-                <b-dropdown-item 
-                @click="logout">
-                    <i class="icon-sign-out"></i>
-                    Salir
-                </b-dropdown-item>
-            </b-nav-item-dropdown>
         </b-collapse>
     </b-navbar>
     <p v-if="isOffline">Se perdio la conexion</p>

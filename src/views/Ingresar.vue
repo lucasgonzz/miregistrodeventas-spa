@@ -1,7 +1,7 @@
 <template>
 <div id="ingresar">
-	<article-variants></article-variants>
 	<delete-category></delete-category>
+	<article-variants></article-variants>
 	<delete-provider></delete-provider>
 	<delete-special-price></delete-special-price>
 	<special-prices></special-prices>
@@ -49,6 +49,7 @@
 </template>
 <script>
 // Modals
+import DeleteCategory from '../components/ingresar/modals/categories/Delete.vue'
 import ArticleVariants from '../components/listado/modals/images/ArticleVariants.vue'
 import Providers from '../components/ingresar/modals/Providers.vue'
 import Categories from '../components/ingresar/modals/categories/Index.vue'
@@ -61,7 +62,6 @@ import EditArticle from '../components/common/EditArticle.vue'
 import PrintTickets from '../components/ingresar/modals/PrintTickets.vue'
 import BarCodes from '../components/ingresar/modals/BarCodes.vue'
 import DeleteProvider from '../components/ingresar/modals/DeleteProvider.vue'
-import DeleteCategory from '../components/ingresar/modals/DeleteCategory.vue'
 import DeleteSpecialPrice from '../components/ingresar/modals/DeleteSpecialPrice.vue'
 
 // Components
@@ -77,6 +77,7 @@ import mixin from '@/mixins/ingresar'
 export default {
 	name: 'Ingresar',
 	components: {
+		DeleteCategory,
 		ArticleVariants,
 		Providers,
 		Categories,
@@ -89,7 +90,6 @@ export default {
 		PrintTickets,
 		BarCodes,
 		DeleteProvider,
-		DeleteCategory,
 		DeleteSpecialPrice,
 
 		// Uncontable,

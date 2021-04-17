@@ -42,21 +42,34 @@ export default {
 	},
 	methods: {
 		save() {
-			this.loading = true
-			this.$api.post('/sub-categories', this.sub_category)
-			.then(res => {
-				this.loading = false
-				this.$store.commit('sub_categories/addSubCategory', res.data.sub_category)
-				this.$store.commit('sub_categories/orderSubCategories')
-				this.$toast.success('Subcategoria guardada')
-				this.clear()
-				this.$bvModal.hide('create-sub-category')
-			})
-			.catch(err => {
-				this.loading = false
-				console.log(err)
-				this.$toast.error('Error al guardar subcategoria')
-			})
+			if (this.check()) {
+				this.loading = true
+				this.$api.post('/sub-categories', this.sub_category)
+				.then(res => {
+					this.loading = false
+					this.$store.commit('sub_categories/addSubCategory', res.data.sub_category)
+					this.$store.commit('sub_categories/orderSubCategories')
+					this.$toast.success('Subcategoria guardada')
+					this.clear()
+					this.$bvModal.hide('create-sub-category')
+				})
+				.catch(err => {
+					this.loading = false
+					console.log(err)
+					this.$toast.error('Error al guardar subcategoria')
+				})
+			}
+		},
+		check() {
+			if (this.sub_category.name == '') {
+				this.$toast.error('Ingrese un nombre para la subcategoria, por favor')
+				return false
+			}
+			if (this.sub_category.category_id == 0) {
+				this.$toast.error('Seleccione una categoria para la subcategoria, por favor')
+				return false
+			}
+			return true
 		},
 		clear() {
 			this.sub_category.name = ''

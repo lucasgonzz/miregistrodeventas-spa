@@ -39,6 +39,18 @@ export default {
 				return cat.id == state.sub_category_to_delete.id
 			})
 			state.sub_categories.splice(index, 1)
+		},
+		deleteFromCategory(state, category) {
+			let sub_categories = state.sub_categories.filter(sub_category => {
+				return sub_category.category_id == category.id
+			})
+			let index
+			sub_categories.forEach(sub => {
+				index = state.sub_categories.findIndex(s => {
+					return s.id == sub.id
+				})
+				state.sub_categories.splice(index, 1)
+			})
 		}
 	},
 	actions: {

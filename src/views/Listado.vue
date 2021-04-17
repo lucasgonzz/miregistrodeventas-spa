@@ -11,6 +11,7 @@
 	<article-variants></article-variants>
 	
 	<buscador></buscador>
+	<info-filtrados></info-filtrados>
 	<articles-table></articles-table>
 	<add-articles></add-articles>
 </div>
@@ -18,14 +19,12 @@
 
 <script>
 // Modals
-// import DescargarPdf from '../components/listado/modals/DescargarPdf.vue'
 import ArticleImages from '@/components/listado/modals/images/ArticleImages.vue'
 import ArticleVariants from '@/components/listado/modals/images/ArticleVariants.vue'
 import Filtrar from '../components/listado/modals/Filtrar.vue'
 import EditArticle from '../components/common/EditArticle.vue'
 import UpdateByPorcentage from '../components/listado/modals/UpdateByPorcentage.vue'
 import UpdateCategory from '../components/listado/modals/UpdateCategory.vue'
-// import PrintTickets from '../components/listado/modals/PrintTickets.vue'
 import ConfirmDelete from '../components/listado/modals/ConfirmDelete.vue'
 import ProvidersHistory from '../components/listado/modals/ProvidersHistory.vue'
 import AddCategory from '../components/listado/modals/AddCategory.vue'
@@ -34,6 +33,7 @@ import AddCategory from '../components/listado/modals/AddCategory.vue'
 import Buscador from '../components/listado/components/Buscador.vue'
 import ArticlesTable from '../components/listado/components/ArticlesTable.vue'
 import AddArticles from '../components/listado/components/AddArticles.vue'
+import InfoFiltrados from '../components/listado/components/InfoFiltrados.vue'
 			
 export default {
 	components: {
@@ -53,6 +53,7 @@ export default {
 		Buscador,
 		ArticlesTable,
 		AddArticles,
+		InfoFiltrados,
 	},
 	data() {
 		return {

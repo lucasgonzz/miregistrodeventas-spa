@@ -8,7 +8,7 @@
         </div>
         <div
         v-else>
-            <configuracion></configuracion>
+            <config></config>
             <div v-if="authenticated">
                 <nav-component></nav-component>
             </div>  
@@ -21,16 +21,16 @@
     </div>
 </template>
 <script>
+import Config from './components/config/Index'
 import NavComponent from './components/NavComponent'
-import Configuracion from './components/Configuracion'
 import LogoLoading from '@/components/common/LogoLoading'
 import web_sockets from '@/mixins/web_sockets'
 import online from '@/mixins/online'
 
 export default {
     components: {
+        Config,
         NavComponent,
-        Configuracion,
         LogoLoading,
     },
     mixins: [web_sockets, online],
@@ -129,6 +129,9 @@ export default {
                 .then(() => {
                     this.loading_message = 'empleados'
                     this.$store.dispatch('employees/getEmployees')
+                    .then(() => {
+                        this.loading_message = ''
+                    })
                 })
                 if (this.isProvider()) {
                     this.loading_message = 'descuentos'

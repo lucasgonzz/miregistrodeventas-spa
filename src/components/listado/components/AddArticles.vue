@@ -1,6 +1,6 @@
 <template>
 	<b-row class="j-center" 
-	v-show="articles_to_show.length >= 10 && articles_to_show.length < articles.length && !loading">
+	v-show="!is_filter && articles_to_show.length >= 10 && articles_to_show.length < articles.length && !loading">
 		<b-col
 		md="4">
 			<b-button
@@ -24,7 +24,10 @@ export default {
 		},
 		loading() {
 			return this.$store.state.articles.loading
-		}
+		},
+		is_filter() {
+			return this.$store.state.articles.is_filter
+		},
 	},
 	methods: {
 		addArticles() {

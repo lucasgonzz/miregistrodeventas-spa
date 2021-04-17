@@ -22,6 +22,16 @@
 		v-show="selected_articles.length"
 		:text="selected_articles.length+' articulos seleccionados'">
 			<b-dropdown-item
+			@click="selectAll">
+				<i class="icon-check"></i>
+				Seleccionar todo
+			</b-dropdown-item>
+			<b-dropdown-item
+			@click="deselectAll">
+				<i class="icon-cancel"></i>
+				Deseleccionar todo
+			</b-dropdown-item>
+			<b-dropdown-item
 			v-b-modal="'update-by-porcentage'">
 				<i class="icon-plus"></i>
 				Aumentar %
@@ -67,50 +77,6 @@
 			Filtrar
 		</b-button>
 	</b-col>
-	<!-- Opciones articulos seleccionados -->
-	<!-- <b-col cols="12" 
-	md="6"
-	xl="12"
-	class="opciones-articulos-seleccionados"
-	v-show="show_selected_articles_options">
-		<b-dropdown 
-		id="dropdown-opciones-articulos-seleccionados"
-		:text="selected_articles.selected_articles.length+' seleccionados'">
-			<b-dropdown-item
-			v-b-modal="'add-category'">
-				<i class="icon-plus"></i>
-				Agregar categoria
-			</b-dropdown-item>
-			<b-dropdown-item
-			v-if="canUse('online', user)" 
-			@click="addOnline">
-				<i class="icon-network"></i>
-				Agregar a Online
-			</b-dropdown-item>
-			<b-dropdown-item
-			v-if="canUse('online', user)" 
-			@click="removeOnline">
-				<i class="icon-network"></i>
-				Quitar de Online
-			</b-dropdown-item>
-			<b-dropdown-item
-			v-b-modal="'update-by-porcentage'">
-				<i class="icon-plus"></i>
-				Aumentar %
-			</b-dropdown-item>
-			<b-dropdown-item
-			v-if="canUse('tickets', user)"
-			v-b-modal="'print-tickets'">
-				<span class="icon-tag"></span>
-				Tickets	
-			</b-dropdown-item>
-			<b-dropdown-item
-			v-b-modal="'delete-articles'">
-				<i class="icon-trash-3"></i>
-				Eliminar
-			</b-dropdown-item>
-		</b-dropdown>
-	</b-col> -->
 </b-row>
 </template>
 <script>
@@ -133,12 +99,6 @@ export default {
 		selected_articles() {
 			return this.$store.state.articles.selected_articles
 		},
-		// show_selected_articles_options() {
-		// 	if (this.selected_articles.selected_articles.length) { 
-		// 		return true 
-		// 	}
-		// 	return false
-		// },
 		articles() {
 			return this.$store.state.articles.articles
 		},
@@ -147,6 +107,12 @@ export default {
 		}
 	},
 	methods: {
+		selectAll() {
+			this.$store.commit('articles/setAllArticlesSelected', true)
+		},
+		deselectAll() {
+			this.$store.commit('articles/setAllArticlesSelected', false)
+		},
 		filterArticles() {
 			let query = this.$refs.['article-search'].value
 			let articles = this.articles.filter(art => {
@@ -161,6 +127,7 @@ export default {
 			return []
 		},
 		search(input) {
+            this.$store.commit('articles/setIsFilter', false)
 			if (input.length < 2) {
 				this.$store.commit('articles/setArticlesToShow')
 			} 

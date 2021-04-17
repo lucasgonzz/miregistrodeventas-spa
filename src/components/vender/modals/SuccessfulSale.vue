@@ -84,13 +84,15 @@ export default {
     },
     methods: {
         pdfClient() {
-            var link = process.env.VUE_APP_API_URL+'/sales/cliente/'+this.company_name+
-                        '/'+this.borders+
-                        '/'+this.sale.id
+            var link = process.env.VUE_APP_API_URL+`/sales/pdf/${this.sale.id}/${this.company_name}/0/0/1/0/${this.borders}`
+            // var link = process.env.VUE_APP_API_URL+'/sales/cliente/'+this.company_name+
+            //             '/'+this.borders+
+            //             '/'+this.sale.id
             window.open(link)
         },
         pdfCommerce() {
             var link = process.env.VUE_APP_API_URL+`/sales/pdf/${this.sale.id}/${this.company_name}/1/1/1/1/${this.borders}`
+            // var link = process.env.VUE_APP_API_URL+`/sales/pdf/${this.sale.id}/${this.company_name}/1/1/1/1/${this.borders}`
             window.open(link)
         },
     }

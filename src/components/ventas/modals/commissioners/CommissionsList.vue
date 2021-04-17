@@ -6,14 +6,13 @@
 			v-show="commissions_to_show.length"
 			:fileds="fields"
 			:items="items">
-				<!-- <template #cell(porcentaje)="data">
-					<b-form-input
-					@keydown.enter="updatePercentage(commissions_to_show[data.index])"
-					v-if="commissions_to_show[data.index].percentage"
-					class="percentage-input"
-					type="number"
-					v-model="commissions_to_show[data.index].percentage"></b-form-input>
-				</template> -->
+				<template #cell(monto)="data">
+					<b-button
+					variant="info"
+					@click="updateMonto(commissions_to_show[data.index])">
+						{{ price(commissions_to_show[data.index].monto) }}
+					</b-button>
+				</template>
 			</b-table>
 			<p
 			class="text-center"
@@ -48,7 +47,7 @@ export default {
 				{ key: 'pagado', label: 'Fecha', class: 'text-center'},
 				{ key: 'detalle', class: 'text-center'},
 				{ key: 'porcentaje', class: 'text-center'},
-				{ key: 'monto', class: 'text-center'},
+				{ key: 'monto', label: 'Monto', class: 'text-center'},
 				{ key: 'saldo', class: 'text-center'},
 			]
 		},
@@ -59,7 +58,7 @@ export default {
 					fecha: this.date(commission.created_at),
 					pagado: commission.updated_at ? this.date(commission.updated_at) : '',
 					detalle: commission.detalle,
-					porcentaje: commission.percentage,
+					porcentaje: commission.percentage+'%',
 					monto: this.price(commission.monto),
 					saldo: this.price(commission.saldo),
 				})
@@ -68,20 +67,10 @@ export default {
 		}
 	},
 	methods: {
-		updatePercentage(commission) {
-			this.$store.commit('commissioners/setLoadingCommissionsToShow', true)
-			this.$api.post('/commissions/update-percentage', {
-				id: commission.id,
-				percentage: commission.percentage,
-			})
-			.then(res => {
-				this.$toast.success('Porcentaje actualizado')
-				this.$store.dispatch('commissioners/getSelectedCommissioners')
-			})
-			.catch(err => {
-				console.log(err)
-				this.$store.commit('commissioners/setLoadingCommissionsToShow', false)
-			})
+		updateMonto(commission) {
+			this.$store.commit('commissioners/setCommissionToUpdateMonto', commission)
+			this.$bvModal.show('update-monto')
+			
 		}
 	}
 }

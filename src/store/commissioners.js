@@ -7,6 +7,8 @@ export default {
 		commissioners: [],
 		commissions_to_show: [],
 		selected_commissioner: {},
+		commission_to_update_monto: {},
+		weeks_ago: 1,
 		loading_commissions_to_show: false,
 	},
 	mutations: {
@@ -16,18 +18,25 @@ export default {
 		setSelectedCommissioner(state, value) {
 			state.selected_commissioner = value
 		},
+		setCommissionToUpdateMonto(state, value) {
+			state.commission_to_update_monto = value
+		},
 		setCommissionsToShow(state, value) {
 			state.commissions_to_show = value
 		},
 		setLoadingCommissionsToShow(state, value) {
 			state.loading_commissions_to_show = value
-		}
+		},
+		setWeeksAgo(state, value) {
+			state.weeks_ago = value
+		},
 	},
 	actions: {
 		getCommissioners({ commit }) {
 			return axios.get('/api/commissioners')
 			.then(res => {
 				commit('setCommissioners', res.data.commissioners)
+				commit('setSelectedCommissioner', res.data.commissioners[0])
 			})
 			.catch(err => {
 				console.log(err)
@@ -35,14 +44,7 @@ export default {
 		},
 		getSelectedCommissioners({ commit, state }) {
 			commit('setLoadingCommissionsToShow', true)
-			let route = '/api/commissions/from-commissioner/'+state.selected_commissioner.id
-			// if (state.selected_commissioner.seller_id && state.selected_commissioner.seller_id != 0) {
-			// 	route +=  `/current-acounts/seller-commissions/${state.selected_commissioner.seller_id}`
-			// } else if (state.selected_commissioner.seller_id == 0) {
-			// 	route += `/current-acounts/perdidas`
-			// } else {
-			// 	route += `/current-acounts/oscar-fede-papi/${state.selected_commissioner.id}`
-			// }
+			let route = '/api/commissions/from-commissioner/'+state.selected_commissioner.id+'/'+state.weeks_ago
 			return axios.get(route)
 			.then(res => {
 				commit('setLoadingCommissionsToShow', false)

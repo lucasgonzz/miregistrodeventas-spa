@@ -28,7 +28,6 @@ export default {
 			return false
 		},
 		setSelectedCommissioner(commissioner) {
-			console.log(commissioner)
 			this.$store.commit('commissioners/setSelectedCommissioner', commissioner)
 			this.$store.dispatch('commissioners/getSelectedCommissioners')
 		},

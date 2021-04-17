@@ -123,7 +123,19 @@ export default {
 			loading_featured: 0,
 		}
 	},
+	watch: {
+		all_articles_selected() {
+			if (this.all_articles_selected) {
+				this.$refs.articlesTable.selectAllRows()
+			} else {
+				this.$refs.articlesTable.clearSelected()
+			}
+		}
+	},
 	computed: {
+		all_articles_selected() {
+			return this.$store.state.articles.all_articles_selected
+		},
 		loading() {
 			return this.$store.state.articles.loading
 		},

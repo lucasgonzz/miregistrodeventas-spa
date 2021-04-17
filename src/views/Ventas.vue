@@ -9,6 +9,7 @@
 	<discounts></discounts>
 	<create-discount></create-discount>
 	<edit-discount></edit-discount>
+	<update-monto></update-monto>
 	<commissioner-pago></commissioner-pago>
 	<current-acounts></current-acounts>
 	<current-acounts-pago></current-acounts-pago>
@@ -61,6 +62,7 @@ import Discounts from '@/components/ventas/modals/discounts/Index.vue'
 import CreateDiscount from '@/components/ventas/modals/discounts/Create.vue'
 import EditDiscount from '@/components/ventas/modals/discounts/Edit.vue'
 import CurrentAcounts from '@/components/ventas/modals/currentAcounts/CurrentAcounts.vue'
+import UpdateMonto from '@/components/ventas/modals/commissioners/UpdateMonto.vue'
 import CommissionerPago from '@/components/ventas/modals/commissioners/CommissionerPago.vue'
 import CurrentAcountsPago from '@/components/ventas/modals/currentAcounts/Pago.vue'
 import CurrentAcountsNotaCredito from '@/components/ventas/modals/currentAcounts/NotaCredito.vue'
@@ -90,6 +92,7 @@ export default {
 		// Modals
 		FromDate,
 		CurrentAcounts,
+		UpdateMonto,
 		CommissionerPago,
 		CurrentAcountsPago,
 		CurrentAcountsNotaCredito,

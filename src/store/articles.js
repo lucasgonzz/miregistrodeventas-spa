@@ -10,14 +10,22 @@ export default {
 		article_to_edit: {},
 		article_to_delete: {},
 		article_providers_history: {},
+		all_articles_selected: false,
 		images_to_show: {},
 		bar_codes: [],
 		selected_articles: [],
 		loading: false,
+		is_filter: false,
 	},
 	mutations: {
 		setLoading(state, value) {
 			state.loading = value
+		},
+		setIsFilter(state, value) {
+			state.is_filter = value
+		},
+		setAllArticlesSelected(state, value) {
+			state.all_articles_selected = value
 		},
 		setArticles(state, articles) {
 			state.articles = null

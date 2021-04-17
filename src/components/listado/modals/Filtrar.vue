@@ -187,6 +187,7 @@ export default {
             } else {
                 this.$store.commit('articles/setArticlesToShow', filters)
             }
+            this.$store.commit('articles/setIsFilter', true)
             this.$bvModal.hide('listado-filtrar')
             if (!this.filtro.mantener) {
                 this.clear()
