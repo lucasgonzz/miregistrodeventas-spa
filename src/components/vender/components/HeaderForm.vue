@@ -1,7 +1,7 @@
 <template>
 <b-row>
 	<b-col
-	class="col-bar-code"
+	class="col-bar-code margin-bottom-since-lg"
 	cols="12"
 	lg="5">
 		<b-form-input
@@ -18,7 +18,7 @@
 	<b-col
 	cols="12"
 	lg="5"
-	class="col-autocomplete">
+	class="col-autocomplete margin-bottom-since-lg">
         <autocomplete 
 		v-intro-step="2"
 		v-intro="'Busca el producto que quieras agregar a la venta'"
@@ -224,7 +224,9 @@ export default {
 	// 	padding-left: 0
 	// &:last-child
 	// 	padding-right: 0
-
+.margin-bottom-since-lg
+	@media screen and (max-width: 992px)
+		margin-bottom: 1em
 .col-bar-code 
 	display: flex
 	align-items: center
