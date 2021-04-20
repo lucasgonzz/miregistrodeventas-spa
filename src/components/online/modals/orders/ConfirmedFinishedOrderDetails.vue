@@ -7,13 +7,18 @@
 	<p class="total">
 		Total: {{ price(total(order)) }}
 	</p>
-	<p>
-		<span v-show="order.payment_method == 'tarjeta'">
+	<div
+	v-if="order.payment_method == 'tarjeta'">
+		<p>
 			Paga con tarjeta
-		</span>
-		<span v-show="order.payment_method == 'efectivo'">
-			Paga en efectivo
-		</span>
+		</p>
+		<p>
+			Estado del pago: {{ order.payment.status }}, {{ order.payment.status_detail }}
+		</p>
+	</div>
+	<p
+	v-if="order.payment_method == 'efectivo'">
+		Paga en efectivo
 	</p>
 	<p>
 		<span v-if="order.deliver == 1">

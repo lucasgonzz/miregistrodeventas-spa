@@ -72,7 +72,6 @@
 import BtnLoader from '@/components/common/BtnLoader'
 import AdminLogin from '../components/login/modals/AdminLogin'
 import Register from '../components/login/modals/Register'
-import fondo from '@/assets/fondo.png'
 export default {
 	name: 'Login',
     components: {
@@ -82,7 +81,6 @@ export default {
     },
 	data() {
 		return {
-			image: {backgroundImage: `url(${fondo})`},
 			user: {
 				company_name: '',
 				// company_name: 'mi negocio',
