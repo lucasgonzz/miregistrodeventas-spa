@@ -1,5 +1,6 @@
 <template>
 <div>
+    <update-deliver-amount></update-deliver-amount>
     <update-password></update-password>
     <update-user :user="user"></update-user>
     <b-navbar toggleable="lg" variant="primary">
@@ -141,6 +142,7 @@
 </div>
 </template>
 <script>
+import UpdateDeliverAmount from './config/UpdateDeliverAmount'
 import UpdatePassword from './config/UpdatePassword'
 import UpdateUser from './config/UpdateUser'
 
@@ -151,6 +153,7 @@ export default {
     mixins: [mixin],
     components: {
         UpdatePassword,
+        UpdateDeliverAmount,
         UpdateUser
     },
 	computed: {

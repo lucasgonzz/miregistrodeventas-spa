@@ -25,5 +25,16 @@ export default {
             this.$store.dispatch('online/orders/getConfirmedFinishedOrders')
             this.$store.dispatch('online/questions/getQuestions')
 		},
+		getVariant(article) {
+			return article.variants.find(variant => {
+				return variant.id == article.pivot.variant_id
+			})
+		},
+		articleName(article) {
+			if (article.pivot.variant_id) {
+				return article.name + ' ' + this.getVariant(article).description
+			}
+			return article.name
+		},
 	}
 }

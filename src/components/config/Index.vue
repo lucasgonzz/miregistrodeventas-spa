@@ -9,6 +9,11 @@
 		v-b-modal="'update-password'">
 			Actualizar contraseña
 		</b-list-group-item>
+		<b-list-group-item
+		v-if="hasOnline()"
+		v-b-modal="'update-deliver-amount'">
+			Actualizar precio de envio
+		</b-list-group-item>
 	</b-list-group>
 </b-modal>
 </template>

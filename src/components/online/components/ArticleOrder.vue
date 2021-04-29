@@ -6,13 +6,13 @@
 			<div class="img-container">
 				<img 
 				v-if="article.pivot.variant_id"
-				:src="imageCropedUrlfromImage(getVariant())" alt="imagen-producto">
+				:src="imageCropedUrlfromImage(getVariant(article))" alt="imagen-producto">
 				<img 
 				v-else
 				:src="articleImageUrl(article)" alt="imagen-producto">
 			</div>
 			<div class="product-data-container">
-				<p class="product-name">{{ article_name }}</p>
+				<p class="product-name">{{ articleName(article) }}</p>
 				<p class="product-name">Cantidad: {{ amount(article.pivot.amount) }}</p>
 				<p class="product-price">
 					{{ price(article.pivot.price) }}
@@ -28,27 +28,17 @@
 </template>
 <script>
 import Sales from '@/mixins/sales'
+import online from '@/mixins/online'
 export default {
 	name: 'ArticleOrder',
 	props: ['article'],
-	mixins: [Sales],
+	mixins: [Sales, online],
 	computed: {
 		user() {
 			return this.$store.state.auth.user
 		},
-		article_name() {
-			if (this.article.pivot.variant_id) {
-				return this.article.name + ' ' + this.getVariant().description
-			}
-			return this.article.name
-		}
 	},
 	methods: {
-		getVariant() {
-			return this.article.variants.find(variant => {
-				return variant.id == this.article.pivot.variant_id
-			})
-		}
 	}
 }
 </script>

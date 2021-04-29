@@ -14,6 +14,9 @@ module.exports = {
     	port: '8081'
     },
 	pwa: {
+        workboxOptions: {
+            skipWaiting: true
+        },
 		themeColor: "#4a2c82",
 		msTileColor: "#4a2c82",
 		name: "Mi Registro de Ventas",
