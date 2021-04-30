@@ -4,7 +4,7 @@
 		<b-card
 		class="card-article-variant shadow-2 border-radius"
 		no-body
-		v-for="(image, index) in article.images"
+		v-for="(image, index) in article.variants"
 		:key="image.id"
 		:img-src="imageCropedUrlfromImage(image)">
 			<div class="p-10">
