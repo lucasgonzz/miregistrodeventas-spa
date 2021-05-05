@@ -26,7 +26,7 @@
                         <label class="custom-control-label" for="borders">Bordes</label>
                     </div>
                 </div>
-                <div class="form-group" v-show="articles_per_page != 0">
+                <!-- <div class="form-group" v-show="articles_per_page != 0">
                     <div class="form-group">
                         <label for="cantidad-registros">Artículos por página</label>
                         <input type="number" 
@@ -35,7 +35,7 @@
                                 :max="max"
                                 class="form-control">
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="row m-t-5">

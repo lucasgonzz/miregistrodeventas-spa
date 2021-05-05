@@ -16,11 +16,23 @@
 		class="m-l-15">
 			Buscar
 		</b-button>
+		<b-button
+		@click="checkSaldos"
+		variant="primary"
+		class="m-l-15">
+			<btn-loader
+			text="Checkear saldos"
+			:loader="loading_check_saldos"></btn-loader>
+		</b-button>
 	</b-form>
 </template>
 <script>
+import BtnLoader from '@/components/common/BtnLoader'
 export default {
 	name: 'WeeksAgoNav',
+	components: {
+		BtnLoader,
+	},
 	computed: {
 		weeks_ago: {
 			set(value) {
@@ -30,11 +42,20 @@ export default {
 				return this.$store.state.commissioners.weeks_ago
 			}
 		},
+		loading_check_saldos() {
+			return this.$store.state.commissioners.loading_check_saldos
+		},
 	},
 	methods: {
 		getCommissions() {
 			this.$store.dispatch('commissioners/getSelectedCommissioners')
 		},
+		checkSaldos() {
+			this.$store.dispatch('commissioners/checkSaldos')
+			.then(() => {
+				this.getCommissions()
+			})
+		}
 	}
 }
 </script>

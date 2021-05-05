@@ -22,6 +22,14 @@
 		class="m-l-15">
 			<i class="icon-print"></i>
 		</b-button>
+		<b-button
+		@click="checkSaldos"
+		variant="primary"
+		class="m-l-15">
+			<btn-loader
+			:loader="loading_check_saldos"
+			text="Checkear saldos"></btn-loader>
+		</b-button>
 	</b-form>
 </template>
 <script>
@@ -43,6 +51,9 @@ export default {
 		loading() {
 			return this.$store.state.clients.current_acounts.loading
 		},
+		loading_check_saldos() {
+			return this.$store.state.clients.current_acounts.loading_check_saldos
+		},
         client() {
             return this.$store.state.clients.current_acounts.client
         },
@@ -50,6 +61,13 @@ export default {
 	methods: {
 		getCurrentAcounts() {
 			this.$store.dispatch('clients/current_acounts/getCurrentAcounts')
+		},
+		checkSaldos() {
+			this.$store.dispatch('clients/current_acounts/checkSaldos')
+			.then(() => {
+				this.$toast.success('Saldos checkeados')
+				this.getCurrentAcounts()				
+			})
 		},
 		print() {
             var link = process.env.VUE_APP_API_URL+'/current-acounts/pdf/'+this.client.id+

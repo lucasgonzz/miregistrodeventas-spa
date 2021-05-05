@@ -10,6 +10,7 @@ export default {
 		commission_to_update_monto: {},
 		weeks_ago: 1,
 		loading_commissions_to_show: false,
+		loading_check_saldos: false,
 	},
 	mutations: {
 		setCommissioners(state, value) {
@@ -29,6 +30,9 @@ export default {
 		},
 		setWeeksAgo(state, value) {
 			state.weeks_ago = value
+		},
+		setLoadingCheckSaldos(state, value) {
+			state.loading_check_saldos = value
 		},
 	},
 	actions: {
@@ -53,6 +57,17 @@ export default {
 			})
 			.catch(err => {
 				commit('setLoadingCommissionsToShow', false)
+				console.log(err)
+			})
+		},
+		checkSaldos({ commit, state }) {
+			commit('setLoadingCheckSaldos', true)
+			return axios.get('/api/commissioners/check-saldos/'+state.selected_commissioner.id)
+			.then(() => {
+				commit('setLoadingCheckSaldos', false)
+			})
+			.catch(err => {
+				commit('setLoadingCheckSaldos', false)
 				console.log(err)
 			})
 		}

@@ -34,6 +34,10 @@
 						<p class="total">
 							{{ price(total(order)) }}
 						</p>
+						<p 
+						v-show="hasPaymentUpdated(order)">
+							Se actualizado el pago
+						</p>
 						<b-button
 						size="sm"
 						@click.stop="delivered(order)"
@@ -95,6 +99,12 @@ export default {
 		},
 	},
 	methods: {
+		hasPaymentUpdated(order) {
+			if (order.payment) {
+				return order.payment.updated
+			}
+			return false
+		},
 		delivered(order) {
 			this.loading_deliver = true
 			this.$api.get(`/orders/deliver/${order.id}`)

@@ -19,10 +19,16 @@ export default {
         }
 	},
     methods: {
-        showCurrentAcounts(client) {
-            this.$store.commit('clients/current_acounts/setClient', client)
-            this.$store.dispatch('clients/current_acounts/getCurrentAcounts')
-            this.$bvModal.show('current-acounts')
+        showCurrentAcounts(sale, is_client = false) {
+            if (sale.client || is_client) {
+                if (is_client) {
+                    this.$store.commit('clients/current_acounts/setClient', sale)
+                } else {
+                    this.$store.commit('clients/current_acounts/setClient', sale.client)
+                }
+                this.$store.dispatch('clients/current_acounts/getCurrentAcounts')
+                this.$bvModal.show('current-acounts')
+            } 
         },
     }
 }

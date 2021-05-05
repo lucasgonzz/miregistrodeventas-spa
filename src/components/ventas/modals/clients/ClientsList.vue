@@ -21,7 +21,7 @@
 			class="m-l-10"
 			size="sm"
 			variant="success"
-			@click="showCurrentAcounts(clients_to_show[data.index])">
+			@click="showCurrentAcounts(clients_to_show[data.index], true)">
 				C/Ctes
 			</b-button>
 			<b-button

@@ -8,6 +8,7 @@ export default {
 		current_acounts: [],
 		months_ago: 1,
 		loading: false,
+		loading_check_saldos: false,
 	},
 	mutations: {
 		setClient(state, value) {
@@ -15,6 +16,9 @@ export default {
 		},
 		setLoading(state, value) {
 			state.loading = value
+		},
+		setLoadingCheckSaldos(state, value) {
+			state.loading_check_saldos = value
 		},
 		incrementMonthsAgo(state) {
 			state.months_ago++
@@ -27,12 +31,12 @@ export default {
 		},
 		setCurrentAcounts(state, value) {
 			state.current_acounts = value
-		}
+		},
 	},
 	actions: {
 		getCurrentAcounts({ state, commit }, client) {
 			commit('setLoading', true)
-			axios.get(`/api/clients/current-acounts/${state.client.id}/${state.months_ago}`)
+			return axios.get(`/api/clients/current-acounts/${state.client.id}/${state.months_ago}`)
 			.then(res => {
 				commit('setLoading', false)
 				commit('setCurrentAcounts', res.data.current_acounts)
@@ -42,6 +46,17 @@ export default {
 				console.log(err)
 			})
 		},
+		checkSaldos({ state, commit }) {
+			commit('setLoadingCheckSaldos', true)
+			return axios.get(`/api/clients/check-saldos/${state.client.id}`)
+			.then(() => {
+				commit('setLoadingCheckSaldos', false)
+			})
+			.catch(err => {
+				commit('setLoadingCheckSaldos', false)
+				console.log(err)
+			})
+		}
 	},
 	modules: {
 	}

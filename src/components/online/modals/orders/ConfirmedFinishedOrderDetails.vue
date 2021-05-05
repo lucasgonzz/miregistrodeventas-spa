@@ -13,7 +13,7 @@
 			Paga con tarjeta
 		</p>
 		<p>
-			Estado del pago: {{ order.payment.status }}, {{ order.payment.status_detail }}
+			Estado del pago: {{ order_status }}
 		</p>
 	</div>
 	<p
@@ -32,7 +32,7 @@
 		{{ since(order.created_at) }}
 	</p>
 	<b-button
-	v-show="order.status == 'confirmed'"
+	v-show="order.status == 'confirmed' && !order_status_error"
 	block
 	@click="finish"
 	variant="primary">
@@ -67,6 +67,31 @@ export default {
 	computed: {
 		order() {
 			return this.$store.state.online.orders.confirmed_finished_order_details
+		},
+		order_status() {
+			let payment = this.order.payment
+			if (payment) {
+				if (payment.status == 'approved') {
+					return 'Aprovado'
+				}
+				if (payment.status == 'in_process') {
+					return 'Procesandose'
+				}
+				if (payment.status == 'rejected') {
+					return `Rechazado, ya se notifico a ${this.order.buyer.name}, cuando corriga el pago se eliminara este pedido y va a llegar uno nuevo`
+				}
+				return `No se pudo procesar el pago, ya se notifico a ${this.order.buyer.name}, cuando corriga el pago se eliminara este pedido y llegara el nuevo`
+			}
+			return null
+		},
+		order_status_error() {
+			let payment = this.order.payment
+			if (payment) {
+				if (payment.status == 'rejected') {
+					return true
+				}
+			}
+			return false
 		}
 	},
 	methods: {

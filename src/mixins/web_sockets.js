@@ -29,6 +29,11 @@ export default {
                 console.log(notification)
                 this.$store.dispatch('online/questions/getQuestions')
             });
+            this.Echo.channel('payment.'+this.user.id)
+            .notification((notification) => {
+                console.log(notification)
+                this.$store.dispatch('online/orders/getConfirmedFinishedOrders')
+            });
 		}
 	}
 }

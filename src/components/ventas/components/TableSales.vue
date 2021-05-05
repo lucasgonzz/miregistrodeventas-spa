@@ -33,8 +33,8 @@
 				</template>
 				<template #cell(client)="data">
 					<b-button
-					v-if="sales[data.index].client"
-					@click="showCurrentAcounts(sales[data.index].client)"
+					v-if="sales[data.index].client || sales[data.index].buyer"
+					@click="showCurrentAcounts(sales[data.index])"
 					variant="link">
 						{{ getClient(sales[data.index]) }}
 					</b-button>
@@ -176,6 +176,9 @@ export default {
 		getClient(sale) {
 			if (sale.client) {
 				return sale.client.name
+			}
+			if (sale.buyer) {
+				return sale.buyer.name
 			}
 			return '-'
 		},
