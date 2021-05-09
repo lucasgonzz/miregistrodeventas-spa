@@ -15,6 +15,13 @@
                             {{ current_acounts[data.index].detalle }}
                         </strong>
                     </template>
+                    <template #cell(debe)="data">
+                        <b-button
+                        @click="updateDebe(current_acounts[data.index])"
+                        variant="info">
+                            {{ price(current_acounts[data.index].debe) }}
+                        </b-button>
+                    </template>
                 </b-table>
                 <b-form-group
                 class="m-b-10 j-end p-r-10">
@@ -99,6 +106,10 @@ export default {
         }
     },
     methods: {
+        updateDebe(current_acount) {
+            this.$store.commit('clients/current_acounts/setUpdateDebe', current_acount)
+            this.$bvModal.show('update-debe')
+        },
         getDetalleColorText(current_acount) {
             if (current_acount.status == 'pagandose') {
                 return 'text-success'

@@ -6,11 +6,11 @@
 			v-show="commissions_to_show.length"
 			:fileds="fields"
 			:items="items">
-				<template #cell(monto)="data">
+				<template #cell(porcentaje)="data">
 					<b-button
 					variant="info"
-					@click="updateMonto(commissions_to_show[data.index])">
-						{{ price(commissions_to_show[data.index].monto) }}
+					@click="updatePercentage(commissions_to_show[data.index])">
+						{{ commissions_to_show[data.index].percentage }}%
 					</b-button>
 				</template>
 			</b-table>
@@ -67,9 +67,9 @@ export default {
 		}
 	},
 	methods: {
-		updateMonto(commission) {
-			this.$store.commit('commissioners/setCommissionToUpdateMonto', commission)
-			this.$bvModal.show('update-monto')
+		updatePercentage(commission) {
+			this.$store.commit('commissioners/setCommissionToUpdatePercentage', commission)
+			this.$bvModal.show('update-percentage')
 			
 		}
 	}

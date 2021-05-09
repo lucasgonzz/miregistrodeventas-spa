@@ -7,7 +7,7 @@ export default {
 		commissioners: [],
 		commissions_to_show: [],
 		selected_commissioner: {},
-		commission_to_update_monto: {},
+		commission_to_update_percentage: {},
 		weeks_ago: 1,
 		loading_commissions_to_show: false,
 		loading_check_saldos: false,
@@ -19,8 +19,8 @@ export default {
 		setSelectedCommissioner(state, value) {
 			state.selected_commissioner = value
 		},
-		setCommissionToUpdateMonto(state, value) {
-			state.commission_to_update_monto = value
+		setCommissionToUpdatePercentage(state, value) {
+			state.commission_to_update_percentage = value
 		},
 		setCommissionsToShow(state, value) {
 			state.commissions_to_show = value

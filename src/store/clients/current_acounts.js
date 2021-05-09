@@ -5,6 +5,7 @@ export default {
 	namespaced: true,
 	state: {
 		client: {},
+		update_debe: {},
 		current_acounts: [],
 		months_ago: 1,
 		loading: false,
@@ -13,6 +14,9 @@ export default {
 	mutations: {
 		setClient(state, value) {
 			state.client = value
+		},
+		setUpdateDebe(state, value) {
+			state.update_debe = value
 		},
 		setLoading(state, value) {
 			state.loading = value

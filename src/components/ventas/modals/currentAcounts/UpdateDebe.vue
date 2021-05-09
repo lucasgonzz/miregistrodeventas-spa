@@ -1,16 +1,16 @@
 <template>
-<b-modal id="update-monto" title="Actualizar Monto" hide-footer>
+<b-modal id="update-debe" title="Actualizar debe" hide-footer>
 	<b-form-group>
 		<b-form-input
 		type="number"
 		min="0"
-		@keyup.enter="updateMonto"
-		v-model="commission.monto"></b-form-input>
+		@keyup.enter="updateDebe"
+		v-model="current_acount.debe"></b-form-input>
 	</b-form-group>
 	<b-form-group>
 		<b-button
 		block
-		@click="updateMonto"
+		@click="updateDebe"
 		variant="primary">
 			<btn-loader
 			text="Actualizar"
@@ -26,8 +26,8 @@ export default {
 		BtnLoader,
 	},
 	computed: {
-		commission() {
-			return this.$store.state.commissioners.commission_to_update_monto
+		current_acount() {
+			return this.$store.state.clients.current_acounts.update_debe
 		}
 	},
 	data() {
@@ -36,17 +36,17 @@ export default {
 		}
 	},
 	methods: {
-		updateMonto() {
+		updateDebe() {
 			this.loading = true
-			this.$api.post('/commissions/update-percentage', this.commission)
+			this.$api.post('/current-acounts/update-debe', this.current_acount)
 			.then(res => {
 				this.loading = false
-				this.$toast.success('Comision actualizada')
-				this.$bvModal.hide('update-monto')
-				// this.$store.dispatch('commissioners/getSelectedCommissioners')
+				this.$toast.success('Cuenta corriente actualizada')
+				this.$bvModal.hide('update-debe')
+				this.$store.dispatch('clients/current_acounts/getCurrentAcounts')
 			})
 			.catch(err => {
-				this.$toast.error('Error al actualizar comision')
+				this.$toast.error('Error al actualizar cuenta corriente')
 				this.loading = false
 				console.log(err)
 			})
