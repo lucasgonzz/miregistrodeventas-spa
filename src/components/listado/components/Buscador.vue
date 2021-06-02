@@ -12,7 +12,6 @@
 		placeholder="Buscar un artículo"
 		@submit="setArticle"></autocomplete>
 	</b-col>
-	<!-- Botones pdf-filtrar -->
 	<b-col class="botones-opciones" 
 	cols="12" 
 	md="6">
@@ -197,8 +196,8 @@ export default {
 	flex-direction: row
 	align-items: center	
 	justify-content: flex-end
-	// @media screen and (min-width: 576px) and (max-width: 768px)
-	// 	justify-content: center
+	@media screen and (max-width: 768px)
+		margin-top: 1em
 	// @media screen and (min-width: 768px) and (max-width: 992px)
 	// 	justify-content: flex-end
 	// @media screen and (min-width: 992px)

@@ -1,9 +1,9 @@
 <template>
 <b-row>
 	<b-col 
+	class="j-start"
 	cols="12"
-	md="6"
-	class="col-info">
+	md="6">
 		<b-button-group class="btn-group-totales">
 			<b-button
 			v-intro-step="3"
@@ -29,6 +29,12 @@
 				</span>
 			</b-button>
 		</b-button-group>
+	</b-col>
+	<b-col 
+	class="j-end"
+	cols="12"
+	md="6"
+	lg="3">
 		<b-button-group
 		class="m-l-10">
 			<b-button
@@ -42,49 +48,7 @@
 				</span>
 			</b-button>
 		</b-button-group>
-	</b-col>
-	<b-col
-	class="col-ver"
-	v-if="selected_sales.length" 
-	cols="12"
-	md="4">
-		<b-dropdown
-		class="m-r-10"
-		:text="selected_sales.length+' ventas seleccionadas'" 
-		right 
-		variant="primary">
-			<b-dropdown-item
-			@click="deselectAll">
-				<i class="icon-cancel"></i>
-				Deseleccionar todo
-			</b-dropdown-item>
-			<b-dropdown-item
-			@click="selectAll">
-				<i class="icon-check"></i>
-				Seleccionar todo
-			</b-dropdown-item>
-			<b-dropdown-item
-			v-b-modal="'print-sales'">
-				<i class="icon-print"></i>
-				Imprimir
-			</b-dropdown-item>
-			<b-dropdown-item
-			v-b-modal="'delete-sales'">
-				<i class="icon-trash-3"></i>
-				Eliminar
-			</b-dropdown-item>
-			<!-- <b-dropdown-item
-			variant="success">
-				Total: {{ total_selected_sales }}
-			</b-dropdown-item> -->
-		</b-dropdown>
-	</b-col>
-	<b-col
-	class="j-end"
-	:offset-md="offset"
-	cols="12"
-	md="2">
-		<b-dropdown text="Mas" right variant="primary">
+		<b-dropdown text="Mas" right variant="primary" class="m-l-10">
 			<b-dropdown-item
 			v-if="can('Ver clientes')"
 			v-b-modal="'clients'">
@@ -112,10 +76,41 @@
 		</b-dropdown>
 	</b-col>
 	<b-col
+	class="col-ver"
+	v-if="selected_sales.length" 
+	cols="12"
+	lg="3">
+		<b-dropdown
+		:text="selected_sales.length+' ventas seleccionadas'" 
+		right 
+		variant="primary">
+			<b-dropdown-item
+			@click="deselectAll">
+				<i class="icon-cancel"></i>
+				Deseleccionar todo
+			</b-dropdown-item>
+			<b-dropdown-item
+			@click="selectAll">
+				<i class="icon-check"></i>
+				Seleccionar todo
+			</b-dropdown-item>
+			<b-dropdown-item
+			v-b-modal="'print-sales'">
+				<i class="icon-print"></i>
+				Imprimir
+			</b-dropdown-item>
+			<b-dropdown-item
+			v-b-modal="'delete-sales'">
+				<i class="icon-trash-3"></i>
+				Eliminar
+			</b-dropdown-item>
+		</b-dropdown>
+	</b-col>
+	<b-col
 	v-if="isProvider()"
 	cols="12"
-	class="m-t-15 j-end">
-		<b-list-group horizontal="md">
+	class="j-end col-selected-sales">
+		<b-list-group horizontal>
 			<b-list-group-item>
 				<i class="icon-print"></i>
 				negocio
@@ -245,18 +240,15 @@ export default {
 .col-ver
 	display: flex
 	justify-content: flex-end
+
 .col-info
 	@media screen and (min-width: 778px)
 		display: flex
 		justify-content: flex-start
 .col-selected-sales
-	// @media screen and (min-width: 992px)
-	display: flex
-	justify-content: flex-end
+	@media screen and (min-width: 992px)
+		margin-top: 10px
 .btn-group-totales 
-	@media screen and (max-width: 778px)
+	@media screen and (max-width: 768px)
 		width: 100%
-		.btn
-			&:first-child, &:last-child
-				border-radius: 0px	
 </style>

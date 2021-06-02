@@ -24,7 +24,8 @@
 						@keydown.enter="login"
 						placeholder="Nombre de comercio"></b-form-input>
 					</b-form-group>
-					<b-form-group >
+					<b-form-group
+					v-if="login_employee">
 						<b-form-input
 						id="employee-name"
 						v-model="user.name"
@@ -52,6 +53,14 @@
 						variant="primary"
 						block>
 							<btn-loader text="Ingresar" :loader="loading"></btn-loader>
+						</b-button>
+					</b-form-group>
+					<b-form-group>
+						<b-button 
+						@click="changeLogin"
+						variant="primary"
+						block>
+							{{ text_change }}
 						</b-button>
 					</b-form-group>
 					<b-form-group>
@@ -89,14 +98,28 @@ export default {
 				remember: false,
 			},
 			loading: false,
+			login_employee: false,
 		}
 	},
 	computed: {
 		authenticated() {
 			return this.$store.state.auth.authenticated
 		},
+		text_change() {
+			if (this.login_employee) {
+				return 'Ingresar como dueño'
+			}
+			return 'Ingresar como empleado'
+		},
 	},
 	methods: {
+		changeLogin() {
+			if (this.login_employee) {
+				this.login_employee = false
+			} else {
+				this.login_employee = true
+			}
+		},
 		csrf() {
 			console.log('se mando cookie')
 			return this.$axios.get('/sanctum/csrf-cookie')

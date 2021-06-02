@@ -2,23 +2,15 @@
 	<div id="empleados">
 		<employee-permissions></employee-permissions>
 		<b-row>
-			<b-col>
-				<b-card header="Empleados">
-					<b-container fluid>
-						<b-row>
-							<b-col
-							cols="12"
-							md="6">
-								<register-employee></register-employee>
-							</b-col>
-							<b-col
-							cols="12"
-							md="6">
-								<employees-list></employees-list>
-							</b-col>
-						</b-row>
-					</b-container>
-				</b-card>
+			<b-col
+			cols="12"
+			md="6">
+				<register-employee></register-employee>
+			</b-col>
+			<b-col
+			cols="12"
+			md="6">
+				<employees-list></employees-list>
 			</b-col>
 		</b-row>
 	</div>

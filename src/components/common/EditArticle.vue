@@ -7,6 +7,15 @@
 			class="article-image"
 			:src="articleImageUrl(article, false)">
 		</b-form-group>
+		<b-form-group>
+			<b-button
+			variant="primary"
+			block
+			@click="uploadPhoto(article)"
+			size="sm">
+				<i class="icon-camera"></i>
+			</b-button>
+		</b-form-group>
 		<b-form-group
 		label="Creado"
 		label-for="creado">

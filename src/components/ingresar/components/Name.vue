@@ -20,7 +20,6 @@
 				ref="articleName"
 				v-show="article.bar_code == ''"
 				:search="search" 
-				auto-select
 				:get-result-value="getResultValue"
 				placeholder="Buscar un artículo"
 				@submit="setSelectedArticle"></autocomplete>

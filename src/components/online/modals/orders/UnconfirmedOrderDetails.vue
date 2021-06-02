@@ -25,6 +25,10 @@
 			Para retirar
 		</span>
 	</p>
+	<p
+	v-if="order.description">
+		Observaciones: {{ order.description }}
+	</p>
 	<p class="since">
 		{{ since(order.created_at) }}
 	</p>

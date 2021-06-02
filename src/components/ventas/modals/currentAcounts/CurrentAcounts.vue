@@ -17,10 +17,15 @@
                     </template>
                     <template #cell(debe)="data">
                         <b-button
+                        v-if="showButtonDebe(current_acounts[data.index])"
                         @click="updateDebe(current_acounts[data.index])"
                         variant="info">
                             {{ price(current_acounts[data.index].debe) }}
                         </b-button>
+                        <span
+                        v-else>
+                            {{ price(current_acounts[data.index].debe) }}      
+                        </span>
                     </template>
                 </b-table>
                 <b-form-group
@@ -106,6 +111,9 @@ export default {
         }
     },
     methods: {
+        showButtonDebe(current_acount) {
+            return current_acount.status != 'pago_from_client' && current_acount.status != 'nota_credito'
+        },
         updateDebe(current_acount) {
             this.$store.commit('clients/current_acounts/setUpdateDebe', current_acount)
             this.$bvModal.show('update-debe')

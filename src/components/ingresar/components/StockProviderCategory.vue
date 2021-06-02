@@ -1,5 +1,5 @@
 <template>
-	<b-row>
+	<b-form-row>
 		<b-col lg="3" v-if="!isProvider()">
 			<b-form-group
 			label="Proveedor"
@@ -48,7 +48,7 @@
 				autocomplete="off"></b-form-input>
 			</b-form-group>
 		</b-col>
-	</b-row>
+	</b-form-row>
 </template>
 <script>
 import categories from '@/mixins/categories'
@@ -79,10 +79,8 @@ export default {
 	},
 }
 </script>
-<style scoped>
-.input-uncontable-stock {
-	width: 60%;
-	display: inline-block;
-}
-	
+<style scoped lang="sass">
+[class^='col']
+	@media screen and (max-width: 992px)
+		margin-bottom: 1em
 </style>

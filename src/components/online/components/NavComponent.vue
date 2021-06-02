@@ -9,7 +9,7 @@
 				:active="view == 'orders' ? true : false">
 					Pedidos
 					<b-badge
-					variant="primary"
+					variant="danger"
 					v-show="orders.length">
 						{{ orders.length }}
 					</b-badge>
@@ -19,7 +19,7 @@
 				:active="view == 'questions' ? true : false">
 					Preguntas
 					<b-badge
-					variant="primary"
+					variant="danger"
 					v-show="questions.length">
 						{{ questions.length }}
 					</b-badge>
@@ -71,4 +71,6 @@ export default {
 	width: 100%
 	.nav-item
 		margin: 0 .2em
+.badge 
+	font-size: 1em
 </style>

@@ -114,21 +114,9 @@
                 </b-nav-item>
 
                 <b-nav-item 
-                class="nav-item-config"
-                v-if="isAdmin(user)"
-                v-b-modal="'update-user'">
-                    Cambiar nombre
-                </b-nav-item>
-                <b-nav-item 
-                class="nav-item-config"
-                v-if="isAdmin(user)"
-                v-b-modal="'update-password'">
-                    Cambiar contraseña
-                </b-nav-item>
-                <b-nav-item 
-                v-if="user.status == 'trial'"
-                class="nav-item-config">
-                    La prueba expira el {{ date(user.expire) }}
+                v-b-modal="'config'"
+                v-if="isAdmin(user)">
+                    Configuracion
                 </b-nav-item>
                 <b-nav-item 
                 class="nav-item-config"
@@ -246,5 +234,4 @@ export default {
         a
             font-weight: bold
             color: #FFF !important
-
 </style>

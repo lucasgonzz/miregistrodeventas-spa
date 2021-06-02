@@ -2,26 +2,16 @@
 	<div id="online">
 		<answer></answer>
 		<cancel-order></cancel-order>
-		<b-row>
-			<b-col
-			cols="12">
-				<b-card
-				header="Tienda Online">
-					<b-container fluid>
-						<nav-component></nav-component>
-						<orders
-						v-show="view == 'orders'"></orders>
-						<questions
-						v-show="view == 'questions'"
-						ref="questions"
-						@answer="answer"></questions>
-						<examine
-						v-show="view == 'examine'"
-						ref="examine"></examine>
-					</b-container>
-				</b-card>
-			</b-col>
-		</b-row>
+		<nav-component></nav-component>
+		<orders
+		v-show="view == 'orders'"></orders>
+		<questions
+		v-show="view == 'questions'"
+		ref="questions"
+		@answer="answer"></questions>
+		<examine
+		v-show="view == 'examine'"
+		ref="examine"></examine>
 	</div>
 </template>
 <script>

@@ -59,7 +59,7 @@ export default {
     			form:        this.form,
     		})
     		.then(res => {
-                this.$store.dispatch('clients/getClientCurrentAcounts', this.client)
+                this.$store.dispatch('clients/current_acounts/getCurrentAcounts')
     			this.loading = false
     			this.$toast.success('Nota de credito registrada correctamente')
                 this.$bvModal.hide('current-acounts-nota-credito')
