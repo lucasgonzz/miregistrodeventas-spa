@@ -27,6 +27,15 @@
                             {{ price(current_acounts[data.index].debe) }}      
                         </span>
                     </template>
+                    <template #cell(description)="data">
+                        {{ current_acounts[data.index].description }}
+                        <b-button
+                        size="sm"
+                        @click="deleteCurrentAcount(current_acounts[data.index])"
+                        variant="danger">
+                            <i class="icon-trash-3"></i>
+                        </b-button>
+                    </template>
                 </b-table>
                 <b-form-group
                 class="m-b-10 j-end p-r-10">
@@ -111,6 +120,10 @@ export default {
         }
     },
     methods: {
+        deleteCurrentAcount(current_acount) {
+            this.$store.commit('clients/current_acounts/setDelete', current_acount)
+            this.$bvModal.show('delete-current-acount')
+        },
         showButtonDebe(current_acount) {
             return current_acount.status != 'pago_from_client' && current_acount.status != 'nota_credito'
         },

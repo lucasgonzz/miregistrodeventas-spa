@@ -43,9 +43,11 @@ export default {
 		},
 		setSelectedSeller(seller) {
 			this.$store.commit('sales/clients/setSelectedSeller', seller)
+			this.$store.commit('sales/clients/setIndexToShow', 1)
 		},
 		printClients() {
-			let url = process.env.VUE_APP_API_URL+'/clients/pdf/'+this.selected_seller.id
+			let seller_id = this.isActive('mios') ? undefined : this.selected_seller.id
+			let url = process.env.VUE_APP_API_URL+'/clients/pdf/'+seller_id
             window.open(url)
 		}
 	}

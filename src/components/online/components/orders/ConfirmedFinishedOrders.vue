@@ -44,10 +44,9 @@
 						block
 						variant="success"
 						v-show="order.status == 'finished' && order.deliver">
-							<span class="spinner-border spinner-border-sm" v-show="loading_deliver"></span>
-							<span v-show="!loading_deliver">
-								Enviado
-							</span>
+							<btn-loader
+							:loader="loading_deliver"
+							text="Enviado"></btn-loader>
 						</b-button>
 						<b-button
 						size="sm"
@@ -55,10 +54,9 @@
 						block
 						variant="success"
 						v-show="order.status == 'finished' && !order.deliver">
-							<span class="spinner-border spinner-border-sm" v-show="loading_deliver"></span>
-							<span v-show="!loading_deliver">
-								Retirado
-							</span>
+							<btn-loader
+							:loader="loading_deliver"
+							text="Retirado"></btn-loader>
 						</b-button>
 						<p class="since">
 							{{ since(order.created_at) }}
@@ -76,13 +74,14 @@
 	</b-card>
 </template>
 <script>
-import Cargando from '@/components/common/Cargando'
+import BtnLoader from '@/components/common/BtnLoader'
 import Mixin from '@/mixins/online'
 import Loading from '@/components/online/components/orders/Loading'
 export default {
 	name: 'ConfirmedFinishedOrders',
 	components: {
 		Loading,
+		BtnLoader,
 	},
 	mixins: [Mixin],
 	data() {

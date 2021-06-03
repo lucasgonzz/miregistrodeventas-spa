@@ -30,51 +30,6 @@
 			</b-button>
 		</b-button-group>
 	</b-col>
-	<b-col 
-	class="j-end"
-	cols="12"
-	md="6"
-	lg="3">
-		<b-button-group
-		class="m-l-10">
-			<b-button
-			variant="primary">
-				<span v-show="loading">
-					<span class="spinner-border spinner-border-sm"></span>
-					Calculando...
-				</span>
-				<span v-show="!loading">
-					{{ sales_to_show.length }} ventas
-				</span>
-			</b-button>
-		</b-button-group>
-		<b-dropdown text="Mas" right variant="primary" class="m-l-10">
-			<b-dropdown-item
-			v-if="can('Ver clientes')"
-			v-b-modal="'clients'">
-				<i class="icon-user"></i>
-				Clientes
-			</b-dropdown-item>
-			<b-dropdown-item
-			v-if="isProvider()"
-			v-b-modal="'commissioners'">
-				<i class="icon-user"></i>
-				Comisiones
-			</b-dropdown-item>
-			<b-dropdown-item
-			v-if="isProvider()"
-			v-b-modal="'discounts'">
-				<i class="icon-sale-ticket"></i>
-				Descuentos
-			</b-dropdown-item>
-			<b-dropdown-item
-			v-if="isAdmin()"
-			v-b-modal="'sales-times'">
-				<i class="icon-clock-1"></i>
-				Horarios de ventas
-			</b-dropdown-item>
-		</b-dropdown>
-	</b-col>
 	<b-col
 	class="col-ver"
 	v-if="selected_sales.length" 
@@ -106,10 +61,55 @@
 			</b-dropdown-item>
 		</b-dropdown>
 	</b-col>
+	<b-col 
+	:offset-lg="offset_col_options"
+	class="j-end col-options"
+	cols="12"
+	md="6"
+	lg="3">
+		<b-button-group
+		class="m-l-10">
+			<b-button
+			variant="primary">
+				<span v-show="loading">
+					<span class="spinner-border spinner-border-sm"></span>
+					Calculando...
+				</span>
+				<span v-show="!loading">
+					{{ sales_to_show.length }} ventas
+				</span>
+			</b-button>
+		</b-button-group>
+		<b-dropdown text="Mas" right variant="primary" class="m-l-10">
+			<b-dropdown-item
+			v-if="can('Ver clientes')"
+			v-b-modal="'clients'">
+				<i class="icon-user"></i>
+				Clientes
+			</b-dropdown-item>
+			<b-dropdown-item
+			v-if="isProvider()"
+			v-b-modal="'commissioners'">
+				<i class="icon-user"></i>
+				Comisiones
+			</b-dropdown-item>
+			<b-dropdown-item
+			v-b-modal="'discounts'">
+				<i class="icon-sale-ticket"></i>
+				Descuentos
+			</b-dropdown-item>
+			<b-dropdown-item
+			v-if="isAdmin()"
+			v-b-modal="'sales-times'">
+				<i class="icon-clock-1"></i>
+				Horarios de ventas
+			</b-dropdown-item>
+		</b-dropdown>
+	</b-col>
 	<b-col
 	v-if="isProvider()"
 	cols="12"
-	class="j-end col-selected-sales">
+	class="j-end col-info-prints">
 		<b-list-group horizontal>
 			<b-list-group-item>
 				<i class="icon-print"></i>
@@ -136,11 +136,11 @@ export default {
 	name: 'TotalDropDownw',
 	mixins: [sale],
 	computed: {
-		offset() {
+		offset_col_options() {
 			if (this.selected_sales.length) {
 				return 0
 			}
-			return 4
+			return 3
 		},		
 		selected_sales() {
 			return this.$store.state.sales.selected_sales
@@ -245,7 +245,7 @@ export default {
 	@media screen and (min-width: 778px)
 		display: flex
 		justify-content: flex-start
-.col-selected-sales
+.col-info-prints
 	@media screen and (min-width: 992px)
 		margin-top: 10px
 .btn-group-totales 

@@ -1,38 +1,45 @@
 <template>
-	<b-table
-	:fields="fields"
-	:items="items">
-		<template #cell(options)="data">
-			<b-button
-			size="sm"
-			variant="primary"
-			@click="editClient(clients_to_show[data.index])">
-				Editar
-			</b-button>
-			<b-button
-			v-if="clients_to_show[data.index].current_acounts_count == 0"
-			class="m-l-10"
-			size="sm"
-			variant="primary"
-			@click="saldoInicial(clients_to_show[data.index])">
-				Saldo inicial
-			</b-button>
-			<b-button
-			class="m-l-10"
-			size="sm"
-			variant="success"
-			@click="showCurrentAcounts(clients_to_show[data.index], true)">
-				C/Ctes
-			</b-button>
-			<b-button
-			class="m-l-10"
-			size="sm"
-			variant="danger"
-			@click="deleteClient(clients_to_show[data.index])">
-				Eliminar
-			</b-button>
-		</template>
-	</b-table>
+	<div>
+		<b-table
+		:fields="fields"
+		:items="items">
+			<template #cell(options)="data">
+				<b-button
+				size="sm"
+				variant="primary"
+				@click="editClient(clients_to_show[data.index])">
+					Editar
+				</b-button>
+				<b-button
+				v-if="clients_to_show[data.index].current_acounts_count == 0"
+				class="m-l-10"
+				size="sm"
+				variant="primary"
+				@click="saldoInicial(clients_to_show[data.index])">
+					Saldo inicial
+				</b-button>
+				<b-button
+				class="m-l-10"
+				size="sm"
+				variant="success"
+				@click="showCurrentAcounts(clients_to_show[data.index], true)">
+					C/Ctes
+				</b-button>
+				<b-button
+				class="m-l-10"
+				size="sm"
+				variant="danger"
+				@click="deleteClient(clients_to_show[data.index])">
+					Eliminar
+				</b-button>
+			</template>
+		</b-table>
+		<b-button
+		variant="primary"
+		@click="addClientsToShow">
+			Ver mas
+		</b-button>
+	</div>
 </template>
 <script>
 import Clients from '@/mixins/clients'
@@ -87,10 +94,17 @@ export default {
 				})
 			}
 			clients_to_show.sort((a, b) => (a.name > b.name) ? 1 : -1)
+			clients_to_show = clients_to_show.slice(0, this.index_clients_to_show * 10)
 			return clients_to_show
-		}
+		},
+		index_clients_to_show() {
+			return this.$store.state.sales.clients.index_clients_to_show
+		},
 	},
 	methods: {
+		addClientsToShow() {
+			this.$store.commit('sales/clients/incrementIndexClientsToShow')
+		},
 		editClient(client) {
 			this.$store.commit('clients/setEdit', client)
 			this.$bvModal.show('edit-client')

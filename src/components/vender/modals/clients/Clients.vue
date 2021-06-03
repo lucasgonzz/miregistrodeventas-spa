@@ -18,13 +18,12 @@
             <b-form-group
             v-show="client">
                 <b-button 
-                v-if="isProvider()"
                 block
                 variant="primary"
                 @click.prevent="toDiscounts">
                     Siguiente
                 </b-button>
-                <b-button 
+                <!-- <b-button 
                 v-else
                 block
                 variant="primary"
@@ -34,7 +33,7 @@
                     <span v-show="vendiendo"
                             class="spinner-border spinner-border-sm"></span>
                     Vender
-                </b-button>
+                </b-button> -->
             </b-form-group>
             <b-form-group>
                 <b-button 

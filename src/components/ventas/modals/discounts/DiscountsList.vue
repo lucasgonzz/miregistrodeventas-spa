@@ -1,16 +1,27 @@
 <template>
-<b-table
-:fields="fields"
-:items="items">
-	<template #cell(options)="data">
-		<b-button
-		size="sm"
-		@click="edit(discounts[data.index])"
-		variant="primary">
-			Editar
-		</b-button>
-	</template>
-</b-table>
+<div>
+	<b-table
+	v-if="discounts.length"
+	:fields="fields"
+	:items="items">
+		<template #cell(options)="data">
+			<b-button
+			size="sm"
+			@click="edit(discounts[data.index])"
+			variant="primary">
+				Editar
+			</b-button>
+		</template>
+	</b-table>
+	<div
+	class="no-content"
+	v-else>
+		<i class="icon-not-2"></i>
+		<p>
+			No hay descuentos
+		</p>
+	</div>
+</div>
 </template>
 <script>
 export default {

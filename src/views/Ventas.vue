@@ -6,6 +6,7 @@
 	@getSalesTimes="getSalesTimes"></sales-times>
 	<summary 
 	:sales="sales"></summary> -->
+	<delete-current-acount></delete-current-acount>
 	<discounts></discounts>
 	<create-discount></create-discount>
 	<edit-discount></edit-discount>
@@ -59,6 +60,7 @@
 import moment from 'moment'
 
 // Modals
+import DeleteCurrentAcount from '@/components/ventas/modals/currentAcounts/Delete.vue'
 import Discounts from '@/components/ventas/modals/discounts/Index.vue'
 import CreateDiscount from '@/components/ventas/modals/discounts/Create.vue'
 import EditDiscount from '@/components/ventas/modals/discounts/Edit.vue'
@@ -93,6 +95,7 @@ export default {
 	components: {
 		// Modals
 		FromDate,
+		DeleteCurrentAcount,
 		CurrentAcounts,
 		UpdatePercentage,
 		UpdateDebe,

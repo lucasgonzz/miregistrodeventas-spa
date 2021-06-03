@@ -43,6 +43,7 @@ export default {
 	},
 	methods: {
 		save() {
+			console.log(this.discount)
 			if (this.check()) {
 				this.loading = true
 				this.$api.post('/discounts', this.discount)
@@ -65,7 +66,7 @@ export default {
 				this.$toast.error('Ingrese un nombre para el descuento')
 				return false
 			}
-			if (this.discount.discount == '') {
+			if (this.discount.percentage == '') {
 				this.$toast.error('Ingrese un descuento para el descuento')
 				return false
 			}

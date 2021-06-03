@@ -1,15 +1,18 @@
 <template>
 	<b-card no-body>
-		<p>Seleccionar tipo de venta</p>
-		<b-form-group
-		v-for="sale_type in sale_types"
-		:key="'sale-type-'+sale_type.id">
-			<b-form-radio
-			:value="sale_type.id"
-			v-model="sale_sale_type">
-				{{ sale_type.name }}
-			</b-form-radio>
-		</b-form-group>
+		<div
+		v-if="isProvider()">
+			<p>Seleccionar tipo de venta</p>
+			<b-form-group
+			v-for="sale_type in sale_types"
+			:key="'sale-type-'+sale_type.id">
+				<b-form-radio
+				:value="sale_type.id"
+				v-model="sale_sale_type">
+					{{ sale_type.name }}
+				</b-form-radio>
+			</b-form-group>
+		</div>
 		<p>Seleccionar descuentos</p>
 		<b-form-group
 		v-for="discount in discounts"

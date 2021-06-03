@@ -107,7 +107,6 @@ export default {
             this.$router.replace(route)
         },
         async callMethods() {
-            // this.loading = true
             if (this.isOnline) {
                 this.$store.commit('auth/setLoading', true)
                 this.$store.dispatch('special_prices/getSpecialPrices')
@@ -125,38 +124,24 @@ export default {
                 await this.$store.dispatch('sales/days_previus_sales/getDaysPreviusSales')
                 await this.$store.dispatch('sales/getSales')
                 this.loading_message = 'permisos'
-                this.$store.dispatch('permissions/getPermissions')
-                .then(() => {
-                    this.loading_message = 'empleados'
-                    this.$store.dispatch('employees/getEmployees')
-                    .then(() => {
-                        this.loading_message = ''
-                    })
-                })
+                await this.$store.dispatch('permissions/getPermissions')
+                this.loading_message = 'empleados'
+                await this.$store.dispatch('employees/getEmployees')
+                this.loading_message = 'descuentos'
+                await this.$store.dispatch('discounts/getDiscounts')
                 if (this.isProvider()) {
-                    this.loading_message = 'descuentos'
-                    this.$store.dispatch('discounts/getDiscounts')
-                    .then(() => {
-                        this.loading_message = 'vendedores'
-                        this.$store.dispatch('sellers/getSellers')
-                        .then(() => {
-                            this.loading_message = 'comisionados'
-                            this.$store.dispatch('commissioners/getCommissioners')
-                            .then(() => {
-                                this.$store.dispatch('sale_types/getSaleTypes')
-                                .then(() => {
-                                    this.$store.commit('vender/setSaleType', 1)
-                                })
-                                this.$store.commit('auth/setLoading', false)
-                                this.loading_message = 'informacion'
-                                // this.loading = false
-                            })
-                        })
-                    })
+                    this.loading_message = 'vendedores'
+                    await this.$store.dispatch('sellers/getSellers')
+                    this.loading_message = 'comisiones'
+                    await this.$store.dispatch('commissioners/getCommissioners')
+                    this.loading_message = 'tipos de venta'
+                    await this.$store.dispatch('sale_types/getSaleTypes')
+                    this.$store.commit('vender/setSaleType', 1)
+                    this.$store.commit('auth/setLoading', false)
+                    this.loading_message = 'informacion'
                 } else {
                     this.$store.commit('auth/setLoading', false)
                     this.loading_message = 'informacion'
-                    // this.loading = false
                 }
             } else {
                 let articles = this.$offlineStorage.get('articles')
