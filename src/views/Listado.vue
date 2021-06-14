@@ -13,6 +13,7 @@
 	<buscador></buscador>
 	<info-filtrados></info-filtrados>
 	<articles-table></articles-table>
+	<articles-mobile></articles-mobile>
 	<add-articles></add-articles>
 </div>
 </template>
@@ -31,7 +32,8 @@ import AddCategory from '../components/listado/modals/AddCategory.vue'
 
 // Components
 import Buscador from '../components/listado/components/Buscador.vue'
-import ArticlesTable from '../components/listado/components/ArticlesTable.vue'
+import ArticlesTable from '../components/listado/components/articles-list/ArticlesTable.vue'
+import ArticlesMobile from '../components/listado/components/articles-list/ArticlesMobile.vue'
 import AddArticles from '../components/listado/components/AddArticles.vue'
 import InfoFiltrados from '../components/listado/components/InfoFiltrados.vue'
 			
@@ -52,6 +54,7 @@ export default {
 		// Components
 		Buscador,
 		ArticlesTable,
+		ArticlesMobile,
 		AddArticles,
 		InfoFiltrados,
 	},

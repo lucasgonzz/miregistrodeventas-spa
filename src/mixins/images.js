@@ -1,5 +1,9 @@
 export default {
 	methods: {
+		showImages(article) {
+			this.$store.commit('articles/setImagesToShow', article)
+			this.$bvModal.show('article-images')
+		},
 		imageUrl(image) {
 			let url = `https://res.cloudinary.com/lucas-cn/image/upload/${image.url}`
 			return url

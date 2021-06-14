@@ -2,6 +2,8 @@
 	<div id="online">
 		<answer></answer>
 		<cancel-order></cancel-order>
+		<views></views>
+		<buyer-views></buyer-views>
 		<nav-component></nav-component>
 		<orders
 		v-show="view == 'orders'"></orders>
@@ -18,10 +20,11 @@
 import NavComponent from '@/components/online/components/NavComponent'
 import Orders from '@/components/online/components/orders/Orders'
 import Questions from '@/components/online/components/questions/Questions'
-import Examine from '@/components/online/components/examine/Examine'
+import Examine from '@/components/online/components/examine/Index'
 import Answer from '@/components/online/modals/Answer'
 import CancelOrder from '@/components/online/modals/orders/CancelOrder'
-// import Views from '@/components/online/modals/examine/Views'
+import Views from '@/components/online/modals/examine/Views'
+import BuyerViews from '@/components/online/modals/examine/BuyerViews'
 export default {
 	components: {
 		NavComponent,
@@ -30,6 +33,8 @@ export default {
 		Examine,
 		Answer,
 		CancelOrder,
+		Views,
+		BuyerViews,
 	},
 	computed: {
 		view() {

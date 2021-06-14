@@ -21,8 +21,9 @@
 	flex-direction: row
 	flex-wrap: nowrap
 	&::-webkit-scrollbar 
-		display: none
 		width: 5px
+		@media screen and (max-width: 768px)
+			display: none
 	li 
 		display: table
 		padding: 0 .5em

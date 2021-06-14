@@ -2,7 +2,7 @@
 	<b-card 
 	no-body>
 		<div class="img-container">
-			<b-card-img :src="imageUrl(article, user)"></b-card-img>
+			<b-card-img :src="articleImageUrl(article)"></b-card-img>
 		</div>
 		<b-card-body>
 			<div 
@@ -15,6 +15,9 @@
 				${{ article.price }}
 			</p>
 			<b-button 
+			variant="primary"
+			block
+			v-show="article.views.length"
 			@click="views"
 			class="product-views">
 				<i class="icon-eye"></i>
@@ -27,15 +30,19 @@
 export default {
 	name: 'ArticleCard',
 	props: ['article'],
-	computed: {
-		user() {
-			return this.$store.state.auth.user
-		}
-	},
 	methods: {
 		views() {
-			this.$store.commit('articles/setArticleViews', this.article)
-			this.$bvModal.show('views')
+			if (this.check()) {
+				this.$store.commit('online/examine/setViewableToShowViews', this.article)
+				this.$bvModal.show('views')
+			}
+		},
+		check() {
+			if (this.article.views.length >= 1) {
+				return true
+			} 
+			this.$toast.error('No tiene vistas')
+			return false
 		}
 	}
 }

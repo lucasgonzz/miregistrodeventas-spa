@@ -44,7 +44,7 @@ export default {
 	},
 	methods: {
 		search(input) {
-			if (input.length < 1) { return [] }
+			if (input.length < 3) { return [] }
 			return this.articles.filter(article => {
 				return article.name.toLowerCase().includes(input.toLowerCase())
 			})

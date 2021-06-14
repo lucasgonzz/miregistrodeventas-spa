@@ -4,16 +4,16 @@
 		<b-form-group
 		v-if="article.images && article.images.length">
 			<img 
-			class="article-image"
+			@click="showImages(article)"
+			class="article-image b-r-1"
 			:src="articleImageUrl(article, false)">
 		</b-form-group>
 		<b-form-group>
 			<b-button
 			variant="primary"
 			block
-			@click="uploadPhoto(article)"
-			size="sm">
-				<i class="icon-camera"></i>
+			@click="uploadPhoto(article)">
+				Agregar foto
 			</b-button>
 		</b-form-group>
 		<b-form-group

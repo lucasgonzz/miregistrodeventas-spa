@@ -36,6 +36,7 @@
     "vue-load-image": "^0.1.12",
     "vue-offline": "^2.0.8",
     "vue-router": "^3.4.5",
+    "vue-screen-size": "^1.0.1",
     "vue-toast-notification": "^0.5.4",
     "vuex": "^3.5.1"
   },

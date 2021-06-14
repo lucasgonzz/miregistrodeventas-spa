@@ -11,7 +11,12 @@ export default {
 		// },
 	},
 	methods: {
+		editArticle(article) {
+			this.$store.commit('articles/setEdit', this.setArticle(article))
+			this.$bvModal.show('edit-article')
+		},
 		setArticle(article) {
+			console.log(article)
 			let new_article = {}
 			new_article.id = article.id
 			new_article.bar_code = article.bar_code
@@ -31,12 +36,6 @@ export default {
 			new_article.images = article.images
 			new_article.variants = article.variants
 			new_article.stock = this.stock(article, false)
-			// if (article.variants.length) {
-			// 	new_article.stock = this.stock(article)
-			// } else {
-			// 	new_article.stock = article.stock
-			// 	new_article.new_stock = 0
-			// }
 			if (!this.isProvider() && article.providers.length) {
 				new_article.provider_id = article.providers[0].id
 				new_article.providers = article.providers
@@ -55,8 +54,6 @@ export default {
 			new_article.creado = this.date(article.created_at)+' '+this.since(article.created_at)
 			new_article.actualizado = this.date(article.updated_at)+' '+this.since(article.updated_at)
 			new_article.act_fecha = true
-			console.log('setArticle')
-			console.log(new_article)
 			return new_article
 		},
 	}

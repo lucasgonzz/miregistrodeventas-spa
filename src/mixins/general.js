@@ -24,5 +24,11 @@ export default {
 				return null
 			}
 		},
+		isMobile() {
+			if (this.$vssWidth < '768') {
+				return true
+			}
+			return false
+		},
 	}
 }

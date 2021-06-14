@@ -1,5 +1,6 @@
 import orders from '@/store/online/orders'
 import questions from '@/store/online/questions'
+import examine from '@/store/online/examine'
 export default {
 	namespaced: true,
 	state: {
@@ -13,5 +14,6 @@ export default {
 	modules: {
 		orders,
 		questions,
+		examine,
 	},
 }

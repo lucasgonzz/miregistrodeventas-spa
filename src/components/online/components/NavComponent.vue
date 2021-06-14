@@ -6,7 +6,7 @@
 			<b-nav tabs>
 				<b-nav-item
 				@click="setView('orders')"
-				:active="view == 'orders' ? true : false">
+				:active="isActive('orders')">
 					Pedidos
 					<b-badge
 					variant="danger"
@@ -16,7 +16,7 @@
 				</b-nav-item>
 				<b-nav-item
 				@click="setView('questions')"
-				:active="view == 'questions' ? true : false">
+				:active="isActive('questions')">
 					Preguntas
 					<b-badge
 					variant="danger"
@@ -24,11 +24,11 @@
 						{{ questions.length }}
 					</b-badge>
 				</b-nav-item>
-				<!-- <b-nav-item
+				<b-nav-item
 				@click="setView('examine')"
-				:active="view == 'examine' ? true : false">
+				:active="isActive('examine')">
 					Examinar
-				</b-nav-item> -->
+				</b-nav-item>
 			</b-nav>
 		</b-col>
 	</b-row>
@@ -54,7 +54,12 @@ export default {
 				this.getOrders()
 			} else if (view == 'questions') {
 				this.getQuestions()
+			} else if (view == 'examine') {
+				this.getExamine()
 			}
+		},
+		isActive(name) {
+			return this.view == name
 		},
 		getOrders() {
 			this.$store.dispatch('online/orders/getUnconfirmedOrders')
@@ -62,7 +67,11 @@ export default {
 		},
 		getQuestions() {
 			this.$store.dispatch('online/questions/getQuestions')
-		}
+		},
+		getExamine() {
+			this.$store.dispatch('online/examine/getArticlesMostViewed')
+			this.$store.dispatch('online/examine/getSubCategoriesMostViewed')
+		},
 	}
 }
 </script>

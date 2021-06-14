@@ -15,7 +15,7 @@
 			<template v-slot:img>
 				<vue-load-image>
 					<div slot="image" :data-src="imageUrl(image)"></div>
-					<img slot="preloader" src="@/assets/spinner3.gif" />
+					<b-skeleton-img></b-skeleton-img>
 					<div slot="error">Error al cargar la imagen</div>
 				</vue-load-image>
 				<img
@@ -24,25 +24,28 @@
 				:alt="article.name+'-image-'+image.id"
 				>
 			</template>
-			<b-button
-			@click="imagenPrincipal(image)"
-			variant="success">
-				<btn-loader
-				:loader="loading"
-				text="Imagen principal"></btn-loader>
-			</b-button>
-			<b-button
-			class="m-l-10"
-			@click="deleteImg(image)"
-			variant="danger">
-				<btn-loader
-				:loader="deleting"
-				text="Eliminar"></btn-loader>
-			</b-button>
 		</b-carousel-slide>
 	</b-carousel>
 	<div
-	class="p-15">
+	class="p-15 j-center">
+		<b-button
+		@click="imagenPrincipal(image)"
+		variant="success">
+			<btn-loader
+			:loader="loading"
+			text="Imagen principal"></btn-loader>
+		</b-button>
+		<b-button
+		class="m-l-10"
+		@click="deleteImg(image)"
+		variant="danger">
+			<btn-loader
+			:loader="deleting"
+			text="Eliminar"></btn-loader>
+		</b-button>
+	</div>
+	<div
+	class="p-15 p-t-0">
 		<b-button
 		variant="primary"
 		block
