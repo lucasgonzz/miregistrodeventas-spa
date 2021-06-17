@@ -29,7 +29,7 @@
 	<div
 	class="p-15 j-center">
 		<b-button
-		@click="imagenPrincipal(image)"
+		@click="imagenPrincipal()"
 		variant="success">
 			<btn-loader
 			:loader="loading"
@@ -37,7 +37,7 @@
 		</b-button>
 		<b-button
 		class="m-l-10"
-		@click="deleteImg(image)"
+		@click="deleteImg()"
 		variant="danger">
 			<btn-loader
 			:loader="deleting"
@@ -69,7 +69,7 @@ export default {
 	},
 	data() {
 		return {
-			slide: 1,
+			slide: 0,
 			loading: false,
 			deleting: false,
 		}
@@ -80,7 +80,8 @@ export default {
 		}
 	},
 	methods: {
-		imagenPrincipal(image) {
+		imagenPrincipal() {
+			let image = this.article.images[this.slide]
 			this.loading = true
 			this.$api.get(`articles/set-first-image/${image.id}`)
 			.then(res => {
@@ -95,7 +96,8 @@ export default {
 				this.$toast.error('Error al poner imagen principal, intentelo mas tarde')
 			})
 		},
-		deleteImg(image) {
+		deleteImg() {
+			let image = this.article.images[this.slide]
 			this.deleting = true
 			this.$api.delete(`images/${image.id}`)
 			.then(res => {

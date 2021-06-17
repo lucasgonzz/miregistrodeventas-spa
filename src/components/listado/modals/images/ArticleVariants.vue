@@ -4,16 +4,16 @@
 		<b-card
 		class="card-article-variant shadow-2 border-radius"
 		no-body
-		v-for="(image, index) in article.variants"
-		:key="image.id"
-		:img-src="imageCropedUrlfromImage(image)">
+		v-for="variant in variants"
+		:key="variant.id"
+		:img-src="imageCropedUrlfromImage(variant)">
 			<div class="p-10">
 				<b-form-group
 				label="Descripcion">
 					<b-form-input
 					placeholder="Descripcion"
 					@keyup.enter="save"
-					v-model="variants[index].description"></b-form-input>
+					v-model="variant.description"></b-form-input>
 				</b-form-group>
 				<b-form-group
 				label="Stock">
@@ -22,7 +22,7 @@
 					type="number"
 					min="0"
 					@keyup.enter="save"
-					v-model="variants[index].stock"></b-form-input>
+					v-model="variant.stock"></b-form-input>
 				</b-form-group>
 				<b-form-group
 				label="Cantidad para agregar">
@@ -31,7 +31,7 @@
 					type="number"
 					min="0"
 					@keyup.enter="save"
-					v-model="variants[index].stock_to_add"></b-form-input>
+					v-model="variant.stock_to_add"></b-form-input>
 				</b-form-group>
 			</div>
 		</b-card>
@@ -55,6 +55,7 @@ export default {
 	},
 	data() {
 		return {
+			variants: [],
 			loading: false,
 		}
 	},
@@ -65,10 +66,21 @@ export default {
 		article() {
 			return this.$store.state.articles.images_to_show
 		},
-		variants() {
+	},
+	created() {
+		console.log('created')
+	},
+	watch: {
+		article() {
+			console.log('wathc')
+			this.setVariants()
+		}
+	},
+ 	methods: {
+		setVariants() {
 			if (this.article.variants.length) {
+				console.log('tiene variants')
 				if (this.article.images.length > this.article.variants.length) {
-					console.log('tiene mas fotos que modelos definidos')
 					for (var i = this.article.images.length - 1; i >= this.article.variants.length - 1; i--) {
 						this.article.variants.push({
 							description: '',
@@ -77,21 +89,21 @@ export default {
 						})
 					}
 				}
-				return this.article.variants
-			}
-			console.log('no tiene variants')
-			let variants = []
-			this.article.images.forEach((image, index) => {
-				variants.push({
-					description: '',
-					stock: '',
-					url: this.article.images[index].url,
+				this.variants = this.article.variants
+			} else {
+				console.log('no tiene variants')
+				let variants = []
+				this.article.images.forEach((image, index) => {
+					variants.push({
+						description: '',
+						stock: '',
+						url: this.article.images[index].url,
+					})
 				})
-			})
-			return variants
+				this.variants = variants
+				console.log(this.variants)
+			}
 		},
-	},
-	methods: {
 		save() {
 			if (this.check()) {
 				this.loading = true
@@ -113,7 +125,7 @@ export default {
 		},
 		check() {
 			let ok = true
-			this.article.variants.forEach(variant => {
+			this.variants.forEach(variant => {
 				if (variant.description == '') {
 					this.$toast.error('Ingrese la descripcion')
 					ok = false

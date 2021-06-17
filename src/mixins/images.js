@@ -36,7 +36,9 @@ export default {
 			var myCropWidget = cloudinary.createUploadWidget({
 				cloudName: 'lucas-cn', 
 				uploadPreset: 'my_preset',
-				sources: ['camera', 'local', 'instagram', 'facebook', 'google_drive'],
+				sources: ['camera', 'local', 'instagram', 'image_search', 'facebook', 'google_drive'],
+				googleApiKey: 'AIzaSyD10kzclyxnd_mSdMkgxXZJCoMsKJu8T6U',
+				searchByRights: true,
 				cropping: true,
 				cropping_aspect_ratio: 1, 
 				showSkipCropButton: false,
@@ -77,6 +79,12 @@ export default {
 							"drop_title_single": "Solta el archivo aqui",
 							"drop_title_multiple": "Solta los archivos aqui"
 						},
+			            "instagram": {
+			                "no_auth_title": "Subi fotos desde tu cuenta de Instagram",
+			                "no_auth_action": "Conectar a Instagram",
+			                "header_title": "Tus ultimas fotos de Instagram",
+			                "authenticating": "Autenticando"
+			            },
 			            "queue": {
 			                "title": "Fila para subir",
 			                "title_uploading_with_counter": "Subiendo {{num}} fotos",
@@ -129,6 +137,7 @@ export default {
 					.then(res => {
 						this.$store.commit('articles/setLoading', false)
 						let article = res.data.article
+						console.log(article)
 						this.$store.commit('articles/update', article)
 						this.$store.commit('articles/setImagesToShow', article)
 						this.$bvModal.hide('article-images')

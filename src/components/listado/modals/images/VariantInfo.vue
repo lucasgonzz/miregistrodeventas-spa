@@ -7,7 +7,7 @@
 			{{ text }}
 		</label>
 		<b-button
-		@click="variants"
+		@click="setVariants"
 		size="sm"
 		variant="primary"
 		class="m-l-15">
@@ -54,7 +54,7 @@ export default {
 		}
 	},
 	methods: {
-		variants() {
+		setVariants() {
 			if (this.article.variants.length) {
 				this.loading = true
 				this.$api.delete('/articles/variants/'+this.article.id)

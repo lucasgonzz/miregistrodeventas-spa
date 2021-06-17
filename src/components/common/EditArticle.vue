@@ -1,227 +1,283 @@
 <template>
-<b-modal id="edit-article" :title="`Editar ${this.article.name}`" hide-footer>
+<b-modal id="edit-article" :title="`Editar ${this.article.name}`" hide-footer size="lg">
 	<div>
-		<b-form-group
-		v-if="article.images && article.images.length">
-			<img 
-			@click="showImages(article)"
-			class="article-image b-r-1"
-			:src="articleImageUrl(article, false)">
-		</b-form-group>
-		<b-form-group>
-			<b-button
-			variant="primary"
-			block
-			@click="uploadPhoto(article)">
-				Agregar foto
-			</b-button>
-		</b-form-group>
-		<b-form-group
-		label="Creado"
-		label-for="creado">
-			<b-form-input
-			id="creado"
-			type="text"
-			v-model="article.creado"
-			disabled></b-form-input>
-		</b-form-group>
-		<b-form-group
-		label="Actualizado"
-		label-for="actualizado">
-			<b-form-input
-			id="actualizado"
-			type="text"
-			v-model="article.actualizado"
-			disabled></b-form-input>
-		</b-form-group>
-
-		<!-- Codigo de barras -->
-		<b-form-group
-		label="Codigo de barras"
-		label-for="article-bar-code">
-			<b-form-input
-			id="article-bar-code"
-			type="text"
-			:placeholder="`Ingresa un codigo de barras para ${this.article.name}`"
-			v-model="article.bar_code"></b-form-input>
-		</b-form-group>
-
-		<!-- Categoria -->
-		<b-form-group
-		label="Categoría"
-		label-for="article-category">
-			<b-form-select
-			id="article-category"
-			@keydown.enter="updateArticle"
-			:options="categories_options"
-			v-model="article.category_id"></b-form-select>
-		</b-form-group>
-
-		<!-- SubCategoria -->
-		<b-form-group
-		label="Subcategoría"
-		label-for="article-sub-category">
-			<b-form-select
-			id="article-sub-category"
-			@keydown.enter="updateArticle"
-			:options="sub_categories_options(article)"
-			v-model="article.sub_category_id"></b-form-select>
-		</b-form-group>
-
-		<!-- Costo y precio -->
-		<b-form-group
-		v-if="can('article.index.cost')"
-		label="Costo"
-		label-for="article-cost">
-			<b-form-input
-			id="article-cost"
-			@keydown.enter="updateArticle"
-			type="number"
-			min="0"
-			v-model="article.cost"></b-form-input>
-		</b-form-group>
-		<b-form-group
-		label="Precio"
-		label-for="article-price">
-			<b-form-input
-			id="article-price"
-			@keydown.enter="updateArticle"
-			type="number"
-			min="0"
-			v-model="article.price"></b-form-input>
-		</b-form-group>
-		
-		<!-- Precios especiales -->
-		<b-form-group v-show="special_prices.length"
-		v-for="(special_price, index) in special_prices"
-		:key="special_price.id"
-		:label="`Precio ${special_price.name}`"
-		:label-for="`article-price-${special_price.name}`">
-			<b-form-input
-			type="number"
-			min="0"
-			@keydown.enter="updateArticle"
-			:id="`article-special-price-${special_price.id}`"
-			v-model="article[special_price.name]"
-			:placeholder="`Ingrese el precio para ${special_price.name}`"></b-form-input>
-		</b-form-group>
-		<b-form-group
-		v-show="article.previus_price"
-		label="Precio anterior"
-		label-for="article-previus-price">
-			<b-form-input
-			id="article-previus-price"
-			disabled
-			type="number"
-			v-model="article.previus_price"></b-form-input>
-		</b-form-group>
-
-		<!-- Stock -->
-		<b-form-group
-		v-if="article.variants && article.variants.length"
-		label="Stock"
-		label-for="article-stock">
-			<b-button
-			size="sm"
-			variant="primary"
-			@click="showVariants()">
-				Ver stock
-			</b-button>
-		</b-form-group>
-		<b-form-group
-		v-else
-		label="Stock"
-		label-for="article-stock">
-			<b-form-input
-			id="article-stock"
-			@keydown.enter="updateArticle"
-			min="0"
-			type="number"
-			v-model="article.stock"></b-form-input>
-		</b-form-group>
-		<b-form-group
-		v-show="article.stock && article.variants && !article.variants.length"
-		label="Cantidad para agregar"
-		label-for="article-new-stock">
-			<b-form-input
-			id="article-new-stock"
-			@keydown.enter="updateArticle"
-			min="0"
-			type="number"
-			v-model="article.new_stock"></b-form-input>
-		</b-form-group>
-		<b-form-group>
-			<b-form-checkbox
-			v-model="article.stock_null"
-			id="article-stock-null">
-				Dejar de controlar stock
-			</b-form-checkbox>
-		</b-form-group>
-
-		<!-- Proveedor -->
-		<b-form-group
-		v-if="!isProvider()"
-		label="Proveedor"
-		label-for="article-provider">
-			<b-form-select
-			id="article-provider"
-			:options="providers_options"
-			v-model="article.provider_id"></b-form-select>
-		</b-form-group>
-		<b-form-group
-		v-if="!isProvider()">
-			<b-form-checkbox
-			v-model="article.provider_null"
-			id="article-stock-null">
-				No usar proveedor
-			</b-form-checkbox>
-		</b-form-group>
-		<b-form-group
-		v-if="!isProvider()">
-			<b-button
-			@click="show_providers ? show_providers = false : show_providers = true"
-			variant="secondary"
-			size="sm">
-				<i class="icon-eye" v-show="!show_providers"></i>
-				<i class="icon-eye-slash" v-show="show_providers"></i>
-				Proveedores anteriores
-			</b-button>
-			<b-table striped hover
-			class="m-t-10"
-			v-show="show_providers"
-			:items="table_providers_items"
-			></b-table>
-		</b-form-group>
-
-		<!-- Nombre -->
-		<b-form-group
-		label="Nombre"
-		label-for="article-name">
-			<b-form-input
-			id="article-name"
-			@keydown.enter="updateArticle"
-			type="text"
-			v-model="article.name"></b-form-input>
-		</b-form-group>
-		<b-form-checkbox
-		class="m-b-10"
-		id="article-act-fecha"
-		v-model="article.act_fecha"
-		:value="true"
-		:unchecked-value="false">
-			Actualizar fecha
-		</b-form-checkbox>
-		<b-form-group
-		class="m-b-0">
-			<b-button
-			block
-			variant="primary"
-			@click="updateArticle">
-				<i class="icon-check" v-show="!loading"></i>
-				<span v-show="loading" class="spinner-border spinner-border-sm"></span>
-				Actualizar
-			</b-button>
-		</b-form-group>	
+		<b-form-row>
+			<b-col
+			cols="12">
+				<b-form-group
+				v-if="article.images && article.images.length">
+					<img 
+					@click="showImages(article)"
+					class="article-image b-r-1"
+					:src="articleImageUrl(article, false)">
+				</b-form-group>
+			</b-col>
+			<b-col
+			cols="12">
+				<b-form-group>
+					<b-button
+					variant="primary"
+					block
+					@click="uploadPhoto(article)">
+						Agregar foto
+					</b-button>
+				</b-form-group>
+			</b-col>
+			<b-col
+			cols="12"
+			md="6">
+				<b-form-group
+				label="Creado"
+				label-for="creado">
+					<b-form-input
+					id="creado"
+					type="text"
+					v-model="article.creado"
+					disabled></b-form-input>
+				</b-form-group>
+			</b-col>
+			<b-col
+			cols="12"
+			md="6">
+				<b-form-group
+				label="Actualizado"
+				label-for="actualizado">
+					<b-form-input
+					id="actualizado"
+					type="text"
+					v-model="article.actualizado"
+					disabled></b-form-input>
+				</b-form-group>
+			</b-col>
+			<b-col
+			cols="12"
+			md="6">
+				<!-- Codigo de barras -->
+				<b-form-group
+				label="Codigo de barras"
+				label-for="article-bar-code">
+					<b-form-input
+					id="article-bar-code"
+					type="text"
+					:placeholder="`Ingresa un codigo de barras para ${this.article.name}`"
+					v-model="article.bar_code"></b-form-input>
+				</b-form-group>
+			</b-col>
+			<b-col
+			cols="12"
+			md="6">
+				<!-- Nombre -->
+				<b-form-group
+				label="Nombre"
+				label-for="article-name">
+					<b-form-input
+					id="article-name"
+					@keydown.enter="updateArticle"
+					type="text"
+					v-model="article.name"></b-form-input>
+				</b-form-group>
+			</b-col>
+			<b-col
+			cols="12"
+			md="6">
+				<!-- Categoria -->
+				<b-form-group
+				label="Categoría"
+				label-for="article-category">
+					<b-form-select
+					id="article-category"
+					@keydown.enter="updateArticle"
+					:options="categories_options"
+					v-model="article.category_id"></b-form-select>
+				</b-form-group>
+			</b-col>
+			<b-col
+			cols="12"
+			md="6">
+				<!-- SubCategoria -->
+				<b-form-group
+				label="Subcategoría"
+				label-for="article-sub-category">
+					<b-form-select
+					id="article-sub-category"
+					@keydown.enter="updateArticle"
+					:options="sub_categories_options(article)"
+					v-model="article.sub_category_id"></b-form-select>
+				</b-form-group>
+			</b-col>
+			<b-col
+			cols="12"
+			md="6">
+				<b-form-group
+				v-if="can('article.index.cost')"
+				label="Costo"
+				label-for="article-cost">
+					<b-form-input
+					id="article-cost"
+					@keydown.enter="updateArticle"
+					type="number"
+					min="0"
+					v-model="article.cost"></b-form-input>
+				</b-form-group>
+			</b-col>
+			<b-col
+			cols="12"
+			md="6">
+				<b-form-group
+				label="Precio"
+				label-for="article-price">
+					<b-form-input
+					id="article-price"
+					@keydown.enter="updateArticle"
+					type="number"
+					min="0"
+					v-model="article.price"></b-form-input>
+				</b-form-group>
+			</b-col>
+			<b-col
+			v-show="special_prices.length"
+			v-for="(special_price, index) in special_prices"
+			:key="special_price.id"
+			cols="12"
+			md="6">
+				<!-- Precios especiales -->
+				<b-form-group 
+				:label="`Precio ${special_price.name}`"
+				:label-for="`article-price-${special_price.name}`">
+					<b-form-input
+					type="number"
+					min="0"
+					@keydown.enter="updateArticle"
+					:id="`article-special-price-${special_price.id}`"
+					v-model="article[special_price.name]"
+					:placeholder="`Ingrese el precio para ${special_price.name}`"></b-form-input>
+				</b-form-group>
+			</b-col>
+			<b-col
+			cols="12"
+			md="6">
+				<!-- Stock -->
+				<b-form-group
+				v-if="article.variants && article.variants.length"
+				label="Stock"
+				label-for="article-stock">
+					<b-button
+					size="sm"
+					variant="primary"
+					@click="showVariants()">
+						Ver stock
+					</b-button>
+				</b-form-group>
+				<b-form-group
+				v-else
+				label="Stock"
+				label-for="article-stock">
+					<b-form-input
+					id="article-stock"
+					@keydown.enter="updateArticle"
+					min="0"
+					type="number"
+					v-model="article.stock"></b-form-input>
+				</b-form-group>
+				<b-form-group>
+					<b-form-checkbox
+					v-model="article.stock_null"
+					id="article-stock-null">
+						Dejar de controlar stock
+					</b-form-checkbox>
+				</b-form-group>
+			</b-col>
+			<b-col
+			cols="12"
+			md="6">
+				<b-form-group
+				v-show="article.stock && article.variants && !article.variants.length"
+				label="Cantidad para agregar"
+				label-for="article-new-stock">
+					<b-form-input
+					placeholder="Cantidad para sumar al stock"
+					id="article-new-stock"
+					@keydown.enter="updateArticle"
+					min="0"
+					type="number"
+					v-model="article.new_stock"></b-form-input>
+				</b-form-group>
+			</b-col>
+			<b-col
+			cols="12"
+			md="6">
+				<!-- Proveedor -->
+				<b-form-group
+				v-if="!isProvider()"
+				label="Proveedor"
+				label-for="article-provider">
+					<b-form-select
+					id="article-provider"
+					:options="providers_options"
+					v-model="article.provider_id"></b-form-select>
+				</b-form-group>
+				<b-form-group
+				v-if="!isProvider()">
+					<b-form-checkbox
+					v-model="article.provider_null"
+					id="article-not-provider">
+						No usar proveedor
+					</b-form-checkbox>
+				</b-form-group>
+				<b-form-group
+				v-if="!isProvider()">
+					<b-button
+					@click="show_providers ? show_providers = false : show_providers = true"
+					variant="secondary"
+					size="sm">
+						<i class="icon-eye" v-show="!show_providers"></i>
+						<i class="icon-eye-slash" v-show="show_providers"></i>
+						Proveedores anteriores
+					</b-button>
+					<b-table striped hover
+					class="m-t-10"
+					v-show="show_providers"
+					:items="table_providers_items"
+					></b-table>
+				</b-form-group>
+			</b-col>
+			<b-col
+			cols="12"
+			md="6">
+				<b-form-group
+				v-show="article.previus_price"
+				label="Precio anterior"
+				label-for="article-previus-price">
+					<b-form-input
+					id="article-previus-price"
+					disabled
+					type="number"
+					v-model="article.previus_price"></b-form-input>
+				</b-form-group>
+				<b-form-checkbox
+				class="m-b-10"
+				id="article-act-fecha"
+				v-model="article.act_fecha"
+				:value="true"
+				:unchecked-value="false">
+					Actualizar fecha
+				</b-form-checkbox>
+			</b-col>
+			<b-col
+			cols="12">
+				<b-form-group
+				class="m-b-0">
+					<b-button
+					block
+					variant="primary"
+					@click="updateArticle">
+						<i class="icon-check" v-show="!loading"></i>
+						<span v-show="loading" class="spinner-border spinner-border-sm"></span>
+						Actualizar
+					</b-button>
+				</b-form-group>	
+			</b-col>
+		</b-form-row>
 	</div>
 </b-modal>
 </template>
@@ -338,11 +394,18 @@ export default {
 }
 </script>
 <style scoped lang="sass">
+[class^='col-']
+	flex-direction: column
+	justify-content: flex-start
+	@media screen and (min-width: 768px)
+		padding-right: 1em
+		padding-left: 1em
+		margin-bottom: 1em
 .container-fluid 
 	margin: 0
 
 .form-group 
-	margin-bottom: 1rem
+	// margin-bottom: 1rem
 .article-image
 	width: 100%
 article-image

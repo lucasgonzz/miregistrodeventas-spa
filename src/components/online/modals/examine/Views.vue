@@ -34,12 +34,14 @@ export default {
 		},
 		items() {
 			let items = []
-			this.viewable.views.forEach(view => {
-				items.push({
-					'date': this.date(view.created_at),
-					'hour': this.hour(view.created_at),
+			if (this.viewable.views) {
+				this.viewable.views.forEach(view => {
+					items.push({
+						'date': this.date(view.created_at),
+						'hour': this.hour(view.created_at),
+					})
 				})
-			})
+			}
 			return items
 		},
 	},
