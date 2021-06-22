@@ -14,6 +14,8 @@ import providers from './mixins/providers'
 Vue.mixin(providers)
 import percentageCard from './mixins/percentageCard'
 Vue.mixin(percentageCard)
+import articles from './mixins/articles'
+Vue.mixin(articles)
 
 // Notifications
 import VueToast from 'vue-toast-notification';

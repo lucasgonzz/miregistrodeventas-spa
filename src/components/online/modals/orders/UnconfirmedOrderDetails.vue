@@ -27,7 +27,7 @@
 	</p>
 	<p
 	v-if="order.description">
-		Observaciones: {{ order.description }}
+		Envolver: {{ description }}
 	</p>
 	<p class="since">
 		{{ since(order.created_at) }}
@@ -67,6 +67,12 @@ export default {
 	computed: {
 		order() {
 			return this.$store.state.online.orders.unconfirmed_order_details
+		},
+		description() {
+			if (this.order.description != '') {
+				return this.order.description
+			}
+			return 'No'
 		}
 	},
 	methods: {

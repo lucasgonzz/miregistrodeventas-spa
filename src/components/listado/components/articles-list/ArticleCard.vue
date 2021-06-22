@@ -8,23 +8,33 @@
 			class="b-r-1"
 			:src="articleImageUrl(article)">
 		</div>
-		<div class="text-container">
-			<p>
-				<span>Nombre: </span>
-				{{ article.name }}
-			</p>
-			<p>
-				<span>Costo: </span>
-				{{ price(article.cost) }}
-			</p>
-			<p>
-				<span>Precio: </span>
-				{{ price(article.price) }}
-			</p>
-			<p>
-				<span>Stock: </span>
-				{{ price(article.stock) }}
-			</p>
+		<div class="data-container">
+			<div>
+				<p>
+					<span>Nombre: </span>
+					{{ article.name }}
+				</p>
+				<p>
+					<span>Costo: </span>
+					{{ price(article.cost) }}
+				</p>
+				<p>
+					<span>Precio: </span>
+					{{ price(article.price) }}
+				</p>
+				<p>
+					<span>Stock: </span>
+					{{ price(article.stock) }}
+				</p>
+			</div>
+			<b-button 
+			v-if="hasOnline()"
+			@click.stop="setFeatured(article)"
+			size="sm"
+			:variant="isFeatured(article)">
+				<span class="spinner-border spinner-border-sm" v-show="loading_featured == article.id"></span>
+				<i v-show="loading_featured != article.id" class="icon-check"></i>
+			</b-button>
 		</div>
 	</div>
 </template>
@@ -50,7 +60,11 @@ export default {
 		margin-right: .5em
 		img
 			width: 100%
-	.text-container
+	.data-container
+		display: flex
+		flex-direction: column
+		justify-content: space-around
+		align-items: flex-start
 		p 
 			margin-bottom: 0
 			span

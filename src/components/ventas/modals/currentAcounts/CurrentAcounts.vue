@@ -29,6 +29,8 @@
                     </template>
                     <template #cell(description)="data">
                         {{ current_acounts[data.index].description }}
+                    </template>
+                    <template #cell(options)="data">
                         <b-button
                         size="sm"
                         @click="deleteCurrentAcount(current_acounts[data.index])"
@@ -102,7 +104,8 @@ export default {
                 { key: 'debe', class: 'text-center' },
                 { key: 'haber', class: 'text-center' },
                 { key: 'saldo', class: 'text-center' },
-                { key: 'description', label: '', class: 'text-center detalle' },
+                { key: 'description', label: 'Observaciones', class: 'text-center detalle' },
+                { key: 'options', label: 'Eliminar', class: 'text-center detalle' },
             ]
         }, 
         items() {

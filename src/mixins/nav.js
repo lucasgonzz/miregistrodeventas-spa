@@ -2,6 +2,16 @@ import moment from 'moment'
 import online from '@/mixins/online'
 export default {
 	mixins: [online],
+	computed: {
+        unconfirmed_orders_questions_length() {
+            if (this.hasOnline()) {
+                let unconfirmed_orders = this.$store.state.online.orders.unconfirmed_orders
+                let questions = this.$store.state.online.questions.questions
+                return unconfirmed_orders.length + questions.length
+            }
+            return null
+        },
+	},
 	methods: {
 		toVentas() {
 			if (this.$route.name == 'Ventas') {

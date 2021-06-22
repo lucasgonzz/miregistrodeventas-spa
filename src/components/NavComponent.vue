@@ -51,8 +51,8 @@
                     Online
                     <b-badge
                     variant="danger"
-                    v-show="unconfirmedOrders_questions_length > 0">
-                        {{ unconfirmedOrders_questions_length }}
+                    v-show="unconfirmed_orders_questions_length > 0">
+                        {{ unconfirmed_orders_questions_length }}
                     </b-badge>
                 </b-nav-item>
                 <!-- <b-nav-item
@@ -78,6 +78,7 @@
             </b-navbar-nav>
         </b-collapse>
     </b-navbar>
+    <order-info></order-info>
     <p v-if="isOffline">Se perdio la conexion</p>
     <b-sidebar id="mobile-nav" title="Mi registro de ventas" shadow>
         <nav>
@@ -134,12 +135,15 @@ import UpdateDeliverAmount from './config/UpdateDeliverAmount'
 import UpdatePassword from './config/UpdatePassword'
 import UpdateUser from './config/UpdateUser'
 
+import OrderInfo from '@/components/nav/components/OrderInfo'
+
 // Mixins
 import mixin from '@/mixins/nav'
 export default {
     name: 'NavComponent',
     mixins: [mixin],
     components: {
+        OrderInfo,
         UpdatePassword,
         UpdateDeliverAmount,
         UpdateUser
@@ -150,14 +154,6 @@ export default {
 		},
         currentPage() {
             return this.$route.path
-        },
-        unconfirmedOrders_questions_length() {
-            if (this.hasOnline()) {
-                let unconfirmed_orders = this.$store.state.online.orders.unconfirmed_orders
-                let questions = this.$store.state.online.questions.questions
-                return unconfirmed_orders.length + questions.length
-            }
-            return null
         },
 	},
 	methods: {

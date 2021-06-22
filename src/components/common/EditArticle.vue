@@ -245,14 +245,12 @@
 			cols="12"
 			md="6">
 				<b-form-group
-				v-show="article.previus_price"
 				label="Precio anterior"
 				label-for="article-previus-price">
 					<b-form-input
 					id="article-previus-price"
 					disabled
-					type="number"
-					v-model="article.previus_price"></b-form-input>
+					:placeholder="previus_price"></b-form-input>
 				</b-form-group>
 				<b-form-checkbox
 				class="m-b-10"
@@ -301,6 +299,12 @@ export default {
 		},
 	},
 	computed: {
+		previus_price() {
+			if (this.article.previus_price) {
+				return this.article.previus_price
+			}
+			return 'No tiene precio anterior'
+		},
 		article() {
 			return this.$store.state.articles.article_to_edit
 		},

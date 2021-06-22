@@ -18,6 +18,14 @@
             :options="sub_categories_options(filtro)"></b-form-select>
         </b-form-group>
         <b-form-group
+        v-if="!isProvider()"
+        label="Los que pertenescan al proveedor">
+            <b-form-select
+            id="providers"
+            v-model="filtro.provider_id"
+            :options="providers_options"></b-form-select>
+        </b-form-group>
+        <b-form-group
         label="Los que tengan un precio mayor a">
             <b-form-input
             @keydown.enter="filter"
@@ -57,6 +65,12 @@
         </b-form-group>
         <b-form-group>
             <b-form-checkbox
+            v-model="filtro.featured">
+                Que sean destacados
+            </b-form-checkbox>
+        </b-form-group>
+        <b-form-group>
+            <b-form-checkbox
             v-model="filtro.mantener">
                 Mantener filtro
             </b-form-checkbox>
@@ -82,7 +96,9 @@ export default {
             filtro: {
                 category_id: 0,
                 sub_category_id: 0,
+                provider_id: 0,
                 with_images: false,
+                featured: false,
                 precio_min: '',
                 precio_max: '',
                 fecha_min: '',
@@ -135,7 +151,9 @@ export default {
             let fecha_max
             let category_id = this.filtro.category_id
             let sub_category_id = this.filtro.sub_category_id
+            let provider_id = this.filtro.provider_id
             let with_images = this.filtro.with_images
+            let featured = this.filtro.featured
             let precio_min = Number(this.filtro.precio_min)
             let precio_max = Number(this.filtro.precio_max)
             if (this.filtro.fecha_min != '') {
@@ -168,6 +186,11 @@ export default {
                     return moment(art.created_at).isBefore(fecha_max)
                 })
             }
+            if (provider_id != 0) {
+                filters = filters.filter(art => {
+                    return this.isFromProvider(art)
+                })
+            }
             if (sub_category_id != 0) {
                 filters = filters.filter(art => {
                     return art.sub_category_id == sub_category_id
@@ -182,6 +205,11 @@ export default {
                     return art.images.length
                 })
             }
+            if (featured) {
+                filters = filters.filter(art => {
+                    return art.featured
+                })
+            }
             if (filters.length == this.articles.length) {
                 this.$store.commit('articles/setArticlesToShow')
             } else {
@@ -193,6 +221,15 @@ export default {
                 this.clear()
             }
         },
+        isFromProvider(article) {
+            let is_from_provider = false
+            article.providers.forEach(pro => {
+                if (pro.id == this.filtro.provider_id) {
+                    is_from_provider = true
+                }
+            })
+            return is_from_provider
+        },
         uncheckProviders() {
           this.$emit('uncheckProviders')
         },
@@ -203,6 +240,8 @@ export default {
             this.filtro.precio_max = ''
             this.filtro.fecha_min = ''
             this.filtro.fecha_max = ''
+            this.filtro.with_images = false
+            this.filtro.featured = false
         }
     }
 }
