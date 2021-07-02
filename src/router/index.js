@@ -85,7 +85,7 @@ Vue.use(VueRouter)
         component: Empleados,
     },
     {
-        path: '/tienda-online',
+        path: '/tienda-online/:view/:chat_id?',
         name: 'Online',
         component: Online,
     },

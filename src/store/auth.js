@@ -9,6 +9,7 @@ export default {
 		authenticated: false,
 		permissions: [],
 		user: null,
+		schedule_edit: {},
 		loading: false,
 	},
 	getters: {
@@ -28,7 +29,10 @@ export default {
 		},
 		setLoading(state, value) {
 			state.loading = value
-		}
+		},
+		setScheduleEdit(state, value) {
+			state.schedule_edit = value
+		},
 	},
 	actions: {
 		me({commit}) {

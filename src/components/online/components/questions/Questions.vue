@@ -1,5 +1,6 @@
 <template>
-	<b-row>
+	<b-row
+	v-show="view == 'preguntas'">
 		<b-col
 		cols="12">
 			<b-card

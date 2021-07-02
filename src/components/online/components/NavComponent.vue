@@ -5,8 +5,8 @@
 		class="col-nav">
 			<b-nav tabs>
 				<b-nav-item
-				@click="setView('orders')"
-				:active="isActive('orders')">
+				@click="setView('pedidos')"
+				:active="isActive('pedidos')">
 					Pedidos
 					<b-badge
 					variant="danger"
@@ -15,8 +15,8 @@
 					</b-badge>
 				</b-nav-item>
 				<b-nav-item
-				@click="setView('questions')"
-				:active="isActive('questions')">
+				@click="setView('preguntas')"
+				:active="isActive('preguntas')">
 					Preguntas
 					<b-badge
 					variant="danger"
@@ -25,21 +25,35 @@
 					</b-badge>
 				</b-nav-item>
 				<b-nav-item
+				@click="setView('clientes')"
+				:active="isActive('clientes')">
+					Clientes
+				</b-nav-item>
+				<b-nav-item
+				@click="setView('mensajes')"
+				:active="isActive('mensajes')">
+					Mensajes
+					<b-badge
+					variant="danger"
+					v-show="messages_not_read > 0">
+						{{ messages_not_read }}
+					</b-badge>
+				</b-nav-item>
+				<!-- <b-nav-item
 				@click="setView('examine')"
 				:active="isActive('examine')">
 					Examinar
-				</b-nav-item>
+				</b-nav-item> -->
 			</b-nav>
 		</b-col>
 	</b-row>
 </template>
 <script>
+import online from '@/mixins/online'
 export default {
 	name: 'NavComponentOnline',
+	mixins: [online],
 	computed: {
-		view() {
-			return this.$store.state.online.view
-		},
 		orders() {
 			return this.$store.state.online.orders.unconfirmed_orders
 		},
@@ -49,28 +63,24 @@ export default {
 	},
 	methods: {
 		setView(view) {
-			this.$store.commit('online/setView', view)
-			if (view == 'orders') {
+			if (this.view != view) {
+				console.log('set view')
+				this.$router.push({name: 'Online', params: {view: view}})
+			}
+			if (view == 'pedidos') {
 				this.getOrders()
-			} else if (view == 'questions') {
+			} else if (view == 'mensajes') {
+				this.$store.commit('online/messages/setSelectedBuyer', null)
+			} else if (view == 'preguntas') {
 				this.getQuestions()
+			} else if (view == 'clientes') {
+				this.getBuyers()
 			} else if (view == 'examine') {
 				this.getExamine()
 			}
 		},
 		isActive(name) {
 			return this.view == name
-		},
-		getOrders() {
-			this.$store.dispatch('online/orders/getUnconfirmedOrders')
-			this.$store.dispatch('online/orders/getConfirmedFinishedOrders')
-		},
-		getQuestions() {
-			this.$store.dispatch('online/questions/getQuestions')
-		},
-		getExamine() {
-			this.$store.dispatch('online/examine/getArticlesMostViewed')
-			this.$store.dispatch('online/examine/getSubCategoriesMostViewed')
 		},
 	}
 }

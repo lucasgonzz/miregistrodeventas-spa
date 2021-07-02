@@ -77,9 +77,6 @@
 .icon-edit:before {
   content: "\68";
 }
-.icon-trash-3:before {
-  content: "\70";
-}
 .icon-trash-4:before {
   content: "\71";
 }
@@ -238,4 +235,13 @@
 }
 .icon-history:before {
   content: "\25";
+}
+.icon-ellipsis-v:before {
+  content: "\26";
+}
+.icon-trash:before {
+  content: "\70";
+}
+.icon-send:before {
+  content: "\28";
 }

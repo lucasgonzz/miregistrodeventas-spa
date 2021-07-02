@@ -7,7 +7,8 @@ export default {
             if (this.hasOnline()) {
                 let unconfirmed_orders = this.$store.state.online.orders.unconfirmed_orders
                 let questions = this.$store.state.online.questions.questions
-                return unconfirmed_orders.length + questions.length
+                let messages_not_read = this.$store.state.online.buyers.messages_not_read
+                return unconfirmed_orders.length + questions.length + messages_not_read
             }
             return null
         },
@@ -38,7 +39,7 @@ export default {
 			if (this.$route.name == 'Online') {
 				this.getOrdersAndQuestions()
 			} else {
-				this.$router.replace({name: 'Online'})
+				this.$router.replace({name: 'Online', params: {view: 'pedidos'}})
 			}
 		},
 	}

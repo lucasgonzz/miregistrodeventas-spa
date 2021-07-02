@@ -1,23 +1,19 @@
 export default {
 	methods: {
 		listenChannels() {
-			// this.Echo.channel('orderChannel')
-   //          .listen('OrderCreatedEvent', (res) => {
-   //              console.log(res)
-   //              this.$store.dispatch('online/orders/getUnconfirmedOrders')
-   //              // this.$toast.success(`${res.order.buyer.name} quiere hacer un pedido`)
-   //          }); 
-            // this.Echo.channel('questionChannel')
-            // .listen('QuestionCreatedEvent', (e) => {
-            //     let question = e.question
-            //     this.$store.dispatch('online/questions/getQuestions')
-            //     // this.$store.commit('online/addQuestion', question)
-            //     // this.$toast.success(`${question.buyer.name} te ha hecho una pregunta`)
-            // }); 
+            console.log('listenChannels')
             this.Echo.channel('payment.'+this.user.id)
             .notification((notification) => {
                 console.log(notification)
                 this.$store.dispatch('online/orders/getConfirmedFinishedOrders')
+            });
+            this.Echo.channel('message.from_buyer.'+this.user.id)
+            .notification((notification) => {
+                console.log(notification)
+                this.$store.commit('online/buyers/addMessage', notification.message)
+                this.$store.commit('online/buyers/setMessagesNotRead')
+                this.$store.commit('online/messages/setChatsToShow')
+                this.scrollBottom('conversation-messages')
             });
             this.Echo.channel('order.'+this.user.id)
             .notification((notification) => {

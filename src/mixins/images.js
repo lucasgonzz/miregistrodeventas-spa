@@ -22,15 +22,16 @@ export default {
 			return url
 		},
 		getFirstImage(article) {
-			let first_image = article.images[0].url
 			if (article.images) {
+				let first_image = article.images[0].url
 				article.images.forEach(image => {
 					if (image.first) {
 						first_image = image.url
 					}
 				})
+				return first_image
 			}
-			return first_image
+			return null
 		},
 		uploadPhoto(article) {
 			var myCropWidget = cloudinary.createUploadWidget({

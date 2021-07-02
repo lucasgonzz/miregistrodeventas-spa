@@ -1,5 +1,7 @@
 <template>
 <div>
+    <schedules></schedules>
+    <update-schedule></update-schedule>
     <update-deliver-amount></update-deliver-amount>
     <update-password></update-password>
     <update-user :user="user"></update-user>
@@ -19,35 +21,35 @@
             <b-navbar-nav>
                 <b-nav-item :to="{name: 'Vender'}"
                 v-if="can('Vender')"
-                :class="activeLink('vender')">
+                :class="activeLink('Vender')">
                     Vender
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Ingresar'}"
                 v-if="can('Ingresar articulos')"
-                :class="activeLink('ingresar')">
+                :class="activeLink('Ingresar')">
                     Ingresar
                 </b-nav-item>
                 <b-nav-item 
                 @click="toListado"
                 v-if="can('Ver articulos')"
-                :class="activeLink('listado')">
+                :class="activeLink('Listado')">
                     Listado
                 </b-nav-item>
                 <b-nav-item
                 @click="toVentas"
                 v-if="can('Ver ventas')"
-                :class="activeLink('ventas')">
+                :class="activeLink('Ventas')">
                     Ventas
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Empleados'}"
                 v-if="isAdmin()"
-                :class="activeLink('empleados')">
+                :class="activeLink('Empleados')">
                     Empleados
                 </b-nav-item>
                 <b-nav-item 
                 @click="toOnline"
                 v-if="hasOnline(user)"
-                :class="activeLink('tienda-online')">
+                :class="activeLink('Online')">
                     Online
                     <b-badge
                     variant="danger"
@@ -131,6 +133,8 @@
 </div>
 </template>
 <script>
+import Schedules from './config/Schedules'
+import UpdateSchedule from './config/UpdateSchedule'
 import UpdateDeliverAmount from './config/UpdateDeliverAmount'
 import UpdatePassword from './config/UpdatePassword'
 import UpdateUser from './config/UpdateUser'
@@ -143,6 +147,8 @@ export default {
     name: 'NavComponent',
     mixins: [mixin],
     components: {
+        Schedules,
+        UpdateSchedule,
         OrderInfo,
         UpdatePassword,
         UpdateDeliverAmount,
@@ -153,12 +159,12 @@ export default {
 			return this.$store.state.auth.user
 		},
         currentPage() {
-            return this.$route.path
+            return this.$route.name
         },
 	},
 	methods: {
         activeLink(url) {
-            return this.currentPage == '/'+url ? 'active-link' : ''
+            return this.currentPage == url ? 'active-link' : ''
         },
         startIntrojs() {
             this.$intro()

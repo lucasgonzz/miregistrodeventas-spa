@@ -154,6 +154,7 @@ export default {
             // this.$store.dispatch('markers/getMarkerGroupsWithMarkers')
             if (this.hasOnline()) {
                 this.getOrdersAndQuestions()
+                this.getBuyers()
                 this.listenChannels()
             }
         }
@@ -172,7 +173,7 @@ export default {
     color: #2c3e50
     height: 100vh
 .container-fluid
-    padding-bottom: 1em
+    // padding-bottom: 1em
 .fade-enter-active,
 .fade-leave-active 
     transition-duration: 0.3s

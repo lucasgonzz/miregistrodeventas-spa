@@ -1,5 +1,18 @@
 export default {
+	computed: {
+        user() {
+        	return this.$store.state.auth.user
+        },
+	},
 	methods: {
+		scrollBottom(el) {
+			setTimeout(() => {
+				let container = document.getElementById(el)
+				if (container) {
+					container.scrollTop = container.scrollHeight
+				}
+			}, 1)
+		},
         amount(amount) {
             let punto_index = amount.indexOf('.')
             if (amount.substr(punto_index) == '.00') {

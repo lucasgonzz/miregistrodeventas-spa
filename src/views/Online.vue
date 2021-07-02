@@ -5,12 +5,12 @@
 		<views></views>
 		<buyer-views></buyer-views>
 		<nav-component></nav-component>
-		<orders
-		v-show="view == 'orders'"></orders>
+		<orders></orders>
 		<questions
-		v-show="view == 'questions'"
 		ref="questions"
 		@answer="answer"></questions>
+		<buyers></buyers>
+		<messages></messages>
 		<examine
 		v-show="view == 'examine'"
 		ref="examine"></examine>
@@ -20,26 +20,29 @@
 import NavComponent from '@/components/online/components/NavComponent'
 import Orders from '@/components/online/components/orders/Orders'
 import Questions from '@/components/online/components/questions/Questions'
+import Buyers from '@/components/online/components/buyers/Index'
+import Messages from '@/components/online/components/messages/Index'
 import Examine from '@/components/online/components/examine/Index'
 import Answer from '@/components/online/modals/Answer'
 import CancelOrder from '@/components/online/modals/orders/CancelOrder'
 import Views from '@/components/online/modals/examine/Views'
 import BuyerViews from '@/components/online/modals/examine/BuyerViews'
+import online from '@/mixins/online'
 export default {
 	components: {
 		NavComponent,
 		Orders,
 		Questions,
 		Examine,
+		Buyers,
+		Messages,
 		Answer,
 		CancelOrder,
 		Views,
 		BuyerViews,
 	},
+	mixins: [online],
 	computed: {
-		view() {
-			return this.$store.state.online.view
-		}
 	},
 	methods: {
 		answer(question) {

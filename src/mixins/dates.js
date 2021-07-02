@@ -9,6 +9,9 @@ export default {
 		hour(d) {
 			return moment(d).format('HH:mm')
 		},
+		hour_from_time(d) {
+			return moment(d, 'HH:mm:ss').format('HH:mm')
+		},
 		price(p) {
 			if (p === null) {
 				return '-'
