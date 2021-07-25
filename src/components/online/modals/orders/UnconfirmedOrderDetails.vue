@@ -27,11 +27,18 @@
 	</p>
 	<p
 	v-if="order.description">
-		Envolver: {{ description }}
+		Envolver: {{ order.description }}
 	</p>
 	<p class="since">
 		{{ since(order.created_at) }}
 	</p>
+	<b-button
+	v-if="order.buyer"
+	@click="sendMessage(order.buyer)"
+	class="m-b-15 p-0"
+	variant="link">
+		Cliente: {{ order.buyer.name }}
+	</b-button>
 	<b-button
 	block
 	@click="confirm"

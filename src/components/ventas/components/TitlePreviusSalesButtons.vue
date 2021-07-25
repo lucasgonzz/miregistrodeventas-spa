@@ -33,7 +33,7 @@ import HeaderTitle from './HeaderTitle.vue'
 import PerviusSales from './PerviusSales.vue'
 import HeaderButtons from './HeaderButtons.vue'
 export default {
-	props: ['is_from_date', 'from', 'to', 'is_from_only_one_date', 'only_one_date', 'sales_from_client', 'client', 'showing_statistics', 'user'],
+	props: ['is_from_date', 'from', 'to', 'is_from_only_one_date', 'only_one_date', 'sales_from_client', 'client', 'showing_statistics'],
 	components: {
 		HeaderTitle,
 		PerviusSales,

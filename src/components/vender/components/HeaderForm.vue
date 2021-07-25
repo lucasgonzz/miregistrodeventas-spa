@@ -124,7 +124,7 @@ export default {
 		addArticle(article) {
 			if (this.article.bar_code != '') {
 				article = this.articles.find(article => {
-					return article.bar_code == this.article.bar_code
+					return article.bar_code == this.getBarCode(this.article.bar_code)
 				})
 			} 
 			if (this.isRegister(article)) {
@@ -204,7 +204,12 @@ export default {
 		},
 		isRegister(article) {
 			if (typeof article === 'undefined') {
-				this.$bvModal.show('article-not-register')
+				let bar_code = this.article.bar_code
+				if (bar_code != '') {
+					this.$store.commit('vender/setNewArticleBarCode', bar_code)
+				}
+				this.$toast.error('Articulo no ingresado')
+				// this.$bvModal.show('new-article')
 				return false
 			}
 			return true

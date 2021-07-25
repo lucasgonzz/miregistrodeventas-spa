@@ -13,6 +13,10 @@ export default {
 				}
 			}, 1)
 		},
+		getBarCode(bar_code) {
+			console.log(bar_code.replace(' ', ''))
+			return bar_code.replace(' ', '')
+		},
         amount(amount) {
             let punto_index = amount.indexOf('.')
             if (amount.substr(punto_index) == '.00') {

@@ -53,7 +53,7 @@
 </template>
 <script>
 export default {
-	props: ['article', 'user', 'porcentage_for_price'],
+	props: ['article', 'porcentage_for_price'],
 	data() {
 		return {
 

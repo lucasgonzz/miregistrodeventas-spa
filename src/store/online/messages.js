@@ -43,11 +43,10 @@ export default {
 		},
 		setMessagesRead({ state }) {
 			return axios.get('api/messages/set-read/'+state.selected_buyer.id)
-			.then(res => {
-			})
 			.catch(err => {
 				console.log(err)
 			})
+			console.log('Se marcaron como leidos')
 		}
 	},
 	modules: {

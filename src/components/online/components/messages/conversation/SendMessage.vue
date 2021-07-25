@@ -1,5 +1,6 @@
 <template>
-	<div class="send-message">
+	<div class="send-message"
+	v-if="selected_buyer">
 		<b-form-input
 		v-model="text"
 		@keyup.enter="sendMessage"
@@ -21,6 +22,11 @@ export default {
 	mixins: [online],
 	components: {
 		BtnLoader,
+	},
+	computed: {
+		selected_buyer() {
+			return this.$store.state.online.messages.selected_buyer
+		},
 	},
 	data() {
 		return {

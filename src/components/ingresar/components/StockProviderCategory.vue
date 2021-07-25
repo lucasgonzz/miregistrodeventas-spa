@@ -5,7 +5,7 @@
 			label="Proveedor"
 			label-for="article-provider">
 				<b-form-select
-				@change="changeToCategory"
+				@keyup.enter="changeToCategory"
 				id="article-provider"
 				v-model="article.provider_id"
 				:options="providers_options"></b-form-select>
@@ -16,7 +16,7 @@
 			label="Categoria"
 			label-for="article-category">
 				<b-form-select
-				@change="changeToSubCategory"
+				@keyup.enter="changeToSubCategory"
 				id="article-category"
 				v-model="article.category_id"
 				:options="categories_options"></b-form-select>
@@ -27,7 +27,7 @@
 			label="Subcategoria"
 			label-for="article-sub-category">
 				<b-form-select
-				@change="changeToStock"
+				@keyup.enter="changeToStock"
 				id="article-sub-category"
 				v-model="article.sub_category_id"
 				:options="sub_categories_options(article)"></b-form-select>
@@ -42,7 +42,7 @@
 				<b-form-input
 				id="article-stock"
 				type="number"
-				@keydown.enter="saveArticle"
+				@keydown.enter="changeToTags"
 				placeholder="Ingresa la cantidad del producto"
 				v-model="article.stock"
 				autocomplete="off"></b-form-input>
@@ -63,8 +63,9 @@ export default {
 	computed: {
 	},
 	methods: {
-		saveArticle() {
-			this.$emit('saveArticle')
+		changeToTags() {
+			document.getElementById('tag-name').focus()
+			// this.$emit('saveArticle')
 		},
 		changeToCategory(e) {
 			console.log(e.key)

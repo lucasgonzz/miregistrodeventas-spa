@@ -11,6 +11,7 @@ export default {
 	namespaced: true,
 	state: {
 		articles: [],
+		new_article_bar_code: '',
 		article_for_sale: {},
 		article_variant: {},
 		total: 0,
@@ -26,6 +27,9 @@ export default {
 	mutations: {
 		setArticles(state, articles) {
 			state.articles = articles
+		},
+		setNewArticleBarCode(state, value) {
+			state.new_article_bar_code = value
 		},
 		addArticle(state, article) {
 			state.articles.unshift(state.article_for_sale)

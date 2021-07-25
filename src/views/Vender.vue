@@ -5,7 +5,7 @@
 	<create-client></create-client>
 	<successful-sale
 	:sale="sale"></successful-sale>
-	<article-not-register></article-not-register>
+	<new-article></new-article>
 	<change-percentage-card></change-percentage-card>
 
 	<header-form></header-form>
@@ -28,7 +28,7 @@
 // import Vue from 'vue'
 
 // Modals
-import ArticleNotRegister from '../components/vender/modals/ArticleNotRegister.vue'
+import NewArticle from '../components/vender/modals/NewArticle.vue'
 import ChangePercentageCard from '../components/vender/modals/ChangePercentageCard.vue'
 import Clients from '../components/vender/modals/clients/Index.vue'
 import SelectVariant from '../components/vender/modals/SelectVariant.vue'
@@ -49,7 +49,7 @@ import ButtonClients from '../components/vender/components/ButtonClients.vue'
 import Vender from '@/mixins/vender'
 export default {
 	components: {
-		ArticleNotRegister,
+		NewArticle,
 		ChangePercentageCard,
 		Clients,
 		SelectVariant,

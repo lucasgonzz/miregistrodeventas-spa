@@ -4,7 +4,10 @@ import numeral from 'numeral'
 export default {
 	methods: {
 		date(d) {
-			return moment(d).format('DD/MM/YY')
+			if (d) {
+				return moment(d).format('DD/MM/YY')
+			}
+			return '-'
 		},
 		hour(d) {
 			return moment(d).format('HH:mm')
@@ -28,7 +31,10 @@ export default {
 			return moment(d).format('dd')
 		},
 		since(date) {
-			return moment(date).fromNow()
+			if (date) {
+				return moment(date).fromNow()
+			}
+			return '-'
 		},
 		diff(d, formated = false) {
 			var date = moment().diff(d, 'days')+''

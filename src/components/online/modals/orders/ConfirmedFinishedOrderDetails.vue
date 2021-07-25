@@ -36,6 +36,13 @@
 		{{ since(order.created_at) }}
 	</p>
 	<b-button
+	v-if="order.buyer"
+	@click="sendMessage(order.buyer)"
+	class="m-b-15 p-0"
+	variant="link">
+		Cliente: {{ order.buyer.name }}
+	</b-button>
+	<b-button
 	v-show="order.status == 'confirmed' && !order_status_error"
 	block
 	@click="finish"

@@ -35,6 +35,7 @@ export default {
 			new_article.previus_price = article.previus_price
 			new_article.images = article.images
 			new_article.variants = article.variants
+			new_article.tags = article.tags
 			new_article.stock = this.stock(article, false)
 			if (!this.isProvider() && article.providers.length) {
 				new_article.provider_id = article.providers[0].id

@@ -39,6 +39,7 @@ export default {
 			if (this.$route.name == 'Online') {
 				this.getOrdersAndQuestions()
 			} else {
+				console.log('entro')
 				this.$router.replace({name: 'Online', params: {view: 'pedidos'}})
 			}
 		},

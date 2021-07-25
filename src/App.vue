@@ -129,6 +129,8 @@ export default {
                 await this.$store.dispatch('employees/getEmployees')
                 this.loading_message = 'descuentos'
                 await this.$store.dispatch('discounts/getDiscounts')
+                this.loading_message = 'etiquetas'
+                await this.$store.dispatch('tags/getTags')
                 if (this.isProvider()) {
                     this.loading_message = 'vendedores'
                     await this.$store.dispatch('sellers/getSellers')
@@ -173,7 +175,7 @@ export default {
     color: #2c3e50
     height: 100vh
 .container-fluid
-    // padding-bottom: 1em
+    padding-bottom: 1em
 .fade-enter-active,
 .fade-leave-active 
     transition-duration: 0.3s

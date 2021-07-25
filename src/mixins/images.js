@@ -37,7 +37,7 @@ export default {
 			var myCropWidget = cloudinary.createUploadWidget({
 				cloudName: 'lucas-cn', 
 				uploadPreset: 'my_preset',
-				sources: ['camera', 'local', 'instagram', 'image_search', 'facebook', 'google_drive'],
+				sources: ['image_search', 'instagram', 'local','camera', 'facebook', 'google_drive'],
 				googleApiKey: 'AIzaSyD10kzclyxnd_mSdMkgxXZJCoMsKJu8T6U',
 				searchByRights: true,
 				cropping: true,

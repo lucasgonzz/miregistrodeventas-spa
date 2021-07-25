@@ -14,6 +14,11 @@ export default {
 		},
 	},
 	methods: {
+		sendMessage(buyer) {
+			this.$router.push({name: 'Online', params: {view: 'mensajes', chat_id: buyer.id}})
+			this.$bvModal.hide('unconfirmed-order-details')
+			this.$bvModal.hide('confirmed-finished-order-details')
+		},
 		messagesNotRead(buyer) {
 			let messages_not_read = 0
 			buyer.messages.forEach(message => {

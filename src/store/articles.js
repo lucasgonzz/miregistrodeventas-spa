@@ -6,6 +6,7 @@ export default {
 	namespaced: true,
 	state: {
 		articles: [],
+		new_articles: [],
 		articles_to_show: [],
 		article_to_edit: {},
 		article_to_delete: {},
@@ -48,8 +49,17 @@ export default {
 		addArticleToShow(state, value) {
 			state.articles_to_show.unshift(value)
 		},
+		setNewArticles(state, value) {
+			state.new_articles = value
+		},
+		addNewArticle(state, value) {
+			state.new_articles.push(value)
+		},
 		addArticle(state, article) {
 			state.articles.unshift(article)
+			if (article.bar_code) {
+				state.bar_codes.unshift(article.bar_code)
+			}
 		},
 		addBarCode(state, value) {
 			state.bar_codes.unshift(value)

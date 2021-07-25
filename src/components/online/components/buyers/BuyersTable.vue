@@ -5,7 +5,16 @@
 		head-variant="dark" 
 		striped
 		:fields="fields"
-		:items="items"></b-table>
+		:items="items">
+			<template #cell(message)="data">
+				<b-button
+				size="sm"
+				variant="primary"
+				@click="sendMessage(buyers[data.index])">
+            		<i class="icon-message"></i>
+				</b-button>
+			</template>
+		</b-table>
 		<b-skeleton-table
 		v-else
 		:hide-header="false"
@@ -16,7 +25,9 @@
 	</div>
 </template>
 <script>
+import online from '@/mixins/online'
 export default {
+	mixins: [online],
 	computed: {
 		loading() {
 			return this.$store.state.online.buyers.loading
@@ -33,6 +44,7 @@ export default {
 				{key: 'address', label: 'Direccion'},
 				{key: 'address_number', label: 'Numero'},
 				{key: 'last_login', label: 'Ultimo Login'},
+				{key: 'message', label: 'Mensaje'},
 			]
 		},
 		items() {
@@ -42,9 +54,9 @@ export default {
 					name: buyer.name,
 					surname: buyer.surname,
 					phone: this.phone(buyer),
-					email: buyer.email,
-					address: buyer.address,
-					address_number: buyer.address_number,
+					email: this.email(buyer),
+					address: this.address(buyer),
+					address_number: this.addressNumber(buyer),
 					last_login: this.since(buyer.last_login),
 				})
 			})
@@ -54,7 +66,25 @@ export default {
 	methods: {
 		phone(buyer) {
 			return buyer.phone.substring(4)
-		}
+		},
+		address(buyer) {
+			if (buyer.address) {
+				return buyer.address
+			}
+			return '-'
+		},
+		addressNumber(buyer) {
+			if (buyer.address_number) {
+				return buyer.address_number
+			}
+			return '-'
+		},
+		email(buyer) {
+			if (buyer.email) {
+				return buyer.email
+			}
+			return '-'
+		},
 	}
 }
 </script>

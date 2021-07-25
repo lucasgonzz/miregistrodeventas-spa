@@ -262,6 +262,12 @@
 				</b-form-checkbox>
 			</b-col>
 			<b-col
+			cols="12"
+			md="6">
+				<tags
+				:article="article"></tags>
+			</b-col>
+			<b-col
 			cols="12">
 				<b-form-group
 				class="m-b-0">
@@ -282,9 +288,13 @@
 <script>
 import categories from '@/mixins/categories'
 import edit_articles from '@/mixins/edit_articles'
+import Tags from '@/components/ingresar/components/Tags'
 export default {
 	name: 'EditArticle',
 	mixins: [categories, edit_articles],
+	components: {
+		Tags,
+	},
 	data() {
 		return {
 			show_providers: false,

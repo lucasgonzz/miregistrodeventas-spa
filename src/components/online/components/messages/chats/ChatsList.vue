@@ -12,7 +12,7 @@
 				class="chat"
 				@click="setSelectedBuyer(chat)">
 					<p class="name">
-						{{ chat.name }}
+						{{ chat.name }} {{ chat.surname }}
 					</p>
 					<b-badge
 					variant="danger"
@@ -49,6 +49,14 @@ export default {
 		loading() {
 			return this.$store.state.online.buyers.loading
 		},
+	},
+	watch: {
+		$route(to, from) {
+            let buyer = this.$store.state.online.buyers.buyers.find(b => {
+            	return b.id == this.$route.params.chat_id
+            })
+			this.$store.commit('online/messages/setSelectedBuyer', buyer)
+		}
 	},
 	methods: {
 		setSelectedBuyer(buyer) {

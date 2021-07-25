@@ -17,6 +17,7 @@ import commissioners from './commissioners'
 import sale_types from './sale_types'
 import employees from './employees'
 import permissions from './permissions'
+import tags from './tags'
 
 Vue.use(Vuex)
 
@@ -51,5 +52,6 @@ export default new Vuex.Store({
 		sale_types,
 		employees,
 		permissions,
+		tags,
 	}
 })

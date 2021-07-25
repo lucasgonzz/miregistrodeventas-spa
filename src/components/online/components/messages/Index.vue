@@ -24,6 +24,15 @@ export default {
 		Chats,
 		Conversation,
 	},
+	created() {
+		// let chat_id = this.$route.params.chat_id
+		// console.log(chat_id)
+		// if (chat_id) {
+		// 	console.log('entro')
+		// 	let selected_buyer = this.buyers.find(buyer => {return buyer.id == chat_id})
+		// 	this.$store.commit('online/messages/setSelectedBuyer', selected_buyer)
+		// }
+	}
 }
 </script>
 <style lang="sass">

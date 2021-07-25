@@ -46,9 +46,10 @@ export default {
 		isRegister() {
 			// this.loading_is_register = true
 			// Controla que el codigo no este registrado con otro articulo
-			if (this.bar_codes.includes(this.article.bar_code)) {
+			let bar_code = this.getBarCode(this.article.bar_code)
+			if (this.bar_codes.includes(bar_code)) {
 				let article = this.articles.find(art => {
-					return art.bar_code == this.article.bar_code
+					return art.bar_code == bar_code
 				})
 				this.$store.commit('articles/setEdit', this.setArticle(article))
 				this.$bvModal.show('edit-article')

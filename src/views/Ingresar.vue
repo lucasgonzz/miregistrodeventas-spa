@@ -39,6 +39,10 @@
 			<stock-provider-category 
 			:article="article"
 			@saveArticle="saveArticle"></stock-provider-category>
+
+			<tags
+			:article="article"></tags>
+
 			<card-footer
 			:articles="articles_to_print"
 			:guardando="guardando"
@@ -69,6 +73,7 @@ import BarCode from '../components/ingresar/components/BarCode.vue'
 import Name from '../components/ingresar/components/Name.vue'
 import CostPrice from '../components/ingresar/components/CostPrice.vue'
 import StockProviderCategory from '../components/ingresar/components/StockProviderCategory.vue'
+import Tags from '../components/ingresar/components/Tags.vue'
 import CardFooter from '../components/ingresar/components/CardFooter.vue'
 import TitleAgregar from '../components/ingresar/components/TitleAgregar.vue'
 
@@ -97,6 +102,7 @@ export default {
 		Name,
 		CostPrice,
 		StockProviderCategory,
+		Tags,
 		CardFooter,
 		TitleAgregar,
 	},
@@ -112,6 +118,7 @@ export default {
 				cost: '',
 				price: '',
 				stock: '',
+				tags: [],
 				new_stock: 0,
 				stock_null: false,
 				act_fecha: 1,
@@ -314,6 +321,7 @@ export default {
 			this.article.new_stock = ''
 			this.article.stock_null = 0
 			this.article.stock_null = false
+			this.article.tags = []
 			if (this.special_prices.length) {
 				this.special_prices.forEach(special_price => {
 					this.article[special_price.name] = ''
