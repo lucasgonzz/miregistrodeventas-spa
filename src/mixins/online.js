@@ -14,8 +14,37 @@ export default {
 		},
 	},
 	methods: {
+		hasPaymentUpdated(order) {
+			if (order.payment) {
+				return order.payment.updated
+			}
+			return false
+		},
+		showMap(address) {
+			let location = {
+				lat: Number(address.lat),
+				lng: Number(address.lng),
+			}
+			this.$store.commit('map/setLocation', location)
+			this.$store.commit('map/setTitle', this.getAddress(address))
+			this.$bvModal.show('map-address')
+			console.log('se mostro mapa')
+		},
+		cancel(order) {
+			this.$store.commit('online/orders/setCancel', order)
+			this.$bvModal.show('cancel-order')
+		},
+		hasArticle(message) {
+			return message.article
+		},
+		getAddress(address) {
+			if (address) {
+				return address.street + ' ' + address.street_number 
+			}
+		},
 		sendMessage(buyer) {
 			this.$router.push({name: 'Online', params: {view: 'mensajes', chat_id: buyer.id}})
+			this.$store.commit('online/messages/setSelectedBuyer', buyer)
 			this.$bvModal.hide('unconfirmed-order-details')
 			this.$bvModal.hide('confirmed-finished-order-details')
 		},
@@ -33,6 +62,16 @@ export default {
 				let total = 0
 				order.articles.forEach(article => {
 					total += article.pivot.price * article.pivot.amount 
+				})
+				return total
+			}
+			return null
+		},
+		totalArticles(order) {
+			if (order.articles) {
+				let total = 0
+				order.articles.forEach(article => {
+					total += article.pivot.amount 
 				})
 				return total
 			}

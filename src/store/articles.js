@@ -49,12 +49,6 @@ export default {
 		addArticleToShow(state, value) {
 			state.articles_to_show.unshift(value)
 		},
-		setNewArticles(state, value) {
-			state.new_articles = value
-		},
-		addNewArticle(state, value) {
-			state.new_articles.push(value)
-		},
 		addArticle(state, article) {
 			state.articles.unshift(article)
 			if (article.bar_code) {
@@ -144,14 +138,11 @@ export default {
 			})
 		},
 		removeStock(state, articles) {
-			console.log(articles)
-			console.log(state.articles)
 			let article = {}
 			articles.forEach(art => {
 				article = state.articles.find(ar => {
 					return ar.id == art.id
 				})
-				console.log(article)
 				if (article.stock) {
 					article.stock -= art.amount
 				}
@@ -172,7 +163,6 @@ export default {
 			.then(res => {
 				VueOfflineStorage.set('articles', res.data.articles)
 				commit('setLoading', false)
-				console.log(res.data.articles)
 				commit('setArticles', res.data.articles)
 				commit('setArticlesToShow')
 				commit('setBarCodes')

@@ -8,11 +8,7 @@
 			<li
 			v-for="i in 3"
 			:key="i+'0'">
-				<b-card
-				class="order">
-					<b-skeleton width="100%"></b-skeleton>
-					<b-skeleton width="100%"></b-skeleton>
-				</b-card>
+				<loading></loading>
 			</li>
 		</ul>
 		<ul 
@@ -21,48 +17,31 @@
 			<li
 			v-for="order in orders"
 			:key="order.id">
-				<b-card
-				@click="orderDetails(order)"
-				class="order"
-				no-body>
-					<div
-					class="order-body">
-						<p
-						class="buyer-name">
-							Pedido de <strong>{{ buyerName(order) }}</strong> 
-						</p>
-						<p class="total">
-							{{ price(total(order)) }}
-						</p>
-						<p 
-						v-show="hasPaymentUpdated(order)">
-							Se actualizado el pago
-						</p>
-						<b-button
-						size="sm"
-						@click.stop="delivered(order)"
-						block
-						variant="success"
-						v-show="order.status == 'finished' && order.deliver">
-							<btn-loader
-							:loader="loading_deliver"
-							text="Enviado"></btn-loader>
-						</b-button>
-						<b-button
-						size="sm"
-						@click.stop="delivered(order)"
-						block
-						variant="success"
-						v-show="order.status == 'finished' && !order.deliver">
-							<btn-loader
-							:loader="loading_deliver"
-							text="Retirado"></btn-loader>
-						</b-button>
-						<p class="since">
-							{{ since(order.created_at) }}
-						</p>
-					</div>
-				</b-card>
+				<order-card
+				:order="order">
+					<b-button
+					class="m-b-15"
+					size="sm"
+					@click.stop="delivered(order)"
+					block
+					variant="success"
+					v-show="order.status == 'finished' && order.deliver">
+						<btn-loader
+						:loader="loading_deliver"
+						text="Enviado"></btn-loader>
+					</b-button>
+					<b-button
+					class="m-b-15"
+					size="sm"
+					@click.stop="delivered(order)"
+					block
+					variant="success"
+					v-show="order.status == 'finished' && !order.deliver">
+						<btn-loader
+						:loader="loading_deliver"
+						text="Retirado"></btn-loader>
+					</b-button>
+				</order-card>
 			</li>
 		</ul>
 		<p
@@ -76,12 +55,14 @@
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
 import Mixin from '@/mixins/online'
+import OrderCard from '@/components/online/components/orders/OrderCard'
 import Loading from '@/components/online/components/orders/Loading'
 export default {
 	name: 'ConfirmedFinishedOrders',
 	components: {
 		Loading,
 		BtnLoader,
+		OrderCard,
 	},
 	mixins: [Mixin],
 	data() {
@@ -98,12 +79,6 @@ export default {
 		},
 	},
 	methods: {
-		hasPaymentUpdated(order) {
-			if (order.payment) {
-				return order.payment.updated
-			}
-			return false
-		},
 		delivered(order) {
 			this.loading_deliver = true
 			this.$api.get(`/orders/deliver/${order.id}`)

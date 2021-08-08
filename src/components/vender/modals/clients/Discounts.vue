@@ -1,6 +1,7 @@
 <template>
 	<b-card no-body>
 		<div
+		class="m-b-15"
 		v-if="isProvider()">
 			<p>Seleccionar tipo de venta</p>
 			<b-form-group

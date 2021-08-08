@@ -5,12 +5,11 @@
 			class="col-autocomplete"
 			label="Etiquetas">
 				<autocomplete 
-				auto-select
 				ref="tagName"
 				id="tag-name"
 				:search="search" 
 				:get-result-value="getResultValue"
-				placeholder="Buscar un artículo"
+				placeholder="Ingresa una etiqueta"
 				@submit="setTag"></autocomplete>
 			</b-form-group>
 			<div
@@ -24,6 +23,11 @@
 					class="btn-remove">
 						<i class="icon-cancel"></i>
 					</span>
+				</div>
+				<div
+				v-show="loading"
+				class="tag bg-primary">
+					<span class="spinner-border spinner-border-sm"></span>
 				</div>
 			</div>
 		</b-col>
@@ -39,6 +43,11 @@ export default {
 		Autocomplete
 	},
 	mixins: [edit_articles],
+	data() {
+		return {
+			loading: false,
+		}
+	},
 	computed: {
 		tags() {
 			return this.$store.state.tags.tags
@@ -59,20 +68,23 @@ export default {
 				this.article.tags.push(tag)
 				this.$refs.tagName.value = ''
 			} else {
-				console.log('nueva')
 				this.saveTag()
 			}
 		},
 		saveTag() {
+			this.loading = true
 			this.$api.post('tags', {
 				name: this.$refs.tagName.value
 			})
 			.then(res => {
+				console.log(res)
+				this.loading = false
 				let tag = res.data.tag
 				this.setTag(tag)
 				this.$store.commit('tags/add', tag)
 			})
 			.catch(err => {
+				this.loading = false
 				console.log(err)
 			})
 		},
@@ -81,7 +93,7 @@ export default {
 				return t.id == tag.id
 			})
 			this.article.tags.splice(index, 1)
-		}
+		},
 	},
 }
 </script>

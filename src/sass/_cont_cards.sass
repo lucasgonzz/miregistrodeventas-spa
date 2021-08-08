@@ -1,0 +1,25 @@
+.cont-cards
+	display: flex
+	justify-content: flex-start
+	flex-wrap: wrap
+	// align-items: center
+.cont-cards > a, .cont-cards > .card
+	height: auto
+	width: 100%
+	color: #333
+	@media screen and (max-width: 576px)
+		margin-bottom: 1em
+	@media screen and (max-width: 778px)
+		// border-radius: 0 !important
+		border: none !important
+	@media screen and (min-width: 576px) and (max-width: 768px)
+		margin: 0 1% 1em
+		width: 48%
+	@media screen and (min-width: 768px) 
+		width: 31%
+		margin: 0 1% 3em
+	&:hover
+		text-decoration: none
+		color: #333
+	.card-body
+		padding: .5rem

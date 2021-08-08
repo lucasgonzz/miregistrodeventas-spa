@@ -3,6 +3,9 @@ export default {
         user() {
         	return this.$store.state.auth.user
         },
+        // articles() {
+        // 	return this.$store.state.articles.articles
+        // },
 	},
 	methods: {
 		scrollBottom(el) {
@@ -14,8 +17,7 @@ export default {
 			}, 1)
 		},
 		getBarCode(bar_code) {
-			console.log(bar_code.replace(' ', ''))
-			return bar_code.replace(' ', '')
+			return bar_code.replace(/\s+/g, '')
 		},
         amount(amount) {
             let punto_index = amount.indexOf('.')

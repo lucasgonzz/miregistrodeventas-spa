@@ -1,9 +1,14 @@
 <template>
 <b-modal id="cancel-order" title="Cancelar pedido" hide-footer>
-	<p
-	class="m-0">Selecciona los articulos faltantes</p>
+	<p>Selecciona los articulos faltantes</p>
 	<div class="cont-cards m-b-15">
-		<b-card
+		<article-card
+		v-for="article in order.articles"
+		:key="article.key"
+		:class="isSelectedArticle(article) ? 'shadow-4' : 'shadow-1'"
+		:article="article"
+		@articleSelected="selectArticle"></article-card>
+		<!-- <b-card
 		@click="selectArticle(article)"
 		class="card-article-variant border-radius c-p"
 		:class="isSelectedArticle(article) ? 'shadow-4' : 'shadow-3'"
@@ -13,14 +18,14 @@
 			<p class="m-0">
 				{{ articleName(article) }}
 			</p>
-		</b-card>
+		</b-card> -->
 	</div>
 	<b-form-group
 	v-show="!articulos_faltantes.length"
 	label="O escribi la razon de cancelar el pedido">
 		<b-form-textarea
 		placeholder="Ingresa la razon por la cual no podes cumplir con el pedido"
-		v-model="order.description"></b-form-textarea>
+		v-model="order.cancel_description"></b-form-textarea>
 	</b-form-group>
 	<b-form-group>
 		<b-button
@@ -38,9 +43,11 @@
 <script>
 import Mixin from '@/mixins/online'
 import BtnLoader from '@/components/common/BtnLoader'
+import ArticleCard from '@/components/common/ArticleCard'
 export default {
 	components: {
-		BtnLoader
+		BtnLoader,
+		ArticleCard,
 	},
 	mixins: [Mixin],
 	data() {
@@ -51,7 +58,7 @@ export default {
 	},
 	computed: {
 		order() {
-			return this.$store.state.online.orders.unconfirmed_order_details
+			return this.$store.state.online.orders.cancel
 		}
 	},
 	methods: {

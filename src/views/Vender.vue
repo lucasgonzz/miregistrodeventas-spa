@@ -37,7 +37,7 @@ import SuccessfulSale from '../components/vender/modals/SuccessfulSale.vue'
 
 // Componentes
 import Cargando from '../components/common/Cargando.vue'
-import HeaderForm from '../components/vender/components/HeaderForm.vue'
+import HeaderForm from '../components/vender/components/header-form/Index.vue'
 import SpecialPrices from '../components/vender/components/SpecialPrices.vue'
 import ArticlesTable from '../components/vender/components/ArticlesTable.vue'
 import Markers from '../components/vender/components/Markers.vue'

@@ -16,18 +16,19 @@
 </b-modal>
 </template>
 <script>
+import vender from '@/mixins/vender'
 export default {
+	mixins: [vender],
 	computed: {
 		article() {
-			return this.$store.state.vender.article_variant
+			return this.$store.state.vender.article_for_sale
 		}, 
 	},
 	methods: {
 		selectVariant(variant) {
 			this.article.selected_variant_id = variant.id
 			this.$bvModal.hide('select-variant')
-			this.$store.commit('vender/addArticle')
-			this.$store.commit('vender/setTotal')
+			this.addArticleAndSetTotal()
 		}
 	}
 }

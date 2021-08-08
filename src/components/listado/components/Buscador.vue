@@ -42,7 +42,7 @@
 			</b-dropdown-item>
 			<b-dropdown-item
 			v-b-modal="'delete-articles'">
-				<i class="icon-trash"></i>
+				<i class="icon-trash-3"></i>
 				Eliminar
 			</b-dropdown-item>
 		</b-dropdown>
@@ -133,7 +133,7 @@ export default {
 			return []
 		},
 		nameIncludes(article, input) {
-			if (article.name.toLowerCase().includes(input.toLowerCase())) {
+			if (article.name && article.name.toLowerCase().includes(input.toLowerCase())) {
 				return true
 			}
 			return false

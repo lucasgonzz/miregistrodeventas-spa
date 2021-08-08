@@ -18,6 +18,7 @@ export default {
             this.Echo.channel('order.'+this.user.id)
             .notification((notification) => {
                 console.log(notification)
+                // this.$store.commit('online/orders/addUnconfirmedOrder', notification.order)
                 this.$store.dispatch('online/orders/getUnconfirmedOrders')
             });
             this.Echo.channel('question.'+this.user.id)
@@ -38,7 +39,7 @@ export default {
                 this.$store.dispatch('online/messages/setMessagesRead')
                 this.$store.commit('online/buyers/setMessagesRead', selected_buyer)
                 this.$store.commit('online/buyers/setMessagesNotRead')
-                this.scrollBottom('conversation-messages')
+                this.scrollBottom('messages')
             }
         }
 	}

@@ -13,7 +13,7 @@
 			</div>
 			<div class="product-data-container">
 				<p class="product-name">{{ articleName(article) }}</p>
-				<p class="product-name">Cantidad: {{ amount(article.pivot.amount) }}</p>
+				<p class="product-name">Cantidad: {{ article.pivot.amount }}</p>
 				<p class="product-price">
 					{{ price(article.pivot.price) }}
 				</p>

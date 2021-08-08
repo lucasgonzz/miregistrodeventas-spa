@@ -11,7 +11,7 @@
 		</div>
 		<div
 		v-else-if="selected_buyer.messages.length"
-		id="conversation-messages">
+		id="messages">
 			<div 
 			v-for="message in selected_buyer.messages"
 			class="message shadow-1"
@@ -19,6 +19,10 @@
 				<p class="text">
 					{{ message.text }}
 				</p>
+				<article-card 
+				class="m-t-10"
+				v-if="hasArticle(message)"
+				:article="message.article"></article-card>
 				<p class="since">
 					{{ since(message.created_at) }}
 				</p>
@@ -36,8 +40,12 @@
 </template>
 <script>
 import online from '@/mixins/online'
+import ArticleCard from '@/components/common/ArticleCard'
 export default {
 	mixins: [online],
+	components: {
+		ArticleCard,
+	},
 	methods: {
 		getClassMessage(message) {
 			return message.from_buyer ? 'buyer-message bg-primary' : 'commerce-message'
@@ -46,7 +54,10 @@ export default {
 	watch: {
 		selected_buyer() {
 			if (this.selected_buyer && this.selected_buyer.messages.length) {
-				this.scrollBottom('conversation-messages')
+				this.scrollBottom('messages')
+				setTimeout(() => {
+					document.getElementById('message-text').focus()
+				}, 100)
 			}
 		}
 	}
@@ -55,12 +66,12 @@ export default {
 <style lang="sass">
 .container-messages
 	height: 85%
-#conversation-messages
+#messages
 	display: flex
 	flex-direction: column
 	overflow-y: scroll
 	padding: 1em
-	max-height: 100%
+	height: 100%
 .commerce-message
 	align-self: flex-end
 	color: #000 

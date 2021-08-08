@@ -60,6 +60,7 @@ export default {
 							"gdrive": "Google Drive",
 							"facebook": "Facebook",
 							"instagram": "Instagram",
+							"image_search": "Internet",
 						},
 						"crop": {
 							"title": "Cortar",
@@ -85,6 +86,24 @@ export default {
 			                "no_auth_action": "Conectar a Instagram",
 			                "header_title": "Tus ultimas fotos de Instagram",
 			                "authenticating": "Autenticando"
+			            },
+			            "image_search": {
+			                "main_title": "Buscar imagenes",
+			                "inputPlaceholder": "Ingrese el codigo o nombre del artículo",
+			                "customPlaceholder": "Search {{site}}",
+			                "show_options": "Mostrar opciones",
+			                "hide_options": "Cerrar opciones",
+			                "filters_title": "Sitio",
+			                "all": "Todo",
+			                "rights": "Usage rights:",
+			                "rights_options": {
+			                    "not_filtered": "not filtered by licence",
+			                    "free": "free to use or share",
+			                    "free_com": "free to use or share, even commercially",
+			                    "free_mod": "free to use share or modify",
+			                    "free_mod_com": "free to use, share or modify, even commercially"
+			                },
+			                "search_error": "Error al buscar, intente denuevo por favor."
 			            },
 			            "queue": {
 			                "title": "Fila para subir",

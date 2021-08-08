@@ -18,6 +18,8 @@ import sale_types from './sale_types'
 import employees from './employees'
 import permissions from './permissions'
 import tags from './tags'
+import confirm from './confirm'
+import map from './map'
 
 Vue.use(Vuex)
 
@@ -53,5 +55,7 @@ export default new Vuex.Store({
 		employees,
 		permissions,
 		tags,
+		confirm,
+		map,
 	}
 })

@@ -61,7 +61,9 @@ export default {
 	methods: {
 		setSelectedBuyer(buyer) {
 			this.$store.commit('online/messages/setSelectedBuyer', buyer)
-			this.$router.push({name: 'Online', params: {chat_id: buyer.id}})
+			if (this.$route.params.chat_id != buyer.id) {
+				this.$router.push({name: 'Online', params: {chat_id: buyer.id}})
+			}
 			this.$store.dispatch('online/messages/setMessagesRead')
 			this.$store.commit('online/buyers/setMessagesRead', buyer)
 			this.$store.commit('online/buyers/setMessagesNotRead')

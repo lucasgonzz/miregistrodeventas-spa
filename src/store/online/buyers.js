@@ -6,6 +6,7 @@ export default {
 	namespaced: true,
 	state: {
 		buyers: [],
+		buyers_to_show: [],
 		messages_not_read: 0,
 		loading: false,
 	},
@@ -15,6 +16,12 @@ export default {
 				b.messages.reverse()
 			})
 			state.buyers = buyers
+		},
+		setBuyersToShow(state, value = null) {
+			if (!value) {
+				value = state.buyers
+			}
+			state.buyers_to_show = value
 		},
 		setMessagesNotRead(state) {
 			state.messages_not_read = 0
@@ -63,9 +70,13 @@ export default {
 			axios.get('/api/buyers')
 			.then(res => {
 				commit('setLoading', false)
-				commit('setMessagesNotRead')
+				// commit('setMessagesNotRead')
+				// commit('setBuyers', res.data.buyers)
 				commit('setBuyers', res.data.buyers)
-				commit('online/messages/setChatsToShow', res.data.buyers, {root: true})
+				commit('setBuyersToShow')
+				commit('setMessagesNotRead')
+				commit('online/messages/setChatsToShow', null, {root: true})
+				// commit('online/messages/setChatsToShow', res.data.buyers, {root: true})
 				console.log('getBuyers', res.data.buyers)
 			})
 			.catch(err => {

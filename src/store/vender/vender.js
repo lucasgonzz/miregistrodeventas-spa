@@ -11,7 +11,9 @@ export default {
 	namespaced: true,
 	state: {
 		articles: [],
-		new_article_bar_code: '',
+		article: {bar_code: '', amount: ''},
+		clear_article_name: false,
+		new_article: '',
 		article_for_sale: {},
 		article_variant: {},
 		total: 0,
@@ -28,8 +30,19 @@ export default {
 		setArticles(state, articles) {
 			state.articles = articles
 		},
-		setNewArticleBarCode(state, value) {
-			state.new_article_bar_code = value
+		setClearArticleName(state, value) {
+			if (state.clear_article_name) {
+				state.clear_article_name = false
+			} else {
+				state.clear_article_name = true
+			}
+		},
+		setArticle(state) {
+			state.article.bar_code = ''
+			state.article.amount = ''
+		},
+		setNewArticle(state, value) {
+			state.new_article = value
 		},
 		addArticle(state, article) {
 			state.articles.unshift(state.article_for_sale)

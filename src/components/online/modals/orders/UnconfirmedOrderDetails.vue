@@ -5,9 +5,7 @@
 	:key="article.key"
 	:article="article"></article-order>
 	<p>
-		<strong>
-			Total: {{ price(total(order)) }}
-		</strong>
+		<strong>Total: {{ price(total(order)) }}</strong>
 	</p>
 	<p>
 		<span v-show="order.payment_method == 'tarjeta'">
@@ -19,7 +17,10 @@
 	</p>
 	<p>
 		<span v-if="order.deliver == 1">
-			Para enviar a {{ order.address }} {{ order.address_number }}
+			Para enviar a 
+			<b-button
+			@click="showMap(order.address)"
+			variant="link">{{ getAddress(order.address) }}</b-button> 
 		</span>
 		<span v-else>
 			Para retirar
@@ -49,7 +50,7 @@
 		</btn-loader>
 	</b-button>
 	<b-button
-	@click="cancel"
+	@click="cancel(order)"
 	block
 	variant="danger">
 		Cancelar Pedido
@@ -89,6 +90,7 @@ export default {
 			.then(() => {
 				this.loading = false
 				this.getOrders()
+				this.$store.dispatch('online/messages/getMessages', this.order.buyer_id)
 				this.$bvModal.hide('unconfirmed-order-details')
 			})
 			.catch(err => {
@@ -96,9 +98,6 @@ export default {
 				console.log(err)
 			})
 		},
-		cancel() {
-			this.$bvModal.show('cancel-order')
-		}
 	}
 }
 </script>

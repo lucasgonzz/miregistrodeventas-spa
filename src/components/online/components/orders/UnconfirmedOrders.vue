@@ -8,11 +8,7 @@
 			<li
 			v-for="i in 3"
 			:key="i">
-				<b-card
-				class="order">
-					<b-skeleton width="100%"></b-skeleton>
-					<b-skeleton width="100%"></b-skeleton>
-				</b-card>
+				<loading></loading>
 			</li>
 		</ul>
 		<ul
@@ -21,21 +17,8 @@
 			<li
 			v-for="order in orders"
 			:key="order.id">
-				<b-card
-				@click="orderDetails(order)"
-				class="order"
-				no-body>
-					<div
-					class="order-body">
-						<p
-						class="buyer-name">
-							<strong>{{ buyerName(order) }}</strong> quiere hacer un pedido
-						</p>
-						<p class="since">
-							{{ since(order.created_at) }}
-						</p>
-					</div>
-				</b-card>
+				<order-card
+				:order="order"></order-card>
 			</li>
 		</ul>
 		<p
@@ -48,11 +31,13 @@
 </template>
 <script>
 import Loading from '@/components/online/components/orders/Loading'
+import OrderCard from '@/components/online/components/orders/OrderCard'
 import Mixin from '@/mixins/online'
 export default {
 	name: 'UnconfirmedOrders',
 	components: {
 		Loading,
+		OrderCard,
 	},
 	mixins: [Mixin],
 	data() {
@@ -67,31 +52,25 @@ export default {
 			return this.$store.state.online.orders.loading_unconfirmed_orders
 		}
 	},
-	methods: {
-		orderDetails(order) {
-			this.$store.commit('online/orders/setUnconfirmedOrderDetails', order)
-			this.$bvModal.show('unconfirmed-order-details')
-		}
-	},
 	created() {
 	}
 }
 </script>
 <style scoped lang="sass">
-.buyer-name 
-	text-align: center
-	margin-bottom: 0
-.since 
-	margin-top: .5em
-	margin-bottom: 0
-	font-size: .7em
-	text-align: right
-	color: rgba(0,0,0,.5)
-.card-footer
-	display: flex
-	justify-content: flex-end
-	padding: 0
-	button 
-		margin: .5em
+// .buyer-name 
+// 	text-align: center
+// 	margin-bottom: 0
+// .since 
+// 	margin-top: .5em
+// 	margin-bottom: 0
+// 	font-size: .7em
+// 	text-align: right
+// 	color: rgba(0,0,0,.5)
+// .card-footer
+// 	display: flex
+// 	justify-content: flex-end
+// 	padding: 0
+// 	button 
+// 		margin: .5em
 		// @media screen and (max-width: 576px)
 </style>

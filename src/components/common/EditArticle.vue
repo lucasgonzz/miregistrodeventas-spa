@@ -252,18 +252,17 @@
 					disabled
 					:placeholder="previus_price"></b-form-input>
 				</b-form-group>
-				<b-form-checkbox
+				<!-- <b-form-checkbox
 				class="m-b-10"
 				id="article-act-fecha"
 				v-model="article.act_fecha"
 				:value="true"
 				:unchecked-value="false">
 					Actualizar fecha
-				</b-form-checkbox>
+				</b-form-checkbox> -->
 			</b-col>
 			<b-col
-			cols="12"
-			md="6">
+			cols="12">
 				<tags
 				:article="article"></tags>
 			</b-col>
@@ -275,9 +274,9 @@
 					block
 					variant="primary"
 					@click="updateArticle">
-						<i class="icon-check" v-show="!loading"></i>
-						<span v-show="loading" class="spinner-border spinner-border-sm"></span>
-						Actualizar
+						<btn-loader
+						:loader="loading"
+						text="Actualizar"></btn-loader>
 					</b-button>
 				</b-form-group>	
 			</b-col>
@@ -289,11 +288,13 @@
 import categories from '@/mixins/categories'
 import edit_articles from '@/mixins/edit_articles'
 import Tags from '@/components/ingresar/components/Tags'
+import BtnLoader from '@/components/common/BtnLoader'
 export default {
 	name: 'EditArticle',
 	mixins: [categories, edit_articles],
 	components: {
 		Tags,
+		BtnLoader,
 	},
 	data() {
 		return {

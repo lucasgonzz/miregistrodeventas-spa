@@ -6,11 +6,19 @@
 		striped
 		:fields="fields"
 		:items="items">
+			<template #cell(address)="data">
+				<b-button
+				size="sm"
+				variant="link"
+				@click="showMap(buyers_to_show[data.index].addresses[0])">
+					{{ getAddress(buyers_to_show[data.index].addresses[0]) }}
+				</b-button>
+			</template>
 			<template #cell(message)="data">
 				<b-button
 				size="sm"
 				variant="primary"
-				@click="sendMessage(buyers[data.index])">
+				@click="sendMessage(buyers_to_show[data.index])">
             		<i class="icon-message"></i>
 				</b-button>
 			</template>
@@ -32,8 +40,8 @@ export default {
 		loading() {
 			return this.$store.state.online.buyers.loading
 		},
-		buyers() {
-			return this.$store.state.online.buyers.buyers
+		buyers_to_show() {
+			return this.$store.state.online.buyers.buyers_to_show
 		},
 		fields() {
 			return [
@@ -43,20 +51,20 @@ export default {
 				{key: 'email', label: 'Correo'},
 				{key: 'address', label: 'Direccion'},
 				{key: 'address_number', label: 'Numero'},
+				{key: 'created_at', label: 'Registrado'},
 				{key: 'last_login', label: 'Ultimo Login'},
 				{key: 'message', label: 'Mensaje'},
 			]
 		},
 		items() {
 			let items = []
-			this.buyers.forEach(buyer => {
+			this.buyers_to_show.forEach(buyer => {
 				items.push({
 					name: buyer.name,
 					surname: buyer.surname,
 					phone: this.phone(buyer),
 					email: this.email(buyer),
-					address: this.address(buyer),
-					address_number: this.addressNumber(buyer),
+					created_at: this.date(buyer.created_at),
 					last_login: this.since(buyer.last_login),
 				})
 			})
@@ -66,12 +74,6 @@ export default {
 	methods: {
 		phone(buyer) {
 			return buyer.phone.substring(4)
-		},
-		address(buyer) {
-			if (buyer.address) {
-				return buyer.address
-			}
-			return '-'
 		},
 		addressNumber(buyer) {
 			if (buyer.address_number) {

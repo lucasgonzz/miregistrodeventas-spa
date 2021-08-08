@@ -20,6 +20,7 @@
             v-model="new_client.address"></b-form-input>
         </b-form-group>
         <b-form-group
+        v-if="isProvider()"
         label="Vendedor">
             <b-form-select
             :options="seller_options"

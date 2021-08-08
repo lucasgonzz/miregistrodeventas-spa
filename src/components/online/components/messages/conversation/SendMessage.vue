@@ -3,8 +3,20 @@
 	v-if="selected_buyer">
 		<b-form-input
 		v-model="text"
+		id="message-text"
 		@keyup.enter="sendMessage"
 		placeholder="Escribe un mensaje"></b-form-input>
+		<img 
+		v-if="selected_article"
+		class="selected-article-img"
+		:src="message_article_img">
+		<b-button
+		@click="showArticles"
+		variant="primary"
+		class="m-l-10">
+			<i
+			:class="icon_class"></i>
+		</b-button>
 		<b-button
 		@click="sendMessage"
 		variant="primary"
@@ -27,6 +39,23 @@ export default {
 		selected_buyer() {
 			return this.$store.state.online.messages.selected_buyer
 		},
+		selected_article() {
+			return this.$store.state.online.messages.selected_article
+		},
+		show_articles() {
+			return this.$store.state.online.messages.show_articles
+		},
+		icon_class() {
+			if (!this.show_articles) {
+				return 'icon-camera' 
+			}
+			return 'icon-cancel' 
+		},
+		message_article_img() {
+			if (this.selected_article) {
+				return this.articleImageUrl(this.selected_article)
+			}
+		},
 	},
 	data() {
 		return {
@@ -35,16 +64,26 @@ export default {
 		}
 	},
 	methods: {
+		showArticles() {
+			if (this.show_articles) {
+				this.$store.commit('online/messages/setShowArticles', false)
+			} else {
+				this.$store.commit('online/messages/setShowArticles', true)
+			}
+		},
 		sendMessage() {
 			this.loading = true
 			this.$api.post('messages', {
 				buyer_id: this.selected_buyer.id,
 				text: this.text,
+				article_id: this.getSelectedArticleId(),
 			})
 			.then(res => {
 				this.$store.commit('online/buyers/addBuyerMessage', res.data.message)
+				this.$store.commit('online/messages/setChatsToShow')
 				this.scrollBottom('conversation-messages')
 				this.loading = false
+				this.scrollBottom('messages')
 				this.clear()
 			})
 			.catch(err => {
@@ -52,7 +91,14 @@ export default {
 				this.loading = false
 			})
 		},
+		getSelectedArticleId() {
+			if (!this.selected_article) {
+				return null
+			}
+			return this.selected_article.id
+		},
 		clear() {
+			this.$store.commit('online/messages/setSelectedArticle', null)
 			this.text = ''
 		}
 	}
@@ -63,4 +109,8 @@ export default {
 	height: 15%
 	display: flex
 	align-items: center
+	img 
+		width: 40px
+		border-radius: .3em
+		margin-left: 1em
 </style>

@@ -10,6 +10,7 @@ export default {
 		confirmed_finished_order_details: [],
 		loading_unconfirmed_orders: false,
 		loading_confirmed_finished_orders: false,
+		cancel: {},
 	},
 	mutations: {
 		setUnconfirmedOrders(state, orders) {
@@ -28,10 +29,18 @@ export default {
 			state.loading_confirmed_finished_orders = value
 		},
 		addUnconfirmedOrder(state, order) {
-			state.unconfirmed_orders.push(order)
+			let index = state.unconfirmed_orders.findIndex(o => {
+				return o.id == order.id
+			})
+			if (index == -1) {
+				state.unconfirmed_orders.push(order)
+			}
 		},
 		setLoadingUnconfirmedOrders(state, value) {
 			state.loading_unconfirmed_orders = value
+		},
+		setCancel(state, value) {
+			state.cancel = value
 		},
 	},
 	actions: {

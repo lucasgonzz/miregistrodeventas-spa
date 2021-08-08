@@ -1,5 +1,5 @@
 <template>
-	<b-row class="m-t-10">
+	<b-row>
 		<b-col
 		cols="12"
 		sm="4"
@@ -22,18 +22,20 @@
 			block
 			variant="success"
 			@click.prevent="saveArticle">
-				<i v-show="!guardando"
-					class="icon-check"></i>
-				<span v-show="guardando"
-						class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-				Guardar
+				<btn-loader
+				:loader="guardando"
+				text="Guardar"></btn-loader>
 			</b-button>
 		</b-col>
 	</b-row>
 </template>
 <script>
+import BtnLoader from '@/components/common/BtnLoader'
 export default {
 	props: ['articles', 'guardando'],
+	components: {
+		BtnLoader,
+	},
 	methods: {
 		previus() {
 			this.$emit('previus')

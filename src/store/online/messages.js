@@ -1,25 +1,36 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
-import buyers from '@/store/online/buyers'
+import buyers_store from '@/store/online/buyers'
 import online from '@/mixins/online'
 export default {
 	namespaced: true,
 	state: {
 		selected_buyer: null,
 		chats_to_show: [],
+		show_articles: false,
+		selected_article: null,
 		loading: false,
 	},
 	mutations: {
 		setSelectedBuyer(state, buyer) {
 			state.selected_buyer = buyer
 		},
+		setShowArticles(state, value) {
+			state.show_articles = value
+		},
+		setSelectedArticle(state, value) {
+			state.selected_article = value
+		},
 		setChatsToShow(state, value = null) {
-			if (!value) {
-				value = buyers.state.buyers
-			}
-			value.sort((a, b) => (online.methods.messagesNotRead(a) < online.methods.messagesNotRead(b)) ? 1 : -1)
-			state.chats_to_show = value
+			let buyers = []
+			buyers_store.state.buyers.forEach(buyer => {
+				if (buyer.messages.length) {
+					buyers.push(buyer)
+				}
+			})
+			let buyers_sort = buyers.sort((a, b) => (new Date(b.messages[b.messages.length - 1].created_at) - new Date(a.messages[a.messages.length - 1].created_at)))
+			state.chats_to_show = buyers_sort
 		},
 		setLoading(state, value) {
 			state.loading = value
@@ -32,10 +43,10 @@ export default {
 			}
 			return axios.get('api/messages/'+buyer_id)
 			.then(res => {
-				let index = buyers.state.buyers.findIndex(buyer => {
+				let index = buyers_store.state.buyers.findIndex(buyer => {
 					return buyer.id == buyer_id
 				})
-				buyers.state.buyers[index].messages = res.data.messages
+				buyers_store.state.buyers[index].messages = res.data.messages
 			})
 			.catch(err => {
 				console.log(err)

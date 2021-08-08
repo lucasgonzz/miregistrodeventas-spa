@@ -19,7 +19,7 @@
 	<b-row class="justify-content-center">
 		<b-col
 		cols="12" 
-		lg="8">
+		lg="6">
 			<!-- <uncontable 
 			:article="article"></uncontable> -->
 			<title-agregar></title-agregar>
@@ -36,12 +36,19 @@
 			:user="user"
 			:porcentage_for_price="porcentage_for_price"></cost-price>
 
-			<stock-provider-category 
+			<stock-provider 
 			:article="article"
-			@saveArticle="saveArticle"></stock-provider-category>
+			@saveArticle="saveArticle"></stock-provider>
+
+			<categories-subcategories 
+			:article="article"
+			@saveArticle="saveArticle"></categories-subcategories>
 
 			<tags
 			:article="article"></tags>
+
+			<add-photo
+			:article="article"></add-photo>
 
 			<card-footer
 			:articles="articles_to_print"
@@ -72,8 +79,10 @@ import DeleteSpecialPrice from '../components/ingresar/modals/DeleteSpecialPrice
 import BarCode from '../components/ingresar/components/BarCode.vue'
 import Name from '../components/ingresar/components/Name.vue'
 import CostPrice from '../components/ingresar/components/CostPrice.vue'
-import StockProviderCategory from '../components/ingresar/components/StockProviderCategory.vue'
+import StockProvider from '../components/ingresar/components/StockProvider.vue'
+import CategoriesSubcategories from '../components/ingresar/components/CategoriesSubcategories.vue'
 import Tags from '../components/ingresar/components/Tags.vue'
+import AddPhoto from '../components/ingresar/components/AddPhoto.vue'
 import CardFooter from '../components/ingresar/components/CardFooter.vue'
 import TitleAgregar from '../components/ingresar/components/TitleAgregar.vue'
 
@@ -101,8 +110,10 @@ export default {
 		BarCode,
 		Name,
 		CostPrice,
-		StockProviderCategory,
+		StockProvider,
+		CategoriesSubcategories,
 		Tags,
+		AddPhoto,
 		CardFooter,
 		TitleAgregar,
 	},
@@ -122,12 +133,12 @@ export default {
 				new_stock: 0,
 				stock_null: false,
 				act_fecha: 1,
+				add_photo: false,
 				created_at: new Date().toISOString().slice(0,10),
 			},
 
 			// Spinners
 			guardando: false,
-			loading_is_register: false,
 			articles_to_print: [],
 			porcentage_for_price: 0,
 		}
@@ -248,6 +259,9 @@ export default {
 					this.clearArticle()
 					this.$toast.success('Guardado correctamente')
 					document.getElementById('article-bar-code').focus()
+					if (this.article.add_photo) {
+						this.uploadPhoto(article)
+					}
 				})
 				.catch( err => {
 					this.$toast.error('Error al guardar el artículo, revise sus datos e intentelo nuevamente por favor')
@@ -338,17 +352,20 @@ export default {
 	}
 }
 </script>
-<style scoped lang="sass">
-.card-header
-	align-items: center
-.card-footer
-	padding: 0
-.spinner-anterior 
-	margin-bottom: 4px !important
-.form-group 
-	margin-bottom: .5rem
-.spinner-border-sm 
-	margin-bottom: 2px
-.col-12
-	flex-direction: column
+<style lang="sass">
+#ingresar
+	.form-group
+	margin-bottom: 0
+	.card-header
+		align-items: center
+	.card-footer
+		padding: 0
+	.spinner-anterior 
+		margin-bottom: 4px !important
+	.form-group 
+		margin-bottom: .5rem
+	.spinner-border-sm 
+		margin-bottom: 2px
+	.col-12
+		flex-direction: column
 </style>

@@ -22,7 +22,10 @@
 	</p>
 	<p>
 		<span v-if="order.deliver == 1">
-			Para enviar a {{ order.address }} {{ order.address_number }}
+			Para enviar a 
+			<b-button
+			@click="showMap(order.address)"
+			variant="link">{{ getAddress(order.address) }}</b-button> 
 		</span>
 		<span v-else>
 			Para retirar
@@ -58,6 +61,13 @@
 		v-show="!loading && !order.deliver">
 			Listo para retirar
 		</span>
+	</b-button>
+	<b-button
+	v-if="order.status == 'confirmed'"
+	@click="cancel(order)"
+	block
+	variant="danger">
+		Cancelar Pedido
 	</b-button>
 </b-modal>
 </template>

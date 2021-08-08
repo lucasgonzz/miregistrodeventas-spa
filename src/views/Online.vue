@@ -1,5 +1,6 @@
 <template>
 	<div id="online">
+		<map-address></map-address>
 		<answer></answer>
 		<cancel-order></cancel-order>
 		<views></views>
@@ -27,6 +28,7 @@ import Answer from '@/components/online/modals/Answer'
 import CancelOrder from '@/components/online/modals/orders/CancelOrder'
 import Views from '@/components/online/modals/examine/Views'
 import BuyerViews from '@/components/online/modals/examine/BuyerViews'
+import MapAddress from '@/components/common/MapAddress'
 import online from '@/mixins/online'
 export default {
 	components: {
@@ -40,6 +42,7 @@ export default {
 		CancelOrder,
 		Views,
 		BuyerViews,
+		MapAddress,
 	},
 	mixins: [online],
 	computed: {
