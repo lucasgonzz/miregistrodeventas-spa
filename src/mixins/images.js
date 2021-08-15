@@ -12,6 +12,19 @@ export default {
 			let url = `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom/${image.url}`
 			return url
 		},
+		articleImgFromQuestion(question) {
+			let url
+			if (question.variant_id) {
+				let selected_variant = question.article.variants.find(variant => {
+					return variant.id == question.variant_id
+				})
+				console.log(selected_variant)
+				url = selected_variant.url
+			} else {
+				url = this.getFirstImage(article).url
+			}
+			return `https://res.cloudinary.com/lucas-cn/image/upload/${url}`
+		},
 		articleImageUrl(article, cropped = true) {
 			let url = `https://res.cloudinary.com/lucas-cn/image/upload`
 			if (cropped) {
@@ -19,6 +32,11 @@ export default {
 			} else {
 				url += `/${this.getFirstImage(article)}`
 			}
+			return url
+		},
+		imageCropedUrlFromVariant(article) {
+			let url = `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom/${article.
+				variant.url}`
 			return url
 		},
 		getFirstImage(article) {

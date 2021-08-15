@@ -230,7 +230,7 @@ export default {
 			if (this.article.bar_code == '') {
 				if (this.articles.length) {
 					this.articles.forEach(article => {
-						if (article.name.toLowerCase() == this.article.name.toLowerCase() && ok) {
+						if (article.name && article.name.toLowerCase() == this.article.name.toLowerCase() && ok) {
 							if (article.bar_code === null) {
 								ok = false
 								this.$toast.error('Ya hay un articulo con ese nombre y sin un codigo de barras, cambie el nombre o asignele un codigo de barras');

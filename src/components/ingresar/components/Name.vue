@@ -46,7 +46,7 @@ export default {
 		search(input) {
 			if (input.length < 3) { return [] }
 			return this.articles.filter(article => {
-				return article.name.toLowerCase().includes(input.toLowerCase())
+				return article.name && article.name.toLowerCase().includes(input.toLowerCase())
 			})
 		},
 		getResultValue(article) {

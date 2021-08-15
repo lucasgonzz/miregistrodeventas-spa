@@ -4,7 +4,7 @@
 		{{ question.buyer.name }} pregunto por {{ question.article.name }}
 	</p>
 	<div class="img-container">
-		<img :src="articleImageUrl(question.article, false)" :alt="question.article.name">
+		<img :src="articleImgFromQuestion(question)" :alt="question.article.name">
 	</div>
 	<p>
 		Pregunta: {{ question.text }}

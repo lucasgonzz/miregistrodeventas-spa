@@ -73,7 +73,10 @@ export default {
 	},
 	methods: {
 		phone(buyer) {
-			return buyer.phone.substring(4)
+			if (buyer.phone) {
+				return buyer.phone.substring(4)
+			} 
+			return '-'
 		},
 		addressNumber(buyer) {
 			if (buyer.address_number) {

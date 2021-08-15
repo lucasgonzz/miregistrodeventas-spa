@@ -60,8 +60,10 @@ export default {
 			} else {
 				if (this.isProvider() && !this.isRepeat()) {
 					this.article_for_sale.amount = this.article.amount
+					this.addArticleAndSetTotal()
+				} else if (!this.isRepeat()) {
+					this.addArticleAndSetTotal()
 				}
-				this.addArticleAndSetTotal()
 				this.clearArticle()
 			}
 		},
@@ -87,8 +89,10 @@ export default {
 				return art.id == this.article_for_sale.id
 			})
 			if (typeof finded == 'undefined') {
+				console.log('No esta repetido')
 				return false
 			} else {
+				console.log('Esta repetido')
 				finded.amount = Number(finded.amount)
 				if (this.isProvider()) {
 					finded.amount += Number(this.article.amount)
