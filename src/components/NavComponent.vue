@@ -1,6 +1,7 @@
 <template>
 <div>
-    <schedules></schedules>
+    <online-prices></online-prices>
+    <workdays-schedules></workdays-schedules>
     <update-schedule></update-schedule>
     <update-deliver-amount></update-deliver-amount>
     <update-password></update-password>
@@ -133,7 +134,8 @@
 </div>
 </template>
 <script>
-import Schedules from './config/Schedules'
+import OnlinePrices from './config/OnlinePrices'
+import WorkdaysSchedules from './config/workdays-schedules/Index'
 import UpdateSchedule from './config/UpdateSchedule'
 import UpdateDeliverAmount from './config/UpdateDeliverAmount'
 import UpdatePassword from './config/UpdatePassword'
@@ -147,7 +149,8 @@ export default {
     name: 'NavComponent',
     mixins: [mixin],
     components: {
-        Schedules,
+        OnlinePrices,
+        WorkdaysSchedules,
         UpdateSchedule,
         OrderInfo,
         UpdatePassword,

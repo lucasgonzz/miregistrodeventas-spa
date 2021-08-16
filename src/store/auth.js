@@ -18,7 +18,7 @@ export default {
 		},
 		user(state) {
 			return state.user
-		}
+		},
 	},
 	mutations: {
 		setAuthenticated(state, value) {
@@ -26,6 +26,12 @@ export default {
 		},
 		setUser(state, value) {
 			state.user = value
+		},
+		setUserWorkdaysId(state) {
+			state.user.workdays_id = []
+			state.user.workdays.forEach(workday => {
+				state.user.workdays_id.push(workday.id)
+			})
 		},
 		setLoading(state, value) {
 			state.loading = value
@@ -42,6 +48,7 @@ export default {
 				commit('setLoading', false)
 				commit('setAuthenticated', true)
 				commit('setUser', res.data.user)
+				// commit('setUserWorkdaysId')
 			})
 			.catch(() => {
 				commit('setLoading', false)
@@ -49,22 +56,6 @@ export default {
 				commit('setUser', null)
 			})
 		},
-		// login({ commit }, user) {
-		// 	commit('setAuthenticated', false)
-		// 	commit('setLoading', true)
-		// 	return axios.post('/login', user)
-		// 	.then(res => {
-		// 		commit('setLoading', false)
-		// 		if (res.data.login == 200) {
-		// 			commit('setAuthenticated', true)
-		// 			commit('setUser', res.data.user)
-		// 		} 
-		// 	})
-		// 	.catch(err => {
-		// 		commit('setLoading', false)
-		// 		console.log(err)
-		// 	})
-		// },
 		logout({ commit }) {
 			commit('setLoading', true)
 			return axios.post('/logout')

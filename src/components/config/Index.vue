@@ -16,8 +16,13 @@
 		</b-list-group-item>
 		<b-list-group-item
 		v-if="hasOnline()"
-		v-b-modal="'schedules'">
-			Horarios
+		v-b-modal="'workdays-schedules'">
+			Dias y Horarios
+		</b-list-group-item>
+		<b-list-group-item
+		v-if="hasOnline()"
+		v-b-modal="'online-prices'">
+			Precios online
 		</b-list-group-item>
 	</b-list-group>
 </b-modal>

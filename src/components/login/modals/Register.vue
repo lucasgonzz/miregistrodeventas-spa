@@ -7,14 +7,14 @@
 				label="Nombre"
 				label-for="name">
 					<b-form-input
-					v-model="user.name"
+					v-model="register_user.name"
 					placeholder="Ingrese su nombre"></b-form-input>
 				</b-form-group>
 				<b-form-group
 				label="Nombre del comercio"
 				label-for="company-name">
 					<b-form-input
-					v-model="user.company_name"
+					v-model="register_user.company_name"
 					placeholder="Ingrese el nombre del comercio"></b-form-input>
 				</b-form-group>
 				<b-form-group
@@ -22,7 +22,7 @@
 				label-for="password">
 					<b-form-input
 					type="password"
-					v-model="user.password"
+					v-model="register_user.password"
 					@keydown.enter="register"
 					placeholder="Ingrese la contraseña"></b-form-input>
 				</b-form-group>
@@ -46,7 +46,7 @@
 export default {
 	data() {
 		return {
-			user: {
+			register_user: {
 				name: '',
 				company_name: '',
 				password: '',
@@ -57,7 +57,7 @@ export default {
 	methods: {
 		register() {
 			this.loading = true
-			this.$axios.post('register', this.user)
+			this.$axios.post('register', this.register_user)
 			.then(res => {
 				console.log(res)
 				this.loading = false

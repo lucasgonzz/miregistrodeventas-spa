@@ -136,6 +136,7 @@ export default {
 						console.log('bien')
 						this.$store.commit('auth/setAuthenticated', true)
 						this.$store.commit('auth/setUser', res.data.user)
+						// this.$store.commit('auth/setUserWorkdaysId')
 						this.$router.replace('/')
 					} else {
 						this.loading = false
