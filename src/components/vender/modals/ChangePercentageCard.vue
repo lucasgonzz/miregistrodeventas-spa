@@ -62,7 +62,9 @@ export default {
     methods: {
         updatePercentageCard() {
             this.loading = true
-            this.$api.get('/set-percentage-card/'+this.new_percentage_card)
+            this.$api.put('/users/set-percentage-card', {
+                percentage_card: this.new_percentage_card
+            })
             .then(() => {
                 this.loading = false
                 this.percentage_card = this.new_percentage_card

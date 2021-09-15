@@ -112,7 +112,7 @@
                 </b-nav-item>
 
                 <b-nav-item 
-                :to="{name: 'Configuration'}"
+                v-b-modal="'config'"
                 v-if="isAdmin(user)">
                     Configuracion
                 </b-nav-item>
@@ -138,15 +138,15 @@ export default {
     components: {
         OrderInfo,
     },
-    computed: {
-        user() {
-            return this.$store.state.auth.user
-        },
+	computed: {
+		user() {
+			return this.$store.state.auth.user
+		},
         currentPage() {
             return this.$route.name
         },
-    },
-    methods: {
+	},
+	methods: {
         activeLink(url) {
             return this.currentPage == url ? 'active-link' : ''
         },
@@ -164,16 +164,16 @@ export default {
             .then(() => {
                 this.$router.replace({name: 'Login'})
             })
-        },
-        isTrial() {
+		},
+		isTrial() {
             console.log('aca:')
             console.log(this.$state.user)
-            if (this.$state.user.status == 'trial') {
-                return true
-            } 
-            return false
-        },
-    }
+			if (this.$state.user.status == 'trial') {
+				return true
+			} 
+			return false
+		},
+	}
 }
 </script>
 <style lang="sass">

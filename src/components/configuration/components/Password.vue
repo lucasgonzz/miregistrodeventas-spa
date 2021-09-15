@@ -1,5 +1,7 @@
 <template>
-<b-modal id="update-password" title="Actualizar contraseña" hide-footer>
+<b-card 
+class="shadow m-b-15"
+title="Actualizar contraseña">
 	<b-form-group
 	label="Contraseña actual"
 	label-for="current-password">
@@ -37,7 +39,7 @@
 			:loader="updating_password"></btn-loader>
 		</b-button>
 	</b-form-group>
-</b-modal>
+</b-card>
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'

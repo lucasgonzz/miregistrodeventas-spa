@@ -3,11 +3,41 @@ export default {
         user() {
         	return this.$store.state.auth.user
         },
+        dolar_blue() {
+        	return this.$store.state.coins.dolar_blue
+        },
         // articles() {
         // 	return this.$store.state.articles.articles
         // },
 	},
 	methods: {
+		articleCost(article, from_pivot = false) {
+			if (this.can('Ver costos de articulos')) {
+				let cost
+				if (from_pivot) {
+					cost = article.pivot.cost
+				} else {
+					cost = article.cost
+				}
+				if (this.user.with_dolar) {
+					return this.price(cost)+' / '+this.price(cost * this.dolar_blue)
+				}
+				return this.price(cost)
+			}
+			return '-'
+		},
+		articlePrice(article, from_pivot = false) {
+			let price
+			if (from_pivot) {
+				price = article.pivot.price
+			} else {
+				price = article.price
+			}
+			if (this.user.with_dolar) {
+				return this.price(price)+' / '+this.price(price * this.dolar_blue)
+			}
+			return this.price(price)
+		},
 		scrollBottom(el) {
 			setTimeout(() => {
 				let container = document.getElementById(el)

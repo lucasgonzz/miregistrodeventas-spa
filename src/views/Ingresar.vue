@@ -47,6 +47,9 @@
 			<tags
 			:article="article"></tags>
 
+			<description
+			:article="article"></description>
+
 			<add-photo
 			:article="article"></add-photo>
 
@@ -82,6 +85,7 @@ import CostPrice from '../components/ingresar/components/CostPrice.vue'
 import StockProvider from '../components/ingresar/components/StockProvider.vue'
 import CategoriesSubcategories from '../components/ingresar/components/CategoriesSubcategories.vue'
 import Tags from '../components/ingresar/components/Tags.vue'
+import Description from '../components/ingresar/components/Description.vue'
 import AddPhoto from '../components/ingresar/components/AddPhoto.vue'
 import CardFooter from '../components/ingresar/components/CardFooter.vue'
 import TitleAgregar from '../components/ingresar/components/TitleAgregar.vue'
@@ -113,6 +117,7 @@ export default {
 		StockProvider,
 		CategoriesSubcategories,
 		Tags,
+		Description,
 		AddPhoto,
 		CardFooter,
 		TitleAgregar,

@@ -9,6 +9,7 @@ import Listado from '../views/Listado.vue'
 import Ventas from '../views/Ventas.vue'
 import Empleados from '../views/Empleados.vue'
 import Online from '../views/Online.vue'
+import Configuration from '../views/Configuration.vue'
 import PruebaTerminada from '../views/PruebaTerminada.vue'
 import store from '@/store'
 
@@ -88,6 +89,11 @@ Vue.use(VueRouter)
         path: '/tienda-online/:view/:chat_id?',
         name: 'Online',
         component: Online,
+    },
+    {
+        path: '/configuracion',
+        name: 'Configuration',
+        component: Configuration,
     },
     {
         path: '/prueba-terminada',

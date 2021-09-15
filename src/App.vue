@@ -8,7 +8,6 @@
         </div>
         <div
         v-else>
-            <config></config>
             <div v-if="authenticated">
                 <nav-component></nav-component>
             </div>  
@@ -21,7 +20,6 @@
     </div>
 </template>
 <script>
-import Config from './components/config/Index'
 import NavComponent from './components/NavComponent'
 import LogoLoading from '@/components/common/LogoLoading'
 import web_sockets from '@/mixins/web_sockets'
@@ -29,7 +27,6 @@ import online from '@/mixins/online'
 
 export default {
     components: {
-        Config,
         NavComponent,
         LogoLoading,
     },
@@ -131,6 +128,8 @@ export default {
                 await this.$store.dispatch('discounts/getDiscounts')
                 this.loading_message = 'etiquetas'
                 await this.$store.dispatch('tags/getTags')
+                this.loading_message = 'monedas'
+                await this.$store.dispatch('coins/getCoins')
                 if (this.isProvider()) {
                     this.loading_message = 'vendedores'
                     await this.$store.dispatch('sellers/getSellers')

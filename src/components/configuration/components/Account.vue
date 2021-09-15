@@ -1,12 +1,21 @@
 <template>
-<b-modal id="update-deliver-amount" title="Actualizar precio de envio" hide-footer>
+<b-card
+class="shadow m-b-15"
+title="Cuenta">
 	<b-form-group
 	label="Nombre"
 	label-for="name">
 		<b-form-input
 		id="name"
-		type="number"
-		v-model="auth_user.deliver_amount"
+		v-model="user.name"
+		@keyup.enter="updateUser"></b-form-input>
+	</b-form-group>
+	<b-form-group
+	label="Nombre del comercio"
+	label-for="company-name">
+		<b-form-input
+		id="company-name"
+		v-model="user.company_name"
 		@keyup.enter="updateUser"></b-form-input>
 	</b-form-group>
 	<b-form-group>
@@ -19,7 +28,7 @@
 			:loader="loading"></btn-loader>
 		</b-button>
 	</b-form-group>
-</b-modal>
+</b-card>
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
@@ -35,14 +44,19 @@ export default {
 	methods: {
 		updateUser() {
 			this.loading = true
-			this.$api.put('/user', this.auth_user)
+			this.$api.put('/user', this.user)
 			.then(res => {
-				this.$toast.success('Precio de envio actualizado')
-				this.$bvModal.hide('update-deliver-amount')
+				console.log(res)
+				if (res.data.repeated) {
+					this.$toast.error('Ya hay un comercio registrado con ese nombre')
+					// this.user.company_name = ''
+				} else {
+					this.$toast.success('Datos actualizados con exito')
+					this.$bvModal.hide('update-user')
+				}
 				this.loading = false
 			})
 			.catch(err => {
-				this.$toast.error('Error al actualizar precio de envio')
 				console.log(err)
 				this.loading = false
 			})

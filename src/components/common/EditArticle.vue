@@ -268,6 +268,11 @@
 			</b-col>
 			<b-col
 			cols="12">
+				<description
+				:article="article"></description>
+			</b-col>
+			<b-col
+			cols="12">
 				<b-form-group
 				class="m-b-0">
 					<b-button
@@ -288,12 +293,14 @@
 import categories from '@/mixins/categories'
 import edit_articles from '@/mixins/edit_articles'
 import Tags from '@/components/ingresar/components/Tags'
+import Description from '@/components/ingresar/components/Description'
 import BtnLoader from '@/components/common/BtnLoader'
 export default {
 	name: 'EditArticle',
 	mixins: [categories, edit_articles],
 	components: {
 		Tags,
+		Description,
 		BtnLoader,
 	},
 	data() {

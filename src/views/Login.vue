@@ -20,7 +20,7 @@
 					<b-form-group>
 						<b-form-input
 						id="name"
-						v-model="user.company_name"
+						v-model="form.company_name"
 						@keydown.enter="login"
 						placeholder="Nombre de comercio"></b-form-input>
 					</b-form-group>
@@ -28,7 +28,7 @@
 					v-if="login_employee">
 						<b-form-input
 						id="employee-name"
-						v-model="user.name"
+						v-model="form.name"
 						@keydown.enter="login"
 						placeholder="Nombre de empleado"></b-form-input>
 					</b-form-group>
@@ -36,13 +36,13 @@
 						<b-form-input
 						id="password"
 						type="password"
-						v-model="user.password"
+						v-model="form.password"
 						@keydown.enter="login"
 						placeholder="Contraseña"></b-form-input>
 					</b-form-group>
 					<b-form-group>
 						<b-form-checkbox
-						v-model="user.remember"
+						v-model="form.remember"
 						class="remember">
 							Recordarme
 						</b-form-checkbox>
@@ -90,7 +90,7 @@ export default {
     },
 	data() {
 		return {
-			user: {
+			form: {
 				company_name: '',
 				// company_name: 'mi negocio',
 				name: '',
@@ -128,7 +128,7 @@ export default {
 			this.loading = true
 			this.$axios.get('/sanctum/csrf-cookie')
 			.then(() => {
-				this.$axios.post('/login', this.user)
+				this.$axios.post('/login', this.form)
 				.then(res => {
 					console.log(res)
 					this.loading = false

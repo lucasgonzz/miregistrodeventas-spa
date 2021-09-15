@@ -20,6 +20,7 @@ import permissions from './permissions'
 import tags from './tags'
 import confirm from './confirm'
 import map from './map'
+import coins from './coins'
 
 Vue.use(Vuex)
 
@@ -57,5 +58,6 @@ export default new Vuex.Store({
 		tags,
 		confirm,
 		map,
+		coins,
 	}
 })

@@ -23,7 +23,7 @@
                     </td>
                     <td v-show="can('article.index.cost')">
                         <span v-if="article.pivot.cost">
-                            {{ price(article.pivot.cost) }}
+                            {{ articleCost(article, true) }}
                         </span>
                         <span v-else>
                             -
@@ -34,7 +34,7 @@
                             {{ price(article.pivot.price) }} el {{ article.measurement }}
                         </span>
                         <span v-else>
-                            {{ price(article.pivot.price) }}
+                            {{ articlePrice(article, true) }}
                         </span>
                         <p v-show="sale.percentage_card != null">
                             <i class="icon-credit-card text-primary"></i>
