@@ -10,6 +10,7 @@ import Ventas from '../views/Ventas.vue'
 import Empleados from '../views/Empleados.vue'
 import Online from '../views/Online.vue'
 import Configuration from '../views/Configuration.vue'
+import Maps from '../views/Maps.vue'
 import PruebaTerminada from '../views/PruebaTerminada.vue'
 import store from '@/store'
 
@@ -94,6 +95,11 @@ Vue.use(VueRouter)
         path: '/configuracion',
         name: 'Configuration',
         component: Configuration,
+    },
+    {
+        path: '/mapa',
+        name: 'Maps',
+        component: Maps,
     },
     {
         path: '/prueba-terminada',

@@ -27,6 +27,15 @@ export default {
 		setUser(state, value) {
 			state.user = value
 		},
+		addAddress(state, value) {
+			state.user.addresses.push(value)
+		},
+		deleteAddress(state, value) {
+			let index = state.user.addresses.findIndex(address => {
+				return address.id == value.id
+			})
+			state.user.addresses.splice(index, 1)
+		},
 		setUserWorkdaysId(state) {
 			state.user.workdays_id = []
 			state.user.workdays.forEach(workday => {

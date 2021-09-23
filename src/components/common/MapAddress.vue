@@ -1,6 +1,6 @@
 <template>
 <b-modal ref="mapAddress" id="map-address" size="xl" hide-footer :title="title">
-	<div class="mapa" ref="mapa"></div>
+	<div class="buyer-mapa" ref="mapa"></div>
 </b-modal>
 </template>
 <script>
@@ -68,6 +68,6 @@ export default {
 }
 </script>
 <style lang="sass">
-.mapa 
+.buyer-mapa
 	height: calc(100vh - 150px)
 </style>

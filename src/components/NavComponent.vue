@@ -1,6 +1,9 @@
 <template>
 <div>
-    <b-navbar toggleable="lg" variant="primary">
+    <b-navbar 
+    v-if="show_nav"
+    toggleable="lg" 
+    variant="primary">
         <b-navbar-brand>
             <strong>
                 Mi registro de ventas
@@ -145,6 +148,9 @@ export default {
         currentPage() {
             return this.$route.name
         },
+        show_nav() {
+            return this.currentPage != 'Maps' 
+        }
     },
     methods: {
         activeLink(url) {

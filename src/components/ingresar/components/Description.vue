@@ -2,12 +2,28 @@
 	<b-form-row>
 		<b-col>
 			<b-form-group
-			class="col-autocomplete"
-			label="Etiquetas">
+			v-for="(description, index) in article.descriptions"
+			:key="index"
+			label="Descripcion">
+				<b-form-input
+				class="m-b-15"
+				v-model="description.title"
+				placeholder="Titulo">
+				</b-form-input>
 				<b-form-textarea
-				placeholder="Descripcion para el articulo"
-				v-model="article.description">
+				v-model="description.content"
+				placeholder="Descripcion para el articulo">
 				</b-form-textarea>
+			</b-form-group>
+			<b-form-group
+			class="j-start">
+				<b-button
+				size="sm"
+				variant="primary"
+				@click="addDescription">
+					<i class="icon-plus"></i>
+					Agregar descripcion
+				</b-button>
 			</b-form-group>
 		</b-col>
 	</b-form-row>
@@ -18,16 +34,17 @@ export default {
 	props: ['article'],
 	mixins: [edit_articles],
 	methods: {
+		addDescription() {
+			if (this.check()) {
+				this.article.descriptions.push({
+					title: '',
+					content: '',
+				})
+			}
+		},
+		check() {
+			return this.article.descriptions[this.article.descriptions.length-1].content.length
+		}
 	},
 }
 </script>
-<style lang="sass">
-.tag 
-	color: #FFF
-	border-radius: 50px
-	padding: .3em 1em
-	margin: 0 .5em
-	.btn-remove
-		padding-left: .5em
-		cursor: pointer
-</style>

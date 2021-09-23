@@ -50,6 +50,9 @@
 			<description
 			:article="article"></description>
 
+			<colors
+			:article="article"></colors>
+
 			<add-photo
 			:article="article"></add-photo>
 
@@ -86,6 +89,7 @@ import StockProvider from '../components/ingresar/components/StockProvider.vue'
 import CategoriesSubcategories from '../components/ingresar/components/CategoriesSubcategories.vue'
 import Tags from '../components/ingresar/components/Tags.vue'
 import Description from '../components/ingresar/components/Description.vue'
+import Colors from '../components/ingresar/components/Colors.vue'
 import AddPhoto from '../components/ingresar/components/AddPhoto.vue'
 import CardFooter from '../components/ingresar/components/CardFooter.vue'
 import TitleAgregar from '../components/ingresar/components/TitleAgregar.vue'
@@ -118,6 +122,7 @@ export default {
 		CategoriesSubcategories,
 		Tags,
 		Description,
+		Colors,
 		AddPhoto,
 		CardFooter,
 		TitleAgregar,
@@ -135,6 +140,8 @@ export default {
 				price: '',
 				stock: '',
 				tags: [],
+				descriptions: [{}],
+				colors: [],
 				new_stock: 0,
 				stock_null: false,
 				act_fecha: 1,
@@ -262,7 +269,7 @@ export default {
 					this.$store.commit('articles/setArticlesToShow')
 					this.articles_to_print.push(article)
 					this.clearArticle()
-					this.$toast.success('Guardado correctamente')
+					this.$toast.success('Articulo guardado')
 					document.getElementById('article-bar-code').focus()
 					if (this.article.add_photo) {
 						this.uploadPhoto(article)

@@ -21,6 +21,9 @@ import tags from './tags'
 import confirm from './confirm'
 import map from './map'
 import coins from './coins'
+import address from './address'
+import political from './political'
+import colors from './colors'
 
 Vue.use(Vuex)
 
@@ -59,5 +62,8 @@ export default new Vuex.Store({
 		confirm,
 		map,
 		coins,
+		address,
+		political,
+		colors,
 	}
 })

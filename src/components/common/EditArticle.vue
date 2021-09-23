@@ -268,6 +268,13 @@
 			</b-col>
 			<b-col
 			cols="12">
+				<colors
+				:article="article"></colors>
+			</b-col>
+			<b-col
+			cols="12">
+				<!-- <descriptions
+				:article="article"></descriptions> -->
 				<description
 				:article="article"></description>
 			</b-col>
@@ -293,6 +300,8 @@
 import categories from '@/mixins/categories'
 import edit_articles from '@/mixins/edit_articles'
 import Tags from '@/components/ingresar/components/Tags'
+import Descriptions from '@/components/common/Descriptions'
+import Colors from '@/components/ingresar/components/Colors.vue'
 import Description from '@/components/ingresar/components/Description'
 import BtnLoader from '@/components/common/BtnLoader'
 export default {
@@ -300,6 +309,8 @@ export default {
 	mixins: [categories, edit_articles],
 	components: {
 		Tags,
+		Descriptions,
+		Colors,
 		Description,
 		BtnLoader,
 	},

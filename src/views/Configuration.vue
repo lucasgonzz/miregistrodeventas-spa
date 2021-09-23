@@ -22,7 +22,7 @@
 <script>
 import Account from '@/components/configuration/components/Account'
 import Password from '@/components/configuration/components/Password'
-import Online from '@/components/configuration/components/Online'
+import Online from '@/components/configuration/components/online/Index'
 export default {
 	components: {
 		Account,

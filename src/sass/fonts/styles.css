@@ -47,9 +47,6 @@
 .icon-list-ol:before {
   content: "\64";
 }
-.icon-location:before {
-  content: "\65";
-}
 .icon-cart-plus:before {
   content: "\66";
 }
@@ -136,9 +133,6 @@
 }
 .icon-next:before {
   content: "\4f";
-}
-.icon-back:before {
-  content: "\50";
 }
 .icon-upload:before {
   content: "\4e";
@@ -244,4 +238,13 @@
 }
 .icon-send:before {
   content: "\28";
+}
+.icon-back:before {
+  content: "\50";
+}
+.icon-arrow-back:before {
+  content: "\27";
+}
+.icon-location:before {
+  content: "\29";
 }

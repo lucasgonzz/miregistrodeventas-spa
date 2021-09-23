@@ -56,6 +56,7 @@ title="Tienda Online">
 		v-model="user.delivery_price"
 		@keyup.enter="updateUser"></b-form-input>
 	</b-form-group>
+	<addresses></addresses>	
 	<b-button
 	block
 	variant="primary"
@@ -68,9 +69,11 @@ title="Tienda Online">
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
+import Addresses from '@/components/configuration/components/online/Addresses'
 export default {
 	components: {
 		BtnLoader,
+		Addresses,
 	},
 	data() {
 		return {
