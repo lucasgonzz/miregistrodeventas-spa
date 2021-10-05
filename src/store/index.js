@@ -24,6 +24,7 @@ import coins from './coins'
 import address from './address'
 import political from './political'
 import colors from './colors'
+import conditions from './conditions'
 
 Vue.use(Vuex)
 
@@ -65,5 +66,6 @@ export default new Vuex.Store({
 		address,
 		political,
 		colors,
+		conditions,
 	}
 })

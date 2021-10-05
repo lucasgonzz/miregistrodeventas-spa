@@ -36,8 +36,16 @@ export default {
 			new_article.images = article.images
 			new_article.variants = article.variants
 			new_article.tags = article.tags
-			new_article.descriptions = article.descriptions
+			if (article.descriptions.length == 0) {
+				new_article.descriptions = [{
+					title: '',
+					content: '',
+				}]
+			} else {
+				new_article.descriptions = article.descriptions
+			}
 			new_article.colors = article.colors
+			new_article.condition_id = article.condition_id
 			new_article.stock = this.stock(article, false)
 			if (!this.isProvider() && article.providers.length) {
 				new_article.provider_id = article.providers[0].id

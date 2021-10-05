@@ -30,9 +30,13 @@ export default {
 		getDay(d) {
 			return moment(d).format('dd')
 		},
-		since(date) {
+		since(date, fisrt_upp = false) {
 			if (date) {
-				return moment(date).fromNow()
+				if (!fisrt_upp) {
+					return moment(date).fromNow()
+				} else {
+					return this.capitalize(moment(date).fromNow())
+				}
 			}
 			return '-'
 		},

@@ -50,6 +50,9 @@
 			<description
 			:article="article"></description>
 
+			<condition
+			:article="article"></condition>
+
 			<colors
 			:article="article"></colors>
 
@@ -89,6 +92,7 @@ import StockProvider from '../components/ingresar/components/StockProvider.vue'
 import CategoriesSubcategories from '../components/ingresar/components/CategoriesSubcategories.vue'
 import Tags from '../components/ingresar/components/Tags.vue'
 import Description from '../components/ingresar/components/Description.vue'
+import Condition from '../components/ingresar/components/Condition.vue'
 import Colors from '../components/ingresar/components/Colors.vue'
 import AddPhoto from '../components/ingresar/components/AddPhoto.vue'
 import CardFooter from '../components/ingresar/components/CardFooter.vue'
@@ -122,6 +126,7 @@ export default {
 		CategoriesSubcategories,
 		Tags,
 		Description,
+		Condition,
 		Colors,
 		AddPhoto,
 		CardFooter,
@@ -142,6 +147,7 @@ export default {
 				tags: [],
 				descriptions: [{}],
 				colors: [],
+				condition_id: null,
 				new_stock: 0,
 				stock_null: false,
 				act_fecha: 1,
@@ -348,6 +354,9 @@ export default {
 			this.article.stock_null = 0
 			this.article.stock_null = false
 			this.article.tags = []
+			this.article.descriptions = [{}]
+			this.colors = []
+			this.condition_id = null
 			if (this.special_prices.length) {
 				this.special_prices.forEach(special_price => {
 					this.article[special_price.name] = ''

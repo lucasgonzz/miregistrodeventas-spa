@@ -14,6 +14,14 @@
 			<div class="product-data-container">
 				<p class="product-name">{{ articleName(article) }}</p>
 				<p class="product-name">Cantidad: {{ article.pivot.amount }}</p>
+				<div 
+				v-if="article.color"
+				:style="{backgroundColor: article.color.value}"
+				class="color shadow-1 c-p m-t-10">
+					<p>
+						{{ article.color.name }}
+					</p>
+				</div>
 				<p class="product-price">
 					{{ price(article.pivot.price) }}
 				</p>

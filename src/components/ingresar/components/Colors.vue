@@ -1,14 +1,20 @@
 <template>
 	<b-form-group
-	class="j-start"
+	v-if="hasOnline"
 	label="Colores">
-		<div 
-		@click="addColor(color)"
-		:class="isColorSelected(color)"
-		v-for="color in colors"
-		:key="color.id"
-		:style="{backgroundColor: color.value}"
-		class="color c-p shadow-1"></div>
+		<div class="cont-colors">
+			<div 
+			@click="addColor(color)"
+			:class="isColorSelected(color)"
+			v-for="color in colors"
+			:key="color.id"
+			:style="{backgroundColor: color.value}"
+			class="color c-p shadow-1">
+				<p>
+					{{ color.name }}
+				</p>
+			</div>
+		</div>
 	</b-form-group>
 </template>
 <script>
@@ -34,7 +40,7 @@ export default {
 		},
 		isColorSelected(color) {
 			if (this.hasColor(color)) {
-				return 'color-selected'
+				return 'color-selected shadow-1'
 			}
 			return 'color-not-selected'
 		},
@@ -48,17 +54,17 @@ export default {
 }
 </script>
 <style lang="sass">
-.color 
-	width: 50px
-	height: 50px
-	display: inline-block
-	border-radius: .3em
-	margin: 0 .5em
-	transition: all .1s
-.color-selected
-	border: 3px solid #000
-	width: 55px
-	height: 55px
-.color-not-selected
-	margin-bottom: 2.5px
+// .color 
+// 	width: 50px
+// 	height: 50px
+// 	display: inline-block
+// 	border-radius: .3em
+// 	margin: 0 .5em
+// 	transition: all .1s
+// .color-selected
+// 	border: 3px solid #000
+// 	width: 55px
+// 	height: 55px
+// .color-not-selected
+// 	margin-bottom: 2.5px
 </style>

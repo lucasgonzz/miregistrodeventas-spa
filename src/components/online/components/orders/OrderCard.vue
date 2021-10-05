@@ -32,7 +32,7 @@
 			</p>
 			<slot></slot>
 			<p class="since">
-				{{ since(order.created_at) }}
+				{{ since(order.created_at, true) }}
 			</p>
 		</div>
 	</b-card>

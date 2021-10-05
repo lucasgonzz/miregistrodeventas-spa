@@ -1,5 +1,6 @@
 <template>
-	<b-form-row>
+	<b-form-row
+	v-if="hasOnline()">
 		<b-col>
 			<b-form-group
 			v-for="(description, index) in article.descriptions"
@@ -16,6 +17,7 @@
 				</b-form-textarea>
 			</b-form-group>
 			<b-form-group
+			v-if="check()"
 			class="j-start">
 				<b-button
 				size="sm"
@@ -43,7 +45,7 @@ export default {
 			}
 		},
 		check() {
-			return this.article.descriptions[this.article.descriptions.length-1].content.length
+			return this.article.descriptions[this.article.descriptions.length-1].content && this.article.descriptions[this.article.descriptions.length-1].content.length
 		}
 	},
 }

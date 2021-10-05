@@ -28,10 +28,10 @@
 	</p>
 	<p
 	v-if="order.description">
-		Envolver: {{ order.description }}
+		{{ user.order_description }}: {{ order.description }}
 	</p>
 	<p class="since">
-		{{ since(order.created_at) }}
+		{{ since(order.created_at, true) }}
 	</p>
 	<b-button
 	v-if="order.buyer"

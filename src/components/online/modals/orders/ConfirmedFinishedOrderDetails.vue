@@ -36,7 +36,7 @@
 		Observaciones: {{ order.description }}
 	</p>
 	<p class="since">
-		{{ since(order.created_at) }}
+		{{ since(order.created_at, true) }}
 	</p>
 	<b-button
 	v-if="order.buyer"

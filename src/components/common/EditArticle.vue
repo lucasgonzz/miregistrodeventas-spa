@@ -280,6 +280,11 @@
 			</b-col>
 			<b-col
 			cols="12">
+				<condition
+				:article="article"></condition>
+			</b-col>
+			<b-col
+			cols="12">
 				<b-form-group
 				class="m-b-0">
 					<b-button
@@ -303,6 +308,7 @@ import Tags from '@/components/ingresar/components/Tags'
 import Descriptions from '@/components/common/Descriptions'
 import Colors from '@/components/ingresar/components/Colors.vue'
 import Description from '@/components/ingresar/components/Description'
+import Condition from '@/components/ingresar/components/Condition.vue'
 import BtnLoader from '@/components/common/BtnLoader'
 export default {
 	name: 'EditArticle',
@@ -312,6 +318,7 @@ export default {
 		Descriptions,
 		Colors,
 		Description,
+		Condition,
 		BtnLoader,
 	},
 	data() {

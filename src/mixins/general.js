@@ -11,6 +11,9 @@ export default {
         // },
 	},
 	methods: {
+		capitalize(str) {
+			return str.charAt(0).toUpperCase() + str.slice(1)
+		},
 		articleCost(article, from_pivot = false) {
 			if (this.can('Ver costos de articulos')) {
 				let cost

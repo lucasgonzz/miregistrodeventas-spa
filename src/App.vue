@@ -132,6 +132,8 @@ export default {
                 await this.$store.dispatch('coins/getCoins')
                 this.loading_message = 'colores'
                 await this.$store.dispatch('colors/getColors')
+                this.loading_message = 'condiciones'
+                await this.$store.dispatch('conditions/getConditions')
                 if (this.isProvider()) {
                     this.loading_message = 'vendedores'
                     await this.$store.dispatch('sellers/getSellers')
