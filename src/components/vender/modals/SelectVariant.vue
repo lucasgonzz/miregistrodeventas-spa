@@ -1,6 +1,6 @@
 <template>
 <b-modal id="select-variant" title="Seleccionar modelo" size="lg" hide-footer>
-	<div class="cont-cards">
+	<div class="cont-article-cards">
 		<b-card
 		@click="selectVariant(variant)"
 		class="card-article-variant c-p border-radius shadow-2"

@@ -1,6 +1,6 @@
 <template>
 <b-modal id="article-variants" :title="title" size="lg">
-	<div class="cont-cards">
+	<div class="cont-article-cards">
 		<b-card
 		class="card-article-variant shadow-2 border-radius"
 		no-body

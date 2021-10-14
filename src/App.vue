@@ -160,6 +160,7 @@ export default {
             if (this.hasOnline()) {
                 this.getOrdersAndQuestions()
                 this.getBuyers()
+                this.getActiveCupons()
                 this.listenChannels()
             }
         }

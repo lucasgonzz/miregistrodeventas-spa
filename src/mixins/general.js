@@ -29,7 +29,7 @@ export default {
 			}
 			return '-'
 		},
-		articlePrice(article, from_pivot = false) {
+		articlePrice(article, from_pivot = false, formated = false) {
 			let price
 			if (from_pivot) {
 				price = article.pivot.price
@@ -37,9 +37,12 @@ export default {
 				price = article.price
 			}
 			if (this.user.with_dolar) {
-				return this.price(price)+' / '+this.price(price * this.dolar_blue)
+				price = price * this.dolar_blue
 			}
-			return this.price(price)
+			if (formated) {
+				return this.price(price)
+			}
+			return price
 		},
 		scrollBottom(el) {
 			setTimeout(() => {

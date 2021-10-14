@@ -21,7 +21,7 @@
 				<p>
 					Articulo seleccionado
 				</p>
-				<div class="cont-cards">
+				<div class="cont-article-cards">
 					<article-card
 					:class="'shadow-4'"
 					:article="selected_article"

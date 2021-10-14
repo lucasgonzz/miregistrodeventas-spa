@@ -39,6 +39,11 @@
 						{{ messages_not_read }}
 					</b-badge>
 				</b-nav-item>
+				<b-nav-item
+				@click="setView('cupones')"
+				:active="isActive('cupones')">
+					Cupones
+				</b-nav-item>
 				<!-- <b-nav-item
 				@click="setView('examine')"
 				:active="isActive('examine')">
@@ -77,6 +82,8 @@ export default {
 				this.getBuyers()
 			} else if (view == 'examine') {
 				this.getExamine()
+			}else if (view == 'cupones') {
+				this.getActiveCupons()
 			}
 		},
 		isActive(name) {

@@ -16,7 +16,7 @@
 		xl="3">
 			<b-card>
 				<div>
-					<img src="@/assets/logo2.png" alt="">
+					<img src="@/assets/logo.png" alt="">
 					<b-form-group>
 						<b-form-input
 						id="name"

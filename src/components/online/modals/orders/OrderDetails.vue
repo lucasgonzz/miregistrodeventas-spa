@@ -1,24 +1,32 @@
 <template>
-<b-modal id="confirmed-finished-order-details" title="Detalles del pedido" hide-footer>
+<b-modal id="order-details" title="Detalles del pedido" hide-footer>
 	<article-order
 	v-for="article in order.articles"
 	:key="article.key"
 	:article="article"></article-order>
-	<p class="total">
-		Total: {{ price(total(order)) }}
-	</p>
-	<div
-	v-if="order.payment_method == 'tarjeta'">
-		<p>
-			Paga con tarjeta
-		</p>
-		<p>
-			Estado del pago: {{ order_status }}
-		</p>
-	</div>
 	<p
-	v-if="order.payment_method == 'efectivo'">
-		Paga en efectivo
+	v-if="order.cupons.length"
+	v-for="cupon in order.cupons">
+		Descuento 
+		<span
+		v-if="cupon.amount">
+			de {{ price(cupon.amount) }}
+		</span>
+		<span
+		v-if="cupon.percentage">
+			del {{ cupon.percentage }}%
+		</span>
+	</p>
+	<p>
+		<strong>Total: {{ price(total(order)) }}</strong>
+	</p>
+	<p>
+		<span v-show="order.payment_method == 'tarjeta'">
+			Paga con tarjeta
+		</span>
+		<span v-show="order.payment_method == 'efectivo'">
+			Paga en efectivo
+		</span>
 	</p>
 	<p>
 		<span v-if="order.deliver == 1">
@@ -33,7 +41,7 @@
 	</p>
 	<p
 	v-if="order.description">
-		Observaciones: {{ order.description }}
+		{{ user.order_description }}: {{ order.description }}
 	</p>
 	<p class="since">
 		{{ since(order.created_at, true) }}
@@ -46,7 +54,17 @@
 		Cliente: {{ order.buyer.name }}
 	</b-button>
 	<b-button
-	v-show="order.status == 'confirmed' && !order_status_error"
+	v-if="order.status == 'unconfirmed'"
+	block
+	@click="confirm"
+	variant="primary">
+		<btn-loader
+		text="Confirmar Pedido"
+		:loader="loading">
+		</btn-loader>
+	</b-button>
+	<b-button
+	v-if="order.status == 'confirmed' && !order_status_error"
 	block
 	@click="finish"
 	variant="primary">
@@ -63,7 +81,6 @@
 		</span>
 	</b-button>
 	<b-button
-	v-if="order.status == 'confirmed'"
 	@click="cancel(order)"
 	block
 	variant="danger">
@@ -73,37 +90,28 @@
 </template>
 <script>
 import ArticleOrder from '@/components/online/components/ArticleOrder'
+import BtnLoader from '@/components/common/BtnLoader'
 import Mixin from '@/mixins/online'
 export default {
-	name: 'ConfirmedFinishedOrderDetails',
 	components: {
-		ArticleOrder
+		ArticleOrder,
+		BtnLoader,
 	},
 	mixins: [Mixin],
 	data() {
 		return {
-			loading: false
+			loading: false,
 		}
 	},
 	computed: {
 		order() {
-			return this.$store.state.online.orders.confirmed_finished_order_details
+			return this.$store.state.online.orders.order_details
 		},
-		order_status() {
-			let payment = this.order.payment
-			if (payment) {
-				if (payment.status == 'approved') {
-					return 'Aprovado'
-				}
-				if (payment.status == 'in_process') {
-					return 'Procesandose'
-				}
-				if (payment.status == 'rejected') {
-					return `Rechazado, ya se notifico a ${this.order.buyer.name}, cuando corriga el pago se eliminara este pedido y va a llegar uno nuevo`
-				}
-				return `No se pudo procesar el pago, ya se notifico a ${this.order.buyer.name}, cuando corriga el pago se eliminara este pedido y llegara el nuevo`
+		description() {
+			if (this.order.description != '') {
+				return this.order.description
 			}
-			return null
+			return 'No'
 		},
 		order_status_error() {
 			let payment = this.order.payment
@@ -116,6 +124,20 @@ export default {
 		}
 	},
 	methods: {
+		confirm() {
+			this.loading = true
+			this.$api.get(`/orders/confirm/${this.order.id}`)
+			.then(() => {
+				this.loading = false
+				this.getOrders()
+				this.$store.dispatch('online/messages/getMessages', this.order.buyer_id)
+				this.$bvModal.hide('unconfirmed-order-details')
+			})
+			.catch(err => {
+				this.loading = false
+				console.log(err)
+			})
+		},
 		finish() {
 			this.loading = true
 			this.$api.get(`/orders/finish/${this.order.id}`)
@@ -132,10 +154,4 @@ export default {
 }
 </script>
 <style scoped lang="sass">
-.total 
-	font-size: 1.2em
-	font-weight: bold
-	margin: 1em 0 
-.deliver 
-	font-size: 1.2em
 </style>

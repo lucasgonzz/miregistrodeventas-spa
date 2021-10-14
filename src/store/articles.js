@@ -31,6 +31,8 @@ export default {
 		setArticles(state, articles) {
 			state.articles = null
 			state.articles = articles
+			console.log('setArticles')
+			console.log(articles)
 		},
 		setArticlesToShow(state, value) {
 			if (value) {
@@ -161,9 +163,11 @@ export default {
 			commit('setLoading', true)
 			return axios.get('/api/articles')
 			.then(res => {
-				VueOfflineStorage.set('articles', res.data.articles)
+				// VueOfflineStorage.set('articles', res.data.articles)
 				commit('setLoading', false)
 				commit('setArticles', res.data.articles)
+				console.log('getArticles')
+				console.log(res.data.articles)
 				commit('setArticlesToShow')
 				commit('setBarCodes')
 			})

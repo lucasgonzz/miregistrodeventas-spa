@@ -44,13 +44,8 @@ export default {
 	props: ['order'],
 	methods: {
 		orderDetails() {
-			if (this.order.status == 'unconfirmed') {
-				this.$store.commit('online/orders/setUnconfirmedOrderDetails', this.order)
-				this.$bvModal.show('unconfirmed-order-details')
-			} else {
-				this.$store.commit('online/orders/setConfirmedFinishedOrderDetails', this.order)
-				this.$bvModal.show('confirmed-finished-order-details')
-			}
+			this.$store.commit('online/orders/setOrderDetails', this.order)
+			this.$bvModal.show('order-details')
 		}
 	},
 }

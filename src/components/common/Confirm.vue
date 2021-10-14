@@ -10,7 +10,7 @@
 	@click="confirm"
 	:variant="variant">
 		<btn-loader
-		:text="button_text"
+		:text="btn_text"
 		:loader="loading"></btn-loader>
 	</b-button>
 </b-modal>
@@ -22,25 +22,9 @@ export default {
 	components: {
 		BtnLoader,
 	},
-	computed: {
-		text() {
-			return this.$store.state.confirm.text
-		},
-		btn_text() {
-			return this.$store.state.confirm.btn_text
-		},
-		variant() {
-			return this.$store.state.confirm.variant
-		},
-	},
-	data() {
-		return {
-			loading: false
-		}
-	},
+	props: ['text', 'btn_text', 'variant', 'loading'],
 	methods: {
 		confirm() {
-			this.$store.commit('confirm/confirm')
 			this.$emit('confirm')
 		},
 	}

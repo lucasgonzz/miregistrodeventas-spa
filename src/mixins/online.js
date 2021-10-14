@@ -45,8 +45,7 @@ export default {
 		sendMessage(buyer) {
 			this.$router.push({name: 'Online', params: {view: 'mensajes', chat_id: buyer.id}})
 			this.$store.commit('online/messages/setSelectedBuyer', buyer)
-			this.$bvModal.hide('unconfirmed-order-details')
-			this.$bvModal.hide('confirmed-finished-order-details')
+			this.$bvModal.hide('order-details')
 		},
 		messagesNotRead(buyer) {
 			let messages_not_read = 0
@@ -61,11 +60,26 @@ export default {
 			if (order.articles) {
 				let total = 0
 				order.articles.forEach(article => {
-					total += article.pivot.price * article.pivot.amount 
+					total += this.articlePrice(article, true) * article.pivot.amount 
 				})
-				return total
+				if (order.percentage_card) {
+					total = total + (total * this.percentageToMultiply(order.percentage_card))
+				}
+				return this.discountCupons(total, order)
 			}
 			return null
+		},
+		discountCupons(total, order) {
+			if (order.cupons.length) {
+				order.cupons.forEach(cupon => {
+					if (cupon.amount) {
+						total -= cupon.amount
+					} else {
+						total = total - (total * this.percentageToMultiply(cupon.percentage))
+					}
+				})
+			}
+			return total
 		},
 		totalArticles(order) {
 			if (order.articles) {
@@ -82,6 +96,9 @@ export default {
 				return `${order.buyer.name} ${order.buyer.surname}`
 			}
 			return null
+		},
+		getActiveCupons() {
+			this.$store.dispatch('online/cupons/getActiveCupons')
 		},
 		getBuyers() {
 			this.$store.dispatch('online/buyers/getBuyers')

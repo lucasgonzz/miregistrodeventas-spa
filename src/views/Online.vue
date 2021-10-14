@@ -12,6 +12,7 @@
 		@answer="answer"></questions>
 		<buyers></buyers>
 		<messages></messages>
+		<cupons></cupons>
 		<examine
 		v-show="view == 'examine'"
 		ref="examine"></examine>
@@ -23,6 +24,7 @@ import Orders from '@/components/online/components/orders/Orders'
 import Questions from '@/components/online/components/questions/Questions'
 import Buyers from '@/components/online/components/buyers/Index'
 import Messages from '@/components/online/components/messages/Index'
+import Cupons from '@/components/online/components/cupons/Index'
 import Examine from '@/components/online/components/examine/Index'
 import Answer from '@/components/online/modals/Answer'
 import CancelOrder from '@/components/online/modals/orders/CancelOrder'
@@ -38,6 +40,7 @@ export default {
 		Examine,
 		Buyers,
 		Messages,
+		Cupons,
 		Answer,
 		CancelOrder,
 		Views,

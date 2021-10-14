@@ -5,9 +5,8 @@ export default {
 	namespaced: true,
 	state: {
 		unconfirmed_orders: [],
-		unconfirmed_order_details: {},
 		confirmed_finished_orders: [],
-		confirmed_finished_order_details: [],
+		order_details: {},
 		loading_unconfirmed_orders: false,
 		loading_confirmed_finished_orders: false,
 		cancel: {},
@@ -16,14 +15,11 @@ export default {
 		setUnconfirmedOrders(state, orders) {
 			state.unconfirmed_orders = orders
 		},
-		setUnconfirmedOrderDetails(state, orders) {
-			state.unconfirmed_order_details = orders
+		setOrderDetails(state, orders) {
+			state.order_details = orders
 		},
 		setConfirmedFinishedOrders(state, value) {
 			state.confirmed_finished_orders = value
-		},
-		setConfirmedFinishedOrderDetails(state, value) {
-			state.confirmed_finished_order_details = value
 		},
 		setLoadingConfirmedFinishedOrders(state, value) {
 			state.loading_confirmed_finished_orders = value

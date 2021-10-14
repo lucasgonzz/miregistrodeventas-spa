@@ -1,7 +1,7 @@
 <template>
 <b-modal id="cancel-order" title="Cancelar pedido" hide-footer>
 	<p>Selecciona los articulos faltantes</p>
-	<div class="cont-cards m-b-15">
+	<div class="cont-article-cards m-b-15">
 		<article-card
 		v-for="article in order.articles"
 		:key="article.key"

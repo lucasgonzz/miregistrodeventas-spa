@@ -1,6 +1,6 @@
 <template>
 	<b-card
-	class="border-radius"
+	class="b-r-1 shadow"
 	no-body>
 		<div class="card-body">
 			<div class="img-container">
@@ -23,7 +23,7 @@
 					</p>
 				</div>
 				<p class="product-price">
-					{{ price(article.pivot.price) }}
+					{{ articlePrice(article, true, true) }}
 				</p>
 				<p 
 				v-show="article.pivot.amount > 1"
@@ -54,9 +54,6 @@ export default {
 .card 
 	border: none
 	margin-bottom: 1em
-	-webkit-box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.75)
-	-moz-box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.75)
-	box-shadow: 0px 0px 5px -2px rgba(0,0,0,0.75)
 .card-body
 	background: #FFF
 	padding: 0
