@@ -1,5 +1,7 @@
 <template>
-	<b-card header="Registrar un nuevo empleado">
+	<b-card 
+	class="shadow-5 border-radius-1"
+	header="Registrar un nuevo empleado">
 		<p>
 			Registra un nuevo empleado y asignale permisos para controlar que puede y que no hacer dentro del sistema.
 		</p>
@@ -29,6 +31,7 @@
 		:employee="employee"></permissions-list>
 		<b-form-group>
 			<b-button
+			:disabled="btn_disabled"
 			block
 			variant="primary"
 			@click="saveEmployee">
@@ -52,6 +55,15 @@ export default {
 		employee() {
 			return this.$store.state.employees.employee_to_create
 		},
+		btn_disabled() {
+			if (this.employee.name == '') {
+				return true
+			}
+			if (this.employee.password == '') {
+				return true
+			}
+			return false
+		}
 	},
 	data() {
 		return {

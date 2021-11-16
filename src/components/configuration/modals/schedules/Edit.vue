@@ -1,34 +1,36 @@
 <template>
-<b-modal id="update-schedule" title="Actualizar horario" hide-footer>
+<b-modal id="edit-schedule" title="Actualziar horario" hide-footer>
 	<b-form-group
 	label="Nombre"
 	label-for="name">
 		<b-form-input
+		placeholder="Nombre del horario"
 		id="name"
-		v-model="schedule.name"
-		@keyup.enter="updateSchedule"></b-form-input>
+		v-model="schedule.name"></b-form-input>
 	</b-form-group>
 	<b-form-group
 	label="Desde"
 	label-for="from">
-		<b-form-input
+		<b-form-timepicker
+		placeholder="Hora de inicio"
 		id="from"
-		v-model="schedule.from"
-		@keyup.enter="updateSchedule"></b-form-input>
+		locale="es"
+		v-model="schedule.from"></b-form-timepicker>
 	</b-form-group>
 	<b-form-group
 	label="Hasta"
 	label-for="to">
-		<b-form-input
+		<b-form-timepicker
+		placeholder="Hora de cierre"
 		id="to"
-		v-model="schedule.to"
-		@keyup.enter="updateSchedule"></b-form-input>
+		locale="es"
+		v-model="schedule.to"></b-form-timepicker>
 	</b-form-group>
 	<b-form-group>
 		<b-button
 		block
 		variant="primary"
-		@click="updateSchedule">
+		@click="save">
 			<btn-loader
 			text="Actualizar"
 			:loader="loading"></btn-loader>
@@ -42,28 +44,31 @@ export default {
 	components: {
 		BtnLoader,
 	},
+	computed: {
+		schedule() {
+			return this.$store.state.schedules.edit
+		},
+	},
 	data() {
 		return {
 			loading: false,
 		}
 	},
-	computed: {
-		schedule() {
-			return this.$store.state.auth.schedule_edit
-		},
-	},
 	methods: {
-		updateSchedule() {
+		save() {
 			if (this.check()) {
 				this.loading = true
-				this.$api.put('user/schedules', this.schedule)
+				this.$api.post('schedules', this.schedule)
 				.then(res => {
+					console.log(res)
 					this.loading = false
-					this.$toast.success('Horarios actualizados')
-					this.$bvModal.hide('update-schedule')
+					this.$toast.success('Horario actualizado')
+					this.$bvModal.hide('edit-schedule')
+					this.$store.commit('schedules/update', res.data.schedule)
 				})
 				.catch(err => {
 					this.loading = false
+					this.$toast.error('Error al actualizar horario')
 					console.log(err)
 				})
 			}

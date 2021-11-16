@@ -18,7 +18,7 @@
             :options="sub_categories_options(filtro)"></b-form-select>
         </b-form-group>
         <b-form-group
-        v-if="!isProvider()"
+        v-if="!is_provider"
         label="Los que pertenescan al proveedor">
             <b-form-select
             id="providers"
@@ -246,7 +246,3 @@ export default {
     }
 }
 </script>
-<style scoped lang="sass">
-.form-group
-    // margin-bottom: 1.5em
-</style>

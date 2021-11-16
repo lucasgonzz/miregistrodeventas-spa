@@ -19,35 +19,38 @@
 						</b-card>
 					</li>
 				</ul>
-				<ul 
-				class="horizontal-ul" 
+				<div 
 				v-else>
-					<li
-					v-for="question in questions"
-					:key="question.id">
-						<b-card
-						@click="answer(question)"
-						class="order"
-						no-body>
-							<div
-							class="order-body">
-								<p
-								class="buyer-name">
-									<strong>{{ buyerName(question) }}</strong> te hizo una pregunta
-								</p>
-								<p class="since">
-									{{ since(question.created_at) }}
-								</p>
-							</div>
-						</b-card>
-					</li>
-				</ul>
-				<p
-				v-show="questions.length == 0 && !loading"
-				class="no-orders text-success">
-					<i class="icon-check icon"></i>
-					No hay preguntas por responder
-				</p>
+					<ul 
+					v-if="questions.length"
+					class="horizontal-ul">
+						<li
+						v-for="question in questions"
+						:key="question.id">
+							<b-card
+							@click="answer(question)"
+							class="order"
+							no-body>
+								<div
+								class="order-body">
+									<p
+									class="buyer-name">
+										<strong>{{ buyerName(question) }}</strong> te hizo una pregunta
+									</p>
+									<p class="since">
+										{{ since(question.created_at) }}
+									</p>
+								</div>
+							</b-card>
+						</li>
+					</ul>
+					<p
+					v-else
+					class="text-with-icon">
+						<i class="icon-check"></i>
+						No hay preguntas por responder
+					</p>
+				</div>
 			</b-card>
 		</b-col>
 	</b-row>

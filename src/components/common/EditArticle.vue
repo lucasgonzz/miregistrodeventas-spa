@@ -109,7 +109,7 @@
 			cols="12"
 			md="6">
 				<b-form-group
-				v-if="can('article.index.cost')"
+				v-if="can('Ver costos de articulos')"
 				label="Costo"
 				label-for="article-cost">
 					<b-form-input
@@ -208,7 +208,6 @@
 			md="6">
 				<!-- Proveedor -->
 				<b-form-group
-				v-if="!isProvider()"
 				label="Proveedor"
 				label-for="article-provider">
 					<b-form-select
@@ -217,16 +216,16 @@
 					v-model="article.provider_id"></b-form-select>
 				</b-form-group>
 				<b-form-group
-				v-if="!isProvider()">
+				v-if="!is_provider">
 					<b-form-checkbox
 					v-model="article.provider_null"
 					id="article-not-provider">
 						No usar proveedor
 					</b-form-checkbox>
 				</b-form-group>
-				<b-form-group
-				v-if="!isProvider()">
+				<b-form-group>
 					<b-button
+					v-if="article.providers"
 					@click="show_providers ? show_providers = false : show_providers = true"
 					variant="secondary"
 					size="sm">
@@ -444,9 +443,6 @@ export default {
 .container-fluid 
 	margin: 0
 
-.form-group 
-	// margin-bottom: 1rem
 .article-image
 	width: 100%
-article-image
 </style>

@@ -4,6 +4,7 @@
 		v-if="!loading"
 		head-variant="dark" 
 		striped
+		responsive
 		:fields="fields"
 		:items="items">
 			<template #cell(address)="data">

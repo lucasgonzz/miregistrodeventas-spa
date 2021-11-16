@@ -1,61 +1,42 @@
 <template>
 <b-row>
 	<b-col>
-		<div class="table-responsive" v-show="articles.length">
-			<table class="table text-center table-striped">
-				<thead>
-					<tr>
-						<th scope="col">Precio</th>
-						<th scope="col">Nombre</th>
-						<th scope="col" class="d-none d-md-table-cell">Cantidad</th>
-						<th scope="col">Total</th>
-						<th scope="col">Opciones</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr 
-					v-for="article in articles"
-					:key="article.id">
-						<td
-						class="td-price">
-							{{ price(article.price) }}
-						</td>
-						<td>{{ article.name }}</td>
-						<td class="d-none d-md-table-cell">
-							<span>
-								{{ article.amount }}
-							</span>
-						</td>
-						<td>
-							{{ price(article.price * article.amount) }}
-						</td>
-						<td>
-							<b-button @click="up(article)"
-							variant="primary"
-							class="btn-options"
-							size="sm">
-								<i class="icon-plus"></i>
-							</b-button>
-							<b-button @click="down(article)"
-							variant="primary"
-							class="btn-options"
-							size="sm">
-								<i class="icon-minus"></i>
-							</b-button>
-							<b-button @click="removeArticle(article)"
-							variant="danger"
-							class="btn-options"
-							size="sm">
-								<i class="icon-cancel"></i>
-							</b-button>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-		<div v-show="articles.length == 0">
+		<b-table 
+		v-show="articles.length"
+		:items="items" 
+		head-variant="dark" 
+		:fields="fields" 
+		striped 
+		responsive 
+		hover>
+			<template #cell(options)="data">
+				<b-button 
+				@click="up(articles[data.index])"
+				variant="primary"
+				class="btn-options"
+				size="sm">
+					<i class="icon-plus"></i>
+				</b-button>
+				<b-button 
+				@click="down(articles[data.index])"
+				variant="primary"
+				class="btn-options"
+				size="sm">
+					<i class="icon-minus"></i>
+				</b-button>
+				<b-button 
+				@click="removeArticle(articles[data.index])"
+				variant="danger"
+				class="btn-options"
+				size="sm">
+					<i class="icon-cancel"></i>
+				</b-button>
+			</template>
+		</b-table>
+		<div 
+		v-show="!articles.length">
 			<p
-			class="empty-articles">
+			class="text-with-icon-2">
 				<i class="icon-clipboard-1"></i>
 				Remito en blanco
 			</p>
@@ -64,15 +45,15 @@
 </b-row>
 </template>
 <script>
+import vender from '@/mixins/vender'
 export default {
+	mixins: [vender],
 	watch: {
 		special_price_id() {
+			console.log('watcher de special_price_id')
 			this.setArticlesPrice()
 			this.$store.commit('vender/setTotal')
 		},
-		articles() {
-			this.setArticlesPrice()
-		}
 	},
 	computed: {
 		special_price_id() {
@@ -80,25 +61,32 @@ export default {
 		},
 		articles() {
 			return this.$store.state.vender.articles
-		}
+		},
+		fields() {
+			let fields = [
+				{ key: 'price', label: 'Precio' },
+				{ key: 'name', label: 'Nombre' },
+				{ key: 'amount', label: 'Cantidad' },
+				{ key: 'total', label: 'Total' },
+				{ key: 'options', label: 'Opciones' },
+			]
+			return fields
+		},
+		items() {
+			let items = []
+			this.articles.forEach(article => {
+				items.push({
+					id: article.id,
+					price: this.price(article.price_for_sale),
+					name: article.name,
+					amount: article.amount,
+					total: this.price(article.price_for_sale * article.amount),
+				})
+			})
+			return items
+		},
 	},
 	methods: {
-		// Se setea el precio especial del articulo para que ya le quede
-		// asignado en el objeto y se envie a salecontroller@store
-		setArticlesPrice() {
-			this.articles.forEach(article => {
-				article.price = article.original_price
-				if (this.special_price_id != 0) {
-					if (article.special_prices.length) {
-						article.special_prices.forEach(special_price => {
-							if (special_price.id == this.special_price_id) {
-								article.price = special_price.pivot.price
-							}
-						})
-					}
-				}
-			})
-		},
 		changeToTotal(article) {
 			document.getElementById(`total-${article.id}`).focus()
 		},
@@ -143,12 +131,6 @@ export default {
 }
 </script>
 <style scoped lang="sass">
-.empty-articles
-	font-size: 2em
-	text-align: center
-	i 
-		font-size: 3em
-		display: block
 .td-price 
 	position: relative
 	font-weight: bold

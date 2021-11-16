@@ -25,7 +25,7 @@ export default {
 		},
 		delete(state) {
 			let index = state.providers.findIndex(pro => {
-				return pro.id = state.provider_to_delete.id
+				return pro.id == state.provider_to_delete.id
 			})
 			state.providers.splice(index, 1)
 		},

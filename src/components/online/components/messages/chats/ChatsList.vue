@@ -4,7 +4,8 @@
 	id="chats-list">
 		<div
 		v-if="!loading">
-			<b-list-group>
+			<b-list-group
+			v-if="chats.length">
 				<b-list-group-item
 				:class="activeChat(chat)"
 				v-for="chat in chats"
@@ -21,6 +22,12 @@
 					</b-badge>
 				</b-list-group-item>
 			</b-list-group>
+			<p
+			class="text-with-icon"
+			v-else>
+				<i class="icon-not-2"></i>
+				No hay chats recientes
+			</p>
 		</div>
 		<div
 		v-else>
@@ -67,6 +74,7 @@ export default {
 			this.$store.dispatch('online/messages/setMessagesRead')
 			this.$store.commit('online/buyers/setMessagesRead', buyer)
 			this.$store.commit('online/buyers/setMessagesNotRead')
+			this.$bvModal.hide('chats')
 		},
 		activeChat(buyer) {
 			return this.selected_buyer && buyer.id == this.selected_buyer.id ? 'active-chat' : ''
@@ -74,21 +82,3 @@ export default {
 	}
 }
 </script>
-<style lang="sass">
-#chats-list
-	max-height: 70vh
-	overflow-y: scroll
-.chat 
-	border-bottom: .15em solid rgba(51,51,51,.2)
-	padding: .5em
-	cursor: pointer
-	display: flex
-	justify-content: space-between
-	align-items: center
-	.name
-		margin: 0
-.active-chat
-	border-left: .3em solid #4a2c82
-	color: #4a2c82
-	font-weight: bold
-</style>

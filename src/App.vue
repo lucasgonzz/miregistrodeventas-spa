@@ -11,7 +11,9 @@
             <div v-if="authenticated">
                 <nav-component></nav-component>
             </div>  
-            <b-container fluid>
+            <b-container 
+            :class="container_class"
+            fluid>
                 <transition name="fade" mode="out-in">
                     <router-view/>
                 </transition>
@@ -20,7 +22,7 @@
     </div>
 </template>
 <script>
-import NavComponent from './components/NavComponent'
+import NavComponent from './components/nav/NavComponent'
 import LogoLoading from '@/components/common/LogoLoading'
 import web_sockets from '@/mixins/web_sockets'
 import online from '@/mixins/online'
@@ -35,14 +37,17 @@ export default {
         authenticated() {
             return this.$store.state.auth.authenticated
         },
-        user() {
-            return this.$store.state.auth.user
-        },
         route() {
             return this.$route.path
         },
         loading() {
             return this.$store.state.auth.loading
+        },
+        container_class() {
+            if (this.current_page != 'Online' && this.current_page != 'Login') {
+                return 'p-b-20'
+            }
+            return ''
         }
     },
     watch: {
@@ -134,7 +139,11 @@ export default {
                 await this.$store.dispatch('colors/getColors')
                 this.loading_message = 'condiciones'
                 await this.$store.dispatch('conditions/getConditions')
-                if (this.isProvider()) {
+                this.loading_message = 'dias de trabajo'
+                await this.$store.dispatch('workdays/getWorkdays')
+                this.loading_message = 'horarios de trabajo'
+                await this.$store.dispatch('schedules/getSchedules')
+                if (this.is_provider) {
                     this.loading_message = 'vendedores'
                     await this.$store.dispatch('sellers/getSellers')
                     this.loading_message = 'comisiones'
@@ -157,7 +166,7 @@ export default {
             // this.$store.dispatch('markers/getMarkers')
             // this.$store.dispatch('markers/getMarkerGroups')
             // this.$store.dispatch('markers/getMarkerGroupsWithMarkers')
-            if (this.hasOnline()) {
+            if (this.has_online) {
                 this.getOrdersAndQuestions()
                 this.getBuyers()
                 this.getActiveCupons()
@@ -178,8 +187,6 @@ export default {
     text-align: center
     color: #2c3e50
     height: 100vh
-.container-fluid
-    padding-bottom: 1em
 .fade-enter-active,
 .fade-leave-active 
     transition-duration: 0.3s

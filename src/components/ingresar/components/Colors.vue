@@ -1,6 +1,6 @@
 <template>
 	<b-form-group
-	v-if="hasOnline"
+	v-if="has_online"
 	label="Colores">
 		<div class="cont-colors">
 			<div 

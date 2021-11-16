@@ -52,9 +52,14 @@ export default {
 			state.articles_to_show.unshift(value)
 		},
 		addArticle(state, article) {
-			state.articles.unshift(article)
-			if (article.bar_code) {
-				state.bar_codes.unshift(article.bar_code)
+			let index = state.articles.findIndex(art => {
+				return art.id == article.id
+			})
+			if (index == -1) {
+				state.articles.unshift(article)
+				if (article.bar_code) {
+					state.bar_codes.unshift(article.bar_code)
+				}
 			}
 		},
 		addBarCode(state, value) {
@@ -120,13 +125,6 @@ export default {
 				state.bar_codes.push(article.bar_code)
 			})
 		},
-		// update(state, updated_article) {
-		// 	let index = state.articles.findIndex(article => {
-		// 		return article.id == updated_article.id
-		// 	})
-		// 	state.articles.splice(index, 1, updated_article)
-		// 	state.articles_to_show.splice(index, 1, updated_article)
-		// },
 		updateStock(state, sales) {
 			sales.forEach(sale => {
 				sale.articles.forEach(art => {

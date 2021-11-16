@@ -2,7 +2,7 @@
 	<b-card no-body>
 		<div
 		class="m-b-15"
-		v-if="isProvider()">
+		v-if="is_provider && sale_types.length">
 			<p>Seleccionar tipo de venta</p>
 			<b-form-group
 			v-for="sale_type in sale_types"
@@ -45,7 +45,9 @@
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
+import vender from '@/mixins/vender'
 export default {
+	mixins: [vender],
 	name: 'Discounts',
 	components: {
 		BtnLoader
@@ -81,20 +83,6 @@ export default {
 		toClient() {
 			this.$store.commit('vender/clients/decrementView')
 		},
-        vender() {
-            this.$store.dispatch('vender/vender')
-            .then(() => {
-	            this.$store.commit('vender/setClient', null)
-	            this.$store.commit('vender/setDiscounts', [])
-	            this.$store.commit('vender/setSaleType', 1)
-	            this.$bvModal.hide('clients')
-	            if (this.isProvider()) {
-	                this.$bvModal.show('successful-sale')
-	            }
-	            this.without_debt = true
-	            this.$store.commit('vender/clients/setView', 0)
-            })
-        },
 	}
 }
 </script>

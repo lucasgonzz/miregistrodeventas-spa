@@ -8,15 +8,15 @@
 		@click="toOnline">
 			<h4 
 			v-if="unconfirmed_orders.length">
-				Hay pedidos
+				{{ orders_title }}
 			</h4>
 			<h4 
 			v-if="questions.length">
-				Hay preguntas
+				{{ questions_title }}
 			</h4>
 			<h4 
 			v-if="messages_not_read">
-				Hay mensajes
+				{{ messages_title }}
 			</h4>
 		</div>
 	</b-alert>
@@ -26,6 +26,36 @@ import nav from '@/mixins/nav'
 export default {
 	mixins: [nav],
 	computed: {
+		orders_title() {
+			let title = this.unconfirmed_orders.length+' '
+			if (this.unconfirmed_orders.length == 1) {
+				title += ' pedido'
+			} else {
+				title += ' pedidos'
+			}
+			title += ' sin responder'
+			return title
+		},
+		questions_title() {
+			let title = this.questions.length+' '
+			if (this.questions.length == 1) {
+				title += ' pregunta'
+			} else {
+				title += ' preguntas'
+			}
+			title += ' sin responder'
+			return title
+		},
+		messages_title() {
+			let title = this.messages_not_read+' '
+			if (this.messages_not_read == 1) {
+				title += ' pregunta'
+			} else {
+				title += ' preguntas'
+			}
+			title += ' sin responder'
+			return title
+		},
 		unconfirmed_orders() {
 			return this.$store.state.online.orders.unconfirmed_orders
 		},

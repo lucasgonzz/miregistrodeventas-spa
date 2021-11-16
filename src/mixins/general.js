@@ -1,4 +1,6 @@
+import VueScreenSize from 'vue-screen-size'
 export default {
+	mixins: [VueScreenSize.VueScreenSizeMixin],
 	computed: {
         user() {
         	return this.$store.state.auth.user
@@ -6,16 +8,22 @@ export default {
         dolar_blue() {
         	return this.$store.state.coins.dolar_blue
         },
-        // articles() {
-        // 	return this.$store.state.articles.articles
-        // },
+        current_page() {
+            return this.$route.name
+        },
+		is_mobile() {
+			if (this.$vssWidth < '992') {
+				return true
+			}
+			return false
+		},
 	},
 	methods: {
 		capitalize(str) {
 			return str.charAt(0).toUpperCase() + str.slice(1)
 		},
 		articleCost(article, from_pivot = false) {
-			if (this.can('Ver costos de articulos')) {
+			if (this.can('Ver costos de articulos') && article.cost) {
 				let cost
 				if (from_pivot) {
 					cost = article.pivot.cost
@@ -78,12 +86,6 @@ export default {
 			} else {
 				return null
 			}
-		},
-		isMobile() {
-			if (this.$vssWidth < '768') {
-				return true
-			}
-			return false
 		},
 	}
 }

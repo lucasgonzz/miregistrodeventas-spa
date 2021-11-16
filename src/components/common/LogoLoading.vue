@@ -28,7 +28,7 @@ export default {
 	justify-content: center
 	align-items: center
 	.logo
-		margin-bottom: 5px
+		margin-bottom: 10px
 		z-index: 100
 		width: 90px
 	.spinner
@@ -36,5 +36,5 @@ export default {
 	.text-loader
 		font-weight: bold
 		font-size: 1.1em
-		margin-top: 5px
+		margin-top: 10px
 </style>

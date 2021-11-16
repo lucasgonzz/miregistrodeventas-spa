@@ -2,10 +2,11 @@
 <b-modal id="discounts" title="Descuentos" hide-footer body-class="p-0">
 	<div class="p-15 j-end">
 		<b-button
+		block
 		variant="primary"
 		v-b-modal="'create-discount'">
 			<i class="icon-plus"></i>
-			Crear descuento
+			Nuevo descuento
 		</b-button>
 	</div>
 	<discounts-list></discounts-list>

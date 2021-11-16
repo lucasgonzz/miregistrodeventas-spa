@@ -1,14 +1,36 @@
 export default {
 	computed: {
-		auth_user() {
+		user() {
 			return this.$store.state.auth.user
 		},
 		authenticated() {
 			return this.$store.state.auth.authenticated
 		},
+        has_online() {
+        	if (this.user) {
+	            if (this.user.online && this.user.online != '') {
+	                return true
+	            }
+	            return false
+        	}
+	        return false
+        },
+		is_provider() {
+			if (this.user) {
+				var is_provider = false
+				if (this.user.roles) {
+					this.user.roles.forEach(rol => {
+						if (rol.name == 'provider') {
+							is_provider = true
+						}
+					})
+					return is_provider
+				}
+			}
+		},
 	},
 	methods: {
-		can(permission_name, user = this.auth_user) {
+		can(permission_name, user = this.user) {
 			if (user) {
 				let has_permission = false
 				let role = user.roles[0]
@@ -25,7 +47,7 @@ export default {
 				return has_permission
 			}
 		},
-		hasRole(role_name, user = this.auth_user) {
+		hasRole(role_name, user = this.user) {
 			if (user) {
 				let has_role = false
 				user.roles.forEach(r => {
@@ -36,7 +58,7 @@ export default {
 				return has_role
 			}
 		},
-		hasPermissionForRoute(route, user = this.auth_user) {
+		hasPermissionForRoute(route, user = this.user) {
 			if (user) {
 				let permission_name = ''
 				if (route == '/vender') {
@@ -64,27 +86,6 @@ export default {
 			    return has_permission
 			}
 		},
-        hasOnline(user = this.auth_user) {
-        	if (user) {
-	            if (user.online) {
-	                return true
-	            }
-	            return false
-        	}
-        },
-		isProvider(user = this.auth_user) {
-			if (user) {
-				var is_provider = false
-				if (user.roles) {
-					user.roles.forEach(rol => {
-						if (rol.name == 'provider') {
-							is_provider = true
-						}
-					})
-					return is_provider
-				}
-			}
-		},
 		hasPermissionTo(permission_name, user, dont_check_admin = false) {
 			if (user) {
 				var has_permission = false
@@ -109,7 +110,7 @@ export default {
 				}
 			}
 		},
-		isAdmin(user = this.auth_user) {
+		isAdmin(user = this.user) {
 			if (user) {
 				var is_admin = false
 				if (user.roles) {

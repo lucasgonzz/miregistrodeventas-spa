@@ -1,11 +1,15 @@
 <template>
 <b-modal id="cancel-order" title="Cancelar pedido" hide-footer>
+	<p>
+		¿Por que va a cancelar el pedido?
+	</p>
 	<p>Selecciona los articulos faltantes</p>
-	<div class="cont-article-cards m-b-15">
+	<div class="cont-article-cards">
 		<article-card
 		v-for="article in order.articles"
 		:key="article.key"
-		:class="isSelectedArticle(article) ? 'shadow-4' : 'shadow-1'"
+		:class="isSelectedArticle(article) ? 'outline-primary' : ''"
+		class="shadow-5"
 		:article="article"
 		@articleSelected="selectArticle"></article-card>
 		<!-- <b-card
@@ -102,7 +106,7 @@ export default {
 					this.clear()
 					this.getOrders()
 					this.$bvModal.hide('cancel-order')
-					this.$bvModal.hide('unconfirmed-order-details')
+					this.$bvModal.hide('order-details')
 				})
 				.catch(err => {
 					this.$toast.error('Error al cancelar pedido')

@@ -47,13 +47,13 @@ export default {
 			new_article.colors = article.colors
 			new_article.condition_id = article.condition_id
 			new_article.stock = this.stock(article, false)
-			if (!this.isProvider() && article.providers.length) {
+			if (!this.is_provider && article.providers.length) {
 				new_article.provider_id = article.providers[0].id
 				new_article.providers = article.providers
 			} else {
 				new_article.provider_id = 0
 			}
-			if (this.special_prices.length) {
+			if (this.special_prices.length && article.special_prices) {
 				if (article.special_prices.length) {
 					article.special_prices.forEach(special_price => {
 						new_article[special_price.name] = special_price.pivot.price

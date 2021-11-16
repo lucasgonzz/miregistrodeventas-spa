@@ -10,7 +10,7 @@ export default {
 		getSubTotalPriceArticle(article) {
 			let total
 			let amount = Number(article.pivot.amount)
-			let price = Number(article.pivot.price)
+			let price = this.articlePrice(article, true, false)
             if (article.uncontable == 0) {
                 total = price*amount
             } else {

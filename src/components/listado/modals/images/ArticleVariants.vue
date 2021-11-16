@@ -130,10 +130,10 @@ export default {
 					this.$toast.error('Ingrese la descripcion')
 					ok = false
 				}
-				if (variant.stock == '') {
-					this.$toast.error('Ingrese el stock')
-					ok = false
-				}
+				// if (variant.stock == '') {
+				// 	this.$toast.error('Ingrese el stock')
+				// 	ok = false
+				// }
 			})	
 			return ok
 		}

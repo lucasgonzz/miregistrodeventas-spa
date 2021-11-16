@@ -15,6 +15,12 @@
 			v-model="new_cupon.percentage"
 			placeholder="Ingresar el porcentaje"></b-form-input>
 		</b-form-group>
+		<b-form-group
+		label="Monto minimo para usar el cupon">
+			<b-form-input
+			v-model="new_cupon.min_amount"
+			placeholder="Ingresar el monto minimo"></b-form-input>
+		</b-form-group>
 		<hr>
 	</div>
 </template>

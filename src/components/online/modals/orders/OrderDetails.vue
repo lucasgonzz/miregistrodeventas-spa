@@ -1,13 +1,15 @@
 <template>
-<b-modal id="order-details" title="Detalles del pedido" hide-footer>
-	<article-order
-	v-for="article in order.articles"
-	:key="article.key"
-	:article="article"></article-order>
+<b-modal id="order-details" title="Detalles del pedido" size="lg" hide-footer>
+	<div class="cont-cards">
+		<article-order
+		v-for="article in order.articles"
+		:key="article.key"
+		:article="article"></article-order>
+	</div>
 	<p
 	v-if="order.cupons.length"
 	v-for="cupon in order.cupons">
-		Descuento 
+		Cupon  
 		<span
 		v-if="cupon.amount">
 			de {{ price(cupon.amount) }}
@@ -32,8 +34,9 @@
 		<span v-if="order.deliver == 1">
 			Para enviar a 
 			<b-button
+			size="sm"
 			@click="showMap(order.address)"
-			variant="link">{{ getAddress(order.address) }}</b-button> 
+			variant="primary">{{ getAddress(order.address) }}</b-button> 
 		</span>
 		<span v-else>
 			Para retirar
@@ -47,11 +50,13 @@
 		{{ since(order.created_at, true) }}
 	</p>
 	<b-button
+	size="sm"
 	v-if="order.buyer"
 	@click="sendMessage(order.buyer)"
-	class="m-b-15 p-0"
-	variant="link">
-		Cliente: {{ order.buyer.name }}
+	class="m-b-15"
+	variant="primary">
+		<i class="icon-message"></i>
+		{{ order.buyer.name }}
 	</b-button>
 	<b-button
 	v-if="order.status == 'unconfirmed'"
@@ -131,7 +136,7 @@ export default {
 				this.loading = false
 				this.getOrders()
 				this.$store.dispatch('online/messages/getMessages', this.order.buyer_id)
-				this.$bvModal.hide('unconfirmed-order-details')
+				this.$bvModal.hide('order-details')
 			})
 			.catch(err => {
 				this.loading = false
@@ -144,7 +149,7 @@ export default {
 			.then(() => {
 				this.loading = false
 				this.$store.dispatch('online/orders/getConfirmedFinishedOrders')
-				this.$bvModal.hide('confirmed-finished-order-details')
+				this.$bvModal.hide('order-details')
 			})
 			.catch(err => {
 				console.log(err)

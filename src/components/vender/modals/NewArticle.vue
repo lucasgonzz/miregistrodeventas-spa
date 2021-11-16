@@ -52,7 +52,7 @@ export default {
                     this.$store.commit('articles/setArticlesToShow')
                     this.addArticleForSale(article)
                     this.$bvModal.hide('new-article')
-                    if (this.isProvider()) {
+                    if (this.is_provider) {
                         setTimeout(() => {
                             document.getElementById('article-amount').focus()
                         }, 300)

@@ -4,7 +4,7 @@ export default {
 	mixins: [online],
 	computed: {
         unconfirmed_orders_questions_length() {
-            if (this.hasOnline()) {
+            if (this.has_online) {
                 let unconfirmed_orders = this.$store.state.online.orders.unconfirmed_orders
                 let questions = this.$store.state.online.questions.questions
                 let messages_not_read = this.$store.state.online.buyers.messages_not_read
@@ -12,8 +12,21 @@ export default {
             }
             return null
         },
+        show_nav() {
+            return this.currentPage != 'Maps' 
+        }
 	},
 	methods: {
+        logout() {
+            this.$store.dispatch('auth/logout')
+            .then(() => {
+                this.$router.replace({name: 'Login'})
+            })
+		},
+        activeLink(url) {
+            return this.current_page == url ? 'active-link' : ''
+            // active-link-mobile
+        },
 		toVentas() {
 			if (this.$route.name == 'Ventas') {
 				this.$store.dispatch('sales/getSales')

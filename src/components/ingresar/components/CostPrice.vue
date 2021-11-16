@@ -79,7 +79,7 @@ export default {
 				let first_special_price = this.special_prices[0]
 				document.getElementById(`article-special-price-${first_special_price.id}`).focus()
 			} else {
-				if (!this.isProvider()) {
+				if (!this.is_provider) {
 					document.getElementById('article-provider').focus()
 				} else {
 					document.getElementById('article-stock').focus()

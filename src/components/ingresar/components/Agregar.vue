@@ -6,17 +6,16 @@
 			<i class="icon-plus"></i>
 		</template>
 		<b-dropdown-item
-		v-if="!isProvider()"
 		v-b-modal="'providers'">
-			Proveedor
+			Proveedores
 		</b-dropdown-item>
 		<b-dropdown-item
 		v-b-modal="'categories'">
-			Categoria
+			Categorias
 		</b-dropdown-item>
 		<b-dropdown-item
 		v-b-modal="'special-prices'">
-			Precio especial
+			Precios especiales
 		</b-dropdown-item>
 	</b-dropdown>
 </template>

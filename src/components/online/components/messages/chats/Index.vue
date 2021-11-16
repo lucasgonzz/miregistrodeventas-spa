@@ -1,8 +1,18 @@
 <template>
 	<div
 	class="chats-container">
-		<chat-search></chat-search>
-		<chats-list></chats-list>
+		<b-button
+		block
+		variant="primary"
+		v-if="is_mobile"
+		v-b-modal="'chats'">
+			Buscar chat
+		</b-button>
+		<div
+		v-else>
+			<chat-search></chat-search>
+			<chats-list></chats-list>
+		</div>
 	</div>
 </template>
 <script>

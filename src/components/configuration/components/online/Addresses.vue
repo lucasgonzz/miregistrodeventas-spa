@@ -1,8 +1,11 @@
 <template>
-	<b-form-group
-	label="Direcciones"
-	class="j-start">
+	<div
+	class="m-t-15 m-b-15">
+		<p>
+			Direcciones
+		</p>
 		<b-table
+		responsive
 		head-variant="dark" 
 		v-if="user.addresses.length"
 		striped
@@ -21,12 +24,15 @@
 		v-else>
 			Sin direcciones
 		</p>
-		<b-button
-		variant="primary"
-		:to="{name: 'Maps'}">
-			Agregar direccion
-		</b-button>
-	</b-form-group>
+		<div 
+		class="j-start m-t-10">
+			<b-button
+			variant="primary"
+			:to="{name: 'Maps'}">
+				Agregar direccion
+			</b-button>
+		</div>
+	</div>
 </template>
 <script>
 export default {

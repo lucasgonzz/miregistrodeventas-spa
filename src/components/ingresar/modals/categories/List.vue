@@ -3,6 +3,7 @@
 		<b-list-group
 		v-if="view == 'categories'">
 			<b-table
+			head-variant="dark"
 			:fields="fields"
 			:items="table_items">
 				<template #cell(options)="data">
@@ -25,6 +26,7 @@
 		<b-list-group
 		v-else>
 			<b-table
+			head-variant="dark"
 			:fields="fields"
 			:items="table_items">
 				<template #cell(options)="data">

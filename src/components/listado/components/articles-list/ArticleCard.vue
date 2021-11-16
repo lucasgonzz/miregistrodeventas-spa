@@ -28,7 +28,7 @@
 				</p>
 			</div>
 			<b-button 
-			v-if="hasOnline()"
+			v-if="has_online"
 			@click.stop="setFeatured(article)"
 			size="sm"
 			:variant="isFeatured(article)">

@@ -84,8 +84,8 @@ export default {
 }
 </script>
 <style scoped lang="sass">
-::-webkit-scrollbar 
-	display: none
+// ::-webkit-scrollbar 
+// 	display: none
 .col 
 	overflow-x: scroll
 .sale-time-hour

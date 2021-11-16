@@ -12,7 +12,7 @@
             <b-form-group 
             v-if="client">
                 <strong class="client-name">
-                    Cliente seleccionado: {{ client.name }}
+                    Cliente seleccionado: {{ client.name }} {{ client.surname }}
                 </strong>
             </b-form-group>
             <b-form-group
@@ -40,6 +40,7 @@
                 block
                 variant="primary"
                 v-b-modal="'create-client'">
+                    <i class="icon-plus"></i>
                     Nuevo Cliente
                 </b-button>
             </b-form-group>
@@ -106,7 +107,7 @@ export default {
             this.$store.commit('vender/setClient', client)
         },
         vender() {
-            if (!this.isProvider()) {
+            if (!this.is_provider) {
                 this.$store.commit('vender/setDebt', this.debt)
                 this.$store.dispatch('vender/vender')
                 this.$store.commit('vender/setClient', null)

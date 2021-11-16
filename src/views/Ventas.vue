@@ -19,6 +19,8 @@
 	<clients></clients>
 	<edit-client></edit-client>
 	<delete-client></delete-client>
+	<sellers></sellers>
+	<create-seller></create-seller>
 	<saldo-inicial-client></saldo-inicial-client>
 	<commissioners></commissioners>
 	<from-date></from-date>
@@ -80,6 +82,8 @@ import EditClient from '../components/ventas/modals/clients/EditClient.vue'
 import DeleteClient from '../components/ventas/modals/clients/Delete.vue'
 import SaldoInicialClient from '../components/ventas/modals/clients/SaldoInicial.vue'
 import Commissioners from '../components/ventas/modals/commissioners/Index.vue'
+import Sellers from '../components/ventas/modals/sellers/Index.vue'
+import CreateSeller from '../components/ventas/modals/sellers/Create.vue'
 
 // Componentes
 // import Cargando from '../components/common/Cargando.vue'
@@ -115,6 +119,8 @@ export default {
 		DeleteClient,
 		SaldoInicialClient,
 		Commissioners,
+		Sellers,
+		CreateSeller,
 
 		// Components
 		// Cargando,

@@ -2,7 +2,7 @@
 <b-modal id="change-percentage-card" title="Cambiar porcentaje de tarjeta" hide-footer>
     <div>
         <b-form-group
-        label="Nuevo porcentaje de tarjeta"
+        label="Nuevo porcentaje de recargo para tarjeta"
         :description="`Porcentaje actual: ${percentage_card}%`"
         label-for="new-percentage-card">
             <b-form-input

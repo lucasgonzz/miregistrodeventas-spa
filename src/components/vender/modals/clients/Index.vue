@@ -2,18 +2,18 @@
 <b-modal id="clients" :title="title" body-class="al-borde-md" hide-footer :hide-header="view == 1">
 	<clients
 	v-if="view == 0"></clients>
-	<discounts
-	v-if="view == 1"></discounts>
+	<discounts-sale-type
+	v-if="view == 1"></discounts-sale-type>
 </b-modal>
 </template>
 <script>
 import Clients from '@/components/vender/modals/clients/Clients'
-import Discounts from '@/components/vender/modals/clients/Discounts'
+import DiscountsSaleType from '@/components/vender/modals/clients/DiscountsSaleType'
 export default {
 	name: 'ClientsIndex',
 	components: {
 		Clients,
-		Discounts,
+		DiscountsSaleType,
 	},
 	computed: {
 		view() {

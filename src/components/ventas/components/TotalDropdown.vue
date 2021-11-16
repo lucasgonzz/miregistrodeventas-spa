@@ -88,26 +88,26 @@
 				Clientes
 			</b-dropdown-item>
 			<b-dropdown-item
-			v-if="isProvider()"
+			v-if="is_provider"
 			v-b-modal="'commissioners'">
 				<i class="icon-user"></i>
 				Comisiones
+			</b-dropdown-item>
+			<b-dropdown-item
+			v-if="is_provider"
+			v-b-modal="'sellers'">
+				<i class="icon-user"></i>
+				Vendedores
 			</b-dropdown-item>
 			<b-dropdown-item
 			v-b-modal="'discounts'">
 				<i class="icon-sale-ticket"></i>
 				Descuentos
 			</b-dropdown-item>
-			<b-dropdown-item
-			v-if="isAdmin()"
-			v-b-modal="'sales-times'">
-				<i class="icon-clock-1"></i>
-				Horarios de ventas
-			</b-dropdown-item>
 		</b-dropdown>
 	</b-col>
 	<b-col
-	v-if="isProvider()"
+	v-if="is_provider"
 	cols="12"
 	class="j-end col-info-prints">
 		<b-list-group horizontal>

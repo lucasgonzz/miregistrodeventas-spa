@@ -15,6 +15,7 @@ title="Tienda Online">
 			Solo usuarios registrados
 		</b-form-radio>
 	</b-form-group>
+	<hr>
 	<b-form-group
 	label="Precios">
 		<b-form-radio
@@ -28,6 +29,7 @@ title="Tienda Online">
 			En pesos
 		</b-form-radio>
 	</b-form-group>
+	<hr>
 	<b-form-group
 	label="Nota para los pedidos">
 		<b-form-input
@@ -35,6 +37,7 @@ title="Tienda Online">
 		@keyup.enter="updateUser"
 		placeholder="Pregunta para antes de hacer el pedido"></b-form-input>
 	</b-form-group>
+	<hr>
 	<b-form-group
 	label="Opcion para enviar a domicilio">
 		<b-form-radio
@@ -48,6 +51,7 @@ title="Tienda Online">
 			No, no ofecer envio a domicilio
 		</b-form-radio>
 	</b-form-group>
+	<hr>
 	<b-form-group
 	v-if="user.has_delivery"
 	label="Precio de envio">
@@ -56,24 +60,30 @@ title="Tienda Online">
 		v-model="user.delivery_price"
 		@keyup.enter="updateUser"></b-form-input>
 	</b-form-group>
-	<addresses></addresses>	
+	<hr>
 	<b-button
 	block
 	variant="primary"
 	@click="updateUser">
 		<btn-loader
 		:loader="loading"
-		text="Actualizar"></btn-loader>
+		text="Guardar cambios"></btn-loader>
 	</b-button>
+	<hr>
+	<addresses></addresses>	
+	<hr>
+	<workdays></workdays>	
 </b-card>
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
 import Addresses from '@/components/configuration/components/online/Addresses'
+import Workdays from '@/components/configuration/components/online/Workdays'
 export default {
 	components: {
 		BtnLoader,
 		Addresses,
+		Workdays,
 	},
 	data() {
 		return {

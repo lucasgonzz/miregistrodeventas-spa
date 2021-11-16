@@ -20,7 +20,7 @@
             v-model="new_client.address"></b-form-input>
         </b-form-group>
         <b-form-group
-        v-if="isProvider()"
+        v-if="is_provider"
         label="Vendedor">
             <b-form-select
             :options="seller_options"
@@ -31,20 +31,22 @@
             block
             variant="primary"
             @click="saveClient">
-                <span v-show="saving_client"
-                        class="spinner-border spinner-border-sm"></span>
-                <i v-show="!saving_client"
-                    class="icon-check"></i>
-                Guardar cliente
+                <btn-loader
+                text="Guardar cliente"
+                :loader="saving_client"></btn-loader>
             </b-button>
         </b-form-group>
     </b-card>
 </b-modal>
 </template>
 <script>
+import BtnLoader from '@/components/common/BtnLoader'
 import mixin from '@/mixins/clients'
 export default {
 	name: 'CreateClient',
+    components: {
+        BtnLoader,
+    },
     mixins: [mixin],
 	data() {
 		return {

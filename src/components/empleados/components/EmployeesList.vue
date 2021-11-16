@@ -1,5 +1,7 @@
 <template>
-	<b-card header="Mis empleados">
+	<b-card 
+	class="shadow-5 border-radius-1"
+	header="Mis empleados">
 		<div>
 			<b-list-group 
 			v-show="employees.length">
@@ -37,8 +39,9 @@
 			</b-list-group>
 			<p 
 			v-show="!employees.length"
-			class="text-center">
-				No hay empleados registrados aún
+			class="text-with-icon">
+				<i class="icon-user-delete"></i>
+				No hay empleados registrados
 			</p>
 		</div>
 	</b-card>

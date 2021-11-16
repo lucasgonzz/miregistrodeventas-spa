@@ -9,6 +9,7 @@
 	<filtrar></filtrar>
 	<article-images></article-images>
 	<article-variants></article-variants>
+	<articles-pdf></articles-pdf>
 	
 	<buscador></buscador>
 	<info-filtrados></info-filtrados>
@@ -29,6 +30,7 @@ import UpdateCategory from '../components/listado/modals/UpdateCategory.vue'
 import ConfirmDelete from '../components/listado/modals/ConfirmDelete.vue'
 import ProvidersHistory from '../components/listado/modals/ProvidersHistory.vue'
 import AddCategory from '../components/listado/modals/AddCategory.vue'
+import ArticlesPdf from '../components/listado/modals/ArticlesPdf.vue'
 
 // Components
 import Buscador from '../components/listado/components/Buscador.vue'
@@ -39,7 +41,7 @@ import InfoFiltrados from '../components/listado/components/InfoFiltrados.vue'
 			
 export default {
 	components: {
-		// DescargarPdf,
+		ArticlesPdf,
 		ArticleImages,
 		ArticleVariants,
 		Filtrar,
@@ -124,7 +126,7 @@ export default {
 			this.article.stock = 0
 			this.article.new_stock = 0
 			this.article.stock_null = 0
-			if (!this.isProvider(this.user)) {
+			if (!this.is_provider(this.user)) {
 				this.article.provider = 0
 			}
 			if (this.special_prices.length) {
@@ -157,7 +159,7 @@ export default {
 			* Filtra los proveedores para que aparescan solo una vez en la lista
 		-------------------------------------------------------------------------- */
 		filterProviders() {
-			if (!this.isProvider()) {
+			if (!this.is_provider) {
 				// Se crea una propiedad en los articulos donde estan solo 
 				// los proveedores que no se repiten
 				this.articles.forEach( article => {

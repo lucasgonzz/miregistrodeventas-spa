@@ -8,8 +8,11 @@ export default {
 		new_cupon: {
 			amount: '',
 			percentage: '',
+			min_amount: '',
 			buyers: [],
+			for_new_buyers: false,
 			expiration_date: '',
+			expiration_days: '',
 		},
 		delete: {},
 		loading: false,
@@ -27,11 +30,14 @@ export default {
 			state.loading = value
 		},
 		clear(state) {
-			state.new_article = {
+			state.new_cupon = {
 				amount: '',
 				percentage: '',
+				min_amount: '',
 				buyers: [],
+				for_new_buyers: false,
 				expiration_date: '',
+				expiration_days: '',
 			}
 		},
 		setDelete(state, value) {

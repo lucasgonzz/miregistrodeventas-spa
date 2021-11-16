@@ -2,31 +2,26 @@
 	<b-card
 	no-body
 	header="Pedidos por confirmar">
-		<ul 
-		v-if="loading"
-		class="horizontal-ul">
-			<li
-			v-for="i in 3"
-			:key="i">
-				<loading></loading>
-			</li>
-		</ul>
-		<ul
-		v-else 
-		class="horizontal-ul">
-			<li
-			v-for="order in orders"
-			:key="order.id">
-				<order-card
-				:order="order"></order-card>
-			</li>
-		</ul>
-		<p
-		v-show="orders.length == 0 && !loading"
-		class="no-orders text-success">
-			<i class="icon-check icon"></i>
-			No hay pedidos por confirmar
-		</p>
+		<loading
+		v-if="loading"></loading>
+		<div
+		v-else>
+			<ul
+			class="horizontal-ul">
+				<li
+				v-for="order in orders"
+				:key="order.id">
+					<order-card
+					:order="order"></order-card>
+				</li>
+			</ul>
+			<p
+			v-show="orders.length == 0 && !loading"
+			class="text-with-icon">
+				<i class="icon-check"></i>
+				No hay pedidos por confirmar
+			</p>
+		</div>
 	</b-card>
 </template>
 <script>

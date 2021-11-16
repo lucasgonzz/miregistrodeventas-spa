@@ -2,7 +2,7 @@
 	<div class="float-right m-l-5 d-none d-sm-block">
 		<b-button-group>
 			<b-button 
-			v-if="isProvider() && index > 0"
+			v-if="is_provider && index > 0"
 			variant="primary"
 			@click="updatePreviusSale">
 				<btn-loader :loader="updating" text="Actualizar"></btn-loader>

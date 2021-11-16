@@ -4,7 +4,7 @@
 	cols="12"
 	lg="2">
 		<b-form-input
-		v-if="isProvider()"
+		v-if="is_provider"
 		type="number"
 		min="1"
 		id="article-amount"
@@ -12,15 +12,15 @@
 		@keydown.enter="addArticleToArticlesSale"
 		placeholder="Cantidad"></b-form-input>
 		<b-button-group
-		v-if="!isProvider() && index_previus_sale == 0">
+		v-if="!is_provider && index_previus_sale == 0">
 			<b-button 
 			v-intro-step="4"
 			v-intro="'Guarda la venta'"
 			variant="primary"
 			@click="vender">
-				<i class="icon-check" v-show="!vendiendo"></i>
-				<span v-show="vendiendo" class="spinner-border spinner-border-sm"></span>
-				Vender
+				<btn-loader
+				text="Vender"
+				:loader="vendiendo"></btn-loader>
 			</b-button>
 			<b-button 
 			v-intro-step="3"
@@ -32,7 +32,7 @@
 			</b-button>
 		</b-button-group>
 		<b-button 
-		v-if="!isProvider() && index_previus_sale > 0"
+		v-if="!is_provider && index_previus_sale > 0"
 		variant="primary"
 		@click="updatePreviusSale">
 			<btn-loader :loader="updating_previus_sale" text="Actualizar"></btn-loader>
@@ -40,8 +40,12 @@
 	</b-col>
 </template>
 <script>
+import BtnLoader from '@/components/common/BtnLoader'
 import vender from '@/mixins/vender'
 export default {
+	components: {
+		BtnLoader,
+	},
 	mixins: [vender],
 	computed: {
 		article() {

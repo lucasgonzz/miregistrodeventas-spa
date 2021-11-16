@@ -46,19 +46,20 @@
 				Eliminar
 			</b-dropdown-item>
 		</b-dropdown>
-		<a 
+		<!-- <a 
 		v-intro-step="2"
 		v-intro="'Exporta un exel de tus productos'"
-		href="articles/exel" 
+    	:href="getExelLink()" 
+    	target="_blank"
 		class="btn btn-sm-only-sm btn-success m-l-5">
 			<i class="icon-download"></i>
 			Exel
-		</a>
+		</a> -->
 		<b-button 
 		v-intro-step="3"
 		v-intro="'Genera un PDF de tus productos'"
 		variant="danger"
-		v-b-modal="'descargar-pdf'"
+		v-b-modal="'articles-pdf'"
 		class="m-l-5">
 			<i class="icon-download"></i>
 			Pdf
@@ -106,6 +107,10 @@ export default {
 		}
 	},
 	methods: {
+        getExelLink() {
+            var link = process.env.VUE_APP_API_URL+'/articles/exel'
+            return link
+        },
 		selectAll() {
 			this.$store.commit('articles/setAllArticlesSelected', true)
 		},

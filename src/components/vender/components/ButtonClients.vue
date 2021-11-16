@@ -1,11 +1,10 @@
 <template>
 <b-row
-v-if="isProvider() && articles.length && index_previus_sales == 0"
+v-if="is_provider && articles.length && index_previus_sales == 0"
 class="j-center">
 	<b-col 
 	cols="12"
-	lg="3"
-	data-step="6" data-intro="Seleccione el cliente para la venta">
+	lg="3">
 		<b-button 
 		block
 		variant="success"
@@ -14,11 +13,30 @@ class="j-center">
 			Seleccionar cliente
 		</b-button>
 	</b-col>
+	<b-col 
+	cols="12"
+	lg="3">
+		<b-button 
+		block
+		variant="primary"
+		@click="vender">
+			<btn-loader
+			icon="check"
+			text="Guardar venta"
+			:loader="vendiendo"></btn-loader>
+		</b-button>
+	</b-col>
 </b-row>
 </template>
 <script>
+import BtnLoader from '@/components/common/BtnLoader'
+import vender from '@/mixins/vender'
 export default {
 	name: 'ButtonClients',
+	components: {
+		BtnLoader,
+	},
+	mixins: [vender],
 	computed: {
 		articles() {
 			return this.$store.state.vender.articles

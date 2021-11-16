@@ -1,6 +1,6 @@
 <template>
 	<b-form-row>
-		<b-col lg="6" v-if="!isProvider()">
+		<b-col lg="6">
 			<b-form-group
 			label="Proveedor"
 			label-for="article-provider">

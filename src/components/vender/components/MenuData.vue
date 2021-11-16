@@ -126,14 +126,15 @@ export default {
 }
 </script>
 <style scoped lang="sass">
+@import '@/sass/_custom.scss'
 .btn 
 	&:hover
-		background: #4a2c82 !important
+		background: $blue !important
 		color: #FFF !important
 .btn-outline-primary
 	&:hover
 		background: #FFF !important
-		color: #4a2c82 !important
+		color: $blue !important
 .col-12
 	align-items: center
 	@media screen and (max-width: 992px)

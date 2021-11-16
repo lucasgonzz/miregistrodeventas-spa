@@ -49,7 +49,7 @@ class="d-none d-lg-block">
 					<div class="buttons">
 						<!-- Online -->
 						<b-button 
-						v-if="hasOnline()"
+						v-if="has_online"
 						@click="setFeatured(articles[data.index])"
 						size="sm"
 						:variant="isFeatured(articles[data.index])">
@@ -58,7 +58,7 @@ class="d-none d-lg-block">
 						</b-button>
 						<!-- Proveedores -->
 						<b-button 
-						v-if="!isProvider()"
+						v-if="articles[data.index].providers"
 						@click="providersHistory(articles[data.index])"
 						size="sm"
 						class="m-l-10"
@@ -153,7 +153,7 @@ export default {
 				{ key: 'sub_category', label: 'Subcategoria', sortable: true},
 				{ key: 'options', label: 'Opciones', sortable: true},
 			]
-			// if (!this.isProvider()) {
+			// if (!this.is_provider) {
 			// 	fields.splice(6, 0, { key: 'providers', label: 'Provedores',})
 			// }
 			return fields
@@ -166,7 +166,7 @@ export default {
 					bar_code: this.barCode(article),
 					name: article.name,
 					cost: this.articleCost(article),
-					price: this.articlePrice(article),
+					price: this.articlePrice(article, false, true),
 					stock: this.stock(article),
 					sub_category: this.subCategory(article),
 				})

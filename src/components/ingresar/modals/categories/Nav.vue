@@ -1,7 +1,16 @@
 <template>
 	<div
-	class="cont-nav">
-		<b-nav tabs class="m-b-10 nav-categories">
+	class="p-15">
+		<b-button
+		block
+		class="m-b-15"
+		@click="create"
+		variant="primary">
+			<i class="icon-plus"></i>
+			{{ btn_text }}
+		</b-button>
+		<b-nav 
+		tabs>
 			<b-nav-item 
 			:active="isActive('categories')"
 			@click="setView('categories')">
@@ -13,11 +22,6 @@
 				Subcategorias
 			</b-nav-item>
 		</b-nav>
-		<b-button
-		@click="create"
-		variant="primary">
-			<i class="icon-plus"></i>
-		</b-button>
 	</div>
 </template>
 <script>
@@ -27,6 +31,13 @@ export default {
 		view() {
 			return this.$store.state.categories.view
 		},
+		btn_text() {
+			if (this.view == 'categories') {
+				return 'Nueva categoria'
+			} else {
+				return 'Nueva subcategoria'
+			}
+		}
 	},
 	methods: {
 		setView(value) {
@@ -46,8 +57,6 @@ export default {
 }
 </script>
 <style lang="sass">
-.nav-categories
-	width: 80%
 .cont-nav
 	display: flex
 	justify-content: space-between

@@ -9,7 +9,10 @@ export default {
 	mutations: {
 		setSellers(state, value) {
 			state.sellers = value
-		}
+		},
+		add(state, value) {
+			state.sellers.push(value)
+		},
 	},
 	actions: {
 		getSellers({ commit }) {

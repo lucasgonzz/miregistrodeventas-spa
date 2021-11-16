@@ -1,14 +1,12 @@
 <template>
 	<div
 	class="container-messages">
-		<div
-		class="no-content m-t-50"
+		<p
+		class="text-with-icon m-t-50"
 		v-if="!selected_buyer">
             <i class="icon-user"></i>
-			<p>
-				Seleccione un cliente para ver el chat
-			</p>
-		</div>
+			Seleccione un cliente para ver el chat
+		</p>
 		<div
 		v-else-if="selected_buyer.messages.length"
 		id="messages">
@@ -28,14 +26,12 @@
 				</p>
 			</div>
 		</div>
-		<div
-		class="no-content m-t-50"
+		<p
+		class="text-with-icon m-t-50"
 		v-else>
             <i class="icon-message"></i>
-            <p>
-				No hay mensajes
-            </p>
-		</div>
+			No hay mensajes
+		</p>
 	</div>
 </template>
 <script>

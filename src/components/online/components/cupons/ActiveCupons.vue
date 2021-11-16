@@ -1,22 +1,24 @@
 <template>
 	<b-row>
 		<b-col>
-			<ul
-			v-if="loading" 
-			class="horizontal-ul">
-				<li
-				v-for="i in 3"
-				:key="i+'0'">
-					<loading></loading>
-				</li>
-			</ul>
-			<div 
-			v-else
-			class="cont-cards">
-				<active-cupon
-				v-for="cupon in active_cupons"
-				:key="cupon.id"
-				:cupon="cupon"></active-cupon>
+			<loading
+			v-if="loading"></loading>
+			<div
+			v-else>
+				<div
+				v-if="active_cupons.length" 
+				class="cont-cards">
+					<active-cupon
+					v-for="cupon in active_cupons"
+					:key="cupon.id"
+					:cupon="cupon"></active-cupon>
+				</div>
+				<p
+				class="text-with-icon"
+				v-else>
+					<i class="icon-not-2"></i>
+					No hay cupones activos
+				</p>
 			</div>
 		</b-col>
 	</b-row>

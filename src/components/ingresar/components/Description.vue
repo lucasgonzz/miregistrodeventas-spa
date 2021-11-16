@@ -1,6 +1,6 @@
 <template>
 	<b-form-row
-	v-if="hasOnline()">
+	v-if="has_online">
 		<b-col>
 			<b-form-group
 			v-for="(description, index) in article.descriptions"

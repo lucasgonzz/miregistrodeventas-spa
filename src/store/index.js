@@ -25,6 +25,8 @@ import address from './address'
 import political from './political'
 import colors from './colors'
 import conditions from './conditions'
+import workdays from './workdays'
+import schedules from './schedules'
 
 Vue.use(Vuex)
 
@@ -67,5 +69,7 @@ export default new Vuex.Store({
 		political,
 		colors,
 		conditions,
+		workdays,
+		schedules,
 	}
 })

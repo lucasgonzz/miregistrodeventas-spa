@@ -123,7 +123,7 @@
 					</small>
 				</div>
 
-				<div class="form-group" v-show="!isProvider(user)">
+				<div class="form-group" v-show="!is_provider(user)">
 					<label for="provider">
 						Proveedor
 					</label>

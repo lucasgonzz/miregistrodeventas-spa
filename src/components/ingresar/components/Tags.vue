@@ -1,5 +1,6 @@
 <template>
-	<b-form-row>
+	<b-form-row
+	v-if="has_online">
 		<b-col>
 			<b-form-group
 			class="col-autocomplete"

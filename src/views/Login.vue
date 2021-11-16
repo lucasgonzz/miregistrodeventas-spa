@@ -52,7 +52,9 @@
 						@click="login"
 						variant="primary"
 						block>
-							<btn-loader text="Ingresar" :loader="loading"></btn-loader>
+							<btn-loader 
+							text="Ingresar" 
+							:loader="loading"></btn-loader>
 						</b-button>
 					</b-form-group>
 					<b-form-group>
@@ -171,9 +173,6 @@ export default {
 			border-radius: .4em !important
 	.row
 		height: 100vh
-		@media screen and (min-width: 768px) and (max-width: 1200px)
-			background: #4a2c82
-		// @media screen and (min-width: 1200px)
 		display: flex
 		justify-content: center
 		align-items: center

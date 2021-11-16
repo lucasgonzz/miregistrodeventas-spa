@@ -4,6 +4,7 @@
 	<article-variants></article-variants>
 	<delete-provider></delete-provider>
 	<delete-special-price></delete-special-price>
+	<create-special-price></create-special-price>
 	<special-prices></special-prices>
 	<create-category></create-category>
 	<create-sub-category></create-sub-category>
@@ -13,6 +14,7 @@
 	<edit-sub-category></edit-sub-category>
 	<providers
 	@setArticleProvider="setArticleProvider"></providers>
+	<create-provider></create-provider>
 	<edit-article
 	@clearArticle="clearArticle"></edit-article>
 	<print-tickets :articles="articles_to_print"></print-tickets>
@@ -25,39 +27,48 @@
 			<title-agregar></title-agregar>
 			<bar-code 
 			:article="article"></bar-code>
-
+			<hr>
 			<name 
 			:article="article"
 			ref="nameComponent"
 			@setArticle="setArticle"></name>
+			<hr>
 
 			<cost-price 
 			:article="article"
 			:user="user"
 			:porcentage_for_price="porcentage_for_price"></cost-price>
+			<hr>
 
 			<stock-provider 
 			:article="article"
 			@saveArticle="saveArticle"></stock-provider>
+			<hr>
 
 			<categories-subcategories 
 			:article="article"
 			@saveArticle="saveArticle"></categories-subcategories>
+			<hr>
 
 			<tags
 			:article="article"></tags>
+			<hr>
 
 			<description
 			:article="article"></description>
+			<hr>
 
 			<condition
 			:article="article"></condition>
+			<hr>
 
 			<colors
 			:article="article"></colors>
+			<hr>
 
 			<add-photo
 			:article="article"></add-photo>
+			<hr>
 
 			<card-footer
 			:articles="articles_to_print"
@@ -71,13 +82,15 @@
 // Modals
 import DeleteCategory from '../components/ingresar/modals/categories/Delete.vue'
 import ArticleVariants from '../components/listado/modals/images/ArticleVariants.vue'
-import Providers from '../components/ingresar/modals/Providers.vue'
+import Providers from '../components/ingresar/modals/providers/Index.vue'
+import CreateProvider from '../components/ingresar/modals/providers/Create.vue'
 import Categories from '../components/ingresar/modals/categories/Index.vue'
 import CreateCategory from '../components/ingresar/modals/categories/CreateCategory.vue'
 import CreateSubCategory from '../components/ingresar/modals/categories/CreateSubCategory.vue'
 import EditCategory from '../components/ingresar/modals/categories/EditCategory.vue'
 import EditSubCategory from '../components/ingresar/modals/categories/EditSubCategory.vue'
-import SpecialPrices from '../components/ingresar/modals/SpecialPrices.vue'
+import SpecialPrices from '../components/ingresar/modals/special-prices/Index.vue'
+import CreateSpecialPrice from '../components/ingresar/modals/special-prices/Create.vue'
 import EditArticle from '../components/common/EditArticle.vue'
 import PrintTickets from '../components/ingresar/modals/PrintTickets.vue'
 import BarCodes from '../components/ingresar/modals/BarCodes.vue'
@@ -106,12 +119,14 @@ export default {
 		DeleteCategory,
 		ArticleVariants,
 		Providers,
+		CreateProvider,
 		Categories,
 		CreateCategory,
 		CreateSubCategory,
 		EditCategory,
 		EditSubCategory,
 		SpecialPrices,
+		CreateSpecialPrice,
 		EditArticle,
 		PrintTickets,
 		BarCodes,
@@ -232,11 +247,11 @@ export default {
 				this.$toast.error("El nombre no puede contener una barra '/'")
 				document.getElementById('article-name').focus()
 			}
-			if (this.article.provider_id == 0 && !this.isProvider(this.user)) {
-				ok = false
-				this.$toast.error('Debe seleccionar un preveedor')
-				document.getElementById('article-provider').focus()
-			}
+			// if (this.article.provider_id == 0 && !this.is_provider(this.user)) {
+			// 	ok = false
+			// 	this.$toast.error('Debe seleccionar un preveedor')
+			// 	document.getElementById('article-provider').focus()
+			// }
 			// Controla que le codigo de barras no este registrado
 			if (this.bar_codes.includes(this.article.bar_code)) {
 				ok = false
@@ -335,7 +350,7 @@ export default {
 			this.article.price = article.price
 			this.article.online_price = article.online_price
 			this.article.offer_price = article.offer_price
-			if (!this.isProvider(this.user)) {
+			if (!this.is_provider(this.user)) {
 				this.article.provider_id = article.providers[article.providers.length - 1].id
 				this.article.providers = article.providers
 			}
@@ -375,8 +390,11 @@ export default {
 </script>
 <style lang="sass">
 #ingresar
-	.form-group
-	margin-bottom: 0
+	hr 
+		// border: 1px solid #000
+		border: .1px solid rgba(0, 0, 0, .1) !important
+		width: 100%
+		margin-top: 0
 	.card-header
 		align-items: center
 	.card-footer
@@ -388,5 +406,5 @@ export default {
 	.spinner-border-sm 
 		margin-bottom: 2px
 	.col-12
-		flex-direction: column
+		flex-direction: column 
 </style>

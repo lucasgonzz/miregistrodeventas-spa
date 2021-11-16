@@ -25,11 +25,18 @@
 					</template>
 				</template>
 				<template #cell(ver)="data">
-					<b-button 
-					class="btn-eye"
-					@click="showSaleDetails(sales[data.index])">
-						<i class="icon-eye"></i>
-					</b-button>
+					<div class="j-start align-center">
+						<b-button 
+						class="btn-eye"
+						@click="showSaleDetails(sales[data.index])">
+							<i class="icon-eye"></i>
+						</b-button>
+						<b-badge
+						v-if="sales[data.index].special_price_id"
+						variant="success">
+							{{ sales[data.index].special_price.name }}
+						</b-badge>
+					</div>
 				</template>
 				<template #cell(client)="data">
 					<b-button
@@ -43,14 +50,12 @@
 					</span>
 				</template>
 			</b-table>
-			<div 
+			<p 
 			v-show="!sales.length"
-			class="no-content">
+			class="text-with-icon">
 				<i class="icon-not-2"></i>
-				<p>
-					No hay ventas
-				</p>
-			</div>
+				No hay ventas
+			</p>
 		</div>
 		<b-skeleton-table
 			v-else

@@ -1,5 +1,9 @@
 <template>
-<b-modal id="categories" title="Categorias" hide-footer>
+<b-modal 
+id="categories" 
+title="Categorias" 
+body-class="p-0"
+hide-footer>
 	<categories-nav></categories-nav>
 	<list></list>
 </b-modal>

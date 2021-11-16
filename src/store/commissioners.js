@@ -34,6 +34,9 @@ export default {
 		setLoadingCheckSaldos(state, value) {
 			state.loading_check_saldos = value
 		},
+		add(state, value) {
+			state.commissioners.push(value)
+		}
 	},
 	actions: {
 		getCommissioners({ commit }) {

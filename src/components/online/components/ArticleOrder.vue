@@ -28,7 +28,7 @@
 				<p 
 				v-show="article.pivot.amount > 1"
 				class="product-total">
-					Total: {{ price(article.pivot.price * article.pivot.amount) }}
+					Total: {{ price(articlePrice(article, true, false) * article.pivot.amount) }}
 				</p>
 			</div>
 		</div>

@@ -1,19 +1,32 @@
 <template>
 	<span>
 		<span 
-		v-show="loader"
+		v-show="(loader == true && !index) || index == loader"
 		class="spinner-border spinner-border-sm"></span>
-		<span v-show="!loader && text != ''">
-			{{ text }}
-		</span>
-		<span v-show="!loader && icon != ''">
+		<span v-show="(loader == false || (index && loader != index)) && icon != ''">
 			<i :class="'icon-'+icon"></i>
+		</span>
+		<span v-show="(loader == false || (index && loader != index)) && text != ''">
+			{{ text }}
 		</span>
 	</span>
 </template>
 <script>
 export default {
-	props: ['loader', 'text', 'icon']
+	props: {
+		loader: {
+			default: null,
+		},
+		text: {
+			default: null,
+		},
+		icon: {
+			default: null,
+		},
+		index: {
+			default: null,
+		},
+	}
 }
 </script>
 <style scoped lang="sass">

@@ -1,6 +1,7 @@
 <template>
 <div>
 	<b-table
+	head-variant="dark"
 	v-if="discounts.length"
 	:fields="fields"
 	:items="items">
@@ -13,14 +14,12 @@
 			</b-button>
 		</template>
 	</b-table>
-	<div
-	class="no-content"
-	v-else>
+	<p
+	v-else
+	class="text-with-icon">
 		<i class="icon-not-2"></i>
-		<p>
-			No hay descuentos
-		</p>
-	</div>
+		No hay descuentos
+	</p>
 </div>
 </template>
 <script>

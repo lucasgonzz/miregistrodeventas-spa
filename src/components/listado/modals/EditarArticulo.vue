@@ -110,7 +110,7 @@
 						</span>
 					</small>
 				</div>
-				<div class="form-group" v-show="!isProvider(user) && article.new_stock > 0">
+				<div class="form-group" v-show="!is_provider(user) && article.new_stock > 0">
 					<label class="label-block" for="provider_modal">
 						<template v-if="article.uncontable == 0">
 							<span v-show="article.new_stock == 1">

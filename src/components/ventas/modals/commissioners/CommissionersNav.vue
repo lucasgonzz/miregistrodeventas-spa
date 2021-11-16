@@ -5,7 +5,7 @@
 		:active="isActive(commissioner)"
 		v-for="commissioner in commissioners"
 		:key="commissioner.id">
-			{{ commissioner.name }}
+			{{ commissionerName(commissioner) }}
 		</b-nav-item>
 	</b-nav>
 </template>
@@ -31,6 +31,12 @@ export default {
 			this.$store.commit('commissioners/setSelectedCommissioner', commissioner)
 			this.$store.dispatch('commissioners/getSelectedCommissioners')
 		},
+		commissionerName(commissioner) {
+			if (commissioner.seller) {
+				return commissioner.seller.name 
+			}
+			return commissioner.name
+		}
 	}
 }
 </script>

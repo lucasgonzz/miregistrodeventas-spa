@@ -17,15 +17,47 @@ export default {
 		},
 	},
 	methods: {
-		vender() {
-			if (!this.isProvider() && this.articles_for_sale.length) {
-				this.$store.commit('articles/removeStock', this.articles_for_sale)
-				this.$store.dispatch('vender/vender')
-				.then(() => {
-					document.getElementById('article-bar-code').focus()
-				})
-			}
+		// Se setea el precio especial del articulo para que ya le quede
+		// asignado en el objeto y se envie a salecontroller@store
+		setArticlesPrice() {
+			this.articles_for_sale.forEach(article => {
+				console.log('viendo para '+article.id)
+				if (this.special_price_id != 0) {
+					if (article.special_prices.length) {
+						article.special_prices.forEach(special_price => {
+							if (special_price.id == this.special_price_id) {
+								// article = Object.assign(article, {price_for_sale: special_price.pivot.price})
+								this.$set(article, 'price_for_sale', Number(special_price.pivot.price))
+								this.$store.commit('vender/updateArticle', article)
+							} 
+						})
+					}
+				} else { 
+					// article = Object.assign(article, {price_for_sale: article.original_price})
+					this.$set(article, 'price_for_sale', article.original_price)
+					this.$store.commit('vender/updateArticle', article)
+				}
+				console.log(article.price_for_sale)
+			})
 		},
+        vender() {
+			this.$store.commit('articles/removeStock', this.articles_for_sale)
+            this.$store.dispatch('vender/vender')
+            .then(() => {
+	            this.$store.commit('vender/setClient', null)
+	            this.$store.commit('vender/setDiscounts', [])
+	            this.$store.commit('vender/setSaleType', 1)
+	            this.$store.commit('vender/setSpecialPriceId', 0)
+	            this.$bvModal.hide('clients')
+	            this.without_debt = true
+	            this.$store.commit('vender/clients/setView', 0)
+	            if (this.is_provider) {
+	                this.$bvModal.show('successful-sale')
+	            } else {
+					document.getElementById('article-bar-code').focus()
+	            }
+            })
+        },
 		setArticleForSale(article) {
 			if (this.article.bar_code != '') {
 				article = this.articles.find(article => {
@@ -42,7 +74,7 @@ export default {
 		},
 		addArticleForSale(article) {
 			this.$store.commit('vender/setArticleForSale', this.setOriginalPrice(article)) 
-            if (this.isProvider()) {
+            if (this.is_provider) {
             	console.log('aca')
                 document.getElementById('article-amount').focus()
             } else {
@@ -58,7 +90,7 @@ export default {
 				this.$bvModal.show('select-variant')
 				this.clearArticle()
 			} else {
-				if (this.isProvider() && !this.isRepeat()) {
+				if (this.is_provider && !this.isRepeat()) {
 					this.article_for_sale.amount = this.article.amount
 					this.addArticleAndSetTotal()
 				} else if (!this.isRepeat()) {
@@ -94,7 +126,7 @@ export default {
 			} else {
 				console.log('Esta repetido')
 				finded.amount = Number(finded.amount)
-				if (this.isProvider()) {
+				if (this.is_provider) {
 					finded.amount += Number(this.article.amount)
 				} else {
 					finded.amount++
@@ -133,6 +165,7 @@ export default {
 		},
 		setOriginalPrice(article) {
 			article.original_price = parseFloat(article.price)
+			article.price_for_sale = parseFloat(article.price)
 			return article
 		},
 		clearVender() {
