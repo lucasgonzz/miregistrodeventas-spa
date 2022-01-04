@@ -5,7 +5,7 @@
     toggleable="lg" 
     variant="primary">
         <b-navbar-brand>
-            Mi registro de ventas
+            <img src="@/assets/logo blanco.png" alt="">
         </b-navbar-brand>
 
         <b-navbar-toggle target="mobile-nav">
@@ -53,27 +53,22 @@
                         {{ unconfirmed_orders_questions_length }}
                     </b-badge>
                 </b-nav-item>
-                <!-- <b-nav-item
+            </b-navbar-nav>
+            <b-nav-item-dropdown right>
+                <template v-slot:button-content>
+                    {{ user.name }}
+                </template>
+                <b-dropdown-item
+                :to="{name: 'Configuration'}">
+                    <i class="icon-config"></i>
+                    Configuracion
+                </b-dropdown-item>
+                <b-dropdown-item 
                 @click="logout">
                     <i class="icon-sign-out"></i>
                     Salir
-                </b-nav-item> -->
-                <b-nav-item-dropdown right>
-                    <template v-slot:button-content>
-                        {{ user.name }}
-                    </template>
-                    <b-dropdown-item
-                    :to="{name: 'Configuration'}">
-                        <i class="icon-config"></i>
-                        Configuracion
-                    </b-dropdown-item>
-                    <b-dropdown-item 
-                    @click="logout">
-                        <i class="icon-sign-out"></i>
-                        Salir
-                    </b-dropdown-item>
-                </b-nav-item-dropdown>
-            </b-navbar-nav>
+                </b-dropdown-item>
+            </b-nav-item-dropdown>
         </b-collapse>
     </b-navbar>
     <p v-if="isOffline">Se perdio la conexion</p>

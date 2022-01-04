@@ -7,7 +7,7 @@ export default {
 		employee_to_create: {
 			name: '',
 			password: '',
-			permissions: [],
+			permissions_id: [],
 		},
 		employee_to_show_permissions: {},
 		employees: [],

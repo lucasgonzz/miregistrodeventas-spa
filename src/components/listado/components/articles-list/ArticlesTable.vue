@@ -50,6 +50,17 @@ class="d-none d-lg-block">
 						<!-- Online -->
 						<b-button 
 						v-if="has_online"
+						@click="setArticleOnline(articles[data.index])"
+						size="sm"
+						:variant="isArticleOnline(articles[data.index])">
+							<btn-loader
+							icon="not-2"
+							:index="articles[data.index].id"
+							:loader="loading_online"></btn-loader>
+						</b-button>
+						<b-button 
+						v-if="has_online"
+						class="m-l-10"
 						@click="setFeatured(articles[data.index])"
 						size="sm"
 						:variant="isFeatured(articles[data.index])">
@@ -111,6 +122,7 @@ class="d-none d-lg-block">
 </b-row>
 </template>
 <script>
+import BtnLoader from '@/components/common/BtnLoader'
 import VueLoadImage from 'vue-load-image'
 import edit_articles from '@/mixins/edit_articles'
 export default {
@@ -118,6 +130,7 @@ export default {
 	mixins: [edit_articles],
 	components: {
 		VueLoadImage,
+		BtnLoader,
 	},
 	data() {
 		return {

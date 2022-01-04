@@ -17,8 +17,8 @@ module.exports = {
         workboxOptions: {
             skipWaiting: true
         },
-		themeColor: "#4a2c82",
-		msTileColor: "#4a2c82",
+		themeColor: "#007bff",
+		msTileColor: "#007bff",
 		name: "Mi Registro de Ventas",
 		manifestOptions: {
 		  icons: [

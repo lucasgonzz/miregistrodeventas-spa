@@ -1,5 +1,5 @@
 <template>
-<b-modal id="answer" title="Repsonder" v-if="question.buyer" hide-footer>
+<b-modal id="answer" title="Repsonder" v-if="question.buyer && question.article" hide-footer>
 	<p>
 		{{ question.buyer.name }} pregunto por {{ question.article.name }}
 	</p>

@@ -55,6 +55,7 @@ export default {
 				{ key: 'name', label: 'Nombre', class: 'text-center'},
 				{ key: 'surname', label: 'Apellido', class: 'text-center'},
 				{ key: 'address', label: 'Direccion', class: 'text-center'},
+				{ key: 'cuit', label: 'CUIT', class: 'text-center'},
 				{ key: 'saldo', label: 'Saldo', class: 'text-center'},
 				{ key: 'options', label: 'Opciones', class: 'text-center'},
 			]
@@ -66,6 +67,7 @@ export default {
 					name: client.name,
 					surname: client.surname,
 					address: client.address,
+					cuit: client.cuit,
 					saldo: this.price(client.saldo),
 				})
 			})

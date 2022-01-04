@@ -21,7 +21,7 @@ export default {
 				console.log(selected_variant)
 				url = selected_variant.url
 			} else {
-				url = this.getFirstImage(article).url
+				url = this.getFirstImage(question.article)
 			}
 			return `https://res.cloudinary.com/lucas-cn/image/upload/${url}`
 		},
@@ -148,17 +148,17 @@ export default {
 				styles: {
 					palette: {
 						window: "#FFF",
-						windowBorder: "#4a2c82",
-						tabIcon: "#4a2c82",
-						menuIcons: "#967FBF",
-						textDark: "#4a2c82",
+						windowBorder: this.variant_color,
+						tabIcon: this.variant_color,
+						menuIcons: this.variant_color,
+						textDark: this.variant_color,
 						textLight: "#FFFFFF",
-						link:  "#4a2c82",
-						action:  "#4a2c82",
+						link:  this.variant_color,
+						action:  this.variant_color,
 						inactiveTabIcon: "#967FBF",
 						error: "#e3342f",
-						inProgress: "#4a2c82",
-						complete: "#4a2c82",
+						inProgress: this.variant_color,
+						complete: this.variant_color,
 						sourceBg: "#FFF"
 					},
 					fonts: {

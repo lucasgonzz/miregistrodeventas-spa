@@ -7,9 +7,7 @@
 		<buyer-views></buyer-views>
 		<nav-component></nav-component>
 		<orders></orders>
-		<questions
-		ref="questions"
-		@answer="answer"></questions>
+		<questions></questions>
 		<buyers></buyers>
 		<messages></messages>
 		<cupons></cupons>
@@ -48,13 +46,6 @@ export default {
 		MapAddress,
 	},
 	mixins: [online],
-	computed: {
-	},
-	methods: {
-		answer(question) {
-			this.question = question
-		},
-	}
 }
 </script>
 <style scoped lang="sass">

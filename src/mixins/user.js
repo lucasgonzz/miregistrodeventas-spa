@@ -60,6 +60,7 @@ export default {
 		},
 		hasPermissionForRoute(route, user = this.user) {
 			if (user) {
+				console.log('route: '+route)
 				let permission_name = ''
 				if (route == '/vender') {
 					permission_name = 'Vender'
@@ -69,6 +70,8 @@ export default {
 					permission_name = 'Ver articulos'
 				} else if (route == '/ventas') {
 					permission_name = 'Ver ventas'
+				} else if (route == '/tienda-online/pedidos') {
+					permission_name = 'Online'
 				}
 			    let has_permission = false
 			    user.roles.forEach(rol => {

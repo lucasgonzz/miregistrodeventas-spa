@@ -18,6 +18,12 @@
 		placeholder="Ingresar direccion"
 		v-model="client.address"></b-form-input>
 	</b-form-group>
+	<b-form-group
+	label="CUIT del cliente">
+		<b-form-input
+		placeholder="Ingresar CUIT sin guiones"
+		v-model="client.cuit"></b-form-input>
+	</b-form-group>
     <b-form-group
     label="Vendedor">
         <b-form-select

@@ -4,7 +4,7 @@
     <register></register>
 	<b-row>
 		<b-col 
-		class="d-none d-xl-block"
+		class="d-none"
 		xl="8">
 			<img src="@/assets/precentacion.jpg" alt="Imagen">
 		</b-col>
@@ -12,8 +12,8 @@
 		cols="12"
 		sm="8"
 		md="6"
-		class="col-form"
-		xl="3">
+		lg="4"
+		class="col-form">
 			<b-card>
 				<div>
 					<img src="@/assets/logo.png" alt="">
@@ -166,7 +166,7 @@ export default {
 		border-radius: .4em
 		box-shadow: none
 		background: #FFF
-		@media screen and (min-width: 768px) and (max-width: 1200px)
+		@media screen and (min-width: 768px)
 			-webkit-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.75)
 			-moz-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.75)
 			box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.75)

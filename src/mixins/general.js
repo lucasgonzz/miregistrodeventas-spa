@@ -17,6 +17,9 @@ export default {
 			}
 			return false
 		},
+		variant_color() {
+			return '#007bff'
+		},
 	},
 	methods: {
 		capitalize(str) {

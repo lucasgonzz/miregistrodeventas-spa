@@ -51,7 +51,6 @@ export default {
 				{key: 'phone', label: 'Telefono'},
 				{key: 'email', label: 'Correo'},
 				{key: 'address', label: 'Direccion'},
-				{key: 'address_number', label: 'Numero'},
 				{key: 'created_at', label: 'Registrado'},
 				{key: 'last_login', label: 'Ultimo Login'},
 				{key: 'message', label: 'Mensaje'},
@@ -77,12 +76,6 @@ export default {
 			if (buyer.phone) {
 				return buyer.phone.substring(4)
 			} 
-			return '-'
-		},
-		addressNumber(buyer) {
-			if (buyer.address_number) {
-				return buyer.address_number
-			}
 			return '-'
 		},
 		email(buyer) {

@@ -27,6 +27,7 @@ import colors from './colors'
 import conditions from './conditions'
 import workdays from './workdays'
 import schedules from './schedules'
+import prices_lists from './prices_lists'
 
 Vue.use(Vuex)
 
@@ -71,5 +72,6 @@ export default new Vuex.Store({
 		conditions,
 		workdays,
 		schedules,
+		prices_lists,
 	}
 })

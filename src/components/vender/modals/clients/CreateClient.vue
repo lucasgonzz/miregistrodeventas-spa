@@ -19,6 +19,12 @@
             placeholder="Direccion del nuevo cliente"
             v-model="new_client.address"></b-form-input>
         </b-form-group>
+        <b-form-group>
+            <b-form-input
+            @keyup.enter="saveClient"
+            placeholder="CUIT del nuevo cliente"
+            v-model="new_client.cuit"></b-form-input>
+        </b-form-group>
         <b-form-group
         v-if="is_provider"
         label="Vendedor">
@@ -54,6 +60,7 @@ export default {
                 name: '',
                 surname: '',
                 address: '',
+                cuit: '',
                 seller_id: 0,
             },
             saving_client: false,
@@ -84,6 +91,7 @@ export default {
             this.new_client.name = ''
             this.new_client.surname = ''
             this.new_client.address = ''
+            this.new_client.cuit = ''
             this.new_client.seller_id = 0
         }
 	}

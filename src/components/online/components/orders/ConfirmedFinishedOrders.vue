@@ -81,6 +81,7 @@ export default {
 			.then(res => {
 				this.loading_deliver = false
 				this.$store.commit('sales/addSale', res.data.sale)
+				// this.$store.commit('sales/setTotal')
 				this.$store.dispatch('online/orders/getConfirmedFinishedOrders')
 			})
 			.catch(err => {

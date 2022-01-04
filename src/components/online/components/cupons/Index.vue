@@ -5,7 +5,7 @@
 		@confirm="deleteCupon"
 		:text="text"
 		:btn_text="btn_text"
-		variant="danger"
+		variant_color="danger"
 		:loading="loading"></confirm>
 		<create-cupon></create-cupon>
 		<create-cupon-btn></create-cupon-btn>

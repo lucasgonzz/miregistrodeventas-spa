@@ -8,14 +8,12 @@
 				@keyup="searchArticles"
 				v-model="query"></b-form-input>
 			</b-form-group>
-			<div
-			class="no-content m-t-50"
+			<p
+			class="text-with-icon m-t-50"
 			v-if="query.length < 2 && !selected_article">
 	            <i class="icon-upload"></i>
-				<p>
-					Busque un articulo para agregar al mensaje
-				</p>
-			</div>
+				Busque un articulo para agregar al mensaje
+			</p>
 			<div
 			v-if="query.length < 2 && selected_article">
 				<p>
@@ -30,7 +28,7 @@
 			</div>
 			<div 
 			v-else
-			class="cont-cards">
+			class="cont-article-cards">
 				<article-card
 				:class="isSelectedArticle(article) ? 'shadow-1' : ''"
 				v-for="article in articles_to_show"

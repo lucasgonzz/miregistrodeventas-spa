@@ -63,6 +63,10 @@ export default {
     },
     created() {
         console.log('se creo app')
+        if (location.href.indexOf("www.") > -1) {
+            console.log('tiene www')
+            location.replace(process.env.VUE_APP_APP_URL);
+        }
         this.$store.dispatch('auth/me')
         .then(() => {
             console.log('termino auth/me')
@@ -109,7 +113,7 @@ export default {
             this.$router.replace(route)
         },
         async callMethods() {
-            if (this.isOnline) {
+            // if (this.isOnline) {
                 this.$store.commit('auth/setLoading', true)
                 this.$store.dispatch('special_prices/getSpecialPrices')
                 this.loading_message = 'proveedores'
@@ -131,6 +135,8 @@ export default {
                 await this.$store.dispatch('employees/getEmployees')
                 this.loading_message = 'descuentos'
                 await this.$store.dispatch('discounts/getDiscounts')
+                this.loading_message = 'listas de precios'
+                await this.$store.dispatch('prices_lists/getPircesLists')
                 this.loading_message = 'etiquetas'
                 await this.$store.dispatch('tags/getTags')
                 this.loading_message = 'monedas'
@@ -157,12 +163,12 @@ export default {
                     this.$store.commit('auth/setLoading', false)
                     this.loading_message = 'informacion'
                 }
-            } else {
-                let articles = this.$offlineStorage.get('articles')
-                console.log('cargando del cache')
-                console.log(articles)
-                this.$store.commit('articles/setArticles', articles)
-            }
+            // } else {
+            //     let articles = this.$offlineStorage.get('articles')
+            //     console.log('cargando del cache')
+            //     console.log(articles)
+            //     this.$store.commit('articles/setArticles', articles)
+            // }
             // this.$store.dispatch('markers/getMarkers')
             // this.$store.dispatch('markers/getMarkerGroups')
             // this.$store.dispatch('markers/getMarkerGroupsWithMarkers')

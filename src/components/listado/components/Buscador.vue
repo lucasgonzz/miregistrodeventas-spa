@@ -46,30 +46,37 @@
 				Eliminar
 			</b-dropdown-item>
 		</b-dropdown>
+		<b-button
+		class="m-l-10" 
+		v-b-modal="'prices-lists'"
+		variant="primary">
+			<i class="icon-print"></i>
+			Listas de precios
+		</b-button>
 		<!-- <a 
 		v-intro-step="2"
 		v-intro="'Exporta un exel de tus productos'"
     	:href="getExelLink()" 
     	target="_blank"
-		class="btn btn-sm-only-sm btn-success m-l-5">
+		class="btn btn-sm-only-sm btn-success m-l-10">
 			<i class="icon-download"></i>
 			Exel
 		</a> -->
-		<b-button 
+		<!-- <b-button 
 		v-intro-step="3"
 		v-intro="'Genera un PDF de tus productos'"
 		variant="danger"
 		v-b-modal="'articles-pdf'"
-		class="m-l-5">
+		class="m-l-10">
 			<i class="icon-download"></i>
 			Pdf
-		</b-button>
+		</b-button> -->
 		<b-button 
 		variant="secondary"
 		v-intro-step="4"
 		v-intro-position="'left'"
 		v-intro="'Filtra tus productos mediante diferentes opciones'"
-		class="m-l-5" 
+		class="m-l-10" 
 		v-b-modal="'listado-filtrar'"
 		data-step="2"
 		data-intro="Filtre sus artículos segun el proveedor o un rango de precios.">

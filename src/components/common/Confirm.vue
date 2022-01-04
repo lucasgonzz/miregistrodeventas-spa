@@ -8,7 +8,7 @@
 	block
 	class="m-b-0"
 	@click="confirm"
-	:variant="variant">
+	:variant="variant_color">
 		<btn-loader
 		:text="btn_text"
 		:loader="loading"></btn-loader>
@@ -22,7 +22,7 @@ export default {
 	components: {
 		BtnLoader,
 	},
-	props: ['text', 'btn_text', 'variant', 'loading'],
+	props: ['text', 'btn_text', 'variant_color', 'loading'],
 	methods: {
 		confirm() {
 			this.$emit('confirm')

@@ -10,6 +10,8 @@
 	<article-images></article-images>
 	<article-variants></article-variants>
 	<articles-pdf></articles-pdf>
+	<prices-lists></prices-lists>
+	<create-prices-list></create-prices-list>
 	
 	<buscador></buscador>
 	<info-filtrados></info-filtrados>
@@ -31,6 +33,8 @@ import ConfirmDelete from '../components/listado/modals/ConfirmDelete.vue'
 import ProvidersHistory from '../components/listado/modals/ProvidersHistory.vue'
 import AddCategory from '../components/listado/modals/AddCategory.vue'
 import ArticlesPdf from '../components/listado/modals/ArticlesPdf.vue'
+import PricesLists from '../components/listado/modals/prices-lists/Index.vue'
+import CreatePricesList from '../components/listado/modals/prices-lists/Create.vue'
 
 // Components
 import Buscador from '../components/listado/components/Buscador.vue'
@@ -42,6 +46,8 @@ import InfoFiltrados from '../components/listado/components/InfoFiltrados.vue'
 export default {
 	components: {
 		ArticlesPdf,
+		PricesLists,
+		CreatePricesList,
 		ArticleImages,
 		ArticleVariants,
 		Filtrar,
