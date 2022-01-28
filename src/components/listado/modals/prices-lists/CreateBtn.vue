@@ -7,7 +7,7 @@
 		v-b-modal="'create-prices-list'"
 		variant="primary">
 			<i class="icon-plus"></i>
-			Nueva lista de precios
+			Nueva lista de precios con los {{ selected_articles.length }} artículos seleccionados
 		</b-button>
 	</div>
 </template>

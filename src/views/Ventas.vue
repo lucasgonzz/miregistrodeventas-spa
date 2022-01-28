@@ -27,9 +27,10 @@
 	<sale-details></sale-details>
 	<print-sales></print-sales> 
 	<confirm-delete-sales></confirm-delete-sales> 
+	<afip-details></afip-details> 
 	
 	<title-previus-sales-buttons></title-previus-sales-buttons>
-	<total-dropdown></total-dropdown>
+	<total-dropdown-print-info></total-dropdown-print-info>
 	<table-sales 
 	:sales="sales"
 	:is_from_date="is_from_date"
@@ -75,6 +76,7 @@ import CurrentAcountsNotaCredito from '@/components/ventas/modals/currentAcounts
 import FromDate from '../components/ventas/modals/FromDate.vue'
 import SaleDetails from '../components/ventas/modals/SaleDetails.vue'
 import ConfirmDeleteSales from '../components/ventas/modals/ConfirmDeleteSales.vue'
+import AfipDetails from '../components/ventas/modals/AfipDetails.vue'
 import PrintSales from '../components/ventas/modals/PrintSales.vue'
 // import SalesTimes from '../components/ventas/modals/SalesTimes.vue'
 import Clients from '../components/ventas/modals/clients/Index.vue'
@@ -88,7 +90,7 @@ import CreateSeller from '../components/ventas/modals/sellers/Create.vue'
 // Componentes
 // import Cargando from '../components/common/Cargando.vue'
 import TitlePreviusSalesButtons from '../components/ventas/components/TitlePreviusSalesButtons.vue'
-import TotalDropdown from '../components/ventas/components/TotalDropdown.vue'
+import TotalDropdownPrintInfo from '../components/ventas/components/total-dropdown-print-info/Index.vue'
 // import NoSales from '../components/ventas/components/NoSales.vue'
 // import SalesTimesNav from '../components/ventas/components/SalesTimesNav.vue'
 import TableSales from '../components/ventas/components/TableSales.vue'
@@ -108,6 +110,7 @@ export default {
 		CurrentAcountsNotaCredito,
 		SaleDetails,
 		ConfirmDeleteSales,
+		AfipDetails,
 		PrintSales,
 		Discounts,
 		EditDiscount,
@@ -125,7 +128,7 @@ export default {
 		// Components
 		// Cargando,
 		TitlePreviusSalesButtons,
-		TotalDropdown,
+		TotalDropdownPrintInfo,
 		// NoSales,
 		// SelectedSalesOptions,
 		// SalesTimesNav,

@@ -35,18 +35,19 @@
 		v-if="!is_provider && index_previus_sale > 0"
 		variant="primary"
 		@click="updatePreviusSale">
-			<btn-loader :loader="updating_previus_sale" text="Actualizar"></btn-loader>
+			<btn-loader :loader="updating" text="Actualizar"></btn-loader>
 		</b-button>
 	</b-col>
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
 import vender from '@/mixins/vender'
+import previus_sales from '@/mixins/previus_sales'
 export default {
 	components: {
 		BtnLoader,
 	},
-	mixins: [vender],
+	mixins: [vender, previus_sales],
 	computed: {
 		article() {
 			return this.$store.state.vender.article

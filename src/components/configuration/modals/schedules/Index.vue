@@ -50,7 +50,7 @@ hide-footer>
 				<b-button
 				size="sm"
 				variant="danger">
-					<i class="icon-trash-3"></i>
+					<i class="icon-trash"></i>
 				</b-button>
 			</div>
 		</template>

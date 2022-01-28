@@ -8,7 +8,10 @@
             v-if="current_acounts.length">
                 <b-table
                 :fields="fields"
-                :items="items">
+                :items="items"
+                selectable 
+                select-mode="multi"
+                @row-selected="onRowSelected">
                     <template #cell(detalle)="data">
                         <strong
                         :class="getDetalleColorText(current_acounts[data.index])">
@@ -35,7 +38,7 @@
                         size="sm"
                         @click="deleteCurrentAcount(current_acounts[data.index])"
                         variant="danger">
-                            <i class="icon-trash-3"></i>
+                            <i class="icon-trash"></i>
                         </b-button>
                     </template>
                 </b-table>
@@ -57,7 +60,7 @@
             <div 
             v-else
             class="no-content">
-                <i class="icon-not-2"></i>
+                <i class="icon-not"></i>
                 <p>No hay cuentas corrientes</p>
             </div>
         </div>
@@ -112,17 +115,22 @@ export default {
             let items = []
             this.current_acounts.forEach(current_acount => {
                 items.push({
-                    fecha: this.date(current_acount.created_at),
-                    debe: this.price(current_acount.debe),
-                    haber: this.price(current_acount.haber),
-                    saldo: this.price(current_acount.saldo),
-                    description: current_acount.description,
+                    id:             current_acount.id,
+                    fecha:          this.date(current_acount.created_at),
+                    debe:           this.price(current_acount.debe),
+                    haber:          this.price(current_acount.haber),
+                    saldo:          this.price(current_acount.saldo),
+                    description:    current_acount.description,
                 })
             })
             return items
         }
     },
     methods: {
+        onRowSelected(items) {
+            this.$store.commit('clients/current_acounts/setSelected', items)
+            console.log(items)
+        },
         deleteCurrentAcount(current_acount) {
             this.$store.commit('clients/current_acounts/setDelete', current_acount)
             this.$bvModal.show('delete-current-acount')

@@ -12,7 +12,7 @@ class="d-lg-none">
 			<div 
 			v-show="!articles.length"
 			class="no-content">
-				<i class="icon-not-2"></i>
+				<i class="icon-not"></i>
 				<p>
 					No hay artículos
 				</p>

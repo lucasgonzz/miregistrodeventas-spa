@@ -7,12 +7,19 @@ export default {
 	namespaced: true,
 	state: {
 		categories: [],
+		create: {
+			name: '',
+			icon_id: '',
+		},
 		category_to_delete: {},
 		edit: {},
 		view: 'categories',
 		loading: false,
 	},
 	mutations: {
+		setCreate(state, value) {
+			state.create = value
+		},
 		setLoading(state, value) {
 			state.loading = value
 		},
@@ -35,7 +42,7 @@ export default {
 			state.categories = value
 		},
 		addCategory(state, value) {
-			state.categories.unshift(value)
+			state.categories.push(value)
 		},
 		setDelete(state, value) {
 			state.category_to_delete = value

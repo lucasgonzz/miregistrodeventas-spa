@@ -21,6 +21,14 @@
 		variant="danger"
 		class="m-l-15">
 			<i class="icon-print"></i>
+			<span
+			v-show="selected_currents_acounts.length">
+				{{ selected_currents_acounts.length }}
+			</span>
+			<span
+			v-show="!selected_currents_acounts.length">
+				todas
+			</span>
 		</b-button>
 		<b-button
 		@click="checkSaldos"
@@ -57,6 +65,9 @@ export default {
         client() {
             return this.$store.state.clients.current_acounts.client
         },
+        selected_currents_acounts() {
+            return this.$store.state.clients.current_acounts.selected
+        },
 	},
 	methods: {
 		getCurrentAcounts() {
@@ -70,8 +81,17 @@ export default {
 			})
 		},
 		print() {
-            var link = process.env.VUE_APP_API_URL+'/current-acounts/pdf/'+this.client.id+
-            '/'+this.months_ago
+			let link = ''
+			if (this.selected_currents_acounts.length) {
+				let ids = []
+				this.selected_currents_acounts.forEach(current_acount => {
+					ids.push(current_acount.id)
+				})
+            	link = process.env.VUE_APP_API_URL+'/current-acounts/pdf/'+ids.join('-')
+			} else {
+            	link = process.env.VUE_APP_API_URL+'/current-acounts/pdf/'+this.client.id+
+            	'/'+this.months_ago
+			}
             window.open(link)
 		},
 	}

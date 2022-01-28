@@ -28,6 +28,8 @@ import conditions from './conditions'
 import workdays from './workdays'
 import schedules from './schedules'
 import prices_lists from './prices_lists'
+import icons from './icons'
+import title from './title'
 
 Vue.use(Vuex)
 
@@ -73,5 +75,7 @@ export default new Vuex.Store({
 		workdays,
 		schedules,
 		prices_lists,
+		icons,
+		title,
 	}
 })

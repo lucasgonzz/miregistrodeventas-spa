@@ -30,7 +30,7 @@ export default {
 	.logo
 		margin-bottom: 10px
 		z-index: 100
-		width: 90px
+		width: 130px
 	.spinner
 		width: 60px
 	.text-loader

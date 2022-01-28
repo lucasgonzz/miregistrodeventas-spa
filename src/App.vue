@@ -143,6 +143,10 @@ export default {
                 await this.$store.dispatch('coins/getCoins')
                 this.loading_message = 'colores'
                 await this.$store.dispatch('colors/getColors')
+                this.loading_message = 'iconos'
+                await this.$store.dispatch('icons/getIcons')
+                this.loading_message = 'titulo'
+                await this.$store.dispatch('title/getTitle')
                 this.loading_message = 'condiciones'
                 await this.$store.dispatch('conditions/getConditions')
                 this.loading_message = 'dias de trabajo'

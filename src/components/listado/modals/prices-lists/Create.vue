@@ -48,10 +48,12 @@ export default {
 				this.loading = false
 				this.$store.commit('prices_lists/add', res.data.prices_list)
 				this.$bvModal.hide('create-prices-list')
+				this.$toast.success('Lista de precios creada')
 				this.print(res.data.prices_list)
 				this.clear()
 			})
 			.catch(err => {
+				this.$toast.error('Error al crear lista de precios')
 				this.loading = false
 				console.log(err)
 			})

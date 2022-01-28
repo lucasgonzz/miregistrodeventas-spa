@@ -25,7 +25,7 @@
 			<p
 			class="text-with-icon"
 			v-else>
-				<i class="icon-not-2"></i>
+				<i class="icon-not"></i>
 				No hay chats recientes
 			</p>
 		</div>

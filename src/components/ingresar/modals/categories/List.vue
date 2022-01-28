@@ -6,6 +6,11 @@
 			head-variant="dark"
 			:fields="fields"
 			:items="table_items">
+				<template #cell(icon)="data">
+					<i 
+					v-if="items[data.index].icon"
+					:class="'icon-'+items[data.index].icon.slug"></i>
+				</template>
 				<template #cell(options)="data">
 					<b-button
 					@click="edit(items[data.index])"
@@ -18,7 +23,7 @@
 					size="sm"
 					class="m-l-10"
 					variant="danger">
-						<i class="icon-trash-3"></i>
+						<i class="icon-trash"></i>
 					</b-button>
 				</template>
 			</b-table>
@@ -41,7 +46,7 @@
 					size="sm"
 					class="m-l-10"
 					variant="danger">
-						<i class="icon-trash-3"></i>
+						<i class="icon-trash"></i>
 					</b-button>
 				</template>
 			</b-table>
@@ -65,11 +70,13 @@ export default {
 			if (this.view == 'categories') {
 				return [
 					{ key: 'name', label: 'Nombre', class: 'text-center'},
+					{ key: 'icon', label: 'Icono', class: 'text-center'},
 					{ key: 'options', label: 'Opciones', class: 'text-center'},
 				] 
 			}
 			return [
 				{ key: 'name', label: 'Nombre', class: 'text-center'},
+				{ key: 'icon', label: 'Icono', class: 'text-center'},
 				{ key: 'category', label: 'Categoria', sortable: true, class: 'text-center'},
 				{ key: 'options', label: 'Opciones', class: 'text-center'},
 			]

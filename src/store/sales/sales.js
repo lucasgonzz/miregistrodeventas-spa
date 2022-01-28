@@ -3,6 +3,7 @@ axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
 import days_previus_sales from '@/store/sales/days_previus_sales'
 import clients from '@/store/sales/clients'
+import afip from '@/store/sales/afip'
 export default {
 	namespaced: true,
 	state: {
@@ -145,5 +146,6 @@ export default {
 	modules: {
 		days_previus_sales,
 		clients,
+		afip,
 	}
 }

@@ -53,7 +53,7 @@
 			<p 
 			v-show="!sales.length"
 			class="text-with-icon">
-				<i class="icon-not-2"></i>
+				<i class="icon-not"></i>
 				No hay ventas
 			</p>
 		</div>

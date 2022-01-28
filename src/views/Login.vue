@@ -181,7 +181,7 @@ export default {
 		margin-top: -20px
 .col-form 
 	img 
-		width: 100px
+		width: 130px
 		margin-bottom: 1em
 	// height: 500px
 .col-margin

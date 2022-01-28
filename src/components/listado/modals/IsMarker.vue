@@ -7,7 +7,7 @@
 		<b-button
 		@click="deleteMarker"
 		variant="danger"> 
-			<i class="icon-trash-3" v-show="!deleting_marker"></i>
+			<i class="icon-trash" v-show="!deleting_marker"></i>
 			<span v-show="deleting_marker"
 					class="spinner-border spinner-border-sm"></span>
 			Eliminar marcador

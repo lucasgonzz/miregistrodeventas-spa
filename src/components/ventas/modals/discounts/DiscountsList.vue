@@ -17,7 +17,7 @@
 	<p
 	v-else
 	class="text-with-icon">
-		<i class="icon-not-2"></i>
+		<i class="icon-not"></i>
 		No hay descuentos
 	</p>
 </div>
@@ -33,6 +33,7 @@ export default {
 			return [
 				{ key: 'name', label: 'Nombre', class: 'text-center' },
 				{ key: 'percentage', label: 'Descuento', class: 'text-center' },
+				{ key: 'client', label: 'Cliente', class: 'text-center' },
 				{ key: 'options', label: 'Opciones', class: 'text-center' },
 			]
 		},
@@ -42,6 +43,7 @@ export default {
 				items.push({
 					name: discount.name,
 					percentage: discount.percentage+'%',
+					client: this.getClient(discount)
 				})
 			})
 			return items
@@ -51,6 +53,12 @@ export default {
 		edit(discount) {
 			this.$store.commit('discounts/setEdit', discount)
 			this.$bvModal.show('edit-discount')
+		},
+		getClient(discount) {
+			if (discount.client_id) {
+				return discount.client.name
+			}
+			return '-'
 		}
 	}
 }

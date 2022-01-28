@@ -19,7 +19,7 @@ module.exports = {
         },
 		themeColor: "#007bff",
 		msTileColor: "#007bff",
-		name: "Mi Registro de Ventas",
+		name: "ComercioCity",
 		manifestOptions: {
 		  icons: [
 		    {

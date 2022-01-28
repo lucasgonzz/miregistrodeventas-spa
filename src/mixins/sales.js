@@ -58,6 +58,7 @@ export default {
 					total -= com.monto
 				})
 			}
+			// console.log(this.price(total))
 			if (formated) {
 				return this.price(total)
 			} else {

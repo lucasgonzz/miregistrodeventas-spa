@@ -2,7 +2,7 @@
 <b-row v-show="!is_loading && sales.length == 0 && !showing_statistics">
 	<b-col>
 		<p class="not-sales text-secondary">
-			<i class="icon-not-2"></i>
+			<i class="icon-not"></i>
 			<strong>
 				No hay ventas
 			</strong>

@@ -6,6 +6,7 @@
 		placeholder="Nombre"
 		v-model="category.name"></b-form-input>
 	</b-form-group>
+	<icons></icons>	
 	<b-form-group>
 		<b-button
 		block
@@ -20,21 +21,26 @@
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
+import Icons from '@/components/ingresar/modals/categories/Icons'
 export default {
 	components: {
-		BtnLoader
+		BtnLoader,
+		Icons,
+	},
+	computed: {
+		category() {
+			return this.$store.state.categories.create
+		},
 	},
 	data() {
 		return {
-			category: {
-				name: ''
-			},
 			loading: false,
 		}
 	},
 	methods: {
 		save() {
 			if (this.check()) {
+				console.log(this.category)
 				this.loading = true
 				this.$api.post('/categories', this.category)
 				.then(res => {
@@ -61,6 +67,7 @@ export default {
 		},
 		clear() {
 			this.category.name = ''
+			this.category.icon_id = ''
 		}
 	}
 }

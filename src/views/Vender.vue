@@ -9,7 +9,7 @@
 
 	<header-form></header-form>
 
-	<menu-data></menu-data>
+	<total-card-previus-sales></total-card-previus-sales>
 
 	<previus-sale-data></previus-sale-data>
 
@@ -36,10 +36,8 @@ import SuccessfulSale from '../components/vender/modals/SuccessfulSale.vue'
 // Componentes
 import Cargando from '../components/common/Cargando.vue'
 import HeaderForm from '../components/vender/components/header-form/Index.vue'
-import SpecialPrices from '../components/vender/components/SpecialPrices.vue'
 import ArticlesTable from '../components/vender/components/ArticlesTable.vue'
-import Markers from '../components/vender/components/Markers.vue'
-import MenuData from '../components/vender/components/MenuData.vue'
+import TotalCardPreviusSales from '../components/vender/components/total-card-previus-sales/Index.vue'
 import PreviusSaleData from '../components/vender/components/PreviusSaleData.vue'
 import ButtonClients from '../components/vender/components/ButtonClients.vue'
 
@@ -57,10 +55,8 @@ export default {
 		// Componentes
 		Cargando,
 		HeaderForm,
-		SpecialPrices,
 		ArticlesTable,
-		Markers,
-		MenuData,
+		TotalCardPreviusSales,
 		PreviusSaleData,
 		ButtonClients,
 	},
@@ -127,24 +123,6 @@ export default {
 				this.calculateTotal()
 			})
 			.catch(err => {
-				console.log(err)
-			})
-		},
-		updatePreviusSale() {
-			this.updating_previus_sale = true
-			this.loading_articles = true
-			this.$api.put('sales/'+this.previus_sale.id, {
-				articles: this.articles,
-				with_card: this.with_card,
-			})
-			.then(() => {
-				this.loading_articles = false
-				this.updating_previus_sale = false
-				this.$toast.success('Venta actualizada correctamente')
-			})
-			.catch(err => {
-				this.$toast.error('Error al actualizar la venta, recargue la pagina e intentelo nuevamente, por favor ;)')
-				this.updating_previus_sale = false
 				console.log(err)
 			})
 		},

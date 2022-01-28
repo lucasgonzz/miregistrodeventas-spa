@@ -70,6 +70,8 @@ title="Tienda Online">
 		text="Guardar cambios"></btn-loader>
 	</b-button>
 	<hr>
+	<title-image></title-image>	
+	<hr>
 	<addresses></addresses>	
 	<hr>
 	<workdays></workdays>	
@@ -77,11 +79,13 @@ title="Tienda Online">
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
+import TitleImage from '@/components/configuration/components/online/TitleImage'
 import Addresses from '@/components/configuration/components/online/Addresses'
 import Workdays from '@/components/configuration/components/online/Workdays'
 export default {
 	components: {
 		BtnLoader,
+		TitleImage,
 		Addresses,
 		Workdays,
 	},

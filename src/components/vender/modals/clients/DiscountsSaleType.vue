@@ -14,9 +14,22 @@
 				</b-form-radio>
 			</b-form-group>
 		</div>
-		<p>Seleccionar descuentos</p>
+		<p><strong>Seleccionar descuentos</strong></p>
 		<b-form-group
-		v-for="discount in discounts"
+		v-if="client_discounts"
+		:label="'Descuentos de '+client.name"
+		v-for="discount in client_discounts"
+		:key="discount.id">
+			<b-form-checkbox
+			:value="discount.id"
+			v-model="sale_discounts">
+				{{ discount.name }} {{ discount.percentage }}%
+			</b-form-checkbox>
+		</b-form-group>
+		<b-form-group
+		v-if="common_discounts"
+		label="Descuentos comunes"
+		v-for="discount in common_discounts"
 		:key="discount.id">
 			<b-form-checkbox
 			:value="discount.id"
@@ -48,7 +61,7 @@ import BtnLoader from '@/components/common/BtnLoader'
 import vender from '@/mixins/vender'
 export default {
 	mixins: [vender],
-	name: 'Discounts',
+	name: 'DiscountsSaleType',
 	components: {
 		BtnLoader
 	},
@@ -56,6 +69,9 @@ export default {
 		vendiendo() {
 			return this.$store.state.vender.vendiendo
 		},
+        client() {
+            return this.$store.state.vender.client
+        },
 		discounts() {
 			return this.$store.state.discounts.discounts
 		},
@@ -77,6 +93,16 @@ export default {
 			get() {
 				return this.$store.state.vender.sale_type
 			}
+		},
+		client_discounts() {
+			return this.discounts.filter(discount => {
+				return this.client && (discount.client_id == this.client.id)
+			})
+		},
+		common_discounts() {
+			return this.discounts.filter(discount => {
+				return !discount.client_id
+			})
 		},
 	},
 	methods: {

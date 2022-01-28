@@ -7,6 +7,7 @@ export default {
 		client: {},
 		update_debe: {},
 		current_acounts: [],
+		selected: [],
 		delete: {},
 		months_ago: 1,
 		loading: false,
@@ -15,6 +16,9 @@ export default {
 	mutations: {
 		setClient(state, value) {
 			state.client = value
+		},
+		setSelected(state, value) {
+			state.selected = value
 		},
 		setDelete(state, value) {
 			state.delete = value

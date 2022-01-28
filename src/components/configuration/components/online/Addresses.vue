@@ -16,7 +16,7 @@
 				@click="deleteAddress(user.addresses[data.index])"
 				size="sm"
 				variant="danger">
-					<i class="icon-trash-3"></i>
+					<i class="icon-trash"></i>
 				</b-button>
 			</template>
 		</b-table>

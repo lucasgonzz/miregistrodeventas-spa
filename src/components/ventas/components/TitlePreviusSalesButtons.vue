@@ -1,5 +1,7 @@
 <template>
-<b-row class="m-t-25 m-b-20">
+<b-row 
+v-if="show_previus_sales"
+class="m-t-25 m-b-20">
 	<!-- Titulos del header -->
 	<b-col 
 	cols="12"
@@ -45,6 +47,9 @@ export default {
 				return 9
 			}
 			return 3
+		},
+		show_previus_sales() {
+			return this.$route.name == 'VentasAll'
 		}
 	},
 	methods: {

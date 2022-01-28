@@ -14,13 +14,13 @@
 		:key="image.id">
 			<template v-slot:img>
 				<vue-load-image>
-					<div slot="image" :data-src="imageUrl(image)"></div>
+					<div slot="image" :data-src="imageUrl(image.url)"></div>
 					<b-skeleton-img></b-skeleton-img>
 					<div slot="error">Error al cargar la imagen</div>
 				</vue-load-image>
 				<img
 				class="d-block img-fluid"
-				:src="imageUrl(image)"
+				:src="imageUrl(image.url)"
 				:alt="article.name+'-image-'+image.id"
 				>
 			</template>
@@ -49,7 +49,7 @@
 		<b-button
 		variant="primary"
 		block
-		@click="uploadPhoto(article)">
+		@click="uploadArticlePhoto(article)">
 			Agregar foto
 		</b-button>
 		<variant-info></variant-info>

@@ -97,19 +97,17 @@ class="d-none d-lg-block">
 						v-intro="'Eliminar un producto'"
 						size="sm"
 						@click="deleteArticle(articles[data.index])" >
-							<i class="icon-trash-3"></i>
+							<i class="icon-trash"></i>
 						</b-button> -->
 					</div>
 				</template>
 			</b-table>
-			<div 
+			<p 
 			v-show="!articles.length"
-			class="no-content">
-				<i class="icon-not-2"></i>
-				<p>
-					No hay artículos
-				</p>
-			</div>
+			class="text-with-icon">
+				<i class="icon-not"></i>
+				No hay artículos
+			</p>
 		</div>
 		<b-skeleton-table
 		v-else

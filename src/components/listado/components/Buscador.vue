@@ -42,7 +42,7 @@
 			</b-dropdown-item>
 			<b-dropdown-item
 			v-b-modal="'delete-articles'">
-				<i class="icon-trash-3"></i>
+				<i class="icon-trash"></i>
 				Eliminar
 			</b-dropdown-item>
 		</b-dropdown>

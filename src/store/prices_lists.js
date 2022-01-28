@@ -14,6 +14,12 @@ export default {
 		add(state, value) {
 			state.prices_lists.push(value)
 		},
+		delete(state, value) {
+			let index = state.prices_lists.findIndex(p => {
+				return p.id == value.id
+			})
+			state.prices_lists.splice(index, 1)
+		}
 	},
 	actions: {
 		getPircesLists({ commit }) {

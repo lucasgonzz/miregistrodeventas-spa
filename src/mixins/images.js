@@ -4,8 +4,8 @@ export default {
 			this.$store.commit('articles/setImagesToShow', article)
 			this.$bvModal.show('article-images')
 		},
-		imageUrl(image) {
-			let url = `https://res.cloudinary.com/lucas-cn/image/upload/${image.url}`
+		imageUrl(path) {
+			let url = `https://res.cloudinary.com/lucas-cn/image/upload/${path}`
 			return url
 		},
 		imageCropedUrlfromImage(image) {
@@ -51,8 +51,56 @@ export default {
 			}
 			return null
 		},
-		uploadPhoto(article) {
-			var myCropWidget = cloudinary.createUploadWidget({
+		uploadArticlePhoto(article) {
+			var myCropWidget = cloudinary.createUploadWidget(this.widget_info, (error, result) => { 
+				if (result.event == 'success') {
+					let path = result.info.path
+					this.$store.commit('articles/setLoading', true)
+					this.$api.post(`/articles/image/${article.id}`, {
+						path
+					})
+					.then(res => {
+						this.$store.commit('articles/setLoading', false)
+						let article = res.data.article
+						console.log(article)
+						this.$store.commit('articles/update', article)
+						this.$store.commit('articles/setImagesToShow', article)
+						this.$bvModal.hide('article-images')
+						if (article.variants.length) {
+							this.$bvModal.show('article-variants')
+						}
+					})
+					.catch(err => {
+						this.$store.commit('articles/setLoading', false)
+						console.log(err)
+						this.$toast.error('Error al guardar imagen')
+					})
+				}
+			})
+			myCropWidget.open()
+		},
+		uploadTitlePhoto() {
+			var myCropWidget = cloudinary.createUploadWidget(this.widget_info, (error, result) => { 
+				if (result.event == 'success') {
+					let image_url = result.info.path
+					this.$api.put(`/titles/image`, {
+						image_url
+					})
+					.then(res => {
+						this.$store.commit('title/update', res.data.title)
+					})
+					.catch(err => {
+						console.log(err)
+						this.$toast.error('Error al guardar imagen')
+					})
+				}
+			})
+			myCropWidget.open()
+		},
+	},
+	computed: {
+		widget_info() {
+			return {
 				cloudName: 'lucas-cn', 
 				uploadPreset: 'my_preset',
 				sources: ['image_search', 'instagram', 'local','camera', 'facebook', 'google_drive'],
@@ -155,7 +203,7 @@ export default {
 						textLight: "#FFFFFF",
 						link:  this.variant_color,
 						action:  this.variant_color,
-						inactiveTabIcon: "#967FBF",
+						inactiveTabIcon: this.variant_color,
 						error: "#e3342f",
 						inProgress: this.variant_color,
 						complete: this.variant_color,
@@ -165,32 +213,7 @@ export default {
 						"'Nunito', cursive": "https://fonts.googleapis.com/css?family=Nunito",
 					},
 				},
-			}, (error, result) => { 
-				if (result.event == 'success') {
-					let path = result.info.path
-					this.$store.commit('articles/setLoading', true)
-					this.$api.post(`/articles/image/${article.id}`, {
-						path
-					})
-					.then(res => {
-						this.$store.commit('articles/setLoading', false)
-						let article = res.data.article
-						console.log(article)
-						this.$store.commit('articles/update', article)
-						this.$store.commit('articles/setImagesToShow', article)
-						this.$bvModal.hide('article-images')
-						if (article.variants.length) {
-							this.$bvModal.show('article-variants')
-						}
-					})
-					.catch(err => {
-						this.$store.commit('articles/setLoading', false)
-						console.log(err)
-						this.$toast.error('Error al guardar imagen')
-					})
-				}
-			})
-			myCropWidget.open()
+			}
 		},
-	}
+	},
 }

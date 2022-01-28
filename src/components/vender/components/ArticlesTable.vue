@@ -37,7 +37,7 @@
 		v-show="!articles.length">
 			<p
 			class="text-with-icon-2">
-				<i class="icon-clipboard-1"></i>
+				<i class="icon-clipboard"></i>
 				Remito en blanco
 			</p>
 		</div>

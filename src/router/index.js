@@ -82,6 +82,11 @@ Vue.use(VueRouter)
         component: Ventas,
     },
     {
+        path: '/ventas-completas',
+        name: 'VentasAll',
+        component: Ventas,
+    },
+    {
         path: '/empleados',
         name: 'Empleados',
         component: Empleados,

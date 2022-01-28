@@ -12,14 +12,14 @@
 				@click="deleteSpecialPrice(special_prices[data.index])"
 				size="sm"
 				variant="danger">
-					<i class="icon-trash-3"></i>
+					<i class="icon-trash"></i>
 				</b-button>
 			</template>
 		</b-table>
 		<p 
 		v-else 
 		class="text-with-icon">
-			<i class="icon-not-2"></i>
+			<i class="icon-not"></i>
 			No hay precios especiales
 		</p>
 	</div>

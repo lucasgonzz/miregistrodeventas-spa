@@ -150,7 +150,8 @@ export default {
 		setPreviusSaleArticles(articles) {
 			articles.forEach(article => {
 				article.amount = Number(article.pivot.amount)
-				article.original_price = article.price
+				article.original_price = Number(article.pivot.price)
+				article.price_for_sale = Number(article.pivot.price)
 			})
 			return articles
 		},

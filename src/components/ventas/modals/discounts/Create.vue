@@ -14,6 +14,11 @@
 		v-model="discount.percentage"></b-form-input>
 	</b-form-group>
 	<b-form-group>
+		<b-form-select
+		:options="options"
+		v-model="discount.client_id"></b-form-select>
+	</b-form-group>
+	<b-form-group>
 		<b-button
 		variant="primary"
 		block
@@ -36,9 +41,29 @@ export default {
 		return {
 			discount: {
 				name: '',
-				percentage: ''
+				percentage: '',
+				client_id: null
 			},
 			loading: false
+		}
+	},
+	computed: {
+		clients() {
+			return this.$store.state.clients.clients
+		},
+		options() {
+			let options = []
+			options.push({
+				value: null,
+				text: 'Cliente para el descuento'
+			})
+			this.clients.forEach(client => {
+				options.push({
+					value: client.id,
+					text: client.name
+				})
+			})
+			return options
 		}
 	},
 	methods: {
@@ -75,6 +100,7 @@ export default {
 		clear() {
 			this.discount.name = ''
 			this.discount.discount = ''
+			this.discount.client_id = null
 		}
 	}
 }
