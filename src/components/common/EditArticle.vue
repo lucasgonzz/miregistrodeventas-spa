@@ -267,6 +267,11 @@
 			</b-col>
 			<b-col
 			cols="12">
+				<brand
+				:article="article"></brand>
+			</b-col>
+			<b-col
+			cols="12">
 				<colors
 				:article="article"></colors>
 			</b-col>
@@ -304,6 +309,7 @@
 import categories from '@/mixins/categories'
 import edit_articles from '@/mixins/edit_articles'
 import Tags from '@/components/ingresar/components/Tags'
+import Brand from '@/components/ingresar/components/Brand'
 import Descriptions from '@/components/common/Descriptions'
 import Colors from '@/components/ingresar/components/Colors.vue'
 import Description from '@/components/ingresar/components/Description'
@@ -314,6 +320,7 @@ export default {
 	mixins: [categories, edit_articles],
 	components: {
 		Tags,
+		Brand,
 		Descriptions,
 		Colors,
 		Description,

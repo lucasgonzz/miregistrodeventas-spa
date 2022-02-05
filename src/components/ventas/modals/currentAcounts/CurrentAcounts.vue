@@ -57,12 +57,12 @@
                     </b-button>
                 </b-form-group>
             </div>
-            <div 
+            <p 
             v-else
-            class="no-content">
+            class="text-with-icon">
                 <i class="icon-not"></i>
-                <p>No hay cuentas corrientes</p>
-            </div>
+                No hay cuentas corrientes
+            </p>
         </div>
         <b-skeleton-table
         v-else

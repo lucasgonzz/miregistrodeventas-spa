@@ -90,5 +90,11 @@ export default {
 				return null
 			}
 		},
+		brand(article) {
+			if (article.brand) {
+				return article.brand.name
+			}
+			return '-'
+		},
 	}
 }

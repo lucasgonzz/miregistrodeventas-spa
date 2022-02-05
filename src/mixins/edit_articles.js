@@ -29,6 +29,12 @@ export default {
 				new_article.sub_category_id = 0
 				new_article.category_id = 0
 			}
+			if (article.brand_id) {
+				new_article.brand_id = article.brand_id
+				new_article.brand = article.brand
+			} else {
+				new_article.brand_id = 0
+			}
 			new_article.name = article.name
 			new_article.cost = article.cost
 			new_article.price = article.price

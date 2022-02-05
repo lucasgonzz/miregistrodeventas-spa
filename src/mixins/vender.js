@@ -44,7 +44,6 @@ export default {
 			this.$store.commit('articles/removeStock', this.articles_for_sale)
             this.$store.dispatch('vender/vender')
             .then(() => {
-	            this.$store.commit('vender/setClient', null)
 	            this.$store.commit('vender/setDiscounts', [])
 	            this.$store.commit('vender/setSaleType', 1)
 	            this.$store.commit('vender/setSpecialPriceId', 0)
@@ -56,6 +55,7 @@ export default {
 	            } else {
 					document.getElementById('article-bar-code').focus()
 	            }
+	            this.$store.commit('vender/setClient', null)
             })
         },
 		setArticleForSale(article) {

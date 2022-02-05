@@ -14,6 +14,10 @@
 			Categorias
 		</b-dropdown-item>
 		<b-dropdown-item
+		v-b-modal="'brands'">
+			Marcas
+		</b-dropdown-item>
+		<b-dropdown-item
 		v-b-modal="'special-prices'">
 			Precios especiales
 		</b-dropdown-item>

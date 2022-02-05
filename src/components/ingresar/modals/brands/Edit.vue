@@ -1,12 +1,10 @@
 <template>
-<b-modal id="edit-category" title="Editar Categoria" hide-footer>
+<b-modal id="edit-brand" title="Editar Marca" hide-footer>
 	<b-form-group
 	label="Nombre">
 		<b-form-input
-		v-model="category.name"></b-form-input>
+		v-model="brand.name"></b-form-input>
 	</b-form-group>
-	<icons
-	:category="category"></icons>	
 	<b-form-group>
 		<b-button
 		block
@@ -21,11 +19,9 @@
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
-import Icons from '@/components/ingresar/modals/categories/Icons'
 export default {
 	components: {
 		BtnLoader,
-		Icons,
 	},
 	data() {
 		return {
@@ -33,24 +29,23 @@ export default {
 		}
 	},
 	computed: {
-		category() {
-			return this.$store.state.categories.edit
+		brand() {
+			return this.$store.state.brands.edit
 		}
 	},
 	methods: {
 		update() {
 			this.loading = true
-			this.$api.put('/categories', this.category)
+			this.$api.put('/brands', this.brand)
 			.then(res => {
 				this.loading = false
-				this.$store.commit('categories/update', res.data.category)
-				this.$toast.success('Categoria actualizada')
-				this.$bvModal.hide('edit-category')
-				this.$store.commit('categories/orderCategories')
+				this.$store.commit('brands/update', res.data.brand)
+				this.$toast.success('Marca actualizada')
+				this.$bvModal.hide('edit-brand')
 			})
 			.catch(err => {
 				this.loading = false
-				this.$toast.error('Error al actualizar categoria')
+				this.$toast.error('Error al actualizar marca')
 				console.log(err)
 			})
 		}

@@ -17,10 +17,10 @@
 		<p><strong>Seleccionar descuentos</strong></p>
 		<b-form-group
 		v-if="client_discounts"
-		:label="'Descuentos de '+client.name"
-		v-for="discount in client_discounts"
-		:key="discount.id">
+		:label="'Descuentos de '+client.name">
 			<b-form-checkbox
+			v-for="discount in client_discounts"
+			:key="discount.id"
 			:value="discount.id"
 			v-model="sale_discounts">
 				{{ discount.name }} {{ discount.percentage }}%

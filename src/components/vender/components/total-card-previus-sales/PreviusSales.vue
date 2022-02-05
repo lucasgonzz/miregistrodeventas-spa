@@ -27,7 +27,7 @@
 				v-if="index > 0"
 				@click="cancelPreviusSale"
 				variant="danger">
-					<i class="icon-cancel"></i>
+					<i class="icon-not"></i>
 				</b-button>
 			</b-button-group>
 		</div>

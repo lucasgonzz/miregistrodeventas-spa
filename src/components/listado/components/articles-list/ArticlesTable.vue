@@ -161,6 +161,7 @@ export default {
 				{ key: 'cost', label: 'Costo', sortable: true },
 				{ key: 'price', label: 'Precio', sortable: true },
 				{ key: 'stock', label: 'Stock', sortable: true },
+				{ key: 'brand', label: 'Marca', sortable: true },
 				{ key: 'sub_category', label: 'Subcategoria', sortable: true},
 				{ key: 'options', label: 'Opciones', sortable: true},
 			]
@@ -179,6 +180,7 @@ export default {
 					cost: this.articleCost(article),
 					price: this.articlePrice(article, false, true),
 					stock: this.stock(article),
+					brand: this.brand(article),
 					sub_category: this.subCategory(article),
 				})
 			})

@@ -11,6 +11,12 @@
 					{{ previus_sale.client.name }}
 				</button>
 				<button 
+				v-if="previus_sale.num_sale" 
+				class="btn btn-info">
+					<i class="icon-clipboard"></i>
+					Rto n° {{ previus_sale.num_sale }}
+				</button>
+				<button 
 				v-if="previus_sale.created_at" 
 				class="btn btn-primary">
 					{{ since(previus_sale.created_at) }}

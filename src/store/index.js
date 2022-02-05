@@ -30,6 +30,7 @@ import schedules from './schedules'
 import prices_lists from './prices_lists'
 import icons from './icons'
 import title from './title'
+import brands from './brands'
 
 Vue.use(Vuex)
 
@@ -77,5 +78,6 @@ export default new Vuex.Store({
 		prices_lists,
 		icons,
 		title,
+		brands,
 	}
 })

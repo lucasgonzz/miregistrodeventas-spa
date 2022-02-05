@@ -6,6 +6,9 @@
 	<delete-special-price></delete-special-price>
 	<create-special-price></create-special-price>
 	<special-prices></special-prices>
+	<create-brand></create-brand>
+	<edit-brand></edit-brand>
+	<brands></brands>
 	<create-category></create-category>
 	<create-sub-category></create-sub-category>
 	<categories
@@ -62,6 +65,10 @@
 			:article="article"></condition>
 			<hr>
 
+			<brand
+			:article="article"></brand>
+			<hr>
+
 			<colors
 			:article="article"></colors>
 			<hr>
@@ -91,6 +98,9 @@ import EditCategory from '../components/ingresar/modals/categories/EditCategory.
 import EditSubCategory from '../components/ingresar/modals/categories/EditSubCategory.vue'
 import SpecialPrices from '../components/ingresar/modals/special-prices/Index.vue'
 import CreateSpecialPrice from '../components/ingresar/modals/special-prices/Create.vue'
+import Brands from '../components/ingresar/modals/brands/Index.vue'
+import CreateBrand from '../components/ingresar/modals/brands/Create.vue'
+import EditBrand from '../components/ingresar/modals/brands/Edit.vue'
 import EditArticle from '../components/common/EditArticle.vue'
 import PrintTickets from '../components/ingresar/modals/PrintTickets.vue'
 import BarCodes from '../components/ingresar/modals/BarCodes.vue'
@@ -106,6 +116,7 @@ import CategoriesSubcategories from '../components/ingresar/components/Categorie
 import Tags from '../components/ingresar/components/Tags.vue'
 import Description from '../components/ingresar/components/Description.vue'
 import Condition from '../components/ingresar/components/Condition.vue'
+import Brand from '../components/ingresar/components/Brand.vue'
 import Colors from '../components/ingresar/components/Colors.vue'
 import AddPhoto from '../components/ingresar/components/AddPhoto.vue'
 import CardFooter from '../components/ingresar/components/CardFooter.vue'
@@ -127,6 +138,9 @@ export default {
 		EditSubCategory,
 		SpecialPrices,
 		CreateSpecialPrice,
+		Brands,
+		CreateBrand,
+		EditBrand,
 		EditArticle,
 		PrintTickets,
 		BarCodes,
@@ -142,6 +156,7 @@ export default {
 		Tags,
 		Description,
 		Condition,
+		Brand,
 		Colors,
 		AddPhoto,
 		CardFooter,
@@ -154,6 +169,7 @@ export default {
 				bar_code: '',
 				category_id: 9,
 				provider_id: 0,
+				brand_id: 0,
 				new_bar_code: '',
 				name: '',
 				cost: '',

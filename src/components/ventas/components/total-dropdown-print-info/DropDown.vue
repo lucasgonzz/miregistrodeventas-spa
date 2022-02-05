@@ -38,7 +38,7 @@
 			</b-dropdown-item>
 			<b-dropdown-item
 			v-b-modal="'discounts'">
-				<i class="icon-sale-ticket"></i>
+				<i class="icon-tag"></i>
 				Descuentos
 			</b-dropdown-item>
 		</b-dropdown>

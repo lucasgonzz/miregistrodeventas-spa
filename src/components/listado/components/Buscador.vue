@@ -27,7 +27,7 @@
 			</b-dropdown-item>
 			<b-dropdown-item
 			@click="deselectAll">
-				<i class="icon-cancel"></i>
+				<i class="icon-not"></i>
 				Deseleccionar todo
 			</b-dropdown-item>
 			<b-dropdown-item
@@ -39,6 +39,11 @@
 			v-b-modal="'update-category'">
 				<i class="icon-redo"></i>
 				Categoria
+			</b-dropdown-item>
+			<b-dropdown-item
+			v-b-modal="'update-brand'">
+				<i class="icon-redo"></i>
+				Marca
 			</b-dropdown-item>
 			<b-dropdown-item
 			v-b-modal="'delete-articles'">

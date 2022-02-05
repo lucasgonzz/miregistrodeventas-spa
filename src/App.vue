@@ -147,6 +147,8 @@ export default {
                 await this.$store.dispatch('icons/getIcons')
                 this.loading_message = 'titulo'
                 await this.$store.dispatch('title/getTitle')
+                this.loading_message = 'marcas'
+                await this.$store.dispatch('brands/getBrands')
                 this.loading_message = 'condiciones'
                 await this.$store.dispatch('conditions/getConditions')
                 this.loading_message = 'dias de trabajo'

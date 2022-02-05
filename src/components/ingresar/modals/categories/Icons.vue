@@ -20,10 +20,8 @@
 </template>
 <script>
 export default {
+	props: ['category'],
 	computed: {
-		category() {
-			return this.$store.state.categories.create
-		},
 		icons() {
 			let icons = this.$store.state.icons.icons
 			if (this.search.length > 1) {

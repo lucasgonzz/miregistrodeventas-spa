@@ -5,6 +5,7 @@
 	<edit-article></edit-article>
 	<update-by-porcentage></update-by-porcentage>
 	<update-category></update-category>
+	<update-brand></update-brand>
 	<providers-history></providers-history>
 	<filtrar></filtrar>
 	<article-images></article-images>
@@ -29,6 +30,7 @@ import Filtrar from '../components/listado/modals/Filtrar.vue'
 import EditArticle from '../components/common/EditArticle.vue'
 import UpdateByPorcentage from '../components/listado/modals/UpdateByPorcentage.vue'
 import UpdateCategory from '../components/listado/modals/UpdateCategory.vue'
+import UpdateBrand from '../components/listado/modals/UpdateBrand.vue'
 import ConfirmDelete from '../components/listado/modals/ConfirmDelete.vue'
 import ProvidersHistory from '../components/listado/modals/ProvidersHistory.vue'
 import AddCategory from '../components/listado/modals/AddCategory.vue'
@@ -54,6 +56,7 @@ export default {
 		EditArticle,
 		UpdateByPorcentage,
 		UpdateCategory,
+		UpdateBrand,
 		ConfirmDelete,
 		// PrintTickets,
 		ProvidersHistory,

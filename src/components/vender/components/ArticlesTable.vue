@@ -29,7 +29,7 @@
 				variant="danger"
 				class="btn-options"
 				size="sm">
-					<i class="icon-cancel"></i>
+					<i class="icon-trash"></i>
 				</b-button>
 			</template>
 		</b-table>
