@@ -49,7 +49,7 @@ export default {
 			return 3
 		},
 		show_previus_sales() {
-			return this.$route.name == 'VentasAll'
+			return !this.is_provider || this.$route.name == 'VentasAll'
 		}
 	},
 	methods: {
