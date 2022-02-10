@@ -309,7 +309,7 @@ export default {
 					this.$toast.success('Articulo guardado')
 					document.getElementById('article-bar-code').focus()
 					if (this.article.add_photo) {
-						this.uploadPhoto(article)
+						this.uploadArticlePhoto(article)
 					}
 				})
 				.catch( err => {

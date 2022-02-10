@@ -16,7 +16,7 @@
 		</div>
 		<p><strong>Seleccionar descuentos</strong></p>
 		<b-form-group
-		v-if="client_discounts"
+		v-if="client_discounts.length"
 		:label="'Descuentos de '+client.name">
 			<b-form-checkbox
 			v-for="discount in client_discounts"
@@ -27,7 +27,7 @@
 			</b-form-checkbox>
 		</b-form-group>
 		<b-form-group
-		v-if="common_discounts"
+		v-if="common_discounts.length"
 		label="Descuentos comunes"
 		v-for="discount in common_discounts"
 		:key="discount.id">

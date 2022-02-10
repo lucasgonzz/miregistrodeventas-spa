@@ -49,7 +49,7 @@ export default {
 			if (!this.show_articles) {
 				return 'icon-camera' 
 			}
-			return 'icon-cancel' 
+			return 'icon-not' 
 		},
 		message_article_img() {
 			if (this.selected_article) {

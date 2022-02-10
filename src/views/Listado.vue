@@ -8,6 +8,7 @@
 	<update-brand></update-brand>
 	<providers-history></providers-history>
 	<filtrar></filtrar>
+	<images-copy></images-copy>
 	<article-images></article-images>
 	<article-variants></article-variants>
 	<articles-pdf></articles-pdf>
@@ -24,6 +25,7 @@
 
 <script>
 // Modals
+import ImagesCopy from '@/components/listado/modals/images/ImagesCopy.vue'
 import ArticleImages from '@/components/listado/modals/images/ArticleImages.vue'
 import ArticleVariants from '@/components/listado/modals/images/ArticleVariants.vue'
 import Filtrar from '../components/listado/modals/Filtrar.vue'
@@ -50,6 +52,7 @@ export default {
 		ArticlesPdf,
 		PricesLists,
 		CreatePricesList,
+		ImagesCopy,
 		ArticleImages,
 		ArticleVariants,
 		Filtrar,

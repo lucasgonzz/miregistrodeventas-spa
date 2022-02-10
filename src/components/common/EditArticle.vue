@@ -18,7 +18,7 @@
 					<b-button
 					variant="primary"
 					block
-					@click="uploadPhoto(article)">
+					@click="uploadArticlePhoto(article)">
 						Agregar foto
 					</b-button>
 				</b-form-group>

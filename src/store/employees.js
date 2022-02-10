@@ -6,6 +6,7 @@ export default {
 	state: {
 		employee_to_create: {
 			name: '',
+			dni: '',
 			password: '',
 			permissions_id: [],
 		},

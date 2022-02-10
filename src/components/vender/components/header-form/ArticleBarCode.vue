@@ -1,6 +1,6 @@
 <template>
 	<b-col
-	class="col-bar-code margin-bottom-since-lg"
+	class="col-bar-code margin-bottom-since-lg d-none d-lg-flex"
 	cols="12"
 	lg="5">
 		<b-form-input

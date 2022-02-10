@@ -11,6 +11,7 @@ export default {
 		article_to_edit: {},
 		article_to_delete: {},
 		article_providers_history: {},
+		images_copy: {},
 		all_articles_selected: false,
 		images_to_show: {},
 		bar_codes: [],
@@ -118,6 +119,9 @@ export default {
 		},
 		setProvidersHistory(state, value) {
 			state.article_providers_history = value
+		},
+		setImagesCopy(state, value) {
+			state.images_copy = value
 		},
 		setBarCodes(state) {
 			state.bar_codes = []

@@ -17,7 +17,8 @@
 			<b-card>
 				<div>
 					<img src="@/assets/logo.png" alt="">
-					<b-form-group>
+					<b-form-group
+					v-if="!login_employee">
 						<b-form-input
 						id="name"
 						v-model="form.company_name"
@@ -27,10 +28,10 @@
 					<b-form-group
 					v-if="login_employee">
 						<b-form-input
-						id="employee-name"
-						v-model="form.name"
+						id="employee-dni"
+						v-model="form.dni"
 						@keydown.enter="login"
-						placeholder="Nombre de empleado"></b-form-input>
+						placeholder="DNI de empleado"></b-form-input>
 					</b-form-group>
 					<b-form-group>
 						<b-form-input
@@ -60,7 +61,7 @@
 					<b-form-group>
 						<b-button 
 						@click="changeLogin"
-						variant="primary"
+						variant="outline-primary"
 						block>
 							{{ text_change }}
 						</b-button>

@@ -11,9 +11,17 @@
 			<b-form-input
 			id="employee-name"
 			autocomplete="off"
-			@keydown.enter="changeToPassword"
 			v-model="employee.name"
 			placeholder="Ingrese el nombre del empleado"></b-form-input>
+		</b-form-group>
+		<b-form-group
+		label="DNI del empleado"
+		label-for="employee-dni">
+			<b-form-input
+			id="employee-dni"
+			autocomplete="off"
+			v-model="employee.dni"
+			placeholder="Ingrese el DNI del empleado"></b-form-input>
 		</b-form-group>
 		<b-form-group
 		label="Contraseña"
@@ -59,6 +67,9 @@ export default {
 			if (this.employee.name == '') {
 				return true
 			}
+			if (this.employee.dni == '') {
+				return true
+			}
 			if (this.employee.password == '') {
 				return true
 			}
@@ -88,7 +99,7 @@ export default {
 		},
 		clear() {
 			this.$store.commit('employees/setEmployeeToCreate', {
-				name: '', password: '', permissions: [],
+				name: '', dni: '', password: '', permissions: [],
 			})
 		}
 	},

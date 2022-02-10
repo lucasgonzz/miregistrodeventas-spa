@@ -1,5 +1,5 @@
 <template>
-	<b-sidebar id="mobile-nav" title="Mi registro de ventas" shadow>
+	<b-sidebar id="mobile-nav" title="ComercioCity" shadow>
         <nav>
             <b-nav vertical>
                 <b-nav-item :to="{name: 'Vender'}"

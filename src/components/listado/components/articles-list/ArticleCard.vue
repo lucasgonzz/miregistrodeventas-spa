@@ -15,16 +15,19 @@
 					{{ article.name }}
 				</p>
 				<p>
+					<span>Precio: </span>
+					<strong>
+						{{ price(article.price) }}
+					</strong>
+				</p>
+				<p>
 					<span>Costo: </span>
 					{{ price(article.cost) }}
 				</p>
 				<p>
-					<span>Precio: </span>
-					{{ price(article.price) }}
-				</p>
-				<p>
-					<span>Stock: </span>
-					{{ price(article.stock) }}
+					<span
+					class="stock">Stock: </span>
+					{{ article.stock }}
 				</p>
 			</div>
 			<b-button 
@@ -66,8 +69,11 @@ export default {
 		justify-content: space-around
 		align-items: flex-start
 		p 
+			display: flex
 			margin-bottom: 0
+			justify-content: space-between
 			span
 				@media screen and (max-width: 470px)
 					display: none
+					
 </style>

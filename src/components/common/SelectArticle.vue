@@ -4,7 +4,7 @@
 		<div id="messages">
 			<b-form-group>
 				<b-form-input
-				placeholder="Buscar un articulo para agregar al mensaje"
+				placeholder="Buscar un articulo"
 				@keyup="searchArticles"
 				v-model="query"></b-form-input>
 			</b-form-group>
@@ -12,12 +12,12 @@
 			class="text-with-icon m-t-50"
 			v-if="query.length < 2 && !selected_article">
 	            <i class="icon-upload"></i>
-				Busque un articulo para agregar al mensaje
+				{{ text }}
 			</p>
 			<div
 			v-if="query.length < 2 && selected_article">
 				<p>
-					Articulo seleccionado
+					Articulo seleccionado (click para quitarlo)
 				</p>
 				<div class="cont-article-cards">
 					<article-card
@@ -30,7 +30,6 @@
 			v-else
 			class="cont-article-cards">
 				<article-card
-				:class="isSelectedArticle(article) ? 'shadow-1' : ''"
 				v-for="article in articles_to_show"
 				:key="article.id"
 				:article="article"
@@ -44,6 +43,7 @@ import online from '@/mixins/online'
 import ArticleCard from '@/components/common/ArticleCard'
 export default {
 	mixins: [online],
+	props: ['selected_article', 'text'],
 	components: {
 		ArticleCard,
 	},
@@ -54,9 +54,6 @@ export default {
 		}
 	},
 	computed: {
-		selected_article() {
-			return this.$store.state.online.messages.selected_article
-		},
 		articles() {
 			return this.$store.state.articles.articles
 		},
@@ -72,16 +69,10 @@ export default {
 				this.articles_to_show = []
 			}
 		},
-		isSelectedArticle(article) {
-			return this.selected_article && this.selected_article.id == article.id
-		},
 		articleSelected(article) {
-			if (this.isSelectedArticle(article)) {
-				this.$store.commit('online/messages/setSelectedArticle', null)
-			} else {
-				this.$store.commit('online/messages/setSelectedArticle', article)
-			}
-			this.$store.commit('online/messages/setShowArticles', false)
+			this.$emit('articleSelected', article)
+			this.query = ''
+			this.articles_to_show = []
 		}
 	},
 }

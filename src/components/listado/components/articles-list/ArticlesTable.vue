@@ -37,13 +37,30 @@ class="d-none d-lg-block">
 						<img slot="preloader" src="@/assets/spinner2.gif"/>
 						<div slot="error">Imagen no encontrada</div>
 					</vue-load-image>
-					<b-button
+					<b-dropdown 
+					v-else 
+					variant="primary"
+					right>
+						<template 
+						v-slot:button-content>
+							<i class="icon-camera"></i>
+						</template>
+						<b-dropdown-item
+						@click="uploadArticlePhoto(articles[data.index])">
+							Buscar foto
+						</b-dropdown-item>
+						<b-dropdown-item
+						@click="setImagesCopy(articles[data.index])">
+							Copiar de otro articulo
+						</b-dropdown-item>
+					</b-dropdown>
+					<!-- <b-button
 					variant="primary"
 					v-else 
-					@click="uploadPhoto(articles[data.index])"
+					@click="uploadArticlePhoto(articles[data.index])"
 					size="sm">
 						<i class="icon-camera"></i>
-					</b-button>
+					</b-button> -->
 				</template>
 				<template #cell(options)="data">
 					<div class="buttons">
@@ -54,7 +71,7 @@ class="d-none d-lg-block">
 						size="sm"
 						:variant="isArticleOnline(articles[data.index])">
 							<btn-loader
-							icon="not-2"
+							icon="not"
 							:index="articles[data.index].id"
 							:loader="loading_online"></btn-loader>
 						</b-button>
@@ -194,6 +211,10 @@ export default {
 		},
 	},
 	methods: {
+		setImagesCopy(article) {
+			this.$store.commit('articles/setImagesCopy', article)
+			this.$bvModal.show('images-copy')
+		},
 		onRowSelected(items) {
 			this.$store.commit('articles/setSelectedArticles', items)
 		},

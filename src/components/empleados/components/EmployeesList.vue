@@ -15,6 +15,12 @@
 						</strong>
 					</p>
 					<p>
+						<strong>
+							<i class="icon-clipboard"></i>
+							{{ employee.dni }}
+						</strong>
+					</p>
+					<p>
 						Alta: {{ date(employee.created_at) }} {{ since(employee.created_at) }}
 					</p>
 					<div class="j-start m-b-10">
@@ -40,7 +46,7 @@
 			<p 
 			v-show="!employees.length"
 			class="text-with-icon">
-				<i class="icon-user-delete"></i>
+				<i class="icon-user-cancel"></i>
 				No hay empleados registrados
 			</p>
 		</div>
