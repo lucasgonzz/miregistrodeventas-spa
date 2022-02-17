@@ -1,5 +1,6 @@
 <template>
-	<b-form-row>
+	<b-form-row
+	class="m-b-15">
 		<b-col lg="6">
 			<b-form-group
 			label="Categoria"

@@ -1,6 +1,6 @@
 <template>
 <b-card 
-class="shadow m-b-15"
+class="s m-b-15"
 title="Actualizar contraseña">
 	<b-form-group
 	label="Contraseña actual"

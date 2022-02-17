@@ -95,15 +95,6 @@
 .icon-redo:before {
   content: "\74";
 }
-.icon-user-plus:before {
-  content: "\75";
-}
-.icon-user:before {
-  content: "\76";
-}
-.icon-user-cancel:before {
-  content: "\77";
-}
 .icon-users:before {
   content: "\78";
 }
@@ -112,12 +103,6 @@
 }
 .icon-upload:before {
   content: "\7a";
-}
-.icon-up:before {
-  content: "\41";
-}
-.icon-down:before {
-  content: "\42";
 }
 .icon-config:before {
   content: "\43";
@@ -203,10 +188,10 @@
 .icon-logout:before {
   content: "\56";
 }
-.icon-bell:before {
+.icon-notification:before {
   content: "\35";
 }
-.icon-bell-o:before {
+.icon-notification-o:before {
   content: "\36";
 }
 .icon-enter:before {
@@ -227,7 +212,7 @@
 .icon-shopping-cart-o:before {
   content: "\22";
 }
-.icon-down-1:before {
+.icon-down:before {
   content: "\23";
 }
 .icon-right:before {
@@ -268,4 +253,16 @@
 }
 .icon-mobile:before {
   content: "\3a";
+}
+.icon-user-o:before {
+  content: "\67";
+}
+.icon-user:before {
+  content: "\3b";
+}
+.icon-cancel:before {
+  content: "\75";
+}
+.icon-up:before {
+  content: "\76";
 }

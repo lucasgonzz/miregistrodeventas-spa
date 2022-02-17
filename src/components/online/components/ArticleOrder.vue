@@ -5,15 +5,16 @@
 		<div class="card-body">
 			<div class="img-container">
 				<img 
-				v-if="article.pivot.variant_id"
-				:src="imageCropedUrlfromImage(getVariant(article))" alt="imagen-producto">
-				<img 
-				v-else
-				:src="articleImageUrl(article)" alt="imagen-producto">
+				:src="article_image" alt="imagen-producto">
 			</div>
 			<div class="product-data-container">
 				<p class="product-name">{{ articleName(article) }}</p>
-				<p class="product-name">Cantidad: {{ article.pivot.amount }}</p>
+				<p class="amount">Cantidad: {{ article.pivot.amount }}</p>
+				<p
+				v-if="article.size"
+				class="amount">
+					Talle: {{ article.size.value }}
+				</p>
 				<div 
 				v-if="article.color"
 				:style="{backgroundColor: article.color.value}"
@@ -22,7 +23,7 @@
 						{{ article.color.name }}
 					</p>
 				</div>
-				<p class="product-price">
+				<p class="price">
 					{{ articlePrice(article, true, true) }}
 				</p>
 				<p 
@@ -44,6 +45,17 @@ export default {
 	computed: {
 		user() {
 			return this.$store.state.auth.user
+		},
+		article_image() {
+			if (this.article.pivot.variant_id) {
+				return this.imageCropedUrlfromImage(this.getVariant(this.article))
+			} else {
+				if (this.article.color) {
+					let images = this.getImagesFromSelectedColor(this.article)
+					return this.imageUrl(images[0].url, true)
+				}
+				return this.articleImageUrl(this.article)
+			}
 		},
 	},
 	methods: {
@@ -70,8 +82,12 @@ export default {
 		padding: 1em 
 		@media screen and (max-width: 576px)
 			padding: 1em
-	.product-name, .product-price
+	.product-name
 		font-size: 1.2em
+	.price
+		font-size: 1.4em
+	.amount
+		font-size: 1em
 	.product-total
 		font-size: 1.2em
 		font-weight: bold

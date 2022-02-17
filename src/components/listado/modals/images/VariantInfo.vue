@@ -9,8 +9,7 @@
 		<b-button
 		@click="setVariants"
 		size="sm"
-		variant="primary"
-		class="m-l-15">
+		variant="primary">
 			<btn-loader
 			:text="button_text"
 			:loader="loading"></btn-loader>
@@ -19,8 +18,7 @@
 		v-if="article.variants.length"
 		v-b-modal="'article-variants'"
 		size="sm"
-		variant="primary"
-		class="m-l-15">
+		variant="primary">
 			Ver modelos
 		</b-button>
 	</b-form>

@@ -1,6 +1,6 @@
 <template>
 <b-card
-class="shadow m-b-15"
+class="s m-b-15"
 title="Cuenta">
 	<b-form-group
 	label="Nombre"

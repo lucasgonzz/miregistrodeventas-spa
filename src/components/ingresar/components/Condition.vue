@@ -2,33 +2,44 @@
 	<b-form-row
 	v-if="has_online">
 		<b-col>
-			<b-form-group
-			v-if="has_online"
-			label="Condicion">
-				<div class="j-start">
-					<b-form-radio
-					class="m-r-30"
-					v-for="condition in conditions"
-					:key="condition.id"
-					:value="condition.id"
-					v-model="article.condition_id">
-						{{ condition.name }}
-					</b-form-radio>
-				</div>
-			</b-form-group>
+			<p
+			class="c-p"
+			@click="show ? show = false : show = true">
+				Condiciones
+				<icon-show
+				:show="show"></icon-show>
+			</p>
+			<div 
+			v-show="show"
+			class="j-start m-b-15">
+				<b-form-radio
+				class="m-r-30"
+				v-for="condition in conditions"
+				:key="condition.id"
+				:value="condition.id"
+				v-model="article.condition_id">
+					{{ condition.name }}
+				</b-form-radio>
+			</div>
 		</b-col>
 	</b-form-row>
 </template>
 <script>
-import Vue from 'vue'
+import IconShow from '@/components/common/IconShow'
 export default {
 	props: ['article'],
+	components: {
+		IconShow,
+	},
 	computed: {
 		conditions() {
 			return this.$store.state.conditions.conditions
-		}
+		},
 	},
-	methods: {
+	data() {
+		return {
+			show: false
+		}
 	}
 }
 </script>

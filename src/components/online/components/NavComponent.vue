@@ -97,6 +97,9 @@ export default {
 	width: 100%
 	.nav-item
 		margin: 0 .2em
+		.active 
+			font-weight: bold
+			box-shadow: 0px 3px 7px rgb(0 0 0 / 15%) !important
 .badge 
 	font-size: 1em
 </style>

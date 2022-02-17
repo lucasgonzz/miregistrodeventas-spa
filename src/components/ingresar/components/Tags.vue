@@ -2,33 +2,43 @@
 	<b-form-row
 	v-if="has_online">
 		<b-col>
-			<b-form-group
-			class="col-autocomplete"
-			label="Etiquetas">
-				<autocomplete 
-				ref="tagName"
-				id="tag-name"
-				:search="search" 
-				:get-result-value="getResultValue"
-				placeholder="Ingresa una etiqueta"
-				@submit="setTag"></autocomplete>
-			</b-form-group>
+			<p
+			class="c-p"
+			@click="show ? show = false : show = true">
+				Etiquetas
+				<icon-show
+				:show="show"></icon-show>
+			</p>
 			<div
-			class="j-start">
+			class="m-b-15"
+			v-show="show">
+				<b-form-group
+				class="col-autocomplete">
+					<autocomplete 
+					ref="tagName"
+					id="tag-name"
+					:search="search" 
+					:get-result-value="getResultValue"
+					placeholder="Ingresa una etiqueta"
+					@submit="setTag"></autocomplete>
+				</b-form-group>
 				<div
-				class="tag bg-primary"
-				v-for="tag in article.tags">
-					{{ tag.name }}
-					<span 
-					@click="removeTag(tag)"
-					class="btn-remove">
-						<i class="icon-cancel"></i>
-					</span>
-				</div>
-				<div
-				v-show="loading"
-				class="tag bg-primary">
-					<span class="spinner-border spinner-border-sm"></span>
+				class="j-start">
+					<div
+					class="tag bg-primary"
+					v-for="tag in article.tags">
+						{{ tag.name }}
+						<span 
+						@click="removeTag(tag)"
+						class="btn-remove">
+							<i class="icon-cancel"></i>
+						</span>
+					</div>
+					<div
+					v-show="loading"
+					class="tag bg-primary">
+						<span class="spinner-border spinner-border-sm"></span>
+					</div>
 				</div>
 			</div>
 		</b-col>
@@ -38,15 +48,18 @@
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
 import edit_articles from '@/mixins/edit_articles'
+import IconShow from '@/components/common/IconShow'
 export default {
 	props: ['article'],
 	components: {
-		Autocomplete
+		Autocomplete,
+		IconShow,
 	},
 	mixins: [edit_articles],
 	data() {
 		return {
 			loading: false,
+			show: false,
 		}
 	},
 	computed: {

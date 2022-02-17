@@ -12,8 +12,9 @@ export default {
 		article_to_delete: {},
 		article_providers_history: {},
 		images_copy: {},
-		all_articles_selected: false,
 		images_to_show: {},
+		images_slide: 0,
+		all_articles_selected: false,
 		bar_codes: [],
 		selected_articles: [],
 		loading: false,
@@ -84,6 +85,9 @@ export default {
 		setImagesToShow(state, value) {
 			state.images_to_show = null
 			state.images_to_show = value
+		},
+		setImagesSlide(state, value) {
+			state.images_slide = value
 		},
 		setSelectedArticles(state, value) {
 			state.selected_articles = value

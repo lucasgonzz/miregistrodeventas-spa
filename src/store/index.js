@@ -31,6 +31,7 @@ import prices_lists from './prices_lists'
 import icons from './icons'
 import title from './title'
 import brands from './brands'
+import sizes from './sizes'
 
 Vue.use(Vuex)
 
@@ -79,5 +80,6 @@ export default new Vuex.Store({
 		icons,
 		title,
 		brands,
+		sizes,
 	}
 })

@@ -145,6 +145,8 @@ export default {
                 await this.$store.dispatch('colors/getColors')
                 this.loading_message = 'iconos'
                 await this.$store.dispatch('icons/getIcons')
+                this.loading_message = 'talles'
+                await this.$store.dispatch('sizes/getSizes')
                 this.loading_message = 'titulo'
                 await this.$store.dispatch('title/getTitle')
                 this.loading_message = 'marcas'

@@ -26,6 +26,10 @@
 		variant="primary">
 			Subir imagen
 		</b-button>
+		<b-form-input
+		class="m-t-15"
+		v-model="title.color"
+		placeholder="Color"></b-form-input>
 		<b-button 
 		block
 		class="m-t-15"
@@ -60,6 +64,7 @@ export default {
 			.then(res => {
 				this.loading = false 
 				this.$store.commit('title/update', res.data.title)
+				this.$toast.success('Titulo actualizado')
 			})
 			.catch(err => {
 				this.loading = false 

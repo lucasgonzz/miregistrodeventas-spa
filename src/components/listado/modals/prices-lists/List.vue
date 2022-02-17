@@ -18,7 +18,7 @@
 				<btn-loader
 				:loader="deleting"
 				:index="prices_lists[data.index].id"
-				icon="trash-3"></btn-loader>
+				icon="trash"></btn-loader>
 			</b-button>
 		</template>
 	</b-table>

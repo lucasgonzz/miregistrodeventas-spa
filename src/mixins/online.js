@@ -20,6 +20,11 @@ export default {
 			}
 			return false
 		},
+		getImagesFromSelectedColor(article) {
+			return article.images.filter(image => {
+				return image.color_id == article.color.id
+			})
+		},
 		showMap(address) {
 			let location = {
 				lat: Number(address.lat),

@@ -65,6 +65,10 @@
 			:article="article"></condition>
 			<hr>
 
+			<sizes
+			:article="article"></sizes>
+			<hr>
+
 			<brand
 			:article="article"></brand>
 			<hr>
@@ -116,6 +120,7 @@ import CategoriesSubcategories from '../components/ingresar/components/Categorie
 import Tags from '../components/ingresar/components/Tags.vue'
 import Description from '../components/ingresar/components/Description.vue'
 import Condition from '../components/ingresar/components/Condition.vue'
+import Sizes from '../components/ingresar/components/Sizes.vue'
 import Brand from '../components/ingresar/components/Brand.vue'
 import Colors from '../components/ingresar/components/Colors.vue'
 import AddPhoto from '../components/ingresar/components/AddPhoto.vue'
@@ -156,6 +161,7 @@ export default {
 		Tags,
 		Description,
 		Condition,
+		Sizes,
 		Brand,
 		Colors,
 		AddPhoto,
@@ -177,6 +183,7 @@ export default {
 				stock: '',
 				tags: [],
 				descriptions: [{}],
+				sizes_id: [],
 				colors: [],
 				condition_id: null,
 				new_stock: 0,
@@ -386,6 +393,7 @@ export default {
 			this.article.stock_null = false
 			this.article.tags = []
 			this.article.descriptions = [{}]
+			this.sizes_id = []
 			this.colors = []
 			this.condition_id = null
 			if (this.special_prices.length) {
@@ -406,6 +414,8 @@ export default {
 </script>
 <style lang="sass">
 #ingresar
+	.form-row 
+		margin-bottom: 0
 	hr 
 		// border: 1px solid #000
 		border: .1px solid rgba(0, 0, 0, .1) !important

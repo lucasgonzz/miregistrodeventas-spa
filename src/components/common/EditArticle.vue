@@ -260,6 +260,7 @@
 					Actualizar fecha
 				</b-form-checkbox> -->
 			</b-col>
+			<hr>
 			<b-col
 			cols="12">
 				<tags
@@ -269,6 +270,11 @@
 			cols="12">
 				<brand
 				:article="article"></brand>
+			</b-col>
+			<b-col
+			cols="12">
+				<sizes
+				:article="article"></sizes>
 			</b-col>
 			<b-col
 			cols="12">
@@ -283,9 +289,17 @@
 				:article="article"></description>
 			</b-col>
 			<b-col
-			cols="12">
+			cols="12"
+			lg="6">
 				<condition
 				:article="article"></condition>
+			</b-col>
+			<b-col
+			class="j-end"
+			cols="12"
+			lg="6"> 
+				<with-dolar
+				:article="article"></with-dolar>
 			</b-col>
 			<b-col
 			cols="12">
@@ -311,9 +325,11 @@ import edit_articles from '@/mixins/edit_articles'
 import Tags from '@/components/ingresar/components/Tags'
 import Brand from '@/components/ingresar/components/Brand'
 import Descriptions from '@/components/common/Descriptions'
+import Sizes from '@/components/ingresar/components/Sizes.vue'
 import Colors from '@/components/ingresar/components/Colors.vue'
 import Description from '@/components/ingresar/components/Description'
 import Condition from '@/components/ingresar/components/Condition.vue'
+import WithDolar from '@/components/ingresar/components/WithDolar.vue'
 import BtnLoader from '@/components/common/BtnLoader'
 export default {
 	name: 'EditArticle',
@@ -322,9 +338,11 @@ export default {
 		Tags,
 		Brand,
 		Descriptions,
+		Sizes,
 		Colors,
 		Description,
 		Condition,
+		WithDolar,
 		BtnLoader,
 	},
 	data() {
@@ -452,4 +470,8 @@ export default {
 
 .article-image
 	width: 100%
+hr 
+	border: .1px solid rgba(0, 0, 0, .1) !important
+	width: 100%
+	margin-top: 0
 </style>

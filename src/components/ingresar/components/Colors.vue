@@ -1,29 +1,47 @@
 <template>
-	<b-form-group
-	v-if="has_online"
-	label="Colores">
-		<div class="cont-colors">
+	<b-form-row
+	v-if="has_online">
+		<b-col>
+			<p
+			class="c-p"
+			@click="show ? show = false : show = true">
+				Colores
+				<icon-show
+				:show="show"></icon-show>
+			</p>
 			<div 
-			@click="addColor(color)"
-			:class="isColorSelected(color)"
-			v-for="color in colors"
-			:key="color.id"
-			:style="{backgroundColor: color.value}"
-			class="color c-p shadow-1">
-				<p>
-					{{ color.name }}
-				</p>
+			v-show="show"
+			class="cont-colors">
+				<div 
+				@click="addColor(color)"
+				:class="isColorSelected(color)"
+				v-for="color in colors"
+				:key="color.id"
+				:style="{backgroundColor: color.value}"
+				class="color c-p shadow-1">
+					<p>
+						{{ color.name }}
+					</p>
+				</div>
 			</div>
-		</div>
-	</b-form-group>
+		</b-col>
+	</b-form-row>
 </template>
 <script>
-import Vue from 'vue'
+import IconShow from '@/components/common/IconShow'
 export default {
 	props: ['article'],
+	components: {
+		IconShow,
+	},
 	computed: {
 		colors() {
 			return this.$store.state.colors.colors
+		}
+	},
+	data() {
+		return {
+			show: false
 		}
 	},
 	methods: {
@@ -40,7 +58,11 @@ export default {
 		},
 		isColorSelected(color) {
 			if (this.hasColor(color)) {
-				return 'color-selected shadow-1'
+				if (color.name == 'White') {
+					return 'color-selected-white shadow-1'
+				} else {
+					return 'color-selected shadow-1'
+				}
 			}
 			return 'color-not-selected'
 		},
@@ -53,18 +75,3 @@ export default {
 	}
 }
 </script>
-<style lang="sass">
-// .color 
-// 	width: 50px
-// 	height: 50px
-// 	display: inline-block
-// 	border-radius: .3em
-// 	margin: 0 .5em
-// 	transition: all .1s
-// .color-selected
-// 	border: 3px solid #000
-// 	width: 55px
-// 	height: 55px
-// .color-not-selected
-// 	margin-bottom: 2.5px
-</style>

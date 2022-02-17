@@ -1,6 +1,6 @@
 <template>
 <b-card 
-class="shadow"
+class="s"
 title="Tienda Online">
 	<b-form-group
 	label="Quien puede ver los precios en la tienda">

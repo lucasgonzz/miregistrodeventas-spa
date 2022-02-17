@@ -4,8 +4,13 @@ export default {
 			this.$store.commit('articles/setImagesToShow', article)
 			this.$bvModal.show('article-images')
 		},
-		imageUrl(path) {
-			let url = `https://res.cloudinary.com/lucas-cn/image/upload/${path}`
+		imageUrl(path, cropped = false) {
+			let url
+			if (cropped) {
+				url = `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom/${path}`
+			} else {
+				url = `https://res.cloudinary.com/lucas-cn/image/upload/${path}`
+			}
 			return url
 		},
 		imageCropedUrlfromImage(image) {

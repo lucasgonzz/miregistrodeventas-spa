@@ -1,7 +1,8 @@
 <template>
 	<b-form-row>
 		<b-col>
-			<b-form-group>
+			<b-form-group
+			class="m-b-15">
 				<b-form-checkbox
 				v-model="article.add_photo">
 					Agregar foto

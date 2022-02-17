@@ -10,6 +10,7 @@
 	<filtrar></filtrar>
 	<images-copy></images-copy>
 	<article-images></article-images>
+	<article-images-colors></article-images-colors>
 	<article-variants></article-variants>
 	<articles-pdf></articles-pdf>
 	<prices-lists></prices-lists>
@@ -26,7 +27,8 @@
 <script>
 // Modals
 import ImagesCopy from '@/components/listado/modals/images/ImagesCopy.vue'
-import ArticleImages from '@/components/listado/modals/images/ArticleImages.vue'
+import ArticleImages from '@/components/listado/modals/images/Index.vue'
+import ArticleImagesColors from '@/components/listado/modals/images/Colors.vue'
 import ArticleVariants from '@/components/listado/modals/images/ArticleVariants.vue'
 import Filtrar from '../components/listado/modals/Filtrar.vue'
 import EditArticle from '../components/common/EditArticle.vue'
@@ -54,6 +56,7 @@ export default {
 		CreatePricesList,
 		ImagesCopy,
 		ArticleImages,
+		ArticleImagesColors,
 		ArticleVariants,
 		Filtrar,
 		EditArticle,
