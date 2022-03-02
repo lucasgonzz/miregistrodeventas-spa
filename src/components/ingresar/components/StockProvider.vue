@@ -14,7 +14,7 @@
 			</b-form-group>
 		</b-col>
 		<b-col 
-		v-if="can('article.stock')"
+		v-if="can('articles.stock')"
 		lg="6">
 			<b-form-group
 			v-intro-step="6"

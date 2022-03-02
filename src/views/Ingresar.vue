@@ -161,7 +161,7 @@ export default {
 		return {
 			article: {
 				bar_code: '',
-				category_id: 9,
+				category_id: 0,
 				provider_id: 0,
 				brand_id: 0,
 				new_bar_code: '',

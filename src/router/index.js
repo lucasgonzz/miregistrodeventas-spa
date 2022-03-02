@@ -13,6 +13,7 @@ import Online from '../views/Online.vue'
 import Configuration from '../views/Configuration.vue'
 import Maps from '../views/Maps.vue'
 import PruebaTerminada from '../views/PruebaTerminada.vue'
+import PreguntasFrecuentes from '../views/PreguntasFrecuentes.vue'
 import store from '@/store'
 
 function hasPermissionTo(permission_name) {
@@ -117,6 +118,12 @@ Vue.use(VueRouter)
         name: 'PruebaTerminada',
         component: PruebaTerminada
     },
+    {
+        path: '/preguntas-frecuentes',
+        name: 'PreguntasFrecuentes',
+        component: PreguntasFrecuentes
+    },
+
 ]
 
 const router = new VueRouter({

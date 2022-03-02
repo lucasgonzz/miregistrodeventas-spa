@@ -12,15 +12,11 @@ class="footer">
 		<p class="title-footer">
 			¿Necesitas ayuda?
 		</p>
-		<p>
-			Centro de ayuda
-		</p>
-		<p>
+		<a
+		target="_blank"
+		href="/preguntas-frecuentes">
 			Preguntas frecuentes
-		</p>
-		<p>
-			Guia de tramites
-		</p>
+		</a>
 	</b-col>
 	<b-col
 	cols="6"
@@ -84,9 +80,15 @@ export default {
 			margin-bottom: 3em
 	img 
 		width: 100px
-	p, i
+	p, i, a
 		color: rgba(255,255,255,.7)
 		cursor: pointer
+		background: none
+		display: flex
+		border: none
+		&:hover 
+			color: #FFF
+			
 	.title-footer 
 		color: rgba(255,255,255,.9)
 		font-weight: bold	

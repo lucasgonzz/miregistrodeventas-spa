@@ -10,17 +10,7 @@ export default {
             return this.can('online.orders') || this.can('online.questions') || this.can('online.buyers') || this.can('online.messages') || this.can('online.cupons')
         },
 		is_provider() {
-			if (this.user) {
-				var is_provider = false
-				if (this.user.roles) {
-					this.user.roles.forEach(rol => {
-						if (rol.name == 'provider') {
-							is_provider = true
-						}
-					})
-					return is_provider
-				}
-			}
+			return this.user.type == 'provider'
 		},
 	},
 	methods: {

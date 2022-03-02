@@ -44,8 +44,9 @@ export default {
 			.then(res => {
 				console.log(res.data.sale)
 				commit('setLoadingPrevius', false)
-				commit('setPreviusSale', res.data.sale)
-				// this.loading_articles = false
+				if (res.data.sale) {
+					commit('setPreviusSale', res.data.sale)
+				}
 			})
 			.catch(err => {
 				commit('setLoadingPrevius', false)

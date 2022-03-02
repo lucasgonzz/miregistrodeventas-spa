@@ -7,6 +7,7 @@
 		<div
 		v-else>
 			<ul
+			v-if="orders.length"
 			class="horizontal-ul">
 				<li
 				v-for="order in orders"

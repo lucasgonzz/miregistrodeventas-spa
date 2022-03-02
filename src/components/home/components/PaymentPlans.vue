@@ -49,7 +49,7 @@ export default {
 			plans: [ 
 				{
 					name: 'Basico Lite',
-					price: '$800',
+					price: '$1.000',
 					features: [
 						{
 							active: true,
@@ -57,7 +57,7 @@ export default {
 						},
 						{
 							active: false,
-							text: 'Porveedores, Categorias y Fotos en los productos',
+							text: 'Proveedores, Categorias y Fotos en los productos',
 						},
 						{
 							active: false,
@@ -83,7 +83,7 @@ export default {
 				},
 				{
 					name: 'Basico',
-					price: '$1.500',
+					price: '$2.000',
 					features: [
 						{
 							active: true,
@@ -91,7 +91,7 @@ export default {
 						},
 						{
 							active: true,
-							text: 'Porveedores, Categorias, Precios especiales y Fotos en los productos',
+							text: 'Proveedores, Categorias, Precios especiales y Fotos en los productos',
 						},
 						{
 							active: true,
@@ -117,7 +117,7 @@ export default {
 				},
 				{
 					name: 'Premium',
-					price: '$5.000',
+					price: '$6.000',
 					features: [
 						{
 							active: true,
@@ -125,7 +125,7 @@ export default {
 						},
 						{
 							active: true,
-							text: 'Porveedores, Categorias y Fotos en los productos',
+							text: 'Proveedores, Categorias y Fotos en los productos',
 						},
 						{
 							active: true,

@@ -105,8 +105,10 @@ export default {
         setView() {
             if (!this.authenticated) {
                 console.log('setView sin auth')
-                if (this.$route.name != 'Home' && this.$route.name != 'Login') {
-                    this.$router.push({name: 'Home'})
+                if (this.$route.name != 'PreguntasFrecuentes') {
+                    if (this.$route.name != 'Home' && this.$route.name != 'Login') {
+                        this.$router.push({name: 'Home'})
+                    }
                 }
             } else {
                 console.log('setView con auth')
@@ -198,7 +200,7 @@ export default {
                     this.loading_message = 'talles'
                     await this.$store.dispatch('sizes/getSizes')
                 }
-                if (this.can('brans')) {
+                if (this.can('brands')) {
                     this.loading_message = 'marcas'
                     await this.$store.dispatch('brands/getBrands')
                 }

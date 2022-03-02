@@ -4,7 +4,7 @@ id="register"
 class="row row-dark j-around">
 	<b-col
 	lg="5">
-		<h1 class="title">
+		<h1 class="title text-left">
 			Organiza tu emprendimiento facil y rapido
 		</h1>
 		<h4
