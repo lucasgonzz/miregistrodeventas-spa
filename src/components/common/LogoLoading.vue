@@ -2,11 +2,11 @@
 	<div
 	class="container-logo">
         <img class="logo" src="@/assets/logo.png" alt="">
-        <b-spinner variant="primary"></b-spinner>
-        <!-- <img class="spinner" src="@/assets/spinner.gif" alt=""> -->
-
-        <!-- <b-progress :value="100" animated></b-progress> -->
+        <b-spinner 
+        v-if="loading_message != ''"
+        variant="primary"></b-spinner>
         <p
+        v-if="loading_message != ''"
         class="text-loader text-primary">Cargando {{ loading_message }}...</p>
 	</div>
 </template>

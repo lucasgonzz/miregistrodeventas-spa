@@ -7,13 +7,7 @@ export default {
 			return this.$store.state.auth.authenticated
 		},
         has_online() {
-        	if (this.user) {
-	            if (this.user.online && this.user.online != '') {
-	                return true
-	            }
-	            return false
-        	}
-	        return false
+            return this.can('online.orders') || this.can('online.questions') || this.can('online.buyers') || this.can('online.messages') || this.can('online.cupons')
         },
 		is_provider() {
 			if (this.user) {
@@ -30,101 +24,82 @@ export default {
 		},
 	},
 	methods: {
-		can(permission_name, user = this.user) {
-			if (user) {
-				let has_permission = false
-				let role = user.roles[0]
-				if (role.name == 'Super Admin') {
-					has_permission = true
-				}
-				if (!has_permission) {
-					user.permissions.forEach(per => {
-						if (per.name == permission_name) {
-							has_permission = true
-						}
-					})
-				}
-				return has_permission
+		can(permission_slug) {
+			let has_permission = false
+		    if (this.user.status == 'super') {
+		        has_permission = true
+		    }
+			if (!has_permission) {
+				has_permission = this.hasPermissionTo(permission_slug)
 			}
+			return has_permission
 		},
-		hasRole(role_name, user = this.user) {
-			if (user) {
-				let has_role = false
-				user.roles.forEach(r => {
-					if (r.name == role_name) {
-						has_role = true
-					}
-				})
-				return has_role
-			}
-		},
-		hasPermissionForRoute(route, user = this.user) {
-			if (user) {
-				console.log('route: '+route)
-				let permission_name = ''
-				if (route == '/vender') {
-					permission_name = 'Vender'
-				} else if (route == '/ingresar') {
-					permission_name = 'Ingresar articulos'
-				} else if (route == '/listado') {
-					permission_name = 'Ver articulos'
-				} else if (route == '/ventas') {
-					permission_name = 'Ver ventas'
-				} else if (route == '/tienda-online/pedidos') {
-					permission_name = 'Online'
+		hasRole(role_name) {
+			let has_role = false
+			this.user.roles.forEach(r => {
+				if (r.name == role_name) {
+					has_role = true
 				}
-			    let has_permission = false
-			    user.roles.forEach(rol => {
-			        if (rol.name == 'Super Admin') {
-			            has_permission = true
-			        }
-			    })
-			    if (!has_permission) {
-			        user.permissions.forEach(permission => {
-			            if (permission.name == permission_name) {
-			                has_permission = true
-			            }
-			        })
-			    }
-			    return has_permission
-			}
+			})
+			return has_role
 		},
-		hasPermissionTo(permission_name, user, dont_check_admin = false) {
-			if (user) {
-				var has_permission = false
-				if (user.roles) {
-					if (!dont_check_admin) {
-						user.roles.forEach(rol => {
-							if (rol.name == 'Super Admin') {
-								has_permission = true
-							}
-						})
-					}
-					if (!has_permission) {
-						user.permissions.forEach(permission => {
-							if (permission.name == permission_name) {
-								has_permission = true
-							}
-						})
-						return has_permission
-					} else {
-						return has_permission
-					}
+		hasPermissionForRoute(route) {
+			console.log('viendo permisos para la ruta: '+route)
+			let permission_slug = ''
+			if (route == '/vender') {
+				permission_slug = 'sales.store'
+			} else if (route == '/ingresar') {
+				permission_slug = 'articles.store'
+			} else if (route == '/listado') {
+				permission_slug = 'articles.index'
+			} else if (route == '/ventas') {
+				permission_slug = 'sales.index'
+			} else if (route == '/empleados') {
+				permission_slug = 'employees'
+			} else if (route.includes('tienda-online')) {
+				if (route.includes('pedidos')) {
+					permission_slug = 'online.orders'
+				} else if (route.includes('preguntas')) {
+					permission_slug = 'online.questions'
+				} else if (route.includes('clientes')) {
+					permission_slug = 'online.buyers'
+				} else if (route.includes('mensajes')) {
+					permission_slug = 'online.messages'
+				} else if (route.includes('cupones')) {
+					permission_slug = 'online.cupons'
 				}
+			} else if (route.includes('super')) {
+				permission_slug = 'Super'
 			}
+		    let has_permission = false
+		    if (permission_slug == 'Super' && this.user.status == 'super') {
+		        has_permission = true
+		    }
+		    if (!has_permission) {
+		        has_permission = this.hasPermissionTo(permission_slug)
+		    }
+		    has_permission ? console.log('tiene permiso') : console.log('no tiene permiso')
+		    return has_permission
 		},
-		isAdmin(user = this.user) {
-			if (user) {
-				var is_admin = false
-				if (user.roles) {
-					user.roles.forEach(rol => {
-						if (rol.name == 'Super Admin') {
-							is_admin = true
-						}
-					})
-					return is_admin
-				}
+		hasPermissionTo(permission_slug) {
+			let has_permission = false
+			if (!this.user.owner_id) {
+				this.user.plan.permissions.forEach(permission => {
+		            if (permission.slug == permission_slug) {
+		                has_permission = true
+		            }
+		        })
+			} else {
+				this.user.permissions.forEach(permission => {
+		            if (permission.slug == permission_slug) {
+		                has_permission = true
+		            }
+		        })
 			}
+	        return has_permission
+		},
+		isAdmin() {
+			return !this.user.owner_id 
 		},
 	},
 }

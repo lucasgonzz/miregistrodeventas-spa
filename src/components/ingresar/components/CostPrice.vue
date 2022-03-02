@@ -1,7 +1,10 @@
 <template>
 	<b-form-row
 	class="m-b-15">
-		<b-col cols="12" :sm="col">
+		<b-col 
+		v-if="can('articles.cost')"
+		cols="12" 
+		:sm="col">
 			<b-form-group
 			v-intro-step="4"
 			v-intro="'Completa con el costo de tu producto (opcional)'"
@@ -33,7 +36,8 @@
 				autocomplete="off"></b-form-input>
 			</b-form-group>
 		</b-col>
-		<b-col v-show="special_prices.length"
+		<b-col 
+		v-show="special_prices.length"
 		cols="6"
 		class="m-t-10"
 		v-for="(special_price, index) in special_prices"
@@ -55,11 +59,6 @@
 <script>
 export default {
 	props: ['article', 'porcentage_for_price'],
-	data() {
-		return {
-
-		}
-	},
 	computed: {
 		special_prices() {
 			return this.$store.state.special_prices.special_prices

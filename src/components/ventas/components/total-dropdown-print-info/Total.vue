@@ -17,7 +17,7 @@
 				</span>
 			</b-button>
 			<b-button
-			v-if="total_cost != 0 && can('article.index.cost')"
+			v-if="total_cost != 0 && can('articles.cost')"
 			variant="danger">
 				<span v-show="loading">
 					<span class="spinner-border spinner-border-sm"></span>

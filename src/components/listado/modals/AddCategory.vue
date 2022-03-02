@@ -1,5 +1,8 @@
 <template>
-<b-modal id="add-category" title="Añadir categoria">
+<b-modal 
+v-if="can('categories')"
+id="add-category" 
+title="Añadir categoria">
     <b-container>
         <b-row>
             <b-col>

@@ -1,6 +1,6 @@
 <template>
 	<b-form-row
-	v-if="has_online">
+	v-if="can('descriptions')">
 		<b-col>
 			<p
 			class="c-p"

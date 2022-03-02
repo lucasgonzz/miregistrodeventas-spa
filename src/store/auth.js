@@ -54,6 +54,7 @@ export default {
 			commit('setLoading', true)
 			return axios.get('/api/user')
 			.then(res => {
+				console.log(res.data.user)
 				commit('setLoading', false)
 				commit('setAuthenticated', true)
 				commit('setUser', res.data.user)

@@ -8,9 +8,8 @@
         </div>
         <div
         v-else>
-            <div v-if="authenticated">
-                <nav-component></nav-component>
-            </div>  
+            <nav-component></nav-component>
+            <nav-home></nav-home>
             <b-container 
             :class="container_class"
             fluid>
@@ -23,13 +22,24 @@
 </template>
 <script>
 import NavComponent from './components/nav/NavComponent'
+import NavHome from './components/home/components/Nav'
 import LogoLoading from '@/components/common/LogoLoading'
 import web_sockets from '@/mixins/web_sockets'
 import online from '@/mixins/online'
-
 export default {
+    metaInfo: {
+        title: 'ComercioCity',
+        meta: [
+          { vmid: 'description', name: 'description', content: 'ComercioCity. Sistema de administracion y contabilidad online' }
+        ],
+        htmlAttrs: {
+            lang: 'es',
+            amp: true
+        }
+    },
     components: {
         NavComponent,
+        NavHome,
         LogoLoading,
     },
     mixins: [web_sockets, online],
@@ -44,7 +54,7 @@ export default {
             return this.$store.state.auth.loading
         },
         container_class() {
-            if (this.current_page != 'Online' && this.current_page != 'Login') {
+            if (this.current_page != 'Online' && this.current_page != 'Login' && this.current_page != 'Home') {
                 return 'p-b-20'
             }
             return ''
@@ -58,38 +68,48 @@ export default {
             if (this.authenticated) {
                 console.log('watch de authenticated')
                 this.callMethods()
+                // if (this.isUserExpire()) {
+                //     console.log('vencido')
+                // } else {
+                //     this.callMethods()
+                // }
             }
         }
     },
     created() {
         console.log('se creo app')
-        if (location.href.indexOf("www.") > -1) {
-            console.log('tiene www')
-            location.replace(process.env.VUE_APP_APP_URL);
-        }
+        this.redirectIfWww()
         this.$store.dispatch('auth/me')
         .then(() => {
             console.log('termino auth/me')
             this.setView()
-            if (this.authenticated) {
-                this.callMethods()
-            }
         })
     },
     data() {
         return {
-            // loading: false,
-            loading_message: 'informacion'
+            loading_message: ''
         }
     },
     methods: {
+        isUserExpire() {
+            console.log(new Date(this.user.expire_at))
+            console.log(new Date())
+            return this.user.expired_at && date(this.user.expired_at) >= date()
+        },
+        redirectIfWww() {
+            if (location.href.indexOf("www.") > -1) {
+                console.log('tiene www')
+                location.replace(process.env.VUE_APP_APP_URL);
+            }
+        },
         setView() {
-            console.log('setView')
             if (!this.authenticated) {
-                if (this.$route.name != 'Login') {
-                    this.$router.push({name: 'Login'})
+                console.log('setView sin auth')
+                if (this.$route.name != 'Home' && this.$route.name != 'Login') {
+                    this.$router.push({name: 'Home'})
                 }
             } else {
+                console.log('setView con auth')
                 let route = this.$route.path
                 if (route == '/' || 
                     route == '/login' || 
@@ -100,91 +120,125 @@ export default {
         },
         redirect() {
             let route = ''
-            if (this.can('Vender')) {
-                route = '/vender'
-            } else if (this.can('Ingresar articulos')) {
-                route = '/ingresar'
-            } else if (this.can('Ver articulos')) {
-                route = '/listado'
+            if (this.user.status == 'super') {
+                this.$router.replace({name: 'Super', params: {view: 'usuarios'}})
             } else {
-                route = '/ventas'
+                if (this.can('sales.store')) {
+                    route = '/vender'
+                } else if (this.can('articles.store')) {
+                    route = '/ingresar'
+                } else if (this.can('articles.index')) {
+                    route = '/listado'
+                } else if (this.can('sales.index')) {
+                    route = '/ventas'
+                } else if (this.can('online.orders')) {
+                    route = '/tienda-online/pedidos'
+                } else if (this.can('online.questions')) {
+                    route = '/tienda-online/preguntas'
+                } else if (this.can('online.buyers')) {
+                    route = '/tienda-online/clientes'
+                } else if (this.can('online.messages')) {
+                    route = '/tienda-online/mensajes'
+                } else if (this.can('online.cupons')) {
+                    route = '/tienda-online/cupones'
+                }
+                console.log('redireccionando a: '+route)
+                this.$router.replace(route)
             }
-            console.log('redireccionando a: '+route)
-            this.$router.replace(route)
         },
         async callMethods() {
-            // if (this.isOnline) {
+            if (this.is_commerce) {
+                console.log('Es un comercio')
                 this.$store.commit('auth/setLoading', true)
-                this.$store.dispatch('special_prices/getSpecialPrices')
-                this.loading_message = 'proveedores'
-                await this.$store.dispatch('providers/getProviders')
-                this.loading_message = 'categorias'
-                await this.$store.dispatch('categories/getCategories')
-                this.loading_message = 'subcategorias'
-                await this.$store.dispatch('sub_categories/getSubCategories')
                 this.loading_message = 'articulos'
                 await this.$store.dispatch('articles/getArticles')
-                this.loading_message = 'clientes'
-                await this.$store.dispatch('clients/getClients')
                 this.loading_message = 'ventas'
                 await this.$store.dispatch('sales/days_previus_sales/getDaysPreviusSales')
                 await this.$store.dispatch('sales/getSales')
-                this.loading_message = 'permisos'
-                await this.$store.dispatch('permissions/getPermissions')
-                this.loading_message = 'empleados'
-                await this.$store.dispatch('employees/getEmployees')
-                this.loading_message = 'descuentos'
-                await this.$store.dispatch('discounts/getDiscounts')
-                this.loading_message = 'listas de precios'
-                await this.$store.dispatch('prices_lists/getPircesLists')
-                this.loading_message = 'etiquetas'
-                await this.$store.dispatch('tags/getTags')
-                this.loading_message = 'monedas'
-                await this.$store.dispatch('coins/getCoins')
-                this.loading_message = 'colores'
-                await this.$store.dispatch('colors/getColors')
-                this.loading_message = 'iconos'
-                await this.$store.dispatch('icons/getIcons')
-                this.loading_message = 'talles'
-                await this.$store.dispatch('sizes/getSizes')
-                this.loading_message = 'titulo'
-                await this.$store.dispatch('title/getTitle')
-                this.loading_message = 'marcas'
-                await this.$store.dispatch('brands/getBrands')
-                this.loading_message = 'condiciones'
-                await this.$store.dispatch('conditions/getConditions')
-                this.loading_message = 'dias de trabajo'
-                await this.$store.dispatch('workdays/getWorkdays')
-                this.loading_message = 'horarios de trabajo'
-                await this.$store.dispatch('schedules/getSchedules')
+                if (this.can('special_prices')) {
+                    this.$store.dispatch('special_prices/getSpecialPrices')
+                }
+                if (this.can('providers')) {
+                    this.loading_message = 'proveedores'
+                    await this.$store.dispatch('providers/getProviders')
+                }
+                if (this.can('categories')) {
+                    this.loading_message = 'categorias'
+                    await this.$store.dispatch('categories/getCategories')
+                    this.loading_message = 'subcategorias'
+                    await this.$store.dispatch('sub_categories/getSubCategories')
+                    this.loading_message = 'iconos'
+                    await this.$store.dispatch('icons/getIcons')
+                }
+                if (this.can('clients')) {
+                    this.loading_message = 'clientes'
+                    await this.$store.dispatch('clients/getClients')
+                }
+                if (this.can('employees')) {
+                    this.loading_message = 'empleados'
+                    await this.$store.dispatch('employees/getEmployees')
+                }
+                if (this.can('articles.index')) {
+                    this.loading_message = 'listas de precios'
+                    await this.$store.dispatch('prices_lists/getPircesLists')
+                } 
+                if (this.can('tags')) {
+                    this.loading_message = 'etiquetas'
+                    await this.$store.dispatch('tags/getTags')
+                } 
+                if (this.can('articles.with_dolar')) {
+                    this.loading_message = 'monedas'
+                    await this.$store.dispatch('coins/getCoins')
+                }
+                if (this.can('colors')) {
+                    this.loading_message = 'colores'
+                    await this.$store.dispatch('colors/getColors')
+                }
+                if (this.can('sizes')) {
+                    this.loading_message = 'talles'
+                    await this.$store.dispatch('sizes/getSizes')
+                }
+                if (this.can('brans')) {
+                    this.loading_message = 'marcas'
+                    await this.$store.dispatch('brands/getBrands')
+                }
+                if (this.has_online) {
+                    this.loading_message = 'titulo'
+                    await this.$store.dispatch('title/getTitle')
+                    this.loading_message = 'condiciones'
+                    await this.$store.dispatch('conditions/getConditions')
+                    this.loading_message = 'dias de trabajo'
+                    await this.$store.dispatch('workdays/getWorkdays')
+                    this.loading_message = 'horarios de trabajo'
+                    await this.$store.dispatch('schedules/getSchedules')
+                    this.getOrdersAndQuestions()
+                    this.getBuyers()
+                    this.getActiveCupons()
+                    this.listenChannels()
+                }
                 if (this.is_provider) {
-                    this.loading_message = 'vendedores'
-                    await this.$store.dispatch('sellers/getSellers')
-                    this.loading_message = 'comisiones'
-                    await this.$store.dispatch('commissioners/getCommissioners')
-                    this.loading_message = 'tipos de venta'
-                    await this.$store.dispatch('sale_types/getSaleTypes')
-                    this.$store.commit('vender/setSaleType', 1)
+                    if (this.can('discounts_sellers')) {
+                        this.loading_message = 'descuentos'
+                        await this.$store.dispatch('discounts/getDiscounts')
+                        this.loading_message = 'vendedores'
+                        await this.$store.dispatch('sellers/getSellers')
+                        this.loading_message = 'comisiones'
+                        await this.$store.dispatch('commissioners/getCommissioners')
+                        this.loading_message = 'tipos de venta'
+                        await this.$store.dispatch('sale_types/getSaleTypes')
+                        this.$store.commit('vender/setSaleType', 1)
+                    } 
                     this.$store.commit('auth/setLoading', false)
                     this.loading_message = 'informacion'
                 } else {
                     this.$store.commit('auth/setLoading', false)
                     this.loading_message = 'informacion'
                 }
-            // } else {
-            //     let articles = this.$offlineStorage.get('articles')
-            //     console.log('cargando del cache')
-            //     console.log(articles)
-            //     this.$store.commit('articles/setArticles', articles)
-            // }
-            // this.$store.dispatch('markers/getMarkers')
-            // this.$store.dispatch('markers/getMarkerGroups')
-            // this.$store.dispatch('markers/getMarkerGroupsWithMarkers')
-            if (this.has_online) {
-                this.getOrdersAndQuestions()
-                this.getBuyers()
-                this.getActiveCupons()
-                this.listenChannels()
+            } else if (this.is_super) {
+                console.log('Es super')
+                this.$store.dispatch('super/getCommerces')
+                this.$store.dispatch('super/getPlans')
+                this.$store.dispatch('super/getPermissions')
             }
         }
     }
@@ -195,7 +249,7 @@ export default {
 @import "@/sass/app.sass"
 #app 
     background: #FFF
-    font-family: Nunito, Helvetica, Arial, sans-serif
+    font-family: Roboto, Nunito, Helvetica, Arial, sans-serif
     -webkit-font-smoothing: antialiased
     -moz-osx-font-smoothing: grayscale
     text-align: center

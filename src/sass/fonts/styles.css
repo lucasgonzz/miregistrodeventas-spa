@@ -266,3 +266,15 @@
 .icon-up:before {
   content: "\76";
 }
+.icon-google:before {
+  content: "\77";
+}
+.icon-instagram:before {
+  content: "\41";
+}
+.icon-youtube:before {
+  content: "\42";
+}
+.icon-facebook:before {
+  content: "\3c";
+}

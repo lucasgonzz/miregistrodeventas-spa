@@ -1,7 +1,9 @@
 <template>
 	<b-form-row
 	class="m-b-15">
-		<b-col lg="6">
+		<b-col 
+		v-if="can('providers')"
+		lg="6">
 			<b-form-group
 			label="Proveedor"
 			label-for="article-provider">
@@ -11,7 +13,9 @@
 				:options="providers_options"></b-form-select>
 			</b-form-group>
 		</b-col>
-		<b-col lg="6">
+		<b-col 
+		v-if="can('article.stock')"
+		lg="6">
 			<b-form-group
 			v-intro-step="6"
 			v-intro="'Ingresa la cantidad de tu producto, para tener un control del stock a medida que vayas vendiendo unidades del mismo'"

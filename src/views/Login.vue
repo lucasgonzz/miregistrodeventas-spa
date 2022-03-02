@@ -6,17 +6,24 @@
 		<b-col 
 		class="d-none"
 		xl="8">
-			<img src="@/assets/precentacion.jpg" alt="Imagen">
+			<img 
+			@click="toHome"
+			class="c-p"
+			src="@/assets/precentacion.jpg" alt="Imagen">
 		</b-col>
 		<b-col 
 		cols="12"
 		sm="8"
 		md="6"
-		lg="4"
+		lg="5"
+		xl="4"
 		class="col-form">
 			<b-card>
 				<div>
-					<img src="@/assets/logo.png" alt="">
+					<img 
+					@click="toHome"
+					class="c-p"
+					src="@/assets/logo.png" alt="">
 					<b-form-group
 					v-if="!login_employee">
 						<b-form-input
@@ -30,7 +37,7 @@
 						<b-form-input
 						id="employee-dni"
 						v-model="form.dni"
-						@keydown.enter="login"
+						@keydown.enter="callLogin"
 						placeholder="DNI de empleado"></b-form-input>
 					</b-form-group>
 					<b-form-group>
@@ -38,7 +45,7 @@
 						id="password"
 						type="password"
 						v-model="form.password"
-						@keydown.enter="login"
+						@keydown.enter="callLogin"
 						placeholder="Contraseña"></b-form-input>
 					</b-form-group>
 					<b-form-group>
@@ -50,7 +57,7 @@
 					</b-form-group>
 					<b-form-group>
 						<b-button 
-						@click="login"
+						@click="callLogin"
 						variant="primary"
 						block>
 							<btn-loader 
@@ -84,8 +91,10 @@
 import BtnLoader from '@/components/common/BtnLoader'
 import AdminLogin from '../components/login/modals/AdminLogin'
 import Register from '../components/login/modals/Register'
+import auth from '@/mixins/auth'
 export default {
 	name: 'Login',
+	mixins: [auth],
     components: {
     	BtnLoader,
         AdminLogin,
@@ -116,6 +125,9 @@ export default {
 		},
 	},
 	methods: {
+		toHome() {
+			this.$router.push({name: 'Home'})
+		},
 		changeLogin() {
 			if (this.login_employee) {
 				this.login_employee = false
@@ -123,36 +135,20 @@ export default {
 				this.login_employee = true
 			}
 		},
-		csrf() {
-			console.log('se mando cookie')
-			return this.$axios.get('/sanctum/csrf-cookie')
-		},
-		login() {
+		callLogin() {
 			this.loading = true
 			this.$axios.get('/sanctum/csrf-cookie')
 			.then(() => {
-				this.$axios.post('/login', this.form)
-				.then(res => {
-					console.log(res)
-					this.loading = false
-					if (res.data.login) {
-						console.log('bien')
-						this.$store.commit('auth/setAuthenticated', true)
-						this.$store.commit('auth/setUser', res.data.user)
-						// this.$store.commit('auth/setUserWorkdaysId')
-						this.$router.replace('/')
+				this.login(this.form)
+				.then(() => {
+					if (!this.authenticated) {
+						this.loginSuper(this.form)
+						.then(() => {
+							this.loading = false
+						})
 					} else {
 						this.loading = false
-						console.log('no bien')
-						this.$toast.error('Sus datos no corresponden a un usuario registrado, intentelo denuevo')
-						this.$store.commit('auth/setAuthenticated', false)
-						this.$store.commit('auth/setUser', null)
 					}
-				})
-				.catch(err => {
-					this.loading = false
-					this.$toast.error('Error al ingresar, intentelo mas tarde')
-					console.log(err)
 				})
 			})
 		}, 
@@ -168,9 +164,10 @@ export default {
 		box-shadow: none
 		background: #FFF
 		@media screen and (min-width: 768px)
-			-webkit-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.75)
-			-moz-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.75)
-			box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.75)
+			box-shadow: 0 2px 4px rgb(0 0 0 / 15%) !important
+			// -webkit-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.75)
+			// -moz-box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.75)
+			// box-shadow: 0px 0px 11px 0px rgba(0,0,0,0.75)
 			border-radius: .4em !important
 	.row
 		height: 100vh

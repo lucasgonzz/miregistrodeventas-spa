@@ -30,56 +30,44 @@
 			<title-agregar></title-agregar>
 			<bar-code 
 			:article="article"></bar-code>
-			<hr>
 			<name 
 			:article="article"
 			ref="nameComponent"
 			@setArticle="setArticle"></name>
-			<hr>
 
 			<cost-price 
 			:article="article"
 			:user="user"
 			:porcentage_for_price="porcentage_for_price"></cost-price>
-			<hr>
 
 			<stock-provider 
 			:article="article"
 			@saveArticle="saveArticle"></stock-provider>
-			<hr>
 
 			<categories-subcategories 
 			:article="article"
 			@saveArticle="saveArticle"></categories-subcategories>
-			<hr>
 
 			<tags
 			:article="article"></tags>
-			<hr>
 
 			<description
 			:article="article"></description>
-			<hr>
 
 			<condition
 			:article="article"></condition>
-			<hr>
 
 			<sizes
 			:article="article"></sizes>
-			<hr>
 
 			<brand
 			:article="article"></brand>
-			<hr>
 
 			<colors
 			:article="article"></colors>
-			<hr>
 
 			<add-photo
 			:article="article"></add-photo>
-			<hr>
 
 			<card-footer
 			:articles="articles_to_print"

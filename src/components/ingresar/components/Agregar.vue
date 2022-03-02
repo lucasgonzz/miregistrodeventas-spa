@@ -6,18 +6,22 @@
 			<i class="icon-plus"></i>
 		</template>
 		<b-dropdown-item
+		v-if="can('providers')"
 		v-b-modal="'providers'">
 			Proveedores
 		</b-dropdown-item>
 		<b-dropdown-item
+		v-if="can('categories')"
 		v-b-modal="'categories'">
 			Categorias
 		</b-dropdown-item>
 		<b-dropdown-item
+		v-if="can('brands')"
 		v-b-modal="'brands'">
 			Marcas
 		</b-dropdown-item>
 		<b-dropdown-item
+		v-if="can('special_prices')"
 		v-b-modal="'special-prices'">
 			Precios especiales
 		</b-dropdown-item>

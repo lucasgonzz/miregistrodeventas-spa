@@ -3,6 +3,7 @@
 	<div>
 		<b-form-row>
 			<b-col
+			v-if="can('articles.images')"
 			cols="12">
 				<b-form-group
 				v-if="article.images && article.images.length">
@@ -13,6 +14,7 @@
 				</b-form-group>
 			</b-col>
 			<b-col
+			v-if="can('articles.images')"
 			cols="12">
 				<b-form-group>
 					<b-button
@@ -78,6 +80,7 @@
 				</b-form-group>
 			</b-col>
 			<b-col
+			v-if="can('categories')"
 			cols="12"
 			md="6">
 				<!-- Categoria -->
@@ -92,6 +95,7 @@
 				</b-form-group>
 			</b-col>
 			<b-col
+			v-if="can('categories')"
 			cols="12"
 			md="6">
 				<!-- SubCategoria -->
@@ -106,10 +110,10 @@
 				</b-form-group>
 			</b-col>
 			<b-col
+			v-if="can('articles.cost')"
 			cols="12"
 			md="6">
 				<b-form-group
-				v-if="can('Ver costos de articulos')"
 				label="Costo"
 				label-for="article-cost">
 					<b-form-input
@@ -135,6 +139,7 @@
 				</b-form-group>
 			</b-col>
 			<b-col
+			v-if="can('special_prices')"
 			v-show="special_prices.length"
 			v-for="(special_price, index) in special_prices"
 			:key="special_price.id"
@@ -154,6 +159,7 @@
 				</b-form-group>
 			</b-col>
 			<b-col
+			v-if="can('articles.stock')"
 			cols="12"
 			md="6">
 				<!-- Stock -->
@@ -188,6 +194,7 @@
 				</b-form-group>
 			</b-col>
 			<b-col
+			v-if="can('articles.stock')"
 			cols="12"
 			md="6">
 				<b-form-group
@@ -204,6 +211,7 @@
 				</b-form-group>
 			</b-col>
 			<b-col
+			v-if="can('providers')"
 			cols="12"
 			md="6">
 				<!-- Proveedor -->
@@ -262,26 +270,31 @@
 			</b-col>
 			<hr>
 			<b-col
+			v-if="can('tags')"
 			cols="12">
 				<tags
 				:article="article"></tags>
 			</b-col>
 			<b-col
+			v-if="can('brands')"
 			cols="12">
 				<brand
 				:article="article"></brand>
 			</b-col>
 			<b-col
+			v-if="can('sizes')"
 			cols="12">
 				<sizes
 				:article="article"></sizes>
 			</b-col>
 			<b-col
+			v-if="can('colors')"
 			cols="12">
 				<colors
 				:article="article"></colors>
 			</b-col>
 			<b-col
+			v-if="can('descriptions')"
 			cols="12">
 				<!-- <descriptions
 				:article="article"></descriptions> -->
@@ -290,12 +303,14 @@
 			</b-col>
 			<b-col
 			cols="12"
+			v-if="can('conditions')"
 			lg="6">
 				<condition
 				:article="article"></condition>
 			</b-col>
 			<b-col
 			class="j-end"
+			v-if="can('with_dolar')"
 			cols="12"
 			lg="6"> 
 				<with-dolar

@@ -17,16 +17,31 @@ export default {
 			}
 			return false
 		},
+		is_commerce() {
+			return this.user.status == 'commerce'
+		},
+		is_super() {
+			return this.user.status == 'super'
+		},
 		variant_color() {
 			return '#007bff'
 		},
 	},
 	methods: {
+		hasRole(role) {
+			let has_role = false
+			this.user.roles.forEach(rol => {
+		        if (rol.name == role) {
+		            has_role = true
+		        }
+		    })
+		    return has_role
+		},
 		capitalize(str) {
 			return str.charAt(0).toUpperCase() + str.slice(1)
 		},
 		articleCost(article, from_pivot = false) {
-			if (this.can('Ver costos de articulos') && article.cost) {
+			if (this.can('articles.cost') && article.cost) {
 				let cost
 				if (from_pivot) {
 					cost = article.pivot.cost
@@ -47,7 +62,7 @@ export default {
 			} else {
 				price = article.price
 			}
-			if (this.user.with_dolar) {
+			if (article.with_dolar) {
 				price = price * this.dolar_blue
 			}
 			if (formated) {

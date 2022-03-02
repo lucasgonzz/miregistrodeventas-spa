@@ -170,21 +170,27 @@ export default {
 			return this.$store.state.articles.loading
 		},
 		fields() {
-			let fields = [
-				{ key: 'selected', label: '' },
-				{ key: 'photo', label: 'Foto' },
-				{ key: 'bar_code', label: 'Codigo' },
-				{ key: 'name', label: 'Nombre', sortable: true },
-				{ key: 'cost', label: 'Costo', sortable: true },
-				{ key: 'price', label: 'Precio', sortable: true },
-				{ key: 'stock', label: 'Stock', sortable: true },
-				{ key: 'brand', label: 'Marca', sortable: true },
-				{ key: 'sub_category', label: 'Subcategoria', sortable: true},
-				{ key: 'options', label: 'Opciones', sortable: true},
-			]
-			// if (!this.is_provider) {
-			// 	fields.splice(6, 0, { key: 'providers', label: 'Provedores',})
-			// }
+			let fields = []
+			fields.push({ key: 'selected', label: '' })
+			if (this.can('articles.images')) {
+				fields.push({ key: 'photo', label: 'Foto' })
+			}
+			fields.push({ key: 'bar_code', label: 'Codigo' })
+			fields.push({ key: 'name', label: 'Nombre', sortable: true })
+			if (this.can('articles.cost')) {
+				fields.push({ key: 'cost', label: 'Costo', sortable: true })
+			}
+			fields.push({ key: 'price', label: 'Precio', sortable: true })
+			if (this.can('articles.stock')) {
+				fields.push({ key: 'stock', label: 'Stock', sortable: true })
+			}
+			if (this.can('brands')) {
+				fields.push({ key: 'brand', label: 'Marca', sortable: true })
+			}
+			if (this.can('categories')) {
+				fields.push({ key: 'sub_category', label: 'Subcategoria', sortable: true })
+			}
+			fields.push({ key: 'options', label: 'Opciones', sortable: true})
 			return fields
 		},
 		items() {

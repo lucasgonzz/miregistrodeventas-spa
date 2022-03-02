@@ -1,6 +1,6 @@
 <template>
 	<b-form-row
-	v-if="has_online">
+	v-if="can('tags')">
 		<b-col>
 			<p
 			class="c-p"

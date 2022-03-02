@@ -3,40 +3,39 @@
         <nav>
             <b-nav vertical>
                 <b-nav-item :to="{name: 'Vender'}"
-                v-if="can('sale.create')"
+                v-if="can('sales.store')"
                 :class="activeLink('Vender')">
                     Vender
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Ingresar'}"
-                v-if="can('article.create')"
+                v-if="can('articles.store')"
                 :class="activeLink('Ingresar')">
                     Ingresar
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Listado'}"
-                v-if="can('article.index')"
+                v-if="can('articles.index')"
                 :class="activeLink('Listado')">
                     Listado
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Ventas'}"
-                v-if="can('sale.index')"
+                v-if="can('sales.index')"
                 :class="activeLink('Ventas')">
                     Ventas
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Empleados'}"
-                v-if="isAdmin(user)"
+                v-if="can('employees')"
                 :class="activeLink('Empleados')">
                     Empleados
                 </b-nav-item>
                 <b-nav-item 
                 @click="toOnline"
-                v-if="has_online && can('Online')"
+                v-if="has_online"
                 :class="activeLink('Online')">
                     Online
                 </b-nav-item>
-
                 <b-nav-item 
                 :to="{name: 'Configuration'}"
-                v-if="isAdmin(user)">
+                v-if="isAdmin()">
                     Configuracion
                 </b-nav-item>
                 <b-nav-item 

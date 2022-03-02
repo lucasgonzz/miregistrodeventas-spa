@@ -1,5 +1,6 @@
 <template>
-	<b-form-row>
+	<b-form-row
+	v-if="can('articles.images')">
 		<b-col>
 			<b-form-group
 			class="m-b-15">

@@ -1,5 +1,6 @@
 <template>
 <b-modal 
+v-if="can('brands')"
 id="update-brand" 
 title="Seleccionar Marca" 
 hide-footer>

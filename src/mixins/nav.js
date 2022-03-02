@@ -13,7 +13,10 @@ export default {
             return null
         },
         show_nav() {
-            return this.currentPage != 'Maps' 
+            return this.currentPage != 'Maps' && this.authenticated && this.currentPage != 'Home'
+        },
+        show_nav_content() {
+        	return this.user.status != 'super'
         }
 	},
 	methods: {

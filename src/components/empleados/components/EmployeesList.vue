@@ -46,7 +46,7 @@
 			<p 
 			v-show="!employees.length"
 			class="text-with-icon">
-				<i class="icon-user-cancel"></i>
+				<i class="icon-not"></i>
 				No hay empleados registrados
 			</p>
 		</div>

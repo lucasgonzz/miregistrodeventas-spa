@@ -41,22 +41,24 @@ export default {
 			})
 		},
         vender() {
-			this.$store.commit('articles/removeStock', this.articles_for_sale)
-            this.$store.dispatch('vender/vender')
-            .then(() => {
-	            this.$store.commit('vender/setDiscounts', [])
-	            this.$store.commit('vender/setSaleType', 1)
-	            this.$store.commit('vender/setSpecialPriceId', 0)
-	            this.$bvModal.hide('clients')
-	            this.without_debt = true
-	            this.$store.commit('vender/clients/setView', 0)
-	            if (this.is_provider) {
-	                this.$bvModal.show('successful-sale')
-	            } else {
-					document.getElementById('article-bar-code').focus()
-	            }
-	            this.$store.commit('vender/setClient', null)
-            })
+        	if (this.articles_for_sale.length) {
+				this.$store.commit('articles/removeStock', this.articles_for_sale)
+	            this.$store.dispatch('vender/vender')
+	            .then(() => {
+		            this.$store.commit('vender/setDiscounts', [])
+		            this.$store.commit('vender/setSaleType', 1)
+		            this.$store.commit('vender/setSpecialPriceId', 0)
+		            this.$bvModal.hide('clients')
+		            this.without_debt = true
+		            this.$store.commit('vender/clients/setView', 0)
+		            if (this.is_provider) {
+		                this.$bvModal.show('successful-sale')
+		            } else {
+						document.getElementById('article-bar-code').focus()
+		            }
+		            this.$store.commit('vender/setClient', null)
+	            })
+        	}
         },
 		setArticleForSale(article) {
 			if (this.article.bar_code != '') {

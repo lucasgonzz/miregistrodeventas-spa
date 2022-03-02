@@ -1,7 +1,7 @@
 <template>
 <div id="listado">	
 	<confirm-delete></confirm-delete>
-	<add-category ></add-category>
+	<add-category></add-category>
 	<edit-article></edit-article>
 	<update-by-porcentage></update-by-porcentage>
 	<update-category></update-category>

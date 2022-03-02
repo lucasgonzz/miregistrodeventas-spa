@@ -17,10 +17,37 @@ Vue.mixin(percentageCard)
 import articles from './mixins/articles'
 Vue.mixin(articles)
 
+// Metadata
+import VueMeta from 'vue-meta'
+Vue.use(VueMeta, {
+	// optional pluginOptions
+	refreshOnceOnNavigation: true
+})
+
+// VueScrollTo
+import VueScrollTo from 'vue-scrollto'
+Vue.use(VueScrollTo, {
+     container: "body",
+     duration: 1000,
+     easing: "ease",
+     offset: 0,
+     force: true,
+     cancelable: true,
+     onStart: false,
+     onDone: false,
+     onCancel: false,
+     x: false,
+     y: true
+ })
+
 // Notifications
 import VueToast from 'vue-toast-notification';
 import 'vue-toast-notification/dist/theme-sugar.css';
  
+// Scroll Effect
+import VueAnimateOnScroll from 'vue-animate-onscroll'
+Vue.use(VueAnimateOnScroll)
+
 Vue.use(VueToast, {
 	position: 'bottom'
 });

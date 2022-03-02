@@ -1,5 +1,6 @@
 <template>
 	<b-form-row
+	v-if="can('categories')"
 	class="m-b-15">
 		<b-col lg="6">
 			<b-form-group

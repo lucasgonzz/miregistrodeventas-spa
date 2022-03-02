@@ -16,7 +16,7 @@ export default {
 	props: ['employee'],
 	computed: {
 		permissions() {
-			return this.$store.state.permissions.permissions
+			return this.user.plan.permissions
 		},
 	},
 	methods: {

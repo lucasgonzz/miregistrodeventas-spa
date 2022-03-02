@@ -5,6 +5,7 @@
 		class="col-nav">
 			<b-nav tabs>
 				<b-nav-item
+				v-if="can('online.orders')"
 				@click="setView('pedidos')"
 				:active="isActive('pedidos')">
 					Pedidos
@@ -15,6 +16,7 @@
 					</b-badge>
 				</b-nav-item>
 				<b-nav-item
+				v-if="can('online.questions')"
 				@click="setView('preguntas')"
 				:active="isActive('preguntas')">
 					Preguntas
@@ -25,11 +27,13 @@
 					</b-badge>
 				</b-nav-item>
 				<b-nav-item
+				v-if="can('online.buyers')"
 				@click="setView('clientes')"
 				:active="isActive('clientes')">
 					Clientes
 				</b-nav-item>
 				<b-nav-item
+				v-if="can('online.messages')"
 				@click="setView('mensajes')"
 				:active="isActive('mensajes')">
 					Mensajes
@@ -40,6 +44,7 @@
 					</b-badge>
 				</b-nav-item>
 				<b-nav-item
+				v-if="can('online.cupons')"
 				@click="setView('cupones')"
 				:active="isActive('cupones')">
 					Cupones

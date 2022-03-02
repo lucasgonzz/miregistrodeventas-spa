@@ -19,24 +19,25 @@
 		</b-button-group>
 		<b-dropdown text="Mas" right variant="primary" class="m-l-10">
 			<b-dropdown-item
-			v-if="can('Ver clientes')"
+			v-if="can('clients')"
 			v-b-modal="'clients'">
 				<i class="icon-user"></i>
 				Clientes
 			</b-dropdown-item>
 			<b-dropdown-item
-			v-if="is_provider"
+			v-if="can('discounts_sellers')"
 			v-b-modal="'commissioners'">
 				<i class="icon-user"></i>
 				Comisiones
 			</b-dropdown-item>
 			<b-dropdown-item
-			v-if="is_provider"
+			v-if="can('discounts_sellers')"
 			v-b-modal="'sellers'">
 				<i class="icon-user"></i>
 				Vendedores
 			</b-dropdown-item>
 			<b-dropdown-item
+			v-if="can('discounts_sellers')"
 			v-b-modal="'discounts'">
 				<i class="icon-tag"></i>
 				Descuentos

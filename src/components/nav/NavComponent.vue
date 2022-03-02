@@ -1,7 +1,8 @@
 <template>
-<div>
+<div
+v-if="show_nav">
     <b-navbar 
-    v-if="show_nav"
+    class="nav-app"
     toggleable="lg" 
     variant="primary">
         <b-navbar-brand>
@@ -13,38 +14,42 @@
                 <span class="icon-bars"></span>
             </template>
         </b-navbar-toggle>
-        <b-collapse id="nav-collapse" is-nav>
-            <b-navbar-nav>
+        <b-collapse 
+        :class="!show_nav_content ? 'j-end' : ''"
+        id="nav-collapse" is-nav>
+            <b-navbar-nav
+            v-if="show_nav_content">
                 <b-nav-item :to="{name: 'Vender'}"
-                v-if="can('Vender')"
+                v-if="can('sales.store')"
                 :class="activeLink('Vender')">
                     Vender
                 </b-nav-item>
                 <b-nav-item :to="{name: 'Ingresar'}"
-                v-if="can('Ingresar articulos')"
+                v-if="can('articles.store')"
                 :class="activeLink('Ingresar')">
                     Ingresar
                 </b-nav-item>
                 <b-nav-item 
                 @click="toListado"
-                v-if="can('Ver articulos')"
+                v-if="can('articles.index')"
                 :class="activeLink('Listado')">
                     Listado
                 </b-nav-item>
                 <b-nav-item
                 @click="toVentas"
-                v-if="can('Ver ventas')"
+                v-if="can('sales.index')"
                 :class="activeLink('Ventas')">
                     Ventas
                 </b-nav-item>
-                <b-nav-item :to="{name: 'Empleados'}"
-                v-if="isAdmin()"
+                <b-nav-item 
+                :to="{name: 'Empleados'}"
+                v-if="can('employees')"
                 :class="activeLink('Empleados')">
                     Empleados
                 </b-nav-item>
                 <b-nav-item 
                 @click="toOnline"
-                v-if="has_online && can('Online')"
+                v-if="has_online"
                 :class="activeLink('Online')">
                     Online
                     <b-badge

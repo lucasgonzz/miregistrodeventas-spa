@@ -1,5 +1,9 @@
 <template>
-<b-modal id="update-category" :title="`Aumentar los artículos seleccionados`" hide-footer>
+<b-modal 
+v-if="can('categories')"
+id="update-category" 
+title="Asignar categoria" 
+hide-footer>
 	<div>
 		<b-form-group
 		label="Categoria">
