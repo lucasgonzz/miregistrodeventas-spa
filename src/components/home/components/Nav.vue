@@ -56,11 +56,10 @@ export default {
 </script>
 <style lang="sass">
 .nav-home  
-    height: 100px
-    @media screen and (max-width: 576px)
-        padding: 0 2em !important
-    @media screen and (min-width: 576px)
-        padding: 0 4em !important
+    background: #FFF
+    width: 100%
+    height: 15vh
+    padding: 0 2em !important
     .btn-left 
         display: inline-block
         padding: 0 1em

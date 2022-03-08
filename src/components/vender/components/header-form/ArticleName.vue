@@ -6,7 +6,7 @@
         <autocomplete 
         ref="articleName"
         :search="search" 
-        @keydown.shift="vender"
+        @keydown.shift="callVender"
 		:get-result-value="getResultValue"
         auto-select
         placeholder="Buscar un artículo"

@@ -24,15 +24,21 @@ class="footer">
 		<p class="title-footer">
 			Compañia
 		</p>
-		<p>
+		<a
+		target="_blank"
+		href="/preguntas-frecuentes">
 			¿Quienes somos?
-		</p>
-		<p>
+		</a>
+		<a
+		target="_blank"
+		href="/preguntas-frecuentes">
 			Contactanos
-		</p>
-		<p>
+		</a>
+		<a
+		target="_blank"
+		href="/preguntas-frecuentes">
 			Seguridad
-		</p>
+		</a>
 	</b-col>
 	<b-col
 	lg="3">
@@ -71,21 +77,26 @@ export default {
 @import '@/sass/_custom.scss'
 .footer 
 	background: $blue 
-	margin-top: -30px
+	// margin-top: -30px
 	margin-bottom: 0 !important
 	padding: 3em 0 1em
+	height: auto !important
 	border-radius: 1em 1em 0 0
 	[class^='col-']
 		@media screen and (max-width: 576px)
-			margin-bottom: 3em
+			margin-bottom: 1em
 	img 
 		width: 100px
-	p, i, a
+		@media screen and (max-width: 768px)
+			margin-bottom: 1.5em
+	a
 		color: rgba(255,255,255,.7)
 		cursor: pointer
 		background: none
-		display: flex
 		border: none
+		display: block
+		text-align: left
+		margin-bottom: 1em
 		&:hover 
 			color: #FFF
 			
@@ -97,6 +108,7 @@ export default {
 		display: flex
 		justify-content: flex-start
 		i 
+			color: rgba(255,255,255,.9)
 			font-size: 1.4em
 			padding-right: .7em
 	.cont-img 
@@ -107,7 +119,9 @@ export default {
 			width: 60px
 			margin-right: 1em
 	.col-copyright 
-		margin-top: 50px 
+		@media screen and (min-width: 576px)
+			margin-top: 50px 
 		font-size: .8em
+		display: block !important
 		color: rgba(255,255,255,.9)
 </style>

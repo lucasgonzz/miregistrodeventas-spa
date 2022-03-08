@@ -42,10 +42,12 @@ export default {
 				permission_slug = 'articles.store'
 			} else if (route == '/listado') {
 				permission_slug = 'articles.index'
-			} else if (route == '/ventas') {
+			} else if (route == '/ventas' || route == '/ventas-completas') {
 				permission_slug = 'sales.index'
 			} else if (route == '/empleados') {
 				permission_slug = 'employees'
+			} else if (route == '/configuracion') {
+				permission_slug = 'configuration'
 			} else if (route.includes('tienda-online')) {
 				if (route.includes('pedidos')) {
 					permission_slug = 'online.orders'
@@ -59,10 +61,13 @@ export default {
 					permission_slug = 'online.cupons'
 				}
 			} else if (route.includes('super')) {
-				permission_slug = 'Super'
+				permission_slug = 'super'
 			}
 		    let has_permission = false
-		    if (permission_slug == 'Super' && this.user.status == 'super') {
+		    if (permission_slug == 'super' && this.user.status == 'super') {
+		        has_permission = true
+		    }
+		    if (permission_slug == 'configuration' && !this.user.owner_id) {
 		        has_permission = true
 		    }
 		    if (!has_permission) {

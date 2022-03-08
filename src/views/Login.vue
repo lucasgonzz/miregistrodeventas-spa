@@ -29,7 +29,7 @@
 						<b-form-input
 						id="name"
 						v-model="form.company_name"
-						@keydown.enter="login"
+						@keydown.enter="callLogin"
 						placeholder="Nombre de comercio"></b-form-input>
 					</b-form-group>
 					<b-form-group

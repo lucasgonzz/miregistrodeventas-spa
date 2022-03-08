@@ -1,66 +1,58 @@
 <template>
-<b-row
-id="register"
-class="row row-dark j-around">
-	<b-col
-	lg="5">
-		<h1 class="title text-left">
-			Organiza tu emprendimiento facil y rapido
-		</h1>
-		<h4
-		class="text-justify">
-			ComercioCity es el sistema donde cargas tu inventario y llevas el control de tus ventas. Con la posibilidad de conectarlo al 100% con una Tienda Online, controlando todo desde un solo lugar.
-		</h4>
-	</b-col>
-	<b-col
-	lg="5">
-		<b-form
-		class="s border-radius">
-			<p>
-				Comenza tu prueba gratis
-			</p>
-			<b-form-input
-			v-model="form.name"
-			placeholder="Nombre"></b-form-input>
-			<b-form-input
-			v-model="form.phone"
-			placeholder="Telefono"></b-form-input>
-			<b-form-input
-			v-model="form.email"
-			placeholder="Correo"></b-form-input>
-			<b-form-input
-			v-model="form.company_name"
-			placeholder="Nombre de la empresa"></b-form-input>
-			<b-form-input
-			type="password"
-			v-model="form.password"
-			placeholder="Contraseña"></b-form-input>
-			<b-form-group
-			label="Tipo de negocio">
-				<b-form-radio
-				value="provider"
-				name="commerce-type"
-				v-model="form.type">
-					Negocio minorista
-				</b-form-radio>
-				<b-form-radio
-				value="commerce"
-				name="commerce-type"
-				v-model="form.type">
-					Negocio mayorista
-				</b-form-radio>
-			</b-form-group>
-			<b-button
-			@click="register"
-			block
-			variant="primary">
-				<btn-loader
-				:loader="loading"
-				text="Comenzar prueba gratis"></btn-loader>
-			</b-button>
-		</b-form>
-	</b-col>
-</b-row>
+<div>
+	<b-row
+	id="register-form"
+	class="row row-dark j-around">
+		<b-col
+		lg="6">
+			<b-form
+			class="s border-radius">
+				<p>
+					¡Comenza tu prueba gratis por una semana!
+				</p>
+				<b-form-input
+				v-model="form.name"
+				placeholder="Nombre"></b-form-input>
+				<b-form-input
+				v-model="form.company_name"
+				placeholder="Nombre de la empresa"></b-form-input>
+				<b-form-input
+				v-model="form.phone"
+				placeholder="Telefono"></b-form-input>
+				<b-form-input
+				v-model="form.email"
+				placeholder="Correo"></b-form-input>
+				<b-form-input
+				type="password"
+				v-model="form.password"
+				placeholder="Contraseña"></b-form-input>
+				<b-form-group
+				label="Tipo de negocio">
+					<b-form-radio
+					value="provider"
+					name="commerce-type"
+					v-model="form.type">
+						Negocio minorista
+					</b-form-radio>
+					<b-form-radio
+					value="commerce"
+					name="commerce-type"
+					v-model="form.type">
+						Negocio mayorista
+					</b-form-radio>
+				</b-form-group>
+				<b-button
+				@click="register"
+				block
+				variant="primary"> 
+					<btn-loader
+					:loader="loading"
+					text="Comenzar prueba gratis"></btn-loader>
+				</b-button>
+			</b-form>
+		</b-col>
+	</b-row>
+</div>
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
@@ -85,31 +77,61 @@ export default {
 	},
 	methods: {
 		register() {
-			this.loading = true 
-			this.$axios.post('/users', this.form)
-			.then(res => {
-				this.login(this.form)
-				.then(() => {
+			if (this.check()) {
+				this.loading = true 
+				this.$axios.post('/users', this.form)
+				.then(res => {
+					this.login(this.form)
+					.then(() => {
+						this.loading = false
+					})
+				})
+				.catch(() => {
 					this.loading = false
 				})
-			})
-			.catch(() => {
-				this.loading = false
-			})
+			}
+		},
+		check() {
+			if (this.form.name == '') {
+				this.$toast.error('El nombre no puede quedar vacio')
+				return false
+			}
+			if (this.form.company_name == '') {
+				this.$toast.error('El nombre de la empresa no puede quedar vacio')
+				return false
+			}
+			if (this.form.phone == '') {
+				this.$toast.error('El telefono no puede quedar vacio')
+				return false
+			}
+			if (this.form.email == '') {
+				this.$toast.error('El correo no puede quedar vacio')
+				return false
+			}
+			if (this.form.password == '') {
+				this.$toast.error('La contraseña no puede quedar vacia')
+				return false
+			}
+			if (this.form.type == '') {
+				this.$toast.error('Seleccione un tipo de negocio')
+				return false
+			}
+			return true
 		}
 	}
 }
 </script>
 <style lang="sass">
-#register
+#register-form
+	height: auto !important
 	form 
+		background: #FFF
 		@media screen and (max-width: 576px)
 			padding: 1em
 			margin: 1em 0
 		@media screen and (min-width: 576px)
-			padding: 2em 3em
+			padding: 2em
 			margin: 2em 1em
-		background: #FFF
 		p 
 			text-align: center
 			font-weight: bold

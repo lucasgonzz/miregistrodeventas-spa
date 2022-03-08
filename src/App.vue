@@ -9,7 +9,7 @@
         <div
         v-else>
             <nav-component></nav-component>
-            <nav-home></nav-home>
+            <!-- <nav-home></nav-home> -->
             <b-container 
             :class="container_class"
             fluid>

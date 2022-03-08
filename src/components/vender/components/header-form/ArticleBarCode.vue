@@ -8,7 +8,7 @@
 		v-model="article.bar_code"
 		autocomplete="off" 
 		ref="articleBarCode"
-		@keydown.shift="vender"
+		@keydown.shift="callVender"
 		@keydown.enter="setArticleForSale"
 		placeholder="Ingrese el codigo de barras"></b-form-input>
 	</b-col>

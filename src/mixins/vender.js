@@ -40,6 +40,11 @@ export default {
 				console.log(article.price_for_sale)
 			})
 		},
+		callVender() {
+			if (!this.is_provider) {
+				this.vender()
+			}
+		},
         vender() {
         	if (this.articles_for_sale.length) {
 				this.$store.commit('articles/removeStock', this.articles_for_sale)

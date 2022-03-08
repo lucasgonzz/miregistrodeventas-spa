@@ -93,7 +93,7 @@ export default {
         search(input) {
             if (input.length < 1) { return [] }
             return this.clients.filter(client => {
-                return client.name.toLowerCase().startsWith(input.toLowerCase())
+                return client.name.toLowerCase().includes(input.toLowerCase())
             })
         },
         getResultValue(client) {

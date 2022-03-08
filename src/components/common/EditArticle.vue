@@ -310,7 +310,7 @@
 			</b-col>
 			<b-col
 			class="j-end"
-			v-if="can('with_dolar')"
+			v-if="can('articles.with_dolar')"
 			cols="12"
 			lg="6"> 
 				<with-dolar

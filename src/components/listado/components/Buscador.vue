@@ -58,6 +58,13 @@
 			<i class="icon-print"></i>
 			Listas de precios
 		</b-button>
+		<b-button
+		class="m-l-10" 
+		@click="ecxel"
+		variant="success">
+			<i class="icon-download"></i>
+			Ecxel
+		</b-button>
 		<!-- <a 
 		v-intro-step="2"
 		v-intro="'Exporta un exel de tus productos'"
@@ -119,10 +126,10 @@ export default {
 		}
 	},
 	methods: {
-        getExelLink() {
-            var link = process.env.VUE_APP_API_URL+'/articles/exel'
-            return link
-        },
+		ecxel() {
+            var link = process.env.VUE_APP_API_URL+'/articles/ecxel'
+            window.open(link)
+		},
 		selectAll() {
 			this.$store.commit('articles/setAllArticlesSelected', true)
 		},

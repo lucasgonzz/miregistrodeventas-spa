@@ -4,7 +4,11 @@
             <b-nav vertical>
                 <b-nav-item 
                 :to="{name: 'Login'}">
-                    Iniciar sesión
+                    <b-button
+                    variant="primary">
+                        <i class="icon-user"></i>
+                        Iniciar sesión
+                    </b-button>
                 </b-nav-item>
             </b-nav>
         </nav>
