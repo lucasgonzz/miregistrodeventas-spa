@@ -14,6 +14,7 @@ import Configuration from '../views/Configuration.vue'
 import Maps from '../views/Maps.vue'
 import PruebaTerminada from '../views/PruebaTerminada.vue'
 import PreguntasFrecuentes from '../views/PreguntasFrecuentes.vue'
+import Subscription from '../views/Subscription.vue'
 import store from '@/store'
 
 function hasPermissionTo(permission_name) {
@@ -104,7 +105,7 @@ Vue.use(VueRouter)
         component: Online,
     },
     {
-        path: '/configuracion',
+        path: '/configuracion/:view',
         name: 'Configuration',
         component: Configuration,
     },
@@ -122,6 +123,11 @@ Vue.use(VueRouter)
         path: '/preguntas-frecuentes',
         name: 'PreguntasFrecuentes',
         component: PreguntasFrecuentes
+    },
+    {
+        path: '/suscripcion/:view',
+        name: 'Subscription',
+        component: Subscription
     },
 
 ]

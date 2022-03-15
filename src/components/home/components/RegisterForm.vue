@@ -5,6 +5,9 @@
 	class="row row-dark j-around">
 		<b-col
 		lg="6">
+			<h1>
+				No cobramos licencia inicial, actualizaciones ni mantenimiento extra.
+			</h1>
 			<b-form
 			class="s border-radius">
 				<p>
@@ -123,7 +126,11 @@ export default {
 </script>
 <style lang="sass">
 #register-form
+	background: url('~@/assets/fondo burbujas azules.png') no-repeat center center 
+	background-size: cover
 	height: auto !important
+	h1 
+		font-size: 1.2em
 	form 
 		background: #FFF
 		@media screen and (max-width: 576px)

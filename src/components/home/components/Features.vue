@@ -6,7 +6,7 @@ class="row-dark j-center">
 	cols="11"
 	lg="6">
 		<h2
-		class="title">
+		class="title text-center">
 			Funcionalidades
 		</h2>
 		<!-- <p
@@ -17,7 +17,7 @@ class="row-dark j-center">
 		:items="features" :options="options">
 			<template v-slot:default="{ item }">
 				<div 
-				class="featured b-r-1">
+				class="featured s b-r-1">
 					<i :class="'icon-'+item.icon" class="text-primary"></i>
 					<p class="name">
 						{{ item.title }}
@@ -56,7 +56,7 @@ export default {
 					padding: 30,
 				},
 				position: {
-					start: 1,
+					start: 0,
 				},
 				navigation: {
 					// when to show navigation
@@ -103,15 +103,18 @@ export default {
 </script>
 <style lang="sass">
 #features
+	background: url('~@/assets/fondo burbujas azules.png') no-repeat center center 
+	background-size: cover
 	[class^='col-']
 		flex-direction: column
 
 .featured
+	background: #FFF
+	margin: auto
 	@media screen and (max-width: 992px)
-		width: 85%
-		margin: auto
+		width: 95%
 	@media screen and (min-width: 992px)
-		width: 100%
+		width: 80%
 		// width: 300px
 	// @media screen and (max-width: 768px)
 	padding: 1em

@@ -32,6 +32,7 @@ import icons from './icons'
 import title from './title'
 import brands from './brands'
 import sizes from './sizes'
+import plans from './plans'
 import _super from './super'
 
 Vue.use(Vuex)
@@ -82,6 +83,7 @@ export default new Vuex.Store({
 		title,
 		brands,
 		sizes,
+		plans,
 		super: _super,
 	}
 })

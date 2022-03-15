@@ -155,6 +155,7 @@ export default {
 	},
 	watch: {
 		all_articles_selected() {
+			console.log('watch de all_articles_selected')
 			if (this.all_articles_selected) {
 				this.$refs.articlesTable.selectAllRows()
 			} else {

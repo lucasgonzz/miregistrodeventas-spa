@@ -21,6 +21,11 @@
                     Funcionalidades
                 </div>
                 <div
+                v-scroll-to="'#online-store'"
+                class="m-r-15 btn-left">
+                    Tienda Online
+                </div>
+                <div
                 v-scroll-to="'#payment-plans'"
                 class="m-r-15 btn-left">
                     Precios
@@ -58,8 +63,12 @@ export default {
 .nav-home  
     background: #FFF
     width: 100%
-    height: 15vh
-    padding: 0 2em !important
+    @media screen and (max-width: 576px)
+        height: 10vh
+        padding: 0 1em !important
+    @media screen and (min-width: 576px)
+        padding: 0 2em !important
+        height: 15vh
     .btn-left 
         display: inline-block
         padding: 0 1em

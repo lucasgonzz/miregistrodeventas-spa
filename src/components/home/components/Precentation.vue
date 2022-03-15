@@ -1,19 +1,18 @@
 <template>
 	<b-row
-	:style="{ backgroundImage: 'url(' + require('@/assets/fondo burbujas azules.png') + ')' }"
 	id="precentation">
 		<b-col
 		cols="12"
-		lg="6">
+		lg="4">
 			<h2
 			class="title">
 				Sistema de administracion y contabilidad online
 			</h2>
-			<h5>
-				Conoce como ingresar en ComecioCity y como usarlo.
-			</h5>
+			<p>
+				Conoce como ingresar en ComecioCity y como usarlo a traves de sus 5 secciones.
+			</p>
 			<video 
-			class="d-lg-none"
+			class="s b-r-1 d-lg-none"
 			controls>
 				<source src="@/assets/presentacion.mp4" type="video/mp4">
 				Su navegador no soporta este video.
@@ -23,7 +22,9 @@
 		class="col-video d-none d-lg-flex"
 		cols="12"
 		lg="6">
-			<video controls>
+			<video 
+			class="s b-r-1"
+			controls>
 				<source src="@/assets/presentacion.mp4" type="video/mp4">
 				Su navegador no soporta este video.
 			</video>
@@ -43,3 +44,8 @@ export default {
 	},
 }
 </script>
+<style lang="sass">
+#precentation
+	background: url('~@/assets/fondo cuadrados azules.png') no-repeat center center 
+	background-size: cover
+</style>

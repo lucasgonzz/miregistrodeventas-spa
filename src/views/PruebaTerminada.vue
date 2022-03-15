@@ -1,57 +1,21 @@
 <template>
-<b-container fluid>
-	<b-row class="j-center">
-		<b-col cols="12" md="6">
-			<b-card header="Prueba terminada">
-				<b-card-text>
-					Hola {{ user.name }}, tu prueba de miregistrodeventas.com ha caducado, si te resulto de utilidad cliquea en contratar para seguir utilizando el servicio.
-				</b-card-text>
-				<template v-slot:footer>
-					<b-button
-					variant="success"
-					size="lg"
-					@click="contratar">
-						<btn-loader :loading="loading"></btn-loader>
-						Contratar
-					</b-button>
-				</template>
-			</b-card>
-		</b-col>
-	</b-row>
-</b-container>
+<b-row >
+	<b-col 
+	md="6">
+		<b-card 
+		class="shadow-1 b-r-1"
+		title="Prueba terminada">
+			<p>
+				Hola {{ user.name }}, tu prueba de ComercioCity ha caducado, si te sentiste cómodo en nuestra plataforma nos gustaría invitarte a que te invitamos a que te suscribas, presionando el botón de abajo vas a poder elegir el plan que mejor se adapte a tus necesidades.
+			</p>
+			<b-button
+			block
+			:to="{ name: 'Subscription', params: { view: 'plan' } }"
+			variant="primary">
+				<i class="icon-right"></i>
+				Elegir Plan
+			</b-button>
+		</b-card>
+	</b-col>
+</b-row>
 </template>
-<script>
-import BtnLoader from '@/components/common/BtnLoader'
-export default {
-	components: {
-		BtnLoader
-	},
-	data() {
-		return {
-			loading: false
-		}
-	},
-	computed: {
-		user() {
-			return this.$store.getters['auth/user']
-		}
-	},
-	methods: {
-		contratar() {
-			this.loading = true
-			this.$api.get('user/trial/contratar-servicio')
-			.then(() => {
-				this.$store.dispatch('auth/me')
-				.then(() => {
-					this.loading = false
-					this.$router.replace('/')
-				})
-			})
-			.catch(err => {
-				this.loading = false
-				console.log(err)
-			})
-		}
-	}
-}
-</script>

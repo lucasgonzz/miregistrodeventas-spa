@@ -73,14 +73,14 @@
 							{{ text_change }}
 						</b-button>
 					</b-form-group>
-					<b-form-group>
+					<!-- <b-form-group>
 						<b-button
 						size="sm"
 						v-b-modal="'register'"
 						variant="link">
 							¿No tenes cuenta? Registrate
 						</b-button>
-					</b-form-group>
+					</b-form-group> -->
 				</div>
 			</b-card>
 		</b-col>

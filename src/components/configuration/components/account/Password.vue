@@ -1,6 +1,6 @@
 <template>
 <b-card 
-class="s m-b-15"
+class="shadow-5 b-r-1"
 title="Actualizar contraseña">
 	<b-form-group
 	label="Contraseña actual"
@@ -9,7 +9,7 @@ title="Actualizar contraseña">
 		id="current-password"
 		v-model="form.current_password"
 		@keyup.enter="updatePassword"
-		placeholder="Ingrese la contraseña actual"></b-form-input>
+		placeholder="Ingrese la contraasdseña actual"></b-form-input>
 	</b-form-group>
 	<b-form-group
 	label="Nueva contraseña"

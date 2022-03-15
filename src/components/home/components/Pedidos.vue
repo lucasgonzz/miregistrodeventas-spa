@@ -1,10 +1,9 @@
 <template>
 	<b-row
-	id="pedidos"
-	class="online-store">
+	id="pedidos">
 		<b-col
 		cols="12"
-		lg="6">
+		lg="4">
 			<h2
 			class="title">
 				¿Como se atienden los pedidos?
@@ -23,7 +22,9 @@
 		class="col-video d-none d-lg-flex"
 		cols="12"
 		lg="6">
-			<video controls>
+			<video 
+			class="b-r-1 s"
+			controls>
 				<source src="@/assets/pedidos.mp4" type="video/mp4">
 				Su navegador no soporta este video.
 			</video>
@@ -44,8 +45,7 @@ export default {
 }
 </script>
 <style lang="sass">
-.online-store
-	h5 
-		text-align: justify
-		margin: 2em 0 
+#pedidos
+	background: url('~@/assets/fondo burbujas azules.png') no-repeat center center 
+	background-size: cover
 </style>

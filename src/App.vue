@@ -9,10 +9,17 @@
         <div
         v-else>
             <nav-component></nav-component>
-            <!-- <nav-home></nav-home> -->
             <b-container 
             :class="container_class"
             fluid>
+                <b-button
+                v-if="new_version"
+                @click="refreshApp"
+                class="m-b-20"
+                variant="success">
+                    <i class="icon-download"></i>
+                    Hay una nueva version disponible, click para actualizar
+                </b-button>
                 <transition name="fade" mode="out-in">
                     <router-view/>
                 </transition>
@@ -65,36 +72,38 @@ export default {
             this.setView()
         },
         authenticated() {
-            if (this.authenticated) {
+            if (this.authenticated && this.$route.name != 'Subscription') {
                 console.log('watch de authenticated')
                 this.callMethods()
-                // if (this.isUserExpire()) {
-                //     console.log('vencido')
-                // } else {
-                //     this.callMethods()
-                // }
-            }
+            } 
         }
     },
     created() {
-        console.log('se creo app')
+        console.log('App version 3')
+        document.addEventListener(
+            'swUpdated', this.showRefreshUI, { once: true }
+        );
         this.redirectIfWww()
         this.$store.dispatch('auth/me')
         .then(() => {
-            console.log('termino auth/me')
             this.setView()
+            this.$store.dispatch('plans/getPlans')
         })
     },
     data() {
         return {
-            loading_message: ''
+            loading_message: '',
+            new_version: false,
         }
     },
     methods: {
-        isUserExpire() {
-            console.log(new Date(this.user.expire_at))
-            console.log(new Date())
-            return this.user.expired_at && date(this.user.expired_at) >= date()
+        showRefreshUI (e) {
+            console.log('Se recibio el evento desde App.vue')
+            this.new_version = true
+        },
+        refreshApp () {
+            console.log('Se llamo refreshApp.')
+            location.reload(true)
         },
         redirectIfWww() {
             if (location.href.indexOf("www.") > -1) {
@@ -104,14 +113,12 @@ export default {
         },
         setView() {
             if (!this.authenticated) {
-                console.log('setView sin auth')
                 if (this.$route.name != 'PreguntasFrecuentes') {
                     if (this.$route.name != 'Home' && this.$route.name != 'Login') {
                         this.$router.push({name: 'Home'})
                     }
                 }
             } else {
-                console.log('setView con auth')
                 let route = this.$route.path
                 if (route == '/' || 
                     route == '/login' || 
@@ -125,7 +132,9 @@ export default {
             if (this.user.status == 'super') {
                 this.$router.replace({name: 'Super', params: {view: 'usuarios'}})
             } else {
-                if (this.can('sales.store')) {
+                if (this.user.trial_expired) {
+                    route = '/prueba-terminada'
+                } else if (this.can('sales.store')) {
                     route = '/vender'
                 } else if (this.can('articles.store')) {
                     route = '/ingresar'

@@ -1,6 +1,7 @@
 <template>
-	<div
-	class="title-image">
+	<b-card 
+	class="shadow-5 b-r-1 title-image"
+	title="Imagen principal">
 		<b-form-input
 		class="m-b-15"
 		v-model="title.header"
@@ -10,9 +11,10 @@
 		v-model="title.lead"
 		placeholder="Texto"></b-form-textarea>
 		<div
+		class="cont-img"
 		v-if="title.image_url">
 			<img 
-			class="m-b-15"
+			class="s"
 			:src="imageUrl(title.image_url)">
 			<b-button 
 			@click="uploadTitlePhoto()"
@@ -26,10 +28,12 @@
 		variant="primary">
 			Subir imagen
 		</b-button>
-		<b-form-input
-		class="m-t-15"
-		v-model="title.color"
-		placeholder="Color"></b-form-input>
+		<b-form-group
+		label="Color de fondo">
+			<b-form-input	
+			v-model="title.color"
+			placeholder="Color"></b-form-input>
+		</b-form-group>
 		<b-button 
 		block
 		class="m-t-15"
@@ -39,7 +43,7 @@
 			:loader="loading"
 			text="Actualizar"></btn-loader>
 		</b-button>
-	</div>
+	</b-card>
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
@@ -77,6 +81,10 @@ export default {
 </script>
 <style lang="sass">
 .title-image
-	img 	
-		width: 100%
+	.cont-img 
+		display: flex
+		justify-content: space-around
+		align-items: center
+		img 	
+			width: 50%
 </style>

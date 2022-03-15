@@ -27,6 +27,7 @@ export default {
                     this.$store.commit('clients/current_acounts/setClient', sale.client)
                 }
                 this.$store.dispatch('clients/current_acounts/getCurrentAcounts')
+                this.$store.commit('clients/current_acounts/setSelected', [])
                 this.$bvModal.show('current-acounts')
             } 
         },

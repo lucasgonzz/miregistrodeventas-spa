@@ -64,7 +64,7 @@ v-if="show_nav">
                     {{ user.name }}
                 </template>
                 <b-dropdown-item
-                :to="{name: 'Configuration'}">
+                :to="{name: 'Configuration', params: {view: 'cuenta'}}">
                     <i class="icon-config"></i>
                     Configuracion
                 </b-dropdown-item>

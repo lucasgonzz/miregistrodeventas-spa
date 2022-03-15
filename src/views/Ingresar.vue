@@ -9,6 +9,9 @@
 	<create-brand></create-brand>
 	<edit-brand></edit-brand>
 	<brands></brands>
+	<create-condition></create-condition>
+	<edit-condition></edit-condition>
+	<conditions></conditions>
 	<create-category></create-category>
 	<create-sub-category></create-sub-category>
 	<categories
@@ -93,6 +96,9 @@ import CreateSpecialPrice from '../components/ingresar/modals/special-prices/Cre
 import Brands from '../components/ingresar/modals/brands/Index.vue'
 import CreateBrand from '../components/ingresar/modals/brands/Create.vue'
 import EditBrand from '../components/ingresar/modals/brands/Edit.vue'
+import Conditions from '../components/ingresar/modals/conditions/Index.vue'
+import EditCondition from '../components/ingresar/modals/conditions/Edit.vue'
+import CreateCondition from '../components/ingresar/modals/conditions/Create.vue'
 import EditArticle from '../components/common/EditArticle.vue'
 import PrintTickets from '../components/ingresar/modals/PrintTickets.vue'
 import BarCodes from '../components/ingresar/modals/BarCodes.vue'
@@ -134,6 +140,9 @@ export default {
 		Brands,
 		CreateBrand,
 		EditBrand,
+		Conditions,
+		CreateCondition,
+		EditCondition,
 		EditArticle,
 		PrintTickets,
 		BarCodes,

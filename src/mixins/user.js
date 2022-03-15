@@ -46,8 +46,12 @@ export default {
 				permission_slug = 'sales.index'
 			} else if (route == '/empleados') {
 				permission_slug = 'employees'
-			} else if (route == '/configuracion') {
+			} else if (route.includes('configuracion')) {
 				permission_slug = 'configuration'
+			} else if (route == '/mapa') {
+				permission_slug = 'maps'
+			} else if (route.includes('suscripcion')) {
+				permission_slug = 'susbcription'
 			} else if (route.includes('tienda-online')) {
 				if (route.includes('pedidos')) {
 					permission_slug = 'online.orders'
@@ -63,16 +67,26 @@ export default {
 			} else if (route.includes('super')) {
 				permission_slug = 'super'
 			}
+
 		    let has_permission = false
 		    if (permission_slug == 'super' && this.user.status == 'super') {
 		        has_permission = true
 		    }
-		    if (permission_slug == 'configuration' && !this.user.owner_id) {
+
+		    if ((permission_slug == 'configuration' || permission_slug == 'maps' || permission_slug == 'susbcription') && !this.user.owner_id) {
 		        has_permission = true
 		    }
 		    if (!has_permission) {
 		        has_permission = this.hasPermissionTo(permission_slug)
 		    }
+
+		    if (this.user.trial_expired) {
+		        has_permission = false
+		    	if (permission_slug == 'susbcription' || route == '/prueba-terminada') {
+		        	has_permission = true
+		    	}
+		    }
+
 		    has_permission ? console.log('tiene permiso') : console.log('no tiene permiso')
 		    return has_permission
 		},

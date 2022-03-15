@@ -19,7 +19,16 @@ export default {
 				return p.id == value.id
 			})
 			state.prices_lists.splice(index, 1)
-		}
+		},
+		update(state, value) {
+			let index 
+			index = state.prices_lists.findIndex(prices_list => {
+				return prices_list.id == value.id
+			})
+			if (index != -1) {
+				state.prices_lists.splice(index, 1, value)
+			}
+		},
 	},
 	actions: {
 		getPircesLists({ commit }) {

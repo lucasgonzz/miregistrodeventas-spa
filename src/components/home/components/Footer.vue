@@ -4,7 +4,10 @@ v-animate-onscroll="{down: 'animated fadeInUp'}"
 class="footer">
 	<b-col
 	lg="3">
-        <img src="@/assets/logo blanco.png" alt="">
+        <img 
+		v-scroll-to="'#cont-first'"
+		class="c-p"
+        src="@/assets/logo blanco.png" alt="">
 	</b-col>
 	<b-col
 	cols="6"

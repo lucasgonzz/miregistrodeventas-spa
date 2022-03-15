@@ -16,7 +16,7 @@ export default {
 	position: absolute
 	bottom: 15px
 	width: 300px
-	height: 80px
+	height: 70px
 	padding: .5em
 	cursor: pointer
 	border-radius: 50% 
@@ -28,7 +28,7 @@ export default {
 .scroll-bottom::after 
 	content: ''
 	position: absolute
-	top: 40% 
+	top: 50% 
 	left: 50%
 	border: 2px solid #000 
 	height: 10px
@@ -38,7 +38,7 @@ export default {
 	border-left: transparent
 	animation: scroll-down 1s ease-in-out infinite
 .scroll-bottom::after 
-	top: 50%
+	top: 60%
 @keyframes scroll-down 
 	0%
 		opacity: 0

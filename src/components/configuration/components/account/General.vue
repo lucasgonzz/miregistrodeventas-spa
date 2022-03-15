@@ -1,34 +1,34 @@
 <template>
-<b-card
-class="s m-b-15"
-title="Cuenta">
-	<b-form-group
-	label="Nombre"
-	label-for="name">
-		<b-form-input
-		id="name"
-		v-model="user.name"
-		@keyup.enter="updateUser"></b-form-input>
-	</b-form-group>
-	<b-form-group
-	label="Nombre del comercio"
-	label-for="company-name">
-		<b-form-input
-		id="company-name"
-		v-model="user.company_name"
-		@keyup.enter="updateUser"></b-form-input>
-	</b-form-group>
-	<b-form-group>
-		<b-button
-		block
-		variant="primary"
-		@click="updateUser">
-			<btn-loader
-			text="Actualizar" 
-			:loader="loading"></btn-loader>
-		</b-button>
-	</b-form-group>
-</b-card>
+	<b-card
+	class="shadow-5 b-r-1"
+	title="Cuenta">
+		<b-form-group
+		label="Nombre"
+		label-for="name">
+			<b-form-input
+			id="name"
+			v-model="user.name"
+			@keyup.enter="updateUser"></b-form-input>
+		</b-form-group>
+		<b-form-group
+		label="Nombre del comercio"
+		label-for="company-name">
+			<b-form-input
+			id="company-name"
+			v-model="user.company_name"
+			@keyup.enter="updateUser"></b-form-input>
+		</b-form-group>
+		<b-form-group>
+			<b-button
+			block
+			variant="primary"
+			@click="updateUser">
+				<btn-loader
+				text="Actualizar" 
+				:loader="loading"></btn-loader>
+			</b-button>
+		</b-form-group>
+	</b-card>
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'

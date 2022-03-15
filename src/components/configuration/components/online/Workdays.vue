@@ -1,14 +1,13 @@
 <template>
-	<div>
-		<p>
-			Horarios del comerico
-		</p>
+	<b-card
+	class="shadow-5 b-r-1"
+	title="Horarios del comerico">
 		<ul class="horizontal-ul">
 			<li
 			v-for="workday in workdays"
 			:key="workday.id">
 				<b-card
-				class="workday shadow c-p"
+				class="workday shadow-1 b-r-1 c-p"
 				@click="updateWorkday(workday)">
 					<p
 					class="text-center">
@@ -33,33 +32,7 @@
 				</b-card>
 			</li>
 		</ul>
-		<!-- <div
-		class="cont-cards">
-			<b-card
-			class="workday shadow c-p"
-			@click="updateWorkday(workday)"
-			v-for="workday in workdays"
-			:key="workday.id">
-				<p>
-					<strong>
-						{{ workday.name }}
-					</strong>
-				</p>
-				<hr>
-				<div
-				v-if="workday.schedules.length">
-					<p
-					v-for="schedule in workday.schedules">
-						{{ schedule.name }}
-					</p>
-				</div>
-				<p
-				v-else>
-					Sin horarios
-				</p>
-			</b-card>
-		</div> -->
-	</div>
+	</b-card>
 </template>
 <script>
 export default {

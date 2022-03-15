@@ -1,9 +1,7 @@
 <template>
-	<div
-	class="m-t-15 m-b-15">
-		<p>
-			Direcciones
-		</p>
+	<b-card
+	class="shadow-5 b-r-1"
+	title="Direcciones">
 		<b-table
 		responsive
 		head-variant="dark" 
@@ -32,7 +30,7 @@
 				Agregar direccion
 			</b-button>
 		</div>
-	</div>
+	</b-card>
 </template>
 <script>
 export default {

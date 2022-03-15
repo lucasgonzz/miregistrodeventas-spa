@@ -7,8 +7,12 @@ if (process.env.NODE_ENV === 'production') {
     ready () {
       console.log('Se cargo desde cache.')
     },
-    registered () {
+    registered (registration) {
       console.log('Service worker has been registered.')
+      setTimeout(() => {
+          console.log('Buscando actualizacion')
+          registration.update()
+      }, 1000 * 60)
     },
     cached () {
       console.log('Content has been cached for offline use.')
@@ -16,9 +20,12 @@ if (process.env.NODE_ENV === 'production') {
     updatefound () {
       console.log('New content is downloading.')
     },
-    updated () {
+    updated (registration) {
       console.log('New content is available; please refresh.')
-      location.reload()
+      document.dispatchEvent(
+          new CustomEvent('swUpdated', { detail: registration })
+      )
+      console.log('Se lanzo evento')
     },
     offline () {
       console.log('No internet connection found. App is running in offline mode.')

@@ -15,14 +15,24 @@ export default {
 		hour_from_time(d) {
 			return moment(d, 'HH:mm:ss').format('HH:mm')
 		},
-		price(p) {
+		price(p, with_decimals = true) {
 			if (p === null) {
 				return '-'
 			}
 			if (typeof p == 'undefined') {
 				return '-'
 			}
-			return numeral(p).format('$0,0.00')
+			let price = numeral(p).format('$0,0.00')
+			price = price.replace(',', '-')
+			price = price.replace('.', ',')
+			price = price.replace('-', '.')
+			if (with_decimals) {
+				return price
+			} else {
+				if (price.substr(price.length-2, price.length) == '00') {
+					return price.substr(0, price.length-3)
+				}
+			}
 		},
 		getMonth(d) {
 			return moment(d).format('MMM')

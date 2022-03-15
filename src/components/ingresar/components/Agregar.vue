@@ -21,6 +21,11 @@
 			Marcas
 		</b-dropdown-item>
 		<b-dropdown-item
+		v-if="can('conditions')"
+		v-b-modal="'conditions'">
+			Condiciones
+		</b-dropdown-item>
+		<b-dropdown-item
 		v-if="can('special_prices')"
 		v-b-modal="'special-prices'">
 			Precios especiales
