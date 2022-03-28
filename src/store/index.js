@@ -29,13 +29,15 @@ import workdays from './workdays'
 import schedules from './schedules'
 import prices_lists from './prices_lists'
 import icons from './icons'
-import title from './title'
+import titles from './titles'
 import brands from './brands'
 import sizes from './sizes'
 import plans from './plans'
+import ivas from './ivas'
 import _super from './super'
 
 Vue.use(Vuex)
+Vue.config.devtools = true
 
 import axios from 'axios'
 axios.defaults.withCredentials = true
@@ -80,10 +82,11 @@ export default new Vuex.Store({
 		schedules,
 		prices_lists,
 		icons,
-		title,
+		titles,
 		brands,
 		sizes,
 		plans,
+		ivas,
 		super: _super,
 	}
 })

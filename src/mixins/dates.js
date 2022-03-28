@@ -23,9 +23,9 @@ export default {
 				return '-'
 			}
 			let price = numeral(p).format('$0,0.00')
-			price = price.replace(',', '-')
-			price = price.replace('.', ',')
-			price = price.replace('-', '.')
+			// price = price.replaceAll(',', '-')
+			// price = price.replace('.', ',')
+			// price = price.replaceAll('-', '.')
 			if (with_decimals) {
 				return price
 			} else {

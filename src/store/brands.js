@@ -6,6 +6,7 @@ export default {
 	state: {
 		brands: {},
 		edit: {},
+		delete: {},
 	},
 	mutations: {
 		setBrands(state, value) {
@@ -17,6 +18,15 @@ export default {
 		},
 		setEdit(state, value) {
 			state.edit = value
+		},
+		setDelete(state, value) {
+			state.delete = value
+		},
+		delete(state) {
+			let index = state.brands.findIndex(brand => {
+				return brand.id == state.delete.id
+			})
+			state.brands.splice(index, 1)
 		},
 		update(state, updated) {
 			let index = state.brands.findIndex(brand => {
@@ -34,6 +44,15 @@ export default {
 			.catch(err => {
 				console.log(err)
 			})
-		}
+		},
+		delete({ commit, state }) {
+			return axios.delete('api/brands/'+state.delete.id)
+			.then(res => {
+				commit('delete')
+			})
+			.catch(err => {
+				console.log(err)
+			})
+		},
 	}
 }

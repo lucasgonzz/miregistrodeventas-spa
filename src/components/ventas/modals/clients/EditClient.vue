@@ -18,6 +18,12 @@
 		placeholder="Ingresar direccion"
 		v-model="client.address"></b-form-input>
 	</b-form-group>
+    <b-form-group
+    label="Condicion frente al IVA">
+        <b-form-select
+        :options="options"
+        v-model="client.iva_id"></b-form-select>
+    </b-form-group>
 	<b-form-group
 	label="CUIT del cliente">
 		<b-form-input

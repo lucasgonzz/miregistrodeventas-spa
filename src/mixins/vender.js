@@ -48,7 +48,7 @@ export default {
         vender() {
         	if (this.articles_for_sale.length) {
 				this.$store.commit('articles/removeStock', this.articles_for_sale)
-	            this.$store.dispatch('vender/vender')
+                this.$store.dispatch('vender/vender', this.dolar_blue)
 	            .then(() => {
 		            this.$store.commit('vender/setDiscounts', [])
 		            this.$store.commit('vender/setSaleType', 1)
@@ -75,17 +75,11 @@ export default {
 				this.addArticleForSale(article)
 			}
 		},
-		addArticleAndSetTotal() {
-			this.$store.commit('vender/addArticle')
-			this.$store.commit('vender/setTotal')
-		},
 		addArticleForSale(article) {
 			this.$store.commit('vender/setArticleForSale', this.setOriginalPrice(article)) 
             if (this.is_provider) {
-            	console.log('aca')
                 document.getElementById('article-amount').focus()
             } else {
-            	console.log('aca2')
                 if (!this.isRepeat()) {
                     this.article_for_sale.amount = 1
                     this.addArticleToArticlesSale()
@@ -105,6 +99,10 @@ export default {
 				}
 				this.clearArticle()
 			}
+		},
+		addArticleAndSetTotal() {
+			this.$store.commit('vender/addArticle')
+			this.$store.commit('vender/setTotal')
 		},
 		isRegister(article) {
 			if (typeof article == 'undefined') {
@@ -172,8 +170,8 @@ export default {
 			return special_price_
 		},
 		setOriginalPrice(article) {
-			article.original_price = parseFloat(article.price)
-			article.price_for_sale = parseFloat(article.price)
+			article.original_price = this.articlePrice(article)
+			article.price_for_sale = this.articlePrice(article)
 			return article
 		},
 		clearVender() {

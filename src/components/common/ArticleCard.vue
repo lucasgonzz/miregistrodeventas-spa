@@ -32,7 +32,9 @@ export default {
 			if (this.article.variant) {
 				return this.imageCropedUrlFromVariant(this.article)
 			} else {
-				return this.articleImageUrl(this.article)
+				if (this.article.images.length) {
+					return this.articleImageUrl(this.article)
+				}
 			}
 		},
 		article_name() {

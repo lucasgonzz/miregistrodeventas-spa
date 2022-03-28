@@ -1,14 +1,16 @@
 <template>
 	<div>
 		<b-table
+		v-if="!loading"
 		:fields="fields"
+		head-variant="dark"
 		:items="items">
 			<template #cell(options)="data">
 				<b-button
 				size="sm"
 				variant="primary"
 				@click="editClient(clients_to_show[data.index])">
-					Editar
+					<i class="icon-edit"></i>
 				</b-button>
 				<b-button
 				v-if="clients_to_show[data.index].current_acounts_count == 0"
@@ -30,15 +32,25 @@
 				size="sm"
 				variant="danger"
 				@click="deleteClient(clients_to_show[data.index])">
-					Eliminar
+					<i class="icon-trash"></i>
 				</b-button>
 			</template>
 		</b-table>
-		<b-button
-		variant="primary"
-		@click="addClientsToShow">
-			Ver mas
-		</b-button>
+		<b-skeleton-table
+		v-else
+		:hide-header="false"
+		:rows="10"
+		:columns="6"
+		:table-props="{ bordered: true, striped: true }"
+		></b-skeleton-table>
+		<div class="j-center">
+			<b-button
+			variant="primary"
+			@click="addClientsToShow">
+				<i class="icon-down"></i>
+				Ver mas
+			</b-button>
+		</div>
 	</div>
 </template>
 <script>
@@ -47,6 +59,9 @@ export default {
 	name: 'ClientsList',
 	mixins: [Clients],
 	computed: {
+		loading() {
+			return this.$store.state.clients.loading
+		},
 		search_query() {
 			return this.$store.state.clients.search_query
 		},
@@ -56,6 +71,7 @@ export default {
 				{ key: 'surname', label: 'Apellido', class: 'text-center'},
 				{ key: 'address', label: 'Direccion', class: 'text-center'},
 				{ key: 'cuit', label: 'CUIT', class: 'text-center'},
+				{ key: 'iva', label: 'Iva', class: 'text-center'},
 				{ key: 'saldo', label: 'Saldo', class: 'text-center'},
 				{ key: 'options', label: 'Opciones', class: 'text-center'},
 			]
@@ -68,6 +84,7 @@ export default {
 					surname: client.surname,
 					address: client.address,
 					cuit: client.cuit,
+					iva: client.iva ? client.iva.name : '-',
 					saldo: this.price(client.saldo),
 				})
 			})

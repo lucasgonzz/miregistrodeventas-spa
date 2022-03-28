@@ -15,6 +15,14 @@
 				{{ plans[data.index].permissions.length }}
 			</b-button>
 		</template>
+		<template #cell(subscriptions)="data">
+			<b-button
+			@click="seeSubscriptions(plans[data.index])"
+			size="sm"
+			variant="primary">
+				<i class="icon-eye"></i>
+			</b-button>
+		</template>
 	</b-table>
 </template>
 <script>
@@ -38,6 +46,7 @@ export default {
 			return [
 				{ key: 'name', label: 'Nombre' },
 				{ key: 'permissions', label: 'Permisos' },
+				{ key: 'subscriptions', label: 'Suscripciones' },
 				{ key: 'options', label: 'Opciones' },
 			]
 		},
@@ -59,6 +68,10 @@ export default {
 			})
 			this.$store.commit('super/setPlanPermissions', plan)
 			this.$bvModal.show('plan-permissions')
+		},
+		seeSubscriptions(plan) {
+			this.$store.dispatch('super/getSubscriptionsFromPlan', plan)
+			this.$bvModal.show('plan-subscriptions')
 		}
 	}
 }

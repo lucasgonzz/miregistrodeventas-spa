@@ -19,7 +19,7 @@
 		right
 		variant="primary"
 		v-show="selected_articles.length"
-		:text="selected_articles.length+' articulos seleccionados'">
+		:text="selected_articles.length+' seleccionados'">
 			<b-dropdown-item
 			@click="selectAll">
 				<i class="icon-check"></i>
@@ -51,19 +51,28 @@
 				Eliminar
 			</b-dropdown-item>
 		</b-dropdown>
+		<b-dropdown
+		class="m-l-10" 
+		text="Mas"
+		right
+		variant="primary">
+			<b-dropdown-item
+			@click="excel">
+				<i class="icon-upload"></i>
+				Exportar Excel
+			</b-dropdown-item>
+			<b-dropdown-item
+			v-b-modal="'import-articles'">
+				<i class="icon-download"></i>
+				Importar Excel
+			</b-dropdown-item>
+		</b-dropdown>
 		<b-button
 		class="m-l-10" 
 		v-b-modal="'prices-lists'"
 		variant="primary">
 			<i class="icon-print"></i>
 			Listas de precios
-		</b-button>
-		<b-button
-		class="m-l-10" 
-		@click="ecxel"
-		variant="success">
-			<i class="icon-download"></i>
-			Ecxel
 		</b-button>
 		<!-- <a 
 		v-intro-step="2"
@@ -126,8 +135,8 @@ export default {
 		}
 	},
 	methods: {
-		ecxel() {
-            var link = process.env.VUE_APP_API_URL+'/articles/ecxel'
+		excel() {
+            var link = process.env.VUE_APP_API_URL+'/articles/excel/export'
             window.open(link)
 		},
 		selectAll() {

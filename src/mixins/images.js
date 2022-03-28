@@ -84,15 +84,15 @@ export default {
 			})
 			myCropWidget.open()
 		},
-		uploadTitlePhoto() {
+		uploadTitlePhoto(title) {
 			var myCropWidget = cloudinary.createUploadWidget(this.widget_info, (error, result) => { 
 				if (result.event == 'success') {
 					let image_url = result.info.path
-					this.$api.put(`/titles/image`, {
+					this.$api.put(`/titles/image/${title.id}`, {
 						image_url
 					})
 					.then(res => {
-						this.$store.commit('title/update', res.data.title)
+						this.$store.commit('titles/update', res.data.title)
 					})
 					.catch(err => {
 						console.log(err)

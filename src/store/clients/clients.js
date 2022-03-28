@@ -53,6 +53,9 @@ export default {
 			if (!value.seller_id) {
 				value.seller_id = 0
 			}
+			if (!value.iva_id) {
+				value.iva_id = 0
+			}
 			state.client_to_edit = value
 		},
 		setDelete(state, value) {

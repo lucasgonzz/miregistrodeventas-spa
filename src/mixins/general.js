@@ -6,7 +6,11 @@ export default {
         	return this.$store.state.auth.user
         },
         dolar_blue() {
-        	return this.$store.state.coins.dolar_blue
+        	let dolar = this.$store.state.coins.dolar_blue
+        	if (this.user.dolar_plus) {
+				dolar += Number(this.user.dolar_plus)
+			}
+			return dolar
         },
         current_page() {
             return this.$route.name
@@ -59,11 +63,16 @@ export default {
 			let price
 			if (from_pivot) {
 				price = article.pivot.price
+				if (article.pivot.with_dolar) {
+					let dolar = article.pivot.with_dolar
+					price = price * dolar
+				}
 			} else {
 				price = article.price
-			}
-			if (article.with_dolar) {
-				price = price * this.dolar_blue
+				if (article.with_dolar) {
+					let dolar = this.dolar_blue
+					price = price * dolar
+				}
 			}
 			if (formated) {
 				return this.price(price)

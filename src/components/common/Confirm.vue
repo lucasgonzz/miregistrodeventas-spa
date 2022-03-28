@@ -1,5 +1,5 @@
 <template>
-<b-modal id="confirm" hide-footer hide-header size="sm">
+<b-modal :id="id" hide-footer hide-header size="sm">
 	<p
 	class="text-center">
 		{{ text }}
@@ -8,7 +8,7 @@
 	block
 	class="m-b-0"
 	@click="confirm"
-	:variant="variant_color">
+	:variant="variant">
 		<btn-loader
 		:text="btn_text"
 		:loader="loading"></btn-loader>
@@ -18,14 +18,42 @@
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
 export default {
-	name: 'ConfirmDelete',
+	name: 'Confirm',
 	components: {
 		BtnLoader,
 	},
-	props: ['text', 'btn_text', 'variant_color', 'loading'],
+	data() {
+		return {
+			loading: false,
+		}
+	},
+	props: {
+		text: String,
+		action: String,
+		id: String,
+		toast: String,
+		btn_text: {
+			type: String,
+			default: 'Eliminar'
+		},
+		variant: {
+			type: String,
+			default: 'danger'
+		},
+	},
 	methods: {
 		confirm() {
-			this.$emit('confirm')
+			this.loading = true
+			this.$store.dispatch(this.action)
+			.then(() => {
+				this.loading = false
+				this.$toast.success(this.toast)
+				this.$bvModal.hide(this.id)
+			})
+			.catch(err => {
+				this.loading = false
+				console.log('aca')
+			})
 		},
 	}
 }

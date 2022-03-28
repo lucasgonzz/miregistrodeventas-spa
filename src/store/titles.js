@@ -4,21 +4,24 @@ axios.defaults.baseURL = process.env.VUE_APP_API_URL
 export default {
 	namespaced: true,
 	state: {
-		title: {},
+		titles: [],
 	},
 	mutations: {
-		setTitle(state, value) {
-			state.title = value
+		setTitles(state, value) {
+			state.titles = value
 		},
 		update(state, value) {
-			state.title = value
+			let index = state.titles.findIndex(t => {
+				return t.id == value.id
+			})
+			state.titles.splice(index, 1, value)
 		},
 	},
 	actions: {
-		getTitle({ commit }) {
+		getTitles({ commit }) {
 			return axios.get('api/titles')
 			.then(res => {
-				commit('setTitle', res.data.title)
+				commit('setTitles', res.data.titles)
 			})
 			.catch(err => {
 				console.log(err)

@@ -109,7 +109,7 @@ export default {
         vender() {
             if (!this.is_provider) {
                 this.$store.commit('vender/setDebt', this.debt)
-                this.$store.dispatch('vender/vender')
+                this.$store.dispatch('vender/vender', this.dolar_blue)
                 this.$store.commit('vender/setClient', null)
                 this.$bvModal.hide('clients')
                 this.without_debt = true

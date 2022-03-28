@@ -13,10 +13,10 @@
             :class="container_class"
             fluid>
                 <b-button
-                v-if="new_version"
+                v-if="new_version && current_page != 'Login'"
                 @click="refreshApp"
                 class="m-b-20"
-                variant="success">
+                variant="primary">
                     <i class="icon-download"></i>
                     Hay una nueva version disponible, click para actualizar
                 </b-button>
@@ -214,14 +214,16 @@ export default {
                     await this.$store.dispatch('brands/getBrands')
                 }
                 if (this.has_online) {
-                    this.loading_message = 'titulo'
-                    await this.$store.dispatch('title/getTitle')
+                    this.loading_message = 'titulos'
+                    await this.$store.dispatch('titles/getTitles')
                     this.loading_message = 'condiciones'
                     await this.$store.dispatch('conditions/getConditions')
                     this.loading_message = 'dias de trabajo'
                     await this.$store.dispatch('workdays/getWorkdays')
                     this.loading_message = 'horarios de trabajo'
                     await this.$store.dispatch('schedules/getSchedules')
+                    this.loading_message = 'iva'
+                    await this.$store.dispatch('ivas/getIvas')
                     this.getOrdersAndQuestions()
                     this.getBuyers()
                     this.getActiveCupons()

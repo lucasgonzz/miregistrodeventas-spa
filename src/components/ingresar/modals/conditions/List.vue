@@ -1,24 +1,33 @@
 <template>
-	<b-table
-	head-variant="dark"
-	:fields="fields"
-	:items="items">
-		<template #cell(options)="data">
-			<b-button
-			@click="edit(items[data.index])"
-			size="sm"
-			variant="primary">
-				Editar
-			</b-button>
-			<b-button
-			@click="deleteCondition(items[data.index])"
-			size="sm"
-			class="m-l-10"
-			variant="danger">
-				<i class="icon-trash"></i>
-			</b-button>
-		</template>
-	</b-table>
+	<div>
+		<b-table
+		v-if="conditions.length"
+		head-variant="dark"
+		:fields="fields"
+		:items="items">
+			<template #cell(options)="data">
+				<b-button
+				@click="edit(items[data.index])"
+				size="sm"
+				variant="primary">
+					Editar
+				</b-button>
+				<b-button
+				@click="deleteCondition(items[data.index])"
+				size="sm"
+				class="m-l-10"
+				variant="danger">
+					<i class="icon-trash"></i>
+				</b-button>
+			</template>
+		</b-table>
+		<p 
+		v-else
+		class="text-with-icon">
+			<i class="icon-not"></i>
+			No hay condiciones creadas
+		</p>
+	</div>
 </template>
 <script>
 export default {

@@ -28,10 +28,10 @@
 		</b-form-group>
 		<b-form-group
 		v-if="common_discounts.length"
-		label="Descuentos comunes"
-		v-for="discount in common_discounts"
-		:key="discount.id">
+		label="Descuentos comunes">
 			<b-form-checkbox
+			v-for="discount in common_discounts"
+			:key="discount.id"
 			:value="discount.id"
 			v-model="sale_discounts">
 				{{ discount.name }} {{ discount.percentage }}%

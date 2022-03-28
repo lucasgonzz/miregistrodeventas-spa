@@ -107,6 +107,16 @@ export default {
 			}
 	        return has_permission
 		},
+		hasSubscriptionAuthorized() {
+			if (!this.user.expired_at) {
+				if (this.user.subscription.status != 'authorized') {
+					console.log('hasSubscriptionAuthorized: false')
+					return false
+				} 
+			} 
+			console.log('hasSubscriptionAuthorized: true')
+			return true
+		},
 		isAdmin() {
 			return !this.user.owner_id 
 		},

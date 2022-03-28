@@ -21,6 +21,7 @@
 				ref="articleName"
 				v-show="article.bar_code == ''"
 				:search="search" 
+				@change="change"
 				:get-result-value="getResultValue"
 				placeholder="Buscar un artículo"
 				@submit="setSelectedArticle"></autocomplete>
@@ -56,6 +57,9 @@ export default {
 		changeToCost() {
 			document.getElementById('article-cost').focus()
 		},
+		change() {
+			this.setArticleName()
+		},
 		setSelectedArticle(article) {
 			if (article) {
 				let art = this.articles.find(art_ => {
@@ -64,10 +68,13 @@ export default {
 				this.$store.commit('articles/setEdit', this.setArticle(art))
 				this.$bvModal.show('edit-article')
 			} else {
-				let input = document.getElementsByClassName('autocomplete-input')[0]
-				this.article.name = input.value
+				this.setArticleName()
 				document.getElementById('article-cost').focus()
 			}
+		},
+		setArticleName() {
+			let input = document.getElementsByClassName('autocomplete-input')[0]
+			this.article.name = input.value
 		},
 		clearName() {
 			this.$refs.articleName.setValue('')

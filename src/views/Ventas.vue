@@ -1,11 +1,5 @@
 <template>
 <div id="ventas">	
-	<!-- <clients 
-	@salesFromClient="salesFromClient"></clients>
-	<sales-times 
-	@getSalesTimes="getSalesTimes"></sales-times>
-	<summary 
-	:sales="sales"></summary> -->
 	<delete-current-acount></delete-current-acount>
 	<discounts></discounts>
 	<create-discount></create-discount>
@@ -19,6 +13,7 @@
 	<clients></clients>
 	<edit-client></edit-client>
 	<delete-client></delete-client>
+	<import-clients></import-clients>
 	<sellers></sellers>
 	<create-seller></create-seller>
 	<saldo-inicial-client></saldo-inicial-client>
@@ -82,6 +77,7 @@ import PrintSales from '../components/ventas/modals/PrintSales.vue'
 import Clients from '../components/ventas/modals/clients/Index.vue'
 import EditClient from '../components/ventas/modals/clients/EditClient.vue'
 import DeleteClient from '../components/ventas/modals/clients/Delete.vue'
+import ImportClients from '../components/ventas/modals/clients/ImportClients.vue'
 import SaldoInicialClient from '../components/ventas/modals/clients/SaldoInicial.vue'
 import Commissioners from '../components/ventas/modals/commissioners/Index.vue'
 import Sellers from '../components/ventas/modals/sellers/Index.vue'
@@ -120,6 +116,7 @@ export default {
 		Clients,
 		EditClient,
 		DeleteClient,
+		ImportClients,
 		SaldoInicialClient,
 		Commissioners,
 		Sellers,

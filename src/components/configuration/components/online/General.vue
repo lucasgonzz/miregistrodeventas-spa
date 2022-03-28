@@ -47,6 +47,14 @@ title="Tienda Online">
 		@keyup.enter="updateUser"></b-form-input>
 	</b-form-group>
 	<hr>
+	<b-form-group
+	label="Plus en pesos para precios en dolares">
+		<b-form-input
+		type="number"
+		v-model="user.dolar_plus"
+		@keyup.enter="updateUser"></b-form-input>
+	</b-form-group>
+	<hr>
 	<b-button
 	block
 	variant="primary"

@@ -1,5 +1,6 @@
 <template>
 <div id="listado">	
+	<import-articles></import-articles>
 	<confirm-delete></confirm-delete>
 	<add-category></add-category>
 	<edit-article></edit-article>
@@ -26,6 +27,7 @@
 
 <script>
 // Modals
+import ImportArticles from '@/components/listado/modals/ImportArticles.vue'
 import ImagesCopy from '@/components/listado/modals/images/ImagesCopy.vue'
 import ArticleImages from '@/components/listado/modals/images/Index.vue'
 import ArticleImagesColors from '@/components/listado/modals/images/Colors.vue'
@@ -51,6 +53,7 @@ import InfoFiltrados from '../components/listado/components/InfoFiltrados.vue'
 			
 export default {
 	components: {
+		ImportArticles,
 		ArticlesPdf,
 		PricesLists,
 		CreatePricesList,

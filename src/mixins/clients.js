@@ -16,7 +16,18 @@ export default {
         },
         sellers() {
             return this.$store.state.sellers.sellers
-        }
+        },
+        ivas() {
+            return this.$store.state.ivas.ivas
+        },
+        options() {
+            let options = []
+            options.push({text: 'Seleccione iva', value: 0})
+            this.ivas.forEach(iva => {
+                options.push({text: iva.name, value: iva.id})
+            })
+            return options
+        },
 	},
     methods: {
         showCurrentAcounts(sale, is_client = false) {

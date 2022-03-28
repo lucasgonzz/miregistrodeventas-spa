@@ -5,7 +5,7 @@ class="footer">
 	<b-col
 	lg="3">
         <img 
-		v-scroll-to="'#cont-first'"
+		v-scroll-to="'#nav-home'"
 		class="c-p"
         src="@/assets/logo blanco.png" alt="">
 	</b-col>

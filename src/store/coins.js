@@ -9,7 +9,12 @@ export default {
 			let dolar_blue = value.find(data => {
 				return data.casa.nombre == "Dolar Blue"
 			})
-			state.dolar_blue = Number(dolar_blue.casa.venta.replace(',', '.'))
+			let compra = Number(dolar_blue.casa.compra.replace(',', '.'))
+			let venta = Number(dolar_blue.casa.venta.replace(',', '.'))
+			state.dolar_blue = (compra + venta) / 2
+			console.log('compra: '+compra)
+			console.log('venta: '+venta)
+			console.log('dolar blue: '+state.dolar_blue)
 		},
 	},
 	actions: {

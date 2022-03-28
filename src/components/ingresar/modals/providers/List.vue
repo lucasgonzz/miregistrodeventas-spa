@@ -7,7 +7,14 @@
 		striped
 		:fields="fields"
 		:items="items">
-			<template #cell(delete)="data">
+			<template #cell(options)="data">
+				<b-button
+				@click="editProvider(providers[data.index])"
+				size="sm"
+				class="m-r-10"
+				variant="primary">
+					<i class="icon-edit"></i>
+				</b-button>
 				<b-button
 				@click="deleteProvider(providers[data.index])"
 				size="sm"
@@ -43,7 +50,7 @@ export default {
 			return [
 				{ key: 'name', label: 'Nombre' },
 				{ key: 'address', label: 'Direccion' },
-				{ key: 'delete', label: 'Eliminar' },
+				{ key: 'options', label: 'Opciones' },
 			]
 		},
 		items() {
@@ -62,6 +69,10 @@ export default {
 			this.$store.commit('providers/setDelete', provider)
 			this.$bvModal.show('delete-provider')
 		},
+		editProvider(provider) {
+			this.$store.commit('providers/setEdit', provider)
+			this.$bvModal.show('edit-provider')
+		}
 	}
 }
 </script>

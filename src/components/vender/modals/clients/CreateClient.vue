@@ -26,6 +26,12 @@
             v-model="new_client.cuit"></b-form-input>
         </b-form-group>
         <b-form-group
+        label="Condicion frente al IVA">
+            <b-form-select
+            :options="options"
+            v-model="new_client.iva_id"></b-form-select>
+        </b-form-group>
+        <b-form-group
         v-if="is_provider"
         label="Vendedor">
             <b-form-select
@@ -61,6 +67,7 @@ export default {
                 surname: '',
                 address: '',
                 cuit: '',
+                iva_id: 0,
                 seller_id: 0,
             },
             saving_client: false,

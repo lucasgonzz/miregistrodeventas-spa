@@ -21,7 +21,6 @@ export default {
 			new_article.id = article.id
 			new_article.bar_code = article.bar_code
 			if (article.sub_category_id) {
-				console.log(article.sub_category_id)
 				new_article.sub_category_id = article.sub_category_id
 				new_article.sub_category = article.sub_category
 				new_article.category_id = article.sub_category.category_id
@@ -60,6 +59,7 @@ export default {
 			new_article.condition_id = article.condition_id
 			new_article.stock = this.stock(article, false)
 			new_article.with_dolar = article.with_dolar
+			console.log(new_article.with_dolar)
 			if (!this.is_provider && article.providers.length) {
 				new_article.provider_id = article.providers[0].id
 				new_article.providers = article.providers

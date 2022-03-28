@@ -4,6 +4,7 @@ export default {
 	state: {
 		conditions: [],
 		edit: {},
+		delete: {},
 	},
 	mutations: {
 		setConditions(state, value) {
@@ -14,6 +15,15 @@ export default {
 		},
 		setEdit(state, value) {
 			state.edit = value
+		},
+		setDelete(state, value) {
+			state.delete = value
+		},
+		delete(state) {
+			let index = state.conditions.findIndex(item => {
+				return item.id == state.delete.id
+			})
+			state.conditions.splice(index, 1)
 		},
 		update(state, updated) {
 			let index = state.conditions.findIndex(condition => {
@@ -31,6 +41,15 @@ export default {
 			.catch(err => {
 				console.log(err)
 			})
-		}
+		},
+		delete({ commit, state }) {
+			return axios.delete('api/conditions/'+state.delete.id)
+			.then(res => {
+				commit('delete')
+			})
+			.catch(err => {
+				console.log(err)
+			})
+		},
 	}
 }

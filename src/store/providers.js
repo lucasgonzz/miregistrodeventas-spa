@@ -7,7 +7,8 @@ export default {
 	namespaced: true,
 	state: {
 		providers: [],
-		provider_to_delete: {},
+		delete: {},
+		edit: {},
 		loading: false,
 	},
 	mutations: {
@@ -21,13 +22,22 @@ export default {
 			state.providers.unshift(value)
 		},
 		setDelete(state, value) {
-			state.provider_to_delete = value
+			state.delete = value
+		},
+		setEdit(state, value) {
+			state.edit = value
 		},
 		delete(state) {
 			let index = state.providers.findIndex(pro => {
-				return pro.id == state.provider_to_delete.id
+				return pro.id == state.delete.id
 			})
 			state.providers.splice(index, 1)
+		},
+		update(state, updated) {
+			let index = state.providers.findIndex(item => {
+				return item.id == updated.id
+			})
+			state.providers.splice(index, 1, updated)
 		},
 	},
 	actions: {
@@ -43,7 +53,16 @@ export default {
 				commit('setLoading', false)
 				console.log(err)
 			})
-		}
+		},
+		delete({ commit, state }) {
+			axios.delete('/api/providers/'+state.delete.id)
+			.then(() => {
+				commit('delete')
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+		},
 	},
 	modules: {
 	}

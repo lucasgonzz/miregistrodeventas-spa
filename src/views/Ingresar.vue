@@ -2,7 +2,6 @@
 <div id="ingresar">
 	<delete-category></delete-category>
 	<article-variants></article-variants>
-	<delete-provider></delete-provider>
 	<delete-special-price></delete-special-price>
 	<create-special-price></create-special-price>
 	<special-prices></special-prices>
@@ -21,6 +20,7 @@
 	<providers
 	@setArticleProvider="setArticleProvider"></providers>
 	<create-provider></create-provider>
+	<edit-provider></edit-provider>
 	<edit-article
 	@clearArticle="clearArticle"></edit-article>
 	<print-tickets :articles="articles_to_print"></print-tickets>
@@ -86,6 +86,7 @@ import DeleteCategory from '../components/ingresar/modals/categories/Delete.vue'
 import ArticleVariants from '../components/listado/modals/images/ArticleVariants.vue'
 import Providers from '../components/ingresar/modals/providers/Index.vue'
 import CreateProvider from '../components/ingresar/modals/providers/Create.vue'
+import EditProvider from '../components/ingresar/modals/providers/Edit.vue'
 import Categories from '../components/ingresar/modals/categories/Index.vue'
 import CreateCategory from '../components/ingresar/modals/categories/CreateCategory.vue'
 import CreateSubCategory from '../components/ingresar/modals/categories/CreateSubCategory.vue'
@@ -102,7 +103,6 @@ import CreateCondition from '../components/ingresar/modals/conditions/Create.vue
 import EditArticle from '../components/common/EditArticle.vue'
 import PrintTickets from '../components/ingresar/modals/PrintTickets.vue'
 import BarCodes from '../components/ingresar/modals/BarCodes.vue'
-import DeleteProvider from '../components/ingresar/modals/DeleteProvider.vue'
 import DeleteSpecialPrice from '../components/ingresar/modals/DeleteSpecialPrice.vue'
 
 // Components
@@ -130,6 +130,7 @@ export default {
 		ArticleVariants,
 		Providers,
 		CreateProvider,
+		EditProvider,
 		Categories,
 		CreateCategory,
 		CreateSubCategory,
@@ -146,7 +147,6 @@ export default {
 		EditArticle,
 		PrintTickets,
 		BarCodes,
-		DeleteProvider,
 		DeleteSpecialPrice,
 
 		// Uncontable,
@@ -280,18 +280,18 @@ export default {
 
 			// Controla que si no tiene codigo de barras no haya otro
 			// articulo sin codigo de barras con el mismo nombre
-			if (this.article.bar_code == '') {
-				if (this.articles.length) {
-					this.articles.forEach(article => {
-						if (article.name && article.name.toLowerCase() == this.article.name.toLowerCase() && ok) {
-							if (article.bar_code === null) {
-								ok = false
-								this.$toast.error('Ya hay un articulo con ese nombre y sin un codigo de barras, cambie el nombre o asignele un codigo de barras');
-							}
-						}
-					})
-				}
-			}
+			// if (this.article.bar_code == '') {
+			// 	if (this.articles.length) {
+			// 		this.articles.forEach(article => {
+			// 			if (article.name && article.name.toLowerCase() == this.article.name.toLowerCase() && ok) {
+			// 				if (article.bar_code === null) {
+			// 					ok = false
+			// 					this.$toast.error('Ya hay un articulo con ese nombre y sin un codigo de barras, cambie el nombre o asignele un codigo de barras');
+			// 				}
+			// 			}
+			// 		})
+			// 	}
+			// }
 			return ok
 		},
 

@@ -4,6 +4,7 @@ axios.defaults.baseURL = process.env.VUE_APP_API_URL
 import days_previus_sales from '@/store/sales/days_previus_sales'
 import clients from '@/store/sales/clients'
 import afip from '@/store/sales/afip'
+import general from '@/mixins/general'
 export default {
 	namespaced: true,
 	state: {
@@ -56,7 +57,8 @@ export default {
 					if (!article.pivot.cost || article.pivot.cost == 0) {
 						state.without_cost = true
 					}
-					total_sale += parseFloat(article.pivot.price) * article.pivot.amount
+					total_sale += general.methods.articlePrice(article, true, false) * article.pivot.amount
+					// total_sale += parseFloat(article.pivot.price) * article.pivot.amount
 					state.total_cost += parseFloat(article.pivot.cost) * article.pivot.amount
 					state.total_articles++
 				})

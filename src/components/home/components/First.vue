@@ -1,7 +1,7 @@
 <template>
 <div
 id="cont-first">
-   	<nav-home></nav-home>
+   	<!-- <nav-home></nav-home> -->
 	<b-row
 	id="first"
 	class="row">
@@ -72,6 +72,6 @@ export default {
 			width: 200px
 		@media screen and (min-width: 768px) and (max-width: 992px)
 			width: 300px
-		@media screen and (min-width: 992px) and (max-width: 1200px)
+		@media screen and (min-width: 992px) 
 			width: 350px
 </style>

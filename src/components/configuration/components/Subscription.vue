@@ -24,7 +24,7 @@ v-if="view == 'suscripcion'">
 	lg="8">
 		<b-button
 		variant="danger"
-		:to="{ name: 'Subscription', params: {view: 'plan'} }">
+		@click="baja">
 			Dar de baja mi suscripcion
 		</b-button>
 	</b-col>
@@ -37,6 +37,17 @@ export default {
 	mixins: [configuration],
 	components: {
 		Plan
+	},
+	methods: {
+		baja() {
+			this.$api.delete('subscriptions')
+			.then(() => {
+				location.reload()
+			})
+			.catch(err => {
+				console.log(err)
+			})
+		}
 	}
 }
 </script>

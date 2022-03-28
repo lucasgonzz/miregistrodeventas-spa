@@ -84,7 +84,7 @@ export default {
 	display: flex
 	flex-direction: column
 	overflow-y: scroll
-	padding: 1em
+	// padding: 1em
 	max-height: 100%
 .commerce-message
 	align-self: flex-end

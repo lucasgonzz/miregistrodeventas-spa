@@ -1,7 +1,7 @@
 <template>
 <div>
     <b-navbar 
-    class="nav-home"
+    id="nav-home"
     v-if="current_page == 'Home'"
     toggleable="lg">
         <b-navbar-brand>
@@ -60,7 +60,7 @@ export default {
 }
 </script>
 <style lang="sass">
-.nav-home  
+#nav-home  
     background: #FFF
     width: 100%
     @media screen and (max-width: 576px)

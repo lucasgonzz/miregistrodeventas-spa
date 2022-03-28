@@ -6,11 +6,13 @@ import previus_sales from '@/store/vender/previus_sales'
 import clients from '@/store/vender/clients'
 import auth from '@/store/auth'
 import mixin_vender from '@/mixins/vender'
+import general from '@/mixins/general'
 import percentage_card_mixin from '@/mixins/percentageCard'
 export default {
 	namespaced: true,
 	state: {
 		articles: [],
+		update_price: {},
 		article: {bar_code: '', amount: ''},
 		clear_article_name: false,
 		new_article: '',
@@ -41,6 +43,9 @@ export default {
 			state.article.bar_code = ''
 			state.article.amount = ''
 		},
+		setUpdatePrice(state, value) {
+			state.update_price = value
+		},
 		setNewArticle(state, value) {
 			state.new_article = value
 		},
@@ -52,6 +57,12 @@ export default {
 		},
 		setArticleForSale(state, value) {
 			state.article_for_sale = value
+		},
+		removeArticleFromSale(state, value) {
+			let index = state.articles.findIndex(art => {
+				return art.id == value.id
+			})
+			state.articles.splice(index, 1)
 		},
 		setVendiendo(state, value) {
 			state.vendiendo = value
@@ -93,6 +104,9 @@ export default {
 					} else {
 						price = mixin_vender.methods.getSpecialPrice(article, state.special_price_id)
 					}
+					// if (article.with_dolar) {
+					// 	price =  
+					// }
 					state.total += price * article.amount
 				})
 				if (state.with_card) {
@@ -126,8 +140,11 @@ export default {
 		},
 	},
 	actions: {
-		vender({ commit, state }) {
+		vender({ commit, state }, dolar_blue) {
 			commit('setVendiendo', true)
+			console.log('dolar_blue en vender: ')
+			console.log(dolar_blue)
+			console.log(general.computed.dolar_blue)
 			return axios.post('/api/sales', {
 				articles: state.articles,
 				with_card: state.with_card,
@@ -136,6 +153,7 @@ export default {
 				special_price_id: state.special_price_id,
 				discounts: state.discounts,
 				sale_type: state.sale_type,
+				dolar_blue,
 			})
 			.then(res => {
 				console.log('vendiendo')
