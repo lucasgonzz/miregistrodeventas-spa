@@ -29,7 +29,7 @@ export default {
 	},
 	props: {
 		text: String,
-		action: String,
+		actions: Array,
 		id: String,
 		toast: String,
 		btn_text: {
@@ -42,18 +42,21 @@ export default {
 		},
 	},
 	methods: {
-		confirm() {
+		async confirm() {
+			let action_index = 0
 			this.loading = true
-			this.$store.dispatch(this.action)
-			.then(() => {
-				this.loading = false
-				this.$toast.success(this.toast)
-				this.$bvModal.hide(this.id)
-			})
-			.catch(err => {
-				this.loading = false
-				console.log('aca')
-			})
+			while (this.actions[action_index] !== undefined) {
+				console.log('actions['+action_index+']')
+				let res = await this.$store.dispatch(this.actions[action_index])
+				action_index++
+				if (this.actions[action_index] === undefined) {
+					console.log('termino en actions['+action_index+']')
+					this.loading = false
+					this.$toast.success(this.toast)
+					this.$bvModal.hide(this.id)
+				}
+				
+			}
 		},
 	}
 }

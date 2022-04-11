@@ -30,6 +30,15 @@ export default {
         },
 	},
     methods: {
+        updateClient(client) {
+            this.$api.get('clients/'+client.id)
+            .then(res => {
+                this.$store.commit('clients/update', res.data.client)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+        },
         showCurrentAcounts(sale, is_client = false) {
             if (sale.client || is_client) {
                 if (is_client) {

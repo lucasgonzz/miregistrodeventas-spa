@@ -1,12 +1,27 @@
 <template>
 <b-modal v-if="client" id="current-acounts-pago" title="Pago" hide-footer>
+    <b-form-group
+    label="Fecha del pago">
+        <b-form-checkbox
+        :value="true"
+        :unchecked-value="false"
+        v-model="pago.current_date">
+            Dia de hoy
+        </b-form-checkbox>
+        <b-form-datepicker
+        class="m-t-10"
+        placeholder="Ingrese la fecha en la que se hizo el pago"
+        v-if="!pago.current_date"
+        v-model="pago.created_at">
+        </b-form-datepicker>
+    </b-form-group>
     <b-form-group>
-    	<b-form-input
-    	type="number"
-    	min="0"
+        <b-form-input
+        type="number"
+        min="0"
         @keydown.enter="hacerPago"
-    	:placeholder="placeholder"
-    	v-model="pago"></b-form-input>
+        :placeholder="placeholder"
+        v-model="pago.monto"></b-form-input>
     </b-form-group>
     <b-form-group>
     	<b-button
@@ -21,15 +36,24 @@
 </b-modal>
 </template>
 <script>
+import clients from '@/mixins/clients'
 import BtnLoader from '@/components/common/BtnLoader'
 export default {
 	name: 'CurrentAcountPago',
+    mixins: [clients],
     components: {
     	BtnLoader
     },
+    created() {
+        console.log('pago creado')   
+    },
     data() {
         return {
-        	pago: '',
+        	pago: {
+                current_date: true,
+                created_at: '',
+                monto: '',
+            },
         	loading: false,
         }
     },
@@ -49,7 +73,7 @@ export default {
     		this.loading = true
     		this.$api.post('/clients/pago', {
     			client_id: this.client.id,
-    			pago:      this.pago,
+    			...this.pago,
     		})
     		.then(res => {
                 // let client = this.client
@@ -60,7 +84,12 @@ export default {
     			this.loading = false
     			this.$toast.success('Pago registrado correctamente')
                 this.$bvModal.hide('current-acounts-pago')
-                this.pago = ''
+                this.updateClient(this.client)
+                this.pago = {
+                    current_date: true,
+                    created_at: '',
+                    monto: '',
+                }
     		})
     		.catch(err => {
     			this.loading = false

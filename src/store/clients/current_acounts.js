@@ -23,6 +23,12 @@ export default {
 		setDelete(state, value) {
 			state.delete = value
 		},
+		delete(state) {
+			let index = state.current_acounts.findIndex(c_a => {
+				return c_a.id == state.delete.id
+			})
+			state.current_acounts.splice(index, 1)
+		},
 		setUpdateDebe(state, value) {
 			state.update_debe = value
 		},
@@ -55,6 +61,24 @@ export default {
 			})
 			.catch(err => {
 				commit('setLoading', false)
+				console.log(err)
+			})
+		},
+		updateClient({ commit, state }) {
+			return axios.get('api/clients/'+state.client.id)
+			.then(res => {
+                commit('clients/update', res.data.client, {root: true})
+			})
+			.catch(err => {
+				console.log(err)
+			})
+		},
+		delete({ commit, state }) {
+			return axios.delete('api/current-acounts/'+state.delete.id)
+			.then(res => {
+				commit('delete')
+			})
+			.catch(err => {
 				console.log(err)
 			})
 		},

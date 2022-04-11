@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@caohenghu/vue-colorpicker": "^1.2.4",
     "@casl/ability": "^4.1.6",
     "@casl/vue": "^1.1.1",
     "@trevoreyre/autocomplete-vue": "^2.2.0",

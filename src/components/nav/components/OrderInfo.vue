@@ -2,7 +2,7 @@
 	<b-alert
 	class="alert-online c-p"
 	show
-	v-if="unconfirmed_orders_questions_length >= 1 && !is_online_view"
+	v-if="unconfirmed_orders_questions_calls_length >= 1 && !is_online_view"
 	variant="danger">
 		<div
 		@click="toOnline">
@@ -17,6 +17,10 @@
 			<h4 
 			v-if="messages_not_read">
 				{{ messages_title }}
+			</h4>
+			<h4 
+			v-if="calls.length">
+				{{ calls_title }}
 			</h4>
 		</div>
 	</b-alert>
@@ -49,9 +53,19 @@ export default {
 		messages_title() {
 			let title = this.messages_not_read+' '
 			if (this.messages_not_read == 1) {
-				title += ' pregunta'
+				title += ' mensaje'
 			} else {
-				title += ' preguntas'
+				title += ' mensajes'
+			}
+			title += ' sin responder'
+			return title
+		},
+		calls_title() {
+			let title = this.calls.length+' '
+			if (this.calls.length == 1) {
+				title += ' llamada'
+			} else {
+				title += ' llamadas'
 			}
 			title += ' sin responder'
 			return title
@@ -61,6 +75,9 @@ export default {
 		},
 		questions() {
 			return this.$store.state.online.questions.questions
+		},
+		calls() {
+			return this.$store.state.online.calls.calls
 		},
 		messages_not_read() {
 			return this.$store.state.online.buyers.messages_not_read

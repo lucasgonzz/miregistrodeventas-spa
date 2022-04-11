@@ -10,6 +10,9 @@ export default {
 		setTitles(state, value) {
 			state.titles = value
 		},
+		add(state, value) {
+			state.titles.push(value)
+		},
 		update(state, value) {
 			let index = state.titles.findIndex(t => {
 				return t.id == value.id

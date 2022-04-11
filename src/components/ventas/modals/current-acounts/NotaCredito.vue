@@ -28,9 +28,11 @@
 </b-modal>
 </template>
 <script>
+import clients from '@/mixins/clients'
 import BtnLoader from '@/components/common/BtnLoader'
 export default {
 	name: 'CurrentAcountNotaCredito',
+    mixins: [clients],
     components: {
         BtnLoader
     },
@@ -64,6 +66,7 @@ export default {
     			this.$toast.success('Nota de credito registrada correctamente')
                 this.$bvModal.hide('current-acounts-nota-credito')
                 this.clear()
+                this.updateClient(this.client)
     		})
     		.catch(err => {
     			this.loading = false

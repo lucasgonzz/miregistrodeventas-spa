@@ -51,8 +51,8 @@
 			:article="article"
 			@saveArticle="saveArticle"></categories-subcategories>
 
-			<tags
-			:article="article"></tags>
+			<!-- <tags
+			:article="article"></tags> -->
 
 			<description
 			:article="article"></description>

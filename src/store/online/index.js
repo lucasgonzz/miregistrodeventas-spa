@@ -4,6 +4,7 @@ import examine from '@/store/online/examine'
 import buyers from '@/store/online/buyers'
 import messages from '@/store/online/messages'
 import cupons from '@/store/online/cupons'
+import calls from '@/store/online/calls'
 export default {
 	namespaced: true,
 	state: {
@@ -21,5 +22,6 @@ export default {
 		buyers,
 		messages,
 		cupons,
+		calls,
 	},
 }

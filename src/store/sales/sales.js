@@ -108,10 +108,12 @@ export default {
 					return sale.id == selected_sale.id
 				})
 				state.sales.splice(index, 1)
+				console.log('se eliminio la venta con indice '+index)
 				index = state.sales_to_show.findIndex(sale => {
 					return sale.id == selected_sale.id
 				})
 				state.sales_to_show.splice(index, 1)
+				console.log('se eliminio la venta to show con indice '+index)
 			})
 		},
 		updateSale(state, sale) {

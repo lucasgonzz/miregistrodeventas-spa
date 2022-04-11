@@ -7,7 +7,7 @@
 				<b-nav-item
 				v-if="can('online.orders')"
 				@click="setView('pedidos')"
-				:active="isActive('pedidos')">
+				:class="isActive('pedidos')">
 					Pedidos
 					<b-badge
 					variant="danger"
@@ -18,7 +18,7 @@
 				<b-nav-item
 				v-if="can('online.questions')"
 				@click="setView('preguntas')"
-				:active="isActive('preguntas')">
+				:class="isActive('preguntas')">
 					Preguntas
 					<b-badge
 					variant="danger"
@@ -29,13 +29,13 @@
 				<b-nav-item
 				v-if="can('online.buyers')"
 				@click="setView('clientes')"
-				:active="isActive('clientes')">
+				:class="isActive('clientes')">
 					Clientes
 				</b-nav-item>
 				<b-nav-item
 				v-if="can('online.messages')"
 				@click="setView('mensajes')"
-				:active="isActive('mensajes')">
+				:class="isActive('mensajes')">
 					Mensajes
 					<b-badge
 					variant="danger"
@@ -46,18 +46,12 @@
 				<b-nav-item
 				v-if="can('online.cupons')"
 				@click="setView('cupones')"
-				:active="isActive('cupones')">
+				:class="isActive('cupones')">
 					Cupones
-				</b-nav-item>
-				<b-nav-item
-				v-if="can('online.calls')"
-				@click="setView('llamadas')"
-				:active="isActive('llamadas')">
-					Llamadas
 				</b-nav-item>
 				<!-- <b-nav-item
 				@click="setView('examine')"
-				:active="isActive('examine')">
+				:class="isActive('examine')">
 					Examinar
 				</b-nav-item> -->
 			</b-nav>
@@ -93,26 +87,41 @@ export default {
 				this.getBuyers()
 			} else if (view == 'examine') {
 				this.getExamine()
-			} else if (view == 'cupones') {
+			}else if (view == 'cupones') {
 				this.getActiveCupons()
-			} else if (view == 'llamadas') {
-				this.getCalls()
 			}
 		},
 		isActive(name) {
-			return this.view == name
+			if (this.view == name) {
+				return 'active'
+			}
 		},
 	}
 }
 </script>
 <style scoped lang="sass">
+@import '@/sass/_custom'
 .nav-tabs
 	width: 100%
+	border: none 
 	.nav-item
-		margin: 0 .2em
-		.active 
-			font-weight: bold
-			box-shadow: 0px 3px 7px rgb(0 0 0 / 15%) !important
+		// margin: 0 .2em
+		background: $blue
+		// border-radius: 5px 5px 0 0 
+		.nav-link
+			color: #FFF
+		&:focus
+			border: none !important
+			text-decoration: none
+	.active 
+		font-weight: bold
+		background: #FFF
+		// border-top: 2px solid $blue
+		// border-left: 2px solid $blue
+		// border-right: 2px solid $blue
+		// box-shadow: 0px 3px 7px rgb(0 0 0 / 15%) !important
+		.nav-link
+			color: #000
 .badge 
 	font-size: 1em
 </style>

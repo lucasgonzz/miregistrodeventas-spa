@@ -152,6 +152,8 @@ export default {
                     route = '/tienda-online/mensajes'
                 } else if (this.can('online.cupons')) {
                     route = '/tienda-online/cupones'
+                } else if (this.can('online.calls')) {
+                    route = '/tienda-online/llamadas'
                 }
                 console.log('redireccionando a: '+route)
                 this.$router.replace(route)
@@ -227,6 +229,7 @@ export default {
                     this.getOrdersAndQuestions()
                     this.getBuyers()
                     this.getActiveCupons()
+                    this.getCalls()
                     this.listenChannels()
                 }
                 if (this.is_provider) {

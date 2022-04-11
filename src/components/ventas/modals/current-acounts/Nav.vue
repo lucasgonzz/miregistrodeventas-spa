@@ -17,6 +17,7 @@
 			Buscar
 		</b-button>
 		<b-button
+		v-if="current_acounts.length"
 		@click="print"
 		variant="danger"
 		class="m-l-15">
@@ -31,19 +32,28 @@
 			</span>
 		</b-button>
 		<b-button
+		v-if="client.current_acounts_count == 0"
+		class="m-l-15"
+		@click="saldoInicial"
+		variant="primary">
+			Saldo inicial
+		</b-button>
+		<!-- <b-button
 		@click="checkSaldos"
 		variant="primary"
 		class="m-l-15">
 			<btn-loader
 			:loader="loading_check_saldos"
 			text="Checkear saldos"></btn-loader>
-		</b-button>
+		</b-button> -->
 	</b-form>
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
+import current_acounts from '@/mixins/current_acounts'
 export default {
 	name: 'CurrentAcountsNav',
+	mixins: [current_acounts],
 	components: {
 		BtnLoader
 	},
@@ -70,6 +80,10 @@ export default {
         },
 	},
 	methods: {
+        saldoInicial() {
+            this.$store.commit('clients/setSaldoInicial', this.client)
+            this.$bvModal.show('saldo-inicial-client')
+        },
 		getCurrentAcounts() {
 			this.$store.dispatch('clients/current_acounts/getCurrentAcounts')
 		},

@@ -6,6 +6,11 @@ export default {
                 console.log(notification)
                 this.$store.dispatch('online/orders/getConfirmedFinishedOrders')
             });
+            this.Echo.channel('call.'+this.user.id)
+            .notification((notification) => {
+                console.log(notification)
+                this.$store.commit('online/calls/add', notification.call)
+            });
             this.Echo.channel('created_article.'+this.user.id)
             .notification((notification) => {
                 console.log('articulo creado')

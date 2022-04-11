@@ -55,8 +55,8 @@
                         Online
                         <b-badge
                         variant="danger"
-                        v-show="unconfirmed_orders_questions_length > 0">
-                            {{ unconfirmed_orders_questions_length }}
+                        v-show="unconfirmed_orders_questions_calls_length > 0">
+                            {{ unconfirmed_orders_questions_calls_length }}
                         </b-badge>
                     </b-nav-item>
                 </b-navbar-nav>

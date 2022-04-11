@@ -32,9 +32,11 @@
 </b-modal>
 </template>
 <script>
+import clients from '@/mixins/clients'
 import BtnLoader from '@/components/common/BtnLoader'
 export default {
 	name: 'SaldoInicialClient',
+	mixins: [clients],
 	components: {
 		BtnLoader,
 	},
@@ -52,24 +54,33 @@ export default {
 	},
 	methods: {
 		saldoInicial() {
-			this.loading = true
-			this.$api.post('/clients/saldo-inicial', {
-				client_id	 : this.client.id,
-				is_for_debe  : this.is_for_debe,
-				saldo_inicial: this.saldo_inicial,
-			})
-			.then(res => {
-				this.loading = false
-				this.client.current_acounts_count = 1
-				this.$store.commit('clients/update', this.client)
-				this.$toast.success('Saldo inicial agregado')
-				this.$bvModal.hide('saldo-inicial-client')
-				this.clear()
-			})
-			.catch(err => {
-				console.log(err)
-				this.loading = false
-			})
+			if (this.check()) {
+				this.loading = true
+				this.$api.post('/clients/saldo-inicial', {
+					client_id	 : this.client.id,
+					is_for_debe  : this.is_for_debe,
+					saldo_inicial: this.saldo_inicial,
+				})
+				.then(res => {
+					this.loading = false
+					this.$toast.success('Saldo inicial agregado')
+					this.$bvModal.hide('saldo-inicial-client')
+					this.clear()
+					this.$store.dispatch('clients/current_acounts/getCurrentAcounts')
+					this.updateClient(this.client)
+				})
+				.catch(err => {
+					console.log(err)
+					this.loading = false
+				})
+			}
+		},
+		check() {
+			if (this.saldo_inicial == '') {
+				this.$toast.error('Ingrese el saldo')
+				return false
+			}
+			return true
 		},
 		clear() {
 			this.saldo_inicial = ''

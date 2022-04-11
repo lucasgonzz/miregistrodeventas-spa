@@ -3,12 +3,13 @@ import online from '@/mixins/online'
 export default {
 	mixins: [online],
 	computed: {
-        unconfirmed_orders_questions_length() {
+        unconfirmed_orders_questions_calls_length() {
             if (this.has_online) {
                 let unconfirmed_orders = this.$store.state.online.orders.unconfirmed_orders
                 let questions = this.$store.state.online.questions.questions
                 let messages_not_read = this.$store.state.online.buyers.messages_not_read
-                return unconfirmed_orders.length + questions.length + messages_not_read
+                let calls = this.$store.state.online.calls.calls
+                return unconfirmed_orders.length + questions.length + messages_not_read + calls.length
             }
             return null
         },

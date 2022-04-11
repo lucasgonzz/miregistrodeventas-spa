@@ -21,7 +21,7 @@ class="m-t-10">
 	v-if="color_without_image">
 		<hr>
 		<p>
-			Los siguientes colores no tienen imagen
+			Los siguientes colores no tienen imagen asignada
 		</p>
 		<div 
 		:style="{backgroundColor: color_without_image.value}"

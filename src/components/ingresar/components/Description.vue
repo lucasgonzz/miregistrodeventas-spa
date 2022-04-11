@@ -16,7 +16,7 @@
 				@click="copyToArticle"
 				variant="primary"
 				size="sm"
-				v-if="selected_descriptions.length">
+				v-if="selected_descriptions.length && this.current_page == 'Listado'">
 					{{ copy_descriptions_text }}
 				</b-button>
 				<select-article
@@ -37,7 +37,9 @@
 				<div class="description"
 				v-for="(description, index) in article.descriptions"
 				:key="index">
-					<div class="cont-checkbox">
+					<div 
+					v-if="current_page == 'Listado'"
+					class="cont-checkbox">
 						<b-form-checkbox
 						class="c-p"
 						:id="'checkbox-description-'+description.id"

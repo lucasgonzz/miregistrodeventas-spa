@@ -31,12 +31,6 @@
 				Boleta						
 			</b-dropdown-item>
 			<b-dropdown-item
-			v-if="selected_sales.length == 1"
-			@click="checkSale()">
-				<i class="icon-clipboard"></i>
-				Check				
-			</b-dropdown-item>
-			<b-dropdown-item
 			v-b-modal="'delete-sales'">
 				<i class="icon-trash"></i>
 				Eliminar
@@ -52,15 +46,6 @@ export default {
 		},
 	},
 	methods: {
-		checkSale() {
-			this.$axios.get('check-sale/'+this.selected_sales[0].id)
-			.then(() => {
-				this.$toast.success('Venta checkeada')
-			})
-			.catch(err => {
-				console.log(err)
-			})
-		},
 		showAfipDetails(sale) {
 			this.$store.dispatch('sales/afip/getImportes', this.selected_sales[0])
 			this.$bvModal.show('afip-details')

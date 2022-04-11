@@ -1,4 +1,6 @@
+import clients from '@/mixins/clients'
 export default {
+	mixins: [clients],
 	computed: {
 		articles_for_sale() {
 			return this.$store.state.vender.articles
@@ -14,6 +16,9 @@ export default {
 		},
 		vendiendo() {
 			return this.$store.state.vender.vendiendo
+		},
+		client() {
+			return this.$store.state.vender.client
 		},
 	},
 	methods: {
@@ -54,12 +59,14 @@ export default {
 		            this.$store.commit('vender/setSaleType', 1)
 		            this.$store.commit('vender/setSpecialPriceId', 0)
 		            this.$bvModal.hide('clients')
-		            this.without_debt = true
 		            this.$store.commit('vender/clients/setView', 0)
 		            if (this.is_provider) {
 		                this.$bvModal.show('successful-sale')
 		            } else {
 						document.getElementById('article-bar-code').focus()
+		            }
+		            if (this.client) {
+		            	this.updateClient(this.client)
 		            }
 		            this.$store.commit('vender/setClient', null)
 	            })

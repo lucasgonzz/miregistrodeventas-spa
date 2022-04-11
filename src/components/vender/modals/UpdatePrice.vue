@@ -8,7 +8,7 @@ hide-footer>
 		<b-form-input
 		v-model="article.price"></b-form-input>
 	</b-form-group>
-	<b-form-group label="Individual radios" v-slot="{ ariaDescribedby }">
+	<b-form-group v-slot="{ ariaDescribedby }">
 		<b-form-radio 
 		v-model="only_this_sale" 
 		name="only-this-sale" 
@@ -58,7 +58,7 @@ export default {
 				this.$api.put('articles/price', this.article)
 				.then(res => {
 					this.loading = false
-					this.$toast.success('Articulo actualizado')
+					this.$toast.success('Precio actualizado')
 					this.$store.commit('articles/update', res.data.article)
 					this.updateInSale()
 					this.$bvModal.hide('update-price')

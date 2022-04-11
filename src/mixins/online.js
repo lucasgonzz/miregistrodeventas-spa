@@ -119,6 +119,9 @@ export default {
 			this.$store.dispatch('online/examine/getArticlesMostViewed')
 			this.$store.dispatch('online/examine/getSubCategoriesMostViewed')
 		},
+		getCalls() {
+			this.$store.dispatch('online/calls/getCalls')
+		},
 		getOrdersAndQuestions() {
             this.$store.dispatch('online/orders/getUnconfirmedOrders')
             this.$store.dispatch('online/orders/getConfirmedFinishedOrders')

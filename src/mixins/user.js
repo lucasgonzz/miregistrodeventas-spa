@@ -63,6 +63,8 @@ export default {
 					permission_slug = 'online.messages'
 				} else if (route.includes('cupones')) {
 					permission_slug = 'online.cupons'
+				} else if (route.includes('llamadas')) {
+					permission_slug = 'online.calls'
 				}
 			} else if (route.includes('super')) {
 				permission_slug = 'super'

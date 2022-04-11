@@ -26,7 +26,7 @@
 		<p 
 		v-else 
 		class="text-with-icon">
-			<i class="icon-user-delete"></i>
+			<i class="icon-not"></i>
 			No hay proveedores ingresados
 		</p>
 	</div>

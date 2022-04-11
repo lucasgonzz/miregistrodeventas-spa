@@ -37,7 +37,8 @@ class="row-dark">
 						<hr>
 					</div>
 					<div 
-					v-for="feature in item.features"
+					v-for="(feature, index) in item.features"
+					:key="index"
 					class="feature">
 						<i :class="iconClass(feature)"></i>
 						<p>
@@ -53,6 +54,7 @@ class="row-dark">
 		class="cont-models">
 			<plan 
 			v-for="plan in plans"
+			:key="plan.id"
 			:plan="plan"
 			v-animate-onscroll="{down: 'animated fadeInUp'}"></plan>
 		</div>

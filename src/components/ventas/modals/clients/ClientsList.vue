@@ -12,14 +12,14 @@
 				@click="editClient(clients_to_show[data.index])">
 					<i class="icon-edit"></i>
 				</b-button>
-				<b-button
+				<!-- <b-button
 				v-if="clients_to_show[data.index].current_acounts_count == 0"
 				class="m-l-10"
 				size="sm"
 				variant="primary"
 				@click="saldoInicial(clients_to_show[data.index])">
 					Saldo inicial
-				</b-button>
+				</b-button> -->
 				<b-button
 				class="m-l-10"
 				size="sm"

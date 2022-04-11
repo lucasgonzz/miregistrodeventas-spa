@@ -9,13 +9,13 @@
 		striped 
 		responsive 
 		hover>
-			<template #cell(price)="data">
+			<!-- <template #cell(price)="data">
 				<b-button 
 				@click="updatePrice(articles[data.index])"
 				variant="link">
 					{{ price(articles[data.index].price_for_sale) }}
 				</b-button>
-			</template>
+			</template> -->
 			<template #cell(options)="data">
 				<b-button 
 				@click="up(articles[data.index])"
@@ -84,6 +84,7 @@ export default {
 			this.articles.forEach(article => {
 				items.push({
 					id: article.id,
+					price: this.price(article.price_for_sale),
 					name: article.name,
 					amount: article.amount,
 					total: this.price(article.price_for_sale * article.amount),

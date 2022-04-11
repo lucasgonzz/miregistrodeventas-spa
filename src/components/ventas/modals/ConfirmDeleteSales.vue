@@ -19,9 +19,11 @@
 </b-modal>
 </template>
 <script>
+import clients from '@/mixins/clients'
 import BtnLoader from '@/components/common/BtnLoader'
 export default {
     name: 'DeleteSales',
+    mixins: [clients],
     components: {
         BtnLoader
     },
@@ -46,11 +48,11 @@ export default {
             .then(() => {
                 this.loading = false
                 this.$bvModal.hide('delete-sales')
-                console.log(this.selected_sales)
                 this.$store.commit('articles/updateStock', this.selected_sales)
                 this.$store.commit('sales/delete')
                 this.$store.commit('sales/setTotal')
                 this.$toast.success('Venta eliminada')
+                this.checkClientsSaldos()
             })
             .catch((err) => {
                 this.$toast.error('Error al eliminar la venta, intentelo mas tarde')
@@ -58,6 +60,13 @@ export default {
                 console.log(err)
             })
         },
+        checkClientsSaldos() {
+            this.selected_sales.forEach(sale => {
+                if (sale.client) {
+                    this.updateClient(client)
+                }
+            })
+        }
     }
 }
 </script>

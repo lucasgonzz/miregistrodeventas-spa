@@ -3,8 +3,14 @@ moment.locale('es')
 import numeral from 'numeral'
 export default {
 	methods: {
-		date(d) {
+		phone(phone) {
+			return phone.substr(4)
+		},
+		date(d, complete = false) {
 			if (d) {
+				if (complete) {
+					return moment(d).format('DD/MM/YY h:mm:ss')
+				}
 				return moment(d).format('DD/MM/YY')
 			}
 			return '-'

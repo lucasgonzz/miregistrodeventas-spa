@@ -6,6 +6,13 @@
 		id="message-text"
 		@keyup.enter="sendMessage"
 		placeholder="Escribe un mensaje"></b-form-input>
+        <b-button 
+		class="m-l-10"
+        variant="success"
+        target="_blank"
+        :href="'https://api.whatsapp.com/send?phone='+selected_buyer.phone">
+            <i class="icon-whatsapp"></i>
+        </b-button>
 		<img 
 		v-if="selected_article"
 		class="selected-article-img"

@@ -2,7 +2,9 @@
 	<b-col
 	cols="12"
 	class="j-end col-info-prints">
-		<b-list-group horizontal>
+		<b-list-group 
+		class="colors"
+		horizontal>
 			<b-list-group-item>
 				<i class="icon-print"></i>
 				negocio
@@ -26,13 +28,4 @@
 .col-info-prints
 	@media screen and (min-width: 992px)
 		margin-top: 10px
-	.list-group
-		.list-group-item
-			padding: .3em 0 .3em .6em
-			.color
-				display: inline-block
-				margin-bottom: -5px
-				width: 20px
-				height: 20px
-				border-radius: .3em
 </style>

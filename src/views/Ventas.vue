@@ -1,15 +1,14 @@
 <template>
 <div id="ventas">	
-	<delete-current-acount></delete-current-acount>
+	<import-current-acounts></import-current-acounts>
+	<current-acounts></current-acounts>
+	<current-acounts-pago></current-acounts-pago>
+	<current-acounts-nota-credito></current-acounts-nota-credito>
 	<discounts></discounts>
 	<create-discount></create-discount>
 	<edit-discount></edit-discount>
 	<update-percentage></update-percentage>
-	<update-debe></update-debe>
 	<commissioner-pago></commissioner-pago>
-	<current-acounts></current-acounts>
-	<current-acounts-pago></current-acounts-pago>
-	<current-acounts-nota-credito></current-acounts-nota-credito>
 	<clients></clients>
 	<edit-client></edit-client>
 	<delete-client></delete-client>
@@ -58,16 +57,15 @@
 import moment from 'moment'
 
 // Modals
-import DeleteCurrentAcount from '@/components/ventas/modals/currentAcounts/Delete.vue'
+import ImportCurrentAcounts from '@/components/ventas/modals/current-acounts/Import.vue'
+import CurrentAcounts from '@/components/ventas/modals/current-acounts/Index.vue'
+import CurrentAcountsPago from '@/components/ventas/modals/current-acounts/Pago.vue'
+import CurrentAcountsNotaCredito from '@/components/ventas/modals/current-acounts/NotaCredito.vue'
 import Discounts from '@/components/ventas/modals/discounts/Index.vue'
 import CreateDiscount from '@/components/ventas/modals/discounts/Create.vue'
 import EditDiscount from '@/components/ventas/modals/discounts/Edit.vue'
-import CurrentAcounts from '@/components/ventas/modals/currentAcounts/CurrentAcounts.vue'
 import UpdatePercentage from '@/components/ventas/modals/commissioners/UpdatePercentage.vue'
-import UpdateDebe from '@/components/ventas/modals/currentAcounts/UpdateDebe.vue'
 import CommissionerPago from '@/components/ventas/modals/commissioners/CommissionerPago.vue'
-import CurrentAcountsPago from '@/components/ventas/modals/currentAcounts/Pago.vue'
-import CurrentAcountsNotaCredito from '@/components/ventas/modals/currentAcounts/NotaCredito.vue'
 import FromDate from '../components/ventas/modals/FromDate.vue'
 import SaleDetails from '../components/ventas/modals/SaleDetails.vue'
 import ConfirmDeleteSales from '../components/ventas/modals/ConfirmDeleteSales.vue'
@@ -78,7 +76,7 @@ import Clients from '../components/ventas/modals/clients/Index.vue'
 import EditClient from '../components/ventas/modals/clients/EditClient.vue'
 import DeleteClient from '../components/ventas/modals/clients/Delete.vue'
 import ImportClients from '../components/ventas/modals/clients/ImportClients.vue'
-import SaldoInicialClient from '../components/ventas/modals/clients/SaldoInicial.vue'
+import SaldoInicialClient from '../components/ventas/modals/current-acounts/SaldoInicial.vue'
 import Commissioners from '../components/ventas/modals/commissioners/Index.vue'
 import Sellers from '../components/ventas/modals/sellers/Index.vue'
 import CreateSeller from '../components/ventas/modals/sellers/Create.vue'
@@ -97,10 +95,9 @@ export default {
 	components: {
 		// Modals
 		FromDate,
-		DeleteCurrentAcount,
+		ImportCurrentAcounts,
 		CurrentAcounts,
 		UpdatePercentage,
-		UpdateDebe,
 		CommissionerPago,
 		CurrentAcountsPago,
 		CurrentAcountsNotaCredito,
