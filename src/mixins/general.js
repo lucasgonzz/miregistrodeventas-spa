@@ -59,20 +59,18 @@ export default {
 			}
 			return '-'
 		},
-		articlePrice(article, from_pivot = false, formated = false) {
+		articlePrice(article, from_pivot = false, formated = true, in_dolars = false) {
 			let price
 			if (from_pivot) {
 				price = article.pivot.price
-				if (article.pivot.with_dolar) {
-					let dolar = article.pivot.with_dolar
-					price = price * dolar
-				}
 			} else {
 				price = article.price
-				if (article.with_dolar) {
-					let dolar = this.dolar_blue
-					price = price * dolar
-				}
+			}
+			if (!from_pivot && !in_dolars && article.with_dolar) {
+				price = price * this.dolar_blue
+			}
+			if (from_pivot && !in_dolars && article.pivot.with_dolar) {
+				price = price * article.pivot.with_dolar
 			}
 			if (formated) {
 				return this.price(price)

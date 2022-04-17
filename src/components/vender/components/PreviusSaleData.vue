@@ -1,5 +1,6 @@
 <template>
-	<b-row>
+	<b-row
+	v-if="index > 0">
 		<b-col
 		cols="12"
 		class="j-end">
@@ -34,6 +35,9 @@
 export default {
 	name: 'PreviusSaleData',
 	computed: {
+		index() {
+			return this.$store.state.vender.previus_sales.index
+		},
 		previus_sale() {
 			return this.$store.state.vender.previus_sales.previus_sale
 		},

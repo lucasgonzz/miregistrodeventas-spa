@@ -3,21 +3,23 @@
 		<div
 		v-if="!loading">
 			<b-table
-			v-show="commissions_to_show.length"
+			v-if="commissions_to_show.length"
+			head-variant="dark"
 			:fileds="fields"
 			:items="items">
-				<template #cell(porcentaje)="data">
+				<!-- <template #cell(porcentaje)="data">
 					<b-button
 					variant="info"
 					@click="updatePercentage(commissions_to_show[data.index])">
 						{{ commissions_to_show[data.index].percentage }}%
 					</b-button>
-				</template>
+				</template> -->
 			</b-table>
 			<p
-			class="text-center"
-			v-show="commissions_to_show.length == 0">
-				Sin datos
+			class="text-with-icon"
+			v-else>
+				<i class="icon-not"></i>
+				No hay comisiones para el vendedor
 			</p>
 		</div>
 		<b-skeleton-table
@@ -58,7 +60,7 @@ export default {
 					fecha: this.date(commission.created_at),
 					pagado: commission.updated_at ? this.date(commission.updated_at) : '',
 					detalle: commission.detalle,
-					porcentaje: commission.percentage+'%',
+					porcentaje: this.percentage(commission),
 					monto: this.price(commission.monto),
 					saldo: this.price(commission.saldo),
 				})
@@ -67,6 +69,11 @@ export default {
 		}
 	},
 	methods: {
+		percentage(commission) {
+			if (commission.percentage) {
+				return commission.percentage+'%'
+			}
+		},
 		updatePercentage(commission) {
 			this.$store.commit('commissioners/setCommissionToUpdatePercentage', commission)
 			this.$bvModal.show('update-percentage')

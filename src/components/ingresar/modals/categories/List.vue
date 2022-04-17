@@ -1,56 +1,66 @@
 <template>
 	<div>
-		<b-list-group
-		v-if="view == 'categories'">
-			<b-table
-			head-variant="dark"
-			:fields="fields"
-			:items="table_items">
-				<template #cell(icon)="data">
-					<i 
-					v-if="items[data.index].icon"
-					:class="'icon-'+items[data.index].icon.slug"></i>
-				</template>
-				<template #cell(options)="data">
-					<b-button
-					@click="edit(items[data.index])"
-					size="sm"
-					variant="primary">
-						Editar
-					</b-button>
-					<b-button
-					@click="deleteCategory(items[data.index])"
-					size="sm"
-					class="m-l-10"
-					variant="danger">
-						<i class="icon-trash"></i>
-					</b-button>
-				</template>
-			</b-table>
-		</b-list-group>
-		<b-list-group
-		v-else>
-			<b-table
-			head-variant="dark"
-			:fields="fields"
-			:items="table_items">
-				<template #cell(options)="data">
-					<b-button
-					@click="edit(items[data.index])"
-					size="sm"
-					variant="primary">
-						Editar
-					</b-button>
-					<b-button
-					@click="deleteSubCategory(items[data.index])"
-					size="sm"
-					class="m-l-10"
-					variant="danger">
-						<i class="icon-trash"></i>
-					</b-button>
-				</template>
-			</b-table>
-		</b-list-group>
+		<div
+		v-if="items.length">
+			
+			<b-list-group
+			v-if="view == 'categories'">
+				<b-table
+				head-variant="dark"
+				:fields="fields"
+				:items="table_items">
+					<template #cell(icon)="data">
+						<i 
+						v-if="items[data.index].icon"
+						:class="'icon-'+items[data.index].icon.slug"></i>
+					</template>
+					<template #cell(options)="data">
+						<b-button
+						@click="edit(items[data.index])"
+						size="sm"
+						variant="primary">
+							Editar
+						</b-button>
+						<b-button
+						@click="deleteCategory(items[data.index])"
+						size="sm"
+						class="m-l-10"
+						variant="danger">
+							<i class="icon-trash"></i>
+						</b-button>
+					</template>
+				</b-table>
+			</b-list-group>
+			<b-list-group
+			v-else>
+				<b-table
+				head-variant="dark"
+				:fields="fields"
+				:items="table_items">
+					<template #cell(options)="data">
+						<b-button
+						@click="edit(items[data.index])"
+						size="sm"
+						variant="primary">
+							Editar
+						</b-button>
+						<b-button
+						@click="deleteSubCategory(items[data.index])"
+						size="sm"
+						class="m-l-10"
+						variant="danger">
+							<i class="icon-trash"></i>
+						</b-button>
+					</template>
+				</b-table>
+			</b-list-group>
+		</div>
+		<p 
+		v-else
+		class="text-with-icon">
+			<i class="icon-not"></i>
+			No hay datos ingresados
+		</p>
 	</div>
 </template>
 <script>

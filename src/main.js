@@ -24,7 +24,12 @@ Vue.use(VueMeta, {
 	refreshOnceOnNavigation: true
 })
 
-Vue.prototype.$scrollToTop = () => window.scrollTo(0,0)
+// Vue Scrool
+Vue.prototype.$scrollToTop = (() => {
+	setTimeout(() => {
+	 	window.scrollTo(0,0)
+	}, 500)
+}) 
 
 // VueScrollTo
 import VueScrollTo from 'vue-scrollto'

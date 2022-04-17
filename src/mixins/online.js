@@ -65,7 +65,7 @@ export default {
 			if (order.articles) {
 				let total = 0
 				order.articles.forEach(article => {
-					total += this.articlePrice(article, true) * article.pivot.amount 
+					total += this.articlePrice(article, true, false) * article.pivot.amount 
 				})
 				if (order.percentage_card) {
 					total = total + (total * this.percentageToMultiply(order.percentage_card))

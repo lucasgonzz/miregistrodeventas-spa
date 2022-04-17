@@ -10,6 +10,11 @@
 		right
 		variant="primary">
 			<b-dropdown-item
+			v-b-modal="'create-client'">
+				<i class="icon-plus"></i>
+				Nuevo cliente
+			</b-dropdown-item>
+			<b-dropdown-item
 			@click="updateClients">
 				<i class="icon-redo"></i>
 				Actualizar lista de clientes

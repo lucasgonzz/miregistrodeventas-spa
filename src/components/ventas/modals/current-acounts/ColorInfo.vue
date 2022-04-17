@@ -17,12 +17,12 @@
 				<div class="color bg-danger"></div>
 			</b-list-group-item>
 		</b-list-group>
-		<b-button
+		<!-- <b-button
 		class="m-l-15"
 		v-b-modal="'import-current-acounts'"
 		variant="success">
 			<i class="icon-download"></i>
 			Importar pagos
-		</b-button>
+		</b-button> -->
 	</div>
 </template>

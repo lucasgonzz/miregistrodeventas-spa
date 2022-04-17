@@ -16,25 +16,6 @@
 	v-if="client">
 		Ventas de {{ client.name }}
 	</strong>
-	<!-- <strong v-show="!is_from_date && !is_from_only_one_date  && !sales_from_client && !showing_statistics">
-		Ventas de hoy 
-	</strong>
-	<strong v-show="is_from_date">
-		Desde {{ date(from) }} hasta {{ date(to) }} 
-	</strong>
-	<strong v-show="is_from_only_one_date && !showing_statistics">
-		Ventas del {{ date(only_one_date) }}
-	</strong>
-	<strong v-if="sales_from_client && !showing_statistics">
-		Ventas a {{ client.name }}
-		<button class="btn btn-primary m-l-5"
-				@click="removeSalesFromClient">
-			<i class="icon-undo"></i>
-		</button>
-	</strong>
-	<strong v-if="showing_statistics">
-		Estadisticas
-	</strong> -->
 </h5>
 </template>
 <script>
@@ -58,9 +39,6 @@ export default {
 	methods: {
 		date(d) {
 			return moment(d).format('DD/MM/YY')
-		},
-		removeSalesFromClient() {
-			this.$emit('removeSalesFromClient')
 		},
 	}
 }

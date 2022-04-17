@@ -1,5 +1,6 @@
 <template>
-<b-row>
+<b-row
+class="m-t-0">
 	<b-col>
 		<b-table 
 		v-show="articles.length"

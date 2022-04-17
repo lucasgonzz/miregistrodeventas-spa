@@ -182,6 +182,19 @@ export default {
 				console.log(err)
 			})
 		},
+		delete({ commit, state }) {
+			let articles_id = []
+			state.selected_articles.forEach(selected_article => {
+				articles_id.push(selected_article.id)
+			})
+			return axios.delete('api/articles/'+articles_id.join('-'))
+			.then(res => {
+				commit('delete')
+			})
+			.catch(err => {
+				console.log(err)
+			})
+		},
 	},
 	modules: {
 	}

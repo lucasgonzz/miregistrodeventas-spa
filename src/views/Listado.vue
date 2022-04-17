@@ -1,7 +1,11 @@
 <template>
 <div id="listado">	
 	<import-articles></import-articles>
-	<confirm-delete></confirm-delete>
+    <confirm
+    :text="text_delete"
+    :actions="['articles/delete']"
+    id="delete-articles"
+    toast="Articulos eliminados"></confirm>
 	<add-category></add-category>
 	<edit-article></edit-article>
 	<update-by-porcentage></update-by-porcentage>
@@ -37,7 +41,7 @@ import EditArticle from '../components/common/EditArticle.vue'
 import UpdateByPorcentage from '../components/listado/modals/UpdateByPorcentage.vue'
 import UpdateCategory from '../components/listado/modals/UpdateCategory.vue'
 import UpdateBrand from '../components/listado/modals/UpdateBrand.vue'
-import ConfirmDelete from '../components/listado/modals/ConfirmDelete.vue'
+import Confirm from '../components/common/Confirm.vue'
 import ProvidersHistory from '../components/listado/modals/ProvidersHistory.vue'
 import AddCategory from '../components/listado/modals/AddCategory.vue'
 import ArticlesPdf from '../components/listado/modals/ArticlesPdf.vue'
@@ -66,7 +70,7 @@ export default {
 		UpdateByPorcentage,
 		UpdateCategory,
 		UpdateBrand,
-		ConfirmDelete,
+		Confirm,
 		// PrintTickets,
 		ProvidersHistory,
 		AddCategory,
@@ -203,6 +207,9 @@ export default {
 	computed: {
 		special_prices() {
 			return this.$store.state.special_prices
+		},
+		text_delete() {
+			return '¿Seguro que quiere eliminar los articulos seleccionados?'
 		},
 	}
 }

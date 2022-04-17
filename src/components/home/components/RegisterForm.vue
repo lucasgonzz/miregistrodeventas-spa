@@ -32,13 +32,13 @@
 				<b-form-group
 				label="Tipo de negocio">
 					<b-form-radio
-					value="provider"
+					value="commerce"
 					name="commerce-type"
 					v-model="form.type">
 						Negocio minorista
 					</b-form-radio>
 					<b-form-radio
-					value="commerce"
+					value="provider"
 					name="commerce-type"
 					v-model="form.type">
 						Negocio mayorista

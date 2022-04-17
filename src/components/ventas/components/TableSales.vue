@@ -265,9 +265,6 @@ export default {
 			this.$store.commit('sales/setSaleDetails', sale)
 			this.$bvModal.show('sale-details')
 		},
-		changeEntrego() {
-			this.$emit('changeEntrego')
-		},
 		printSale(sale) {
 			this.$store.commit('sales/setSelectedSales', [sale])
 			// this.$store.commit('sales/setPrint', sale)

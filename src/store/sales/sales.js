@@ -20,7 +20,6 @@ export default {
 		only_one_date: '',
 		loading: false,
 		sale_details: {},
-		sale_to_delete: {},
 		sale_to_print: {},
 		selected_client: null,
 		selected_sales: [],
@@ -143,6 +142,19 @@ export default {
 			})
 			.catch(err => {
 				commit('setLoading', false)
+				console.log(err)
+			})
+		},
+		delete({ commit, state }) {
+			let sales_id = []
+			state.selected_sales.forEach(selected => {
+				sales_id.push(selected.id)
+			})
+			return axios.delete('api/sales/'+sales_id.join('-'))
+			.then(res => {
+				commit('delete')
+			})
+			.catch(err => {
 				console.log(err)
 			})
 		},

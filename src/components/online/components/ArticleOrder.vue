@@ -24,7 +24,7 @@
 					</p>
 				</div>
 				<p class="price">
-					{{ articlePrice(article, true, true) }}
+					{{ articlePrice(article, true) }}
 				</p>
 				<p 
 				v-show="article.pivot.amount > 1"

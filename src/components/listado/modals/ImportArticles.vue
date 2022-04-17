@@ -11,7 +11,7 @@ hide-footer>
 		Comience por descargar el archivo modelo con los títulos de las columnas que ComercioCity necesita para importar los datos de sus artículos
 	</p>
 	<b-button
-	href="/files/articulos-base.xls" download
+	href="/files/articulos-base.xlsx" download
 	variant="link">
 		Descargar el archivo modelo
 	</b-button>

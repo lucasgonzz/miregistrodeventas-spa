@@ -5,6 +5,7 @@ export default {
 	namespaced: true,
 	state: {
 		titles: [],
+		detele: {},
 	},
 	mutations: {
 		setTitles(state, value) {
@@ -19,6 +20,15 @@ export default {
 			})
 			state.titles.splice(index, 1, value)
 		},
+		setDelete(state, value) {
+			state.delete = value
+		},
+		delete(state) {
+			let index = state.titles.findIndex(title => {
+				return title.id == state.delete.id
+			})
+			state.titles.splice(index, 1)
+		},
 	},
 	actions: {
 		getTitles({ commit }) {
@@ -29,6 +39,15 @@ export default {
 			.catch(err => {
 				console.log(err)
 			})
-		}
+		},
+		delete({ commit, state }) {
+			return axios.delete('api/titles/'+state.delete.id)
+			.then(res => {
+				commit('delete')
+			})
+			.catch(err => {
+				console.log(err)
+			})
+		},
 	}
 }

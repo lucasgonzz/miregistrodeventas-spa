@@ -76,6 +76,13 @@
 					:loader="loading"
 					text="Actualizar"></btn-loader>
 				</b-button>
+				<b-button 
+				block
+				class="m-t-15"
+				@click="deleteTitle(title)"
+				variant="danger">
+					Eliminar
+				</b-button>
 			</div>
 			<hr>
 		</div>
@@ -137,6 +144,10 @@ export default {
 		}
 	},
 	methods: {
+		deleteTitle(title) {
+			this.$store.commit('titles/setDelete', title)
+			this.$bvModal.show('delete-title')
+		},
 		show(title) {
 			return this.shows.includes(title.id)
 		},
@@ -209,7 +220,7 @@ export default {
             Object.assign(canvas.style, {
                 position: 'absolute',
                 left: '50%',
-                top: '25%',
+                top: '35px',
                 // left: coverRect.left + 'px',
                 // top: coverRect.top + 'px',
                 opacity: 0
@@ -283,7 +294,7 @@ export default {
 			img
 				position: absolute
 				left: 50%
-				top: 25%
+				top: 35px
 				width: 50%
 		.col-form-label
 			font-size: .7em 

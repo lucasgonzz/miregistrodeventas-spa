@@ -26,7 +26,6 @@ export default {
 		// asignado en el objeto y se envie a salecontroller@store
 		setArticlesPrice() {
 			this.articles_for_sale.forEach(article => {
-				console.log('viendo para '+article.id)
 				if (this.special_price_id != 0) {
 					if (article.special_prices.length) {
 						article.special_prices.forEach(special_price => {
@@ -42,7 +41,6 @@ export default {
 					this.$set(article, 'price_for_sale', article.original_price)
 					this.$store.commit('vender/updateArticle', article)
 				}
-				console.log(article.price_for_sale)
 			})
 		},
 		callVender() {
@@ -50,29 +48,32 @@ export default {
 				this.vender()
 			}
 		},
-        vender() {
-        	if (this.articles_for_sale.length) {
+		vender() {
+			if (this.articles_for_sale.length) {
 				this.$store.commit('articles/removeStock', this.articles_for_sale)
-                this.$store.dispatch('vender/vender', this.dolar_blue)
-	            .then(() => {
-		            this.$store.commit('vender/setDiscounts', [])
-		            this.$store.commit('vender/setSaleType', 1)
-		            this.$store.commit('vender/setSpecialPriceId', 0)
-		            this.$bvModal.hide('clients')
-		            this.$store.commit('vender/clients/setView', 0)
-		            if (this.is_provider) {
-		                this.$bvModal.show('successful-sale')
-		            } else {
+				this.$store.dispatch('vender/vender', this.dolar_blue)
+				.then(() => {
+					this.$store.commit('vender/setDiscounts', [])
+					this.$store.commit('vender/setSaleType', 1)
+					this.$store.commit('vender/setSpecialPriceId', 0)
+					this.$bvModal.hide('clients')
+					this.$store.commit('vender/clients/setView', 0)
+					if (this.is_provider) {
+						this.$bvModal.show('successful-sale')
+					} else {
 						document.getElementById('article-bar-code').focus()
-		            }
-		            if (this.client) {
-		            	this.updateClient(this.client)
-		            }
-		            this.$store.commit('vender/setClient', null)
-	            })
-        	}
-        },
+					}
+					if (this.client) {
+						this.updateClient(this.client)
+					}
+					this.$store.commit('vender/setClient', null)
+				})
+			}
+		},
 		setArticleForSale(article) {
+			// this.articles.slice(0,33).forEach(art => {
+			// 	this.addArticleForSale(art)
+			// })
 			if (this.article.bar_code != '') {
 				article = this.articles.find(article => {
 					return article.bar_code == this.getBarCode(this.article.bar_code)
@@ -83,17 +84,32 @@ export default {
 			}
 		},
 		addArticleForSale(article) {
+			// this.$store.commit('vender/setArticleForSale', this.setOriginalPrice(article)) 
+			// this.article_for_sale.amount = 1
+			// this.addArticleToArticlesSale()
 			this.$store.commit('vender/setArticleForSale', this.setOriginalPrice(article)) 
-            if (this.is_provider) {
-                document.getElementById('article-amount').focus()
-            } else {
-                if (!this.isRepeat()) {
-                    this.article_for_sale.amount = 1
-                    this.addArticleToArticlesSale()
-                } 
-            } 
+			if (this.is_provider) {
+				document.getElementById('article-amount').focus()
+			} else {
+				if (!this.isRepeat()) {
+					this.article_for_sale.amount = 1
+					this.addArticleToArticlesSale()
+				} 
+			} 
         },
 		addArticleToArticlesSale() {
+			// if (this.hasVariants()) {
+			// 	this.$bvModal.show('select-variant')
+			// 	this.clearArticle()
+			// } else {
+			// 	if (this.is_provider && !this.isRepeat()) {
+			// 		// this.article_for_sale.amount = this.article.amount
+			// 		this.addArticleAndSetTotal()
+			// 	} else if (!this.isRepeat()) {
+			// 		this.addArticleAndSetTotal()
+			// 	}
+			// 	this.clearArticle()
+			// }
 			if (this.hasVariants()) {
 				this.$bvModal.show('select-variant')
 				this.clearArticle()
@@ -177,8 +193,8 @@ export default {
 			return special_price_
 		},
 		setOriginalPrice(article) {
-			article.original_price = this.articlePrice(article)
-			article.price_for_sale = this.articlePrice(article)
+			article.original_price = this.articlePrice(article, false, false)
+			article.price_for_sale = this.articlePrice(article, false, false)
 			return article
 		},
 		clearVender() {

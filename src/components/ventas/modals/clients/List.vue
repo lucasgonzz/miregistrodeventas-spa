@@ -1,41 +1,50 @@
 <template>
 	<div>
-		<b-table
-		v-if="!loading"
-		:fields="fields"
-		head-variant="dark"
-		:items="items">
-			<template #cell(options)="data">
-				<b-button
-				size="sm"
-				variant="primary"
-				@click="editClient(clients_to_show[data.index])">
-					<i class="icon-edit"></i>
-				</b-button>
-				<!-- <b-button
-				v-if="clients_to_show[data.index].current_acounts_count == 0"
-				class="m-l-10"
-				size="sm"
-				variant="primary"
-				@click="saldoInicial(clients_to_show[data.index])">
-					Saldo inicial
-				</b-button> -->
-				<b-button
-				class="m-l-10"
-				size="sm"
-				variant="success"
-				@click="showCurrentAcounts(clients_to_show[data.index], true)">
-					C/Ctes
-				</b-button>
-				<b-button
-				class="m-l-10"
-				size="sm"
-				variant="danger"
-				@click="deleteClient(clients_to_show[data.index])">
-					<i class="icon-trash"></i>
-				</b-button>
-			</template>
-		</b-table>
+		<div
+		v-if="!loading">
+			<b-table
+			v-if="clients_to_show.length"
+			:fields="fields"
+			head-variant="dark"
+			:items="items">
+				<template #cell(options)="data">
+					<b-button
+					size="sm"
+					variant="primary"
+					@click="editClient(clients_to_show[data.index])">
+						<i class="icon-edit"></i>
+					</b-button>
+					<!-- <b-button
+					v-if="clients_to_show[data.index].current_acounts_count == 0"
+					class="m-l-10"
+					size="sm"
+					variant="primary"
+					@click="saldoInicial(clients_to_show[data.index])">
+						Saldo inicial
+					</b-button> -->
+					<b-button
+					class="m-l-10"
+					size="sm"
+					variant="success"
+					@click="showCurrentAcounts(clients_to_show[data.index], true)">
+						C/Ctes
+					</b-button>
+					<b-button
+					class="m-l-10"
+					size="sm"
+					variant="danger"
+					@click="deleteClient(clients_to_show[data.index])">
+						<i class="icon-trash"></i>
+					</b-button>
+				</template>
+			</b-table>
+			<p 
+			v-else
+			class="text-with-icon">
+				<i class="icon-not"></i>
+				No hay clientes para este vendedor
+			</p>
+		</div>
 		<b-skeleton-table
 		v-else
 		:hide-header="false"
@@ -43,7 +52,9 @@
 		:columns="6"
 		:table-props="{ bordered: true, striped: true }"
 		></b-skeleton-table>
-		<div class="j-center">
+		<div 
+		v-if="clients_to_show.length >= 10"
+		class="j-center">
 			<b-button
 			variant="primary"
 			@click="addClientsToShow">

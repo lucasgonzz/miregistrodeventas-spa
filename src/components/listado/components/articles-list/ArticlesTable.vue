@@ -202,7 +202,7 @@ export default {
 					bar_code: this.barCode(article),
 					name: article.name,
 					cost: this.articleCost(article),
-					price: this.articlePrice(article, false, true),
+					price: this.articlePriceListado(article),
 					stock: this.stock(article),
 					brand: this.brand(article),
 					sub_category: this.subCategory(article),
@@ -218,6 +218,13 @@ export default {
 		},
 	},
 	methods: {
+		articlePriceListado(article) {
+			let price = this.articlePrice(article)
+			if (article.with_dolar) {
+				price += ' ('+this.articlePrice(article, false, true, true)+')'
+			}
+			return price
+		},
 		setImagesCopy(article) {
 			this.$store.commit('articles/setImagesCopy', article)
 			this.$bvModal.show('images-copy')

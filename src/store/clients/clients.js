@@ -9,7 +9,7 @@ export default {
 		clients: [],
 		clients_to_show: [],
 		client_to_edit: {},
-		client_to_delete: {},
+		delete: {},
 		saldo_inicial: {},
 		search_query: '',
 		client_current_acounts: null,
@@ -59,14 +59,14 @@ export default {
 			state.client_to_edit = value
 		},
 		setDelete(state, value) {
-			state.client_to_delete = value
+			state.delete = value
 		},
 		setSaldoInicial(state, value) {
 			state.saldo_inicial = value
 		},
 		delete(state) {
 			let index = state.clients.findIndex(client => {
-				return client.id == state.client_to_delete.id
+				return client.id == state.delete.id
 			})
 			state.clients.splice(index, 1)
 		},
@@ -94,22 +94,15 @@ export default {
 				console.log(err)
 			})
 		},
-        // getClientCurrentAcounts({ commit }, client) {
-        //     commit('setClientCurrentAcounts', client)
-        // 	commit('setLoadingCurrentAcounts', true)
-        //     return axios.get(`/api/clients/current-acounts/${client.id}`)
-        //     .then(res => {
-        //     	client.current_acounts = res.data.current_acounts
-        //         console.log(res.data.current_acounts)
-        // 		commit('setLoadingCurrentAcounts', false)
-        //         commit('setClientCurrentAcounts', null)
-        //         commit('setClientCurrentAcounts', client)
-        //     })
-        //     .catch(err => {
-        // 		commit('setLoadingCurrentAcounts', false)
-        //         console.log(err)
-        //     })
-        // },
+		delete({ commit, state }) {
+			return axios.delete('api/clients/'+state.delete.id)
+			.then(res => {
+				commit('delete')
+			})
+			.catch(err => {
+				console.log(err)
+			})
+		},
 	},
 	modules: {
 		current_acounts,

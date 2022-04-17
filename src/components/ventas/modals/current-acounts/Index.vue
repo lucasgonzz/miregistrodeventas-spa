@@ -5,10 +5,13 @@
     :actions="actions"
     id="delete-current-acount"
     toast="Cuenta corriente eliminada"></confirm>
+    <pago></pago>    
+    <nota-credito></nota-credito>    
+    <import></import>    
+    <saldo-inicial></saldo-inicial>    
     <b-modal id="current-acounts" :title="title" hide-footer size="lg" body-class="p-0">
         <current-acounts-nav></current-acounts-nav>
         <color-info></color-info>
-        <errors></errors>  
         <list></list>
     </b-modal>
 </div>
@@ -17,20 +20,26 @@
 import current_acounts from '@/mixins/current_acounts'
 // Modals
 import Confirm from '@/components/common/Confirm.vue'
+import Pago from '@/components/ventas/modals/current-acounts/Pago.vue'
+import NotaCredito from '@/components/ventas/modals/current-acounts/NotaCredito.vue'
+import Import from '@/components/ventas/modals/current-acounts/Import.vue'
+import SaldoInicial from '@/components/ventas/modals/current-acounts/SaldoInicial.vue'
 // Components
 import CurrentAcountsNav from '@/components/ventas/modals/current-acounts/Nav'
 import ColorInfo from '@/components/ventas/modals/current-acounts/ColorInfo'
-import Errors from '@/components/ventas/modals/current-acounts/Errors'
 import List from '@/components/ventas/modals/current-acounts/List'
 export default {
     mixins: [current_acounts],
     components: {
         // Modals
         Confirm,
+        Pago, 
+        NotaCredito,
+        Import,
+        SaldoInicial,
         // Components
         CurrentAcountsNav,
         ColorInfo,
-        Errors,
         List,
     },
     computed: {

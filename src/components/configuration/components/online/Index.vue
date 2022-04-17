@@ -1,16 +1,24 @@
 <template>
-<b-row
-v-if="view == 'tienda-online'">
-	<b-col
-	lg="8">
-		<general></general>	
-		<title-image></title-image>	
-		<addresses></addresses>	
-		<workdays></workdays>	
-	</b-col>
-</b-row>
+<div>
+	<confirm
+	:text="text_delete"
+	:actions="['titles/delete']"
+	id="delete-title"
+	toast="Titulo eliminado"></confirm>
+	<b-row
+	v-if="view == 'tienda-online'">
+		<b-col
+		lg="8">
+			<general></general>	
+			<title-image></title-image>	
+			<addresses></addresses>	
+			<workdays></workdays>	
+		</b-col>
+	</b-row>
+</div>
 </template>
 <script>
+import Confirm from '@/components/common/Confirm.vue'
 import BtnLoader from '@/components/common/BtnLoader'
 import General from '@/components/configuration/components/online/General'
 import TitleImage from '@/components/configuration/components/online/TitleImage'
@@ -20,11 +28,17 @@ import configuration from '@/mixins/configuration'
 export default {
 	mixins: [configuration],
 	components: {
+		Confirm,
 		BtnLoader,
 		General,
 		TitleImage,
 		Addresses,
 		Workdays,
+	},
+	computed: {
+		text_delete() {
+			return '¿Seguro que quiere eliminar el titulo?'
+		}
 	},
 	data() {
 		return {
