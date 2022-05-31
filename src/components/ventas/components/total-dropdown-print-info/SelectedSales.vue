@@ -25,10 +25,16 @@
 				Imprimir
 			</b-dropdown-item>
 			<b-dropdown-item
-			v-if="selected_sales.length == 1"
+			v-if="selected_sales.length == 1 && !selected_sales[0].afip_ticket"
 			@click="showAfipDetails()">
 				<i class="icon-clipboard"></i>
-				Boleta						
+				Factura						
+			</b-dropdown-item>
+			<b-dropdown-item
+			v-if="selected_sales.length == 1 && selected_sales[0].afip_ticket"
+			@click="printAfipTicket(selected_sales[0])">
+				<i class="icon-print"></i>
+				Factura PDF
 			</b-dropdown-item>
 			<b-dropdown-item
 			v-b-modal="'delete-sales'">
@@ -39,16 +45,20 @@
 	</b-col>
 </template>
 <script>
+import afip from '@/mixins/afip'
 export default {
+	mixins: [afip],
 	computed: {
 		selected_sales() {
 			return this.$store.state.sales.selected_sales
 		},
 	},
 	methods: {
-		showAfipDetails(sale) {
+		showAfipDetails() {
 			this.$store.dispatch('sales/afip/getImportes', this.selected_sales[0])
-			this.$bvModal.show('afip-details')
+			.then(() => {
+				this.$bvModal.show('afip-details')
+			})
 		},
 		selectAll() {
 			this.$store.commit('sales/setAllSalesSelected', true)

@@ -7,9 +7,10 @@ export default {
 	state: {
 		articles: [],
 		new_articles: [],
+		from_filter: false,
+		filtered: [],
 		articles_to_show: [],
 		article_to_edit: {},
-		article_to_delete: {},
 		article_providers_history: {},
 		images_copy: {},
 		images_to_show: {},
@@ -36,19 +37,28 @@ export default {
 			console.log('setArticles')
 			console.log(articles)
 		},
+		setFromFilter(state, value) {
+			state.from_filter = value
+		},
+		setFiltered(state, value) {
+			state.filtered = value
+		},
 		setArticlesToShow(state, value) {
 			if (value) {
-				state.articles_to_show = value
+				state.articles_to_show = value.slice(0, 10)
 			} else {
 				state.articles_to_show = state.articles.slice(0, 10)
 			}
 		},
 		addArticlesToShow(state) {
 			let length = state.articles_to_show.length
-			let articles_to_add = state.articles.slice(length, length+10)
+			let articles_to_add
+			if (state.filtered.length) {
+				articles_to_add = state.filtered.slice(length, length+10)
+			} else {
+				articles_to_add = state.articles.slice(length, length+10)
+			}
 			state.articles_to_show = state.articles_to_show.concat(articles_to_add)
-			console.log('addArticlesToShow')
-			console.log(articles_to_add)
 		},
 		addArticleToShow(state, value) {
 			state.articles_to_show.unshift(value)
@@ -95,26 +105,29 @@ export default {
 		setEdit(state, value) {
 			state.article_to_edit = value
 		},
-		setDelete(state, value) {
-			state.article_to_delete = value
-		},
 		delete(state) {
 			let index 
-			state.selected_articles.forEach(selected_article => {
+			let articles 
+			if (state.from_filter) {
+				articles = state.filtered
+			} else {
+				articles = state.selected_articles
+			}
+			articles.forEach(article => {
 				index = state.articles.findIndex(art => {
-					return art.id == selected_article.id
+					return art.id == article.id
 				})
 				state.articles.splice(index, 1)
 				
 				index = state.articles_to_show.findIndex(art => {
-					return art.id == selected_article.id
+					return art.id == article.id
 				})
 				if (index != -1) {
 					state.articles_to_show.splice(index, 1)
 				}
 				
 				index = state.bar_codes.findIndex(bar_code => {
-					return bar_code == selected_article.bar_code
+					return bar_code == article.bar_code
 				})
 				if (index != -1) {
 					state.bar_codes.splice(index, 1)
@@ -184,10 +197,18 @@ export default {
 		},
 		delete({ commit, state }) {
 			let articles_id = []
-			state.selected_articles.forEach(selected_article => {
-				articles_id.push(selected_article.id)
+			if (state.from_filter) {
+				state.filtered.forEach(article => {
+					articles_id.push(article.id)
+				})
+			} else {
+				state.selected_articles.forEach(article => {
+					articles_id.push(article.id)
+				})
+			}
+			return axios.post('api/articles/delete', {
+				articles_id: articles_id 
 			})
-			return axios.delete('api/articles/'+articles_id.join('-'))
 			.then(res => {
 				commit('delete')
 			})

@@ -2,19 +2,24 @@ import axios from 'axios'
 export default {
 	namespaced: true,
 	state: {
-		dolar_blue: 0,
+		dolar: {
+			compra: 0,
+			venta: 0,
+			promedio: 0,
+		},
 	},
 	mutations: {
-		setDolarBlue(state, value) {
+		setDolar(state, value) {
 			let dolar_blue = value.find(data => {
 				return data.casa.nombre == "Dolar Blue"
 			})
 			let compra = Number(dolar_blue.casa.compra.replace(',', '.'))
 			let venta = Number(dolar_blue.casa.venta.replace(',', '.'))
-			state.dolar_blue = (compra + venta) / 2
-			console.log('compra: '+compra)
-			console.log('venta: '+venta)
-			console.log('dolar blue: '+state.dolar_blue)
+			state.dolar.compra = compra
+			state.dolar.venta = venta
+			state.dolar.promedio = (compra + venta) / 2
+			console.log('dolar:')
+			console.log(state.dolar)
 		},
 	},
 	actions: {
@@ -23,7 +28,7 @@ export default {
 			.then(res => {
 				res.json()
 				.then(data => {
-					commit('setDolarBlue', data)
+					commit('setDolar', data)
 				})
 			})
 			.catch(err => {

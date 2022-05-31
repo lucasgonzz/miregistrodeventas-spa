@@ -6,6 +6,7 @@ export default {
 	namespaced: true,
 	state: {
 		city: '',
+		province: '',
 		address: {
 			street: '',
 			street_number: '',
@@ -19,6 +20,9 @@ export default {
 	mutations: {
 		setCity(state, value) {
 			state.city = value
+		},
+		setProvince(state, value) {
+			state.province = value
 		},
 	},
 	actions: {

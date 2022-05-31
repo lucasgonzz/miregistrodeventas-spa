@@ -6,12 +6,28 @@ export default {
         	return this.$store.state.auth.user
         },
         dolar_blue() {
-        	let dolar = this.$store.state.coins.dolar_blue
+        	let coins_dolar = this.$store.state.coins.dolar
+        	let dolar 
+        	if (this.user.dolar == 'compra') {
+        		dolar = coins_dolar.compra
+        	} else if (this.user.dolar == 'venta') {
+        		dolar = coins_dolar.venta
+        	} else if (this.user.dolar == 'promedio') {
+        		dolar = coins_dolar.promedio
+        	} else if (this.user.dolar) {
+        		dolar = Number(this.user.dolar)
+        	}
         	if (this.user.dolar_plus) {
 				dolar += Number(this.user.dolar_plus)
 			}
 			return dolar
         },
+		view() {
+			return this.$route.params.view
+		},
+		sub_view() {
+			return this.$route.params.sub_view
+		},
         current_page() {
             return this.$route.name
         },

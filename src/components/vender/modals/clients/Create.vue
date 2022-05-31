@@ -25,11 +25,17 @@
             placeholder="CUIT del nuevo cliente"
             v-model="new_client.cuit"></b-form-input>
         </b-form-group>
+        <b-form-group>
+            <b-form-input
+            @keyup.enter="saveClient"
+            placeholder="Razon social del nuevo cliente"
+            v-model="new_client.razon_social"></b-form-input>
+        </b-form-group>
         <b-form-group
         label="Condicion frente al IVA">
             <b-form-select
-            :options="options"
-            v-model="new_client.iva_id"></b-form-select>
+            :options="iva_condition_options"
+            v-model="new_client.iva_condition_id"></b-form-select>
         </b-form-group>
         <b-form-group
         v-if="is_provider"
@@ -53,13 +59,14 @@
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
-import mixin from '@/mixins/clients'
+import clients from '@/mixins/clients'
+import iva_conditions from '@/mixins/iva_conditions'
 export default {
 	name: 'CreateClient',
     components: {
         BtnLoader,
     },
-    mixins: [mixin],
+    mixins: [clients, iva_conditions],
 	data() {
 		return {
             new_client: {
@@ -67,7 +74,8 @@ export default {
                 surname: '',
                 address: '',
                 cuit: '',
-                iva_id: 0,
+                razon_social: '',
+                iva_condition_id: 0,
                 seller_id: 0,
             },
             saving_client: false,
@@ -99,6 +107,8 @@ export default {
             this.new_client.surname = ''
             this.new_client.address = ''
             this.new_client.cuit = ''
+            this.new_client.razon_social = ''
+            this.new_client.iva_condition_id = 0
             this.new_client.seller_id = 0
         }
 	}

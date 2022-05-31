@@ -54,13 +54,6 @@ class="d-none d-lg-block">
 							Copiar de otro articulo
 						</b-dropdown-item>
 					</b-dropdown>
-					<!-- <b-button
-					variant="primary"
-					v-else 
-					@click="uploadArticlePhoto(articles[data.index])"
-					size="sm">
-						<i class="icon-camera"></i>
-					</b-button> -->
 				</template>
 				<template #cell(options)="data">
 					<div class="buttons">
@@ -106,16 +99,15 @@ class="d-none d-lg-block">
 						class="btn-listado btn-listado-edit m-l-10">
 							<i class="icon-edit"></i>
 						</b-button>
-						<!-- <b-button 
-						class="m-l-10"
-						variant="danger"
-						v-intro-step="8"
-						v-intro-position="'left'"
-						v-intro="'Eliminar un producto'"
+						<!-- Dolar calculator -->
+						<b-button 
+						v-if="articles[data.index].with_dolar"
+						variant="success"
 						size="sm"
-						@click="deleteArticle(articles[data.index])" >
-							<i class="icon-trash"></i>
-						</b-button> -->
+						@click="setArticleDolarCalculator(articles[data.index])" 
+						class="m-l-10">
+							<i class="icon-dolar"></i>
+						</b-button>
 					</div>
 				</template>
 			</b-table>
@@ -185,12 +177,12 @@ export default {
 			if (this.can('articles.stock')) {
 				fields.push({ key: 'stock', label: 'Stock', sortable: true })
 			}
-			if (this.can('brands')) {
-				fields.push({ key: 'brand', label: 'Marca', sortable: true })
-			}
-			if (this.can('categories')) {
-				fields.push({ key: 'sub_category', label: 'Subcategoria', sortable: true })
-			}
+			// if (this.can('brands')) {
+			// 	fields.push({ key: 'brand', label: 'Marca', sortable: true })
+			// }
+			// if (this.can('categories')) {
+			// 	fields.push({ key: 'sub_category', label: 'Subcategoria', sortable: true })
+			// }
 			fields.push({ key: 'options', label: 'Opciones', sortable: true})
 			return fields
 		},
@@ -218,6 +210,10 @@ export default {
 		},
 	},
 	methods: {
+		setArticleDolarCalculator(article) {
+			this.$store.commit('articles/setEdit', article)
+			this.$bvModal.show('dolar-calculator')
+		},
 		articlePriceListado(article) {
 			let price = this.articlePrice(article)
 			if (article.with_dolar) {

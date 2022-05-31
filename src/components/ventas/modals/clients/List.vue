@@ -65,10 +65,10 @@
 	</div>
 </template>
 <script>
-import Clients from '@/mixins/clients'
+import clients from '@/mixins/clients'
 export default {
 	name: 'ClientsList',
-	mixins: [Clients],
+	mixins: [clients],
 	computed: {
 		loading() {
 			return this.$store.state.clients.loading
@@ -80,9 +80,9 @@ export default {
 			return [
 				{ key: 'name', label: 'Nombre', class: 'text-center'},
 				{ key: 'surname', label: 'Apellido', class: 'text-center'},
-				{ key: 'address', label: 'Direccion', class: 'text-center'},
-				{ key: 'cuit', label: 'CUIT', class: 'text-center'},
-				{ key: 'iva', label: 'Iva', class: 'text-center'},
+				// { key: 'address', label: 'Direccion', class: 'text-center'},
+				// { key: 'cuit', label: 'CUIT', class: 'text-center'},
+				// { key: 'iva', label: 'Iva', class: 'text-center'},
 				{ key: 'saldo', label: 'Saldo', class: 'text-center'},
 				{ key: 'options', label: 'Opciones', class: 'text-center'},
 			]
@@ -134,10 +134,6 @@ export default {
 	methods: {
 		addClientsToShow() {
 			this.$store.commit('sales/clients/incrementIndexClientsToShow')
-		},
-		editClient(client) {
-			this.$store.commit('clients/setEdit', client)
-			this.$bvModal.show('edit-client')
 		},
 		saldoInicial(client) {
 			this.$store.commit('clients/setSaldoInicial', client)

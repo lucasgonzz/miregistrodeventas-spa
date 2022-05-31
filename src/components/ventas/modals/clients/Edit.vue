@@ -18,18 +18,24 @@
 		placeholder="Ingresar direccion"
 		v-model="client.address"></b-form-input>
 	</b-form-group>
-    <b-form-group
-    label="Condicion frente al IVA">
-        <b-form-select
-        :options="options"
-        v-model="client.iva_id"></b-form-select>
-    </b-form-group>
 	<b-form-group
 	label="CUIT del cliente">
 		<b-form-input
 		placeholder="Ingresar CUIT sin guiones"
 		v-model="client.cuit"></b-form-input>
 	</b-form-group>
+	<b-form-group
+	label="Razon social">
+		<b-form-input
+		placeholder="Ingresar la razon social"
+		v-model="client.razon_social"></b-form-input>
+	</b-form-group>
+    <b-form-group
+    label="Condicion frente al IVA">
+        <b-form-select
+        :options="iva_condition_options"
+        v-model="client.iva_condition_id"></b-form-select>
+    </b-form-group>
     <b-form-group
     label="Vendedor">
         <b-form-select
@@ -49,7 +55,8 @@
 </b-modal>
 </template>
 <script>
-import mixin from '@/mixins/clients'
+import clients from '@/mixins/clients'
+import iva_conditions from '@/mixins/iva_conditions'
 import BtnLoader from '@/components/common/BtnLoader'
 export default {
 	name: 'EditClient',
@@ -61,7 +68,7 @@ export default {
 			updating: false,
 		}
 	},
-	mixins: [mixin],
+	mixins: [clients, iva_conditions],
 	computed: {
 		title() {
 			return 'Editar cliente '+this.client.name

@@ -38,11 +38,21 @@ export default {
 		address() {
 			return this.$store.state.address.address
 		},
+		province() {
+			return this.$store.state.address.province
+		},
+		city() {
+			return this.$store.state.address.city
+		},
 	},
 	methods: {
 		saveAddress() {
 			this.loading = true 
-			this.$api.post('addresses', this.address)
+			this.$api.post('addresses', {
+				...this.address,
+				city: this.city,
+				province: this.province,
+			})
 			.then(res => {
 				this.loading = false 
 				this.$store.commit('auth/addAddress', res.data.address)

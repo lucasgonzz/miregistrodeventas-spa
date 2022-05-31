@@ -18,6 +18,18 @@
 			v-model="user.company_name"
 			@keyup.enter="updateUser"></b-form-input>
 		</b-form-group>
+		<b-form-group
+		label="Telefono">
+			<b-form-input
+			v-model="user.phone"
+			@keyup.enter="updateUser"></b-form-input>
+		</b-form-group>
+		<b-form-group
+		label="Correo electronico">
+			<b-form-input
+			v-model="user.email"
+			@keyup.enter="updateUser"></b-form-input>
+		</b-form-group>
 		<b-form-group>
 			<b-button
 			block

@@ -9,14 +9,6 @@ class="d-lg-none">
 			v-show="articles.length"
 			v-for="article in articles"
 			:article="article"></article-card>
-			<div 
-			v-show="!articles.length"
-			class="no-content">
-				<i class="icon-not"></i>
-				<p>
-					No hay artículos
-				</p>
-			</div>
 		</div>
 		<articles-card-loading
 		v-else
@@ -25,6 +17,12 @@ class="d-lg-none">
 		:columns="8"
 		:table-props="{ bordered: true, striped: true }"
 		></articles-card-loading>
+		<p 
+		v-show="!articles.length"
+		class="text-with-icon">
+			<i class="icon-not"></i>
+			No hay artículos
+		</p>
 	</b-col>
 </b-row>
 </template>

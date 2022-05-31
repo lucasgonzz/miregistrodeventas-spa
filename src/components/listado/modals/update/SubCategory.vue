@@ -1,8 +1,8 @@
 <template>
 <b-modal 
 v-if="can('categories')"
-id="update-category" 
-title="Asignar categoria" 
+id="update-sub-category" 
+title="Actualizar Sub Categoria" 
 hide-footer>
 	<div>
 		<b-form-group
@@ -32,10 +32,11 @@ hide-footer>
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
+import selected_articles from '@/mixins/selected_articles'
 import categories from '@/mixins/categories'
 export default {
 	name: 'UpdateCategories',
-	mixins: [categories],
+	mixins: [selected_articles, categories],
 	components: {
 		BtnLoader,
 	},
@@ -48,36 +49,22 @@ export default {
 			loading: false,
 		}
 	},
-	computed: {
-		selected_articles() {
-			return this.$store.state.articles.selected_articles
-		},
-		selected_articles_id() {
-			let ids = []
-			this.selected_articles.forEach(art => {
-				ids.push(art.id)
-			})
-			return ids
-		}
-	},
 	methods: {
 		update() {
 			this.loading = true
-			this.$api.post('/articles/category', {
-				// category_id: this.category_id,
+			this.$api.put('/articles/sub_category_id', {
 				sub_category_id: this.form.sub_category_id,
 				articles_ids: this.selected_articles_id
 			})
 			.then(res => {
 				this.loading = false
 				let articles = res.data.articles
-				console.log(res)
 				articles.forEach(article => {
 					this.$store.commit('articles/update', article)
 				})
-				this.$bvModal.hide('update-category')
+				this.$bvModal.hide('update-sub-category')
 				this.clear()
-				this.$toast.success('Artículos ctualizados')
+				this.$toast.success('Artículos actualizados')
 			})
 			.catch(err => {
 				this.$toast.error('Error al actualizar')
@@ -86,8 +73,8 @@ export default {
 			})
 		},
 		clear() {
-			this.category_id = 0
-			this.sub_category_id = 0
+			this.form.category_id = 0
+			this.form.sub_category_id = 0
 		},
 	}
 }

@@ -14,6 +14,12 @@ export default {
 		},
 	},
 	methods: {
+		hasExtencion(name) {
+			let index = this.user.extencions.findIndex(extencion => {
+				return extencion.name == name
+			})
+			return index != -1
+		},
 		can(permission_slug) {
 			let has_permission = false
 		    if (this.user.status == 'super') {
@@ -38,6 +44,12 @@ export default {
 			let permission_slug = ''
 			if (route == '/vender') {
 				permission_slug = 'sales.store'
+			} else if (route.includes('produccion')) {
+				if (route.includes('presupuestos')) {
+					permission_slug = 'production.budgets'
+				} else if (route.includes('ordenes-de-produccion')) {
+					permission_slug = 'production.order_productions'
+				}
 			} else if (route == '/ingresar') {
 				permission_slug = 'articles.store'
 			} else if (route == '/listado') {

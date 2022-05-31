@@ -25,7 +25,7 @@
 			<b-button 
 			v-intro-step="3"
 			v-intro="'Selecciona un cliente para la venta (opcional)'"
-			v-if="can('client.index')"
+			v-if="can('clients')"
 			variant="success"
 			v-b-modal="'clients'">
 				<i class="icon-user"></i>

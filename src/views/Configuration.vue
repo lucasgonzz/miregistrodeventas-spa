@@ -7,6 +7,7 @@
 		<account></account>
 		<online></online>
 		<subscription></subscription>
+		<facturacion></facturacion>
 	</div>
 </template>
 <script>
@@ -17,6 +18,7 @@ import EditSchedule from '@/components/configuration/modals/schedules/Edit'
 import Account from '@/components/configuration/components/account/Index'
 import Online from '@/components/configuration/components/online/Index'
 import Subscription from '@/components/configuration/components/Subscription'
+import Facturacion from '@/components/configuration/components/facturacion/Index'
 export default {
 	components: {
 		NavComponent,
@@ -26,6 +28,7 @@ export default {
 		Account,
 		Online,
 		Subscription,
+		Facturacion,
 	},
 }
 </script>

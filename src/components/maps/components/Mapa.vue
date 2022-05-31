@@ -1,25 +1,44 @@
 <template>
-	<b-row
+	<div
 	v-if="is_city_selected">
-		<b-col
-		class="al-borde"
-		cols="12">
-			<div
-			class="address-search shadow-2">
+		<b-row
+		class="row-address-search shadow-1">
+			<b-col
+			cols="12"
+			md="8"
+			lg="6">
 				<b-button 
-				variant="primary"
 				@click="back"
-				class="btn-nav apretable text-black m-r-15">
-					<i class="icon-arrow-back"></i>
+				class="btn-back">
+					<i class="icon-back"></i>
 				</b-button>	
 				<b-form-input
 				v-model="query"
 				@keyup.enter="search"
 				placeholder="Ingresa tu direccion"></b-form-input>
-			</div>
-			<div class="mapa" ref="mapaaa"></div>
-			<div
-			class="maps-address shadow-2">
+				<b-button 
+				@click="search"
+				variant="primary"
+				class="apretable">
+					<btn-loader
+					icon="search"
+					:loader="loading"></btn-loader>
+				</b-button>	
+			</b-col>
+		</b-row>
+		<b-row>
+			<b-col
+			class="al-borde"
+			cols="12">
+				<div class="mapa" ref="mapa"></div>
+			</b-col>
+		</b-row>
+		<b-row
+		class="row-next-button shadow">
+			<b-col
+			cols="12"
+			md="8"
+			lg="6">
 				<b-button
 				:disabled="disabled"
 				@click="next"
@@ -29,9 +48,9 @@
 					text="Siguiente"
 					:loader="loading"></btn-loader>
 				</b-button>
-			</div>
-		</b-col>
-	</b-row>
+			</b-col>
+		</b-row>
+	</div>
 </template>
 <script>
 import BtnLoader from "@/components/common/BtnLoader"
@@ -79,12 +98,12 @@ export default {
 			this.$bvModal.show('address-details')
 		},
 		initializeMap() {
-			const mapContainer = this.$refs.mapaaa
+			const mapContainer = this.$refs.mapa
+			console.log(mapContainer)
 			if (window.google && typeof mapContainer != 'undefined') {
 				this.map = new window.google.maps.Map(mapContainer, this.configMapa)
 				this.map.addListener('click', this.setClick)
 				this.search('', true)
-				console.log(mapContainer)
 			} else {
 				setTimeout(() => {
 					this.initializeMap()
@@ -183,43 +202,34 @@ export default {
 }
 </script>
 <style lang="sass">
+.maps 	
+	.row 
+		margin-bottom: 0
+.row-address-search
+	height: 60px
+	background: #FFF
+	z-index: 1000
+	.col-12
+		display: flex !important
+		align-items: center !important
+		justify-content: space-between
+		.btn-back 
+			background: none
+			color: #000
+			border: none
+		input 
+			display: inline-block
+			width: calc(100% - 41px - 44px - 20px)
+			align-self: center
 .mapa 
-	position: fixed
-	top: 50px
 	width: 100%
-	height: calc(100vh - 100px)
-	// @media screen and (min-width: 992px)
-	// 	height: calc(100vh - 100px)
-	// @media screen and (max-width: 992px)
-	// 	height: calc(100vh - 100px)
-.address-search
-	@media screen and (max-width: 992px)
-		background: #FFF
-	height: 50px
-	top: 0
-	left: 0
-	display: flex
-	justify-content: space-between
-	align-items: center
-	padding: 0 1em
-	position: fixed
-	z-index: 100
-	width: 100%
-	div
-		width: 87%
-		.autocomplete
+	height: calc(100vh - 60px - 60px)
+.row-next-button
+	background: #FFF
+	height: 60px
+	.col-12
+		display: flex !important
+		align-items: center !important
+		.btn 
 			width: 100%
-
-.maps-address
-	@media screen and (max-width: 992px)
-		background: #FFF
-	position: fixed
-	left: 0
-	bottom: 0
-	height: 50px
-	padding: 0 1em
-	display: flex
-	align-items: center
-	justify-content: space-between
-	width: 100%
 </style>

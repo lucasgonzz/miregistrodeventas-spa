@@ -1,5 +1,6 @@
 <template>
 	<div
+	v-if="sellers.length"
 	class="nav-clients">
 		<b-nav tabs class="m-b-10">
 			<b-nav-item 

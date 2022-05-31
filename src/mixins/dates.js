@@ -56,6 +56,16 @@ export default {
 			}
 			return '-'
 		},
+		until(date, fisrt_upp = false) {
+			if (date) {
+				if (!fisrt_upp) {
+					return moment(date).toNow(true)
+				} else {
+					return this.capitalize(moment(date).toNow(true))
+				}
+			}
+			return '-'
+		},
 		diff(d, formated = false) {
 			var date = moment().diff(d, 'days')+''
 			date = date.replace('-', '')

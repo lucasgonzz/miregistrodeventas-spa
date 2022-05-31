@@ -16,42 +16,6 @@
 	cols="12" 
 	md="6">
 		<b-dropdown
-		right
-		variant="primary"
-		v-show="selected_articles.length"
-		:text="selected_articles.length+' seleccionados'">
-			<b-dropdown-item
-			@click="selectAll">
-				<i class="icon-check"></i>
-				Seleccionar todo
-			</b-dropdown-item>
-			<b-dropdown-item
-			@click="deselectAll">
-				<i class="icon-not"></i>
-				Deseleccionar todo
-			</b-dropdown-item>
-			<b-dropdown-item
-			v-b-modal="'update-by-porcentage'">
-				<i class="icon-plus"></i>
-				Aumentar %
-			</b-dropdown-item>
-			<b-dropdown-item
-			v-b-modal="'update-category'">
-				<i class="icon-redo"></i>
-				Categoria
-			</b-dropdown-item>
-			<b-dropdown-item
-			v-b-modal="'update-brand'">
-				<i class="icon-redo"></i>
-				Marca
-			</b-dropdown-item>
-			<b-dropdown-item
-			v-b-modal="'delete-articles'">
-				<i class="icon-trash"></i>
-				Eliminar
-			</b-dropdown-item>
-		</b-dropdown>
-		<b-dropdown
 		class="m-l-10" 
 		text="Mas"
 		right
@@ -74,24 +38,6 @@
 			<i class="icon-print"></i>
 			Listas de precios
 		</b-button>
-		<!-- <a 
-		v-intro-step="2"
-		v-intro="'Exporta un exel de tus productos'"
-    	:href="getExelLink()" 
-    	target="_blank"
-		class="btn btn-sm-only-sm btn-success m-l-10">
-			<i class="icon-download"></i>
-			Exel
-		</a> -->
-		<!-- <b-button 
-		v-intro-step="3"
-		v-intro="'Genera un PDF de tus productos'"
-		variant="danger"
-		v-b-modal="'articles-pdf'"
-		class="m-l-10">
-			<i class="icon-download"></i>
-			Pdf
-		</b-button> -->
 		<b-button 
 		variant="secondary"
 		v-intro-step="4"
@@ -116,7 +62,7 @@ export default {
 	components: {
 		Pagination,
 		// Components
-		Autocomplete
+		Autocomplete,
 	},
 	data() {
 		return {
@@ -139,12 +85,6 @@ export default {
             var link = process.env.VUE_APP_API_URL+'/articles/excel/export'
             window.open(link)
 		},
-		selectAll() {
-			this.$store.commit('articles/setAllArticlesSelected', true)
-		},
-		deselectAll() {
-			this.$store.commit('articles/setAllArticlesSelected', false)
-		},
 		filterArticles() {
 			let query = this.$refs.['article-search'].value
 			let articles = this.articles.filter(art => {
@@ -152,14 +92,15 @@ export default {
 						this.barCodeInclues(art, query)
 			})
 			this.$store.commit('articles/setArticlesToShow', articles)
-			if (query.length >= 2) {
-			} else {
+			this.$store.commit('articles/setFiltered', articles)
+			if (query.length < 2) {
 				this.$store.commit('articles/setArticlesToShow')
-			}
+			} 
 			return []
 		},
 		search(input) {
-            this.$store.commit('articles/setIsFilter', false)
+            this.$store.commit('articles/setFromFilter', false)
+            this.$store.commit('articles/setFiltered', [])
 			if (input.length < 2) {
 				this.$store.commit('articles/setArticlesToShow')
 			} 

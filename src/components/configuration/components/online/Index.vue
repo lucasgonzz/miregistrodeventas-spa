@@ -10,6 +10,7 @@
 		<b-col
 		lg="8">
 			<general></general>	
+			<dolar></dolar>	
 			<title-image></title-image>	
 			<addresses></addresses>	
 			<workdays></workdays>	
@@ -21,6 +22,7 @@
 import Confirm from '@/components/common/Confirm.vue'
 import BtnLoader from '@/components/common/BtnLoader'
 import General from '@/components/configuration/components/online/General'
+import Dolar from '@/components/configuration/components/online/Dolar'
 import TitleImage from '@/components/configuration/components/online/TitleImage'
 import Addresses from '@/components/configuration/components/online/Addresses'
 import Workdays from '@/components/configuration/components/online/Workdays'
@@ -31,6 +33,7 @@ export default {
 		Confirm,
 		BtnLoader,
 		General,
+		Dolar,
 		TitleImage,
 		Addresses,
 		Workdays,

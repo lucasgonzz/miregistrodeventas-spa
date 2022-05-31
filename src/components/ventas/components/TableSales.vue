@@ -90,6 +90,8 @@ export default {
 			this.sales.forEach(sale => { 
 				items.push({
 					id: sale.id,
+					afip_ticket: sale.afip_ticket,
+					client: sale.client,
 					articles: sale.articles,
 					date: sale.created_at,
 					hour: this.hour(sale.created_at),

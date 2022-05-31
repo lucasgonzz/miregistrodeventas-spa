@@ -3,9 +3,10 @@
 	class="m-t-20"
 	v-if="!is_city_selected">
 		<b-col
+		md="8"
 		lg="6">
 			<b-card
-			class="shadow-2"
+			class="shadow b-r-1"
 			title="Selecciona tu ciudad">
 				<b-form-group>
 					<b-form-select
@@ -72,6 +73,11 @@ export default {
 			let ciudades = this.ciudades.filter(city => {
 				return city.provincia.nombre == this.provincia
 			})
+			if (this.provincia == 'Santa Fe') {
+				ciudades.push({nombre: 'Capitán Bermúdez'})
+				ciudades.push({nombre: 'Granadero Baigorria'})
+			}
+			ciudades.sort((a, b) => (a.name > b.name) ? 1 : -1)
 			let options = []
 			options.push({
 				text: 'Seleccione la ciudad',
@@ -90,6 +96,7 @@ export default {
 		setCity() {
 			if (this.ciudad != '') {
 				this.$store.commit('address/setCity', this.ciudad)
+				this.$store.commit('address/setProvince', this.provincia)
 			} else {
 				this.$toast.error('Seleccione su ciudad, por favor')
 			}

@@ -1,5 +1,6 @@
 <template>
-	<div>
+	<div
+	class="maps">
 		<address-details
 		:previus_route="previus_route"></address-details>
 		<select-city></select-city>

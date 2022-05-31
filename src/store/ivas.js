@@ -5,18 +5,18 @@ axios.defaults.withCredentials = true
 export default {
 	namespaced: true,
 	state: {
-		ivas: [],
+		models: [],
 	},
 	mutations: {
-		setIvas(state, value) {
-			state.ivas = value
+		setModels(state, value) {
+			state.models = value
 		},
 	},
 	actions: {
-		getIvas({ commit }) {
+		getModels({ commit }) {
 			return axios.get('api/ivas')
 			.then(res => {
-				commit('setIvas', res.data.ivas)
+				commit('setModels', res.data.ivas)
 			})
 			.catch(err => {
 				console.log(err)

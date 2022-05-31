@@ -22,6 +22,7 @@
 						variant="success"
 						v-show="order.status == 'finished' && order.deliver">
 							<btn-loader
+							:index="order.id"
 							:loader="loading_deliver"
 							text="Enviado"></btn-loader>
 						</b-button>
@@ -33,6 +34,7 @@
 						variant="success"
 						v-show="order.status == 'finished' && !order.deliver">
 							<btn-loader
+							:index="order.id"
 							:loader="loading_deliver"
 							text="Retirado"></btn-loader>
 						</b-button>
@@ -63,7 +65,7 @@ export default {
 	mixins: [Mixin],
 	data() {
 		return {
-			loading_deliver: false,
+			loading_deliver: 0,
 		}
 	},
 	computed: {
@@ -76,16 +78,16 @@ export default {
 	},
 	methods: {
 		delivered(order) {
-			this.loading_deliver = true
+			this.loading_deliver = order.id
 			this.$api.get(`/orders/deliver/${order.id}`)
 			.then(res => {
-				this.loading_deliver = false
+				this.loading_deliver = 0
 				this.$store.commit('sales/addSale', res.data.sale)
 				this.$store.commit('sales/setTotal', null)
 				this.$store.dispatch('online/orders/getConfirmedFinishedOrders')
 			})
 			.catch(err => {
-				this.loading_deliver = false
+				this.loading_deliver = 0
 				console.log(err)
 			})
 		},

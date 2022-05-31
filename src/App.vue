@@ -61,7 +61,7 @@ export default {
             return this.$store.state.auth.loading
         },
         container_class() {
-            if (this.current_page != 'Online' && this.current_page != 'Login' && this.current_page != 'Home') {
+            if (this.current_page != 'Maps' && this.current_page != 'Online' && this.current_page != 'Login' && this.current_page != 'Home') {
                 return 'p-b-20'
             }
             return ''
@@ -168,6 +168,15 @@ export default {
                 this.loading_message = 'ventas'
                 await this.$store.dispatch('sales/days_previus_sales/getDaysPreviusSales')
                 await this.$store.dispatch('sales/getSales')
+                if (this.can('production.budgets')) {
+                    this.loading_message = 'presupuestos'
+                    this.$store.dispatch('produccion/budgets/getModels')
+                }
+                if (this.can('production.order_productions')) {
+                    this.loading_message = 'ordenes de produccion'
+                    this.$store.dispatch('produccion/order_productions/getModels')
+                    this.$store.dispatch('produccion/order_productions/statuses/getModels')
+                }
                 if (this.can('special_prices')) {
                     this.$store.dispatch('special_prices/getSpecialPrices')
                 }
@@ -186,6 +195,12 @@ export default {
                 if (this.can('clients')) {
                     this.loading_message = 'clientes'
                     await this.$store.dispatch('clients/getClients')
+                }
+                if (this.can('afip_tickets')) {
+                    this.loading_message = 'iva'
+                    await this.$store.dispatch('ivas/getModels')
+                    this.loading_message = 'condiciones de iva'
+                    await this.$store.dispatch('iva_conditions/getModels')
                 }
                 if (this.can('employees')) {
                     this.loading_message = 'empleados'
@@ -224,8 +239,6 @@ export default {
                     await this.$store.dispatch('workdays/getWorkdays')
                     this.loading_message = 'horarios de trabajo'
                     await this.$store.dispatch('schedules/getSchedules')
-                    this.loading_message = 'iva'
-                    await this.$store.dispatch('ivas/getIvas')
                     this.getOrdersAndQuestions()
                     this.getBuyers()
                     this.getActiveCupons()

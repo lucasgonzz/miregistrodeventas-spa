@@ -41,6 +41,18 @@ hide-footer>
 	placeholder="Seleccione el archivo o arrastralo hasta aquí"
 	drop-placeholder="Solta el archivo aqui..."
 	></b-form-file>
+	<b-form-group
+	label="Porcentaje para calcular los precios a partir de los costos">
+		<b-form-input
+		placeholder="Ingrese el porcentaje"
+		v-model="percentage"></b-form-input>
+	</b-form-group>
+	<b-form-group
+	label="Proveedor de estos articulos">
+		<b-form-select
+		v-model="provider_id"
+		:options="providers_options"></b-form-select>
+	</b-form-group>
 	<b-button
 	:disabled="!file"
 	block
@@ -62,6 +74,8 @@ export default {
 		return {
 			loading: false,
 			file: null,
+			percentage: '',
+			provider_id: 0,
 		}
 	},
 	methods: {
@@ -70,6 +84,8 @@ export default {
 			let config = {headers: { 'content-type': 'multipart/form-data' }}
 			let form_data = new FormData();
 			form_data.append('articles', this.file);
+			form_data.append('percentage', this.percentage);
+			form_data.append('provider_id', this.provider_id);
 			this.$api.post('articles/excel/import', form_data, config)
 			.then(res => {
 				this.loading = false

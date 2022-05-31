@@ -4,7 +4,7 @@
     v-if="show_nav">
         <b-navbar 
         class="nav-app"
-        toggleable="lg" 
+        toggleable="md" 
         variant="primary">
             <b-navbar-brand>
                 <img src="@/assets/logo blanco.png" alt="">
@@ -24,6 +24,12 @@
                     v-if="can('sales.store')"
                     :class="activeLink('Vender')">
                         Vender
+                    </b-nav-item>
+                    <b-nav-item 
+                    v-if="hasExtencion('produccion')"
+                    :to="{name: 'Produccion', params: {view: 'presupuestos'}}"
+                    :class="activeLink('Produccion')">
+                        Produccion
                     </b-nav-item>
                     <b-nav-item :to="{name: 'Ingresar'}"
                     v-if="can('articles.store')"

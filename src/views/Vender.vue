@@ -2,7 +2,6 @@
 <div id="vender">
 	<clients></clients>
 	<select-variant></select-variant>
-	<create-client></create-client>
 	<successful-sale></successful-sale>
 	<new-article></new-article>
 	<change-percentage-card></change-percentage-card>
@@ -28,7 +27,6 @@
 import NewArticle from '../components/vender/modals/NewArticle.vue'
 import Clients from '../components/vender/modals/clients/Index.vue'
 import SelectVariant from '../components/vender/modals/SelectVariant.vue'
-import CreateClient from '../components/vender/modals/clients/CreateClient.vue'
 import SuccessfulSale from '../components/vender/modals/SuccessfulSale.vue'
 import ChangePercentageCard from '../components/vender/modals/ChangePercentageCard.vue'
 import UpdatePrice from '../components/vender/modals/UpdatePrice.vue'
@@ -48,7 +46,6 @@ export default {
 		NewArticle,
 		Clients,
 		SelectVariant,
-		CreateClient,
 		SuccessfulSale,
 		ChangePercentageCard,
 		UpdatePrice,

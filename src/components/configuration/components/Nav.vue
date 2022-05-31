@@ -3,7 +3,11 @@
 		<b-col
 		cols="12"
 		lg="8">
-			<b-nav tabs>
+			<horizontal-nav
+			:items="items"
+			prop_name="name"
+			:set_view="true"></horizontal-nav>
+			<!-- <b-nav tabs>
 				<b-nav-item
 				@click="setView('cuenta')"
 				:active="isActive('cuenta')">
@@ -20,15 +24,31 @@
 				:active="isActive('suscripcion')">
 					Suscripción
 				</b-nav-item>
-			</b-nav>
+			</b-nav> -->
 		</b-col>
 	</b-row>
 </template>
 <script>
 import configuration from '@/mixins/configuration'
+import HorizontalNav from '@/components/common/HorizontalNav'
 export default {
 	name: 'NavConfiguration',
 	mixins: [configuration],
+	components: {
+		HorizontalNav,
+	},
+	computed: {
+		items() {
+			let items = []
+			items.push({name: 'cuenta'})
+			if (this.has_online) {
+				items.push({name: 'tienda-online'})
+			}
+			items.push({name: 'suscripcion'})
+			items.push({name: 'facturacion'})
+			return items
+		}
+	},
 	methods: {
 		setView(view) {
 			if (this.view != view) {

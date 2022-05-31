@@ -47,11 +47,13 @@ export default {
 			let index = state.buyers.findIndex(b => {
 				return b.id == message.buyer_id
 			})
-			let repeated = state.buyers[index].messages.findIndex(m => {
-				return m.id == message.id
-			})
-			if (repeated == -1) {
-				state.buyers[index].messages.push(message) 
+			if (index != -1) {
+				let repeated = state.buyers[index].messages.findIndex(m => {
+					return m.id == message.id
+				})
+				if (repeated == -1) {
+					state.buyers[index].messages.push(message) 
+				}
 			}
 		},
 		addBuyerMessage(state, value) {

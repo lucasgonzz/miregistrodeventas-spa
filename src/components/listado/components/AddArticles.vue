@@ -1,6 +1,6 @@
 <template>
 	<b-row class="j-center" 
-	v-show="!is_filter && articles_to_show.length >= 10 && articles_to_show.length < articles.length && !loading">
+	v-show="articles_to_show.length >= 10 && articles_to_show.length < articles.length && !loading">
 		<b-col
 		md="4">
 			<b-button

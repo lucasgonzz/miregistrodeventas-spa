@@ -9,7 +9,7 @@
 			<p
 			@click="setShow(title)"
 			:class="show(title) ? 'text-bold' : ''"
-			class="sub-title c-p">
+			class="c-p">
 				<i 
 				v-if="show(title)"
 				class="icon-up"></i>
@@ -233,7 +233,7 @@ export default {
 			.then(res => {
 				this.adding = false
 				this.$store.commit('titles/add', res.data.title)
-				this.$toast.success('Imagen creado')
+				this.$toast.success('Imagen creada')
 			})
 			.catch(err => {
 				console.log(err)
@@ -277,20 +277,10 @@ export default {
 			.btn 
 				display: none
 				position: absolute
-			// canvas
-			// 	top: 0
-			// 	left: 25%
-			// 	position: absolute
-			// 	width: 50%
-			// 	height: 100%
-			// 	border: 1px solid #000 !important
 		.cont-color-picker
 			position: relative
 			.hu-color-picker
 				width: 220px !important
-			// display: flex
-			// align-items: center
-			// justify-content: space-around
 			img
 				position: absolute
 				left: 50%

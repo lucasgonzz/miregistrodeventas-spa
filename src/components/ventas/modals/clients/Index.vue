@@ -2,7 +2,7 @@
 <div>
     <confirm
     :text="text_delete"
-    :actions="['clients/clients/delete']"
+    :actions="['clients/delete']"
     id="delete-client"
     toast="Cliente eliminado"></confirm>
 	<create></create>	
@@ -17,7 +17,7 @@
 </template>
 <script>
 import Confirm from '@/components/common/Confirm.vue'
-import Create from '@/components/vender/modals/clients/CreateClient.vue'
+import Create from '@/components/vender/modals/clients/Create.vue'
 import Edit from '@/components/ventas/modals/clients/Edit.vue'
 import Import from '@/components/ventas/modals/clients/Import.vue'
 import Buscador from '@/components/ventas/modals/clients/Buscador'

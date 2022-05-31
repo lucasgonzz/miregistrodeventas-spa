@@ -5,37 +5,30 @@ axios.defaults.baseURL = process.env.VUE_APP_API_URL
 export default {
 	namespaced: true,
 	state: {
-		importes: {
-			gravado: null,
-			iva: null,
-			subtotal: null,
-			total: null,
-		},
+		sale: null,
+		importes: {},
 		loading: false,
 	},
 	mutations: {
 		setLoading(state, value) {
 			state.loading = value
 		},
+		setSale(state, value) {
+			state.sale = value
+		},
 		setImportes(state, value) {
 			state.importes = value
 			console.log(state.importes)
-		}
+		},
 	},
 	actions: {
 		getImportes({ commit }, sale) {
+			commit('setSale', sale)
 			commit('setLoading', true)
-			axios.get('/api/afip/importes/'+sale.id)
+			return axios.get('/api/afip/importes/'+sale.id)
 			.then(res => {
 				commit('setLoading', false)
-				let importes = res.data.importes
-				console.log(importes)
-				commit('setImportes', {
-					gravado: importes.importe_gravado,
-					iva: importes.importe_iva,
-					subtotal: importes.importe_subtotal,
-					total: importes.importe_total,
-				})
+				commit('setImportes', res.data.importes)
 			})
 			.catch(err => {
 				commit('setLoading', false)

@@ -26,7 +26,7 @@
 		class="j-start m-t-10">
 			<b-button
 			variant="primary"
-			:to="{name: 'Maps'}">
+			@click="addAddress">
 				Agregar direccion
 			</b-button>
 		</div>
@@ -63,6 +63,10 @@ export default {
 		}
 	},
 	methods: {
+		addAddress() {
+			this.$store.commit('address/setCity', '')
+			this.$router.push({name: 'Maps'})
+		},
 		deleteAddress(address) {
 			this.loading = address.id
 			this.$api.delete('addresses/'+address.id)

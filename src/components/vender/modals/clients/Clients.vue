@@ -9,12 +9,9 @@
                 placeholder="Buscar un cliente..."
                 @submit="setClient"></autocomplete>
             </b-form-group>
-            <b-form-group 
-            v-if="client">
-                <strong class="client-name">
-                    Cliente seleccionado: {{ client.name }} {{ client.surname }}
-                </strong>
-            </b-form-group>
+            <client-info
+            v-if="client"
+            :client="client"></client-info>
             <b-form-group
             v-show="client">
                 <b-button 
@@ -51,10 +48,11 @@
 <script>
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
-
+import ClientInfo from '@/components/common/ClientInfo'
 export default {
     components: {
-        Autocomplete
+        Autocomplete,
+        ClientInfo,
     },
     data() {
         return {

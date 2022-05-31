@@ -166,12 +166,12 @@ export default {
             } else {
                 fecha_max = ''
             }
-            if (precio_min != 0) {
+            if (precio_min != '') {
                 filters = filters.filter(art => {
                     return art.price >= precio_min
                 })
             }
-            if (precio_max != 0) {
+            if (precio_max != '') {
                 filters = filters.filter(art => {
                     return art.price <= precio_max
                 })
@@ -210,12 +210,9 @@ export default {
                     return art.featured
                 })
             }
-            if (filters.length == this.articles.length) {
-                this.$store.commit('articles/setArticlesToShow')
-            } else {
-                this.$store.commit('articles/setArticlesToShow', filters)
-            }
-            this.$store.commit('articles/setIsFilter', true)
+            console.log(filters)
+            this.$store.commit('articles/setArticlesToShow', filters)
+            this.$store.commit('articles/setFiltered', filters)
             this.$bvModal.hide('listado-filtrar')
             if (!this.filtro.mantener) {
                 this.clear()

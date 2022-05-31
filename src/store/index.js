@@ -33,8 +33,10 @@ import titles from './titles'
 import brands from './brands'
 import sizes from './sizes'
 import plans from './plans'
+import iva_conditions from './iva_conditions'
 import ivas from './ivas'
 import _super from './super'
+import produccion from './produccion/index'
 
 Vue.use(Vuex)
 Vue.config.devtools = true
@@ -86,7 +88,9 @@ export default new Vuex.Store({
 		brands,
 		sizes,
 		plans,
+		iva_conditions,
 		ivas,
 		super: _super,
+		produccion,
 	}
 })

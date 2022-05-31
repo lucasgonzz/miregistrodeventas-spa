@@ -1,15 +1,16 @@
 <template>
 <div id="listado">	
+	<dolar-calculator></dolar-calculator>
 	<import-articles></import-articles>
     <confirm
     :text="text_delete"
     :actions="['articles/delete']"
     id="delete-articles"
     toast="Articulos eliminados"></confirm>
-	<add-category></add-category>
 	<edit-article></edit-article>
+	<update-iva></update-iva>
+	<update-sub-category></update-sub-category>
 	<update-by-porcentage></update-by-porcentage>
-	<update-category></update-category>
 	<update-brand></update-brand>
 	<providers-history></providers-history>
 	<filtrar></filtrar>
@@ -22,15 +23,18 @@
 	<create-prices-list></create-prices-list>
 	
 	<buscador></buscador>
-	<info-filtrados></info-filtrados>
+	<info-filtereds-selected></info-filtereds-selected>
+
 	<articles-table></articles-table>
 	<articles-mobile></articles-mobile>
+	
 	<add-articles></add-articles>
 </div>
 </template>
 
 <script>
 // Modals
+import DolarCalculator from '@/components/listado/modals/DolarCalculator.vue'
 import ImportArticles from '@/components/listado/modals/ImportArticles.vue'
 import ImagesCopy from '@/components/listado/modals/images/ImagesCopy.vue'
 import ArticleImages from '@/components/listado/modals/images/Index.vue'
@@ -38,12 +42,12 @@ import ArticleImagesColors from '@/components/listado/modals/images/Colors.vue'
 import ArticleVariants from '@/components/listado/modals/images/ArticleVariants.vue'
 import Filtrar from '../components/listado/modals/Filtrar.vue'
 import EditArticle from '../components/common/EditArticle.vue'
+import UpdateIva from '../components/listado/modals/update/Iva.vue'
+import UpdateSubCategory from '../components/listado/modals/update/SubCategory.vue'
 import UpdateByPorcentage from '../components/listado/modals/UpdateByPorcentage.vue'
-import UpdateCategory from '../components/listado/modals/UpdateCategory.vue'
 import UpdateBrand from '../components/listado/modals/UpdateBrand.vue'
 import Confirm from '../components/common/Confirm.vue'
 import ProvidersHistory from '../components/listado/modals/ProvidersHistory.vue'
-import AddCategory from '../components/listado/modals/AddCategory.vue'
 import ArticlesPdf from '../components/listado/modals/ArticlesPdf.vue'
 import PricesLists from '../components/listado/modals/prices-lists/Index.vue'
 import CreatePricesList from '../components/listado/modals/prices-lists/Create.vue'
@@ -53,10 +57,11 @@ import Buscador from '../components/listado/components/Buscador.vue'
 import ArticlesTable from '../components/listado/components/articles-list/ArticlesTable.vue'
 import ArticlesMobile from '../components/listado/components/articles-list/ArticlesMobile.vue'
 import AddArticles from '../components/listado/components/AddArticles.vue'
-import InfoFiltrados from '../components/listado/components/InfoFiltrados.vue'
+import InfoFilteredsSelected from '../components/listado/components/InfoFilteredsSelected.vue'
 			
 export default {
 	components: {
+		DolarCalculator,
 		ImportArticles,
 		ArticlesPdf,
 		PricesLists,
@@ -67,20 +72,20 @@ export default {
 		ArticleVariants,
 		Filtrar,
 		EditArticle,
+		UpdateIva,
+		UpdateSubCategory,
 		UpdateByPorcentage,
-		UpdateCategory,
 		UpdateBrand,
 		Confirm,
 		// PrintTickets,
 		ProvidersHistory,
-		AddCategory,
 
 		// Components
 		Buscador,
 		ArticlesTable,
 		ArticlesMobile,
 		AddArticles,
-		InfoFiltrados,
+		InfoFilteredsSelected,
 	},
 	data() {
 		return {
@@ -206,9 +211,15 @@ export default {
 	},
 	computed: {
 		special_prices() {
-			return this.$store.state.special_prices
+			return this.$store.state.special_prices.special_prices
+		},
+		from_filter() {
+			return this.$store.state.articles.from_filter
 		},
 		text_delete() {
+			if (this.from_filter) {
+				return '¿Seguro que quiere eliminar todos los articulos filtrados?'
+			}
 			return '¿Seguro que quiere eliminar los articulos seleccionados?'
 		},
 	}

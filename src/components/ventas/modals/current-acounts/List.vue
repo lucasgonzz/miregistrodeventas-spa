@@ -20,7 +20,7 @@
                 <template #cell(options)="data">
                     <b-button
                     size="sm"
-                    v-if="current_acounts[data.index].status == 'pago_from_client' || current_acounts[data.index].detalle == 'Saldo inicial'"
+                    v-if="canDelete(current_acounts[data.index])"
                     @click="deleteCurrentAcount(current_acounts[data.index])"
                     variant="danger">
                         <i class="icon-trash"></i>
@@ -71,7 +71,7 @@ export default {
                 { key: 'haber', class: 'text-center' },
                 { key: 'saldo', class: 'text-center' },
                 { key: 'description', label: 'Observaciones', class: 'text-center detalle' },
-                { key: 'options', label: 'Eliminar', class: 'text-center detalle' },
+                { key: 'options', label: '', class: 'text-center detalle' },
             ]
         }, 
         items() {
@@ -90,6 +90,9 @@ export default {
         }
     },
     methods: {
+        canDelete(current_acount) {
+            return current_acount.status == 'pago_from_client' || current_acount.status == 'nota_credito' || current_acount.detalle == 'Saldo inicial'
+        },
         onRowSelected(items) {
             this.$store.commit('clients/current_acounts/setSelected', items)
             console.log(items)

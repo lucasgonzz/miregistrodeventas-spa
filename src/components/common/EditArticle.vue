@@ -294,6 +294,12 @@
 				:article="article"></colors>
 			</b-col>
 			<b-col
+			v-if="can('afip_tickets')"
+			cols="12">
+				<iva
+				:article="article"></iva>
+			</b-col>
+			<b-col
 			v-if="can('descriptions')"
 			cols="12">
 				<!-- <descriptions
@@ -339,6 +345,7 @@ import categories from '@/mixins/categories'
 import edit_articles from '@/mixins/edit_articles'
 import Tags from '@/components/ingresar/components/Tags'
 import Brand from '@/components/ingresar/components/Brand'
+import Iva from '@/components/ingresar/components/Iva'
 import Descriptions from '@/components/common/Descriptions'
 import Sizes from '@/components/ingresar/components/Sizes.vue'
 import Colors from '@/components/ingresar/components/Colors.vue'
@@ -352,6 +359,7 @@ export default {
 	components: {
 		Tags,
 		Brand,
+		Iva,
 		Descriptions,
 		Sizes,
 		Colors,

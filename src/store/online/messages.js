@@ -46,6 +46,7 @@ export default {
 				let index = buyers_store.state.buyers.findIndex(buyer => {
 					return buyer.id == buyer_id
 				})
+				console.log(index)
 				buyers_store.state.buyers[index].messages = res.data.messages
 			})
 			.catch(err => {

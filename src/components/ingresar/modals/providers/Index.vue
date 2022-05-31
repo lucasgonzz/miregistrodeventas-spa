@@ -2,7 +2,7 @@
 <div>
 	<confirm
 	:text="text_delete"
-	action="providers/delete"
+	:actions="['providers/delete']"
 	id="delete-provider"
 	toast="Proveedor eliminado"></confirm>
 	<b-modal 

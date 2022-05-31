@@ -278,3 +278,9 @@
 .icon-facebook:before {
   content: "\3c";
 }
+.icon-dolar:before {
+  content: "\3d";
+}
+.icon-pdf:before {
+  content: "\3e";
+}

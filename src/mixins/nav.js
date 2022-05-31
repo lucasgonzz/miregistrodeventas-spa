@@ -14,7 +14,7 @@ export default {
             return null
         },
         show_nav() {
-            return this.currentPage != 'Maps' && this.authenticated && this.currentPage != 'Home'
+            return this.current_page != 'Maps' && this.authenticated && this.current_page != 'Home'
         },
         show_nav_content() {
         	return this.user.status != 'super'
@@ -38,6 +38,7 @@ export default {
 				this.$store.commit('sales/setTo', '')
 				this.$store.commit('sales/setOnlyOneDate', '')
 				this.$store.commit('sales/setSelectedClient', null)
+				this.$store.commit('sales/setSelectedSales', [])
 				this.$store.commit('sales/days_previus_sales/setIndex', 0)
 				this.$store.commit('sales/days_previus_sales/setDaySelected', moment().format('YYYY/MM/DD'))
 				this.$store.dispatch('sales/days_previus_sales/getDaysPreviusSales')

@@ -39,9 +39,11 @@
     "vue-load-image": "^0.1.12",
     "vue-meta": "^2.4.0",
     "vue-offline": "^2.0.8",
+    "vue-pdf-embed": "^1.1.2",
     "vue-router": "^3.4.5",
     "vue-screen-size": "^1.0.1",
     "vue-scrollto": "^2.20.0",
+    "vue-step-progress": "^0.3.7",
     "vue-toast-notification": "^0.5.4",
     "vuex": "^3.5.1"
   },

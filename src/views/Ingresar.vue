@@ -27,6 +27,7 @@
 	<b-row class="justify-content-center">
 		<b-col
 		cols="12" 
+		md="8"
 		lg="6">
 			<!-- <uncontable 
 			:article="article"></uncontable> -->
@@ -53,6 +54,9 @@
 
 			<!-- <tags
 			:article="article"></tags> -->
+
+			<iva
+			:article="article"></iva>
 
 			<description
 			:article="article"></description>
@@ -112,6 +116,7 @@ import CostPrice from '../components/ingresar/components/CostPrice.vue'
 import StockProvider from '../components/ingresar/components/StockProvider.vue'
 import CategoriesSubcategories from '../components/ingresar/components/CategoriesSubcategories.vue'
 import Tags from '../components/ingresar/components/Tags.vue'
+import Iva from '../components/ingresar/components/Iva.vue'
 import Description from '../components/ingresar/components/Description.vue'
 import Condition from '../components/ingresar/components/Condition.vue'
 import Sizes from '../components/ingresar/components/Sizes.vue'
@@ -156,6 +161,7 @@ export default {
 		StockProvider,
 		CategoriesSubcategories,
 		Tags,
+		Iva,
 		Description,
 		Condition,
 		Sizes,
@@ -173,6 +179,7 @@ export default {
 				category_id: 0,
 				provider_id: 0,
 				brand_id: 0,
+				iva_id: 2,
 				new_bar_code: '',
 				name: '',
 				cost: '',

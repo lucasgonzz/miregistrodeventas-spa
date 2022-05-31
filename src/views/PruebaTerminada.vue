@@ -6,7 +6,7 @@
 		class="shadow-1 b-r-1"
 		title="Prueba terminada">
 			<p>
-				Hola {{ user.name }}, tu prueba de ComercioCity ha caducado, si te sentiste cómodo en nuestra plataforma nos gustaría invitarte a que te invitamos a que te suscribas, presionando el botón de abajo vas a poder elegir el plan que mejor se adapte a tus necesidades.
+				Hola {{ user.name }}, tu prueba de ComercioCity ha caducado, si te sentiste cómodo en nuestra plataforma nos gustaría invitarte a que te suscribas, presionando el botón de abajo vas a poder elegir el plan que mejor se adapte a tus necesidades.
 			</p>
 			<b-button
 			block

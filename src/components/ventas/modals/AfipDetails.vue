@@ -3,11 +3,8 @@
 id="afip-details"
 title="Detalles de la boleta"
 hide-footer>
-	<p
-	v-if="loading">
-		Cargando...
-	</p>
-	<b-list-group>
+	<b-list-group
+	v-if="!loading">
 		<b-list-group-item>
 			Importe gravado 
 			<span 
@@ -23,13 +20,6 @@ hide-footer>
 			</span>
 		</b-list-group-item>
 		<b-list-group-item>
-			Importe sub total
-			<span 
-			class="float-right">
-				{{ price(importes.subtotal) }}
-			</span>
-		</b-list-group-item>
-		<b-list-group-item>
 			Importe total
 			<span 
 			class="float-right">
@@ -37,17 +27,79 @@ hide-footer>
 			</span>
 		</b-list-group-item>
 	</b-list-group>
+	<b-list-group
+	v-else>
+		<b-list-group-item>
+			Importe gravado 
+			<span 
+			class="float-right">
+				<b-skeleton width="100px"></b-skeleton>
+			</span>
+		</b-list-group-item>
+		<b-list-group-item>
+			Importe iva
+			<span 
+			class="float-right">
+				<b-skeleton width="100px"></b-skeleton>
+			</span>
+		</b-list-group-item>
+		<b-list-group-item>
+			Importe total
+			<span 
+			class="float-right">
+				<b-skeleton width="100px"></b-skeleton>
+			</span>
+		</b-list-group-item>
+	</b-list-group>
+	<b-button
+	class="m-t-15"
+	@click="boleta"
+	variant="primary"
+	block>
+		<btn-loader
+		:loader="loading_boleta"
+		text="Generar boleta"></btn-loader>
+	</b-button>
 </b-modal>
 </template>
 <script>
+import afip from '@/mixins/afip'
+import BtnLoader from '@/components/common/BtnLoader'
 export default {
+	mixins: [afip],
+	components: {
+		BtnLoader,
+	},
+	data() {
+		return {
+			loading_boleta: false,
+		}
+	},
 	computed: {
+		sale() {
+			return this.$store.state.sales.afip.sale
+		},
 		importes() {
 			return this.$store.state.sales.afip.importes
 		},
 		loading() {
 			return this.$store.state.sales.afip.loading
 		},
+	},
+	methods: {
+		boleta() {
+			this.loading_boleta = true
+			this.$api.post('afip/'+this.sale.id)
+			.then(res => {
+				this.loading_boleta = false
+				this.printAfipTicket(this.sale)
+				this.$store.dispatch('sales/getSales')
+			})
+			.catch(err => {
+				this.loading_boleta = false
+				console.log(err)
+			})
+		}
 	}
 }
 </script>
