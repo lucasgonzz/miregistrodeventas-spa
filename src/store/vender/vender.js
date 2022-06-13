@@ -12,8 +12,10 @@ export default {
 	namespaced: true,
 	state: {
 		articles: [],
-		update_price: {},
+		combos: [],
+		items: [],
 		article: {bar_code: '', amount: ''},
+		update_price: {},
 		clear_article_name: false,
 		new_article: '',
 		article_for_sale: {},
@@ -29,6 +31,12 @@ export default {
 		sale: {},
 	},
 	mutations: {
+		setItems(state, value) {
+			state.items = value
+		},
+		addItem(state, value) {
+			state.items.unshift(value)
+		},
 		setArticles(state, articles) {
 			state.articles = articles
 		},
@@ -43,6 +51,13 @@ export default {
 			state.article.bar_code = ''
 			state.article.amount = ''
 		},
+		setCombos(state, value) {
+			state.combos = value
+		},
+		addCombo(state, value) {
+			state.combos.unshift(value)
+			state.items.unshift(value)
+		},
 		setUpdatePrice(state, value) {
 			state.update_price = value
 		},
@@ -51,6 +66,7 @@ export default {
 		},
 		addArticle(state, article) {
 			state.articles.unshift(state.article_for_sale)
+			state.items.unshift(state.article_for_sale)
 		},
 		setVariant(state, value) {
 			state.article_variant = value
@@ -99,24 +115,14 @@ export default {
 				state.total = 0
 				let price 
 				state.articles.forEach(article => {
-					if (state.special_price_id == 0) {
-						price = Number(article.original_price)
-					} else {
-						price = mixin_vender.methods.getSpecialPrice(article, state.special_price_id)
-					}
-					// if (article.with_dolar) {
-					// 	price =  
-					// }
-					state.total += price * article.amount
+					state.total += Number(article.price) * article.amount
+				})
+				state.combos.forEach(combo => {
+					state.total += combo.price * combo.amount
 				})
 				if (state.with_card) {
 					let user_percentage_card = auth.state.user.percentage_card
 					let percentage_card = 0
-					// if (this.previus_sale.percentage_card) {
-					// 	percentage_card = this.percentageCardFormated(this.previus_sale.percentage_card)
-					// } else {
-					// 	percentage_card = this.percentageCardFormated(this.percentage_card)
-					// }
 					percentage_card = percentage_card_mixin.methods.percentageCardFormated(user_percentage_card)
 					state.total = state.total * percentage_card
 				} 
@@ -125,7 +131,10 @@ export default {
 		setVendiendo(state, value) {
 			state.vendiendo = value
 		},
-		removeArticle(state, index) {
+		removeArticle(state, article) {
+			let index = state.articles.findIndex(art => {
+				return art.id == article.id
+			})
 			state.articles.splice(index, 1)
 		},
 		updateArticle(state, article) {
@@ -133,10 +142,6 @@ export default {
 				return art.id == article.id
 			})
 			state.articles.splice(index, 1, article)
-		},
-		setDebt(state, value) {
-			console.log('setDebt: '+value)
-			state.debt = value
 		},
 	},
 	actions: {
@@ -147,10 +152,9 @@ export default {
 			console.log(general.computed.dolar_blue)
 			return axios.post('/api/sales', {
 				articles: state.articles,
+				combos: state.combos,
 				with_card: state.with_card,
 				client_id: state.client ? state.client.id : null ,
-				debt: state.debt,
-				special_price_id: state.special_price_id,
 				discounts: state.discounts,
 				sale_type: state.sale_type,
 				dolar_blue,
@@ -160,8 +164,8 @@ export default {
 				let sale = res.data.sale
 				commit('setSale', sale)
 				commit('setVendiendo', false)
-				commit('setDebt', null)
 				commit('setArticles', [])
+				commit('setCombos', [])
 				commit('setTotal', 0)
 				commit('sales/addSale', sale, {root: true})
 				commit('sales/setTotal', null, {root: true})

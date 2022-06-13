@@ -21,6 +21,17 @@
 		right
 		variant="primary">
 			<b-dropdown-item
+			v-if="hasExtencion('combos')"
+			v-b-modal="'combos'">
+				<i class="icon-print"></i>
+				Combos
+			</b-dropdown-item>
+			<b-dropdown-item
+			v-b-modal="'prices-lists'">
+				<i class="icon-print"></i>
+				Listas de precios
+			</b-dropdown-item>
+			<b-dropdown-item
 			@click="excel">
 				<i class="icon-upload"></i>
 				Exportar Excel
@@ -31,13 +42,6 @@
 				Importar Excel
 			</b-dropdown-item>
 		</b-dropdown>
-		<b-button
-		class="m-l-10" 
-		v-b-modal="'prices-lists'"
-		variant="primary">
-			<i class="icon-print"></i>
-			Listas de precios
-		</b-button>
 		<b-button 
 		variant="secondary"
 		v-intro-step="4"

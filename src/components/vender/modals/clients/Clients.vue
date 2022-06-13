@@ -85,7 +85,7 @@ export default {
     },
     methods: {
         toDiscounts() {
-            this.$store.commit('vender/setDebt', this.debt)
+            // this.$store.commit('vender/setDebt', this.debt)
             this.$store.commit('vender/clients/incrementView')
         },
         search(input) {

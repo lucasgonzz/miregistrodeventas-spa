@@ -4,6 +4,7 @@
 		<div
 		v-if="!loading">
 			<b-table 
+			class="shadow-2 b-r-1"
 			v-show="sales.length"
 			:items="items" 
 			head-variant="dark" 
@@ -182,7 +183,7 @@ export default {
 		},
 		getClient(sale) {
 			if (sale.client) {
-				return sale.client.name
+				return sale.client.name+' '+sale.client.surname
 			}
 			if (sale.buyer) {
 				return sale.buyer.name

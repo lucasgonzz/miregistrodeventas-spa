@@ -71,6 +71,9 @@ export default {
 		articles() {
 			return this.$store.state.vender.articles
 		},
+		combos() {
+			return this.$store.state.vender.combos
+		},
 		fields() {
 			let fields = [
 				{ key: 'price', label: 'Precio' },
@@ -82,18 +85,30 @@ export default {
 			return fields
 		},
 		items() {
-			let items = []
-			this.articles.forEach(article => {
-				items.push({
-					id: article.id,
-					price: this.price(article.price_for_sale),
-					name: article.name,
-					amount: article.amount,
-					total: this.price(article.price_for_sale * article.amount),
-				})
-			})
-			return items
+			return this.$store.state.vender.items
 		},
+		// items() {
+		// 	let items = []
+		// 	this.articles.forEach(article => {
+		// 		items.push({
+		// 			id: article.id,
+		// 			price: this.price(article.price),
+		// 			name: article.name,
+		// 			amount: article.amount,
+		// 			total: this.price(article.price * article.amount),
+		// 		})
+		// 	})
+		// 	this.combos.forEach(combo => {
+		// 		items.push({
+		// 			id: combo.id,
+		// 			price: this.price(combo.price),
+		// 			name: 'combo '+combo.name,
+		// 			amount: combo.amount,
+		// 			total: this.price(combo.price * combo.amount),
+		// 		})
+		// 	})
+		// 	return items
+		// },
 	},
 	methods: {
 		updatePrice(article) {
@@ -119,14 +134,8 @@ export default {
 			}
 		},
 		removeArticle(article) {
-			let index = this.articles.findIndex(art => {
-				return art.id == article.id
-			})
-			this.$store.commit('vender/removeArticle', index)
+			this.$store.commit('vender/removeArticle', article)
 			this.$store.commit('vender/setTotal')
-			// var i = this.articles.indexOf(article)
-			// this.articles.splice(i, 1)
-			// this.$emit('calculateTotal')
 		},
 		calculateTotalFromAmount(article) {
 			article.calculate_from_total = false

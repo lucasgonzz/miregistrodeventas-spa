@@ -38,6 +38,7 @@ import ivas from './ivas'
 import _super from './super'
 import produccion from './produccion/index'
 import current_acount_payment_methods from './current_acount_payment_methods'
+import combos from './combos'
 
 Vue.use(Vuex)
 Vue.config.devtools = true
@@ -94,5 +95,6 @@ export default new Vuex.Store({
 		super: _super,
 		produccion,
 		current_acount_payment_methods,
+		combos,
 	}
 })

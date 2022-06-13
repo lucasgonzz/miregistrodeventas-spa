@@ -1,7 +1,7 @@
 <template>
 	<b-col
 	cols="12"
-	lg="5"
+	:lg="col_header_lg"
 	class="col-autocomplete margin-bottom-since-lg">
         <autocomplete 
         ref="articleName"

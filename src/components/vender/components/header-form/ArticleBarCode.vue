@@ -2,7 +2,7 @@
 	<b-col
 	class="col-bar-code margin-bottom-since-lg d-none d-lg-flex"
 	cols="12"
-	lg="5">
+	:lg="col_header_lg">
 		<b-form-input
 		id="article-bar-code"
 		v-model="article.bar_code"

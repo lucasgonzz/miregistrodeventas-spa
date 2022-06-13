@@ -21,6 +21,7 @@
 	<articles-pdf></articles-pdf>
 	<prices-lists></prices-lists>
 	<create-prices-list></create-prices-list>
+	<combos></combos>
 	
 	<buscador></buscador>
 	<info-filtereds-selected></info-filtereds-selected>
@@ -51,6 +52,7 @@ import ProvidersHistory from '../components/listado/modals/ProvidersHistory.vue'
 import ArticlesPdf from '../components/listado/modals/ArticlesPdf.vue'
 import PricesLists from '../components/listado/modals/prices-lists/Index.vue'
 import CreatePricesList from '../components/listado/modals/prices-lists/Create.vue'
+import Combos from '../components/listado/modals/combos/Index.vue'
 
 // Components
 import Buscador from '../components/listado/components/Buscador.vue'
@@ -66,6 +68,7 @@ export default {
 		ArticlesPdf,
 		PricesLists,
 		CreatePricesList,
+		Combos,
 		ImagesCopy,
 		ArticleImages,
 		ArticleImagesColors,

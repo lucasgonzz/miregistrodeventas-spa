@@ -27,6 +27,12 @@ export default {
 		model: {
 			type: Object,
 		},
+		model: {
+			type: Object,
+		},
+		bus: {
+			default: null,
+		},
 		model_prop: {
 			type: String,
 			default: 'name',
@@ -50,6 +56,14 @@ export default {
 			default: 'select-component-input',
 		},
 	},
+	created() {
+		this.bus.$on('clear', () => {
+			setTimeout(() => {
+				document.getElementById(this.id).value = ''
+				console.log('aca')
+			}, 500)
+		})
+	},
 	watch: {
 		model() {
 			let input = document.getElementById(this.id)
@@ -70,13 +84,8 @@ export default {
 			return item[this.model_prop]
 		},
 		setSelected(value) {
-			// let input = document.getElementById(this.id).getElementsByClassName('autocomplete-input')[0]
 			let input = this.$refs[this.placeholder]
 			if (value) {
-				// let item = this.models.find(model => {
-				// 	return model.id == value.id
-				// })
-				// this.$emit('setSelected', {is_list: false, selected: item})
 				this.$emit('setSelected', {is_list: false, selected: value})
 			} else {
 				if (this.select_empty) { 
@@ -86,7 +95,6 @@ export default {
 					this.$emit('setSelected', {is_list: true, selected: items})
 				}
 			}
-			// input.value = ''
 		}
 	}
 }

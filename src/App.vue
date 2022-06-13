@@ -180,6 +180,9 @@ export default {
                 if (this.can('special_prices')) {
                     this.$store.dispatch('special_prices/getSpecialPrices')
                 }
+                if (this.hasExtencion('combos')) {
+                    this.$store.dispatch('combos/getModels')
+                }
                 // if (this.can('providers')) {
                     this.loading_message = 'proveedores'
                     await this.$store.dispatch('providers/getModels')

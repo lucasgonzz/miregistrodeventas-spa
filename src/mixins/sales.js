@@ -1,4 +1,9 @@
 export default {
+	computed: {
+        sale_details() {
+            return this.$store.state.sales.sale_details
+        },
+	},
 	methods: {
         amount(amount) {
             let punto_index = amount.indexOf('.')

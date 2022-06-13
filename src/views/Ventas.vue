@@ -12,7 +12,10 @@
 	<sellers></sellers>
 	<commissioners></commissioners>
 	<from-date></from-date>
+	
 	<sale-details></sale-details>
+	<budget-details></budget-details>
+
 	<print-sales></print-sales> 
 	<afip-details></afip-details> 
 	
@@ -31,7 +34,8 @@ import CurrentAcounts from '@/components/ventas/modals/current-acounts/Index.vue
 
 import Discounts from '@/components/ventas/modals/discounts/Index.vue'
 import FromDate from '../components/ventas/modals/FromDate.vue'
-import SaleDetails from '../components/ventas/modals/SaleDetails.vue'
+import SaleDetails from '../components/ventas/modals/sale-details/Index'
+import BudgetDetails from '@/components/produccion/modals/budgets/Details'
 import Confirm from '@/components/common/Confirm.vue'
 import AfipDetails from '../components/ventas/modals/afip/Index.vue'
 import PrintSales from '../components/ventas/modals/PrintSales.vue'
@@ -53,6 +57,7 @@ export default {
 		FromDate,
 		CurrentAcounts,
 		SaleDetails,
+		BudgetDetails,
 		Confirm,
 		AfipDetails,
 		PrintSales,

@@ -8,6 +8,9 @@ export default {
 		article_for_sale() {
 			return this.$store.state.vender.article_for_sale
 		},
+		combos() {
+			return this.$store.state.vender.combos
+		},
 		articles() {
 			return this.$store.state.articles.articles
 		},
@@ -20,36 +23,21 @@ export default {
 		client() {
 			return this.$store.state.vender.client
 		},
+		col_header_lg() {
+			if (this.hasExtencion('combos')) {
+				return 3
+			}
+			return 5
+		}
 	},
 	methods: {
-		// Se setea el precio especial del articulo para que ya le quede
-		// asignado en el objeto y se envie a salecontroller@store
-		setArticlesPrice() {
-			this.articles_for_sale.forEach(article => {
-				if (this.special_price_id != 0) {
-					if (article.special_prices.length) {
-						article.special_prices.forEach(special_price => {
-							if (special_price.id == this.special_price_id) {
-								// article = Object.assign(article, {price_for_sale: special_price.pivot.price})
-								this.$set(article, 'price_for_sale', Number(special_price.pivot.price))
-								this.$store.commit('vender/updateArticle', article)
-							} 
-						})
-					}
-				} else { 
-					// article = Object.assign(article, {price_for_sale: article.original_price})
-					this.$set(article, 'price_for_sale', article.original_price)
-					this.$store.commit('vender/updateArticle', article)
-				}
-			})
-		},
 		callVender() {
 			if (!this.is_provider) {
 				this.vender()
 			}
 		},
 		vender() {
-			if (this.articles_for_sale.length) {
+			if (this.articles_for_sale.length || this.combos.length) {
 				this.$store.commit('articles/removeStock', this.articles_for_sale)
 				this.$store.dispatch('vender/vender', this.dolar_blue)
 				.then(() => {
@@ -67,6 +55,7 @@ export default {
 						this.updateClient(this.client)
 					}
 					this.$store.commit('vender/setClient', null)
+					this.clearVender()
 				})
 			}
 		},
@@ -87,7 +76,8 @@ export default {
 			// this.$store.commit('vender/setArticleForSale', this.setOriginalPrice(article)) 
 			// this.article_for_sale.amount = 1
 			// this.addArticleToArticlesSale()
-			this.$store.commit('vender/setArticleForSale', this.setOriginalPrice(article)) 
+			// this.$store.commit('vender/setArticleForSale', this.setOriginalPrice(article)) 
+			this.$store.commit('vender/setArticleForSale', article) 
 			if (this.is_provider) {
 				document.getElementById('article-amount').focus()
 			} else {
@@ -98,30 +88,13 @@ export default {
 			} 
         },
 		addArticleToArticlesSale() {
-			// if (this.hasVariants()) {
-			// 	this.$bvModal.show('select-variant')
-			// 	this.clearArticle()
-			// } else {
-			// 	if (this.is_provider && !this.isRepeat()) {
-			// 		// this.article_for_sale.amount = this.article.amount
-			// 		this.addArticleAndSetTotal()
-			// 	} else if (!this.isRepeat()) {
-			// 		this.addArticleAndSetTotal()
-			// 	}
-			// 	this.clearArticle()
-			// }
-			if (this.hasVariants()) {
-				this.$bvModal.show('select-variant')
-				this.clearArticle()
-			} else {
-				if (this.is_provider && !this.isRepeat()) {
-					this.article_for_sale.amount = this.article.amount
-					this.addArticleAndSetTotal()
-				} else if (!this.isRepeat()) {
-					this.addArticleAndSetTotal()
-				}
-				this.clearArticle()
+			if (this.is_provider && !this.isRepeat()) {
+				this.article_for_sale.amount = this.article.amount
+				this.addArticleAndSetTotal()
+			} else if (!this.isRepeat()) {
+				this.addArticleAndSetTotal()
 			}
+			this.clearArticle()
 		},
 		addArticleAndSetTotal() {
 			this.$store.commit('vender/addArticle')
@@ -166,13 +139,7 @@ export default {
 			}
 		},
 		clearArticle() {
-			console.log('clearArticle')
-			// document.getElementById('article-bar-code').value = ''
-			// document.getElementById('article-amount').value = ''
 			this.$store.commit('vender/setArticle')
-			// document.getElementsByClassName('autocomplete-input')[0].value = ''
-			// console.log(document.getElementsByClassName('autocomplete-input')[0])
-			this.$store.commit('vender/setClearArticleName')
 			document.getElementById('article-bar-code').focus()
 		},
 		setPreviusSaleArticles(articles) {
@@ -183,23 +150,10 @@ export default {
 			})
 			return articles
 		},
-		getSpecialPrice(article, special_price_id) {
-			let special_price_ = article.original_price
-			article.special_prices.forEach(special_price => {
-				if (special_price.pivot.special_price_id == special_price_id) {
-					special_price_ = Number(special_price.pivot.price)
-				}
-			})
-			return special_price_
-		},
-		setOriginalPrice(article) {
-			article.original_price = this.articlePrice(article, false, false)
-			article.price_for_sale = this.articlePrice(article, false, false)
-			return article
-		},
 		clearVender() {
 			this.$store.commit('vender/setArticles', [])
-			this.$store.commit('vender/setDebt', null)
+			this.$store.commit('vender/setCombos', [])
+			this.$store.commit('vender/setItems', [])
 			this.$store.commit('vender/setTotal', 0)
 			this.$store.commit('vender/setWithCard', false)
 			this.$store.commit('vender/previus_sales/setIndex', 0)

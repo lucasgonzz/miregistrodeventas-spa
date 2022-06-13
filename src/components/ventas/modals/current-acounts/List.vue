@@ -33,6 +33,7 @@
                 </template>
                 <template #cell(detalle)="data">
                     <strong
+                    @click="showDetails(current_acounts[data.index])"
                     :class="getDetalleColorText(current_acounts[data.index])">
                         {{ current_acounts[data.index].detalle }}
                     </strong>
@@ -89,7 +90,7 @@ export default {
                     id:             current_acount.id,
                     fecha:          this.date(current_acount.created_at, true), 
                     debe:           this.price(current_acount.debe),
-                    numero:           this.getNum(current_acount),
+                    numero:         current_acount.numero,
                     haber:          this.price(current_acount.haber),
                     saldo:          this.price(current_acount.saldo),
                     description:    current_acount.description,
@@ -122,6 +123,7 @@ export default {
             this.$bvModal.show('checks-details')
         },
         canDelete(current_acount) {
+            return current_acount.status == 'pago_from_client' || current_acount.status == 'nota_credito'
             return (current_acount.status == 'pago_from_client' || current_acount.status == 'nota_credito' || current_acount.detalle == 'Saldo inicial') && current_acount.id == this.current_acounts[this.current_acounts.length - 1].id
         },
         onRowSelected(items) {
@@ -138,6 +140,15 @@ export default {
         updateDebe(current_acount) {
             this.$store.commit('clients/current_acounts/setUpdateDebe', current_acount)
             this.$bvModal.show('update-debe')
+        },
+        showDetails(current_acount) {
+            if (current_acount.sale) {
+                this.$store.commit('sales/setSaleDetails', current_acount.sale)
+                this.$bvModal.show('sale-details')
+            } else if (current_acount.budget) {
+                this.$store.commit('produccion/budgets/setEdit', current_acount.budget)
+                this.$bvModal.show('budget-details')
+            }
         },
         getDetalleColorText(current_acount) {
             if (current_acount.status == 'pagandose') {

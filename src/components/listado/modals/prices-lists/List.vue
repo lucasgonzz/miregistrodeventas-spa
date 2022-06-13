@@ -38,7 +38,7 @@
 	<p 
 	v-else
 	class="text-with-icon">
-		<i class="icon-cancel"></i>
+		<i class="icon-eye-slash"></i>
 		No hay listas de precios creadas
 	</p>
 </div>
