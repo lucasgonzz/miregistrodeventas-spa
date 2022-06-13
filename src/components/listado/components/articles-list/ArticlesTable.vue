@@ -5,6 +5,7 @@ class="d-none d-lg-block">
 		<div
 		v-if="!loading">
 			<b-table 
+			class="shadow-1 b-r-1"
 			v-show="articles.length"
 			:items="items" 
 			head-variant="dark" 

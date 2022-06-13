@@ -35,7 +35,7 @@ export default {
 		},
 		getProductTotal(product, formated = true) {
 			let total = Number(product.price) * Number(product.amount)
-			if (product.bonus != '') {
+			if (product.bonus != undefined && product.bonus != '') {
 				total -= total * this.percentageToMultiply(product.bonus)
 			}
 			if (formated) {

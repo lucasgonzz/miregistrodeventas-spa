@@ -7,7 +7,10 @@
 	    id="delete-order-production"
 	    toast="Order de produccion eliminada"></confirm>
 	    <order-production-details></order-production-details>
-	    <update-status></update-status>
+	    <update-status></update-status> 
+	    <product-delivery></product-delivery>
+	    <product-article-stock></product-article-stock>
+	    <print></print>
 	    <b-row>
 			<b-col
 			cols="12"
@@ -26,7 +29,11 @@
 import Confirm from '@/components/common/Confirm'
 import OrderProductionDetails from '@/components/produccion/modals/order-productions/details/Index'
 import UpdateStatus from '@/components/produccion/modals/order-productions/UpdateStatus'
+import ProductDelivery from '@/components/produccion/modals/order-productions/product-delivery/Index'
+import ProductArticleStock from '@/components/produccion/modals/order-productions/product-article-stock/Index' 
 import BudgetDetails from '@/components/produccion/modals/budgets/Details'
+import Print from '@/components/produccion/modals/budgets/Print'
+
 import List from '@/components/produccion/components/order-productions/List'
 export default {
 	components: {
@@ -34,6 +41,10 @@ export default {
 		BudgetDetails,
 		OrderProductionDetails,
 		UpdateStatus,
+		ProductDelivery,
+		ProductArticleStock,
+		Print,
+
 		List,
 	},
 	computed: { 

@@ -3,6 +3,7 @@
 class="m-t-0">
 	<b-col>
 		<b-table 
+		class="shadow-2 b-r-1"
 		v-show="articles.length"
 		:items="items" 
 		head-variant="dark" 

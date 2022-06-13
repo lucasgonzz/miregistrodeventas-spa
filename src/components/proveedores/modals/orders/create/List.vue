@@ -1,0 +1,77 @@
+<template>
+	<div
+	class="m-b-15">
+		<b-table
+		class="shadow-1 b-r-1"
+		responsive
+		head-variant="dark" 
+		v-if="articles.length"
+		striped
+		:fields="fields"
+		:items="items">
+			<template #cell(received)="data">
+				<b-button
+				@click="received(articles[data.index])"
+				size="sm"
+				variant="primary"> 
+					{{ articles[data.index].received }}
+				</b-button>
+			</template>
+			<template #cell(options)="data">
+				<b-button
+				@click="deleteItem(articles[data.index])"
+				size="sm"
+				variant="danger"> 
+					<i class="icon-trash"></i>
+				</b-button>
+			</template>
+		</b-table>
+		<p 
+		v-else 
+		class="text-with-icon">
+			<i class="icon-eye-slash"></i>
+			No hay articulos
+		</p>
+	</div>
+</template>
+<script>
+import provider_orders from '@/mixins/provider_orders'
+export default {
+	mixins: [provider_orders],
+	computed: {
+		fields() {
+			let fields = []
+			fields.push({ key: 'code', label: 'Codigo' })
+			fields.push({ key: 'name', label: 'Nombre' })
+			fields.push({ key: 'amount', label: 'Cantidad' })
+			fields.push({ key: 'notes', label: 'Notas' })
+			if (this.edit_order) {
+				fields.push({ key: 'received', label: 'Recibidas' })
+			}
+			fields.push({ key: 'options', label: '' })
+			return fields
+		},
+		items() {
+			let items = []
+			this.articles.forEach(item => {
+				items.push({
+					code: item.bar_code,
+					name: item.name,
+					amount: item.amount,
+					notes: item.notes,
+				})
+			})
+			return items
+		}
+	},
+	methods: {
+		received(item) {
+			this.$store.commit('providers/orders/create/setArticleReceived', item)
+			this.$bvModal.show('provider-order-article-received')
+		},
+		deleteItem(item) {
+			this.$store.commit('providers/orders/create/deleteItem', item)
+		},
+	}
+}
+</script>

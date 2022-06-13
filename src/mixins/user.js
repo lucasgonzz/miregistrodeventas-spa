@@ -9,16 +9,26 @@ export default {
         has_online() {
             return this.can('online.orders') || this.can('online.questions') || this.can('online.buyers') || this.can('online.messages') || this.can('online.cupons')
         },
+		is_owner() {
+			return !this.user.owner_id
+		},
 		is_provider() {
 			return this.user.type == 'provider'
 		},
 	},
 	methods: {
-		hasExtencion(name) {
-			let index = this.user.extencions.findIndex(extencion => {
-				return extencion.name == name
-			})
-			return index != -1
+		hasExtencion(slug) {
+			if (this.is_owner) {
+				let index = this.user.extencions.findIndex(extencion => {
+					return extencion.slug == slug
+				})
+				return index != -1
+			} else {
+				let index = this.user.permissions.findIndex(permission => {
+					return permission.extencion && permission.extencion.slug == slug 
+				})
+				return index != -1
+			}
 		},
 		can(permission_slug) {
 			let has_permission = false
@@ -39,6 +49,33 @@ export default {
 			})
 			return has_role
 		},
+		hasPermissionTo(permission_slug) {
+			let has_permission = false
+			if (this.is_owner) {
+				this.user.plan.permissions.forEach(permission => {
+		            if (permission.slug == permission_slug) {
+		                has_permission = true
+		            }
+		        })
+		        if (!has_permission) {
+			        this.user.extencions.forEach(extencion => {
+			        	let index = extencion.permissions.findIndex(permission => {
+			        		return permission.slug == permission_slug
+			        	})
+			        	if (index != -1) {
+			        		has_permission = true
+			        	}
+			        })
+		        }
+			} else {
+				this.user.permissions.forEach(permission => {
+		            if (permission.slug == permission_slug) {
+		                has_permission = true
+		            }
+		        })
+			}
+	        return has_permission
+		},
 		hasPermissionForRoute(route) {
 			console.log('viendo permisos para la ruta: '+route)
 			let permission_slug = ''
@@ -46,9 +83,9 @@ export default {
 				permission_slug = 'sales.store'
 			} else if (route.includes('produccion')) {
 				if (route.includes('presupuestos')) {
-					permission_slug = 'production.budgets'
+					permission_slug = 'budgets.index'
 				} else if (route.includes('ordenes-de-produccion')) {
-					permission_slug = 'production.order_productions'
+					permission_slug = 'order_productions.index'
 				}
 			} else if (route == '/ingresar') {
 				permission_slug = 'articles.store'
@@ -58,6 +95,8 @@ export default {
 				permission_slug = 'sales.index'
 			} else if (route == '/empleados') {
 				permission_slug = 'employees'
+			} else if (route.includes('proveedores')) {
+				permission_slug = 'proveedores'
 			} else if (route.includes('configuracion')) {
 				permission_slug = 'configuration'
 			} else if (route == '/mapa') {
@@ -93,6 +132,9 @@ export default {
 		    if (!has_permission) {
 		        has_permission = this.hasPermissionTo(permission_slug)
 		    }
+		    if (!has_permission) {
+		        has_permission = this.hasExtencion(permission_slug)
+		    }
 
 		    if (this.user.trial_expired) {
 		        has_permission = false
@@ -103,23 +145,6 @@ export default {
 
 		    has_permission ? console.log('tiene permiso') : console.log('no tiene permiso')
 		    return has_permission
-		},
-		hasPermissionTo(permission_slug) {
-			let has_permission = false
-			if (!this.user.owner_id) {
-				this.user.plan.permissions.forEach(permission => {
-		            if (permission.slug == permission_slug) {
-		                has_permission = true
-		            }
-		        })
-			} else {
-				this.user.permissions.forEach(permission => {
-		            if (permission.slug == permission_slug) {
-		                has_permission = true
-		            }
-		        })
-			}
-	        return has_permission
 		},
 		hasSubscriptionAuthorized() {
 			if (!this.user.expired_at) {

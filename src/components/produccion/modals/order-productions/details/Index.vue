@@ -11,8 +11,10 @@ hide-footer>
 	:edit="false"
 	:budget="order_production.budget"
 	:show_planos="true"
-	:show_btn_delete="false"></budget-data>
+	:show_btn_delete="false"
+	:show_btn_production="true"></budget-data>
 	<pdf-info></pdf-info>
+	<hr>
 	<b-button
 	block
 	variant="danger"

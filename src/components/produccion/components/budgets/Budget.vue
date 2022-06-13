@@ -1,27 +1,34 @@
 <template>
 	<div
 	@click="budgetDetails()"
-	class="shadow-1 model budget b-r-1 c-p apretable">
+	class="model card-moderna c-p apretable">
+		<div 
+		:class="status_class"
+		class="status">
+			{{ status_text }}
+		</div>
 		<div
-		class="client">
+		class="title">
 			<p>
 				{{ budget.client.name }} {{ budget.client.surname }}
 			</p>
 		</div>
-		<p>
-			N° {{ numBudget(budget) }}
-		</p>
-		<p>
-			<strong>{{ getTotal(budget) }}</strong>
-		</p>
-		<p class="sice"> 
-			{{ date(budget.created_at) }}
-		</p>
-		<p 
-		v-if="budget.order_production"
-		class="text-primary"> 
-			En produccion hace {{ since(budget.order_production.created_at) }}
-		</p>
+		<div class="data">
+			<p>
+				N° {{ numBudget(budget) }}
+			</p>
+			<p>
+				<strong>{{ getTotal(budget) }}</strong>
+			</p>
+			<p class="sice"> 
+				{{ date(budget.created_at) }}
+			</p>
+			<p 
+			v-if="budget.order_production"
+			class="text-primary"> 
+				En produccion hace {{ since(budget.order_production.created_at) }}
+			</p>
+		</div>
 	</div>
 </template>
 <script>
@@ -29,6 +36,30 @@ import budgets from '@/mixins/budgets'
 export default {
 	mixins: [budgets],
 	props: ['budget'],
+	computed: {
+		status_class() {
+			if (this.budget.order_production) {
+				return 'bg-primary'
+			}
+			if (this.budget.status == 'unconfirmed') {
+				return 'bg-danger'
+			}
+			if (this.budget.status == 'confirmed') {
+				return 'bg-success'
+			}
+		},
+		status_text() {
+			if (this.budget.order_production) {
+				return this.budget.order_production.status.name
+			}
+			if (this.budget.status == 'unconfirmed') {
+				return 'Sin confirmar'
+			}
+			if (this.budget.status == 'confirmed') {
+				return 'Confirmado'
+			}
+		},
+	},
 	methods: {
 		budgetDetails() {
 			this.$store.commit('produccion/budgets/setEdit', this.budget)
@@ -40,22 +71,3 @@ export default {
 	}
 }
 </script>
-<style lang="sass">
-.budget 
-	padding-bottom: 0 !important 
-	height: min-content
-	.client
-		width: 100%
-		padding-top: 100%
-		position: relative
-		display: flex
-		justify-content: center
-		align-items: center
-		p 
-			position: absolute
-			top: 50%
-			transform: translatey(-50%)
-			font-size: 2em
-			font-weight: bold
-			text-align: center
-</style>

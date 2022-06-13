@@ -3,9 +3,15 @@
 	class="m-t-15"
 	v-if="sub_view == 'planos'">
 		<vue-pdf-embed 
-		v-if="edit.pdf != ''"
+		v-if="edit.pdf && edit.pdf != ''"
 		class="shadow m-b-15"
 		:source="source"/>
+		<p 
+		v-else
+		class="text-with-icon">
+			<i class="icon-eye-slash"></i>
+			No hay ningun plano subido	
+		</p>
 		<b-row>
 			<b-col
 			md="9">
@@ -28,7 +34,8 @@
 				@click="upload"
 				variant="primary">
 					<btn-loader
-					text="Importar"
+					icon="upload"
+					text="Subir"
 					:loader="loading_pdf"></btn-loader>
 				</b-button>
 			</b-col>
@@ -59,7 +66,10 @@ export default {
 	},
 	computed: {
 		source() {
-			return process.env.VUE_APP_API_URL+'/order-productions/pdf/'+this.edit.pdf
+			if (this.edit.pdf != '') {
+				return process.env.VUE_APP_API_URL+'/order-productions/pdf/'+this.edit.pdf
+			}
+			return ''
 		},
 		text() {
 			if (this.edit.pdf != '') {

@@ -1,7 +1,7 @@
 export default {
 	computed: {
 		providers() {
-			return this.$store.state.providers.providers
+			return this.$store.state.providers.models
 		},
 		providers_options() {
 			let options = []

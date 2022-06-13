@@ -1,11 +1,12 @@
 <template>
 	<b-card 
-	class="shadow-5 border-radius-1"
+	class="shadow-2 border-radius-1"
 	header="Mis empleados">
 		<div>
 			<b-list-group 
 			v-show="employees.length">
 				<b-list-group-item
+				class="shadow-2"
 				v-for="employee in employees"
 				:key="employee.id">
 					<p>

@@ -31,6 +31,10 @@ export default {
             return this.current_page == url ? 'active-link' : ''
             // active-link-mobile
         },
+        toProduccion() {
+        	this.$router.push({name: 'Produccion', params: {view: 'presupuestos'}})
+        	this.$store.dispatch('produccion/budgets/getModels')
+        },
 		toVentas() {
 			if (this.$route.name == 'Ventas') {
 				this.$store.dispatch('sales/getSales')

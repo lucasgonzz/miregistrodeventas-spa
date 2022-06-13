@@ -22,10 +22,10 @@ export default {
 	computed: {
 		items() {
 			let items = []
-			if (this.can('production.budgets')) {
+			if (this.can('budgets.index')) {
 				items.push({name: 'presupuestos'})
 			}
-			if (this.can('production.order_productions')) {
+			if (this.can('order_productions.index')) {
 				items.push({name: 'ordenes-de-produccion'})
 			}
 			return items
@@ -40,15 +40,15 @@ export default {
 				this.$store.dispatch('produccion/order_productions/getModels')
 			}
 		},
-		setView(view) {
-			if (this.view != view) {
-				console.log('set view')
-				this.$router.push({name: 'Produccion', params: {view: view}})
-			}
-		},
-		isActive(name) {
-			return this.view == name
-		},
+		// setView(view) {
+		// 	if (this.view != view) {
+		// 		console.log('set view')
+		// 		this.$router.push({name: 'Produccion', params: {view: view}})
+		// 	}
+		// },
+		// isActive(name) {
+		// 	return this.view == name
+		// },
 	}
 }
 </script>

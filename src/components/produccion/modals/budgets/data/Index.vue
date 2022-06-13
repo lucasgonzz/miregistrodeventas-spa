@@ -8,6 +8,7 @@
 	:show_planos="show_planos"></nav-component>
 	<products
 	:show_btn_delete="show_btn_delete"
+	:show_btn_production="show_btn_production"
 	:edit="edit"
 	:budget="budget"></products>	
 	<dates
@@ -48,6 +49,10 @@ export default {
 		show_btn_delete: {
 			type: Boolean,
 			default: true,
+		},
+		show_btn_production: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	components: {

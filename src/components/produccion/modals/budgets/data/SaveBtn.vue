@@ -1,12 +1,23 @@
 <template>
-	<b-button
-	block
-	variant="primary"
-	@click="save">
-		<btn-loader
-		text="Guaradar"
-		:loader="loading_save"></btn-loader>
-	</b-button>
+	<div>
+		<b-form-group
+		v-if="budget.client && budget.client.email">
+			<b-form-checkbox
+			v-model="send_mail"
+			:value="1"
+			:uncheck-value="0">
+				Enviar correo al cliente ({{ budget.client.email }})
+			</b-form-checkbox>
+		</b-form-group>
+		<b-button
+		block
+		variant="primary"
+		@click="save">
+			<btn-loader
+			text="Guaradar"
+			:loader="loading_save"></btn-loader>
+		</b-button>
+	</div>
 </template> 
 <script>
 import budgets from '@/mixins/budgets'
@@ -20,6 +31,7 @@ export default {
 	data() {
 		return {
 			loading_save: false,
+			send_mail: true,
 		}
 	},
 	methods: {
@@ -28,6 +40,7 @@ export default {
 				this.loading_save = true 
 				this.$api.post('budgets', {
 					...this.budget,
+					send_mail: this.send_mail,
 				})
 				.then(res => {
 					this.loading_save = false

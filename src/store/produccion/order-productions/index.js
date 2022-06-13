@@ -1,4 +1,6 @@
 import statuses from '@/store/produccion/order-productions/statuses'
+import product_deliveries from '@/store/produccion/order-productions/product_deliveries'
+import product_article_stocks from '@/store/produccion/order-productions/product_article_stocks'
 import Vue from 'vue'
 import axios from 'axios'
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
@@ -69,5 +71,7 @@ export default {
 	},
 	modules: {
 		statuses,
+		product_deliveries,
+		product_article_stocks,
 	},
 }

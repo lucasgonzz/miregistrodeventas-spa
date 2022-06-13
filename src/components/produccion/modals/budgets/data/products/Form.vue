@@ -6,34 +6,43 @@
 		<b-form-row>
 			<b-col
 			md="2">
-				<b-form-input
-				ref="code"
-				@keyup.enter="toAmount"
-				v-model="product.code"
-				placeholder="Codigo"></b-form-input>
+				<select-component
+				full_width
+				select_empty
+				auto_select
+				:id="id_bar_code"
+				@setSelected="setSelectedBarCode"
+				placeholder="Codigo"
+				:model="product"
+				model_prop="bar_code"
+				:models="articles"></select-component>
 			</b-col>
 			<b-col
 			md="2">
 				<b-form-input
 				ref="amount"
-				@keyup.enter="toName"
+				@keydown.enter="toName"
 				v-model="product.amount"
 				type="number"
 				placeholder="Cantidad"></b-form-input>
 			</b-col>
 			<b-col
 			md="4">
-				<b-form-input
-				ref="name"
-				@keyup.enter="toPrice"
-				v-model="product.name"
-				placeholder="Nombre"></b-form-input>
+				<select-component
+				full_width
+				select_empty
+				auto_select
+				:id="id_name"
+				@setSelected="setSelectedName"
+				placeholder="Articulo"
+				:model="product"
+				:models="articles"></select-component>
 			</b-col>
 			<b-col
 			md="2">
 				<b-form-input
 				ref="price"
-				@keyup.enter="toBonus"
+				@keydown.enter="toBonus"
 				v-model="product.price"
 				type="number"
 				placeholder="Precio"></b-form-input>
@@ -42,7 +51,7 @@
 			md="2">
 				<b-form-input
 				ref="bonus"
-				@keyup.enter="add"
+				@keydown.enter="add"
 				v-model="product.bonus"
 				placeholder="Bonificacion"></b-form-input>
 			</b-col>
@@ -51,12 +60,28 @@
 </template>
 <script>
 import budgets from '@/mixins/budgets'
+
+import SelectComponent from '@/components/common/SelectComponent'
 export default {
 	mixins: [budgets],
+	components: {
+		SelectComponent,
+	},
+	computed: {
+		id_bar_code() {
+			return 'select-bar-code-for-budget'
+		},
+		id_name() {
+			return 'select-article-for-budget'
+		},
+		articles() {
+			return this.$store.state.articles.articles
+		},
+	},
 	data() {
 		return {
 			product: {
-				code: '',
+				bar_code: '',
 				amount: '',
 				name: '',
 				price: '',
@@ -65,26 +90,67 @@ export default {
 		}
 	},
 	methods: {
+		setSelectedBarCode(result) {
+			console.log(result)
+			let product
+			if (result.is_empty) {
+				product = {
+					bar_code: result.selected,
+					name: '',
+				}
+			} else {
+				product = {
+					...result.selected,
+					bonus: '',
+				}
+			}
+			this.product = product
+			this.$refs.amount.focus()
+		},
+		setSelectedName(result) {
+			console.log(result)
+			let product
+			if (result.is_empty) {
+				product = {
+					name: result.selected,
+					bar_code: '',
+				}
+			} else {
+				product = {
+					...result.selected,
+					bonus: '',
+				}
+			}
+			this.product = product
+			this.$refs.amount.focus()
+		},
 		add() {
 			this.budget_model.products.push(this.product)
-			// this.$store.commit('produccion/budgets/create/addProduct', this.product)
-			this.clear()
-			this.$refs['code'].focus()
+			document.getElementById(this.id_bar_code).focus()
+			setTimeout(() => {
+				this.clear()
+			}, 500)
 		},
 		clear() {
 			this.product = {
-				code: '',
+				bar_code: '',
 				amount: '',
 				name: '',
 				price: '',
 				bonus: '',
 			}
+			console.log('se limpio')
 		},
 		toAmount() {
 			this.$refs['amount'].focus()
 		},
 		toName() {
-			this.$refs['name'].focus()
+			console.log('acaa')
+			if (this.product.name == '') {
+				document.getElementById('select-article-for-budget').focus()
+			} else {
+				this.toPrice()
+			}
 		},
 		toPrice() {
 			this.$refs['price'].focus()

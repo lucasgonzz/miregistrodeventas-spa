@@ -6,7 +6,6 @@ export default {
 	namespaced: true,
 	state: {
 		articles: [],
-		new_articles: [],
 		from_filter: false,
 		filtered: [],
 		articles_to_show: [],
@@ -82,8 +81,15 @@ export default {
 			index = state.articles.findIndex(art => {
 				return art.id == article.id
 			})
-			state.articles.splice(index, 1, article)
-			state.bar_codes.splice(index, 1, article.bar_code)
+			if (index == -1) {
+				state.articles.unshift(article)
+				if (article.bar_code) {
+					state.bar_codes.unshift(article.bar_code)
+				}
+			} else {
+				state.articles.splice(index, 1, article)
+				state.bar_codes.splice(index, 1, article.bar_code)
+			}
 
 			index = state.articles_to_show.findIndex(art => {
 				return art.id == article.id

@@ -12,5 +12,8 @@ export default {
         loading() {
             return this.$store.state.clients.current_acounts.loading
         },
+        selected_currents_acounts() {
+            return this.$store.state.clients.current_acounts.selected
+        },
 	}
 }

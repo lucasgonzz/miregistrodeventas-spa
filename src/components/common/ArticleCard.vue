@@ -1,7 +1,7 @@
 <template> 
 	<b-card 
 	@click="articleSelected()"
-	class="article-card apretable border-radius-2 s" 
+	class="article-card apretable border-radius-2 shadow-1" 
 	no-body>
 		<div class="img-container">
 			<img :src="article_image">
@@ -16,7 +16,7 @@
 			</div>
 			</p>
 			<p class="product-price">
-				{{ price(article.price) }}
+				{{ articlePrice(article) }}
 			</p>
 		</div>
 	</b-card>

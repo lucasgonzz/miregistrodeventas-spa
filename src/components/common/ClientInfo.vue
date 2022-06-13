@@ -1,5 +1,5 @@
 <template>
-	<div class="client-info shadow-1 b-r-1">
+	<div class="client-info shadow-2 b-r-1">
 		<div class="icon">
 			<img 
 			v-if="client.image_url"
@@ -13,7 +13,6 @@
 			class="name">
 				<strong>{{ client.name }} {{ client.surname }}</strong>
 			</p> 
-			<hr>
 			<p
 			v-if="client.cuit">
 				CUIT: {{ client.cuit }}
@@ -39,11 +38,12 @@ export default {
 }
 </script>
 <style lang="sass">
+@import '@/sass/_custom.scss'
 .client-info
 	width: 100%
 	display: flex
 	margin-bottom: 2em
-	border-left: 4px solid rgba(0,0,0,.7)
+	border-left: 4px solid lighten($blue, 10)
 	.icon 
 		width: 150px
 		display: flex

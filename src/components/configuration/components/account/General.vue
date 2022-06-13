@@ -30,6 +30,25 @@
 			v-model="user.email"
 			@keyup.enter="updateUser"></b-form-input>
 		</b-form-group>
+		<div
+		class="cont-image">
+			<img 
+			class="shadow-1 b-r-1"
+			v-if="user.image_url"
+			:src="image(user)">
+			<b-button
+			@click="uploadImage('user', user, 'auth/setUser')"
+			variant="primary">
+				<i class="icon-camera"></i>
+				<span
+				v-if="user.image_url">
+					Cambiar imagen
+				</span>
+				<span v-else>
+					Agregar imagen
+				</span>
+			</b-button>
+		</div>
 		<b-form-group>
 			<b-button
 			block
@@ -76,3 +95,12 @@ export default {
 	}
 }
 </script>
+<style lang="sass">
+.cont-image 
+	margin-bottom: 15px
+	display: flex
+	align-items: center
+	img 
+		width: 300px
+		margin-right: 15px
+</style>

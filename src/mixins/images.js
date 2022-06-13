@@ -19,6 +19,28 @@ export default {
 			}
 			return url
 		},
+		uploadImage(model_name, model, commit) {
+			this.$store.commit('auth/setLoading', true)
+			setTimeout(() => {
+				this.$store.commit('auth/setLoading', false)
+			}, 2000)
+			var myCropWidget = cloudinary.createUploadWidget(this.widget_info, (error, result) => { 
+				if (result.event == 'success') {
+					let image_url = result.info.path
+					this.$api.put(`/${model_name.replace('_', '-')}s/image/${model.id}`, {
+						image_url
+					})
+					.then(res => {
+						this.$store.commit(commit, res.data[model_name])
+					})
+					.catch(err => {
+						console.log(err)
+						this.$toast.error('Error al guardar imagen')
+					})
+				}
+			})
+			myCropWidget.open()
+		},
 		showImages(article) {
 			this.$store.commit('articles/setImagesToShow', article)
 			this.$bvModal.show('article-images')

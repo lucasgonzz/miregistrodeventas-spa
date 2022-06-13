@@ -3,6 +3,7 @@
 		<div
 		v-if="!loading">
 			<b-table
+			class="shadow-1 b-r-1"
 			v-if="clients_to_show.length"
 			:fields="fields"
 			head-variant="dark"

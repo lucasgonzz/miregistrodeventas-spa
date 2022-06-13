@@ -9,10 +9,13 @@
 	    <create-client></create-client>
 		<budget-details></budget-details>
 		<create></create>
+		<print></print>
 		<b-row>
 			<b-col
+			v-if="can('budgets.store')"
 			cols="12"
-			md="8"
+			md="10"
+			lg="8"
 			class="j-start m-t-15">
 				<b-button
 				variant="primary"
@@ -23,7 +26,8 @@
 			</b-col>
 			<b-col
 			cols="12"
-			md="8">
+			md="10"
+			lg="8">
 				<list></list>
 			</b-col>
 		</b-row>
@@ -34,6 +38,8 @@ import Confirm from '@/components/common/Confirm'
 import CreateClient from '@/components/vender/modals/clients/Create.vue'
 import BudgetDetails from '@/components/produccion/modals/budgets/Details'
 import Create from '@/components/produccion/modals/budgets/Create'
+import Print from '@/components/produccion/modals/budgets/Print'
+
 import List from '@/components/produccion/components/budgets/List'
 export default {
 	components: {
@@ -41,6 +47,8 @@ export default {
 		CreateClient,
 		BudgetDetails,
 		Create,
+		Print,
+		
 		List,
 	},
 	computed: {

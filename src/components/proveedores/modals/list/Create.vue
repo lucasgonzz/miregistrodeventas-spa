@@ -25,6 +25,17 @@ hide-footer>
 		autocomplete="off"
 		placeholder="Ingrese el nombre del proveedor"></b-form-input>
 	</b-form-group>
+	<b-form-group
+	label="Correo del proveedor"
+	label-for="provider-email">
+		<b-form-input
+		type="text"
+		id="provider-email"
+		v-model="provider.email"
+		@keyup.enter="saveProvider"
+		autocomplete="off"
+		placeholder="Ingrese el email del proveedor"></b-form-input>
+	</b-form-group>
 	<b-form-group>
 		<b-button 
 		variant="primary"
@@ -48,7 +59,8 @@ export default {
 		return {
 			provider: {
 				name: '',
-				address: ''
+				address: '',
+				email: ''
 			},
 			saving_provider: false,
 			deleting_provider: 0,
@@ -80,7 +92,8 @@ export default {
 		clear() {
 			this.provider = {
 				name: '',
-				address: ''
+				address: '',
+				email: ''
 			}
 		},
 		check() {

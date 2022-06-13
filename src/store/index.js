@@ -10,7 +10,7 @@ import vender from './vender/vender'
 import categories from './categories'
 import sub_categories from './sub_categories'
 import special_prices from './special_prices'
-import providers from './providers'
+import providers from './providers/index'
 import discounts from './discounts'
 import sellers from './sellers'
 import commissioners from './commissioners'
@@ -37,6 +37,7 @@ import iva_conditions from './iva_conditions'
 import ivas from './ivas'
 import _super from './super'
 import produccion from './produccion/index'
+import current_acount_payment_methods from './current_acount_payment_methods'
 
 Vue.use(Vuex)
 Vue.config.devtools = true
@@ -92,5 +93,6 @@ export default new Vuex.Store({
 		ivas,
 		super: _super,
 		produccion,
+		current_acount_payment_methods,
 	}
 })

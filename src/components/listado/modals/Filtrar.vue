@@ -110,7 +110,7 @@ export default {
     },
     computed: {
         providers() {
-            return this.$store.state.providers.providers
+            return this.$store.state.providers.models
         },
         categories() {
             return this.$store.state.categories.categories

@@ -41,6 +41,8 @@ export default{
 				this.updating = false
 				this.$toast.success('Estado actualizado')
 				this.$bvModal.hide('update-status')
+				this.$bvModal.hide('order-production-details')
+				this.$store.dispatch('produccion/order_productions/getModels')
 			})
 			.catch(err => {
 				this.updating = false

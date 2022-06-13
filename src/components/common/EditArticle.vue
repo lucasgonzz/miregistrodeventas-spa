@@ -52,276 +52,52 @@
 				</b-form-group>
 			</b-col>
 			<b-col
-			cols="12"
-			md="6">
-				<!-- Codigo de barras -->
-				<b-form-group
-				label="Codigo de barras"
-				label-for="article-bar-code">
-					<b-form-input
-					id="article-bar-code"
-					type="text"
-					:placeholder="`Ingresa un codigo de barras para ${this.article.name}`"
-					v-model="article.bar_code"></b-form-input>
-				</b-form-group>
-			</b-col>
-			<b-col
-			cols="12"
-			md="6">
-				<!-- Nombre -->
-				<b-form-group
-				label="Nombre"
-				label-for="article-name">
-					<b-form-input
-					id="article-name"
-					@keydown.enter="updateArticle"
-					type="text"
-					v-model="article.name"></b-form-input>
-				</b-form-group>
-			</b-col>
-			<b-col
-			v-if="can('categories')"
-			cols="12"
-			md="6">
-				<!-- Categoria -->
-				<b-form-group
-				label="Categoría"
-				label-for="article-category">
-					<b-form-select
-					id="article-category"
-					@keydown.enter="updateArticle"
-					:options="categories_options"
-					v-model="article.category_id"></b-form-select>
-				</b-form-group>
-			</b-col>
-			<b-col
-			v-if="can('categories')"
-			cols="12"
-			md="6">
-				<!-- SubCategoria -->
-				<b-form-group
-				label="Subcategoría"
-				label-for="article-sub-category">
-					<b-form-select
-					id="article-sub-category"
-					@keydown.enter="updateArticle"
-					:options="sub_categories_options(article)"
-					v-model="article.sub_category_id"></b-form-select>
-				</b-form-group>
-			</b-col>
-			<b-col
-			v-if="can('articles.cost')"
-			cols="12"
-			md="6">
-				<b-form-group
-				label="Costo"
-				label-for="article-cost">
-					<b-form-input
-					id="article-cost"
-					@keydown.enter="updateArticle"
-					type="number"
-					min="0"
-					v-model="article.cost"></b-form-input>
-				</b-form-group>
-			</b-col>
-			<b-col
-			cols="12"
-			md="6">
-				<b-form-group
-				label="Precio"
-				label-for="article-price">
-					<b-form-input
-					id="article-price"
-					@keydown.enter="updateArticle"
-					type="number"
-					min="0"
-					v-model="article.price"></b-form-input>
-				</b-form-group>
-			</b-col>
-			<b-col
-			v-if="can('special_prices')"
-			v-show="special_prices.length"
-			v-for="(special_price, index) in special_prices"
-			:key="special_price.id"
-			cols="12"
-			md="6">
-				<!-- Precios especiales -->
-				<b-form-group 
-				:label="`Precio ${special_price.name}`"
-				:label-for="`article-price-${special_price.name}`">
-					<b-form-input
-					type="number"
-					min="0"
-					@keydown.enter="updateArticle"
-					:id="`article-special-price-${special_price.id}`"
-					v-model="article[special_price.name]"
-					:placeholder="`Ingrese el precio para ${special_price.name}`"></b-form-input>
-				</b-form-group>
-			</b-col>
-			<b-col
-			v-if="can('articles.stock')"
-			cols="12"
-			md="6">
-				<!-- Stock -->
-				<b-form-group
-				v-if="article.variants && article.variants.length"
-				label="Stock"
-				label-for="article-stock">
-					<b-button
-					size="sm"
-					variant="primary"
-					@click="showVariants()">
-						Ver stock
-					</b-button>
-				</b-form-group>
-				<b-form-group
-				v-else
-				label="Stock"
-				label-for="article-stock">
-					<b-form-input
-					id="article-stock"
-					@keydown.enter="updateArticle"
-					min="0"
-					type="number"
-					v-model="article.stock"></b-form-input>
-				</b-form-group>
-				<b-form-group>
-					<b-form-checkbox
-					v-model="article.stock_null"
-					id="article-stock-null">
-						Dejar de controlar stock
-					</b-form-checkbox>
-				</b-form-group>
-			</b-col>
-			<b-col
-			v-if="can('articles.stock')"
-			cols="12"
-			md="6">
-				<b-form-group
-				v-show="article.stock && article.variants && !article.variants.length"
-				label="Cantidad para agregar"
-				label-for="article-new-stock">
-					<b-form-input
-					placeholder="Cantidad para sumar al stock"
-					id="article-new-stock"
-					@keydown.enter="updateArticle"
-					min="0"
-					type="number"
-					v-model="article.new_stock"></b-form-input>
-				</b-form-group>
-			</b-col>
-			<b-col
-			v-if="can('providers')"
-			cols="12"
-			md="6">
-				<!-- Proveedor -->
-				<b-form-group
-				label="Proveedor"
-				label-for="article-provider">
-					<b-form-select
-					id="article-provider"
-					:options="providers_options"
-					v-model="article.provider_id"></b-form-select>
-				</b-form-group>
-				<b-form-group
-				v-if="!is_provider">
-					<b-form-checkbox
-					v-model="article.provider_null"
-					id="article-not-provider">
-						No usar proveedor
-					</b-form-checkbox>
-				</b-form-group>
-				<b-form-group>
-					<b-button
-					v-if="article.providers"
-					@click="show_providers ? show_providers = false : show_providers = true"
-					variant="secondary"
-					size="sm">
-						<i class="icon-eye" v-show="!show_providers"></i>
-						<i class="icon-eye-slash" v-show="show_providers"></i>
-						Proveedores anteriores
-					</b-button>
-					<b-table striped hover
-					class="m-t-10"
-					v-show="show_providers"
-					:items="table_providers_items"
-					></b-table>
-				</b-form-group>
-			</b-col>
-			<b-col
-			cols="12"
-			md="6">
-				<b-form-group
-				label="Precio anterior"
-				label-for="article-previus-price">
-					<b-form-input
-					id="article-previus-price"
-					disabled
-					:placeholder="previus_price"></b-form-input>
-				</b-form-group>
-				<!-- <b-form-checkbox
-				class="m-b-10"
-				id="article-act-fecha"
-				v-model="article.act_fecha"
-				:value="true"
-				:unchecked-value="false">
-					Actualizar fecha
-				</b-form-checkbox> -->
-			</b-col>
-			<hr>
-			<b-col
-			v-if="can('tags')"
 			cols="12">
-				<tags
-				:article="article"></tags>
-			</b-col>
-			<b-col
-			v-if="can('brands')"
-			cols="12">
-				<brand
-				:article="article"></brand>
-			</b-col>
-			<b-col
-			v-if="can('sizes')"
-			cols="12">
-				<sizes
-				:article="article"></sizes>
-			</b-col>
-			<b-col
-			v-if="can('colors')"
-			cols="12">
-				<colors
-				:article="article"></colors>
-			</b-col>
-			<b-col
-			v-if="can('afip_tickets')"
-			cols="12">
+
+				<barcode-name
+				:article="article"></barcode-name>
+
+				<cost-price 
+				:article="article"></cost-price>
+
+				<stock-provider 
+				:show_checkboxs="true"
+				:article="article"></stock-provider>
+
+				<category-subcategory 
+				:article="article"></category-subcategory>
+
+				<hr>
+
 				<iva
 				:article="article"></iva>
-			</b-col>
-			<b-col
-			v-if="can('descriptions')"
-			cols="12">
-				<!-- <descriptions
-				:article="article"></descriptions> -->
+				
+				<discounts
+				:article="article"></discounts>
+				
+				<tags
+				:article="article"></tags>
+				
+				<brand
+				:article="article"></brand>
+				
+				<sizes
+				:article="article"></sizes>
+				
+				<colors
+				:article="article"></colors>
+					
 				<description
 				:article="article"></description>
-			</b-col>
-			<b-col
-			cols="12"
-			v-if="can('conditions')"
-			lg="6">
+				
 				<condition
 				:article="article"></condition>
-			</b-col>
-			<b-col
-			class="j-end"
-			v-if="can('articles.with_dolar')"
-			cols="12"
-			lg="6"> 
+				
 				<with-dolar
 				:article="article"></with-dolar>
+
 			</b-col>
+			
 			<b-col
 			cols="12">
 				<b-form-group
@@ -341,11 +117,14 @@
 </b-modal>
 </template>
 <script>
-import categories from '@/mixins/categories'
-import edit_articles from '@/mixins/edit_articles'
+import BarcodeName from '@/components/ingresar/components/barcode-name/Index'
+import CostPrice from '@/components/ingresar/components/cost-price/Index'
+import StockProvider from '@/components/ingresar/components/provider-stock/Index'
+import CategorySubcategory from '@/components/ingresar/components/category-subcategory/Index'
 import Tags from '@/components/ingresar/components/Tags'
 import Brand from '@/components/ingresar/components/Brand'
 import Iva from '@/components/ingresar/components/Iva'
+import Discounts from '@/components/ingresar/components/Discounts.vue'
 import Descriptions from '@/components/common/Descriptions'
 import Sizes from '@/components/ingresar/components/Sizes.vue'
 import Colors from '@/components/ingresar/components/Colors.vue'
@@ -355,11 +134,15 @@ import WithDolar from '@/components/ingresar/components/WithDolar.vue'
 import BtnLoader from '@/components/common/BtnLoader'
 export default {
 	name: 'EditArticle',
-	mixins: [categories, edit_articles],
 	components: {
+		BarcodeName,
+		CostPrice,
+		StockProvider,
+		CategorySubcategory,
 		Tags,
 		Brand,
 		Iva,
+		Discounts,
 		Descriptions,
 		Sizes,
 		Colors,
@@ -370,69 +153,15 @@ export default {
 	},
 	data() {
 		return {
-			show_providers: false,
 			loading: false,
 		}
 	},
-	watch: {
-		show_providers() {
-			if (this.show_providers) {
-				this.orderProvidersHistory(this.article)
-			}
-		},
-	},
 	computed: {
-		previus_price() {
-			if (this.article.previus_price) {
-				return this.article.previus_price
-			}
-			return 'No tiene precio anterior'
-		},
 		article() {
 			return this.$store.state.articles.article_to_edit
 		},
-		special_prices() {
-			return this.$store.state.special_prices.special_prices
-		},
-		stock_description() {
-			let description = `Actualmente hay ${this.article.stock}`
-			if (this.article.uncontable == 1) {
-				description += ` ${this.article.measurement}`
-			}
-			return description
-		},
-		table_providers_items() {
-			let items = [] 
-			if (this.article.providers) {
-				this.article.providers.forEach(provider => {
-					let item = {}
-					item.fecha 		= this.date(provider.pivot.created_at)
-					item.nombre 	= provider.name 
-					item.costo 		= this.price(provider.pivot.cost)
-					item.precio 	= this.price(provider.pivot.price)
-					item.cantidad 	= provider.pivot.amount ? provider.pivot.amount : 'Sin uso'
-					items.push(item)
-				})
-			}
-			return items
-		}
 	},
 	methods: {
-		showVariants() {
-			this.$store.commit('articles/setImagesToShow', this.article)
-			this.$bvModal.show('article-variants')
-		},
-		showProviders() {
-			if (this.show_providers) {
-				this.show_providers = false
-			} else {
-				this.show_providers = true
-			}
-		},
-		clearArticle() {
-			console.log(1)
-			this.$emit('clearArticle')
-		},
 		updateArticle() {
 			if (this.check()) {
 				this.loading = true
@@ -443,7 +172,6 @@ export default {
 					this.$store.commit('articles/update', res.data.article)
 					this.$toast.success('Articulo actualizado')
 					this.$bvModal.hide('edit-article')
-					this.clearArticle()
 				})
 				.catch(err => {
 					this.loading = false
@@ -454,7 +182,7 @@ export default {
 		},
 		check() {
 			var ok = true
-			if (this.article.price == '') {
+			if (this.article.price == '' && this.article.percentage_gain == '') {
 				ok = false
 				this.$toast.error('No puede dejar el precio vacio')
 				document.getElementById("article-price").focus()

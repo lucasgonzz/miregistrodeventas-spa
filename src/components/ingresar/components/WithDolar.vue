@@ -1,6 +1,6 @@
 <template>
 	<b-form-group
-	v-if="has_online">
+	v-if="can('articles.with_dolar')">
 		<b-form-checkbox
 		:value="1"
 		:unchecked-value="0"

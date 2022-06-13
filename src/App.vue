@@ -168,11 +168,11 @@ export default {
                 this.loading_message = 'ventas'
                 await this.$store.dispatch('sales/days_previus_sales/getDaysPreviusSales')
                 await this.$store.dispatch('sales/getSales')
-                if (this.can('production.budgets')) {
+                if (this.hasExtencion('budgets')) {
                     this.loading_message = 'presupuestos'
                     this.$store.dispatch('produccion/budgets/getModels')
                 }
-                if (this.can('production.order_productions')) {
+                if (this.hasExtencion('order_productions')) {
                     this.loading_message = 'ordenes de produccion'
                     this.$store.dispatch('produccion/order_productions/getModels')
                     this.$store.dispatch('produccion/order_productions/statuses/getModels')
@@ -180,22 +180,27 @@ export default {
                 if (this.can('special_prices')) {
                     this.$store.dispatch('special_prices/getSpecialPrices')
                 }
-                if (this.can('providers')) {
+                // if (this.can('providers')) {
                     this.loading_message = 'proveedores'
-                    await this.$store.dispatch('providers/getProviders')
-                }
-                if (this.can('categories')) {
+                    await this.$store.dispatch('providers/getModels')
+                    if (this.hasExtencion('proveedores')) {
+                        this.loading_message = 'pedidos de proveedores'
+                        await this.$store.dispatch('providers/orders/getModels')
+                    }
+                // }
+                // if (this.can('categories')) {
                     this.loading_message = 'categorias'
                     await this.$store.dispatch('categories/getCategories')
                     this.loading_message = 'subcategorias'
                     await this.$store.dispatch('sub_categories/getSubCategories')
                     this.loading_message = 'iconos'
                     await this.$store.dispatch('icons/getIcons')
-                }
-                if (this.can('clients')) {
+                // }
+                // if (this.can('clients')) {
                     this.loading_message = 'clientes'
                     await this.$store.dispatch('clients/getClients')
-                }
+                    await this.$store.dispatch('current_acount_payment_methods/getModels')
+                // }
                 if (this.can('afip_tickets')) {
                     this.loading_message = 'iva'
                     await this.$store.dispatch('ivas/getModels')

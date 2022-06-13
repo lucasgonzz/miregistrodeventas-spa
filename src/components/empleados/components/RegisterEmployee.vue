@@ -1,6 +1,6 @@
 <template>
 	<b-card 
-	class="shadow-5 border-radius-1"
+	class="shadow-2 border-radius-1"
 	header="Registrar un nuevo empleado">
 		<p>
 			Registra un nuevo empleado y asignale permisos para controlar que puede y que no hacer dentro del sistema.

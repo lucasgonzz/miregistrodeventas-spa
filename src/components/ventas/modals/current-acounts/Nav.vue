@@ -75,9 +75,6 @@ export default {
         client() {
             return this.$store.state.clients.current_acounts.client
         },
-        selected_currents_acounts() {
-            return this.$store.state.clients.current_acounts.selected
-        },
 	},
 	methods: {
         saldoInicial() {

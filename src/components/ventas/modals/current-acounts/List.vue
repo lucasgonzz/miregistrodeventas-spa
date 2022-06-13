@@ -8,9 +8,29 @@
             head-variant="dark"
             :fields="fields"
             :items="items"
+            responsive
             selectable 
             select-mode="multi"
             @row-selected="onRowSelected">
+                <template #cell(metodo)="data">
+                    <div
+                    v-if="current_acounts[data.index].payment_method">
+                        <span
+                        class="btn-link"
+                        @click="showChecks(current_acounts[data.index])"
+                        v-if="current_acounts[data.index].payment_method.id == 1">
+                            {{ current_acounts[data.index].payment_method.name }}
+                        </span>
+                        <span
+                        v-else>
+                            {{ current_acounts[data.index].payment_method.name }}
+                        </span>
+                    </div>
+                    <span
+                    v-else>
+                        -
+                    </span>
+                </template>
                 <template #cell(detalle)="data">
                     <strong
                     :class="getDetalleColorText(current_acounts[data.index])">
@@ -27,25 +47,11 @@
                     </b-button>
                 </template>
             </b-table>
-            <b-form-group
-            class="m-b-10 j-end p-r-10">
-                <b-button
-                v-b-modal="'current-acounts-nota-credito'"
-                variant="danger">
-                    Nota de credito
-                </b-button>
-                <b-button
-                class="m-l-10"
-                v-b-modal="'current-acounts-pago'"
-                variant="primary">
-                    Registrar pago
-                </b-button>
-            </b-form-group>
         </div>
         <p 
         v-else
         class="text-with-icon">
-            <i class="icon-not"></i>
+            <i class="icon-eye-slash"></i>
             No hay cuentas corrientes
         </p>
     </div>
@@ -67,9 +73,11 @@ export default {
             return [
                 { key: 'fecha', class: 'text-center' },
                 { key: 'detalle', class: 'text-center detalle' },
+                { key: 'numero', class: 'text-center' },
                 { key: 'debe', class: 'text-center' },
                 { key: 'haber', class: 'text-center' },
                 { key: 'saldo', class: 'text-center' },
+                { key: 'metodo', class: 'text-center' },
                 { key: 'description', label: 'Observaciones', class: 'text-center detalle' },
                 { key: 'options', label: '', class: 'text-center detalle' },
             ]
@@ -81,17 +89,40 @@ export default {
                     id:             current_acount.id,
                     fecha:          this.date(current_acount.created_at, true), 
                     debe:           this.price(current_acount.debe),
+                    numero:           this.getNum(current_acount),
                     haber:          this.price(current_acount.haber),
                     saldo:          this.price(current_acount.saldo),
                     description:    current_acount.description,
+                    status:    current_acount.status,
                 })
             })
             return items
         }
     },
     methods: {
+        getNum(current_acount) {
+            if (current_acount.num_receipt) {
+                return current_acount.num_receipt
+            }
+            if (current_acount.sale) {
+                return current_acount.sale.num_sale
+            }
+            if (current_acount.budget) {
+                return current_acount.budget.num
+            }
+        },
+        // paymentMethod(current_acount) {
+        //     if (current_acount.payment_method) {
+        //         return current_acount.payment_method.name 
+        //     }
+        //     return '-'
+        // },
+        showChecks(current_acount) {
+            this.$store.commit('clients/current_acounts/setShowChecks', current_acount)
+            this.$bvModal.show('checks-details')
+        },
         canDelete(current_acount) {
-            return current_acount.status == 'pago_from_client' || current_acount.status == 'nota_credito' || current_acount.detalle == 'Saldo inicial'
+            return (current_acount.status == 'pago_from_client' || current_acount.status == 'nota_credito' || current_acount.detalle == 'Saldo inicial') && current_acount.id == this.current_acounts[this.current_acounts.length - 1].id
         },
         onRowSelected(items) {
             this.$store.commit('clients/current_acounts/setSelected', items)

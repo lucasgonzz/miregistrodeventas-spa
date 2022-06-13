@@ -8,6 +8,8 @@ export default {
 		update_debe: {},
 		current_acounts: [],
 		selected: [],
+		show_checks: null,
+		to_pay: null,
 		delete: {},
 		months_ago: 1,
 		loading: false,
@@ -19,6 +21,12 @@ export default {
 		},
 		setSelected(state, value) {
 			state.selected = value
+		},
+		setShowChecks(state, value) {
+			state.show_checks = value
+		},
+		setToPay(state, value) {
+			state.to_pay = value
 		},
 		setDelete(state, value) {
 			state.delete = value

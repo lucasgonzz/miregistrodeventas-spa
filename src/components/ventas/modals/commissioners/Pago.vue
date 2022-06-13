@@ -34,7 +34,9 @@ export default {
 	},
 	computed: {
 		title() {
-			return 'Pagar a '+this.commissioner.name
+			if (this.commissioner) {
+				return 'Pagar a '+this.commissioner.name
+			}
 		},
 		commissioner() {
 			return this.$store.state.commissioners.selected_commissioner

@@ -10,7 +10,7 @@ class="j-between align-center">
 	v-if="show_btn"> 
 		<b-button
 		variant="primary"
-		@click="print()">
+		v-b-modal="'print-budget'">
 			<i class="icon-print"></i>
 		</b-button>
 		<b-button
@@ -45,10 +45,6 @@ export default {
 		}
 	},
 	methods: {
-		print() {
-            var link = process.env.VUE_APP_API_URL+'/budgets/pdf/'+this.budget_model.id
-            window.open(link)
-		},
 		setDelete() {
 			this.$store.commit('produccion/budgets/setDelete', this.budget_model)
 			this.$bvModal.show('delete-budget')

@@ -10,6 +10,11 @@
 		<b-form-input
 		v-model="provider.address"></b-form-input>
 	</b-form-group>
+	<b-form-group
+	label="Email">
+		<b-form-input
+		v-model="provider.email"></b-form-input>
+	</b-form-group>
 	<b-form-group>
 		<b-button
 		block

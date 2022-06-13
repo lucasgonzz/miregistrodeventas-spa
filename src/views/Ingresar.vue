@@ -27,36 +27,28 @@
 	<b-row class="justify-content-center">
 		<b-col
 		cols="12" 
-		md="8"
-		lg="6">
-			<!-- <uncontable 
-			:article="article"></uncontable> -->
+		md="8">
+
 			<title-agregar></title-agregar>
-			<bar-code 
-			:article="article"></bar-code>
-			<name 
-			:article="article"
-			ref="nameComponent"
-			@setArticle="setArticle"></name>
+			
+			<bar-code-name 
+			:article="article"></bar-code-name>
 
 			<cost-price 
-			:article="article"
-			:user="user"
-			:porcentage_for_price="porcentage_for_price"></cost-price>
+			:article="article"></cost-price>
 
 			<stock-provider 
 			:article="article"
 			@saveArticle="saveArticle"></stock-provider>
 
-			<categories-subcategories 
-			:article="article"
-			@saveArticle="saveArticle"></categories-subcategories>
-
-			<!-- <tags
-			:article="article"></tags> -->
+			<category-subcategory 
+			:article="article"></category-subcategory>
 
 			<iva
 			:article="article"></iva>
+
+			<discounts
+			:article="article"></discounts>
 
 			<description
 			:article="article"></description>
@@ -86,45 +78,47 @@
 </template>
 <script>
 // Modals
-import DeleteCategory from '../components/ingresar/modals/categories/Delete.vue'
-import ArticleVariants from '../components/listado/modals/images/ArticleVariants.vue'
-import Providers from '../components/ingresar/modals/providers/Index.vue'
-import CreateProvider from '../components/ingresar/modals/providers/Create.vue'
-import EditProvider from '../components/ingresar/modals/providers/Edit.vue'
-import Categories from '../components/ingresar/modals/categories/Index.vue'
-import CreateCategory from '../components/ingresar/modals/categories/CreateCategory.vue'
-import CreateSubCategory from '../components/ingresar/modals/categories/CreateSubCategory.vue'
-import EditCategory from '../components/ingresar/modals/categories/EditCategory.vue'
-import EditSubCategory from '../components/ingresar/modals/categories/EditSubCategory.vue'
-import SpecialPrices from '../components/ingresar/modals/special-prices/Index.vue'
-import CreateSpecialPrice from '../components/ingresar/modals/special-prices/Create.vue'
-import Brands from '../components/ingresar/modals/brands/Index.vue'
-import CreateBrand from '../components/ingresar/modals/brands/Create.vue'
-import EditBrand from '../components/ingresar/modals/brands/Edit.vue'
-import Conditions from '../components/ingresar/modals/conditions/Index.vue'
-import EditCondition from '../components/ingresar/modals/conditions/Edit.vue'
-import CreateCondition from '../components/ingresar/modals/conditions/Create.vue'
-import EditArticle from '../components/common/EditArticle.vue'
-import PrintTickets from '../components/ingresar/modals/PrintTickets.vue'
-import BarCodes from '../components/ingresar/modals/BarCodes.vue'
-import DeleteSpecialPrice from '../components/ingresar/modals/DeleteSpecialPrice.vue'
+import DeleteCategory from '@/components/ingresar/modals/categories/Delete'
+import ArticleVariants from '@/components/listado/modals/images/ArticleVariants'
+import Providers from '@/components/ingresar/modals/providers/Index'
+import CreateProvider from '@/components/proveedores/modals/list/Create'
+import EditProvider from '@/components/proveedores/modals/list/Edit'
+import Categories from '@/components/ingresar/modals/categories/Index'
+import CreateCategory from '@/components/ingresar/modals/categories/CreateCategory'
+import CreateSubCategory from '@/components/ingresar/modals/categories/CreateSubCategory'
+import EditCategory from '@/components/ingresar/modals/categories/EditCategory'
+import EditSubCategory from '@/components/ingresar/modals/categories/EditSubCategory'
+import SpecialPrices from '@/components/ingresar/modals/special-prices/Index'
+import CreateSpecialPrice from '@/components/ingresar/modals/special-prices/Create'
+import Brands from '@/components/ingresar/modals/brands/Index'
+import CreateBrand from '@/components/ingresar/modals/brands/Create'
+import EditBrand from '@/components/ingresar/modals/brands/Edit'
+import Conditions from '@/components/ingresar/modals/conditions/Index'
+import EditCondition from '@/components/ingresar/modals/conditions/Edit'
+import CreateCondition from '@/components/ingresar/modals/conditions/Create'
+import EditArticle from '@/components/common/EditArticle'
+import PrintTickets from '@/components/ingresar/modals/PrintTickets'
+import BarCodes from '@/components/ingresar/modals/BarCodes'
+import DeleteSpecialPrice from '@/components/ingresar/modals/DeleteSpecialPrice'
 
 // Components
-import BarCode from '../components/ingresar/components/BarCode.vue'
-import Name from '../components/ingresar/components/Name.vue'
-import CostPrice from '../components/ingresar/components/CostPrice.vue'
-import StockProvider from '../components/ingresar/components/StockProvider.vue'
-import CategoriesSubcategories from '../components/ingresar/components/CategoriesSubcategories.vue'
-import Tags from '../components/ingresar/components/Tags.vue'
-import Iva from '../components/ingresar/components/Iva.vue'
-import Description from '../components/ingresar/components/Description.vue'
-import Condition from '../components/ingresar/components/Condition.vue'
-import Sizes from '../components/ingresar/components/Sizes.vue'
-import Brand from '../components/ingresar/components/Brand.vue'
-import Colors from '../components/ingresar/components/Colors.vue'
-import AddPhoto from '../components/ingresar/components/AddPhoto.vue'
-import CardFooter from '../components/ingresar/components/CardFooter.vue'
-import TitleAgregar from '../components/ingresar/components/TitleAgregar.vue'
+import BarCodeName from '@/components/ingresar/components/barcode-name/Index'
+// import BarCode from '@/components/ingresar/components/BarCode'
+// import Name from '@/components/ingresar/components/Name'
+import CostPrice from '@/components/ingresar/components/cost-price/Index'
+import StockProvider from '@/components/ingresar/components/provider-stock/Index'
+import CategorySubcategory from '@/components/ingresar/components/category-subcategory/Index'
+import Tags from '@/components/ingresar/components/Tags'
+import Iva from '@/components/ingresar/components/Iva'
+import Discounts from '@/components/ingresar/components/Discounts'
+import Description from '@/components/ingresar/components/Description'
+import Condition from '@/components/ingresar/components/Condition'
+import Sizes from '@/components/ingresar/components/Sizes'
+import Brand from '@/components/ingresar/components/Brand'
+import Colors from '@/components/ingresar/components/Colors'
+import AddPhoto from '@/components/ingresar/components/AddPhoto'
+import CardFooter from '@/components/ingresar/components/CardFooter'
+import TitleAgregar from '@/components/ingresar/components/TitleAgregar'
 
 // Mixins
 import mixin from '@/mixins/ingresar'
@@ -155,13 +149,15 @@ export default {
 		DeleteSpecialPrice,
 
 		// Uncontable,
-		BarCode,
-		Name,
+		BarCodeName,
+		// BarCode,
+		// Name,
 		CostPrice,
 		StockProvider,
-		CategoriesSubcategories,
+		CategorySubcategory,
 		Tags,
 		Iva,
+		Discounts,
 		Description,
 		Condition,
 		Sizes,
@@ -180,10 +176,12 @@ export default {
 				provider_id: 0,
 				brand_id: 0,
 				iva_id: 2,
+				discounts: [{percentage: ''}],
 				new_bar_code: '',
 				name: '',
 				cost: '',
 				price: '',
+				percentage_gain: '',
 				stock: '',
 				tags: [],
 				descriptions: [{}],
@@ -194,13 +192,12 @@ export default {
 				stock_null: false,
 				act_fecha: 1,
 				add_photo: false,
-				created_at: new Date().toISOString().slice(0,10),
+				// created_at: new Date().toISOString().slice(0,10),
 			},
 
 			// Spinners
 			guardando: false,
 			articles_to_print: [],
-			porcentage_for_price: 0,
 		}
 	},
 	computed: {
@@ -256,10 +253,9 @@ export default {
 			this.file = file
 			this.$jQuery('#name').focus()
 		},
-
 		validate() {
 			var ok = true
-			if (this.article.price == '') {
+			if (this.article.price == '' && this.article.percentage_gain == '') {
 				ok = false
 				this.$toast.error('El campo precio es obligatorio')
 				document.getElementById('article-price').focus()
@@ -352,39 +348,39 @@ export default {
 			var link = 'imprimir-precios/'+articles_id.join('-')
 			window.open(link)
 		},
-		setArticle(article) {
-			if (this.special_prices.length && article.special_prices.length) {
-				article.special_prices.forEach(special_price => {
-					this.article[special_price.name] = special_price.pivot.price
-				})
-			}
-			this.article.creado = this.date(article.created_at) + ' ' 
-									+ this.since(article.created_at)
-			this.article.actualizado = this.date(article.updated_at) + ' ' 
-										+ this.since(article.updated_at)
-			this.article.id = article.id
-			if (article.category_id) {
-				this.article.category_id = article.category_id
-			} else {
-				this.article.category_id = 0
-			}
-			this.article.online = article.online
-			this.article.uncontable = article.uncontable
-			this.article.bar_code = article.bar_code
-			this.article.measurement = article.measurement
-			this.article.name = article.name
-			this.article.cost = article.cost
-			this.article.price = article.price
-			this.article.online_price = article.online_price
-			this.article.offer_price = article.offer_price
-			if (!this.is_provider(this.user)) {
-				this.article.provider_id = article.providers[article.providers.length - 1].id
-				this.article.providers = article.providers
-			}
-			this.article.stock = article.stock
-			this.article.new_stock = 0
-			this.article.stock_null = false
-		},
+		// setArticle(article) {
+		// 	if (this.special_prices.length && article.special_prices.length) {
+		// 		article.special_prices.forEach(special_price => {
+		// 			this.article[special_price.name] = special_price.pivot.price
+		// 		})
+		// 	}
+		// 	this.article.creado = this.date(article.created_at) + ' ' 
+		// 							+ this.since(article.created_at)
+		// 	this.article.actualizado = this.date(article.updated_at) + ' ' 
+		// 								+ this.since(article.updated_at)
+		// 	this.article.id = article.id
+		// 	if (article.category_id) {
+		// 		this.article.category_id = article.category_id
+		// 	} else {
+		// 		this.article.category_id = 0
+		// 	}
+		// 	this.article.online = article.online
+		// 	this.article.uncontable = article.uncontable
+		// 	this.article.bar_code = article.bar_code
+		// 	this.article.measurement = article.measurement
+		// 	this.article.name = article.name
+		// 	this.article.cost = article.cost
+		// 	this.article.price = article.price
+		// 	this.article.online_price = article.online_price
+		// 	this.article.offer_price = article.offer_price
+		// 	if (!this.is_provider(this.user)) {
+		// 		this.article.provider_id = article.providers[article.providers.length - 1].id
+		// 		this.article.providers = article.providers
+		// 	}
+		// 	this.article.stock = article.stock
+		// 	this.article.new_stock = 0
+		// 	this.article.stock_null = false
+		// },
 		clearArticle() {
 			this.article.bar_code = ''
 			this.article.name = ''
@@ -405,7 +401,7 @@ export default {
 					this.article[special_price.name] = ''
 				})
 			}
-			this.$refs.nameComponent.clearName()
+			document.getElementById('article-bar-code').focus()
 		},
 		setArticleProvider(provider) {
 			this.article.provider_id = provider.id

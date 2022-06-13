@@ -284,3 +284,6 @@
 .icon-pdf:before {
   content: "\3e";
 }
+.icon-dots:before {
+  content: "\3f";
+}

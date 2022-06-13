@@ -25,7 +25,7 @@
 </template>
 <script>
 import Confirm from '@/components/common/Confirm.vue'
-import List from '@/components/ingresar/modals/providers/List'
+import List from '@/components/proveedores/components/list/List'
 export default {
 	components: {
 		Confirm,

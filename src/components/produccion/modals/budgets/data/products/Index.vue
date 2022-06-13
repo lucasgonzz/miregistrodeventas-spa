@@ -5,6 +5,7 @@
 		v-if="edit"></form-component>
 		<list
 		:show_btn_delete="show_btn_delete"
+		:show_btn_production="show_btn_production"
 		:budget_prop="budget"></list>
 	</div>
 </template>
@@ -13,7 +14,7 @@
 import FormComponent from '@/components/produccion/modals/budgets/data/products/Form'
 import List from '@/components/produccion/modals/budgets/data/products/List'
 export default {
-	props: ['budget', 'edit', 'show_btn_delete'],
+	props: ['budget', 'edit', 'show_btn_delete', 'show_btn_production'],
 	components: {
 		FormComponent,
 		List,

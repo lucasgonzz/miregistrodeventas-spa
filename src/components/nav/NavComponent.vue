@@ -26,8 +26,8 @@
                         Vender
                     </b-nav-item>
                     <b-nav-item 
-                    v-if="hasExtencion('produccion')"
-                    :to="{name: 'Produccion', params: {view: 'presupuestos'}}"
+                    v-if="hasExtencion('budgets') || hasExtencion('order_productions')"
+                    @click="toProduccion"
                     :class="activeLink('Produccion')">
                         Produccion
                     </b-nav-item>
@@ -41,6 +41,12 @@
                     v-if="can('articles.index')"
                     :class="activeLink('Listado')">
                         Listado
+                    </b-nav-item>
+                    <b-nav-item 
+                    :to="{name: 'Proveedores', params: {view: 'lista'}}"
+                    v-if="hasExtencion('providers')"
+                    :class="activeLink('Proveedores')">
+                        Proveedores
                     </b-nav-item>
                     <b-nav-item
                     @click="toVentas"
