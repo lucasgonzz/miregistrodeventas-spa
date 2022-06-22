@@ -5,7 +5,7 @@
     :actions="['combos/delete']"
     id="delete-combo"
     toast="Combo eliminado"></confirm>
-	<create></create>	
+	<model></model>	
 	<edit></edit>	
 	<b-modal
 	id="combos"
@@ -20,7 +20,7 @@
 </template>
 <script>
 import Confirm from '@/components/common/Confirm'
-import Create from '@/components/listado/modals/combos/Create'
+import Model from '@/components/listado/modals/combos/Model'
 import Edit from '@/components/listado/modals/combos/Edit'
 
 import CreateBtn from '@/components/listado/modals/combos/CreateBtn'
@@ -28,7 +28,7 @@ import List from '@/components/listado/modals/combos/List'
 export default {
 	components: {
 		Confirm,
-		Create,
+		Model,
 		Edit,
 		
 		CreateBtn,

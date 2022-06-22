@@ -15,6 +15,7 @@
 				<b-form-checkbox
 				v-for="size in sizes"
 				:key="size.id"
+				:id="'size-'+size.id"
 				v-model="article.sizes_id"
 				:value="size.id">
 					{{ size.value }}

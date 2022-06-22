@@ -11,18 +11,14 @@ import percentage_card_mixin from '@/mixins/percentageCard'
 export default {
 	namespaced: true,
 	state: {
-		articles: [],
-		combos: [],
 		items: [],
-		article: {bar_code: '', amount: ''},
+		article: {bar_code: '', name: '', amount: ''},
 		update_price: {},
-		clear_article_name: false,
 		new_article: '',
 		article_for_sale: {},
 		article_variant: {},
 		total: 0,
 		client: null,
-		debt: null,
 		with_card: false,
 		discounts: [],
 		sale_type: null,
@@ -37,25 +33,16 @@ export default {
 		addItem(state, value) {
 			state.items.unshift(value)
 		},
-		setArticles(state, articles) {
-			state.articles = articles
-		},
-		setClearArticleName(state, value) {
-			if (state.clear_article_name) {
-				state.clear_article_name = false
+		setArticle(state, value) { 
+			if (!value) {
+				state.article.bar_code = ''
+				state.article.name = ''
+				state.article.amount = ''
 			} else {
-				state.clear_article_name = true
+				state.article = value
 			}
 		},
-		setArticle(state) {
-			state.article.bar_code = ''
-			state.article.amount = ''
-		},
-		setCombos(state, value) {
-			state.combos = value
-		},
 		addCombo(state, value) {
-			state.combos.unshift(value)
 			state.items.unshift(value)
 		},
 		setUpdatePrice(state, value) {
@@ -64,21 +51,11 @@ export default {
 		setNewArticle(state, value) {
 			state.new_article = value
 		},
-		addArticle(state, article) {
-			state.articles.unshift(state.article_for_sale)
-			state.items.unshift(state.article_for_sale)
-		},
-		setVariant(state, value) {
-			state.article_variant = value
+		addItem(state, item) {
+			state.items.unshift(item)
 		},
 		setArticleForSale(state, value) {
 			state.article_for_sale = value
-		},
-		removeArticleFromSale(state, value) {
-			let index = state.articles.findIndex(art => {
-				return art.id == value.id
-			})
-			state.articles.splice(index, 1)
 		},
 		setVendiendo(state, value) {
 			state.vendiendo = value
@@ -92,33 +69,20 @@ export default {
 		setClient(state, value) {
 			state.client = value
 		},
-		setSpecialPriceId(state, value) {
-			state.special_price_id = value
-		},
 		setWithCard(state, value) {
 			state.with_card = value
 		},
 		setSale(state, value) {
 			state.sale = value
 		},
-		// replaceArticle(state, article) {
-		// 	let index = state.articles.findIndex(art => {
-		// 		return art.id == article.id
-		// 	})
-		// 	state.articles.splice(index, 1, article)
-		// 	// Vue.set(state.articles[index], 'amount', new_amount)
-		// },
 		setTotal(state, total = null) {
 			if (total) {
 				state.total = total
 			} else {
 				state.total = 0
-				let price 
-				state.articles.forEach(article => {
-					state.total += Number(article.price) * article.amount
-				})
-				state.combos.forEach(combo => {
-					state.total += combo.price * combo.amount
+				state.items.forEach(item => {
+					item.total = Number(item.price) * item.amount
+					state.total += Number(item.price) * item.amount
 				})
 				if (state.with_card) {
 					let user_percentage_card = auth.state.user.percentage_card
@@ -128,44 +92,91 @@ export default {
 				} 
 			}
 		},
-		setVendiendo(state, value) {
-			state.vendiendo = value
-		},
-		removeArticle(state, article) {
-			let index = state.articles.findIndex(art => {
-				return art.id == article.id
+		removeItem(state, item) {
+			let index = state.items.findIndex(i => {
+				return i.id == item.id
 			})
-			state.articles.splice(index, 1)
+			state.items.splice(index, 1)
 		},
-		updateArticle(state, article) {
-			let index = state.articles.findIndex(art => {
-				return art.id == article.id
+		updateItem(state, item) {
+			let index = state.items.findIndex(art => {
+				return art.id == item.id
 			})
-			state.articles.splice(index, 1, article)
+			state.items.splice(index, 1, item)
 		},
+		// replaceArticle(state, article) {
+		// 	let index = state.articles.findIndex(art => {
+		// 		return art.id == article.id
+		// 	})
+		// 	state.articles.splice(index, 1, article)
+		// 	// Vue.set(state.articles[index], 'amount', new_amount)
+		// },
+		// setTotal(state, total = null) {
+		// 	if (total) {
+		// 		state.total = total
+		// 	} else {
+		// 		state.total = 0
+		// 		let price 
+		// 		state.articles.forEach(article => {
+		// 			state.total += Number(article.price) * article.amount
+		// 		})
+		// 		state.combos.forEach(combo => {
+		// 			state.total += combo.price * combo.amount
+		// 		})
+		// 		if (state.with_card) {
+		// 			let user_percentage_card = auth.state.user.percentage_card
+		// 			let percentage_card = 0
+		// 			percentage_card = percentage_card_mixin.methods.percentageCardFormated(user_percentage_card)
+		// 			state.total = state.total * percentage_card
+		// 		} 
+		// 	}
+		// },
+		// removeArticle(state, article) {
+		// 	let index = state.articles.findIndex(art => {
+		// 		return art.id == article.id
+		// 	})
+		// 	state.articles.splice(index, 1)
+		// },
+		// updateArticle(state, article) {
+		// 	let index = state.articles.findIndex(art => {
+		// 		return art.id == article.id
+		// 	})
+		// 	if (index != -1) {
+		// 		state.articles.splice(index, 1, article)
+		// 	}
+		// },
+		// updateCombo(state, combo) {
+		// 	let index = state.combos.findIndex(art => {
+		// 		return art.id == combo.id
+		// 	})
+		// 	if (index != -1) {
+		// 		state.combos.splice(index, 1, combo)
+		// 	}
+		// },
 	},
 	actions: {
-		vender({ commit, state }, dolar_blue) {
+		vender({ commit, state }, info) {
 			commit('setVendiendo', true)
 			console.log('dolar_blue en vender: ')
-			console.log(dolar_blue)
-			console.log(general.computed.dolar_blue)
+			console.log(info.dolar_blue)
 			return axios.post('/api/sales', {
-				articles: state.articles,
-				combos: state.combos,
+				items: state.items,
 				with_card: state.with_card,
 				client_id: state.client ? state.client.id : null ,
 				discounts: state.discounts,
 				sale_type: state.sale_type,
-				dolar_blue,
+				dolar_blue: info.dolar_blue,
+				selected_address: info.selected_address,
 			})
 			.then(res => {
-				console.log('vendiendo')
+				console.log('vendido')
 				let sale = res.data.sale
 				commit('setSale', sale)
 				commit('setVendiendo', false)
-				commit('setArticles', [])
-				commit('setCombos', [])
+				commit('setItems', [])
+				commit('setDiscounts', [])
+				commit('setSaleType', 1)
+				commit('setClient', null)
 				commit('setTotal', 0)
 				commit('sales/addSale', sale, {root: true})
 				commit('sales/setTotal', null, {root: true})

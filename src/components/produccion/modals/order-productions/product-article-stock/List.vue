@@ -16,7 +16,7 @@
 					size="sm"
 					@click="deleteStock(product.article_stocks[data.index])"
 					variant="danger">
-						<i class="icon-trash"></i>
+						<i class="icon-eye-slash"></i>
 					</b-button>
 				</template>
 			</b-table> 

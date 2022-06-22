@@ -3,7 +3,8 @@
 	class="m-b-0">
 		<b-col
 		cols="12"
-		md="8">
+		md="10"
+		lg="8">
 			<horizontal-nav
 			:items="items"
 			prop_name="name"

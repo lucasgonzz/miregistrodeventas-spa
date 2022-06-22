@@ -90,6 +90,10 @@ export default {
 		AddArticles,
 		InfoFilteredsSelected,
 	},
+	beforeRouteLeave(to, from, next) {
+		this.$store.commit('articles/setSelectedArticles', [])
+		next()
+	},
 	data() {
 		return {
 			article: {

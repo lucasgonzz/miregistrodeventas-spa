@@ -92,7 +92,7 @@ Vue.use(VueRouter)
         component: Listado,
     },
     {
-        path: '/ventas',
+        path: '/ventas/:view?/:sub_view?',
         name: 'Ventas',
         component: Ventas,
     },

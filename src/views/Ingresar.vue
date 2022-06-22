@@ -35,6 +35,7 @@
 			:article="article"></bar-code-name>
 
 			<cost-price 
+			@saveArticle="saveArticle"
 			:article="article"></cost-price>
 
 			<stock-provider 

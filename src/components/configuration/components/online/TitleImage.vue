@@ -1,6 +1,6 @@
 <template>
 	<b-card 
-	class="shadow-5 b-r-1 title-image"
+	class="shadow-2 b-r-1 title-image m-b-25"
 	title="Imagenes">
 		<div
 		v-for="(title, index) in titles"

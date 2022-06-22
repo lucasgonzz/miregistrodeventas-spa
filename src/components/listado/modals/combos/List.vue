@@ -93,8 +93,9 @@ export default {
 			})
 		},
 		editModel(combo) {
-			this.$store.commit('combos/setEdit', combo)
-			this.$bvModal.show('edit-combo')
+			this.$store.commit('combos/model/setModel', combo)
+			this.$store.commit('combos/model/setArticles', combo.articles)
+			this.$bvModal.show('combo')
 		},
 		deleteModel(combo) {
 			this.$store.commit('combos/setDelete', combo)

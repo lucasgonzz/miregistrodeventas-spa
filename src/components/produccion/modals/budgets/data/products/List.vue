@@ -3,7 +3,7 @@
 	class="m-t-15"
 	v-if="sub_view == 'productos'">
 		<div
-		v-if="budget_prop.products.length">
+		v-if="products.length">
 			<b-table
 			responsive
 			class="shadow-1 b-r-1"
@@ -12,12 +12,12 @@
 			:fields="fields"
 			:items="items">
 				<template 
-				v-if="show_btn_delete || show_btn_production"
+				v-if="can_edit || show_btn_production"
 				#cell(options)="data">
 					<b-button
-					v-if="show_btn_delete"
+					v-if="can_edit"
 					size="sm"
-					@click="deleteProduct(budget_prop.products[data.index])"
+					@click="deleteProduct(products[data.index])"
 					variant="danger">
 						<i class="icon-trash"></i>
 					</b-button>
@@ -32,18 +32,18 @@
 						 <i class="icon-dots p-r-5"></i>
 						</template>
 						<b-dropdown-item
-						@click="productArticleStock(budget_prop.products[data.index])">
+						@click="productArticleStock(products[data.index])">
 							Descontar stock
 						</b-dropdown-item>
 						<b-dropdown-item
-						@click="productDelivery(budget_prop.products[data.index])">
-							Entregas ({{ budget_prop.products[data.index].deliveries.length }})
+						@click="productDelivery(products[data.index])">
+							Entregas ({{ products[data.index].deliveries.length }})
 						</b-dropdown-item>
 					</b-dropdown>
 				</template>
 			</b-table> 
 			<p class="title">
-				Total: {{ getTotal(budget_prop) }}
+				Total: {{ getTotal(products) }}
 			</p>
 		</div>
 		<p 
@@ -58,17 +58,6 @@
 import budgets from '@/mixins/budgets'
 import product_deliveries from '@/mixins/product_deliveries'
 export default {
-	props: {
-		budget_prop: {
-			type: Object,
-		},
-		show_btn_delete: {
-			type: Boolean,
-		},
-		show_btn_production: {
-			type: Boolean,
-		},
-	},
 	mixins: [budgets, product_deliveries],
 	computed: {
 		fields() {
@@ -90,7 +79,7 @@ export default {
 		},
 		items() {
 			let items = []
-			this.budget_prop.products.forEach(item => {
+			this.products.forEach(item => {
 				items.push({
 					bar_code: item.bar_code,
 					amount: item.amount,
@@ -106,13 +95,7 @@ export default {
 	},
 	methods: {
 		deleteProduct(product) {
-			let index = this.budget_prop.products.findIndex(item => {
-				return item.id == product.id
-			})
-			console.log(index)
-			if (index != -1) {
-				this.budget_prop.products.splice(index, 1)
-			}
+			this.$store.commit('produccion/budgets/create/deleteProduct', product)
 		},
 		productDelivery(product) {
 			this.$store.commit('produccion/order_productions/product_deliveries/setModel', product)

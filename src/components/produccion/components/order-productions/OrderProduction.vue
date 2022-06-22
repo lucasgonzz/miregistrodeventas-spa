@@ -14,7 +14,7 @@
 		</div>
 		<div class="data">
 			<p>
-				{{ getTotal(order_production.budget) }}
+				{{ getTotal(order_production.budget.products) }}
 			</p>
 			<p class="sice"> 
 				{{ since(order_production.created_at) }}
@@ -30,6 +30,9 @@ export default {
 	methods: {
 		details() {
 			this.$store.commit('produccion/order_productions/setEdit', this.order_production)
+			this.$store.commit('produccion/budgets/create/setCanEdit', false)
+			this.$store.commit('produccion/budgets/create/setShowBtnProduction', true)
+			this.setBudgetEdit(this.order_production.budget)
 			this.$router.push({name: this.route_name, params: {sub_view: 'productos'}})
 			setTimeout(() => {
 				this.$bvModal.show('order-production-details')

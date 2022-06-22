@@ -50,7 +50,7 @@ export default {
                     this.$toast.success('Articulo guardado')
                     this.$store.commit('articles/addArticle', article)
                     this.$store.commit('articles/setArticlesToShow')
-                    this.addArticleForSale(article)
+                    this.setArticleForSale(article)
                     this.$bvModal.hide('new-article')
                     if (this.is_provider) {
                         setTimeout(() => {

@@ -1,13 +1,14 @@
 <template>
     <div id="app">
         <div
-        v-if="loading">
+        v-if="auth_loading">
             <logo-loading
-            :loading="loading"
+            :auth_loading="auth_loading"
             :loading_message="loading_message"></logo-loading>
         </div>
         <div
         v-else>
+            <select-address></select-address>
             <nav-component></nav-component>
             <b-container 
             :class="container_class"
@@ -28,6 +29,7 @@
     </div>
 </template>
 <script>
+import SelectAddress from './components/common/select-address/Index'
 import NavComponent from './components/nav/NavComponent'
 import NavHome from './components/home/components/Nav'
 import LogoLoading from '@/components/common/LogoLoading'
@@ -45,6 +47,7 @@ export default {
         }
     },
     components: {
+        SelectAddress,
         NavComponent,
         NavHome,
         LogoLoading,
@@ -56,9 +59,6 @@ export default {
         },
         route() {
             return this.$route.path
-        },
-        loading() {
-            return this.$store.state.auth.loading
         },
         container_class() {
             if (this.current_page != 'Maps' && this.current_page != 'Online' && this.current_page != 'Login' && this.current_page != 'Home') {
@@ -79,7 +79,6 @@ export default {
         }
     },
     created() {
-        console.log('App version 3')
         document.addEventListener(
             'swUpdated', this.showRefreshUI, { once: true }
         );
@@ -126,6 +125,14 @@ export default {
                     this.redirect()
                 }
             }
+        },
+        checkAddress() {
+            setTimeout(() => {
+                if (this.user.addresses.length >= 2) {
+                    console.log('mostrando address')
+                    this.$bvModal.show('select-address')
+                }
+            }, 1000)
         },
         redirect() {
             let route = ''
@@ -239,6 +246,10 @@ export default {
                     await this.$store.dispatch('brands/getBrands')
                 }
                 if (this.has_online) {
+                    this.loading_message = 'metodos de pago'
+                    await this.$store.dispatch('payment_methods/getModels')
+                    this.loading_message = 'zonas de envio'
+                    await this.$store.dispatch('delivery_zones/getModels')
                     this.loading_message = 'titulos'
                     await this.$store.dispatch('titles/getTitles')
                     this.loading_message = 'condiciones'
@@ -271,6 +282,7 @@ export default {
                     this.$store.commit('auth/setLoading', false)
                     this.loading_message = 'informacion'
                 }
+                this.checkAddress()
             } else if (this.is_super) {
                 console.log('Es super')
                 this.$store.dispatch('super/getCommerces')

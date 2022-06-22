@@ -73,8 +73,8 @@ export default {
 		previusSale() {
 			this.$store.dispatch('vender/previus_sales/previusSale')
 			.then(() => {
-				let articles = this.setPreviusSaleArticles(this.previus_sale.articles)
-				this.$store.commit('vender/setArticles', articles)
+				let items = this.getItemsPreviusSale(this.previus_sale)
+				this.$store.commit('vender/setItems', items)
 				this.formatPreviusSale()
 				this.$store.commit('vender/setTotal')
 			})
@@ -82,8 +82,8 @@ export default {
 		nextSale() {
 			this.$store.dispatch('vender/previus_sales/nextSale')
 			.then(() => {
-				let articles = this.setPreviusSaleArticles(this.previus_sale.articles)
-				this.$store.commit('vender/setArticles', articles)
+				let items = this.getItemsPreviusSale(this.previus_sale)
+				this.$store.commit('vender/setItems', items)
 				this.formatPreviusSale()
 				this.$store.commit('vender/setTotal')
 			})
@@ -98,7 +98,10 @@ export default {
 			}
 		},
 		cancelPreviusSale() {
-			this.clearVender()
+			this.$store.commit('vender/previus_sales/setIndex', 0)
+			this.$store.commit('vender/previus_sales/setPreviusSale', {})
+			this.$store.commit('vender/setItems', [])
+			this.$store.commit('vender/setTotal')
 		},
 	}
 }

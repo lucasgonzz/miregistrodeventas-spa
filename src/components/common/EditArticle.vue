@@ -58,6 +58,7 @@
 				:article="article"></barcode-name>
 
 				<cost-price 
+				@saveArticle="updateArticle"
 				:article="article"></cost-price>
 
 				<stock-provider 
@@ -188,12 +189,12 @@ export default {
 				document.getElementById("article-price").focus()
 				return ok
 			}
-			if (this.article.cost == '') {
-				ok = false
-				this.$toast.error('No puede dejar el costo vacio')
-				document.getElementById("article-cost").focus()
-				return ok
-			}
+			// if (this.article.cost == '') {
+			// 	ok = false
+			// 	this.$toast.error('No puede dejar el costo vacio')
+			// 	document.getElementById("article-cost").focus()
+			// 	return ok
+			// }
 			if (this.article.name == '') {
 				ok = false
 				this.$toast.error('No puede dejar el nombre vacio')

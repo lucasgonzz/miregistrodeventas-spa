@@ -1,15 +1,14 @@
-import Vue from 'vue'
 import axios from 'axios'
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
 axios.defaults.withCredentials = true
+import model from '@/store/combos/model'
 export default {
 	namespaced: true,
 	state: {
 		models: [],
 		loading: false,
-		create: null,
-		edit: null,
-		delete: null,
+		edit: {},
+		delete: {},
 	},
 	mutations: {
 		add(state, value) {
@@ -22,22 +21,7 @@ export default {
 			state.loading = value
 		},
 		setEdit(state, value) {
-			if (value) {
-				if (!value.observations || !value.observations.length) {
-					value.observations = [{text: ''}]
-				}
-			}
 			state.edit = value
-		},
-		setCreate(state) {
-			state.create = {
-				client: null,
-				products: [],
-				start_at: '',
-				finish_at: '',
-				delivery_and_placement: 0,
-				observations: [{text: ''}],
-			}
 		},
 		setDelete(state, value) {
 			state.delete = value
@@ -46,7 +30,6 @@ export default {
 			let index = state.models.findIndex(model => {
 				return model.id == state.delete.id
 			})
-			console.log(index)
 			if (index != -1) {
 				state.models.splice(index, 1)
 			}
@@ -63,10 +46,10 @@ export default {
 	actions: {
 		getModels({commit}) {
 			commit('setLoading', true)
-			return axios.get('api/budgets')
+			return axios.get('api/combos')
 			.then(res => {
 				commit('setLoading', false)
-				commit('setModels', res.data.budgets)
+				commit('setModels', res.data.combos)
 			})
 			.catch(err => {
 				commit('setLoading', false)
@@ -74,7 +57,7 @@ export default {
 			})
 		},
 		delete({ commit, state }) {
-			return axios.delete('api/budgets/'+ state.delete.id)
+			return axios.delete('api/combos/'+ state.delete.id)
 			.then(() => {
 				commit('delete')
 			})
@@ -82,5 +65,8 @@ export default {
 				console.log(err)
 			})
 		}
+	},
+	modules: {
+		model,
 	},
 }

@@ -6,10 +6,10 @@
 			Observaciones
 		</p>
 		<div
-		v-if="edit">
+		v-if="can_edit">
 			<b-form-textarea
 			class="m-b-15"
-			v-for="(observation, i) in budget.observations"
+			v-for="(observation, i) in observations"
 			:key="i"
 			placeholder="Ingrese descripcion"
 			v-model="observation.text"></b-form-textarea>
@@ -23,26 +23,36 @@
 		</div>
 		<div
 		v-else>
-			<p
-			v-for="(observation, i) in budget.observations"
-			:key="i">
-				<i class="icon-right"></i>
-				{{ observation.text }}
+			<div
+			v-if="observations.length">
+				<p
+				v-for="(observation, i) in observations"
+				:key="i">
+					<i class="icon-right"></i>
+					{{ observation.text }}
+				</p>
+			</div>
+			<p 
+			v-else
+			class="text-with-icon">
+				<i class="icon-eye-slash"></i>
+				No hay observaciones
 			</p>
 		</div>
 	</div>
 </template>
 <script>
+import budgets from '@/mixins/budgets'
 export default {
-	props: ['budget', 'edit'],
+	mixins: [budgets],
 	computed: {
 		show() {
-			return this.budget.observations[this.budget.observations.length-1].text != ''
+			return this.observations[this.observations.length-1].text != ''
 		}
 	},
 	methods: {
 		add() {
-			this.budget.observations.push({
+			this.observations.push({
 				text: ''
 			})
 		}

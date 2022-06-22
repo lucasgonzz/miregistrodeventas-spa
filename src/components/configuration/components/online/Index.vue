@@ -10,6 +10,8 @@
 		<b-col
 		lg="8">
 			<general></general>	
+			<payment-methods></payment-methods>	
+			<delivery-zones></delivery-zones>	
 			<dolar></dolar>	
 			<title-image></title-image>	
 			<addresses></addresses>	
@@ -22,6 +24,8 @@
 import Confirm from '@/components/common/Confirm.vue'
 import BtnLoader from '@/components/common/BtnLoader'
 import General from '@/components/configuration/components/online/General'
+import PaymentMethods from '@/components/configuration/components/online/PaymentMethods'
+import DeliveryZones from '@/components/configuration/components/online/DeliveryZones'
 import Dolar from '@/components/configuration/components/online/Dolar'
 import TitleImage from '@/components/configuration/components/online/TitleImage'
 import Addresses from '@/components/configuration/components/online/Addresses'
@@ -33,6 +37,8 @@ export default {
 		Confirm,
 		BtnLoader,
 		General,
+		PaymentMethods,
+		DeliveryZones,
 		Dolar,
 		TitleImage,
 		Addresses,

@@ -9,7 +9,7 @@ export default {
         delete() {
             return this.$store.state.clients.current_acounts.delete
         },
-        loading() {
+        loading_current_acounts() {
             return this.$store.state.clients.current_acounts.loading
         },
         selected_currents_acounts() {

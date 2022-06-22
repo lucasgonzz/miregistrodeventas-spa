@@ -6,7 +6,7 @@
 		:key="item.id"
 		@click="select(item)"
 		:class="isActive(item)">
-			{{ itemName(item.name) }}
+			{{ itemName(item) }}
 		</div>
 	</div>
 </template>
@@ -17,7 +17,7 @@ export default {
 		items: Array,
 		prop_name: {
 			type: String,
-			default: null
+			default: 'name',
 		},
 		set_view: {
 			type: Boolean,
@@ -37,12 +37,12 @@ export default {
 		sub_view() {
 			return this.$route.params.sub_view
 		},
-		selected() {
+		selected() { 
 			if (this.set_view) {
-				return {name: this.view}
+				return this.view
 			}
 			if (this.set_sub_view) {
-				return {name: this.sub_view}
+				return this.sub_view
 			}
 		},
 	},
@@ -50,32 +50,37 @@ export default {
 		this.setActive()
 	},
 	methods: {
-		itemName(value) {
-			if (!value) return ''
+		itemName(item) {
+			if (!item) return ''
+			let value = this.value(item)
 			value = value.toString()
 			value = value.charAt(0).toUpperCase() + value.slice(1)
 			value =  value.replaceAll('-', ' ')
 			return value
 		},
+		routeString(item) {
+			let value = this.value(item)
+			return value.toLowerCase().replaceAll(' ', '-')
+		},
 		select(item) {
-			if (this.set_view && this.view != this.value(item)) {
-				this.$router.push({name: this.route_name, params: {view: this.value(item)}})
+			if (this.set_view && this.view != this.routeString(item)) {
+				this.$router.push({name: this.route_name, params: {view: this.routeString(item)}})
 			} 
-			if (this.set_sub_view && this.sub_view != this.value(item)) {
-				this.$router.push({params: {method: this.method, sub_view: this.value(item)}})
+			if (this.set_sub_view && this.sub_view != this.routeString(item)) {
+				this.$router.push({params: {method: this.method, sub_view: this.routeString(item)}})
 				console.log('set sub_view')
 			} 
 			this.$emit('setSelected', item)
 			// this.setActive()
 		},
-		value(name) {
+		value(item) {
 			if (this.prop_name) {
-				return name[this.prop_name]
+				return item[this.prop_name]
 			}
-			return name
+			return item
 		},
 		isActive(item) {
-			if (this.selected.name == item.name) {
+			if (this.selected == this.routeString(item)) {
 				return 'active'
 			}
 		},

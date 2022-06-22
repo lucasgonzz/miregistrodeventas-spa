@@ -12,5 +12,11 @@ export default {
 		delete() {
 			return this.$store.state.combos.delete
 		},
+		model() {
+			return this.$store.state.combos.model.model
+		},
+		model_articles() {
+			return this.$store.state.combos.model.articles
+		}
 	}
 }

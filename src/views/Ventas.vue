@@ -14,13 +14,15 @@
 	<from-date></from-date>
 	
 	<sale-details></sale-details>
-	<budget-details></budget-details>
 
 	<print-sales></print-sales> 
 	<afip-details></afip-details> 
 	
 	<title-previus-sales-buttons></title-previus-sales-buttons>
 	<total-dropdown-print-info></total-dropdown-print-info>
+
+	<address-nav></address-nav>
+
 	<table-sales 
 	@selectAllSales="selectAllSales"></table-sales>
 </div>
@@ -35,7 +37,6 @@ import CurrentAcounts from '@/components/ventas/modals/current-acounts/Index.vue
 import Discounts from '@/components/ventas/modals/discounts/Index.vue'
 import FromDate from '../components/ventas/modals/FromDate.vue'
 import SaleDetails from '../components/ventas/modals/sale-details/Index'
-import BudgetDetails from '@/components/produccion/modals/budgets/Details'
 import Confirm from '@/components/common/Confirm.vue'
 import AfipDetails from '../components/ventas/modals/afip/Index.vue'
 import PrintSales from '../components/ventas/modals/PrintSales.vue'
@@ -45,6 +46,7 @@ import Sellers from '../components/ventas/modals/sellers/Index.vue'
 
 import TitlePreviusSalesButtons from '../components/ventas/components/TitlePreviusSalesButtons.vue'
 import TotalDropdownPrintInfo from '../components/ventas/components/total-dropdown-print-info/Index.vue'
+import AddressNav from '@/components/ventas/components/AddressNav'
 import TableSales from '../components/ventas/components/TableSales.vue'
 
 import clients from '@/mixins/clients'
@@ -57,7 +59,6 @@ export default {
 		FromDate,
 		CurrentAcounts,
 		SaleDetails,
-		BudgetDetails,
 		Confirm,
 		AfipDetails,
 		PrintSales,
@@ -69,6 +70,7 @@ export default {
 		// Components
 		TitlePreviusSalesButtons,
 		TotalDropdownPrintInfo,
+		AddressNav,
 		TableSales,
 	},
 	computed: {

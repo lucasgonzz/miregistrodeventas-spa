@@ -18,7 +18,7 @@
 				N° {{ numBudget(budget) }}
 			</p>
 			<p>
-				<strong>{{ getTotal(budget) }}</strong>
+				<strong>{{ getTotal(budget.products) }}</strong>
 			</p>
 			<p class="sice"> 
 				{{ date(budget.created_at) }}
@@ -62,10 +62,16 @@ export default {
 	},
 	methods: {
 		budgetDetails() {
-			this.$store.commit('produccion/budgets/setEdit', this.budget)
+			if (this.budget.status == 'unconfirmed') {
+				this.$store.commit('produccion/budgets/create/setCanEdit', true)
+			} else {
+				this.$store.commit('produccion/budgets/create/setCanEdit', false)
+			}
+			this.$store.commit('produccion/budgets/create/setShowBtnProduction', false)
+			this.setBudgetEdit(this.budget)
 			this.$router.push({name: this.route_name, params: {sub_view: 'productos'}})
 			setTimeout(() => {
-				this.$bvModal.show('budget-details')
+				this.$bvModal.show('create-budget')
 			}, 100)
 		}
 	}

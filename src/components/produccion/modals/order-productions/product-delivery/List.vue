@@ -24,7 +24,7 @@
 		<p 
 		v-else
 		class="text-with-icon">
-			<i class="icon-cancel"></i>
+			<i class="icon-eye-slash"></i>
 			No hay entregas		
 		</p>
 	</div>

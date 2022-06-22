@@ -167,11 +167,13 @@ export default {
 		removeStock(state, articles) {
 			let article = {}
 			articles.forEach(art => {
-				article = state.articles.find(ar => {
-					return ar.id == art.id
-				})
-				if (article.stock) {
-					article.stock -= art.amount
+				if (article.is_article) {
+					article = state.articles.find(ar => {
+						return ar.id == art.id
+					})
+					if (article.stock) {
+						article.stock -= art.amount
+					}
 				}
 			})
 		}

@@ -26,7 +26,7 @@
 				:disabled="disabled_price"
 				type="number"
 				min="0"
-				@keydown.enter="changeToProvider"
+				@keydown.enter="saveArticle"
 				placeholder="Ingresa el precio del producto"
 				v-model="article.price"
 				autocomplete="off"></b-form-input>
@@ -62,6 +62,9 @@ export default {
 		changeToProvider() {
 			document.getElementById('article-provider').focus()
 		},
+		saveArticle() {
+			this.$emit('saveArticle')
+		}
 	},
 }
 </script>

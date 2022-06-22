@@ -5,7 +5,7 @@ title="Detalles de la venta"
 size="lg" 
 hide-footer 
 body-class="p-0">
-    <sale-info></sale-info>
+    <!-- <sale-info></sale-info> -->
     <b-table
     responsive
     head-variant="dark"
@@ -42,14 +42,16 @@ export default {
                         sub_total: this.price(article.pivot.price * article.pivot.amount),
                     })
                 })
-                this.sale_details.combos.forEach(combo => {
-                    items.push({
-                        name: 'combo '+combo.name,
-                        amount: combo.pivot.amount,
-                        price: this.price(combo.pivot.price),
-                        sub_total: this.price(combo.pivot.price * combo.pivot.amount),
+                if (this.sale_details.combos) {
+                    this.sale_details.combos.forEach(combo => {
+                        items.push({
+                            name: 'combo '+combo.name,
+                            amount: combo.pivot.amount,
+                            price: this.price(combo.pivot.price),
+                            sub_total: this.price(combo.pivot.price * combo.pivot.amount),
+                        })
                     })
-                })
+                }
             }
             return items
         },

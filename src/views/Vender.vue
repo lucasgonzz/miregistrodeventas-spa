@@ -60,20 +60,17 @@ export default {
 	},
 	mixins: [Vender],
 	computed: {
-		special_prices() {
-			return this.$store.state.special_prices
-		},
-		articles_vender() {
-			return this.$store.state.vender.articles
+		items() {
+			return this.$store.state.vender.items
 		}
 	},
 	beforeRouteLeave(to, from, next) {
-		if (this.articles_vender.length) {
+		if (this.items.length) {
 			let leave = window.confirm('Conservar esta venta con sus articulos')
 			if (leave) {
 				next()
 			} else {
-				this.clearVender()
+				// this.clearVender()
 				next()
 			}
 		} else {

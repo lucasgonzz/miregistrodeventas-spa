@@ -18,7 +18,7 @@ export default {
         },
         show_nav_content() {
         	return this.user.status != 'super'
-        }
+        },
 	},
 	methods: {
         logout() {
@@ -47,7 +47,12 @@ export default {
 				this.$store.commit('sales/days_previus_sales/setDaySelected', moment().format('YYYY/MM/DD'))
 				this.$store.dispatch('sales/days_previus_sales/getDaysPreviusSales')
 			} else {
-				this.$router.replace({name: 'Ventas'})
+				if (this.user.addresses.length >= 2) {
+					this.$router.replace({name: 'Ventas', params: {view: 'todas'}})
+					this.$store.commit('sales/setSalesToShow')
+				} else {
+					this.$router.replace({name: 'Ventas'})
+				}
 			}
 		},
 		toListado() {

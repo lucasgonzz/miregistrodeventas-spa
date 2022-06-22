@@ -7,12 +7,7 @@ id="order-production-details"
 hide-footer>
 	<status></status>	
 	<hr>
-	<budget-data
-	:edit="false"
-	:budget="order_production.budget"
-	:show_planos="true"
-	:show_btn_delete="false"
-	:show_btn_production="true"></budget-data>
+	<budget-data></budget-data>
 	<pdf-info></pdf-info>
 	<hr>
 	<b-button

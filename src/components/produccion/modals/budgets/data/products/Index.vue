@@ -2,19 +2,17 @@
 	<div
 	v-if="sub_view == 'productos'">
 		<form-component
-		v-if="edit"></form-component>
-		<list
-		:show_btn_delete="show_btn_delete"
-		:show_btn_production="show_btn_production"
-		:budget_prop="budget"></list>
+		v-if="can_edit"></form-component>
+		<list></list>
 	</div>
 </template>
 <script>
+import budgets from '@/mixins/budgets'
 
 import FormComponent from '@/components/produccion/modals/budgets/data/products/Form'
 import List from '@/components/produccion/modals/budgets/data/products/List'
 export default {
-	props: ['budget', 'edit', 'show_btn_delete', 'show_btn_production'],
+	mixins: [budgets],
 	components: {
 		FormComponent,
 		List,

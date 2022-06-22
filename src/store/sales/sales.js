@@ -52,6 +52,7 @@ export default {
 			state.without_cost = false
 			let total_sale = 0
 			state.sales_to_show.forEach(sale => {
+				console.log(sale)
 				sale.articles.forEach(article => {
 					if (!article.pivot.cost || article.pivot.cost == 0) {
 						state.without_cost = true
@@ -59,6 +60,14 @@ export default {
 					total_sale += general.methods.articlePrice(article, true, false) * article.pivot.amount
 					// total_sale += parseFloat(article.pivot.price) * article.pivot.amount
 					state.total_cost += parseFloat(article.pivot.cost) * article.pivot.amount
+					state.total_articles++
+				})
+
+				sale.combos.forEach(combo => {
+					if (!combo.pivot.cost || combo.pivot.cost == 0) {
+						state.without_cost = true
+					}
+					total_sale += combo.pivot.price * combo.pivot.amount
 					state.total_articles++
 				})
 				

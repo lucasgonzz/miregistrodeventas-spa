@@ -20,15 +20,13 @@
 		</span>
 	</p>
 	<p>
-		<strong>Total: {{ price(total(order)) }}</strong>
+		Metodo de pago:
+		{{ order.payment_method.name }}
 	</p>
-	<p>
-		<span v-show="order.payment_method == 'tarjeta'">
-			Paga con tarjeta
-		</span>
-		<span v-show="order.payment_method == 'efectivo'">
-			Paga en efectivo
-		</span>
+	<p
+	v-if="order.delivery_zone">
+		Zona de envio:
+		{{ order.delivery_zone.name }} ({{ price(order.delivery_zone.price) }})
 	</p>
 	<p>
 		<span v-if="order.deliver == 1">
@@ -45,6 +43,9 @@
 	<p
 	v-if="order.description">
 		{{ user.order_description }}: {{ order.description }}
+	</p>
+	<p>
+		<strong>Total: {{ price(total(order)) }}</strong>
 	</p>
 	<p class="since">
 		{{ since(order.created_at, true) }}

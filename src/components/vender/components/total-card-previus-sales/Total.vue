@@ -9,7 +9,7 @@
 			</strong>
 		</p>
 		<p class="m-0">
-			{{ articles.length }} artículos, {{ cantidad_unidades }} unidades
+			{{ items.length }} productos, {{ cantidad_unidades }} unidades
 		</p>
 	</b-col>
 </template>
@@ -19,13 +19,13 @@ export default {
 		total() {
 			return this.$store.state.vender.total
 		},
-		articles() {
-			return this.$store.state.vender.articles
+		items() {
+			return this.$store.state.vender.items
 		},
 		cantidad_unidades() {
 			let cant = 0
-			this.articles.forEach(article => {
-				cant += Number(article.amount)
+			this.items.forEach(item => {
+				cant += Number(item.amount)
 			})
 			return cant
 		},

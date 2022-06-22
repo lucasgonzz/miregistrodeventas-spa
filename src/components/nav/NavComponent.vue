@@ -81,6 +81,21 @@
                         <i class="icon-config"></i>
                         Configuracion
                     </b-dropdown-item>
+                    <b-dropdown-item
+                    v-if="user.addresses.length >= 2 && selected_address"
+                    v-b-modal="'select-address'">
+                        <div class="p-15">
+                            <p
+                            class="m-b-0">
+                                Direccion selecionada:
+                            </p>
+                            <p
+                            class="m-b-0">
+                                <i class="icon-right"></i>
+                                {{ selected_address.street }} {{ selected_address.street_number }}
+                            </p>
+                        </div>
+                    </b-dropdown-item>
                     <b-dropdown-item 
                     @click="logout">
                         <i class="icon-sign-out"></i>

@@ -2,7 +2,7 @@
 	<b-col
 	class="col-buttons"
 	cols="12"
-	lg="2">
+	:lg="col_lg">
 		<b-form-input
 		v-if="is_provider"
 		type="number"
@@ -17,7 +17,7 @@
 			v-intro-step="4"
 			v-intro="'Guarda la venta'"
 			variant="primary"
-			@click="vender">
+			@click="vender(false)">
 				<btn-loader
 				text="Vender"
 				:loader="vendiendo"></btn-loader>
@@ -29,6 +29,12 @@
 			variant="success"
 			v-b-modal="'clients'">
 				<i class="icon-user"></i>
+			</b-button>
+			<b-button 
+			v-if="hasExtencion('combos')"
+			variant="danger"
+			@click="vender(true)">
+				<i class="icon-cupon"></i>
 			</b-button>
 		</b-button-group>
 		<b-button 
@@ -55,6 +61,12 @@ export default {
 		index_previus_sale() {
 			return this.$store.state.vender.previus_sales.index
 		},
+		col_lg() {
+			if (this.hasExtencion('combos')) {
+				return 3
+			}
+			return 2
+		}
 	},
 }
 </script>

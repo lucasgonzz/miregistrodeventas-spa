@@ -7,7 +7,6 @@
 	    id="delete-budget"
 	    toast="Presupuesto eliminado"></confirm>
 	    <create-client></create-client>
-		<budget-details></budget-details>
 		<create></create>
 		<print></print>
 		<b-row>
@@ -36,7 +35,6 @@
 <script>
 import Confirm from '@/components/common/Confirm'
 import CreateClient from '@/components/vender/modals/clients/Create.vue'
-import BudgetDetails from '@/components/produccion/modals/budgets/Details'
 import Create from '@/components/produccion/modals/budgets/Create'
 import Print from '@/components/produccion/modals/budgets/Print'
 
@@ -45,7 +43,6 @@ export default {
 	components: {
 		Confirm,
 		CreateClient,
-		BudgetDetails,
 		Create,
 		Print,
 		
@@ -58,8 +55,17 @@ export default {
 	},
 	methods: {
 		create() {
-			this.$store.commit('produccion/budgets/setEdit', null)
-			this.$store.commit('produccion/budgets/setCreate')
+			this.$store.commit('produccion/budgets/create/setBudget', null)
+			this.$store.commit('produccion/budgets/create/setClient', null)
+			this.$store.commit('produccion/budgets/create/setProducts', [])
+			this.$store.commit('produccion/budgets/create/setStartAt', '')
+			this.$store.commit('produccion/budgets/create/setFinishAt', '')
+			this.$store.commit('produccion/budgets/create/setDeliveryAndPlacement', false)
+			this.$store.commit('produccion/budgets/create/setObservations', [{
+				text: ''
+			}])
+			this.$store.commit('produccion/budgets/create/setCanEdit', true)
+			this.$store.commit('produccion/budgets/create/setShowBtnProduction', false)
 			this.$router.push({name: this.route_name, params: {sub_view: 'productos'}})
 			setTimeout(() => {
 				this.$bvModal.show('create-budget')

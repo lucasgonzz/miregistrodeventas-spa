@@ -1,6 +1,6 @@
 <template>
 <b-row
-v-if="is_provider && articles.length && index_previus_sales == 0"
+v-if="is_provider && items.length && index_previus_sales == 0"
 class="j-center">
 	<b-col 
 	cols="12"
@@ -38,8 +38,8 @@ export default {
 	},
 	mixins: [vender],
 	computed: {
-		articles() {
-			return this.$store.state.vender.articles
+		items() {
+			return this.$store.state.vender.items
 		},
 		index_previus_sales() {
 			return this.$store.state.vender.previus_sales.index

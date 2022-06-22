@@ -12,7 +12,7 @@
 		id="messages">
 			<div 
 			v-for="message in selected_buyer.messages"
-			class="message shadow-1"
+			class="message shadow-2"
 			:class="getClassMessage(message)">
 				<p class="text">
 					{{ message.text }}

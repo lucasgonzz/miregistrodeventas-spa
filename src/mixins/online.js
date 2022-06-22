@@ -70,6 +70,9 @@ export default {
 				if (order.percentage_card) {
 					total = total + (total * this.percentageToMultiply(order.percentage_card))
 				}
+				if (order.delivery_zone) {
+					total = total + Number(order.delivery_zone.price)
+				}
 				return this.discountCupons(total, order)
 			}
 			return null

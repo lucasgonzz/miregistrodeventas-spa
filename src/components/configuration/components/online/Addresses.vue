@@ -1,6 +1,6 @@
 <template>
 	<b-card
-	class="shadow-5 b-r-1"
+	class="shadow-2 b-r-1 m-b-25"
 	title="Direcciones">
 		<b-table
 		responsive

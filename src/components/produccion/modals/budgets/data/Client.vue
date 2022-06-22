@@ -2,12 +2,12 @@
 	<div
 	class="m-b-15">
 		<b-row
-		class="m-b-15 align-end"
-		v-if="edit">
+		v-if="can_edit"
+		class="m-b-15 align-end">
 			<b-col
 			md="9">
 				<p 
-				v-if="budget.client"
+				v-if="client"
 				class="sub-title">
 					Seleccionar otro cliente
 				</p>
@@ -30,22 +30,24 @@
 			</b-col>
 		</b-row>
 		<client-info
-		v-if="budget.client"
-		:client="budget.client"></client-info>
+		v-if="client"
+		:client="client"></client-info>
 	</div>
 </template>
 <script>
 import SelectClient from '@/components/common/SelectClient'
 import ClientInfo from '@/components/common/ClientInfo'
+import budgets from '@/mixins/budgets'
 export default {
-	props: ['budget', 'edit'],
+	mixins: [budgets],
 	components: {  
 		SelectClient,
 		ClientInfo,
 	},
 	methods: {
 		setClient(client) {
-			this.budget.client = client
+			this.$store.commit('produccion/budgets/create/setClient', client)
+			// this.budget.client = client
 		}
 	}
 }

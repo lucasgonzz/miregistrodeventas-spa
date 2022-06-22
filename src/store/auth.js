@@ -9,6 +9,7 @@ export default {
 		authenticated: false,
 		permissions: [],
 		user: null,
+		selected_address: null,
 		schedule_edit: {},
 		loading: false,
 	},
@@ -26,6 +27,9 @@ export default {
 		},
 		setUser(state, value) {
 			state.user = value
+		},
+		setSelectedAddress(state, value) {
+			state.selected_address = value
 		},
 		addAddress(state, value) {
 			state.user.addresses.push(value)

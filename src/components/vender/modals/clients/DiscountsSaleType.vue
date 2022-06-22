@@ -48,7 +48,7 @@
 			<b-button
 			variant="primary"
 			class="w-49"
-			@click="vender">
+			@click="vender(false)">
 				<btn-loader
 				text="Vender"
 				:loader="vendiendo"></btn-loader>

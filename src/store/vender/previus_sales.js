@@ -67,10 +67,11 @@ export default {
 				console.log(err)
 			})
 		},
-		updatePreviusSale({ commit, state }, articles) {
+		updatePreviusSale({ commit, state }, info) {
 			commit('setUpdating', true)
 			return axios.put('/api/sales/'+state.previus_sale.id, {
-				articles: articles,
+				items: info.items,
+				dolar_blue: info.dolar_blue,
 				with_card: false,
 			})
 			.then(res => {

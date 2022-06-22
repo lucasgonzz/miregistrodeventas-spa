@@ -4,8 +4,8 @@ class="m-t-0">
 	<b-col>
 		<b-table 
 		class="shadow-2 b-r-1"
-		v-show="articles.length"
-		:items="items" 
+		v-if="items.length"
+		:items="table_items" 
 		head-variant="dark" 
 		:fields="fields" 
 		striped 
@@ -18,23 +18,26 @@ class="m-t-0">
 					{{ price(articles[data.index].price_for_sale) }}
 				</b-button>
 			</template> -->
+			<!-- <template #cell(total)="data">
+				{{ price(items[data.index].price * items[data.index].amount) }}
+			</template> -->
 			<template #cell(options)="data">
 				<b-button 
-				@click="up(articles[data.index])"
+				@click="up(items[data.index])"
 				variant="primary"
 				class="btn-options"
 				size="sm">
 					<i class="icon-plus"></i>
 				</b-button>
 				<b-button 
-				@click="down(articles[data.index])"
+				@click="down(items[data.index])"
 				variant="primary"
 				class="btn-options"
 				size="sm">
 					<i class="icon-minus"></i>
 				</b-button>
 				<b-button 
-				@click="removeArticle(articles[data.index])"
+				@click="removeItem(items[data.index])"
 				variant="danger"
 				class="btn-options"
 				size="sm">
@@ -43,7 +46,7 @@ class="m-t-0">
 			</template>
 		</b-table>
 		<div 
-		v-show="!articles.length">
+		v-else>
 			<p
 			class="text-with-icon-2">
 				<i class="icon-clipboard"></i>
@@ -87,28 +90,21 @@ export default {
 		items() {
 			return this.$store.state.vender.items
 		},
-		// items() {
-		// 	let items = []
-		// 	this.articles.forEach(article => {
-		// 		items.push({
-		// 			id: article.id,
-		// 			price: this.price(article.price),
-		// 			name: article.name,
-		// 			amount: article.amount,
-		// 			total: this.price(article.price * article.amount),
-		// 		})
-		// 	})
-		// 	this.combos.forEach(combo => {
-		// 		items.push({
-		// 			id: combo.id,
-		// 			price: this.price(combo.price),
-		// 			name: 'combo '+combo.name,
-		// 			amount: combo.amount,
-		// 			total: this.price(combo.price * combo.amount),
-		// 		})
-		// 	})
-		// 	return items
-		// },
+		table_items() {
+			let items = []
+			let item_to_add
+			this.items.forEach(item => {
+				item_to_add = {
+					id: item.id,
+					price: this.price(item.price),
+					name: item.name,
+					amount: item.amount,
+					total: this.price(item.price * item.amount),
+				}
+				items.push(item_to_add)
+			})
+			return items
+		},
 	},
 	methods: {
 		updatePrice(article) {
@@ -118,23 +114,23 @@ export default {
 		changeToTotal(article) {
 			document.getElementById(`total-${article.id}`).focus()
 		},
-		up(article) {
-			article.amount++
-			this.$store.commit('vender/updateArticle', article)
+		up(item) {
+			item.amount++
+			this.$store.commit('vender/updateItem', item)
 			this.$store.commit('vender/setTotal')
 		},
-		down(article) {
-			if (article.amount > 1) {
-				article.amount--
-				this.$store.commit('vender/updateArticle', article)
+		down(item) {
+			if (item.amount > 1) {
+				item.amount--
+				this.$store.commit('vender/updateItem', item)
 				this.$store.commit('vender/setTotal')
 			} else {
 				// toastr.error('No se pueden restar mas unidades')
-				this.removeArticle(article)
+				this.removeItem(article)
 			}
 		},
-		removeArticle(article) {
-			this.$store.commit('vender/removeArticle', article)
+		removeItem(article) {
+			this.$store.commit('vender/removeItem', article)
 			this.$store.commit('vender/setTotal')
 		},
 		calculateTotalFromAmount(article) {

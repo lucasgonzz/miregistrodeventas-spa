@@ -33,7 +33,7 @@ export default {
 	},
 	methods: {
 		print() {
-            var link = process.env.VUE_APP_API_URL+'/budgets/pdf/'+this.only_deliveries+'/'+this.budget_model.id
+            var link = process.env.VUE_APP_API_URL+'/budgets/pdf/'+this.only_deliveries+'/'+this.edit.id
             window.open(link)
 		},
 	}

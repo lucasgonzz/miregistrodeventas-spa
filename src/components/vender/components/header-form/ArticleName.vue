@@ -3,48 +3,62 @@
 	cols="12"
 	:lg="col_header_lg"
 	class="col-autocomplete margin-bottom-since-lg">
-        <autocomplete 
+        <!-- <autocomplete 
         ref="articleName"
         :search="search" 
         @keydown.shift="callVender"
 		:get-result-value="getResultValue"
         auto-select
         placeholder="Buscar un artículo"
-        @submit="setArticleForSale"></autocomplete>
+        @submit="setArticleForSale"></autocomplete> -->
+		<!-- <select-component
+		full_width
+		auto_select
+		:bus="bus"
+		:id="id"
+		@setSelected="setSelectedName"
+		placeholder="Buscar un artículo"
+		:models="articles"></select-component> -->
+		<select-component
+		:id="id"
+		:model="article"
+		:models="articles"
+		prop_name="name"
+		:str_limint="4"
+		placeholder="Buscar un artículo"
+		:props_to_show="['bar_code', 'price']"
+		@setSelected="setSelectedName"></select-component>
 	</b-col>
 </template>
 <script>
-import Autocomplete from '@trevoreyre/autocomplete-vue'
-import '@trevoreyre/autocomplete-vue/dist/style.css'
+import SelectComponent from '@/components/common/select/Index'
 import vender from '@/mixins/vender'
 export default {
 	mixins: [vender],
 	components : {
-		Autocomplete,
+		SelectComponent,
 	},
 	computed: {
 		articles() {
 			return this.$store.state.articles.articles
 		},
-		clear_article_name() {
-			return this.$store.state.vender.clear_article_name
-		},
-	},
-	watch: {
-		clear_article_name() {
-			this.$refs.articleName.value = ''
-		},
+		id() {
+			return 'article-sale-name'
+		}
 	},
 	methods: {
-        search(input) {
-            if (input.length < 3) { return [] }
-            return this.articles.filter(article => {
-                return article.name && article.name.toLowerCase().includes(input.toLowerCase())
-            })
-        },
-		getResultValue(article) {
-			return `${article.name} | ${this.price(article.price)}`
+		setSelectedName(result) {
+			this.setArticleForSale(result)
 		},
+  //       search(input) {
+  //           if (input.length < 3) { return [] }
+  //           return this.articles.filter(article => {
+  //               return article.name && article.name.toLowerCase().includes(input.toLowerCase())
+  //           })
+  //       },
+		// getResultValue(article) {
+		// 	return `${article.name} | ${this.price(article.price)}`
+		// },
 	}
 }
 </script>

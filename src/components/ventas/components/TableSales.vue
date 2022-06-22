@@ -94,9 +94,10 @@ export default {
 					afip_ticket: sale.afip_ticket,
 					client: sale.client,
 					articles: sale.articles,
+					budgets: sale.budgets,
 					date: sale.created_at,
 					hour: this.hour(sale.created_at),
-					cantidad_articulos: this.getCantidadArticulos(sale),
+					cantidad_productos: this.getCantidadProducts(sale),
 					cantidad_unidades: this.getCantidadUnidades(sale),
 					cost: this.getTotalCostSale(sale),
 					total: this.getTotalSale(sale, false),
@@ -112,7 +113,7 @@ export default {
 					{ key: 'ver', label: 'Ver' },
 					{ key: 'date', label: 'Fecha', formatter: 'date_format', sortable: true },
 					{ key: 'hour', label: 'Hora', sortable: true },
-					{ key: 'cantidad_articulos', label: 'Cant. Articulos', sortable: true },
+					{ key: 'cantidad_productos', label: 'Cant. Productos', sortable: true },
 					{ key: 'cantidad_unidades', label: 'Cant. Unidades', sortable: true },
 					{ key: 'cost', label: 'Costo', sortable: true },
 					{ key: 'total', sortable: true, formatter: 'total_format'},
@@ -123,7 +124,7 @@ export default {
 					{ key: 'selected', label: '' },
 					{ key: 'ver', label: 'Ver' },
 					{ key: 'hour', label: 'Hora', sortable: true },
-					{ key: 'cantidad_articulos', label: 'Cant. Articulos', sortable: true },
+					{ key: 'cantidad_productos', label: 'Cant. Productos', sortable: true },
 					{ key: 'cantidad_unidades', label: 'Cant. Unidades', sortable: true },
 					{ key: 'cost', label: 'Cost', sortable: true },
 					{ key: 'total', sortable: true, formatter: 'total_format'},
@@ -195,13 +196,16 @@ export default {
 				return '-'+this.price(this.getTotalSale(sale, false) - sale.debt)
 			}
 		},
-		getCantidadArticulos(sale) {
-			return sale.articles.length
+		getCantidadProducts(sale) {
+			return sale.articles.length + sale.combos.length
 		},
 		getCantidadUnidades(sale) {
 			var cantidad_unidades = 0
 			sale.articles.forEach(article => {
 				cantidad_unidades += Number(article.pivot.amount)
+			})
+			sale.combos.forEach(combo => {
+				cantidad_unidades += Number(combo.pivot.amount)
 			})
 			return cantidad_unidades
 		},

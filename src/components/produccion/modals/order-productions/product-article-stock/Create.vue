@@ -5,8 +5,8 @@ title="Nuevo descuento de stock"
 hide-footer>
     <b-form-group
     label="Articulo">
-        <select-article
-        @setSelected="setSelected"></select-article>
+        <!-- <select-article
+        @setSelected="setSelected"></select-article> -->
     </b-form-group>
     <b-form-group
     v-if="form.article"
@@ -56,7 +56,6 @@ hide-footer>
 <script>
 import product_article_stocks from '@/mixins/product_article_stocks'
 
-import SelectArticle from '@/components/common/select/Article'
 import ArticleCard from '@/components/common/ArticleCard'
 import BtnLoader from '@/components/common/BtnLoader'
 import BtnCreate from '@/components/produccion/modals/order-productions/product-delivery/BtnCreate'
@@ -64,7 +63,6 @@ import List from '@/components/produccion/modals/order-productions/product-deliv
 export default {
 	mixins: [product_article_stocks],
 	components: {
-        SelectArticle,
         ArticleCard,
 		BtnLoader,
 		BtnCreate,

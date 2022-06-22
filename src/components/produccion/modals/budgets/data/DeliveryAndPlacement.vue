@@ -6,22 +6,22 @@
 			Modo de entrega
 		</p>
 		<div
-		v-if="edit">
+		v-if="can_edit">
 		    <b-form-radio
 		    :value="0"
-		    v-model="budget.delivery_and_placement">
+		    v-model="delivery_and_placement">
 		        Solo entrega
 		    </b-form-radio>
 		    <b-form-radio
 		    :value="1"
-		    v-model="budget.delivery_and_placement">
+		    v-model="delivery_and_placement">
 		        Entrega y colocación
 		    </b-form-radio>
 		</div>
 		<div
 		v-else>
 			<p
-			v-if="budget.delivery_and_placement">
+			v-if="delivery_and_placement">
 				<i class="icon-right"></i>
 				<strong>Entrega y colocación</strong>
 			</p>
@@ -34,7 +34,8 @@
 	</div>
 </template>
 <script>
+import budgets from '@/mixins/budgets'
 export default {
-	props: ['budget', 'edit'],
+	mixins: [budgets],
 }
 </script>

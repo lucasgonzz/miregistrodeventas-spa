@@ -6,13 +6,13 @@
 			Fechas de entrega
 		</p>
 		<b-form-row
-		v-if="edit">
+		v-if="can_edit">
 			<b-col
 			md="6">
 				<b-form-datepicker
 			    class="m-t-10"
 			    placeholder="Fecha de inicio"
-			    v-model="budget.start_at">
+			    v-model="start_at">
 			    </b-form-datepicker>
 			</b-col>
 			<b-col
@@ -20,7 +20,7 @@
 				<b-form-datepicker
 			    class="m-t-10"
 			    placeholder="Fecha de fin"
-			    v-model="budget.finish_at">
+			    v-model="finish_at">
 			    </b-form-datepicker>
 			</b-col>
 		</b-form-row>
@@ -32,7 +32,7 @@
 				label="Inicio">
 					<b-form-input
 					disabled
-					:value="date(budget.start_at)"></b-form-input>
+					:value="date(start_at)"></b-form-input>
 				</b-form-group>
 			</b-col>
 			<b-col
@@ -41,7 +41,7 @@
 				label="Fin">
 					<b-form-input
 					disabled
-					:value="date(budget.finish_at)"></b-form-input>
+					:value="date(finish_at)"></b-form-input>
 				</b-form-group>
 			</b-col>
 		</b-form-row>
@@ -64,7 +64,8 @@
 	</div>
 </template>
 <script>
+import budgets from '@/mixins/budgets'
 export default {
-	props: ['budget', 'edit'],
+	mixins: [budgets],
 }
 </script>

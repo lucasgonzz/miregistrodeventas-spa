@@ -1,6 +1,6 @@
 <template>
 <b-card 
-class="shadow-5 b-r-1"
+class="shadow-2 b-r-1 m-b-25"
 title="Tienda Online">
 	<b-form-group
 	label="Quien puede ver los precios en la tienda">
@@ -38,13 +38,23 @@ title="Tienda Online">
 		</b-form-radio>
 	</b-form-group>
 	<hr>
-	<b-form-group
+	<!-- <b-form-group
 	v-if="user.has_delivery"
 	label="Precio de envio">
 		<b-form-input
 		type="number"
 		v-model="user.delivery_price"
 		@keyup.enter="updateUser"></b-form-input>
+	</b-form-group>
+	<hr> -->
+	<b-form-group>
+		<b-form-checkbox
+		:value="1"
+		:unchecked-value="0"
+		v-model="user.configuration.show_articles_without_stock"
+		@keyup.enter="updateUser">
+			Mostrar articulos sin stock
+		</b-form-checkbox>
 	</b-form-group>
 	<hr>
 	<b-form-group

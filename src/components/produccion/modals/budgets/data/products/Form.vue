@@ -5,17 +5,16 @@
 		</p>
 		<b-form-row>
 			<b-col
-			md="2">
+			md="3">
 				<select-component
-				full_width
-				select_empty
-				auto_select
 				:id="id_bar_code"
-				@setSelected="setSelectedBarCode"
-				placeholder="Codigo"
 				:model="product"
-				model_prop="bar_code"
-				:models="articles"></select-component>
+				:models="articles"
+				prop_name="bar_code"
+				placeholder="Codigo"
+				:prop_title="['name']"
+				:props_to_show="['bar_code', 'price']"
+				@setSelected="setSelectedBarCode"></select-component>
 			</b-col>
 			<b-col
 			md="2">
@@ -27,16 +26,14 @@
 				placeholder="Cantidad"></b-form-input>
 			</b-col>
 			<b-col
-			md="4">
+			md="3">
 				<select-component
-				full_width
-				select_empty
-				auto_select
 				:id="id_name"
-				@setSelected="setSelectedName"
-				placeholder="Articulo"
 				:model="product"
-				:models="articles"></select-component>
+				:models="articles"
+				placeholder="Nombre"
+				:props_to_show="['bar_code', 'price']"
+				@setSelected="setSelectedName"></select-component>
 			</b-col>
 			<b-col
 			md="2">
@@ -61,7 +58,7 @@
 <script>
 import budgets from '@/mixins/budgets'
 
-import SelectComponent from '@/components/common/SelectComponent'
+import SelectComponent from '@/components/common/select/Index'
 export default {
 	mixins: [budgets],
 	components: {
@@ -86,50 +83,31 @@ export default {
 				name: '',
 				price: '',
 				bonus: '',
-			}
+			},
 		}
 	},
 	methods: {
 		setSelectedBarCode(result) {
-			console.log(result)
-			let product
-			if (result.is_empty) {
-				product = {
-					bar_code: result.selected,
-					name: '',
-				}
-			} else {
-				product = {
-					...result.selected,
-					bonus: '',
-				}
+			let product = {
+				...result,
+				bonus: '',
 			}
 			this.product = product
 			this.$refs.amount.focus()
 		},
 		setSelectedName(result) {
-			console.log(result)
-			let product
-			if (result.is_empty) {
-				product = {
-					name: result.selected,
-					bar_code: '',
-				}
-			} else {
-				product = {
-					...result.selected,
-					bonus: '',
-				}
+			let product = {
+				...result,
+				bonus: '',
 			}
 			this.product = product
 			this.$refs.amount.focus()
 		},
 		add() {
-			this.budget_model.products.push(this.product)
+			this.$store.commit('produccion/budgets/create/addProduct', this.product)
+			// this.budget_model.products.push(this.product)
+			this.clear()
 			document.getElementById(this.id_bar_code).focus()
-			setTimeout(() => {
-				this.clear()
-			}, 500)
 		},
 		clear() {
 			this.product = {
@@ -139,7 +117,6 @@ export default {
 				price: '',
 				bonus: '',
 			}
-			console.log('se limpio')
 		},
 		toAmount() {
 			this.$refs['amount'].focus()

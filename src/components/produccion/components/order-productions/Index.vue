@@ -11,12 +11,13 @@
 	    <product-delivery></product-delivery>
 	    <product-article-stock></product-article-stock>
 	    <print></print>
+		<create-budget></create-budget>
 	    <b-row>
-			<b-col
+			<!-- <b-col
 			cols="12"
 			md="8">
 				<budget-details></budget-details>
-			</b-col>
+			</b-col> -->
 			<b-col
 			cols="12"
 			md="8">
@@ -31,14 +32,14 @@ import OrderProductionDetails from '@/components/produccion/modals/order-product
 import UpdateStatus from '@/components/produccion/modals/order-productions/UpdateStatus'
 import ProductDelivery from '@/components/produccion/modals/order-productions/product-delivery/Index'
 import ProductArticleStock from '@/components/produccion/modals/order-productions/product-article-stock/Index' 
-import BudgetDetails from '@/components/produccion/modals/budgets/Details'
+import CreateBudget from '@/components/produccion/modals/budgets/Create'
 import Print from '@/components/produccion/modals/budgets/Print'
 
 import List from '@/components/produccion/components/order-productions/List'
 export default {
 	components: {
 		Confirm,
-		BudgetDetails,
+		CreateBudget,
 		OrderProductionDetails,
 		UpdateStatus,
 		ProductDelivery,

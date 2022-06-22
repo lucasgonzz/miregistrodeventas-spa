@@ -14,6 +14,10 @@
 				<strong>{{ client.name }} {{ client.surname }}</strong>
 			</p> 
 			<p
+			v-if="client.email">
+				Correo: {{ client.email }}
+			</p>
+			<p
 			v-if="client.cuit">
 				CUIT: {{ client.cuit }}
 			</p>

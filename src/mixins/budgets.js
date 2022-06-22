@@ -8,20 +8,59 @@ export default {
 		loading() {
 			return this.$store.state.produccion.budgets.loading
 		},
-		budget_model() {
-			if (this.edit) {
-				return this.edit
-			}
-			return this.create
-		},
 		edit() {
-			return this.$store.state.produccion.budgets.edit
+			return this.$store.state.produccion.budgets.create.budget
 		},
-		create() {
-			return this.$store.state.produccion.budgets.create
+		client() {
+			return this.$store.state.produccion.budgets.create.client
+		},
+		products() {
+			return this.$store.state.produccion.budgets.create.products
+		},
+		observations() {
+			return this.$store.state.produccion.budgets.create.observations
+		},
+		start_at: {
+			get() {
+				return this.$store.state.produccion.budgets.create.start_at
+			},
+			set(value) {
+				this.$store.commit('produccion/budgets/create/setStartAt', value)
+			}
+		},
+		finish_at: {
+			get() {
+				return this.$store.state.produccion.budgets.create.finish_at
+			},
+			set(value) {
+				this.$store.commit('produccion/budgets/create/setFinishAt', value)
+			}
+		},
+		delivery_and_placement: {
+			get() {
+				return this.$store.state.produccion.budgets.create.delivery_and_placement
+			},
+			set(value) {
+				this.$store.commit('produccion/budgets/create/setDeliveryAndPlacement', value)
+			}
+		},
+		can_edit() {
+			return this.$store.state.produccion.budgets.create.can_edit
+		},
+		show_btn_production() {
+			return this.$store.state.produccion.budgets.create.show_btn_production
 		},
 	},
 	methods: {
+		setBudgetEdit(budget) {
+			this.$store.commit('produccion/budgets/create/setBudget', budget)
+			this.$store.commit('produccion/budgets/create/setClient', budget.client)
+			this.$store.commit('produccion/budgets/create/setProducts', budget.products)
+			this.$store.commit('produccion/budgets/create/setStartAt', budget.start_at)
+			this.$store.commit('produccion/budgets/create/setFinishAt', budget.finish_at)
+			this.$store.commit('produccion/budgets/create/setDeliveryAndPlacement', budget.delivery_and_placement)
+			this.$store.commit('produccion/budgets/create/setObservations', budget.observations)
+		},
 		numBudget(budget) {
 			if (budget && budget.num) {
 				let letras_faltantes = 8 - budget.num.toString().length
@@ -43,9 +82,9 @@ export default {
 			}
 			return total
 		},
-		getTotal(budget, formated = true) {
+		getTotal(products, formated = true) {
 			let total = 0
-			budget.products.forEach(product => {
+			products.forEach(product => {
 				total += this.getProductTotal(product, false)
 			})
 			if (formated) {

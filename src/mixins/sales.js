@@ -49,6 +49,9 @@ export default {
 			sale.articles.forEach(article => {
 				total += this.getSubTotalPriceArticle(article)				
 			})
+			sale.combos.forEach(combo => {
+				total += combo.pivot.price * combo.pivot.amount		
+			})
 			if (sale.percentage_card) {
 				let percentage_card = this.percentageCardFormated(sale.percentage_card)
 				total = total*percentage_card

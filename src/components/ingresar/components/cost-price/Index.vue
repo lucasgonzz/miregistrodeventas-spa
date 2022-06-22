@@ -3,6 +3,7 @@
 		<article-cost
 		:article="article"></article-cost>
 		<article-price
+		@saveArticle="saveArticle"
 		:article="article"></article-price>
 	</b-row>
 </template>
@@ -15,5 +16,10 @@ export default {
 		ArticleCost,
 		ArticlePrice,
 	},
+	methods: {
+		saveArticle() {
+			this.$emit('saveArticle')
+		}
+	}
 }
 </script>

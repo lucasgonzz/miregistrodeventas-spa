@@ -10,6 +10,10 @@
     <import></import>    
     <saldo-inicial></saldo-inicial>    
     <checks-details></checks-details>    
+
+    <create-budget></create-budget>
+    <print-budget></print-budget>
+
     <b-modal id="current-acounts" :title="title" hide-footer size="xl" body-class="p-0">
         <current-acounts-nav></current-acounts-nav>
         <color-info></color-info>
@@ -27,6 +31,9 @@ import NotaCredito from '@/components/ventas/modals/current-acounts/NotaCredito.
 import Import from '@/components/ventas/modals/current-acounts/Import.vue'
 import SaldoInicial from '@/components/ventas/modals/current-acounts/SaldoInicial.vue'
 import ChecksDetails from '@/components/ventas/modals/current-acounts/ChecksDetails.vue'
+import CreateBudget from '@/components/produccion/modals/budgets/Create'
+import PrintBudget from '@/components/produccion/modals/budgets/Print'
+
 // Components
 import CurrentAcountsNav from '@/components/ventas/modals/current-acounts/Nav'
 import ColorInfo from '@/components/ventas/modals/current-acounts/ColorInfo'
@@ -42,6 +49,9 @@ export default {
         Import,
         SaldoInicial,
         ChecksDetails,
+        CreateBudget,
+        PrintBudget,
+        
         // Components
         CurrentAcountsNav,
         ColorInfo,

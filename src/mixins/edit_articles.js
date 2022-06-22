@@ -67,12 +67,10 @@ export default {
 				}]
 			}
 			
-			if (article.sizes.length) {
-				new_article.sizes_id = []
-				article.sizes.forEach(size => {
-					new_article.sizes_id.push(size.id)
-				})
-			}
+			new_article.sizes_id = []
+			article.sizes.forEach(size => {
+				new_article.sizes_id.push(size.id)
+			})
 
 			if (article.providers.length) {
 				new_article.provider_id = article.providers[0].id

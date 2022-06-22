@@ -1,7 +1,7 @@
 <template>
 <div>
 	<div
-    v-if="!loading && client">
+    v-if="!loading_current_acounts">
         <div 
         v-if="current_acounts.length">
             <b-table
@@ -33,9 +33,15 @@
                 </template>
                 <template #cell(detalle)="data">
                     <strong
-                    @click="showDetails(current_acounts[data.index])"
                     :class="getDetalleColorText(current_acounts[data.index])">
                         {{ current_acounts[data.index].detalle }}
+                    </strong>
+                </template>
+                <template #cell(numero)="data">
+                    <strong
+                    class="btn-link"
+                    @click="showDetails(current_acounts[data.index])">
+                        {{ current_acounts[data.index].numero }}
                     </strong>
                 </template>
                 <template #cell(options)="data">
@@ -67,8 +73,9 @@
 </template>
 <script>
 import current_acounts from '@/mixins/current_acounts' 
+import budgets from '@/mixins/budgets' 
 export default {
-    mixins: [current_acounts],
+    mixins: [current_acounts, budgets],
     computed: {
         fields() {
             return [
@@ -90,7 +97,6 @@ export default {
                     id:             current_acount.id,
                     fecha:          this.date(current_acount.created_at, true), 
                     debe:           this.price(current_acount.debe),
-                    numero:         current_acount.numero,
                     haber:          this.price(current_acount.haber),
                     saldo:          this.price(current_acount.saldo),
                     description:    current_acount.description,
@@ -146,8 +152,13 @@ export default {
                 this.$store.commit('sales/setSaleDetails', current_acount.sale)
                 this.$bvModal.show('sale-details')
             } else if (current_acount.budget) {
-                this.$store.commit('produccion/budgets/setEdit', current_acount.budget)
-                this.$bvModal.show('budget-details')
+                this.$store.commit('produccion/budgets/create/setCanEdit', false)
+                this.$store.commit('produccion/budgets/create/setShowBtnProduction', true)
+                this.setBudgetEdit(current_acount.budget)
+                this.$router.push({name: this.route_name, params: {view: 'presupuesto', sub_view: 'productos'}})
+                setTimeout(() => {
+                    this.$bvModal.show('create-budget')
+                }, 100)
             }
         },
         getDetalleColorText(current_acount) {
