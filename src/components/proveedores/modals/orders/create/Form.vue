@@ -10,27 +10,31 @@
 		<b-col
 		md="3">
 			<select-component
-			full_width
-			select_empty
-			auto_select
-			id="select-bar-code-for-privider-order"
-			@setSelected="setSelectedBarCode"
-			placeholder="Codigo"
+			:id="id_bar_code"
+			ref="bar_code"
 			:model="article"
-			model_prop="bar_code"
-			:models="articles"></select-component>
+			:models="articles"
+			prop_name="bar_code"
+			placeholder="Codigo"
+			:prop_title="['bar_code']"
+			:props_to_show="['bar_code', 'price']"
+			select_empty
+			@selectEmpty="selectEmptyBarCode"
+			@setSelected="setSelectedBarCode"></select-component>
 		</b-col>
 		<b-col
 		md="3">
 			<select-component
-			full_width
-			select_empty
-			auto_select
-			id="select-article-for-privider-order"
-			@setSelected="setSelectedName"
-			placeholder="Articulo"
+			:id="id_name"
 			:model="article"
-			:models="articles"></select-component>
+			:models="articles"
+			prop_name="name"
+			placeholder="Articulo"
+			:prop_title="['name']"
+			:props_to_show="['bar_code', 'price']"
+			select_empty
+			@selectEmpty="selectEmptyName"
+			@setSelected="setSelectedName"></select-component>
 		</b-col>
 		<b-col
 		md="3">
@@ -51,7 +55,7 @@
 	</b-form-row>
 </template>
 <script>
-import SelectComponent from '@/components/common/SelectComponent'
+import SelectComponent from '@/components/common/select/Index'
 export default {
 	components: {
 		SelectComponent,
@@ -63,53 +67,44 @@ export default {
 		bar_codes() {
 			return this.$store.state.articles.bar_codes
 		},
+		id_bar_code() {
+			return 'select-article-bar-code'
+		},
+		id_name() {
+			return 'select-article-name'
+		},
 	},
 	data() {
 		return {
 			article: {
 				name: '',
+				bar_code: '',
 			}
 		}
 	},
 	methods: {
 		setSelectedBarCode(result) {
-			console.log(result)
-			let article
-			if (result.is_empty) {
-				article = {
-					from_provider_order: true,
-					bar_code: result.selected,
-					name: '',
-				}
-			} else {
-				article = {
-					...result.selected,
-					from_provider_order: false,
-				}
-				// article = result.selected
-				// article.from_provider_order = false
+			let article_to_add = {
+				...result,
+				from_provider_order: false,
 			}
-			this.article = article
+			this.article = article_to_add
 			this.$refs.amount.focus()
 		},
+		selectEmptyBarCode() {
+			this.article.from_provider_order = true
+			document.getElementById(this.id_name).focus()
+		},
 		setSelectedName(result) {
-			console.log(result)
-			let article
-			if (result.is_empty) {
-				article = {
-					from_provider_order: true,
-					name: result.selected,
-					bar_code: ''
-				}
-			} else {
-				article = {
-					...result.selected,
-					from_provider_order: false,
-				}
-				// article = result.selected
-				// article.from_provider_order = false
+			let article_to_add = {
+				...result,
+				from_provider_order: false,
 			}
-			this.article = article
+			this.article = article_to_add
+			this.$refs.amount.focus()
+		},
+		selectEmptyName() {
+			this.article.from_provider_order = true
 			this.$refs.amount.focus()
 		},
 		toNotes() {
@@ -119,14 +114,8 @@ export default {
 			console.log(this.article)
 			this.article.received = 0
 			this.$store.commit('providers/orders/create/addArticle', this.article)
-			let input_name = document.getElementById('select-article-for-privider-order')
-			let input_bar_code = document.getElementById('select-bar-code-for-privider-order')
-			input_name.value = ''
-			input_bar_code.value = ''
-			input_bar_code.focus()
-			setTimeout(() => {
-				this.clear()
-			}, 500)
+			this.clear()
+			document.getElementById(this.id_bar_code).focus()
 		},
 		clear() {
 			this.article = {

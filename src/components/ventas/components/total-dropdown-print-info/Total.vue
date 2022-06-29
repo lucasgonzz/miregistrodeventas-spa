@@ -17,7 +17,7 @@
 				</span>
 			</b-button>
 			<b-button
-			v-if="total_cost != 0 && can('articles.cost')"
+			v-if="total_cost != 0 && can('articles.cost') && !without_cost"
 			variant="danger">
 				<span v-show="loading">
 					<span class="spinner-border spinner-border-sm"></span>
@@ -42,6 +42,9 @@ export default {
 		},
 		total() {
 			return this.$store.state.sales.total
+		},
+		without_cost() {
+			return this.$store.state.sales.without_cost
 		},
 	}
 }

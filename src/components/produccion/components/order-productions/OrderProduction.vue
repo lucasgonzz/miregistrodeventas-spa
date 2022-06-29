@@ -32,6 +32,7 @@ export default {
 			this.$store.commit('produccion/order_productions/setEdit', this.order_production)
 			this.$store.commit('produccion/budgets/create/setCanEdit', false)
 			this.$store.commit('produccion/budgets/create/setShowBtnProduction', true)
+			this.$store.commit('produccion/budgets/create/setShowBtnMakeOrderProduction', false)
 			this.setBudgetEdit(this.order_production.budget)
 			this.$router.push({name: this.route_name, params: {sub_view: 'productos'}})
 			setTimeout(() => {

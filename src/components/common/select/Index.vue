@@ -4,6 +4,7 @@
 		<b-form-input
 		:id="id"
 		@keydown="search"
+		@keydown.enter="select"
 		v-model="model[prop_name]"
 		:placeholder="placeholder"></b-form-input>
 		<div
@@ -58,6 +59,10 @@ export default {
 			type: Number,
 			default: 2,
 		},
+		select_empty: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data() {
 		return {
@@ -74,9 +79,13 @@ export default {
 				})
 			}
 		},
+		select() {
+			if (this.select_empty) {
+				this.$emit('selectEmpty')
+			}
+		},
 		setSelected(result) {
 			this.results = []
-			// this.model[this.prop_name] = result[this.prop_name]
 			this.$emit('setSelected', result)
 		}
 	}

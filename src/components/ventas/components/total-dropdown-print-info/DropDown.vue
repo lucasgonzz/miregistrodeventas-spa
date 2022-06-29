@@ -13,7 +13,7 @@
 					Calculando...
 				</span>
 				<span v-show="!loading">
-					{{ sales_to_show.length }} ventas
+					{{ to_show.length }} ventas
 				</span>
 			</b-button>
 		</b-button-group>
@@ -49,7 +49,7 @@
 export default {
 	computed: {
 		selected_sales() {
-			return this.$store.state.sales.selected_sales
+			return this.$store.state.sales.selected
 		},
 		offset_col_options() {
 			if (this.selected_sales.length) {
@@ -60,8 +60,8 @@ export default {
 		loading() {
 			return this.$store.state.sales.loading
 		},
-		sales_to_show() {
-			return this.$store.state.sales.sales_to_show
+		to_show() {
+			return this.$store.state.sales.to_show
 		},
 	}
 }

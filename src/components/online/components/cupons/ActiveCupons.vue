@@ -7,7 +7,7 @@
 			v-else>
 				<div
 				v-if="active_cupons.length" 
-				class="cont-cards">
+				class="cont-article-cards">
 					<active-cupon
 					v-for="cupon in active_cupons"
 					:key="cupon.id"

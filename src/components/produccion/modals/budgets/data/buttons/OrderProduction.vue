@@ -1,7 +1,7 @@
 <template>
 	<div
 	class="m-t-15"
-	v-if="edit && edit.status == 'confirmed' && !show_btn_production">
+	v-if="edit && show_btn_make_order_production">
 		<hr>
 		<b-form-group
 		v-if="edit.client.email">
@@ -32,7 +32,7 @@ export default {
 	},
 	data() {
 		return {
-			send_mail: true,
+			send_mail: 1,
 			loading_order_production: false,
 		}
 	},

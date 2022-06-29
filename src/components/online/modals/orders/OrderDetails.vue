@@ -1,5 +1,10 @@
 <template>
-<b-modal id="order-details" title="Detalles del pedido" size="lg" hide-footer>
+<b-modal 
+v-if="order"
+id="order-details" 
+title="Detalles del pedido" 
+size="lg" 
+hide-footer>
 	<div class="cont-cards">
 		<article-order
 		v-for="article in order.articles"

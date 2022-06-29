@@ -1,23 +1,23 @@
 <template>
 	<div
 	v-if="view == 'cupones'">
-		<confirm
-		@confirm="deleteCupon"
-		:text="text"
-		:btn_text="btn_text"
-		variant_color="danger"
-		:loading="loading"></confirm>
+	    <confirm
+	    :text="text_delete"
+	    :actions="['online/cupons/delete']"
+	    id="delete-cupon"
+	    toast="Cupon eliminado"></confirm>
 		<create-cupon></create-cupon>
 		<create-cupon-btn></create-cupon-btn>
 		<active-cupons></active-cupons>
 	</div>
 </template>
 <script>
-import online from '@/mixins/online'
 import Confirm from '@/components/common/Confirm'
 import CreateCupon from '@/components/online/modals/cupons/create/Index'
 import CreateCuponBtn from '@/components/online/components/cupons/CreateCuponBtn'
 import ActiveCupons from '@/components/online/components/cupons/ActiveCupons'
+
+import online from '@/mixins/online'
 export default {
 	mixins: [online],
 	components: {
@@ -32,7 +32,7 @@ export default {
 		}
 	},
 	computed: {
-		text() {
+		text_delete() {
 			return '¿Seguro que quiere eliminar este cupon?'
 		},
 		btn_text() {

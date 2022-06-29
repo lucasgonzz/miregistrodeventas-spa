@@ -1,6 +1,6 @@
 <template>
 <b-modal id="from-date" title="Mostrar ventas por fecha" hide-footer>
-    <b-card 
+    <!-- <b-card 
     v-show="only_one_date_ == ''"
     header="Desde y hasta una fecha" no-body>
         <b-form-group
@@ -26,19 +26,13 @@
         :unchecked-value="0">
             El {{ getDayTo() }} inclusive
         </b-form-checkbox>
-    </b-card>
-    <b-card 
-    v-show="from_ == '' && to_ == ''"
-    header="Solo las de una fecha" no-body>
-        <b-form-group
-        label="Fecha"
-        label-for="date">
-            <b-form-datepicker
-            placeholder="Seleccione una fecha"
-            v-model="only_one_date_"
-            id="date"></b-form-datepicker>
-        </b-form-group>
-    </b-card>
+    </b-card> -->
+    <b-form-group
+    label="Fecha">
+        <b-form-datepicker
+        placeholder="Seleccione una fecha"
+        v-model="date_"></b-form-datepicker>
+    </b-form-group>
     <b-form-group class="m-b-0">
         <b-button
         block
@@ -50,47 +44,19 @@
 </b-modal>
 </template>
 <script>
-import sales_from_date from '@/mixins/sales_from_date'
 export default {
     name: 'FromDate',
-    mixins: [sales_from_date],
-	data() {
-		return {
-			from_: '',
-			to_: '',
-            only_one_date_: '',
-            last_day_inclusive_: 1,
-		}
-	},
+    data() {
+        return {
+            date_: ''
+        }
+    },
 	methods: {
 		search() {
-            this.$store.commit('sales/setSelectedClient', null)
-            if (this.only_one_date_ != '') {
-                this.$store.commit('sales/setOnlyOneDate', this.only_one_date_)
-                this.$store.commit('sales/days_previus_sales/setDaySelected', this.only_one_date_)
-                this.$store.commit('sales/setFrom', '')
-                this.$store.commit('sales/setTo', '')
-                this.$store.commit('sales/setLastDayInclusive', '')
-                this.onlyOneDate()
-            } else {
-                this.$store.commit('sales/days_previus_sales/setDaySelected', null)
-                this.$store.commit('sales/setFrom', this.from_)
-                this.$store.commit('sales/setTo', this.to_)
-                this.$store.commit('sales/setLastDayInclusive', this.last_day_inclusive_)
-                this.$store.commit('sales/setOnlyOneDate', '')
-                this.fromDate()
-            }
-            this.resetInputs()
+            this.$store.commit('sales/setDate', this.date_)
+            this.$store.dispatch('sales/getFromDate')
             this.$bvModal.hide('from-date')
 		},
-        getDayTo() {
-            return this.to_.split('-')[2]
-        },
-        resetInputs() {
-            this.from_ = ''
-            this.to_ = ''
-            this.only_one_date_ = ''
-        }
 	}
 }
 </script>

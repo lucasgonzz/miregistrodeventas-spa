@@ -32,24 +32,31 @@ export default {
             // active-link-mobile
         },
         toProduccion() {
-        	this.$router.push({name: 'Produccion', params: {view: 'presupuestos'}})
-        	this.$store.dispatch('produccion/budgets/getModels')
+        	if (this.can('budgets.index')) {
+	        	this.$router.push({name: 'Produccion', params: {view: 'presupuestos'}})
+	        	this.$store.dispatch('produccion/budgets/getModels')
+        	} else if (this.can('order_productions.index')) {
+	        	this.$router.push({name: 'Produccion', params: {view: 'ordenes-de-produccion'}})
+	        	this.$store.dispatch('produccion/order_productions/getModels')
+        	}
         },
 		toVentas() {
 			if (this.$route.name == 'Ventas') {
-				this.$store.dispatch('sales/getSales')
-				this.$store.commit('sales/setFrom', '')
-				this.$store.commit('sales/setTo', '')
-				this.$store.commit('sales/setOnlyOneDate', '')
-				this.$store.commit('sales/setSelectedClient', null)
-				this.$store.commit('sales/setSelectedSales', [])
-				this.$store.commit('sales/days_previus_sales/setIndex', 0)
-				this.$store.commit('sales/days_previus_sales/setDaySelected', moment().format('YYYY/MM/DD'))
-				this.$store.dispatch('sales/days_previus_sales/getDaysPreviusSales')
+				this.$store.dispatch('sales/getModels')
+				// this.$store.commit('sales/setFrom', '')
+				// this.$store.commit('sales/setTo', '')
+				// this.$store.commit('sales/setOnlyOneDate', '')
+				// this.$store.commit('sales/setSelectedClient', null)
+				this.$store.commit('sales/setSelected', [])
+				this.$store.commit('sales/previus_days/setIndex', 0)
+				this.$store.commit('sales/previus_days/setSelectedDay')
+				this.$store.commit('sales/setDate', '')
+				this.$store.dispatch('sales/previus_days/getDays')
 			} else {
 				if (this.user.addresses.length >= 2) {
 					this.$router.replace({name: 'Ventas', params: {view: 'todas'}})
-					this.$store.commit('sales/setSalesToShow')
+					this.$store.commit('sales/setSelectedAddress', {street: 'todas'})
+					this.$store.commit('sales/setToShow')
 				} else {
 					this.$router.replace({name: 'Ventas'})
 				}

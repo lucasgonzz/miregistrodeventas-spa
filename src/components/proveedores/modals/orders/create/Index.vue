@@ -3,7 +3,7 @@
 	<received></received>	
 	<edit-article></edit-article>
 	<b-modal
-	size="lg"
+	size="xl"
 	id="provider-order"
 	:title="title"
 	hide-footer>

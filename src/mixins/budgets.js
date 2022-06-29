@@ -50,6 +50,9 @@ export default {
 		show_btn_production() {
 			return this.$store.state.produccion.budgets.create.show_btn_production
 		},
+		show_btn_make_order_production() {
+			return this.$store.state.produccion.budgets.create.show_btn_make_order_production
+		},
 	},
 	methods: {
 		setBudgetEdit(budget) {

@@ -19,8 +19,12 @@ export default {
 	computed: {
 		items() {
 			let items = []
-			items.push({name: 'lista'})
-			items.push({name: 'pedidos'})
+			if (this.can('providers.index') || this.can('providers.orders.create')) {
+				items.push({name: 'lista'})
+			}
+			if (this.can('providers.orders.index') || this.can('providers.orders.create')) {
+				items.push({name: 'pedidos'})
+			}
 			return items
 		}
 	},

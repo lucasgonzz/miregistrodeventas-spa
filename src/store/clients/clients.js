@@ -6,42 +6,54 @@ import current_acounts from '@/store/clients/current_acounts'
 export default {
 	namespaced: true,
 	state: {
-		clients: [],
-		clients_to_show: [],
-		client_to_edit: {},
+		models: [],
+
+		to_show: [],
+		to_edit: {},
 		delete: {},
 		saldo_inicial: {},
+
+		selected_seller: null,
+		index_to_show: 1,
+
 		search_query: '',
+
 		client_current_acounts: null,
+
 		loading_current_acounts: false,
+
 		loading: false,
 	},
 	getters: {
 	},
 	mutations: {
+		setModels(state, value) {
+			state.models = value
+		},
 		setSearchQuery(state, value) {
 			state.search_query = value
 		},
-		setClients(state, value) {
-			state.clients = value
+		setSelectedSeller(state, value) {
+			state.selected_seller = value
+		},
+		setIndexToShow(state, value) {
+			state.index_to_show = value
 		},
 		setClientsToShow(state, value = null) {
 			if (value) {
-				state.clients_to_show = value
+				state.to_show = value
 			} else {
-				state.clients_to_show = state.clients
+				state.to_show = state.models
 			}
 		},
 		setClientCurrentAcounts(state, value) {
-			// Vue.set(state, 'client_current_acounts', value)
-			// state.client_current_acounts = null
 			state.client_current_acounts = value
 		},
 		update(state, updated_client) {
-			let index = state.clients.findIndex(client => {
+			let index = state.models.findIndex(client => {
 				return client.id == updated_client.id
 			})
-			state.clients.splice(index, 1, updated_client)
+			state.models.splice(index, 1, updated_client)
 		},
 		setLoadingCurrentAcounts(state, value) {
 			state.loading_current_acounts = value
@@ -56,7 +68,7 @@ export default {
 			if (!value.iva_id) {
 				value.iva_id = 0
 			}
-			state.client_to_edit = value
+			state.to_edit = value
 		},
 		setDelete(state, value) {
 			state.delete = value
@@ -65,27 +77,27 @@ export default {
 			state.saldo_inicial = value
 		},
 		delete(state) {
-			let index = state.clients.findIndex(client => {
+			let index = state.models.findIndex(client => {
 				return client.id == state.delete.id
 			})
-			state.clients.splice(index, 1)
+			state.models.splice(index, 1)
 		},
 		setLoading(state, value) {
 			state.loading = value
 		},
 		addClientsToShow(state) {
-			let length = state.clients_to_show.length
-			let clients_to_add = state.clients.slice(length, length+10)
-			state.clients_to_show = state.clients_to_show.concat(clients_to_add)
+			let length = state.to_show.length
+			let clients_to_add = state.models.slice(length, length+10)
+			state.to_show = state.to_show.concat(clients_to_add)
 		},
 	},
 	actions: {
-		getClients({commit}) {
+		getModels({commit}) {
 			commit('setLoading', true)
 			return axios.get('api/clients')
 			.then(res => {
 				console.log(res)
-				commit('setClients', res.data.clients)
+				commit('setModels', res.data.clients)
 				commit('addClientsToShow')
 				commit('setLoading', false)
 			})

@@ -25,6 +25,7 @@ export default {
 			new_article.cost = article.cost
 			new_article.price = article.price
 			new_article.percentage_gain = article.percentage_gain
+			new_article.original_price = article.original_price
 			new_article.previus_price = article.previus_price
 			new_article.condition_id = article.condition_id 
 			new_article.stock = this.stock(article, false)
@@ -75,6 +76,8 @@ export default {
 			if (article.providers.length) {
 				new_article.provider_id = article.providers[0].id
 				new_article.providers = article.providers
+			} else if (article.provider_id) {
+				new_article.provider_id = article.provider_id
 			} else {
 				new_article.provider_id = 0
 			}

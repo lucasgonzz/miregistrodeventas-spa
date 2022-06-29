@@ -3,6 +3,7 @@
 	md="6"
 	cols="12">
 		<b-form-group
+		:description="description"
 		label="Precio">
 			<b-input-group
 			v-if="hasExtencion('articles.percentage_gain')"
@@ -10,7 +11,6 @@
 			prepend="Margen de ganancia %">
 				<b-form-input
 				id="article-percentage-gain"
-				:disabled="disabled_percetange_gain"
 				type="number"
 				min="0"
 				@keydown.enter="changeToProvider"
@@ -19,11 +19,23 @@
 				autocomplete="off"></b-form-input>
 			</b-input-group>
 			<b-input-group
+			v-if="article.original_price"
 			class="m-b-10"
-			prepend="Precio">
+			prepend="Precio original">
 				<b-form-input
 				id="article-price"
-				:disabled="disabled_price"
+				type="number"
+				min="0"
+				@keydown.enter="saveArticle"
+				placeholder="Ingresa el precio del producto"
+				v-model="article.original_price"
+				autocomplete="off"></b-form-input>
+			</b-input-group>
+			<b-input-group
+			class="m-b-10"
+			prepend="Precio final">
+				<b-form-input
+				id="article-price"
 				type="number"
 				min="0"
 				@keydown.enter="saveArticle"
@@ -50,13 +62,19 @@ export default {
 		disabled_price() {
 			if (this.hasExtencion('articles.percentage_gain')) {
 				if (this.article.created_at) {
-					return this.article.percentage_gain != ''
+					return this.article.percentage_gain == ''
 				} else {
 					return this.article.percentage_gain != ''
 				}
 			}
 			return false
 		},
+		description() {
+			if (this.hasExtencion('articles.percentage_gain')) {
+				return 'Dejar MARGEN DE GANANCIA en blanco para utilizar el precio comun'
+			}
+			return null
+		}
 	},
 	methods: {
 		changeToProvider() {

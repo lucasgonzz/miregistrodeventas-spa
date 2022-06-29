@@ -104,55 +104,6 @@ export default {
 			})
 			state.items.splice(index, 1, item)
 		},
-		// replaceArticle(state, article) {
-		// 	let index = state.articles.findIndex(art => {
-		// 		return art.id == article.id
-		// 	})
-		// 	state.articles.splice(index, 1, article)
-		// 	// Vue.set(state.articles[index], 'amount', new_amount)
-		// },
-		// setTotal(state, total = null) {
-		// 	if (total) {
-		// 		state.total = total
-		// 	} else {
-		// 		state.total = 0
-		// 		let price 
-		// 		state.articles.forEach(article => {
-		// 			state.total += Number(article.price) * article.amount
-		// 		})
-		// 		state.combos.forEach(combo => {
-		// 			state.total += combo.price * combo.amount
-		// 		})
-		// 		if (state.with_card) {
-		// 			let user_percentage_card = auth.state.user.percentage_card
-		// 			let percentage_card = 0
-		// 			percentage_card = percentage_card_mixin.methods.percentageCardFormated(user_percentage_card)
-		// 			state.total = state.total * percentage_card
-		// 		} 
-		// 	}
-		// },
-		// removeArticle(state, article) {
-		// 	let index = state.articles.findIndex(art => {
-		// 		return art.id == article.id
-		// 	})
-		// 	state.articles.splice(index, 1)
-		// },
-		// updateArticle(state, article) {
-		// 	let index = state.articles.findIndex(art => {
-		// 		return art.id == article.id
-		// 	})
-		// 	if (index != -1) {
-		// 		state.articles.splice(index, 1, article)
-		// 	}
-		// },
-		// updateCombo(state, combo) {
-		// 	let index = state.combos.findIndex(art => {
-		// 		return art.id == combo.id
-		// 	})
-		// 	if (index != -1) {
-		// 		state.combos.splice(index, 1, combo)
-		// 	}
-		// },
 	},
 	actions: {
 		vender({ commit, state }, info) {
@@ -178,9 +129,9 @@ export default {
 				commit('setSaleType', 1)
 				commit('setClient', null)
 				commit('setTotal', 0)
-				commit('sales/addSale', sale, {root: true})
+				commit('sales/add', sale, {root: true})
 				commit('sales/setTotal', null, {root: true})
-				commit('sales/setSalesToShow', null, {root: true})
+				commit('sales/setToShow', null, {root: true})
 			})
 			.catch(err => {
 				commit('setVendiendo', false)

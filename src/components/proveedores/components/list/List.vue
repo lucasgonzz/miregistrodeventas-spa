@@ -12,7 +12,7 @@
 			:items="items">
 				<template #cell(options)="data">
 					<b-button
-					v-if="hasExtencion('providers')"
+					v-if="hasExtencion('providers') && can('providers.orders.create')"
 					@click="providerOrder(providers[data.index])"
 					size="sm"
 					class="m-r-10"

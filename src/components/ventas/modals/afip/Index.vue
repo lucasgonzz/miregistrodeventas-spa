@@ -35,14 +35,6 @@ export default {
 			loading_boleta: false,
 		}
 	},
-	computed: {
-		sale() {
-			return this.$store.state.sales.afip.sale
-		},
-		importes() {
-			return this.$store.state.sales.afip.importes
-		},
-	},
 	methods: {
 		boleta() {
 			this.loading_boleta = true

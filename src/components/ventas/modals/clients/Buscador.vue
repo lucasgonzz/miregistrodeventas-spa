@@ -37,7 +37,7 @@ export default {
 	},
 	methods: {
 		updateClients() {
-			this.$store.dispatch('clients/getClients')
+			this.$store.dispatch('clients/getModels')
 		},
 		getResultValue(value) {
 			return ''

@@ -2,7 +2,6 @@
 <div>
 	<client></client>
 	<nav-component
-	:show_btn="show_btn"
 	:show_planos="show_planos"></nav-component>
 	<products></products>	
 	<dates></dates>	

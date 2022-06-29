@@ -1,7 +1,9 @@
+import online from '@/mixins/online'
 export default {
+	mixins: [online],
 	computed: {
         sale_details() {
-            return this.$store.state.sales.sale_details
+            return this.$store.state.sales.details
         },
 	},
 	methods: {
@@ -55,6 +57,9 @@ export default {
 			if (sale.percentage_card) {
 				let percentage_card = this.percentageCardFormated(sale.percentage_card)
 				total = total*percentage_card
+			}
+			if (sale.order) {
+				total = this.discountCupons(total, sale.order)
 			}
 			if (sale.discounts.length) {
 				sale.discounts.forEach(dis => {

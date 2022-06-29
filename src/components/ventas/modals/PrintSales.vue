@@ -40,7 +40,7 @@ export default {
     },
     computed: {
         selected_sales() {
-            return this.$store.state.sales.selected_sales
+            return this.$store.state.sales.selected
         },
         sales_to_show() {
             return this.$store.state.sales.sales_to_show

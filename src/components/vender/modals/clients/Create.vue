@@ -38,7 +38,7 @@
             v-model="new_client.iva_condition_id"></b-form-select>
         </b-form-group>
         <b-form-group
-        v-if="is_provider"
+        v-if="sellers.length"
         label="Vendedor">
             <b-form-select
             :options="seller_options"
@@ -88,7 +88,7 @@ export default {
                 client: this.new_client
             })
             .then(() => {
-                this.$store.dispatch('clients/getClients')
+                this.$store.dispatch('clients/getModels')
                 .then(() => {
                     this.saving_client = false
                     this.$toast.success('Cliente guardado correctamente')

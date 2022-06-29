@@ -40,7 +40,7 @@ export default {
 	data() {
 		return {
 			loading_save: false,
-			send_mail: true,
+			send_mail: 1,
 		}
 	},
 	methods: {

@@ -1,5 +1,6 @@
 <template>
 <b-modal 
+v-if="sale_details"
 id="sale-details" 
 title="Detalles de la venta" 
 size="lg" 
@@ -14,7 +15,7 @@ body-class="p-0">
 </b-modal>
 </template>
 <script>
-import SaleInfo from '@/components/ventas/modals/sale-details/SaleInfo'
+import SaleInfo from '@/components/ventas/modals/details/SaleInfo'
 import sales from '@/mixins/sales'
 export default {
     name: 'SaleDetails',
@@ -33,26 +34,23 @@ export default {
         },
         items() {
             let items = []
-            if (this.sale_details.articles || this.sale_details.combos) {
-                this.sale_details.articles.forEach(article => {
-                    items.push({
-                        name: article.name,
-                        amount: article.pivot.amount,
-                        price: this.price(article.pivot.price),
-                        sub_total: this.price(article.pivot.price * article.pivot.amount),
-                    })
+            this.sale_details.articles.forEach(article => {
+                items.push({
+                    name: article.name,
+                    amount: article.pivot.amount,
+                    price: this.price(article.pivot.price),
+                    sub_total: this.price(article.pivot.price * article.pivot.amount),
                 })
-                if (this.sale_details.combos) {
-                    this.sale_details.combos.forEach(combo => {
-                        items.push({
-                            name: 'combo '+combo.name,
-                            amount: combo.pivot.amount,
-                            price: this.price(combo.pivot.price),
-                            sub_total: this.price(combo.pivot.price * combo.pivot.amount),
-                        })
-                    })
-                }
-            }
+            })
+            this.sale_details.combos.forEach(combo => {
+                items.push({
+                    name: 'combo '+combo.name,
+                    amount: combo.pivot.amount,
+                    price: this.price(combo.pivot.price),
+                    sub_total: this.price(combo.pivot.price * combo.pivot.amount),
+                })
+            })
+            console.log(items)
             return items
         },
     },

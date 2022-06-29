@@ -58,16 +58,12 @@ export default {
 			value =  value.replaceAll('-', ' ')
 			return value
 		},
-		routeString(item) {
-			let value = this.value(item)
-			return value.toLowerCase().replaceAll(' ', '-')
-		},
 		select(item) {
-			if (this.set_view && this.view != this.routeString(item)) {
-				this.$router.push({name: this.route_name, params: {view: this.routeString(item)}})
+			if (this.set_view && this.view != this.routeString(this.value(item))) {
+				this.$router.push({name: this.route_name, params: {view: this.routeString(this.value(item))}})
 			} 
-			if (this.set_sub_view && this.sub_view != this.routeString(item)) {
-				this.$router.push({params: {method: this.method, sub_view: this.routeString(item)}})
+			if (this.set_sub_view && this.sub_view != this.routeString(this.value(item))) {
+				this.$router.push({params: {method: this.method, sub_view: this.routeString(this.value(item))}})
 				console.log('set sub_view')
 			} 
 			this.$emit('setSelected', item)
@@ -80,7 +76,7 @@ export default {
 			return item
 		},
 		isActive(item) {
-			if (this.selected == this.routeString(item)) {
+			if (this.selected == this.routeString(this.value(item))) {
 				return 'active'
 			}
 		},

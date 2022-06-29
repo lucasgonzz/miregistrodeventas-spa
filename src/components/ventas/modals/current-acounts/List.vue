@@ -149,8 +149,10 @@ export default {
         },
         showDetails(current_acount) {
             if (current_acount.sale) {
-                this.$store.commit('sales/setSaleDetails', current_acount.sale)
-                this.$bvModal.show('sale-details')
+                this.$store.commit('sales/setDetails', current_acount.sale)
+                setTimeout(() => {
+                    this.$bvModal.show('sale-details')
+                }, 100)
             } else if (current_acount.budget) {
                 this.$store.commit('produccion/budgets/create/setCanEdit', false)
                 this.$store.commit('produccion/budgets/create/setShowBtnProduction', true)

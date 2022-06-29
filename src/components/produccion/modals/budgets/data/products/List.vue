@@ -65,9 +65,15 @@ export default {
 				{key: 'bar_code', label: 'Codigo'},
 				{key: 'amount', label: 'Cantidad'},
 				{key: 'name', label: 'Nombre'},
-
 			]
-			if (this.can('order_productions.articles.price')) {
+			if ((!this.edit || (this.edit.order_production)) && this.can('budgets.articles.price')) {
+				fields = fields.concat([
+					{key: 'price', label: 'Precio'},
+					{key: 'bonus', label: 'Bonificacion'},
+					{key: 'total', label: 'Total'},
+				])
+			}
+			if (this.edit && !this.edit.order_production && this.can('order_productions.articles.price')) {
 				fields = fields.concat([
 					{key: 'price', label: 'Precio'},
 					{key: 'bonus', label: 'Bonificacion'},

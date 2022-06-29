@@ -1,7 +1,7 @@
 <template>
 <b-modal
 v-if="order_production"
-size="lg"
+size="xl"
 title="Detalles de Orden de Produccion"
 id="order-production-details"
 hide-footer>

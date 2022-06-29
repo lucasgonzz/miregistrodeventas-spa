@@ -62,7 +62,7 @@ export default {
     },
     computed: {
         clients() {
-            return this.$store.state.clients.clients
+            return this.$store.state.clients.models
         },
         client() {
             return this.$store.state.vender.client

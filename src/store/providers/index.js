@@ -65,7 +65,7 @@ export default {
 			})
 		},
 		delete({ commit, state }) {
-			axios.delete('/api/providers/'+state.delete.id)
+			return axios.delete('/api/providers/'+state.delete.id)
 			.then(() => {
 				commit('delete')
 			})

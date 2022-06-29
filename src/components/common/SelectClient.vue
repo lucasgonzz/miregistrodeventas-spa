@@ -18,7 +18,7 @@ export default {
     },
     computed: {
         clients() {
-            return this.$store.state.clients.clients
+            return this.$store.state.clients.models
         },
     },
     methods: {

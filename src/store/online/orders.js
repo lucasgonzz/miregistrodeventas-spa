@@ -6,7 +6,7 @@ export default {
 	state: {
 		unconfirmed_orders: [],
 		confirmed_finished_orders: [],
-		order_details: {},
+		order_details: null,
 		loading_unconfirmed_orders: false,
 		loading_confirmed_finished_orders: false,
 		cancel: {},

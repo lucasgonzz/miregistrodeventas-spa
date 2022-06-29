@@ -20,7 +20,8 @@ export default {
             .then(res => {
 				this.$store.commit('sales/setLoading', false)
                 console.log(res.data.sales)
-                this.$store.commit('sales/setSalesToShow', res.data.sales)
+                this.$store.commit('sales/setSales', res.data.sales)
+                this.$store.commit('sales/setSalesToShow')
                 this.$store.commit('sales/setTotal')
             })
             .catch(err => {

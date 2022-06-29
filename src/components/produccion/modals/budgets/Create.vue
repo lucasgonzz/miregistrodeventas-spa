@@ -19,7 +19,7 @@ export default {
 	computed: {
 		title() {
 			if (this.edit) {
-				return 'Presupuesto N° '+this.numBudget(this.budget_model)
+				return 'Presupuesto N° '+this.edit.num
 			}
 			return 'Nuevo presupuesto'
 		},

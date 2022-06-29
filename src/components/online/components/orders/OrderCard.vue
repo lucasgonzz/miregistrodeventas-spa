@@ -45,7 +45,9 @@ export default {
 	methods: {
 		orderDetails() {
 			this.$store.commit('online/orders/setOrderDetails', this.order)
-			this.$bvModal.show('order-details')
+			setTimeout(() => {
+				this.$bvModal.show('order-details')
+			}, 100)
 		}
 	},
 }

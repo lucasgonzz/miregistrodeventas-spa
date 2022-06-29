@@ -12,6 +12,9 @@ export default {
 		sale() {
 			return this.$store.state.sales.afip.sale
 		},
+		importes() {
+			return this.$store.state.sales.afip.importes
+		},
 	},
 	methods: {
 		printAfipTicket(sale) {

@@ -1,36 +1,50 @@
-import create from './create'
 import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
-// axios.defaults.baseURL = 'https://micovid.online'
-// axios.defaults.baseURL = 'http://localhost:8000'
 export default {
 	namespaced: true,
 	state: {
 		models: [],
-		to_show: [],
+		model: {},
+
+		selected_seller: {},
+		index_to_show: 1,
+
+		delete: null,
+
 		loading: false,
 	},
 	mutations: {
+		setLoading(state, value) {
+			state.loading = value
+		},
+		setModel(state, value = null) {
+			if (value) {
+				state.model = value
+			} else {
+				state.model = {
+					id: null,
+					name: '',
+					description: '',
+					price: '',
+				}
+			}
+		},
 		setModels(state, value) {
 			state.models = value
 		},
 		add(state, value) {
 			state.models.unshift(value)
 		},
-		setToShow(state, value) {
-			if (value) {
-				state.to_show = value
-			} else {
-				state.to_show = state.models
-			}
+		setDelete(state, value) {
+			state.delete = value
 		},
-		setLoading(state, value) {
-			state.loading = value
+		setEdit(state, value) {
+			state.edit = value
 		},
 		delete(state) {
-			let index = state.models.findIndex(item => {
-				return item.id == state.delete.id
+			let index = state.models.findIndex(model => {
+				return model.id == state.delete.id
 			})
 			state.models.splice(index, 1)
 		},
@@ -40,15 +54,23 @@ export default {
 			})
 			state.models.splice(index, 1, updated)
 		},
+		setSelectedSeller(state, value) {
+			state.selected_seller = value
+		},
+		setIndexToShow(state, value) {
+			state.index_to_show = value
+		},
+		incrementIndexToShow(state) {
+			state.index_to_show++
+		},
 	},
 	actions: {
 		getModels({ commit }) {
 			commit('setLoading', true)
-			return axios.get('/api/provider-orders')
+			return axios.get('/api/delivery-zones')
 			.then(res => {
 				commit('setLoading', false)
-				commit('setModels', res.data.provider_orders)
-				commit('setToShow')
+				commit('setModels', res.data.delivery_zones)
 			})
 			.catch(err => {
 				commit('setLoading', false)
@@ -56,7 +78,7 @@ export default {
 			})
 		},
 		delete({ commit, state }) {
-			axios.delete('/api/provider-orders/'+state.delete.id)
+			return axios.delete('/api/delivery-zones/'+state.delete.id)
 			.then(() => {
 				commit('delete')
 			})
@@ -65,7 +87,4 @@ export default {
 			})
 		},
 	},
-	modules: {
-		create
-	}
 }

@@ -103,14 +103,14 @@ export default {
 			return items
 		},
 		clients() {
-			return this.$store.state.clients.clients
+			return this.$store.state.clients.models
 		},
 		selected_seller() {
-			return this.$store.state.sales.clients.selected_seller
+			return this.$store.state.clients.selected_seller
 		},
 		clients_to_show() {
 			let clients_to_show = null
-			if (this.selected_seller === null) {
+			if (!this.selected_seller) {
 				clients_to_show = this.clients.filter(client => {
 					return client.seller_id === null || client.seller_id === 0
 				})
@@ -125,11 +125,12 @@ export default {
 				})
 			}
 			clients_to_show.sort((a, b) => (a.name > b.name) ? 1 : -1)
-			clients_to_show = clients_to_show.slice(0, this.index_clients_to_show * 10)
+			clients_to_show = clients_to_show.slice(0, this.index_to_show * 10)
+			console.log(clients_to_show)
 			return clients_to_show
 		},
-		index_clients_to_show() {
-			return this.$store.state.sales.clients.index_clients_to_show
+		index_to_show() {
+			return this.$store.state.clients.index_to_show
 		},
 	},
 	methods: {

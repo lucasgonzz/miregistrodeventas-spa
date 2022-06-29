@@ -48,6 +48,9 @@ export default {
 		},
 	},
 	methods: {
+		routeString(value) {
+			return value.toLowerCase().replaceAll(' ', '-')
+		},
 		hasRole(role) {
 			let has_role = false
 			this.user.roles.forEach(rol => {

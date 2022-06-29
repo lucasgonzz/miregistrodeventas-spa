@@ -37,8 +37,6 @@ export default {
 			}
 		},
 		vender(print_ticket = false) {
-			console.log('print_ticket')
-			console.log(print_ticket)
 			if (this.items.length) {
 				this.$store.commit('articles/removeStock', this.items)
 				this.$store.dispatch('vender/vender', {
@@ -59,13 +57,14 @@ export default {
 					this.$store.commit('vender/previus_sales/setIndex', 0)
 					this.$store.commit('vender/previus_sales/setPreviusSale', {})
 					if (print_ticket) {
-						this.printTicket()
+						this.printTicket(this.maked_sale)
 					}
 				})
 			}
 		},
-		printTicket() {
-			let link = process.env.VUE_APP_API_URL+'/sales/tickets/pdf/'+this.maked_sale.id
+		printTicket(sale) {
+			console.log(sale)
+			let link = process.env.VUE_APP_API_URL+'/sales/tickets/pdf/'+sale.id
 			if (this.selected_address) {
 				link += '/'+this.selected_address.id
 			} 

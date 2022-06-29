@@ -50,7 +50,7 @@ export default {
 	mixins: [afip],
 	computed: {
 		selected_sales() {
-			return this.$store.state.sales.selected_sales
+			return this.$store.state.sales.selected
 		},
 	},
 	methods: {

@@ -37,12 +37,20 @@
 				<i class="icon-cupon"></i>
 			</b-button>
 		</b-button-group>
-		<b-button 
-		v-if="!is_provider && index_previus_sale > 0"
-		variant="primary"
-		@click="updatePreviusSale">
-			<btn-loader :loader="updating" text="Actualizar"></btn-loader>
-		</b-button>
+		<b-button-group
+		v-if="!is_provider && index_previus_sale > 0">
+			<b-button 
+			variant="primary"
+			@click="updatePreviusSale">
+				<btn-loader :loader="updating" text="Actualizar"></btn-loader>
+			</b-button>
+			<b-button 
+			v-if="hasExtencion('combos')"
+			variant="danger"
+			@click="printTicket(previus_sale)">
+				<i class="icon-cupon"></i>
+			</b-button>
+		</b-button-group>
 	</b-col>
 </template>
 <script>
@@ -61,6 +69,9 @@ export default {
 		index_previus_sale() {
 			return this.$store.state.vender.previus_sales.index
 		},
+        previus_sale() {
+            return this.$store.state.vender.previus_sales.previus_sale
+        },
 		col_lg() {
 			if (this.hasExtencion('combos')) {
 				return 3

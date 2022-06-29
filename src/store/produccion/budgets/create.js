@@ -14,6 +14,7 @@ export default {
 		delivery_and_placement: false,
 		can_edit: false,
 		show_btn_production: false,
+		show_btn_make_order_production: false,
 	},
 	mutations: {
 		setBudget(state, value) {
@@ -53,6 +54,9 @@ export default {
 		},
 		setShowBtnProduction(state, value) {
 			state.show_btn_production = value
+		},
+		setShowBtnMakeOrderProduction(state, value) {
+			state.show_btn_make_order_production = value
 		},
 	},
 }

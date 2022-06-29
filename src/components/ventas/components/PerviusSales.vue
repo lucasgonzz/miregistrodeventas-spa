@@ -113,8 +113,9 @@ export default {
 				this.$store.commit('sales/setOnlyOneDate', '')
 				this.$store.commit('sales/setFrom', '')
 				this.$store.commit('sales/setTo', '')
-				this.$store.commit('sales/setSalesToShow', sales)
-				this.$store.commit('sales/setTotal', sales)
+				this.$store.commit('sales/setSales', sales)
+				this.$store.commit('sales/setSalesToShow')
+				this.$store.commit('sales/setTotal')
 			} else {
 				var date = moment(d).format('YYYY-MM-DD')
 				this.$store.commit('sales/setOnlyOneDate', date)

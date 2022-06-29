@@ -80,7 +80,7 @@ export default {
 				this.loading = false
 				this.file = null
 				this.$bvModal.hide('import-clients')
-				this.$store.dispatch('clients/getClients')
+				this.$store.dispatch('clients/getModels')
 				console.log(res)
 			})
 			.catch(err => {

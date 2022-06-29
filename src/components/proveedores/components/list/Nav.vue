@@ -1,22 +1,35 @@
 <template>
-	<div class="j-between m-b-15">
-		<select-component
-		@setSelected="setSelected"
-		placeholder="Buscar proveedor"
-		:models="providers"></select-component>
-		<b-button
-		b-v-modal="'create-provider'"
-		variant="primary">
-			<i class="icon-plus"></i>
-			Nuevo proveedor
-		</b-button>
-	</div>
+	<b-row 
+	class="m-b-15">
+		<b-col
+		md="8">
+			<b-form-input
+			@keyup="search"
+			placeholder="Buscar un proveedor"
+			v-model="query"></b-form-input>
+		</b-col>
+		<b-col
+		md="4">
+			<b-button
+			block
+			v-b-modal="'create-provider'"
+			variant="primary">
+				<i class="icon-plus"></i>
+				Nuevo proveedor
+			</b-button>
+		</b-col>
+	</b-row>
 </template>
 <script>
-import SelectComponent from '@/components/common/SelectComponent'
+import SelectComponent from '@/components/common/select/Index'
 export default {
 	components: {
 		SelectComponent,
+	},
+	data() {
+		return {
+			query: '',
+		}
 	},
 	computed: {
 		providers() {
@@ -24,12 +37,16 @@ export default {
 		},
 	},
 	methods: {
-		setSelected(result) {
-			if (result.is_list) {
-				this.$store.commit('providers/setToShow', result.selected)
+		search() {
+			if (this.query.length < 3) {
+				this.$store.commit('providers/setToShow')
 			} else {
-				this.$store.commit('providers/setToShow', [result.selected])
+				let providers = this.providers.filter(item => {
+					return item.name.toLowerCase().includes(this.query.toLowerCase())
+				})
+				this.$store.commit('providers/setToShow', providers)
 			}
+
 		}
 	}
 }

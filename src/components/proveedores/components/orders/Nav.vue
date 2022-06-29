@@ -1,22 +1,21 @@
 <template>
-	<div class="j-between m-b-15">
-		<select-component
-		@setSelected="setSelected"
-		placeholder="Buscar pedidos de un proveedor"
-		:models="orders"></select-component>
-		<!-- <b-button
-		b-v-modal="'create-provider'"
-		variant="primary">
-			<i class="icon-plus"></i>
-			Nuevo proveedor
-		</b-button> -->
-	</div>
+	<b-row 
+	class="m-b-15 j-start">
+		<b-col
+		md="8">
+			<b-form-input
+			@keyup="search"
+			placeholder="Buscar pedidos de un proveedor"
+			v-model="query"></b-form-input>
+		</b-col>
+	</b-row>
 </template>
 <script>
-import SelectComponent from '@/components/common/SelectComponent'
 export default {
-	components: {
-		SelectComponent,
+	data() {
+		return {
+			query: '',
+		}
 	},
 	computed: {
 		orders() {
@@ -24,12 +23,12 @@ export default {
 		},
 	},
 	methods: {
-		setSelected(result) {
-			if (result.is_list) {
-				this.$store.commit('providers/setToShow', result.selected)
+		search() {
+			if (this.query.length < 3) {
+				this.$store.commit('providers/orders/setToShow')
 			} else {
-				let orders = this.orders.filter(order => {
-					return order.provider_id == result.selected.id
+				let orders = this.orders.filter(item => {
+					return item.provider.name.toLowerCase().includes(this.query.toLowerCase())
 				})
 				this.$store.commit('providers/orders/setToShow', orders)
 			}

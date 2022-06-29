@@ -5,7 +5,7 @@
 		v-if="!loading">
 			<b-table 
 			class="shadow-2 b-r-1"
-			v-show="sales.length"
+			v-show="to_show.length"
 			:items="items" 
 			head-variant="dark" 
 			:fields="fields" 
@@ -29,22 +29,22 @@
 					<div class="j-start align-center">
 						<b-button 
 						class="btn-eye"
-						@click="showSaleDetails(sales[data.index])">
+						@click="showSaleDetails(to_show[data.index])">
 							<i class="icon-eye"></i>
 						</b-button>
 						<b-badge
-						v-if="sales[data.index].special_price_id"
+						v-if="to_show[data.index].special_price_id"
 						variant="success">
-							{{ sales[data.index].special_price.name }}
+							{{ to_show[data.index].special_price.name }}
 						</b-badge>
 					</div>
 				</template>
 				<template #cell(client)="data">
 					<b-button
-					v-if="sales[data.index].client || sales[data.index].buyer"
-					@click="showCurrentAcounts(sales[data.index])"
+					v-if="to_show[data.index].client || to_show[data.index].buyer"
+					@click="showCurrentAcounts(to_show[data.index])"
 					variant="link">
-						{{ getClient(sales[data.index]) }}
+						{{ getClient(to_show[data.index]) }}
 					</b-button>
 					<span v-else>
 						<i class="icon-user-delete"></i>
@@ -52,7 +52,7 @@
 				</template>
 			</b-table>
 			<p 
-			v-show="!sales.length"
+			v-show="!to_show.length"
 			class="text-with-icon">
 				<i class="icon-not"></i>
 				No hay ventas
@@ -80,15 +80,15 @@ export default {
 		all_sales_selected() {
 			return this.$store.state.sales.all_sales_selected
 		},
-		sales() {
-			return this.$store.state.sales.sales_to_show
+		to_show() {
+			return this.$store.state.sales.to_show
 		},
 		loading() {
 			return this.$store.state.sales.loading
 		},
 		items() {
 			let items = []
-			this.sales.forEach(sale => { 
+			this.to_show.forEach(sale => { 
 				items.push({
 					id: sale.id,
 					afip_ticket: sale.afip_ticket,
@@ -171,7 +171,7 @@ export default {
 			// return ''
 		},
 		onRowSelected(items) {
-			this.$store.commit('sales/setSelectedSales', items)
+			this.$store.commit('sales/setSelected', items)
 		},
 		date_format(value) {
 			return this.date(value)
@@ -269,11 +269,13 @@ export default {
 			this.$emit('selectAllSales')
 		},
 		showSaleDetails(sale) {
-			this.$store.commit('sales/setSaleDetails', sale)
-			this.$bvModal.show('sale-details')
+			this.$store.commit('sales/setDetails', sale)
+			setTimeout(() => {
+				this.$bvModal.show('sale-details')
+			}, 100)
 		},
 		printSale(sale) {
-			this.$store.commit('sales/setSelectedSales', [sale])
+			this.$store.commit('sales/setSelected', [sale])
 			// this.$store.commit('sales/setPrint', sale)
 			this.$bvModal.show('print-sales')
 		},

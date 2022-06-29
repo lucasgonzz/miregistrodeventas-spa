@@ -1,5 +1,6 @@
 <template>
 <div id="ventas">	
+<!-- MODALS -->
     <confirm
     :text="text_delete"
     :actions="['sales/delete']"
@@ -17,8 +18,10 @@
 
 	<print-sales></print-sales> 
 	<afip-details></afip-details> 
-	
-	<title-previus-sales-buttons></title-previus-sales-buttons>
+
+<!-- COMPONENTS -->
+	<nav-component></nav-component>
+
 	<total-dropdown-print-info></total-dropdown-print-info>
 
 	<address-nav></address-nav>
@@ -36,7 +39,7 @@ import CurrentAcounts from '@/components/ventas/modals/current-acounts/Index.vue
 
 import Discounts from '@/components/ventas/modals/discounts/Index.vue'
 import FromDate from '../components/ventas/modals/FromDate.vue'
-import SaleDetails from '../components/ventas/modals/sale-details/Index'
+import SaleDetails from '../components/ventas/modals/details/Index'
 import Confirm from '@/components/common/Confirm.vue'
 import AfipDetails from '../components/ventas/modals/afip/Index.vue'
 import PrintSales from '../components/ventas/modals/PrintSales.vue'
@@ -44,7 +47,7 @@ import Clients from '../components/ventas/modals/clients/Index.vue'
 import Commissioners from '../components/ventas/modals/commissioners/Index.vue'
 import Sellers from '../components/ventas/modals/sellers/Index.vue'
 
-import TitlePreviusSalesButtons from '../components/ventas/components/TitlePreviusSalesButtons.vue'
+import NavComponent from '../components/ventas/components/nav/Index'
 import TotalDropdownPrintInfo from '../components/ventas/components/total-dropdown-print-info/Index.vue'
 import AddressNav from '@/components/ventas/components/AddressNav'
 import TableSales from '../components/ventas/components/TableSales.vue'
@@ -68,7 +71,7 @@ export default {
 		Sellers,
 
 		// Components
-		TitlePreviusSalesButtons,
+		NavComponent,
 		TotalDropdownPrintInfo,
 		AddressNav,
 		TableSales,

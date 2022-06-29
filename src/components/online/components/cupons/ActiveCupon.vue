@@ -1,16 +1,11 @@
 <template>
 	<b-card
-	class="cupon-card shadow-2 b-r-1">
-		<p>
-			<strong>
-				{{ cupon_title }}
-			</strong>
-		</p>
-		<hr>
-		<p
-		v-if="has_expiration">
-			{{ expiration }}
-		</p>
+	class="card-moderna shadow-2 b-r-1">
+		<div class="title">
+			<p>
+				{{ cupon.code }}
+			</p>
+		</div>
 		<p
 		v-if="cupon.amount">
 			Descuento de {{ price(cupon.amount) }}
@@ -25,7 +20,6 @@
 		</p>
 		<b-button
 		@click="deleteCupon"
-		size="sm"
 		variant="danger"
 		block>
 			Eliminar
@@ -58,7 +52,7 @@ export default {
 	methods: {
 		deleteCupon() {
 			this.$store.commit('online/cupons/setDelete', this.cupon)
-			this.$bvModal.show('confirm')
+			this.$bvModal.show('delete-cupon')
 		}
 	}
 }

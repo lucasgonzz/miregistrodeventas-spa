@@ -18,8 +18,11 @@
 		color: #FFF
 		padding: .7em
 	.title
+		@media screen and (max-width: 768px)
+			padding-top: 50%
+		@media screen and (min-width: 768px)
+			padding-top: 100%
 		width: 100%
-		padding-top: 100%
 		position: relative
 		display: flex
 		justify-content: center
@@ -29,7 +32,7 @@
 			position: absolute
 			top: 50%
 			transform: translatey(-50%)
-			font-size: 1.8em
+			font-size: 1.6em
 			font-weight: bold
 			text-align: center
 	.data 

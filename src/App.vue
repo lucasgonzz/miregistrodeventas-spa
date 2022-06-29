@@ -161,6 +161,14 @@ export default {
                     route = '/tienda-online/cupones'
                 } else if (this.can('online.calls')) {
                     route = '/tienda-online/llamadas'
+                } else if (this.can('budgets.index') || this.can('budgets.store')) {
+                    route = '/produccion/presupuestos'
+                } else if (this.can('order_productions.index')) {
+                    route = '/produccion/ordenes-de-produccion'
+                } else if (this.can('providers.index')) {
+                    route = '/proveedores/lista'
+                } else if (this.can('providers.orders.create') || this.can('providers.orders.index')) {
+                    route = '/proveedores/pedidos'
                 }
                 console.log('redireccionando a: '+route)
                 this.$router.replace(route)
@@ -173,8 +181,8 @@ export default {
                 this.loading_message = 'articulos'
                 await this.$store.dispatch('articles/getArticles')
                 this.loading_message = 'ventas'
-                await this.$store.dispatch('sales/days_previus_sales/getDaysPreviusSales')
-                await this.$store.dispatch('sales/getSales')
+                await this.$store.dispatch('sales/previus_days/getDays')
+                await this.$store.dispatch('sales/getModels')
                 if (this.hasExtencion('budgets')) {
                     this.loading_message = 'presupuestos'
                     this.$store.dispatch('produccion/budgets/getModels')
@@ -208,7 +216,7 @@ export default {
                 // }
                 // if (this.can('clients')) {
                     this.loading_message = 'clientes'
-                    await this.$store.dispatch('clients/getClients')
+                    await this.$store.dispatch('clients/getModels')
                     await this.$store.dispatch('current_acount_payment_methods/getModels')
                 // }
                 if (this.can('afip_tickets')) {
@@ -264,24 +272,19 @@ export default {
                     this.getCalls()
                     this.listenChannels()
                 }
-                if (this.is_provider) {
-                    if (this.can('discounts_sellers')) {
-                        this.loading_message = 'descuentos'
-                        await this.$store.dispatch('discounts/getDiscounts')
-                        this.loading_message = 'vendedores'
-                        await this.$store.dispatch('sellers/getSellers')
-                        this.loading_message = 'comisiones'
-                        await this.$store.dispatch('commissioners/getCommissioners')
-                        this.loading_message = 'tipos de venta'
-                        await this.$store.dispatch('sale_types/getSaleTypes')
-                        this.$store.commit('vender/setSaleType', 1)
-                    } 
-                    this.$store.commit('auth/setLoading', false)
-                    this.loading_message = 'informacion'
-                } else {
-                    this.$store.commit('auth/setLoading', false)
-                    this.loading_message = 'informacion'
-                }
+                if (this.can('discounts_sellers')) {
+                    this.loading_message = 'descuentos'
+                    await this.$store.dispatch('discounts/getDiscounts')
+                    this.loading_message = 'vendedores'
+                    await this.$store.dispatch('sellers/getSellers')
+                    this.loading_message = 'comisiones'
+                    await this.$store.dispatch('commissioners/getCommissioners')
+                    this.loading_message = 'tipos de venta'
+                    await this.$store.dispatch('sale_types/getSaleTypes')
+                    this.$store.commit('vender/setSaleType', 1)
+                } 
+                this.$store.commit('auth/setLoading', false)
+                this.loading_message = 'informacion'
                 this.checkAddress()
             } else if (this.is_super) {
                 console.log('Es super')

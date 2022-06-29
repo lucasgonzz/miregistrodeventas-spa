@@ -66,6 +66,11 @@ export default {
 				this.$store.commit('produccion/budgets/create/setCanEdit', true)
 			} else {
 				this.$store.commit('produccion/budgets/create/setCanEdit', false)
+				if (!this.budget.order_production) {
+					this.$store.commit('produccion/budgets/create/setShowBtnMakeOrderProduction', true)
+				} else {
+					this.$store.commit('produccion/budgets/create/setShowBtnMakeOrderProduction', false)
+				}
 			}
 			this.$store.commit('produccion/budgets/create/setShowBtnProduction', false)
 			this.setBudgetEdit(this.budget)

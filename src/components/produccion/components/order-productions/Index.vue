@@ -20,7 +20,8 @@
 			</b-col> -->
 			<b-col
 			cols="12"
-			md="8">
+			md="10"
+			lg="8">
 				<list></list>
 			</b-col>
 	    </b-row>

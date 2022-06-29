@@ -56,6 +56,9 @@ export default {
 				this.$toast.success('Recibo de mercaderia guardado')
 				let article = res.data.article
 				if (article.status == 'from_provider_order') {
+					article.provider_id = this.edit_order.provider_id
+					article.stock = this.article.received
+					this.$store.commit('articles/addArticle', article)
 					this.editArticle(article)
 					this.$bvModal.show('edit-article')
 				} else {

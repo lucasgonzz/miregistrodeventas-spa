@@ -29,7 +29,7 @@ export default {
 			return this.$store.state.sellers.sellers
 		},
 		selected_seller() {
-			return this.$store.state.sales.clients.selected_seller
+			return this.$store.state.clients.selected_seller
 		},
 	},
 	methods: {
@@ -43,8 +43,10 @@ export default {
 			return false
 		},
 		setSelectedSeller(seller) {
-			this.$store.commit('sales/clients/setSelectedSeller', seller)
-			this.$store.commit('sales/clients/setIndexToShow', 1)
+			this.$store.commit('clients/setSelectedSeller', seller)
+			this.$store.commit('clients/setIndexToShow', 1)
+			// this.$store.commit('sales/clients/setSelectedSeller', seller)
+			// this.$store.commit('sales/clients/setIndexToShow', 1)
 		},
 		printClients() {
 			let seller_id = this.isActive('mios') ? undefined : this.selected_seller.id

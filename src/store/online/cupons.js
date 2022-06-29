@@ -9,6 +9,7 @@ export default {
 			amount: '',
 			percentage: '',
 			min_amount: '',
+			code: '',
 			buyers: [],
 			for_new_buyers: false,
 			expiration_date: '',
@@ -20,6 +21,9 @@ export default {
 	mutations: {
 		setActiveCupons(state, value) {
 			state.active_cupons = value
+		},
+		addActiveCupon(state, value) {
+			state.active_cupons.unshift(value)
 		},
 		addActiveCupons(state, cupons) {
 			cupons.forEach(cupon => {
@@ -53,7 +57,7 @@ export default {
 	actions: {
 		getActiveCupons({ commit }) {
 			commit('setLoading', true)
-			axios.get('/api/cupons')
+			return axios.get('/api/cupons')
 			.then(res => {
 				commit('setLoading', false)
 				commit('setActiveCupons', res.data.cupons)
@@ -64,6 +68,15 @@ export default {
 				console.log(err)
 			})
 		},
+		delete({ commit, state }) {
+			return axios.delete('api/cupons/'+state.delete.id)
+			.then(() => {
+				commit('delete')
+			})
+			.catch(err => {
+				console.log(err)
+			})
+		}
 	},
 	modules: {
 	}

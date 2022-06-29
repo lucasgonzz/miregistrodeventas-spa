@@ -74,7 +74,7 @@ export default {
 			return 'Editar cliente '+this.client.name
 		},
 		client() {
-			return this.$store.state.clients.client_to_edit
+			return this.$store.state.clients.to_edit
 		}
 	},
 	methods: {
