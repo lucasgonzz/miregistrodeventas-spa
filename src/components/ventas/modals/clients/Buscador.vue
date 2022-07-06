@@ -10,7 +10,7 @@
 		right
 		variant="primary">
 			<b-dropdown-item
-			v-b-modal="'create-client'">
+			@click="createClient">
 				<i class="icon-plus"></i>
 				Nuevo cliente
 			</b-dropdown-item>
@@ -30,8 +30,11 @@
 <script>
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
+
+import clients from '@/mixins/clients'
 export default {
 	name: 'BuscadorClients',
+	mixins: [clients],
 	components: {
 		Autocomplete
 	},

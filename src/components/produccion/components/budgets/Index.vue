@@ -6,7 +6,7 @@
 	    :actions="['produccion/budgets/delete']"
 	    id="delete-budget"
 	    toast="Presupuesto eliminado"></confirm>
-	    <create-client></create-client>
+	    <client-model></client-model>
 		<create></create>
 		<print></print>
 		<b-row>
@@ -34,7 +34,7 @@
 </template>
 <script>
 import Confirm from '@/components/common/Confirm'
-import CreateClient from '@/components/vender/modals/clients/Create.vue'
+import ClientModel from '@/components/ventas/modals/clients/Model'
 import Create from '@/components/produccion/modals/budgets/Create'
 import Print from '@/components/produccion/modals/budgets/Print'
 
@@ -42,7 +42,7 @@ import List from '@/components/produccion/components/budgets/List'
 export default {
 	components: {
 		Confirm,
-		CreateClient,
+		ClientModel,
 		Create,
 		Print,
 		

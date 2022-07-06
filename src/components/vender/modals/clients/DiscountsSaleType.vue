@@ -2,7 +2,7 @@
 	<b-card no-body>
 		<div
 		class="m-b-15"
-		v-if="is_provider && sale_types.length">
+		v-if="sale_types.length">
 			<p>Seleccionar tipo de venta</p>
 			<b-form-group
 			v-for="sale_type in sale_types"
@@ -14,29 +14,35 @@
 				</b-form-radio>
 			</b-form-group>
 		</div>
-		<p><strong>Seleccionar descuentos</strong></p>
-		<b-form-group
-		v-if="client_discounts.length"
-		:label="'Descuentos de '+client.name">
-			<b-form-checkbox
-			v-for="discount in client_discounts"
-			:key="discount.id"
-			:value="discount.id"
-			v-model="sale_discounts">
-				{{ discount.name }} {{ discount.percentage }}%
-			</b-form-checkbox>
-		</b-form-group>
-		<b-form-group
-		v-if="common_discounts.length"
-		label="Descuentos comunes">
-			<b-form-checkbox
-			v-for="discount in common_discounts"
-			:key="discount.id"
-			:value="discount.id"
-			v-model="sale_discounts">
-				{{ discount.name }} {{ discount.percentage }}%
-			</b-form-checkbox>
-		</b-form-group>
+		<div
+		class="m-b-15"
+		v-if="client_discounts.length || common_discounts.length">
+			<p>
+				<strong>Seleccionar descuentos</strong>
+			</p>
+			<b-form-group
+			v-if="client_discounts.length"
+			:label="'Descuentos de '+client.name">
+				<b-form-checkbox
+				v-for="discount in client_discounts"
+				:key="discount.id"
+				:value="discount.id"
+				v-model="sale_discounts">
+					{{ discount.name }} {{ discount.percentage }}%
+				</b-form-checkbox>
+			</b-form-group>
+			<b-form-group
+			v-if="common_discounts.length"
+			label="Descuentos comunes">
+				<b-form-checkbox
+				v-for="discount in common_discounts"
+				:key="discount.id"
+				:value="discount.id"
+				v-model="sale_discounts">
+					{{ discount.name }} {{ discount.percentage }}%
+				</b-form-checkbox>
+			</b-form-group>
+		</div>
 		<div
 		class="j-between">
 			<b-button
@@ -69,15 +75,6 @@ export default {
 		vendiendo() {
 			return this.$store.state.vender.vendiendo
 		},
-        client() {
-            return this.$store.state.vender.client
-        },
-		discounts() {
-			return this.$store.state.discounts.discounts
-		},
-		sale_types() {
-			return this.$store.state.sale_types.sale_types
-		},
 		sale_discounts: {
 			set(value) {
 				this.$store.commit('vender/setDiscounts', value)
@@ -93,16 +90,6 @@ export default {
 			get() {
 				return this.$store.state.vender.sale_type
 			}
-		},
-		client_discounts() {
-			return this.discounts.filter(discount => {
-				return this.client && (discount.client_id == this.client.id)
-			})
-		},
-		common_discounts() {
-			return this.discounts.filter(discount => {
-				return !discount.client_id
-			})
 		},
 	},
 	methods: {

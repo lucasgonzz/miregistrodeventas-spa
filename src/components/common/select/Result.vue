@@ -18,7 +18,7 @@
 					{{ price(result[prop]) }}
 				</span>
 				<span
-				v-else-if="prop == 'bar_code' && result[prop] != ''">
+				v-else-if="prop == 'bar_code' && result[prop] && result[prop] != ''">
 					<i class="icon-barcode"></i>
 					{{ result[prop] }}
 				</span>

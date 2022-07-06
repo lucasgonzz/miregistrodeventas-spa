@@ -30,9 +30,6 @@ export default {
         },
         getResultValue(client) {
             let res = client.name
-            if (client.surname) {
-                res += ' ' + client.surname
-            }
             return res
         },
         setClient(client) {

@@ -6,12 +6,7 @@ export default {
 	state: {
 		models: [],
 		model: {},
-
-		selected_seller: {},
-		index_to_show: 1,
-
 		delete: null,
-
 		loading: false,
 	},
 	mutations: {
@@ -25,8 +20,6 @@ export default {
 				state.model = {
 					id: null,
 					name: '',
-					description: '',
-					price: '',
 				}
 			}
 		},
@@ -38,9 +31,6 @@ export default {
 		},
 		setDelete(state, value) {
 			state.delete = value
-		},
-		setEdit(state, value) {
-			state.edit = value
 		},
 		delete(state) {
 			let index = state.models.findIndex(model => {
@@ -54,23 +44,14 @@ export default {
 			})
 			state.models.splice(index, 1, updated)
 		},
-		setSelectedSeller(state, value) {
-			state.selected_seller = value
-		},
-		setIndexToShow(state, value) {
-			state.index_to_show = value
-		},
-		incrementIndexToShow(state) {
-			state.index_to_show++
-		},
 	},
 	actions: {
 		getModels({ commit }) {
 			commit('setLoading', true)
-			return axios.get('/api/delivery-zones')
+			return axios.get('/api/locations')
 			.then(res => {
 				commit('setLoading', false)
-				commit('setModels', res.data.delivery_zones)
+				commit('setModels', res.data.locations)
 			})
 			.catch(err => {
 				commit('setLoading', false)
@@ -78,7 +59,7 @@ export default {
 			})
 		},
 		delete({ commit, state }) {
-			return axios.delete('/api/delivery-zones/'+state.delete.id)
+			return axios.delete('/api/locations/'+state.delete.id)
 			.then(() => {
 				commit('delete')
 			})

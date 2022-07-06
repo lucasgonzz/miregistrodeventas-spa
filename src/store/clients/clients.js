@@ -3,10 +3,12 @@ import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
 import current_acounts from '@/store/clients/current_acounts'
+import model from '@/models/client'
 export default {
 	namespaced: true,
 	state: {
 		models: [],
+		model: {},
 
 		to_show: [],
 		to_edit: {},
@@ -30,6 +32,22 @@ export default {
 		setModels(state, value) {
 			state.models = value
 		},
+		add(state, value) {
+			state.models.push(value)
+		},
+		setModel(state, value) {
+			if (value) {
+				state.model = value 
+			} else {
+				let obj = {
+					id: null
+				}
+				model.props.forEach(prop => {
+					obj[prop.key] = prop.value 
+				})
+				state.model = obj
+			}
+		},
 		setSearchQuery(state, value) {
 			state.search_query = value
 		},
@@ -38,6 +56,9 @@ export default {
 		},
 		setIndexToShow(state, value) {
 			state.index_to_show = value
+		},
+		incrementIndexToShow(state, value) {
+			state.index_to_show++
 		},
 		setClientsToShow(state, value = null) {
 			if (value) {

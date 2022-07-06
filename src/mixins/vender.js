@@ -29,6 +29,25 @@ export default {
         maked_sale() {
             return this.$store.state.vender.sale
         },
+		discounts() {
+			return this.$store.state.discounts.discounts
+		},
+		sale_types() {
+			return this.$store.state.sale_types.sale_types
+		},
+		client_discounts() {
+			return this.discounts.filter(discount => {
+				return this.client && (discount.client_id == this.client.id)
+			})
+		},
+		common_discounts() {
+			return this.discounts.filter(discount => {
+				return !discount.client_id
+			})
+		},
+		has_discounts_or_sale_types() {
+            return this.discounts.length || this.sale_types.length
+		},
 	},
 	methods: {
 		callVender() {

@@ -1,28 +1,43 @@
 <template>
-<b-modal id="successful-sale" title="Venta realizada correctamente" hide-footer>
-    <p class="text-with-icon">
-        Venta realizada con exito
-        <span class="icon-check"></span>
-    </p>
-    <div
-    class="j-around align-center">
-        <b-button 
-        variant="primary"
-        @click="pdfClient">
-            <i class="icon-print"></i>
-            Factura para el Cliente
-        </b-button>
-        <b-button 
-        variant="success"
-        @click="pdfCommerce">
-            <i class="icon-print"></i>
-            Factura para el Comercio
-        </b-button>
-    </div>
-</b-modal>
+<div>
+    <current-acounts-pago></current-acounts-pago>
+    <b-modal id="successful-sale" title="Venta realizada correctamente" hide-footer>
+        <p class="text-with-icon">
+            Venta realizada con exito
+            <span class="icon-check"></span>
+        </p>
+        <div
+        class="j-between align-center">
+            <b-button 
+            variant="primary"
+            @click="pdfClient">
+                <i class="icon-print"></i>
+                Factura para el Cliente
+            </b-button>
+            <b-button 
+            variant="success"
+            @click="pdfCommerce">
+                <i class="icon-print"></i>
+                Factura para el Comercio
+            </b-button>
+        </div>
+        <div class="p-t-15">
+            <b-button
+            v-b-modal="'current-acounts-pago'"
+            block 
+            variant="primary">
+                Registrar pago en cuenta corriente
+            </b-button>
+        </div>
+    </b-modal>
+</div>
 </template>
 <script>
+import CurrentAcountsPago from '@/components/ventas/modals/current-acounts/pago/Index'
 export default {
+    components: {
+        CurrentAcountsPago,
+    },
     data() {
         return {
             company_name: 1,

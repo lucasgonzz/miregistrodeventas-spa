@@ -1,6 +1,5 @@
 <template>
-<b-row
-class="d-none d-lg-block">
+<b-row>
 	<b-col>
 		<div
 		v-if="!loading">
@@ -136,6 +135,7 @@ import edit_articles from '@/mixins/edit_articles'
 export default {
 	names: 'EditArticles',
 	mixins: [edit_articles],
+	props: ['articles', 'loading'],
 	components: {
 		VueLoadImage,
 		BtnLoader,
@@ -160,9 +160,6 @@ export default {
 		all_articles_selected() {
 			return this.$store.state.articles.all_articles_selected
 		},
-		loading() {
-			return this.$store.state.articles.loading
-		},
 		fields() {
 			let fields = []
 			fields.push({ key: 'selected', label: '' })
@@ -177,13 +174,8 @@ export default {
 			fields.push({ key: 'price', label: 'Precio', sortable: true })
 			if (this.can('articles.stock')) {
 				fields.push({ key: 'stock', label: 'Stock', sortable: true })
+				fields.push({ key: 'stock_min', label: 'Stock Min', sortable: true })
 			}
-			// if (this.can('brands')) {
-			// 	fields.push({ key: 'brand', label: 'Marca', sortable: true })
-			// }
-			// if (this.can('categories')) {
-			// 	fields.push({ key: 'sub_category', label: 'Subcategoria', sortable: true })
-			// }
 			fields.push({ key: 'options', label: 'Opciones', sortable: true})
 			return fields
 		},
@@ -196,15 +188,13 @@ export default {
 					name: article.name,
 					cost: this.articleCost(article),
 					price: this.articlePriceListado(article),
-					stock: this.stock(article),
+					stock: article.stock,
+					stock_min: article.stock_min,
 					brand: this.brand(article),
 					sub_category: this.subCategory(article),
 				})
 			})
 			return items
-		},
-		articles() {
-			return this.$store.state.articles.articles_to_show
 		},
 		special_prices() {
 			return this.$store.state.special_prices.special_prices

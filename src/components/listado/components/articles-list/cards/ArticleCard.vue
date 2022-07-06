@@ -1,6 +1,6 @@
 <template>
 	<div 
-	class="article-card shadow-5 b-r-1"
+	class="article-card shadow-2 b-r-1"
 	@click="editArticle(article)">
 		<div class="img-container"
 		v-if="article.images && article.images.length">
@@ -9,27 +9,24 @@
 			:src="articleImageUrl(article)">
 		</div>
 		<div class="data-container">
-			<div>
-				<p>
-					<span>Nombre: </span>
-					{{ article.name }}
-				</p>
-				<p>
-					<span>Precio: </span>
-					<strong>
-						{{ price(article.price) }}
-					</strong>
-				</p>
-				<p>
-					<span>Costo: </span>
-					{{ price(article.cost) }}
-				</p>
-				<p>
-					<span
-					class="stock">Stock: </span>
-					{{ article.stock }}
-				</p>
-			</div>
+			<p>
+				{{ article.name }}
+			</p>
+			<p>
+				<span>Precio: </span>
+				<strong>
+					{{ price(article.price) }}
+				</strong>
+			</p>
+			<p>
+				<span>Costo: </span>
+				{{ price(article.cost) }}
+			</p>
+			<p>
+				<span
+				class="stock">Stock: </span>
+				{{ article.stock }}
+			</p>
 			<b-button 
 			v-if="has_online"
 			@click.stop="setFeatured(article)"
@@ -64,11 +61,13 @@ export default {
 		img
 			width: 100%
 	.data-container
+		width: 50%
 		display: flex
 		flex-direction: column
 		justify-content: space-around
 		align-items: flex-start
-		p 
+		p 	
+			width: 100%
 			display: flex
 			margin-bottom: 0
 			justify-content: space-between

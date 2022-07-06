@@ -20,57 +20,7 @@
             id="nav-collapse" is-nav>
                 <b-navbar-nav
                 v-if="show_nav_content">
-                    <b-nav-item :to="{name: 'Vender'}"
-                    v-if="can('sales.store')"
-                    :class="activeLink('Vender')">
-                        Vender
-                    </b-nav-item>
-                    <b-nav-item 
-                    v-if="hasExtencion('budgets') || hasExtencion('order_productions')"
-                    @click="toProduccion"
-                    :class="activeLink('Produccion')">
-                        Produccion
-                    </b-nav-item>
-                    <b-nav-item :to="{name: 'Ingresar'}"
-                    v-if="can('articles.store')"
-                    :class="activeLink('Ingresar')">
-                        Ingresar
-                    </b-nav-item>
-                    <b-nav-item 
-                    @click="toListado"
-                    v-if="can('articles.index')"
-                    :class="activeLink('Listado')">
-                        Listado
-                    </b-nav-item>
-                    <b-nav-item 
-                    :to="{name: 'Proveedores', params: {view: 'lista'}}"
-                    v-if="hasExtencion('providers')"
-                    :class="activeLink('Proveedores')">
-                        Proveedores
-                    </b-nav-item>
-                    <b-nav-item
-                    @click="toVentas"
-                    v-if="can('sales.index')"
-                    :class="activeLink('Ventas')">
-                        Ventas
-                    </b-nav-item>
-                    <b-nav-item 
-                    :to="{name: 'Empleados'}"
-                    v-if="can('employees')"
-                    :class="activeLink('Empleados')">
-                        Empleados
-                    </b-nav-item>
-                    <b-nav-item 
-                    @click="toOnline"
-                    v-if="has_online"
-                    :class="activeLink('Online')">
-                        Online
-                        <b-badge
-                        variant="danger"
-                        v-show="unconfirmed_orders_questions_calls_length > 0">
-                            {{ unconfirmed_orders_questions_calls_length }}
-                        </b-badge>
-                    </b-nav-item>
+                    <nav-items></nav-items>
                 </b-navbar-nav>
                 <b-nav-item-dropdown right>
                     <template v-slot:button-content>
@@ -112,6 +62,7 @@
 </div>
 </template>
 <script>
+import NavItems from '@/components/nav/NavItems'
 import OrderInfo from '@/components/nav/components/OrderInfo'
 import MobileSideBar from '@/components/nav/MobileSideBar'
 import NavHome from '@/components/home/components/Nav'
@@ -122,6 +73,7 @@ export default {
     name: 'NavComponent',
     mixins: [mixin],
     components: {
+        NavItems,
         OrderInfo,
         MobileSideBar,
         NavHome,

@@ -6,32 +6,34 @@
 			class="shadow-1 b-r-1"
 			responsive
 			head-variant="dark" 
-			v-if="providers.length"
+			v-if="items.length"
 			striped
 			:fields="fields"
 			:items="items">
 				<template #cell(options)="data">
-					<b-button
-					v-if="hasExtencion('providers') && can('providers.orders.create')"
-					@click="providerOrder(providers[data.index])"
-					size="sm"
-					class="m-r-10"
+					<b-dropdown 
 					variant="primary">
-						Hacer pedido
-					</b-button>
-					<b-button
-					@click="editProvider(providers[data.index])"
-					size="sm"
-					class="m-r-10"
-					variant="primary">
-						<i class="icon-edit"></i>
-					</b-button>
-					<b-button
-					@click="deleteProvider(providers[data.index])"
-					size="sm"
-					variant="danger"> 
-						<i class="icon-trash"></i>
-					</b-button>
+						<template 
+						#button-content>
+							<i class="icon-dots"></i>
+						</template>
+						<b-dropdown-item 
+						v-if="hasExtencion('providers') && can('providers.orders.create')"
+						@click="providerOrder(providers[data.index])">
+							<i class="icon-plus"></i>
+							Hacer pedido
+						</b-dropdown-item>
+						<b-dropdown-item 
+						@click="editProvider(providers[data.index])">
+							<i class="icon-edit"></i>
+							Editar
+						</b-dropdown-item>
+						<b-dropdown-item 
+						@click="deleteProvider(providers[data.index])">
+							<i class="icon-trash"></i>
+							Eliminar
+						</b-dropdown-item>
+					</b-dropdown>
 				</template>
 			</b-table>
 			<p 
@@ -58,7 +60,9 @@ export default {
 		fields() {
 			return [
 				{ key: 'name', label: 'Nombre' },
+				{ key: 'phone', label: 'Telefono' },
 				{ key: 'address', label: 'Direccion' },
+				{ key: 'razon_social', label: 'Razon social' },
 				{ key: 'options', label: 'Opciones' },
 			]
 		},
@@ -67,7 +71,9 @@ export default {
 			this.to_show.forEach(item => {
 				items.push({
 					name: item.name,
+					phone: item.phone,
 					address: item.address,
+					razon_social: item.razon_social,
 				})
 			})
 			return items
@@ -79,8 +85,8 @@ export default {
 			this.$bvModal.show('delete-provider')
 		},
 		editProvider(provider) {
-			this.$store.commit('providers/setEdit', provider)
-			this.$bvModal.show('edit-provider')
+			this.$store.commit('providers/setModel', provider)
+			this.$bvModal.show('provider')
 		},
 		providerOrder(provider) {
 			this.$store.commit('providers/orders/create/setOrder', null)

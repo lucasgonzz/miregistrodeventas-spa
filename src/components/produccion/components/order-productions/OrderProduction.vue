@@ -9,7 +9,7 @@
 		<div
 		class="title">
 			<p>
-				{{ order_production.budget.client.name }} {{ order_production.budget.client.surname }}
+				{{ order_production.budget.client.name }}
 			</p>
 		</div>
 		<div class="data">

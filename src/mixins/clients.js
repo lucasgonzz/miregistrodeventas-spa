@@ -1,27 +1,12 @@
 export default {
-	computed: {
-        seller_options() {
-            let options = []
-            options.push({
-                value: 0,
-                text: 'Cliente mio'
-            })
-            this.sellers.forEach(seller => {
-                options.push({
-                    value: seller.id,
-                    text: seller.name
-                })
-            })
-            return options
-        },
-        sellers() {
-            return this.$store.state.sellers.sellers
-        },
-	},
     methods: {
+        createClient() {
+            this.$store.commit('clients/setModel', null)
+            this.$bvModal.show('client')
+        },
         editClient(client) {
-            this.$store.commit('clients/setEdit', client)
-            this.$bvModal.show('edit-client')
+            this.$store.commit('clients/setModel', client)
+            this.$bvModal.show('client')
         },
         updateClient(client) {
             this.$api.get('clients/'+client.id)

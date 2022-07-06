@@ -15,14 +15,6 @@
 					@click="editClient(clients_to_show[data.index])">
 						<i class="icon-edit"></i>
 					</b-button>
-					<!-- <b-button
-					v-if="clients_to_show[data.index].current_acounts_count == 0"
-					class="m-l-10"
-					size="sm"
-					variant="primary"
-					@click="saldoInicial(clients_to_show[data.index])">
-						Saldo inicial
-					</b-button> -->
 					<b-button
 					class="m-l-10"
 					size="sm"
@@ -80,7 +72,6 @@ export default {
 		fields() {
 			return [
 				{ key: 'name', label: 'Nombre', class: 'text-center'},
-				{ key: 'surname', label: 'Apellido', class: 'text-center'},
 				// { key: 'address', label: 'Direccion', class: 'text-center'},
 				// { key: 'cuit', label: 'CUIT', class: 'text-center'},
 				// { key: 'iva', label: 'Iva', class: 'text-center'},
@@ -93,7 +84,6 @@ export default {
 			this.clients_to_show.forEach(client => {
 				items.push({
 					name: client.name,
-					surname: client.surname,
 					address: client.address,
 					cuit: client.cuit,
 					iva: client.iva ? client.iva.name : '-',
@@ -135,7 +125,7 @@ export default {
 	},
 	methods: {
 		addClientsToShow() {
-			this.$store.commit('sales/clients/incrementIndexClientsToShow')
+			this.$store.commit('clients/incrementIndexToShow')
 		},
 		saldoInicial(client) {
 			this.$store.commit('clients/setSaldoInicial', client)

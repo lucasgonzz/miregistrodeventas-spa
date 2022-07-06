@@ -2,8 +2,7 @@
 <div
 v-if="view == 'pedidos'">
 	<b-row> 
-		<b-col
-		md="8">
+		<b-col>
 			<nav-component></nav-component>
 			<list></list>
 		</b-col>

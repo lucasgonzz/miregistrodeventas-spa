@@ -205,6 +205,8 @@ export default {
                         this.loading_message = 'pedidos de proveedores'
                         await this.$store.dispatch('providers/orders/getModels')
                     }
+                    this.loading_message = 'localidades'
+                    await this.$store.dispatch('locations/getModels')
                 // }
                 // if (this.can('categories')) {
                     this.loading_message = 'categorias'
@@ -276,7 +278,7 @@ export default {
                     this.loading_message = 'descuentos'
                     await this.$store.dispatch('discounts/getDiscounts')
                     this.loading_message = 'vendedores'
-                    await this.$store.dispatch('sellers/getSellers')
+                    await this.$store.dispatch('sellers/getModels')
                     this.loading_message = 'comisiones'
                     await this.$store.dispatch('commissioners/getCommissioners')
                     this.loading_message = 'tipos de venta'

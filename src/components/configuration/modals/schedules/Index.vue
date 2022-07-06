@@ -48,6 +48,7 @@ hide-footer>
 					Editar
 				</b-button>
 				<b-button
+				@click="deleteModel(schedules[data.index])"
 				size="sm"
 				variant="danger">
 					<i class="icon-trash"></i>
@@ -108,6 +109,10 @@ export default {
 		updateSchedule(schedule) {
 			this.$store.commit('schedules/setEdit', schedule)
 			this.$bvModal.show('edit-schedule')
+		},
+		deleteModel(schedule) {
+			this.$store.commit('schedules/setDelete', schedule)
+			this.$bvModal.show('delete-schedule')
 		},
 		isInWorkday(schedule) {
 			let index = this.selected_workday.schedules.findIndex(sche => {

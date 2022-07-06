@@ -1,5 +1,6 @@
 <template>
 	<b-card
+	class="shoadow-2"
 	no-body>
 		<b-skeleton-img height="250px"></b-skeleton-img>
 		<div class="card-body">

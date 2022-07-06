@@ -3,6 +3,7 @@ axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
 import previus_days from '@/store/sales/previus_days'
 import afip from '@/store/sales/afip'
+import sales_mixin from '@/mixins/sales'
 export default {
 	namespaced: true,
 	state: {
@@ -16,7 +17,11 @@ export default {
 		selected_address: {street: 'todas'},
 
 		only_date: '',
+
 		total: 0,
+		total_with_discounts: false,
+		total_with_commissions: false,
+
 		loading: false,
 	},
 	mutations: {
@@ -36,45 +41,24 @@ export default {
 		add(state, value) {
 			state.models.unshift(value)
 		},
+		setTotalWithDiscounts(state, value) {
+			state.total_with_discounts = value
+		},
+		setTotalWithCommissions(state, value) {
+			state.total_with_commissions = value
+		},
 		setTotal(state) {
-			state.total = 0
-			state.total_cost = 0
-			state.total_articles = 0
 			state.without_cost = false
-			let total_sale = 0
+			state.total_articles = 0
+			state.total_cost = 0
+			state.total = 0
+			let res
 			state.to_show.forEach(sale => {
-				sale.articles.forEach(article => {
-					if (!article.pivot.cost || article.pivot.cost == 0) {
-						state.without_cost = true
-					}
-					state.total += article.pivot.price * article.pivot.amount
-					state.total_cost += parseFloat(article.pivot.cost) * article.pivot.amount
-					state.total_articles += article.pivot.amount
-				})
-
-				sale.combos.forEach(combo => {
-					if (!combo.pivot.cost || combo.pivot.cost == 0) {
-						state.without_cost = true
-					}
-					state.total += combo.pivot.price * combo.pivot.amount
-					state.total_articles += combo.pivot.amount
-				})
-				
-				if (sale.percentage_card) {
-					state.total = state.total + (state.total * sale.percentage_card / 100)
-				}
-
-				if (sale.discounts.length) {
-					sale.discounts.forEach(dis => {
-						state.total -= state.total * dis.pivot.percentage / 100
-					})
-				}
-
-				if (sale.commissions.length) {
-					sale.commissions.forEach(com => {
-						state.total -= com.monto
-					})
-				}
+				res = sales_mixin.methods.getTotalSale(sale, false, state.total_with_discounts, state.total_with_commissions)
+				state.without_cost = res.without_cost
+				state.total_articles += res.total_articles
+				state.total_cost += res.total_cost
+				state.total += res.total
 			})
 		},
 		setDate(state, value) {

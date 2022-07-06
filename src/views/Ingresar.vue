@@ -1,10 +1,10 @@
 <template>
 <div id="ingresar">
-	<delete-category></delete-category>
-	<article-variants></article-variants>
-	<delete-special-price></delete-special-price>
+	<!-- <delete-category></delete-category>
+	<article-variants></article-variants> -->
+	<!-- <delete-special-price></delete-special-price>
 	<create-special-price></create-special-price>
-	<special-prices></special-prices>
+	<special-prices></special-prices> -->
 	<create-brand></create-brand>
 	<edit-brand></edit-brand>
 	<brands></brands>
@@ -23,6 +23,9 @@
 	<edit-provider></edit-provider>
 	<edit-article
 	@clearArticle="clearArticle"></edit-article>
+
+	<locations></locations>	
+
 	<print-tickets :articles="articles_to_print"></print-tickets>
 	<b-row class="justify-content-center">
 		<b-col
@@ -102,6 +105,8 @@ import PrintTickets from '@/components/ingresar/modals/PrintTickets'
 import BarCodes from '@/components/ingresar/modals/BarCodes'
 import DeleteSpecialPrice from '@/components/ingresar/modals/DeleteSpecialPrice'
 
+import Locations from '@/components/ingresar/modals/locations/Index'
+
 // Components
 import BarCodeName from '@/components/ingresar/components/barcode-name/Index'
 // import BarCode from '@/components/ingresar/components/BarCode'
@@ -148,6 +153,7 @@ export default {
 		PrintTickets,
 		BarCodes,
 		DeleteSpecialPrice,
+		Locations,
 
 		// Uncontable,
 		BarCodeName,

@@ -54,6 +54,7 @@ export default {
 	methods: {
 		search() {
             this.$store.commit('sales/setDate', this.date_)
+            this.$store.commit('sales/previus_days/setSelectedDay', this.date_)
             this.$store.dispatch('sales/getFromDate')
             this.$bvModal.hide('from-date')
 		},

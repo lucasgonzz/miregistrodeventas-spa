@@ -3,17 +3,32 @@
 	v-if="can('articles.stock')"
 	md="6">
 		<b-form-group
-		label="Cantidad">
-			<b-form-input
-			type="number"
-			min="0"
-			@keydown.enter="changeToCategory"
-			placeholder="Ingresa la cantidad del producto"
-			v-model="article.stock"
-			autocomplete="off"></b-form-input>
+		label="Stock">
+			<b-input-group
+			class="m-b-10"
+			prepend="Actual">
+				<b-form-input
+				type="number"
+				min="0"
+				@keydown.enter="changeToStockMin"
+				placeholder="Ingresa el stock del producto"
+				v-model="article.stock"
+				autocomplete="off"></b-form-input>
+			</b-input-group>
+			<b-input-group
+			prepend="Minimo">
+				<b-form-input
+				type="number"
+				id="article-stock-min"
+				min="0"
+				@keydown.enter="changeToCategory"
+				placeholder="Ingresa el stock minimo del producto"
+				v-model="article.stock_min"
+				autocomplete="off"></b-form-input>
+			</b-input-group>
 		</b-form-group>
 		<div
-		v-if="show_checkboxs && article.stock">
+		v-if="show_checkboxs && article.stock != null">
 			<b-form-group
 			label="Cantidad para agregar">
 				<b-form-input
@@ -37,6 +52,9 @@ export default {
 	name: 'Stock',
 	props: ['article', 'show_checkboxs'],
 	methods: {
+		changeToStockMin() {
+			document.getElementById('article-stock-min').focus()
+		},
 		changeToCategory() {
 			document.getElementById('article-category').focus()
 		},

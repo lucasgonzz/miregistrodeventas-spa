@@ -1,7 +1,6 @@
 <template>
 	<b-row>
-		<b-col
-		md="8">
+		<b-col>
 			<horizontal-nav
 			:items="items"
 			prop_name="name"

@@ -38,7 +38,13 @@ export default {
 			}
 		},
 		setObservations(state, value) {
-			state.observations = value
+			if (value.length) {
+				state.observations = value
+			} else {
+				state.observations = [
+					{text: ''}
+				]
+			}
 		},
 		setStartAt(state, value) {
 			state.start_at = value

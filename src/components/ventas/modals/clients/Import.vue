@@ -81,6 +81,7 @@ export default {
 				this.file = null
 				this.$bvModal.hide('import-clients')
 				this.$store.dispatch('clients/getModels')
+				this.$store.dispatch('locations/getModels')
 				console.log(res)
 			})
 			.catch(err => {

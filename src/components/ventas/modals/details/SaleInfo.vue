@@ -1,12 +1,13 @@
 <template>
 	<div class="p-15">
-		<p>
-			Remito N° {{ sale_details.num_sale }}
-		</p>
-		<p>
-			Total: {{ getTotalSale(sale_details) }}
+		<p
+		class="m-0">
+			<strong>
+				Total: {{ getTotalSale(sale_details).total }}
+			</strong>
 		</p>
 		<client-info
+		class="m-t-15"
 		v-if="sale_details.client"
 		:client="sale_details.client"></client-info>
 	</div>

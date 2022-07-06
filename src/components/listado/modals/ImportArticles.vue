@@ -92,6 +92,7 @@ export default {
 				this.file = null
 				this.$bvModal.hide('import-articles')
 				this.$store.dispatch('articles/getArticles')
+				this.$store.dispatch('providers/getModels')
 				console.log(res)
 			})
 			.catch(err => {

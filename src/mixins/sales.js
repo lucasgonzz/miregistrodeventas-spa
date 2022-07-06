@@ -5,6 +5,38 @@ export default {
         sale_details() {
             return this.$store.state.sales.details
         },
+        total_with_discounts: {
+        	get() {
+        		return this.$store.state.sales.total_with_discounts
+        	},
+        	set(value) {
+        		this.$store.commit('sales/setTotalWithDiscounts', value)
+        		this.$store.commit('sales/setTotal')
+        	},
+        },
+        total_with_commissions: {
+        	get() {
+        		return this.$store.state.sales.total_with_commissions
+        	},
+        	set(value) {
+        		this.$store.commit('sales/setTotalWithCommissions', value)
+        		this.$store.commit('sales/setTotal')
+        	},
+        },
+        total: {
+        	get() {
+        		return this.$store.state.sales.total
+        	},
+        	set(value) {
+        		this.$store.commit('sales/setTotal', value)
+        	}
+        },
+        total_cost() {
+        	return this.$store.state.sales.total_cost
+        },
+        without_cost() {
+        	return this.$store.state.sales.without_cost
+        },
 	},
 	methods: {
         amount(amount) {
@@ -46,10 +78,25 @@ export default {
 			}
 			return total
 		},
-		getTotalSale(sale, formated = true) {
+		getTotalSale(sale, formated = true, with_discounts = null, with_commissions = null) {
+			if (!with_discounts) {
+				with_discounts = this.total_with_discounts
+			}
+			if (!with_commissions) {
+				with_commissions = this.total_with_commissions
+			}
+			let without_cost = false
+			let total_cost = 0
 			let total = 0
+			let total_articles = 0
 			sale.articles.forEach(article => {
-				total += this.getSubTotalPriceArticle(article)				
+				if (article.pivot.cost) {
+					total_cost += article.pivot.cost * article.pivot.amount			
+				} else {
+					without_cost = true
+				}
+				total += article.pivot.price * article.pivot.amount			
+				total_articles += article.pivot.amount			
 			})
 			sale.combos.forEach(combo => {
 				total += combo.pivot.price * combo.pivot.amount		
@@ -61,21 +108,31 @@ export default {
 			if (sale.order) {
 				total = this.discountCupons(total, sale.order)
 			}
-			if (sale.discounts.length) {
+			if (with_discounts && sale.discounts.length) {
 				sale.discounts.forEach(dis => {
 					total -= total * this.percentageFormated(dis.pivot.percentage)
 				})
 			}
-			if (sale.commissions.length) {
+			if (with_commissions && sale.commissions.length) {
 				sale.commissions.forEach(com => {
 					total -= com.monto
 				})
 			}
-			// console.log(this.price(total))
+
 			if (formated) {
-				return this.price(total)
+				return {
+					without_cost: without_cost,
+					total_articles: total_articles,
+					cost: this.price(total_cost),
+					total: this.price(total),
+				}
 			} else {
-				return total
+				return {
+					without_cost: without_cost,
+					total_articles: total_articles,
+					cost: total_cost,
+					total: total,
+				}
 			}
 		},
 		getTotalCostSale(sale) {

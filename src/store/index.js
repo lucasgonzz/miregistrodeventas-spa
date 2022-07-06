@@ -41,6 +41,7 @@ import current_acount_payment_methods from './current_acount_payment_methods'
 import combos from './combos/index'
 import payment_methods from './payment_methods'
 import delivery_zones from './delivery_zones'
+import locations from './locations'
 
 Vue.use(Vuex)
 Vue.config.devtools = true
@@ -100,5 +101,6 @@ export default new Vuex.Store({
 		combos,
 		payment_methods,
 		delivery_zones,
+		locations,
 	}
 })

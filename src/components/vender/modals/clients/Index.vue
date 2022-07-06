@@ -1,6 +1,6 @@
 <template>
 <div>
-	<create-client></create-client>
+	<client-model></client-model>
 	<b-modal id="clients" :title="title" body-class="al-borde-md" hide-footer :hide-header="view == 1">
 		<clients
 		v-if="view == 0"></clients>
@@ -10,13 +10,13 @@
 </div>
 </template>
 <script>
-import CreateClient from '@/components/vender/modals/clients/Create.vue'
+import ClientModel from '@/components/ventas/modals/clients/Model'
 import Clients from '@/components/vender/modals/clients/Clients'
 import DiscountsSaleType from '@/components/vender/modals/clients/DiscountsSaleType'
 export default {
 	name: 'ClientsIndex',
 	components: {
-		CreateClient,
+		ClientModel,
 		Clients,
 		DiscountsSaleType,
 	},

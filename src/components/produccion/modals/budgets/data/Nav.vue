@@ -45,7 +45,7 @@ export default {
 			return items
 		},
 		show_btn_delete() {
-			return this.edit && this.edit.order_production
+			return this.edit
 		},
 		show_btn_print() {
 			return this.edit

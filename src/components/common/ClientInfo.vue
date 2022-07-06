@@ -11,7 +11,7 @@
 		<div class="info">
 			<p
 			class="name">
-				<strong>{{ client.name }} {{ client.surname }}</strong>
+				<strong>{{ client.name }}</strong>
 			</p> 
 			<p
 			v-if="client.email">
@@ -30,7 +30,7 @@
 				{{ client.address }}
 			</p>
 			<p
-			v-if="client.iva_condition_id">
+			v-if="client.iva_condition">
 				{{ client.iva_condition.name }}
 			</p>
 		</div>

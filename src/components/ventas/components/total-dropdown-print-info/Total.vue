@@ -5,8 +5,6 @@
 	md="6">
 		<b-button-group class="btn-group-totales">
 			<b-button
-			v-intro-step="3"
-			v-intro="'Total vendido en el día'"
 			variant="success">
 				<span v-show="loading">
 					<span class="spinner-border spinner-border-sm"></span>
@@ -28,24 +26,44 @@
 				</span>
 			</b-button>
 		</b-button-group>
+		<div
+		v-if="show"
+		class="p-l-15">
+			<b-form-checkbox
+			v-if="discounts.length"
+			:value="true"
+			:unchecked-value="false"
+			v-model="total_with_discounts">
+				Con descuentos
+			</b-form-checkbox>
+			<b-form-checkbox
+			v-if="commissioners.length"
+			:value="true"
+			:unchecked-value="false"
+			v-model="total_with_commissions">
+				Con comisiones
+			</b-form-checkbox>
+		</div>
 	</b-col>
 	
 </template>
 <script>
+import sales from '@/mixins/sales'
 export default {
+	mixins: [sales],
 	computed: {
 		loading() {
 			return this.$store.state.sales.loading
 		},
-		total_cost() {
-			return this.$store.state.sales.total_cost
+		discounts() {
+			return this.$store.state.discounts.discounts
 		},
-		total() {
-			return this.$store.state.sales.total
+		commissioners() {
+			return this.$store.state.commissioners.commissioners
 		},
-		without_cost() {
-			return this.$store.state.sales.without_cost
-		},
+		show() {
+			return this.discounts.length || this.commissioners.length
+		}
 	}
 }
 </script>

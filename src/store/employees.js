@@ -12,6 +12,7 @@ export default {
 		},
 		employee_to_show_permissions: {},
 		employees: [],
+		delete: null,
 	},
 	mutations: {
 		add(state, employee) {
@@ -42,6 +43,15 @@ export default {
 		setEmployeeToShowPermissions(state, value) {
 			state.employee_to_show_permissions = value
 		},
+		setDelete(state, value) {
+			state.delete = value
+		},
+		delete(state) {
+			let index = state.employees.findIndex(model => {
+				return model.id == state.delete.id
+			})
+			state.employees.splice(index, 1)
+		},
 	},
 	actions: {
 		getEmployees({ commit }) {
@@ -52,7 +62,16 @@ export default {
 			.catch(err => {
 				console.log(err)
 			})
-		}
+		},
+		delete({ commit, state }) {
+			return axios.delete('/api/delivery-zones/'+state.delete.id)
+			.then(() => {
+				commit('delete')
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+		},
 	},
 	modules: {
 	}

@@ -22,12 +22,18 @@
 	<prices-lists></prices-lists>
 	<create-prices-list></create-prices-list>
 	<combos></combos>
+
+	<stock-info></stock-info>
 	
 	<buscador></buscador>
-	<info-filtereds-selected></info-filtereds-selected>
+	<filtered-selected-stock-info></filtered-selected-stock-info>
 
-	<articles-table></articles-table>
-	<articles-mobile></articles-mobile>
+	<!-- <articles-table></articles-table>
+	<articles-mobile></articles-mobile> -->
+
+	<articles-list
+	:loading="loading"
+	:articles="articles_to_show"></articles-list>
 	
 	<add-articles></add-articles>
 </div>
@@ -53,13 +59,15 @@ import ArticlesPdf from '../components/listado/modals/ArticlesPdf.vue'
 import PricesLists from '../components/listado/modals/prices-lists/Index.vue'
 import CreatePricesList from '../components/listado/modals/prices-lists/Create.vue'
 import Combos from '../components/listado/modals/combos/Index.vue'
+import StockInfo from '@/components/listado/modals/stock-info/Index.vue'
 
 // Components
 import Buscador from '../components/listado/components/Buscador.vue'
-import ArticlesTable from '../components/listado/components/articles-list/ArticlesTable.vue'
-import ArticlesMobile from '../components/listado/components/articles-list/ArticlesMobile.vue'
+// import ArticlesTable from '../components/listado/components/articles-list/ArticlesTable.vue'
+// import ArticlesMobile from '../components/listado/components/articles-list/ArticlesMobile.vue'
+import ArticlesList from '@/components/listado/components/articles-list/Index'
 import AddArticles from '../components/listado/components/AddArticles.vue'
-import InfoFilteredsSelected from '../components/listado/components/InfoFilteredsSelected.vue'
+import FilteredSelectedStockInfo from '@/components/listado/components/filtered-selected-stock-info/Index' 
 			
 export default {
 	components: {
@@ -69,6 +77,7 @@ export default {
 		PricesLists,
 		CreatePricesList,
 		Combos,
+		StockInfo,
 		ImagesCopy,
 		ArticleImages,
 		ArticleImagesColors,
@@ -85,10 +94,31 @@ export default {
 
 		// Components
 		Buscador,
-		ArticlesTable,
-		ArticlesMobile,
+		// ArticlesTable,
+		// ArticlesMobile,
+		ArticlesList,
 		AddArticles,
-		InfoFilteredsSelected,
+		FilteredSelectedStockInfo,
+	},
+	computed: {
+		special_prices() {
+			return this.$store.state.special_prices.special_prices
+		},
+		from_filter() {
+			return this.$store.state.articles.from_filter
+		},
+		text_delete() {
+			if (this.from_filter) {
+				return '¿Seguro que quiere eliminar todos los articulos filtrados?'
+			}
+			return '¿Seguro que quiere eliminar los articulos seleccionados?'
+		},
+		articles_to_show() {
+			return this.$store.state.articles.articles_to_show
+		},
+		loading() {
+			return this.$store.state.articles.loading
+		},
 	},
 	beforeRouteLeave(to, from, next) {
 		this.$store.commit('articles/setSelectedArticles', [])
@@ -216,20 +246,6 @@ export default {
 			this.$bvModal.show('providers-history')
 		},
 	},
-	computed: {
-		special_prices() {
-			return this.$store.state.special_prices.special_prices
-		},
-		from_filter() {
-			return this.$store.state.articles.from_filter
-		},
-		text_delete() {
-			if (this.from_filter) {
-				return '¿Seguro que quiere eliminar todos los articulos filtrados?'
-			}
-			return '¿Seguro que quiere eliminar los articulos seleccionados?'
-		},
-	}
 }
 </script>
 <style scoped>

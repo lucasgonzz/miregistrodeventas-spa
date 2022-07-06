@@ -48,6 +48,21 @@ export default {
 		},
 	},
 	methods: {
+		getOptions(key, model_name, prop_name = 'name') {
+			let store = key.substring(0, key.length-3)
+			store += 's'
+			console.log('store: '+store)
+			let models = this.$store.state[store].models
+
+			let options = []
+			options.push({
+				value: 0, text: 'Seleccione '+model_name
+			})
+			models.forEach(item => {
+				options.push({value: item.id, text: item[prop_name]})
+			})
+			return options
+		},
 		routeString(value) {
 			return value.toLowerCase().replaceAll(' ', '-')
 		},

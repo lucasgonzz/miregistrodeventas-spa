@@ -1,5 +1,9 @@
 <template>
-<b-modal id="edit-article" :title="`Editar ${this.article.name}`" hide-footer size="lg">
+<b-modal 
+id="edit-article" 
+:title="title" 
+hide-footer 
+size="lg">
 	<div>
 		<b-form-row>
 			<b-col
@@ -160,6 +164,13 @@ export default {
 	computed: {
 		article() {
 			return this.$store.state.articles.article_to_edit
+		},
+		title() {
+			let title = 'Editar '+this.article.name 
+			if (this.article.num) {
+				title += ' | N° '+this.article.num 
+			}
+			return title
 		},
 	},
 	methods: {

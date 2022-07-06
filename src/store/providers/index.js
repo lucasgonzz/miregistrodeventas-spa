@@ -8,6 +8,7 @@ export default {
 	namespaced: true,
 	state: {
 		models: [],
+		model: {},
 		to_show: [],
 		delete: {},
 		edit: {},
@@ -19,6 +20,24 @@ export default {
 		},
 		setModels(state, value) {
 			state.models = value
+		},
+		setModel(state, value = null) {
+			if (value) {
+				state.model = value 
+			} else {
+				state.model = {
+					id: null,
+					name: '',
+					phone: '',
+					address: '',
+					email: '',
+					razon_social: '',
+					cuit: '',
+					iva_condition_id: 0,
+					location_id: 0,
+					observations: '',
+				}
+			}
 		},
 		setToShow(state, value = null) {
 			if (value) {

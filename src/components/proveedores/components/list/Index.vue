@@ -6,12 +6,10 @@ v-if="view == 'lista'">
 	:actions="['providers/delete']"
 	id="delete-provider"
 	toast="Proveedor eliminado"></confirm>
-	<create></create>	
-	<edit></edit>	
+	<model></model>	
+	<import></import>	
 	<b-row>
-		</b-col>
-		<b-col
-		md="8">
+		<b-col>
 			<nav-component></nav-component>
 			<list></list>
 		</b-col>
@@ -20,16 +18,16 @@ v-if="view == 'lista'">
 </template>
 <script>
 import Confirm from '@/components/common/Confirm.vue'
-import Create from '@/components/proveedores/modals/list/Create'
-import Edit from '@/components/proveedores/modals/list/Edit'
+import Model from '@/components/proveedores/modals/list/Model'
+import Import from '@/components/proveedores/modals/list/Import'
 
 import NavComponent from '@/components/proveedores/components/list/Nav'
 import List from '@/components/proveedores/components/list/List'
 export default {
 	components: {
 		Confirm,
-		Create,
-		Edit,
+		Model,
+		Import,
 
 		NavComponent,
 		List,

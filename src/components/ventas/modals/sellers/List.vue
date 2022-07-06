@@ -35,7 +35,7 @@ export default {
 			return items
 		},
 		sellers() {
-			return this.$store.state.sellers.sellers
+			return this.$store.state.sellers.models
 		}
 	}
 }

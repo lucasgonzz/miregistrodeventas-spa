@@ -26,7 +26,7 @@ export default {
 	name: 'SellersNav',
 	computed: {
 		sellers() {
-			return this.$store.state.sellers.sellers
+			return this.$store.state.sellers.models
 		},
 		selected_seller() {
 			return this.$store.state.clients.selected_seller

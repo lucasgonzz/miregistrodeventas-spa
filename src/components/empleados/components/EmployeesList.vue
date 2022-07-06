@@ -76,17 +76,8 @@ export default {
 			this.$bvModal.show('employee-permissions')
 		},
 		deleteEmployee(employee) {
-			this.deleting = true
-			this.$api.delete('/employees/'+employee.id)
-			.then(res => {
-				this.deleting = false
-				this.$store.commit('employees/delete', employee)
-				this.$toast.success('Empleado eliminado')
-			})
-			.catch(err => {
-				this.deleting = false
-				console.log(err)
-			})
+			this.$store.commit('employees/setDelete', employee)
+			this.$bvModal.show('delete-employee')
 		},
 	},
 }

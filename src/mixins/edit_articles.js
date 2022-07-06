@@ -19,6 +19,7 @@ export default {
 			console.log(article)
 			let new_article = {}
 			new_article.id = article.id
+			new_article.num = article.num
 			new_article.bar_code = article.bar_code
 			
 			new_article.name = article.name
@@ -28,7 +29,8 @@ export default {
 			new_article.original_price = article.original_price
 			new_article.previus_price = article.previus_price
 			new_article.condition_id = article.condition_id 
-			new_article.stock = this.stock(article, false)
+			new_article.stock = article.stock
+			new_article.stock_min = article.stock_min
 			new_article.with_dolar = article.with_dolar
 			new_article.iva_id = article.iva_id
 			new_article.images = article.images  

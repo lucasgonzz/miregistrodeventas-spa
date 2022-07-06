@@ -1,6 +1,11 @@
 <template>
 	<div id="empleados">
 		<employee-permissions></employee-permissions>
+	    <confirm
+	    :text="text_delete"
+	    :actions="['employees/delete']"
+	    id="delete-employee"
+	    toast="Empleado eliminado"></confirm>
 		<b-row>
 			<b-col
 			cols="12"
@@ -18,6 +23,7 @@
 <script>
 // Modals
 import EmployeePermissions from '../components/empleados/modals/EmployeePermissions.vue'
+import Confirm from '@/components/common/Confirm'
 
 // Components
 import RegisterEmployee from '../components/empleados/components/RegisterEmployee.vue'
@@ -29,6 +35,7 @@ export default {
 	components: {
 		// Modals
 		EmployeePermissions,
+		Confirm,
 
 		// Components
 		RegisterEmployee,
@@ -39,6 +46,15 @@ export default {
 		}
 	}, 
 	computed: {
+		delete() {
+			return this.$store.state.employees.delete
+		},
+		text_delete() {
+			if (this.delete) {
+				return '¿Seguro que quiere eliminar el empleado '+this.delete.name+'?'
+			}
+			return ''
+		},
 	},
 	methods: {
 	},

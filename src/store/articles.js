@@ -165,14 +165,25 @@ export default {
 			})
 		},
 		removeStock(state, articles) {
-			let article = {}
-			articles.forEach(art => {
+			let state_article 
+			let index 
+			let stock_resultante
+			articles.forEach(article => {
 				if (article.is_article) {
-					article = state.articles.find(ar => {
-						return ar.id == art.id
+					state_article = state.articles.find(item => {
+						return item.id == article.id
 					})
-					if (article.stock) {
-						article.stock -= art.amount
+					index = state.articles.findIndex(item => {
+						return item.id == article.id
+					})
+					if (state_article != 'undefined' && state_article.stock) {
+						stock_resultante = state_article.stock - article.amount
+						if (stock_resultante > 0) {
+							state_article.stock = stock_resultante
+						} else {
+							state_article.stock = 0
+						}
+						state.articles.splice(index, 1, state_article)
 					}
 				}
 			})

@@ -7,6 +7,11 @@
 		</template>
 		<b-dropdown-item
 		v-if="can('providers')"
+		v-b-modal="'locations'">
+			Localidades
+		</b-dropdown-item>
+		<b-dropdown-item
+		v-if="can('providers')"
 		v-b-modal="'providers'">
 			Proveedores
 		</b-dropdown-item>

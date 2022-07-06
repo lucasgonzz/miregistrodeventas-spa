@@ -4,21 +4,21 @@ axios.defaults.baseURL = process.env.VUE_APP_API_URL
 export default {
 	namespaced: true,
 	state: {
-		sellers: [],
+		models: [],
 	},
 	mutations: {
-		setSellers(state, value) {
-			state.sellers = value
+		setModels(state, value) {
+			state.models = value
 		},
 		add(state, value) {
-			state.sellers.push(value)
+			state.models.push(value)
 		},
 	},
 	actions: {
-		getSellers({ commit }) {
+		getModels({ commit }) {
 			return axios.get('/api/sellers')
 			.then(res => {
-				commit('setSellers', res.data.sellers)
+				commit('setModels', res.data.sellers)
 			})
 			.catch(err => {
 				console.log(err)

@@ -1,5 +1,6 @@
 <template>
 	<b-dropdown
+	class="selected-drop-down"
 	right
 	variant="primary"
 	v-show="show"
@@ -102,3 +103,9 @@ export default {
 	}
 }
 </script>
+<style lang="sass">
+.selected-drop-down
+	@media screen and (max-width: 768px)
+		width: 100%
+		margin: 0 !important
+</style>

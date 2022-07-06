@@ -1,5 +1,11 @@
 <template>
-<b-modal id="edit-provider" title="Editar Condicion" hide-footer>
+<b-modal 
+id="edit-provider" 
+title="Editar Proveedor" hide-footer>
+	<p
+	v-if="provider.num">
+		Proveedor N° {{ provider.num }}
+	</p>
 	<b-form-group
 	label="Nombre">
 		<b-form-input

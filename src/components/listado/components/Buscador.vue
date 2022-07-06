@@ -58,14 +58,10 @@
 </b-row>
 </template>
 <script>
-import Pagination from './Pagination.vue'
-// Components
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
 export default {
 	components: {
-		Pagination,
-		// Components
 		Autocomplete,
 	},
 	data() {
@@ -155,13 +151,6 @@ export default {
 				console.log(err)
 			})
 		},
-
-		// Pagination
-		changePage(page){
-			this.pagination.current_page = page;
-			this.$emit('getArticles', page)
-			// this.getArticles(page);
-		},
 	},
 }
 </script>
@@ -176,32 +165,4 @@ export default {
 	justify-content: flex-end
 	@media screen and (max-width: 768px)
 		margin-top: 1em
-	// @media screen and (min-width: 768px) and (max-width: 992px)
-	// 	justify-content: flex-end
-	// @media screen and (min-width: 992px)
-	// 	justify-content: flex-end
-	// @media screen and (min-width: 1200px)
-	// 	justify-content: center
-
-// .botones-opciones.j-start
-// 	@media screen and (max-width: 576px)
-// 		display: flex
-// 		justify-content: center
-// 	@media screen and (min-width: 576px) and (max-width: 768px)
-// 		display: flex
-// 		justify-content: flex-start
-
-// .opciones-articulos-seleccionados
-// 	@media screen and (min-width: 768px)
-// 		display: flex
-// 		justify-content: flex-end
-// 		align-items: center
-// .col-pagination
-// 	display: flex
-// 	align-items: center
-// 	flex-direction: row
-// 	@media screen and (min-width: 768px)
-// 		justify-content: flex-start 
-// 	@media screen and (min-width: 1200px)
-// 		justify-content: flex-end
 </style>

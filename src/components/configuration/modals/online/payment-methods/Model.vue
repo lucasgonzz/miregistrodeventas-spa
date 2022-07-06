@@ -12,10 +12,10 @@ hide-footer>
 	</b-form-group>
 	<b-form-group
 	label="Descripcion">
-		<b-form-input
+		<b-form-textarea
 		@keyup.enter="save"
 		v-model="model.description"
-		placeholder="Descripcion"></b-form-input>
+		placeholder="Descripcion"></b-form-textarea>
 	</b-form-group>
 	<b-form-group>
 		<b-button

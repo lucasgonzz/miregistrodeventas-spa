@@ -5,8 +5,7 @@
     :actions="['clients/delete']"
     id="delete-client"
     toast="Cliente eliminado"></confirm>
-	<create></create>	
-	<edit></edit>	
+	<model></model>	
 	<import></import>	
 	<b-modal id="clients" title="Clientes" hide-footer size="lg">
 		<buscador></buscador>
@@ -17,8 +16,7 @@
 </template>
 <script>
 import Confirm from '@/components/common/Confirm.vue'
-import Create from '@/components/vender/modals/clients/Create.vue'
-import Edit from '@/components/ventas/modals/clients/Edit.vue'
+import Model from '@/components/ventas/modals/clients/Model.vue'
 import Import from '@/components/ventas/modals/clients/Import.vue'
 import Buscador from '@/components/ventas/modals/clients/Buscador'
 import ClientsNav from '@/components/ventas/modals/clients/Nav'
@@ -27,8 +25,7 @@ export default {
 	name: 'Clients',
 	components: {
 		Confirm,
-		Create,	
-		Edit,
+		Model,
 		Import,
 		Buscador,
 		ClientsNav,

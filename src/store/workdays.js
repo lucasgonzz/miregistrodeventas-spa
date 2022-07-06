@@ -6,6 +6,7 @@ export default {
 	state: {
 		workdays: [],
 		selected: {},
+		delete: null,
 	},
 	mutations: {
 		setWorkdays(state, value) {
@@ -30,6 +31,6 @@ export default {
 			.catch(err => {
 				console.log(err)
 			})
-		}
+		},
 	}
 }

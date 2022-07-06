@@ -2,11 +2,11 @@
 <b-modal 
 v-if="sale_details"
 id="sale-details" 
-title="Detalles de la venta" 
+:title="'Remito N° '+sale_details.num_sale" 
 size="lg" 
 hide-footer 
 body-class="p-0">
-    <!-- <sale-info></sale-info> -->
+    <sale-info></sale-info>
     <b-table
     responsive
     head-variant="dark"

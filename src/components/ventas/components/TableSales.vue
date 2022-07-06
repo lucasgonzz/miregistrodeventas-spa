@@ -99,8 +99,8 @@ export default {
 					hour: this.hour(sale.created_at),
 					cantidad_productos: this.getCantidadProducts(sale),
 					cantidad_unidades: this.getCantidadUnidades(sale),
-					cost: this.getTotalCostSale(sale),
-					total: this.getTotalSale(sale, false),
+					cost: this.getTotalSale(sale).cost,
+					total: this.getTotalSale(sale).total,
 					_rowVariant: this.getRowVariant(sale),
 				})
 			})
@@ -184,7 +184,7 @@ export default {
 		},
 		getClient(sale) {
 			if (sale.client) {
-				return sale.client.name+' '+sale.client.surname
+				return sale.client.name
 			}
 			if (sale.buyer) {
 				return sale.buyer.name

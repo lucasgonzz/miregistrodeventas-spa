@@ -10,7 +10,7 @@
 		<div
 		class="title">
 			<p>
-				{{ budget.client.name }} {{ budget.client.surname }}
+				{{ budget.client.name }}
 			</p>
 		</div>
 		<div class="data">
@@ -64,6 +64,7 @@ export default {
 		budgetDetails() {
 			if (this.budget.status == 'unconfirmed') {
 				this.$store.commit('produccion/budgets/create/setCanEdit', true)
+				this.$store.commit('produccion/budgets/create/setShowBtnMakeOrderProduction', false)
 			} else {
 				this.$store.commit('produccion/budgets/create/setCanEdit', false)
 				if (!this.budget.order_production) {

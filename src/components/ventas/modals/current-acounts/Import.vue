@@ -4,7 +4,7 @@ title="Importar saldos"
 id="import-current-acounts"
 hide-footer>
 	<p>
-		Seleccione el archivo con los datos de las cuentas corrientes de {{ client.name }} {{ client.surname }}
+		Seleccione el archivo con los datos de las cuentas corrientes de {{ client.name }}
 	</p>
 	<b-form-file
 	class="m-b-15"
