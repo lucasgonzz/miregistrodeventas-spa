@@ -21,6 +21,7 @@ export default {
 			new_article.id = article.id
 			new_article.num = article.num
 			new_article.bar_code = article.bar_code
+			new_article.provider_code = article.provider_code
 			
 			new_article.name = article.name
 			new_article.cost = article.cost

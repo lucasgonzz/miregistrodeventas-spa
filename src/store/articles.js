@@ -208,6 +208,7 @@ export default {
 				console.log(res.data.articles)
 				commit('setArticlesToShow')
 				commit('setBarCodes')
+				commit('setSelectedArticles', [])
 			})
 			.catch(err => {
 				commit('setLoading', false)

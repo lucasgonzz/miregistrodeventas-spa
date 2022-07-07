@@ -3,14 +3,29 @@
 	md="6"
 	cols="12">
 		<b-form-group
-		label="Codigo de barras">
-			<b-form-input
-			id="article-bar-code"
-			type="text"
-			autocomplete="off"
-			@keydown.enter="isRegister"
-			v-model="article.bar_code"
-			placeholder="Ingresa el codigo de barras del producto"></b-form-input>
+		label="Codigos">
+			<b-input-group
+			class="m-b-10"
+			prepend="Codigo de barras">
+				<b-form-input
+				id="article-bar-code"
+				type="text"
+				autocomplete="off"
+				@keydown.enter="isRegister"
+				v-model="article.bar_code"
+				placeholder="Ingresa el codigo de barras del producto"></b-form-input>
+			</b-input-group>
+			<b-input-group
+			v-if="hasExtencion('providers')"
+			prepend="Codigo de proveedor">
+				<b-form-input
+				id="article-provider-code"
+				type="text"
+				autocomplete="off"
+				@keydown.enter="toName"
+				v-model="article.provider_code"
+				placeholder="Ingresa el codigo del proveedor"></b-form-input>
+			</b-input-group>
 		</b-form-group>
 	</b-col>
 </template>
@@ -39,9 +54,16 @@ export default {
 				this.$store.commit('articles/setEdit', this.setArticle(article))
 				this.$bvModal.show('edit-article')
 			} else {
-				document.getElementById('article-name').focus()
+				if (this.hasExtencion('providers')) {
+					document.getElementById('article-provider-code').focus()
+				} else {
+					document.getElementById('article-name').focus()
+				}
 			}
 		},
+		toName() {
+			document.getElementById('article-name').focus()
+		}
 	},
 }
 </script>

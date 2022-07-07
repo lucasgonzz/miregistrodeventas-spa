@@ -21,5 +21,9 @@ export default {
 			})
 			article.providers.sort((a, b) => b.pivot.created_at_ - a.pivot.created_at_)
 		},
+		createProvider() {
+			this.$store.commit('providers/setModel')
+			this.$bvModal.show('provider')
+		}
 	}
 }

@@ -15,7 +15,7 @@
 			variant="primary" 
 			text="Nuevo Proveedor">
 				<b-dropdown-item 
-				@click="create">
+				@click="createProvider">
 					<i class="icon-plus"></i>
 					Crear Proveedor
 				</b-dropdown-item>
@@ -37,7 +37,10 @@
 </template>
 <script>
 import SelectComponent from '@/components/common/select/Index'
+
+import providers from '@/mixins/providers'
 export default {
+	mixins: [providers],
 	components: {
 		SelectComponent,
 	},
@@ -83,10 +86,6 @@ export default {
 			}
 			return false
 		},
-		create() {
-			this.$store.commit('providers/setModel')
-			this.$bvModal.show('provider')
-		}
 	}
 }
 </script>

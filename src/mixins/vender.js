@@ -1,6 +1,7 @@
 import clients from '@/mixins/clients'
+import sale_ticket from '@/mixins/sale_ticket'
 export default {
-	mixins: [clients],
+	mixins: [clients, sale_ticket],
 	computed: {
 		items() {
 			return this.$store.state.vender.items
@@ -80,14 +81,6 @@ export default {
 					}
 				})
 			}
-		},
-		printTicket(sale) {
-			console.log(sale)
-			let link = process.env.VUE_APP_API_URL+'/sales/tickets/pdf/'+sale.id
-			if (this.selected_address) {
-				link += '/'+this.selected_address.id
-			} 
-			window.open(link)
 		},
 		setArticleForSale(article) {
 			// this.articles.slice(0,33).forEach(art => {

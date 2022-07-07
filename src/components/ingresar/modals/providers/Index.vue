@@ -14,7 +14,7 @@
 			<b-button
 			block
 			variant="primary"
-			v-b-modal="'create-provider'">
+			@click="createProvider">
 				<i class="icon-plus"></i>
 				Nuevo proveedor
 			</b-button>
@@ -26,6 +26,8 @@
 <script>
 import Confirm from '@/components/common/Confirm.vue'
 import List from '@/components/proveedores/components/list/List'
+
+import providers from '@/mixins/providers'
 export default {
 	components: {
 		Confirm,

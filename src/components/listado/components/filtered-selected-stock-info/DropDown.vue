@@ -18,6 +18,11 @@
 			Deseleccionar todo
 		</b-dropdown-item>
 		<b-dropdown-item
+		@click="ticketsPdf">
+			<i class="icon-print"></i>
+			Tickets
+		</b-dropdown-item>
+		<b-dropdown-item
 		@click="byPercentage">
 			<i class="icon-plus"></i>
 			Aumentar %
@@ -79,6 +84,14 @@ export default {
 		},
 		deselectAll() {
 			this.$store.commit('articles/setAllArticlesSelected', false)
+		},
+		ticketsPdf() {
+			let ids = []
+			this.selected_articles.forEach(item => {
+				ids.push(item.id)
+			})
+			let link = process.env.VUE_APP_API_URL+'/api/articles/pdf/'+ids.join('-')
+			window.open(link)
 		},
 		byPercentage() {
 			this.$store.commit('articles/setFromFilter', this.from_filter)

@@ -47,7 +47,7 @@ export default {
 	methods: {
 		save() {
 			this.saving = true 
-			this.$api.post('provider-orders/received/', {
+			this.$api.post('provider-orders/received', {
 				provider_order_id: this.edit_order.id,
 				article: this.article,
 			})

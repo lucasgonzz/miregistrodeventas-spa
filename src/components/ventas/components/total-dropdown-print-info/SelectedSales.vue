@@ -25,6 +25,12 @@
 				Imprimir
 			</b-dropdown-item>
 			<b-dropdown-item
+			v-if="hasExtencion('combos') && selected_sales.length == 1"
+			@click="printTicket(selected_sales[0])">
+				<i class="icon-print"></i>
+				Ticket
+			</b-dropdown-item>
+			<b-dropdown-item
 			v-if="selected_sales.length == 1 && !selected_sales[0].afip_ticket"
 			@click="showAfipDetails()">
 				<i class="icon-clipboard"></i>
@@ -46,8 +52,9 @@
 </template>
 <script>
 import afip from '@/mixins/afip'
+import sale_ticket from '@/mixins/sale_ticket'
 export default {
-	mixins: [afip],
+	mixins: [afip, sale_ticket],
 	computed: {
 		selected_sales() {
 			return this.$store.state.sales.selected

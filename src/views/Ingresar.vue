@@ -390,9 +390,11 @@ export default {
 		// },
 		clearArticle() {
 			this.article.bar_code = ''
+			this.article.provider_code = ''
 			this.article.name = ''
 			this.article.cost = ''
 			this.article.price = ''
+			this.article.percentage_gain = ''
 			this.article.online_price = ''
 			this.article.stock = ''
 			this.article.new_stock = ''

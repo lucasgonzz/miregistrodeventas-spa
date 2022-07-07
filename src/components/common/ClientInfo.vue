@@ -23,15 +23,15 @@
 			</p>
 			<p
 			v-if="client.razon_social">
-				{{ client.razon_social }}
+				Razon social: {{ client.razon_social }}
 			</p>
 			<p
 			v-if="client.address">
-				{{ client.address }}
+				Direccion: {{ client.address }}
 			</p>
 			<p
 			v-if="client.iva_condition">
-				{{ client.iva_condition.name }}
+				IVA: {{ client.iva_condition.name }}
 			</p>
 		</div>
 	</div>
