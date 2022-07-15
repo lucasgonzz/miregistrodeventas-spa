@@ -184,6 +184,9 @@ export default {
 					this.$store.commit('articles/update', res.data.article)
 					this.$toast.success('Articulo actualizado')
 					this.$bvModal.hide('edit-article')
+					let input = document.getElementById('article-bar-code')
+					input.value = ''
+					input.focus()
 				})
 				.catch(err => {
 					this.loading = false

@@ -142,7 +142,6 @@ export default {
 			this.$bvModal.show('delete-category')
 		},
 		deleteCategory(category) {
-			console.log('deleteCategory')
 			this.$store.commit('categories/setDelete', category)
 			this.$bvModal.show('delete-category')
 		},

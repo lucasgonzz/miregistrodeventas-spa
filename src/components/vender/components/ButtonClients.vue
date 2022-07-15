@@ -19,7 +19,7 @@ class="j-center">
 		<b-button 
 		block
 		variant="primary"
-		@click="vender">
+		@click="vender(false)">
 			<btn-loader
 			icon="check"
 			text="Guardar venta"

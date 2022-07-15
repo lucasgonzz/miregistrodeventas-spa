@@ -5,11 +5,20 @@ title="Nuevo descuento de stock"
 hide-footer>
     <b-form-group
     label="Articulo">
-        <!-- <select-article
-        @setSelected="setSelected"></select-article> -->
+        <select-component
+        id="article-bar-code"
+        :model="form.article"
+        :models="articles"
+        :props_to_filter="['bar_code', 'name', 'provider_code', 'num']"
+        :str_limint="2"
+        prop_name="name"
+        placeholder="Buscar articulo"
+        :props_to_show="['bar_code', 'price', 'provider_code', 'num']"
+        auto_select
+        @setSelected="setSelected"></select-component>
     </b-form-group>
     <b-form-group
-    v-if="form.article"
+    v-if="article_selected"
     label="Articulo seleccionado">
         <article-card
         :article="form.article"></article-card>
@@ -60,6 +69,7 @@ import ArticleCard from '@/components/common/ArticleCard'
 import BtnLoader from '@/components/common/BtnLoader'
 import BtnCreate from '@/components/produccion/modals/order-productions/product-delivery/BtnCreate'
 import List from '@/components/produccion/modals/order-productions/product-delivery/List'
+import SelectComponent from '@/components/common/select/Index'
 export default {
 	mixins: [product_article_stocks],
 	components: {
@@ -67,22 +77,35 @@ export default {
 		BtnLoader,
 		BtnCreate,
 		List,
+        SelectComponent,
 	},
-	 data() {
+    computed: {
+        articles() {
+            return this.$store.state.articles.articles
+        },
+    },
+	data() {
         return {
         	form: {
-                article: null,
+                article: {
+                    name: '',
+                    bar_code: '',
+                    provider_code: '',
+                    num: '',
+                },
                 amount: '',
                 note: '',
                 current_date: true,
                 created_at: '',
             },
+            article_selected: false,
         	loading: false,
         }
     },
     methods: {
         setSelected(article) {
             this.form.article = article
+            this.article_selected = true
         },
     	save() {
     		if (this.check()) {
@@ -113,8 +136,14 @@ export default {
     		return true
     	},
     	clear() {
+            this.selected_article = false
     		this.form = {
-                article: null,
+                article: {
+                    name: '',
+                    bar_code: '',
+                    provider_code: '',
+                    num: '',
+                },
                 amount: '',
                 note: '',
                 current_date: true,

@@ -19,17 +19,17 @@
 						</template>
 						<b-dropdown-item 
 						v-if="hasExtencion('providers') && can('providers.orders.create')"
-						@click="providerOrder(providers[data.index])">
+						@click="providerOrder(items[data.index])">
 							<i class="icon-plus"></i>
 							Hacer pedido
 						</b-dropdown-item>
 						<b-dropdown-item 
-						@click="editProvider(providers[data.index])">
+						@click="editProvider(items[data.index])">
 							<i class="icon-edit"></i>
 							Editar
 						</b-dropdown-item>
 						<b-dropdown-item 
-						@click="deleteProvider(providers[data.index])">
+						@click="deleteProvider(items[data.index])">
 							<i class="icon-trash"></i>
 							Eliminar
 						</b-dropdown-item>
@@ -70,10 +70,7 @@ export default {
 			let items = []
 			this.to_show.forEach(item => {
 				items.push({
-					name: item.name,
-					phone: item.phone,
-					address: item.address,
-					razon_social: item.razon_social,
+					...item
 				})
 			})
 			return items

@@ -3,20 +3,37 @@
 	class="col-bar-code margin-bottom-since-lg d-none d-lg-flex"
 	cols="12"
 	:lg="col_header_lg">
-		<b-form-input
+		<!-- <b-form-input
 		id="article-bar-code"
 		v-model="article.bar_code"
 		autocomplete="off" 
 		ref="articleBarCode"
 		@keydown.shift="callVender"
 		@keydown.enter="setArticleForSale"
-		placeholder="Ingrese el codigo de barras"></b-form-input>
+		placeholder="Ingrese el codigo de barras"></b-form-input> -->
+
+		<select-component
+		id="article-bar-code"
+		:model="article"
+		:models="articles"
+		:props_to_filter="['bar_code', 'provider_code', 'num']"
+		:str_limint="2"
+		prop_name="bar_code"
+		placeholder="Buscar por codigo"
+		:props_to_show="['bar_code', 'price', 'provider_code', 'num']"
+		auto_select
+		@setSelected="setArticleForSale"></select-component>
 	</b-col>
 </template>
 <script>
+import SelectComponent from '@/components/common/select/Index'
+
 import vender from '@/mixins/vender'
 export default {
 	mixins: [vender],
+	components: {
+		SelectComponent,
+	},
 	computed: {
 		article() {
 			return this.$store.state.vender.article

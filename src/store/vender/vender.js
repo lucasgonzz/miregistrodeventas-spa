@@ -12,7 +12,7 @@ export default {
 	namespaced: true,
 	state: {
 		items: [],
-		article: {bar_code: '', name: '', amount: ''},
+		article: {bar_code: '', provider_code: '', num: '', name: '', amount: ''},
 		update_price: {},
 		new_article: '',
 		article_for_sale: {},

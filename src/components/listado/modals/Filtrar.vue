@@ -18,7 +18,6 @@
             :options="sub_categories_options(filtro)"></b-form-select>
         </b-form-group>
         <b-form-group
-        v-if="!is_provider"
         label="Los que pertenescan al proveedor">
             <b-form-select
             id="providers"
@@ -233,6 +232,7 @@ export default {
         clear() {
             this.filtro.category_id = 0
             this.filtro.sub_category_id = 0
+            this.filtro.provider_id = ''
             this.filtro.precio_min = ''
             this.filtro.precio_max = ''
             this.filtro.fecha_min = ''

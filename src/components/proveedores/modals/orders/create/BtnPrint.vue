@@ -1,6 +1,5 @@
 <template>
 	<b-button
-	class="m-t-10"
 	v-if="edit_order"
 	variant="danger"
 	block

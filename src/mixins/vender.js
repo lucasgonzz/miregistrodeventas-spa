@@ -86,7 +86,7 @@ export default {
 			// this.articles.slice(0,33).forEach(art => {
 			// 	this.addArticleForSale(art)
 			// })
-			if (this.article.bar_code != '') {
+			if (typeof article == 'undefined' && this.article.bar_code != '') {
 				article = this.articles.find(article => {
 					return article.bar_code == this.getBarCode(this.article.bar_code)
 				})
@@ -173,6 +173,7 @@ export default {
 				item.name = article.name
 				item.cost = Number(article.pivot.cost)
 				item.price = Number(article.pivot.price)
+				item.discount = Number(article.pivot.discount)
 				item.amount = Number(article.pivot.amount)
 				item_to_add = {
 					...item,

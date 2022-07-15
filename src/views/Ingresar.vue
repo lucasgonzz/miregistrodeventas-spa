@@ -19,8 +19,6 @@
 	<edit-sub-category></edit-sub-category>
 	<providers
 	@setArticleProvider="setArticleProvider"></providers>
-	<create-provider></create-provider>
-	<edit-provider></edit-provider>
 	<edit-article
 	@clearArticle="clearArticle"></edit-article>
 
@@ -85,8 +83,6 @@
 import DeleteCategory from '@/components/ingresar/modals/categories/Delete'
 import ArticleVariants from '@/components/listado/modals/images/ArticleVariants'
 import Providers from '@/components/ingresar/modals/providers/Index'
-import CreateProvider from '@/components/proveedores/modals/list/Create'
-import EditProvider from '@/components/proveedores/modals/list/Edit'
 import Categories from '@/components/ingresar/modals/categories/Index'
 import CreateCategory from '@/components/ingresar/modals/categories/CreateCategory'
 import CreateSubCategory from '@/components/ingresar/modals/categories/CreateSubCategory'
@@ -134,8 +130,6 @@ export default {
 		DeleteCategory,
 		ArticleVariants,
 		Providers,
-		CreateProvider,
-		EditProvider,
 		Categories,
 		CreateCategory,
 		CreateSubCategory,

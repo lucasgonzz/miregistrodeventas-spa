@@ -9,6 +9,8 @@ export default {
 	state: {
 		models: [],
 		to_show: [],
+
+		delete: null,
 		loading: false,
 	},
 	mutations: {
@@ -40,6 +42,15 @@ export default {
 			})
 			state.models.splice(index, 1, updated)
 		},
+		setDelete(state, value) {
+			state.delete = value
+		},
+		delete(state) {
+			let index = state.models.findIndex(model => {
+				return model.id == state.delete.id
+			})
+			state.models.splice(index, 1)
+		},
 	},
 	actions: {
 		getModels({ commit }) {
@@ -56,7 +67,7 @@ export default {
 			})
 		},
 		delete({ commit, state }) {
-			axios.delete('/api/provider-orders/'+state.delete.id)
+			return axios.delete('/api/provider-orders/'+state.delete.id)
 			.then(() => {
 				commit('delete')
 			})

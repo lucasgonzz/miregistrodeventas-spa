@@ -48,6 +48,25 @@ export default {
 		},
 	},
 	methods: {
+		getTotalArticle(article, from_pivot = false) {
+			let price 
+			let amount 
+			let discount
+			if (from_pivot) {
+				price = article.pivot.price
+				amount = article.pivot.amount
+				discount = article.pivot.discount
+			} else {
+				price = article.price
+				amount = article.amount
+				discount = article.discount
+			}
+			let total = price * amount
+			if (discount && discount != '') {
+				total -= total * Number(discount) / 100
+			}
+			return total
+		},
 		getOptions(key, model_name, prop_name = 'name') {
 			let store = key.substring(0, key.length-3)
 			store += 's'

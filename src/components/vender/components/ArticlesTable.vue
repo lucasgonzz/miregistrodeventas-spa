@@ -11,38 +11,40 @@ class="m-t-0">
 		striped 
 		responsive 
 		hover>
-			<!-- <template #cell(price)="data">
-				<b-button 
-				@click="updatePrice(articles[data.index])"
-				variant="link">
-					{{ price(articles[data.index].price_for_sale) }}
-				</b-button>
-			</template> -->
-			<!-- <template #cell(total)="data">
-				{{ price(items[data.index].price * items[data.index].amount) }}
-			</template> -->
+			<template #cell(discount)="data">
+				<b-input-group
+				class="input-discount"
+				prepend="%">
+					<b-form-input
+					type="number"
+					min="0"
+					v-model="items[data.index].discount"></b-form-input>
+				</b-input-group>
+			</template>
 			<template #cell(options)="data">
-				<b-button 
-				@click="up(items[data.index])"
-				variant="primary"
-				class="btn-options"
-				size="sm">
-					<i class="icon-plus"></i>
-				</b-button>
-				<b-button 
-				@click="down(items[data.index])"
-				variant="primary"
-				class="btn-options"
-				size="sm">
-					<i class="icon-minus"></i>
-				</b-button>
-				<b-button 
-				@click="removeItem(items[data.index])"
-				variant="danger"
-				class="btn-options"
-				size="sm">
-					<i class="icon-trash"></i>
-				</b-button>
+				<div class="options">
+					<b-button 
+					@click="up(items[data.index])"
+					variant="primary"
+					class="btn-options"
+					size="sm">
+						<i class="icon-plus"></i>
+					</b-button>
+					<b-button 
+					@click="down(items[data.index])"
+					variant="primary"
+					class="btn-options"
+					size="sm">
+						<i class="icon-minus"></i>
+					</b-button>
+					<b-button 
+					@click="removeItem(items[data.index])"
+					variant="danger"
+					class="btn-options"
+					size="sm">
+						<i class="icon-trash"></i>
+					</b-button>
+				</div>
 			</template>
 		</b-table>
 		<div 
@@ -82,6 +84,7 @@ export default {
 				{ key: 'price', label: 'Precio' },
 				{ key: 'name', label: 'Nombre' },
 				{ key: 'amount', label: 'Cantidad' },
+				{ key: 'discount', label: 'Descuento' },
 				{ key: 'total', label: 'Total' },
 				{ key: 'options', label: 'Opciones' },
 			]
@@ -99,7 +102,7 @@ export default {
 					price: this.price(item.price),
 					name: item.name,
 					amount: item.amount,
-					total: this.price(item.price * item.amount),
+					total: this.price(this.getTotalArticle(item)),
 				}
 				items.push(item_to_add)
 			})
@@ -170,18 +173,8 @@ export default {
 		margin-bottom: 5px
 		&:last-child
 			margin-right: 0
-.measurement 
-	display: inline-block
-
-.select-measurement 
-	display: inline-block
-	width: 100px
-
-.input-amount-measurement 
-	width: 90px
-	display: inline-block
-.input-total 
-	width: 120px
-	display: inline-block
-
+.input-discount
+	width: 110px
+.options 
+	width: 140px
 </style>

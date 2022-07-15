@@ -5,7 +5,7 @@
 		</p>
 		<b-form-row>
 			<b-col
-			md="3">
+			md="2">
 				<select-component
 				:id="id_bar_code"
 				:model="product"
@@ -45,12 +45,20 @@
 				placeholder="Precio"></b-form-input>
 			</b-col>
 			<b-col
-			md="2">
+			md="1">
 				<b-form-input
 				ref="bonus"
-				@keydown.enter="add"
+				@keydown.enter="toLocation"
 				v-model="product.bonus"
 				placeholder="Bonificacion"></b-form-input>
+			</b-col>
+			<b-col
+			md="2">
+				<b-form-input
+				ref="location"
+				@keydown.enter="add"
+				v-model="product.location"
+				placeholder="Ubicacion"></b-form-input>
 			</b-col>
 		</b-form-row>
 	</div>
@@ -83,6 +91,7 @@ export default {
 				name: '',
 				price: '',
 				bonus: '',
+				location: '',
 			},
 		}
 	},
@@ -91,6 +100,7 @@ export default {
 			let product = {
 				...result,
 				bonus: '',
+				location: '',
 			}
 			this.product = product
 			this.$refs.amount.focus()
@@ -99,6 +109,7 @@ export default {
 			let product = {
 				...result,
 				bonus: '',
+				location: '',
 			}
 			this.product = product
 			this.$refs.amount.focus()
@@ -116,6 +127,7 @@ export default {
 				name: '',
 				price: '',
 				bonus: '',
+				location: '',
 			}
 		},
 		toAmount() {
@@ -134,6 +146,9 @@ export default {
 		},
 		toBonus() {
 			this.$refs['bonus'].focus()
+		},
+		toLocation() {
+			this.$refs['location'].focus()
 		},
 	}
 }

@@ -88,6 +88,7 @@ export default {
 			let without_cost = false
 			let total_cost = 0
 			let total = 0
+			let total_article = 0
 			let total_articles = 0
 			sale.articles.forEach(article => {
 				if (article.pivot.cost) {
@@ -95,7 +96,12 @@ export default {
 				} else {
 					without_cost = true
 				}
-				total += article.pivot.price * article.pivot.amount			
+
+				total_article = article.pivot.price * article.pivot.amount	
+				if (article.pivot.discount && article.pivot.discount != '') {
+					total_article -= total_article * Number(article.pivot.discount) / 100
+				}
+				total += total_article 
 				total_articles += article.pivot.amount			
 			})
 			sale.combos.forEach(combo => {

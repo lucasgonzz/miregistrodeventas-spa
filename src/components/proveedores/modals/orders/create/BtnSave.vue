@@ -1,5 +1,6 @@
 <template>
-	<div>
+	<div
+	class="m-t-10">
 		<b-form-group
 		v-if="provider.email">
 			<b-form-checkbox

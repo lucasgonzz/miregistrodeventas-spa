@@ -5,6 +5,7 @@
 	:actions="['providers/delete']"
 	id="delete-provider"
 	toast="Proveedor eliminado"></confirm>
+	<model></model>	
 	<b-modal 
 	id="providers" 
 	title="Proveedores" 
@@ -25,12 +26,15 @@
 </template>
 <script>
 import Confirm from '@/components/common/Confirm.vue'
+import Model from '@/components/proveedores/modals/list/Model'
+
 import List from '@/components/proveedores/components/list/List'
 
 import providers from '@/mixins/providers'
 export default {
 	components: {
 		Confirm,
+		Model,
 		List,
 	},
 	computed: {

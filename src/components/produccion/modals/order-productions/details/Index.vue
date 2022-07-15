@@ -16,6 +16,7 @@ hide-footer>
 	@click="setDelete()">
 		Eliminar
 	</b-button>
+	<products-pdf></products-pdf>
 </b-modal>
 </template>
 <script>
@@ -27,6 +28,7 @@ import BudgetData from '@/components/produccion/modals/budgets/data/Index'
 import PdfInfo from '@/components/produccion/modals/order-productions/Pdf'
 import BtnLoader from '@/components/common/BtnLoader'
 import ProductsList from '@/components/produccion/modals/budgets/data/products/List'
+import ProductsPdf from '@/components/produccion/modals/order-productions/details/ProductsPdf'
 export default {
 	mixins: [budgets, order_productions],
 	components: {
@@ -35,6 +37,7 @@ export default {
 		PdfInfo,
 		BtnLoader,
 		ProductsList,
+		ProductsPdf,
 	},
 	computed: {
 		order_production() {

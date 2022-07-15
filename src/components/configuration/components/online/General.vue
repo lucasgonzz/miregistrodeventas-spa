@@ -3,6 +3,13 @@
 class="shadow-2 b-r-1 m-b-25"
 title="Tienda Online">
 	<b-form-group
+	label="Descripcion de la web"
+	description="Descripcion que aparecera en los resultados de Google">
+		<b-form-textarea
+		placeholder="Ingrese la descripcion de su tienda"
+		v-model="user.online_description"></b-form-textarea>
+	</b-form-group>
+	<b-form-group
 	label="Quien puede ver los precios en la tienda">
 		<b-form-radio
 		v-model="user.online_prices"

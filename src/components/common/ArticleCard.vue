@@ -1,7 +1,7 @@
 <template> 
 	<b-card 
 	@click="articleSelected()"
-	class="article-card apretable border-radius-2 shadow-1" 
+	class="article-card apretable border-radius-2 shadow-2" 
 	no-body>
 		<div class="img-container">
 			<img :src="article_image">
