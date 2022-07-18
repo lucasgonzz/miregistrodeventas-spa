@@ -3,6 +3,7 @@
 	class="col-buttons"
 	cols="12"
 	:lg="col_lg">
+
 		<b-form-input
 		v-if="is_provider"
 		type="number"
@@ -11,6 +12,7 @@
 		v-model="article.amount"
 		@keydown.enter="addArticleToArticlesSale"
 		placeholder="Cantidad"></b-form-input>
+		
 		<b-button-group
 		v-if="!is_provider && index_previus_sale == 0">
 			<b-button 

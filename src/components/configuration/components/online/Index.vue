@@ -10,6 +10,7 @@
 		<b-col
 		lg="8">
 			<general></general>	
+			<platelets></platelets>	
 			<payment-methods></payment-methods>	
 			<delivery-zones></delivery-zones>	
 			<dolar></dolar>	
@@ -24,6 +25,7 @@
 import Confirm from '@/components/common/Confirm.vue'
 import BtnLoader from '@/components/common/BtnLoader'
 import General from '@/components/configuration/components/online/General'
+import Platelets from '@/components/configuration/components/online/Platelets'
 import PaymentMethods from '@/components/configuration/components/online/PaymentMethods'
 import DeliveryZones from '@/components/configuration/components/online/DeliveryZones'
 import Dolar from '@/components/configuration/components/online/Dolar'
@@ -37,6 +39,7 @@ export default {
 		Confirm,
 		BtnLoader,
 		General,
+		Platelets,
 		PaymentMethods,
 		DeliveryZones,
 		Dolar,

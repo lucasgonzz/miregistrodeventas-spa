@@ -4,7 +4,7 @@
 		<b-form-input
 		:id="id"
 		@keyup="search"
-		@keyup.enter="select"
+		@keydown.enter="select"
 		v-model="model[prop_name]"
 		:placeholder="placeholder"></b-form-input>
 		<div
@@ -106,17 +106,24 @@ export default {
 			}
 		},
 		select() {
+			console.log('se apreto enter')
 			if (this.auto_select && this.results.length) {
-				this.$emit('setSelected', this.results[0])
+				this.$emit('setSelected', {
+					...this.results[0],
+					select_id: this.id 
+				})
 				this.results = []
+			} else {
+				this.$emit('setSelected', null)
 			}
-			// if (this.select_empty) {
-			// 	this.$emit('selectEmpty')
-			// }
 		},
 		setSelected(result) {
+			console.log('setSelected')
 			this.results = []
-			this.$emit('setSelected', result)
+			this.$emit('setSelected', {
+				...result,
+				select_id: this.id 
+			})
 		}
 	}
 }

@@ -16,10 +16,9 @@
 		id="article-bar-code"
 		:model="article"
 		:models="articles"
-		:props_to_filter="['bar_code', 'provider_code', 'num']"
 		:str_limint="2"
 		prop_name="bar_code"
-		placeholder="Buscar por codigo"
+		placeholder="Buscar solo por codigo de barras"
 		:props_to_show="['bar_code', 'price', 'provider_code', 'num']"
 		auto_select
 		@setSelected="setArticleForSale"></select-component>

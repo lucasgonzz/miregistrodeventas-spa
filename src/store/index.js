@@ -42,6 +42,7 @@ import combos from './combos/index'
 import payment_methods from './payment_methods'
 import delivery_zones from './delivery_zones'
 import locations from './locations'
+import platelets from './platelets'
 
 Vue.use(Vuex)
 Vue.config.devtools = true
@@ -102,5 +103,6 @@ export default new Vuex.Store({
 		payment_methods,
 		delivery_zones,
 		locations,
+		platelets,
 	}
 })

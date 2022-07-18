@@ -67,10 +67,17 @@ export default {
 			}
 			return total
 		},
-		getOptions(key, model_name, prop_name = 'name') {
-			let store = key.substring(0, key.length-3)
-			store += 's'
-			console.log('store: '+store)
+		modelPlural(model) {
+			if (model.charAt(model.length-1) == 'y') {
+				return model.substring(0, model.length-1)+'ies'
+			}
+			return model+'s'
+		},
+		getOptions(options_store, model_name, prop_name = 'name') {
+			let store = options_store.substring(0, options_store.length-3)
+			console.log(store)
+			store = this.modelPlural(store)
+			console.log(store)
 			let models = this.$store.state[store].models
 
 			let options = []

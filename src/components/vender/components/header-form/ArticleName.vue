@@ -19,15 +19,18 @@
 		@setSelected="setSelectedName"
 		placeholder="Buscar un artículo"
 		:models="articles"></select-component> -->
+
 		<select-component
-		:id="id"
+		id="article-name"
 		:model="article"
 		:models="articles"
+		:props_to_filter="['name', 'bar_code', 'provider_code', 'num']"
+		:str_limint="2"
 		prop_name="name"
-		:str_limint="4"
-		placeholder="Buscar un artículo"
-		:props_to_show="['bar_code', 'price']"
-		@setSelected="setSelectedName"></select-component>
+		placeholder="Buscar artículo"
+		:props_to_show="['bar_code', 'price', 'provider_code', 'num']"
+		auto_select
+		@setSelected="setArticleForSale"></select-component>
 	</b-col>
 </template>
 <script>

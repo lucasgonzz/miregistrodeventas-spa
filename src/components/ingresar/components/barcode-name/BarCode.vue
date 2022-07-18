@@ -16,7 +16,7 @@
 				placeholder="Ingresa el codigo de barras del producto"></b-form-input>
 			</b-input-group>
 			<b-input-group
-			v-if="hasExtencion('providers')"
+			v-if="hasExtencion('providers', false)"
 			prepend="Codigo de proveedor">
 				<b-form-input
 				id="article-provider-code"

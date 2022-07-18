@@ -1,5 +1,5 @@
 <template>
-<b-modal id="new-article" title="Artículo Nuevo" hide-footer>
+<b-modal id="new-article" title="Nuevo artículo" hide-footer>
     <b-form-group>
         <b-form-input
         type="number"

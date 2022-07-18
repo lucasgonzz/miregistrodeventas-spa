@@ -9,11 +9,6 @@
 				head-variant="dark"
 				:fields="fields"
 				:items="table_items">
-					<template #cell(icon)="data">
-						<i 
-						v-if="items[data.index].icon"
-						:class="'icon-'+items[data.index].icon.slug"></i>
-					</template>
 					<template #cell(options)="data">
 						<b-button
 						@click="edit(items[data.index])"
@@ -80,13 +75,11 @@ export default {
 			if (this.view == 'categories') {
 				return [
 					{ key: 'name', label: 'Nombre', class: 'text-center'},
-					{ key: 'icon', label: 'Icono', class: 'text-center'},
 					{ key: 'options', label: 'Opciones', class: 'text-center'},
 				] 
 			}
 			return [
 				{ key: 'name', label: 'Nombre', class: 'text-center'},
-				{ key: 'icon', label: 'Icono', class: 'text-center'},
 				{ key: 'category', label: 'Categoria', sortable: true, class: 'text-center'},
 				{ key: 'options', label: 'Opciones', class: 'text-center'},
 			]
@@ -139,7 +132,7 @@ export default {
 		deleteSubCategory(sub_category) {
 			console.log('deleteSubCategory')
 			this.$store.commit('sub_categories/setDelete', sub_category)
-			this.$bvModal.show('delete-category')
+			this.$bvModal.show('delete-sub-category')
 		},
 		deleteCategory(category) {
 			this.$store.commit('categories/setDelete', category)

@@ -86,19 +86,18 @@ export default {
 			// this.articles.slice(0,33).forEach(art => {
 			// 	this.addArticleForSale(art)
 			// })
-			if (typeof article == 'undefined' && this.article.bar_code != '') {
-				article = this.articles.find(article => {
-					return article.bar_code == this.getBarCode(this.article.bar_code)
-				})
-			} 
+			// if (typeof article == 'undefined' && this.article.bar_code != '') {
+			// 	article = this.articles.find(article => {
+			// 		return article.bar_code == this.getBarCode(this.article.bar_code)
+			// 	})
+			// } 
+			console.log(article)
 			if (this.checkRegister(article)) {
-				console.log(article)
 				let article_to_add = {
 					...article,
 					is_article: true,
 					amount: '',
 				}
-				console.log(article_to_add)
 				this.$store.commit('vender/setArticle', article_to_add)
 				if (this.is_provider) {
 					document.getElementById('article-amount').focus()
@@ -112,8 +111,9 @@ export default {
 		},
 		addArticleToArticlesSale() {
 			if (!this.isRepeat()) {
+				console.log('no estaba repetidooo')
 				this.addArticleAndSetTotal()
-			}
+			} 
 		},
 		addArticleAndSetTotal() {
 			let item = {
@@ -121,23 +121,29 @@ export default {
 			}
 			this.$store.commit('vender/addItem', item)
 			this.$store.commit('vender/setTotal')
+			console.log('Se agrego item')
 			this.clearArticle()
 		},
 		checkRegister(article) {
 			console.log('checkRegister')
 			console.log(article)
-			if (typeof article == 'undefined') {
+			if (!article) {
 				let bar_code = this.getBarCode(this.article.bar_code)
 				if (bar_code != '') {
-					this.$store.commit('vender/setNewArticle', {bar_code})
-					this.$bvModal.show('new-article')
-					setTimeout(() => {
-        				document.getElementById('new-article-price').focus()
-					}, 500)
+					this.setNewArticle({bar_code})
+				} else {
+					this.setNewArticle({name: this.article.name})
 				}
 				return false
 			}
 			return true
+		},
+		setNewArticle(article) {
+			this.$store.commit('vender/setNewArticle', article)
+			this.$bvModal.show('new-article')
+			setTimeout(() => {
+				document.getElementById('new-article-price').focus()
+			}, 500)
 		},
 		isRepeat() {
 			let finded = this.items.find(item => {
@@ -163,6 +169,7 @@ export default {
 		clearArticle() {
 			this.$store.commit('vender/setArticle', null)
 			document.getElementById('article-bar-code').focus()
+			console.log('Se limpio articulo')
 		},
 		getItemsPreviusSale(sale) {
 			let items = []

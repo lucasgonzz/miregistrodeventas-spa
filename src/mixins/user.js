@@ -23,17 +23,27 @@ export default {
         },
 	},
 	methods: {
-		hasExtencion(slug) {
+		hasExtencion(slug, check_has_one_extencion_permission = true) {
 			if (this.is_owner) {
 				let index = this.user.extencions.findIndex(extencion => {
 					return extencion.slug == slug
 				})
 				return index != -1
 			} else {
-				let index = this.user.permissions.findIndex(permission => {
-					return permission.extencion && permission.extencion.slug == slug 
+				let extencion = this.user.owner_extencions.find(extencion => {
+					return extencion.slug == slug
 				})
-				return index != -1
+				if (typeof extencion != 'undefined' && extencion.permissions.length && check_has_one_extencion_permission) {
+					let has_one_extencion_permission = false
+					extencion.permissions.forEach(permission => {
+						if (this.can(permission.slug)) {
+							has_one_extencion_permission = true
+						}
+					})
+					return has_one_extencion_permission
+				} 
+				console.log(extencion)
+				return typeof extencion != 'undefined'
 			}
 		},
 		can(permission_slug) {

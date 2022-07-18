@@ -11,7 +11,7 @@ export default {
 			name: '',
 			icon_id: '',
 		},
-		category_to_delete: {},
+		delete: {},
 		edit: {},
 		view: 'categories',
 		loading: false,
@@ -45,11 +45,11 @@ export default {
 			state.categories.push(value)
 		},
 		setDelete(state, value) {
-			state.category_to_delete = value
+			state.delete = value
 		},
 		delete(state) {
 			let index = state.categories.findIndex(cat => {
-				return cat.id == state.category_to_delete.id
+				return cat.id == state.delete.id
 			})
 			state.categories.splice(index, 1)
 		}
@@ -67,7 +67,16 @@ export default {
 				commit('setLoading', false)
 				console.log(err)
 			})
-		}
+		},
+		delete({ commit, state }) {
+			return axios.delete('/api/categories/'+state.delete.id)
+			.then(() => {
+				commit('delete')
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+		},
 	},
 	modules: {
 	}

@@ -6,7 +6,7 @@ export default {
 	state: {
 		sub_categories: [],
 		edit: {},
-		sub_category_to_delete: {},
+		delete: {},
 		loading: false,
 	},
 	mutations: {
@@ -32,11 +32,11 @@ export default {
 			state.sub_categories.unshift(value)
 		},
 		setDelete(state, value) {
-			state.sub_category_to_delete = value
+			state.delete = value
 		},
 		delete(state) {
 			let index = state.sub_categories.findIndex(cat => {
-				return cat.id == state.sub_category_to_delete.id
+				return cat.id == state.delete.id
 			})
 			state.sub_categories.splice(index, 1)
 		},
@@ -66,7 +66,16 @@ export default {
 				commit('setLoading', false)
 				console.log(err)
 			})
-		}
+		},
+		delete({ commit, state }) {
+			return axios.delete('/api/sub-categories/'+state.delete.id)
+			.then(() => {
+				commit('delete')
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+		},
 	},
 	modules: {
 	}
