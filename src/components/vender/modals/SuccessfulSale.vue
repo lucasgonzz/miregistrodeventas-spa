@@ -7,6 +7,7 @@
             <span class="icon-check"></span>
         </p>
         <div
+        v-if="user_configuration.limit_items_in_sale_per_page"
         class="j-between align-center">
             <b-button 
             variant="primary"
@@ -21,6 +22,14 @@
                 Factura para el Comercio
             </b-button>
         </div>
+        <b-button 
+        v-else
+        block 
+        variant="danger"
+        @click="newPdf">
+            <i class="icon-print"></i>
+            Remito
+        </b-button>
         <div class="p-t-15">
             <b-button
             v-b-modal="'current-acounts-pago'"
@@ -68,6 +77,10 @@ export default {
         },
         pdfCommerce() {
             var link = process.env.VUE_APP_API_URL+`/sales/pdf/${this.sale.id}/1`
+            window.open(link)
+        },
+        newPdf() {
+            var link = process.env.VUE_APP_API_URL+`/sales/new-pdf/${this.sale.id}`
             window.open(link)
         },
     }

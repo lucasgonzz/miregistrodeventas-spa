@@ -76,7 +76,7 @@ export default {
 			})
 			.then(res => {
 				commit('sales/updateSale', res.data.sale, {root: true})
-				commit('sales/setSalesToShow', null, {root: true})
+				commit('sales/setToShow', null, {root: true})
 				commit('setUpdating', false)
 			})
 			.catch(err => {

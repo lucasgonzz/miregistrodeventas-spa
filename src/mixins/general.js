@@ -67,11 +67,15 @@ export default {
 			}
 			return total
 		},
-		modelPlural(model) {
+		modelPlural(model, replace_guion = false) {
 			if (model.charAt(model.length-1) == 'y') {
 				return model.substring(0, model.length-1)+'ies'
 			}
-			return model+'s'
+			model += 's'
+			if (replace_guion) {
+				model = model.replace('_', '-')
+			}
+			return model
 		},
 		getOptions(options_store, model_name, prop_name = 'name') {
 			let store = options_store.substring(0, options_store.length-3)

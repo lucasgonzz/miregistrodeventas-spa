@@ -1,4 +1,4 @@
-import orders from '@/store/online/orders'
+import orders from '@/store/online/orders/index'
 import questions from '@/store/online/questions'
 import examine from '@/store/online/examine'
 import buyers from '@/store/online/buyers'

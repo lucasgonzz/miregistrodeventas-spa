@@ -22,10 +22,14 @@ export default {
 			return this.$store.state.vender.client
 		},
 		col_header_lg() {
+			let col = 5
 			if (this.hasExtencion('combos')) {
-				return 3
+				col -= 2 
 			}
-			return 5
+			if (this.hasExtencion('services')) {
+				col -= 2 
+			}
+			return col
 		},
         maked_sale() {
             return this.$store.state.vender.sale
@@ -125,9 +129,7 @@ export default {
 			this.clearArticle()
 		},
 		checkRegister(article) {
-			console.log('checkRegister')
-			console.log(article)
-			if (!article) {
+			if (!article || typeof article == 'undefined') {
 				let bar_code = this.getBarCode(this.article.bar_code)
 				if (bar_code != '') {
 					this.setNewArticle({bar_code})
@@ -186,7 +188,6 @@ export default {
 					...item,
 					is_article: true,
 				}
-				console.log(item_to_add)
 				items.push(item_to_add)
 			})
 			sale.combos.forEach(combo => {
@@ -198,7 +199,18 @@ export default {
 					...item,
 					is_combo: true,
 				}
-				console.log(item_to_add)
+				items.push(item_to_add)
+			})
+			sale.services.forEach(service => {
+				item.id = service.id
+				item.name = service.name
+				item.price = Number(service.pivot.price)
+				item.discount = Number(service.pivot.discount)
+				item.amount = Number(service.pivot.amount)
+				item_to_add = {
+					...item,
+					is_service: true,
+				}
 				items.push(item_to_add)
 			})
 			console.log(items)

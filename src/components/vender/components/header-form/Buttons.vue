@@ -75,7 +75,7 @@ export default {
             return this.$store.state.vender.previus_sales.previus_sale
         },
 		col_lg() {
-			if (this.hasExtencion('combos')) {
+			if (this.hasExtencion('combos') || this.hasExtencion('services')) {
 				return 3
 			}
 			return 2

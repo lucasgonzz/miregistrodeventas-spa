@@ -16,7 +16,7 @@
 			<b-form-select
 			v-else-if="prop.type == 'select'"
 			v-model="model[prop.key]"
-			:options="getOptions(prop.options_store, prop.text)"></b-form-select>
+			:options="getOptions(prop.key, prop.text)"></b-form-select>
 			<b-form-checkbox
 			v-else-if="prop.type == 'checkbox'"
 			v-model="model[prop.key]"
@@ -25,6 +25,8 @@
 				{{ prop.text }}
 			</b-form-checkbox>
 		</b-form-group>
+
+		<slot></slot>
 
 		<b-button
 		variant="primary"
@@ -62,7 +64,7 @@ export default {
 			if (this.check() && !this.loading) {
 				this.loading = true 
 				if (this.model.id) {
-					this.$api.put(this.modelPlural(this.model_name)+'/'+this.model.id, this.model)
+					this.$api.put(this.modelPlural(this.model_name, true)+'/'+this.model.id, this.model)
 					.then(res => {
 						this.loading = false 
 						this.$toast.success('Actualizado')
@@ -75,7 +77,7 @@ export default {
 						this.loading = false
 					})
 				} else {
-					this.$api.post(this.modelPlural(this.model_name), this.model)
+					this.$api.post(this.modelPlural(this.model_name, true), this.model)
 					.then(res => {
 						this.loading = false 
 						this.$toast.success('Guardado')

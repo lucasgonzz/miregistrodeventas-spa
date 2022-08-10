@@ -18,8 +18,8 @@
 			placeholder="Codigo"
 			:prop_title="['bar_code']"
 			:props_to_show="['bar_code', 'price']"
-			select_empty
-			@selectEmpty="selectEmptyBarCode"
+			auto_select
+			@select="setSelectedBarCode"
 			@setSelected="setSelectedBarCode"></select-component>
 		</b-col>
 		<b-col
@@ -32,8 +32,8 @@
 			placeholder="Articulo"
 			:prop_title="['name']"
 			:props_to_show="['bar_code', 'price']"
-			select_empty
-			@selectEmpty="selectEmptyName"
+			auto_select
+			@select="setSelectedName"
 			@setSelected="setSelectedName"></select-component>
 		</b-col>
 		<b-col
@@ -84,24 +84,38 @@ export default {
 	},
 	methods: {
 		setSelectedBarCode(result) {
-			let article_to_add = {
-				...result,
-				from_provider_order: false,
+			if (result) {
+				let article_to_add = {
+					...result,
+					from_provider_order: false,
+				}
+				this.article = article_to_add
+				this.$refs.amount.focus()
+			} else {
+				this.article.from_provider_order = true
+				document.getElementById(this.id_name).focus()
 			}
-			this.article = article_to_add
-			this.$refs.amount.focus()
 		},
-		selectEmptyBarCode() {
-			this.article.from_provider_order = true
-			document.getElementById(this.id_name).focus()
+		selectEmptyBarCode(result) {
+			if (result) {
+				this.setSelectedBarCode(result)
+			} else {
+				this.article.from_provider_order = true
+				document.getElementById(this.id_name).focus()
+			}
 		},
 		setSelectedName(result) {
-			let article_to_add = {
-				...result,
-				from_provider_order: false,
+			if (result) {
+				let article_to_add = {
+					...result,
+					from_provider_order: false,
+				}
+				this.article = article_to_add
+				this.$refs.amount.focus()
+			} else {
+				this.article.from_provider_order = true
+				this.$refs.amount.focus()
 			}
-			this.article = article_to_add
-			this.$refs.amount.focus()
 		},
 		selectEmptyName() {
 			this.article.from_provider_order = true

@@ -90,11 +90,11 @@ export default {
 			})
 		},
 		updateSale(state, sale) {
-			let index = state.sales.findIndex(sal => {
+			let index = state.models.findIndex(sal => {
 				return sal.id == sale.id
 			})
 			if (index != -1) {
-				state.sales.splice(index, 1, sale)
+				state.models.splice(index, 1, sale)
 			}
 		},
 		setSelected(state, value) {

@@ -1,6 +1,6 @@
 <template>
 <b-modal id="cancel-order" title="Cancelar pedido" hide-footer>
-	<p>
+	<!-- <p>
 		¿Por que va a cancelar el pedido?
 	</p>
 	<p>Selecciona los articulos faltantes</p>
@@ -12,21 +12,9 @@
 		class="shadow-5"
 		:article="article"
 		@articleSelected="selectArticle"></article-card>
-		<!-- <b-card
-		@click="selectArticle(article)"
-		class="card-article-variant border-radius c-p"
-		:class="isSelectedArticle(article) ? 'shadow-4' : 'shadow-3'"
-		v-for="article in order.articles"
-		:key="article.key"
-		:img-src="imgUrl(article)">
-			<p class="m-0">
-				{{ articleName(article) }}
-			</p>
-		</b-card> -->
-	</div>
+	</div> -->
 	<b-form-group
-	v-show="!articulos_faltantes.length"
-	label="O escribi la razon de cancelar el pedido">
+	label="¿Por que no puede cumplir con el pedido?">
 		<b-form-textarea
 		placeholder="Ingresa la razon por la cual no podes cumplir con el pedido"
 		v-model="order.cancel_description"></b-form-textarea>

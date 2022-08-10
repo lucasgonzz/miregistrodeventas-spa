@@ -1,6 +1,8 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
+
+import model from '@/models/payment_method'
 export default {
 	namespaced: true,
 	state: {
@@ -18,11 +20,13 @@ export default {
 			if (value) {
 				state.model = value
 			} else {
-				state.model = {
-					id: null,
-					name: '',
-					description: '',
+				let obj = {
+					id: null
 				}
+				model.props.forEach(prop => {
+					obj[prop.key] = prop.value 
+				})
+				state.model = obj
 			}
 		},
 		setModels(state, value) {

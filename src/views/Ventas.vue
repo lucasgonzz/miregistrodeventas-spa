@@ -87,6 +87,10 @@ export default {
 			return '¿Seguro que quiere eliminar las ventas seleccionadas? Se repondra el stock de los articulos'
 		},
 	},
+	beforeRouteLeave(to, from, next) {
+		this.$store.commit('sales/setSelected', [])
+		next()
+	},
 	methods: {
 		// Header title
         checkClientsSaldos() {

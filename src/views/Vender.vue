@@ -7,6 +7,8 @@
 	<change-percentage-card></change-percentage-card>
 	<update-price></update-price>
 
+	<sub-categories></sub-categories>
+
 	<header-form></header-form>
 
 	<total-card-previus-sales></total-card-previus-sales>
@@ -33,6 +35,7 @@ import UpdatePrice from '../components/vender/modals/UpdatePrice.vue'
 
 // Componentes
 import Cargando from '../components/common/Cargando.vue'
+import SubCategories from '../components/vender/components/sub-categories/Index.vue'
 import HeaderForm from '../components/vender/components/header-form/Index.vue'
 import ArticlesTable from '../components/vender/components/ArticlesTable.vue'
 import TotalCardPreviusSales from '../components/vender/components/total-card-previus-sales/Index.vue'
@@ -52,6 +55,7 @@ export default {
 		
 		// Componentes
 		Cargando,
+		SubCategories,
 		HeaderForm,
 		ArticlesTable,
 		TotalCardPreviusSales,

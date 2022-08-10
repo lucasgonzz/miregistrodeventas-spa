@@ -15,10 +15,11 @@
 				@click="uploadImage(model_name, model, modelPlural(model_name)+'/update', model_name)">
 					Cambiar imagen
 				</b-button>
+				<hr>
 			</div>
 			<div
 			class="p-l-25 p-r-25"
-			v-else>
+			v-else-if="model.images">
 				<carousel
 				class="m-b-10"
 				v-if="model.images && model.images.length"
@@ -64,7 +65,6 @@
 				</b-button>
 			</div>
 		</div>
-		<hr>
 	</div>
 </template>
 <script>

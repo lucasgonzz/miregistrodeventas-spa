@@ -2,6 +2,7 @@
 	<div
 	v-show="view == 'pedidos'">
 		<order-details></order-details>
+		<payment></payment>
 		<b-row>
 			<b-col
 			cols="12">
@@ -17,16 +18,20 @@
 	</div>
 </template>
 <script>
+import OrderDetails from '@/components/online/modals/orders/details/Index'
+import Payment from '@/components/online/modals/orders/payment/Index'
+
 import UnconfirmedOrders from '@/components/online/components/orders/UnconfirmedOrders'
 import ConfirmedFinishedOrders from '@/components/online/components/orders/ConfirmedFinishedOrders'
-import OrderDetails from '@/components/online/modals/orders/OrderDetails' 
 import online from '@/mixins/online'
 export default {
 	mixins: [online],
 	components: {
+		OrderDetails,
+		Payment,
+		
 		UnconfirmedOrders,
 		ConfirmedFinishedOrders,
-		OrderDetails,
 	},
 }
 </script>

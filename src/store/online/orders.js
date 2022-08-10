@@ -6,9 +6,13 @@ export default {
 	state: {
 		unconfirmed_orders: [],
 		confirmed_finished_orders: [],
+
 		order_details: null,
+		payment_method_details: {},
+
 		loading_unconfirmed_orders: false,
 		loading_confirmed_finished_orders: false,
+
 		cancel: {},
 	},
 	mutations: {
@@ -17,6 +21,9 @@ export default {
 		},
 		setOrderDetails(state, orders) {
 			state.order_details = orders
+		},
+		setPaymentMethodDetails(state, orders) {
+			state.payment_method_details = orders
 		},
 		setConfirmedFinishedOrders(state, value) {
 			state.confirmed_finished_orders = value
@@ -65,6 +72,19 @@ export default {
 				console.log(err)
 			})
 		},
+		getPaymentMethodDetails({ commit, state }) {
+			commit('setLoadingPayment', true)
+			axios.get('/api/marcado-pago/payment/'+state.order_details.payment_id)
+			.then(res => {
+				commit('setLoadingPayment', false)
+				commit('setConfirmedFinishedOrders', res.data.orders)
+			})
+			.catch(err => {
+				commit('setLoadingPayment', false)
+				console.log(err)
+			})
+		},
+
 	},
 	modules: {
 	}

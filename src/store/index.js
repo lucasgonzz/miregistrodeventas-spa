@@ -43,6 +43,7 @@ import payment_methods from './payment_methods'
 import delivery_zones from './delivery_zones'
 import locations from './locations'
 import platelets from './platelets'
+import payment_method_types from './payment_method_types'
 
 Vue.use(Vuex)
 Vue.config.devtools = true
@@ -104,5 +105,6 @@ export default new Vuex.Store({
 		delivery_zones,
 		locations,
 		platelets,
+		payment_method_types,
 	}
 })

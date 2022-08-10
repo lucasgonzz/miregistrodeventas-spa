@@ -54,6 +54,11 @@
 				@click="setView('llamadas')"
 				:active="isActive('llamadas')">
 					Llamadas
+					<b-badge
+					variant="danger"
+					v-show="calls.length">
+						{{ calls.length }}
+					</b-badge>
 				</b-nav-item>
 				<!-- <b-nav-item
 				@click="setView('examine')"
@@ -75,6 +80,9 @@ export default {
 		},
 		questions() {
 			return this.$store.state.online.questions.questions
+		},
+		calls() {
+			return this.$store.state.online.calls.calls
 		},
 	},
 	methods: {

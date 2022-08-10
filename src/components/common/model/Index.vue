@@ -13,6 +13,7 @@
 	    toast="Imagen eliminada"></confirm>
 
 		<b-modal
+		:size="size"
 		hide-footer
 		:title="title"
 		:id="model_name">
@@ -24,7 +25,9 @@
 			<model-form
 			:model="model"
 			:model_name="model_name"
-			:props="props"></model-form>
+			:props="props">
+				<slot></slot>
+			</model-form>
 
 		</b-modal>
 	</div>
@@ -55,6 +58,10 @@ export default {
 			default: false,
 		},
 		modal_title: String,
+		size: {
+			type: String,
+			default: 'md',
+		},
 	},
 	components: {
 		Confirm,

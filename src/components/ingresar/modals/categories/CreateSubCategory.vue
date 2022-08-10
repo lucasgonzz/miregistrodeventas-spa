@@ -5,6 +5,16 @@
 		placeholder="Nombre"
 		v-model="sub_category.name"></b-form-input>
 	</b-form-group>
+		
+	<b-form-group>
+		<b-form-checkbox
+		:value="1"
+		:unchecked-value="1"
+		v-model="sub_category.show_in_vender">
+			Mostrar en VENDER
+		</b-form-checkbox>
+	</b-form-group>
+
 	<b-form-group
 	label="Categoria">
 		<b-form-select
@@ -25,9 +35,11 @@
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
+
 import categories from '@/mixins/categories'
+import app from '@/mixins/app'
 export default {
-	mixins: [categories],
+	mixins: [categories, app],
 	components: {
 		BtnLoader
 	},
@@ -52,6 +64,7 @@ export default {
 					this.$toast.success('Subcategoria guardada')
 					this.clear()
 					this.$bvModal.hide('create-sub-category')
+					this.setSubCategoriesInVender()
 				})
 				.catch(err => {
 					this.loading = false

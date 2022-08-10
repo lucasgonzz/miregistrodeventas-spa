@@ -20,7 +20,7 @@
 				Seleccionar todo
 			</b-dropdown-item>
 			<b-dropdown-item
-			v-b-modal="'print-sales'">
+			@click="print">
 				<i class="icon-print"></i>
 				Imprimir
 			</b-dropdown-item>
@@ -73,6 +73,18 @@ export default {
 		deselectAll() {
 			this.$store.commit('sales/setAllSalesSelected', false)
 		},
+		print() {
+			if (this.user_configuration.limit_items_in_sale_per_page) {
+				this.$bvModal.show('print-sales')
+			} else {
+	            var sales_id_ = []
+	            this.selected_sales.forEach(sale => {
+	                sales_id_.push(sale.id)
+	            })
+	            let link = process.env.VUE_APP_API_URL+'/sales/new-pdf/'+sales_id_.join('-')
+	            window.open(link)
+			}
+		}
 	}
 }
 </script>

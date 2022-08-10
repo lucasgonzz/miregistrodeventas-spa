@@ -17,6 +17,21 @@
 					{{ articles[data.index].received }}
 				</b-button>
 			</template>
+			<template #cell(name)="data">
+				<b-form-input
+				v-if="showInputName(articles[data.index])"
+				placeholder="Nombre"
+				v-model="articles[data.index].name"></b-form-input>
+				<span
+				v-else>
+					{{ articles[data.index].name }}
+				</span>
+			</template>
+			<template #cell(notes)="data">
+				<b-form-textarea
+				placeholder="Notas"
+				v-model="articles[data.index].notes"></b-form-textarea>
+			</template>
 			<template #cell(options)="data">
 				<b-button
 				@click="deleteItem(articles[data.index])"
@@ -56,15 +71,22 @@ export default {
 			this.articles.forEach(item => {
 				items.push({
 					code: item.bar_code,
-					name: item.name,
 					amount: item.amount,
-					notes: item.notes,
 				})
 			})
 			return items
 		}
 	},
 	methods: {
+		showInputName(article) {
+			console.log(article)
+			if (!this.edit_order && article.from_provider_order) {
+				return true 
+			} else if (this.edit_order && article.status == 'from_provider_order') {
+				return true
+			}
+			return false
+		},
 		received(item) {
 			this.$store.commit('providers/orders/create/setArticleReceived', item)
 			this.$bvModal.show('provider-order-article-received')

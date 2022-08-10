@@ -3,16 +3,16 @@
 	class="col-bar-code margin-bottom-since-lg d-none d-lg-flex"
 	cols="12"
 	:lg="col_header_lg">
-		<!-- <b-form-input
+		<b-form-input
 		id="article-bar-code"
 		v-model="article.bar_code"
 		autocomplete="off" 
 		ref="articleBarCode"
 		@keydown.shift="callVender"
-		@keydown.enter="setArticleForSale"
-		placeholder="Ingrese el codigo de barras"></b-form-input> -->
+		@keydown.enter="setArticle"
+		placeholder="Ingrese el codigo de barras"></b-form-input>
 
-		<select-component
+		<!-- <select-component
 		id="article-bar-code"
 		:model="article"
 		:models="articles"
@@ -21,7 +21,7 @@
 		placeholder="Buscar solo por codigo de barras"
 		:props_to_show="['bar_code', 'price', 'provider_code', 'num']"
 		auto_select
-		@setSelected="setArticleForSale"></select-component>
+		@setSelected="setArticleForSale"></select-component> -->
 	</b-col>
 </template>
 <script>
@@ -37,7 +37,18 @@ export default {
 		article() {
 			return this.$store.state.vender.article
 		},
+		articles() {
+			return this.$store.state.articles.articles
+		},
 	},
+	methods: {
+		setArticle() {
+			let article = this.articles.find(article => {
+				return article.bar_code == this.getBarCode(this.article.bar_code)
+			})
+			this.setArticleForSale(article)
+		},
+	}
 }
 </script>
 <style scoped lang="sass">

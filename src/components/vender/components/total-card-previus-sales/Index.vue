@@ -33,9 +33,6 @@ export default {
 		previusSale() {
 			this.$emit('previusSale')
 		},
-		updatePreviusSale() {
-			this.$emit('updatePreviusSale')
-		},
 		cancelPreviusSale() {
 			this.$emit('cancelPreviusSale')
 		},

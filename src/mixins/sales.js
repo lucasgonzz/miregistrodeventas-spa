@@ -89,6 +89,7 @@ export default {
 			let total_cost = 0
 			let total = 0
 			let total_article = 0
+			let total_service = 0
 			let total_articles = 0
 			sale.articles.forEach(article => {
 				if (article.pivot.cost) {
@@ -107,12 +108,20 @@ export default {
 			sale.combos.forEach(combo => {
 				total += combo.pivot.price * combo.pivot.amount		
 			})
+			sale.services.forEach(service => {
+				total_service = Number(service.pivot.price)
+				console.log('total_service: '+total_service)
+				if (service.pivot.discount && service.pivot.discount != '') {
+					total_service -= total_service * Number(service.pivot.discount) / 100
+				}
+				total += total_service		
+			})
 			if (sale.percentage_card) {
 				let percentage_card = this.percentageCardFormated(sale.percentage_card)
 				total = total*percentage_card
 			}
 			if (sale.order) {
-				total = this.discountCupons(total, sale.order)
+				total = online.methods.discountCupon(sale.order, total)
 			}
 			if (with_discounts && sale.discounts.length) {
 				sale.discounts.forEach(dis => {
@@ -124,6 +133,7 @@ export default {
 					total -= com.monto
 				})
 			}
+			console.log('total: '+total)
 
 			if (formated) {
 				return {

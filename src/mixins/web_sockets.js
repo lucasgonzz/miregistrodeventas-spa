@@ -15,14 +15,20 @@ export default {
             .notification((notification) => {
                 console.log('articulo creado')
                 console.log(notification)
-                this.$store.commit('articles/addArticle', notification.article)
-                this.$store.commit('articles/setArticlesToShow')
+                this.$api.get('articles/'+notification.article_id)
+                .then(res => {
+                    this.$store.commit('articles/addArticle', res.data.article)
+                    this.$store.commit('articles/setArticlesToShow')
+                })
             });
             this.Echo.channel('updated_article.'+this.user.id)
             .notification((notification) => {
                 console.log('articulo actualizado')
                 console.log(notification)
-                this.$store.commit('articles/update', notification.article)
+                this.$api.get('articles/'+notification.article_id)
+                .then(res => {
+                    this.$store.commit('articles/update', res.data.article)
+                })
                 // this.$store.commit('articles/setArticlesToShow')
             });
             this.Echo.channel('message.from_buyer.'+this.user.id)

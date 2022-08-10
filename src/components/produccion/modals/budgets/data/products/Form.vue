@@ -14,6 +14,7 @@
 				placeholder="Codigo"
 				:prop_title="['name']"
 				:props_to_show="['bar_code', 'price']"
+				auto_select
 				@setSelected="setSelectedBarCode"></select-component>
 			</b-col>
 			<b-col
@@ -33,6 +34,7 @@
 				:models="articles"
 				placeholder="Nombre"
 				:props_to_show="['bar_code', 'price']"
+				auto_select
 				@setSelected="setSelectedName"></select-component>
 			</b-col>
 			<b-col
@@ -97,22 +99,31 @@ export default {
 	},
 	methods: {
 		setSelectedBarCode(result) {
-			let product = {
-				...result,
-				bonus: '',
-				location: '',
+			if (result) {
+				let product = {
+					...result,
+					bonus: '',
+					location: '',
+				}
+				this.product = product
 			}
-			this.product = product
 			this.$refs.amount.focus()
 		},
 		setSelectedName(result) {
-			let product = {
-				...result,
-				bonus: '',
-				location: '',
+			if (result) {
+				let product = {
+					...result,
+					bonus: '',
+					location: '',
+				}
+				this.product = product
 			}
-			this.product = product
-			this.$refs.amount.focus()
+			console.log(this.product.amount)
+			if (!this.product.amount || this.product.amount == '') {
+				this.$refs.amount.focus()
+			} else {
+				this.$refs.price.focus()
+			}
 		},
 		add() {
 			this.$store.commit('produccion/budgets/create/addProduct', this.product)

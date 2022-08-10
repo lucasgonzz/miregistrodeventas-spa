@@ -21,6 +21,9 @@ export default {
 		client: null,
 		with_card: false,
 		discounts: [],
+
+		sub_categories: [],
+
 		sale_type: null,
 		vendiendo: false,
 		special_price_id: 0,
@@ -63,6 +66,9 @@ export default {
 		setDiscounts(state, value) {
 			state.discounts = value
 		},
+		setSubCategories(state, value) {
+			state.sub_categories = value 
+		},
 		setSaleType(state, value) {
 			state.sale_type = value
 		},
@@ -81,8 +87,10 @@ export default {
 			} else {
 				state.total = 0
 				state.items.forEach(item => {
-					item.total = Number(item.price) * item.amount
-					state.total += Number(item.price) * item.amount
+					item.total = general.methods.getTotalArticle(item)
+					state.total += general.methods.getTotalArticle(item)
+					// item.total = Number(item.price) * item.amount
+					// state.total += Number(item.price) * item.amount
 				})
 				if (state.with_card) {
 					let user_percentage_card = auth.state.user.percentage_card

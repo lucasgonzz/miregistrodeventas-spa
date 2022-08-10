@@ -1,4 +1,6 @@
+import percentageCard from '@/mixins/percentageCard'
 export default {
+	mixins: [percentageCard],
 	computed: {
 		view() {
 			return this.$route.params.view
@@ -35,10 +37,6 @@ export default {
 			this.$bvModal.show('map-address')
 			console.log('se mostro mapa')
 		},
-		cancel(order) {
-			this.$store.commit('online/orders/setCancel', order)
-			this.$bvModal.show('cancel-order')
-		},
 		hasArticle(message) {
 			return message.article
 		},
@@ -61,31 +59,31 @@ export default {
 			})
 			return messages_not_read
 		},
-		total(order) {
+		total(order, with_cupon = true, with_delivery_zone = true) {
 			if (order.articles) {
 				let total = 0
 				order.articles.forEach(article => {
 					total += this.articlePrice(article, true, false) * article.pivot.amount 
 				})
-				if (order.percentage_card) {
-					total = total + (total * this.percentageToMultiply(order.percentage_card))
+				if (with_cupon) {
+					total = this.discountCupon(order, total)
 				}
-				if (order.delivery_zone) {
-					total = total + Number(order.delivery_zone.price)
+				if (with_delivery_zone) {
+					if (order.delivery_zone) {
+						total += Number(order.delivery_zone.price)
+					}
 				}
-				return this.discountCupons(total, order)
+				return total 
 			}
 			return null
 		},
-		discountCupons(total, order) {
-			if (order.cupons.length) {
-				order.cupons.forEach(cupon => {
-					if (cupon.amount) {
-						total -= cupon.amount
-					} else {
-						total = total - (total * this.percentageToMultiply(cupon.percentage))
-					}
-				})
+		discountCupon(order, total) {
+			if (order.cupon) {
+				if (order.cupon.amount) {
+					total -= order.cupon.amount
+				} else {
+					total = total - (total * percentageCard.methods.percentageToMultiply(order.cupon.percentage))
+				}
 			}
 			return total
 		},

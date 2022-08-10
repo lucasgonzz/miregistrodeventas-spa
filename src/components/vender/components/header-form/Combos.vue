@@ -14,7 +14,6 @@
 	</b-col>
 </template>
 <script>
-import Vue from 'vue'
 import SelectComponent from '@/components/common/select/Index'
 import vender from '@/mixins/vender'
 export default {

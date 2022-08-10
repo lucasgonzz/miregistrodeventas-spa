@@ -16,6 +16,8 @@ class="m-t-0">
 				class="input-discount"
 				prepend="%">
 					<b-form-input
+					@keyup="setTotal"
+					@click="setTotal"
 					type="number"
 					min="0"
 					v-model="items[data.index].discount"></b-form-input>
@@ -84,10 +86,16 @@ export default {
 				{ key: 'price', label: 'Precio' },
 				{ key: 'name', label: 'Nombre' },
 				{ key: 'amount', label: 'Cantidad' },
-				{ key: 'discount', label: 'Descuento' },
+			]
+			if (this.hasExtencion('sales.articles.discounts')) {
+				fields.push(
+					{ key: 'discount', label: 'Descuento' },
+				)
+			}
+			fields = fields.concat([
 				{ key: 'total', label: 'Total' },
 				{ key: 'options', label: 'Opciones' },
-			]
+			])
 			return fields
 		},
 		items() {
@@ -110,6 +118,9 @@ export default {
 		},
 	},
 	methods: {
+		setTotal() {
+			this.$store.commit('vender/setTotal')
+		},
 		updatePrice(article) {
 			this.$store.commit('vender/setUpdatePrice', article)
 			this.$bvModal.show('update-price')

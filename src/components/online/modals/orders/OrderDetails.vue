@@ -12,21 +12,30 @@ hide-footer>
 		:article="article"></article-order>
 	</div>
 	<p
-	v-if="order.cupons.length"
-	v-for="cupon in order.cupons">
+	v-if="order.cupon">
 		Cupon  
 		<span
-		v-if="cupon.amount">
-			de {{ price(cupon.amount) }}
+		v-if="order.cupon.amount">
+			de {{ price(order.cupon.amount) }}
 		</span>
 		<span
-		v-if="cupon.percentage">
-			del {{ cupon.percentage }}%
+		v-if="order.cupon.percentage">
+			del {{ order.cupon.percentage }}%
 		</span>
 	</p>
-	<p>
+	<p
+	v-if="order.payment_method">
 		Metodo de pago:
-		{{ order.payment_method.name }}
+		<b-button
+		v-if="order.payment_method.type"
+		variant="link"
+		@click="paymentMethodDetails">
+			{{ order.payment_method.name }}
+		</b-button>
+		<span
+		v-else>
+			{{ order.payment_method.name }}
+		</span>
 	</p>
 	<p
 	v-if="order.delivery_zone">
@@ -52,7 +61,7 @@ hide-footer>
 	<p>
 		<strong>Total: {{ price(total(order)) }}</strong>
 	</p>
-	<p class="since">
+	<p>
 		{{ since(order.created_at, true) }}
 	</p>
 	<b-button
@@ -135,6 +144,10 @@ export default {
 		}
 	},
 	methods: {
+		paymentMethodDetails() {
+			this.$store.dispatch('online/orders/payment/getModel', this.order)
+			this.$bvModal.show('payment-method-details')
+		},
 		confirm() {
 			this.loading = true
 			this.$api.get(`/orders/confirm/${this.order.id}`)

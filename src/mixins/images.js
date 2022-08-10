@@ -10,9 +10,9 @@ export default {
 			}
 			if (image_url) {
 				if (cropped) {
-					url = `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom/${image_url}`
+					url = `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom,q_auto,f_auto/${image_url}`
 				} else {
-					url = `https://res.cloudinary.com/lucas-cn/image/upload/${image_url}`
+					url = `https://res.cloudinary.com/lucas-cn/image/upload/q_auto,f_auto/${image_url}`
 				}
 			} else {
 				url = '@/assets/image-not-found.jpg'

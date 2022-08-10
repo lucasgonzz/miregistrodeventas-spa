@@ -3,7 +3,7 @@
 v-if="sale_details"
 id="sale-details" 
 :title="'Remito N° '+sale_details.num_sale" 
-size="lg" 
+size="xl" 
 hide-footer 
 body-class="p-0">
     <sale-info></sale-info>
@@ -28,9 +28,9 @@ export default {
             return [
                 {key: 'name', label: 'Nombre', class: 'text-center'},
                 {key: 'amount', label: 'Cantidad', class: 'text-center', sortable: true},
-                {key: 'discount', label: 'Descuento', class: 'text-center', sortable: true},
                 {key: 'price', label: 'Precio', class: 'text-center', sortable: true},
-                {key: 'sub_total', label: 'Sub Total', class: 'text-center', sortable: true},
+                {key: 'discount', label: 'Descuento', class: 'text-center', sortable: true},
+                {key: 'sub_total', label: 'Total', class: 'text-center', sortable: true},
             ]
         },
         items() {
@@ -50,6 +50,15 @@ export default {
                     amount: combo.pivot.amount,
                     price: this.price(combo.pivot.price),
                     sub_total: this.price(combo.pivot.price * combo.pivot.amount),
+                })
+            })
+            this.sale_details.services.forEach(service => {
+                items.push({
+                    name: 'servicio '+service.name,
+                    amount: 1,
+                    discount: service.pivot.discount,
+                    price: this.price(service.price),
+                    sub_total: this.price(this.getTotalArticle(service, true)),
                 })
             })
             console.log(items)

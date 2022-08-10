@@ -34,6 +34,8 @@ import NavComponent from './components/nav/NavComponent'
 import NavHome from './components/home/components/Nav'
 import LogoLoading from '@/components/common/LogoLoading'
 import web_sockets from '@/mixins/web_sockets'
+
+import app from '@/mixins/app'
 import online from '@/mixins/online'
 export default {
     metaInfo: {
@@ -52,7 +54,7 @@ export default {
         NavHome,
         LogoLoading,
     },
-    mixins: [web_sockets, online],
+    mixins: [web_sockets, online, app],
     computed: {
         authenticated() {
             return this.$store.state.auth.authenticated
@@ -258,6 +260,8 @@ export default {
                 if (this.has_online) {
                     this.loading_message = 'metodos de pago'
                     await this.$store.dispatch('payment_methods/getModels')
+                    this.loading_message = 'tipos de metodos de pago'
+                    await this.$store.dispatch('payment_method_types/getModels')
                     this.loading_message = 'zonas de envio'
                     await this.$store.dispatch('delivery_zones/getModels')
                     this.loading_message = 'titulos'
@@ -288,6 +292,7 @@ export default {
                 this.$store.commit('auth/setLoading', false)
                 this.loading_message = 'informacion'
                 this.checkAddress()
+                this.setSubCategoriesInVender()
             } else if (this.is_super) {
                 console.log('Es super')
                 this.$store.dispatch('super/getCommerces')

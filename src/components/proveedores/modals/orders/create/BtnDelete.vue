@@ -1,5 +1,6 @@
 <template>
 	<b-button
+	class="m-t-10"
 	block 
 	@click="setDelete"
 	variant="danger">

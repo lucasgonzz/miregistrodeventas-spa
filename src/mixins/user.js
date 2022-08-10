@@ -9,6 +9,13 @@ export default {
         has_online() {
             return this.can('online.orders') || this.can('online.questions') || this.can('online.buyers') || this.can('online.messages') || this.can('online.cupons')
         },
+        user_configuration() {
+        	if (this.is_owner) {
+        		return this.user.configuration 
+        	} else {
+        		return this.user.owner_configuration 
+        	}
+        },
 		is_owner() {
 			return !this.user.owner_id
 		},

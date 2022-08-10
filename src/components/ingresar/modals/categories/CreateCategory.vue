@@ -6,7 +6,7 @@
 		placeholder="Nombre"
 		v-model="category.name"></b-form-input>
 	</b-form-group>
-		
+
 	<b-form-group>
 		<b-button
 		block

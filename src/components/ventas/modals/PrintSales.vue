@@ -3,7 +3,8 @@
     <b-card 
     header="Imprimir remito para" 
     no-body>
-        <div>
+        <div
+        v-if="user_configuration.limit_items_in_sale_per_page">
             <b-form-radio
             v-model="for_commerce"
             :value="1"
@@ -27,6 +28,17 @@
                 </b-button>
             </b-form-group>
         </div>
+        <b-form-group
+        v-else
+        class="m-b-0 m-t-10">
+            <b-button
+            block
+            variant="primary"
+            @click="generatePdf">
+                <i class="icon-print"></i>
+                Generar remito
+            </b-button>
+        </b-form-group>
     </b-card>
 </b-modal>
 </template>
@@ -52,10 +64,7 @@ export default {
             this.selected_sales.forEach(sale => {
                 sales_id_.push(sale.id)
             })
-            console.log(this.selected_sales)
-            console.log(sales_id_)
-            var link = process.env.VUE_APP_API_URL+'/sales/pdf/'+sales_id_.join('-')+
-            '/'+this.for_commerce
+            let link = process.env.VUE_APP_API_URL+'/sales/pdf/'+sales_id_.join('-')+'/'+this.for_commerce
             window.open(link)
             this.$bvModal.hide('print-sales')
             this.updateSaleImpressions()

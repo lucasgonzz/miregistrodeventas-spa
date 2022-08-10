@@ -58,7 +58,7 @@ title="Tienda Online">
 		<b-form-checkbox
 		:value="1"
 		:unchecked-value="0"
-		v-model="user.configuration.show_articles_without_stock"
+		v-model="user_configuration.show_articles_without_stock"
 		@keyup.enter="updateUser">
 			Mostrar articulos sin stock
 		</b-form-checkbox>

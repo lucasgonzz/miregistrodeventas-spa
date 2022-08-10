@@ -25,7 +25,7 @@
 		:model="article"
 		:models="articles"
 		:props_to_filter="['name', 'bar_code', 'provider_code', 'num']"
-		:str_limint="2"
+		:str_limint="4"
 		prop_name="name"
 		placeholder="Buscar artículo"
 		:props_to_show="['bar_code', 'price', 'provider_code', 'num']"

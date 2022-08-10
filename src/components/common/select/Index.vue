@@ -139,7 +139,8 @@ export default {
 		// -webkit-box-shadow: 0px 3px 7px 1px rgba(0,0,0,0.41)
 		// box-shadow: 0px 3px 7px 1px rgba(0,0,0,0.41)
 		border-radius: 0 0 5px 5px
-		width: 400px
+		min-width: 400px
+		width: 100%
 		max-height: 400px
 		overflow-y: scroll
 		&::-webkit-scrollbar 
