@@ -1,37 +1,16 @@
 <template>
 <b-modal id="from-date" title="Mostrar ventas por fecha" hide-footer>
-    <!-- <b-card 
-    v-show="only_one_date_ == ''"
-    header="Desde y hasta una fecha" no-body>
-        <b-form-group
-        label="Desde"
-        label-for="from">
-            <b-form-datepicker
-            placeholder="Seleccione una fecha inicio"
-            v-model="from_"
-            id="from"></b-form-datepicker>
-        </b-form-group>
-        <b-form-group
-        label="Hasta"
-        label-for="to">
-            <b-form-datepicker
-            placeholder="Seleccione una fecha final"
-            v-model="to_"
-            id="to"></b-form-datepicker>
-        </b-form-group>
-        <b-form-checkbox
-        v-show="from_ != '' && to_ != ''"
-        v-model="last_day_inclusive_"
-        :value="1"
-        :unchecked-value="0">
-            El {{ getDayTo() }} inclusive
-        </b-form-checkbox>
-    </b-card> -->
     <b-form-group
     label="Fecha">
         <b-form-datepicker
         placeholder="Seleccione una fecha"
-        v-model="date_"></b-form-datepicker>
+        v-model="from_date"></b-form-datepicker>
+    </b-form-group>
+    <b-form-group
+    label="Hasta la fecha">
+        <b-form-datepicker
+        placeholder="Seleccione fecha limite inclusive"
+        v-model="until_date"></b-form-datepicker>
     </b-form-group>
     <b-form-group class="m-b-0">
         <b-button
@@ -46,16 +25,32 @@
 <script>
 export default {
     name: 'FromDate',
-    data() {
-        return {
-            date_: ''
-        }
+    computed: {
+        from_date: {
+            get() {
+                return this.$store.state.sale.from_date
+            },
+            set(value) {
+                this.$store.commit('sale/setFromDate', value)
+            }
+        },
+        until_date: {
+            get() {
+                return this.$store.state.sale.until_date
+            },
+            set(value) {
+                this.$store.commit('sale/setUntilDate', value)
+            }
+        },
     },
 	methods: {
 		search() {
-            this.$store.commit('sales/setDate', this.date_)
-            this.$store.commit('sales/previus_days/setSelectedDay', this.date_)
-            this.$store.dispatch('sales/getFromDate')
+            if (this.until_date == '') {
+                this.$store.commit('sale/previus_days/setSelectedDay', this.date_)
+            } else {
+                this.$store.commit('sale/previus_days/setSelectedDay', '')
+            }
+            this.$store.dispatch('sale/getModels')
             this.$bvModal.hide('from-date')
 		},
 	}

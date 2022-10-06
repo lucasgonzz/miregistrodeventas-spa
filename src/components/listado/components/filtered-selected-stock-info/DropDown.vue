@@ -5,7 +5,7 @@
 	variant="primary"
 	v-show="show"
 	:text="text">
-		<b-dropdown-item
+		<!-- <b-dropdown-item
 		v-if="selected_articles.length"
 		@click="selectAll">
 			<i class="icon-check"></i>
@@ -16,7 +16,7 @@
 		@click="deselectAll">
 			<i class="icon-not"></i>
 			Deseleccionar todo
-		</b-dropdown-item>
+		</b-dropdown-item> -->
 		<b-dropdown-item
 		@click="ticketsPdf">
 			<i class="icon-print"></i>
@@ -43,15 +43,17 @@
 			Marca
 		</b-dropdown-item>
 		<b-dropdown-item
-		@click="deleteArticles"
-		v-b-modal="''">
+		v-if="can('article.delete')"
+		@click="deleteArticles">
 			<i class="icon-trash"></i>
 			Eliminar
 		</b-dropdown-item>
 	</b-dropdown>
 </template>
 <script>
+import selected_articles from '@/mixins/selected_articles'
 export default {
+	mixins: [selected_articles],
 	props: {
 		from_filter: {
 			type: Boolean,
@@ -72,10 +74,7 @@ export default {
 			return this.selected_articles.length+' artículos seleccionados'
 		},
 		filtered() {
-			return this.$store.state.articles.filtered
-		},
-		selected_articles() {
-			return this.$store.state.articles.selected_articles
+			return this.$store.state.article.filtered
 		},
 	},
 	methods: {
@@ -86,11 +85,8 @@ export default {
 			this.$store.commit('articles/setAllArticlesSelected', false)
 		},
 		ticketsPdf() {
-			let ids = []
-			this.selected_articles.forEach(item => {
-				ids.push(item.id)
-			})
-			let link = process.env.VUE_APP_API_URL+'/api/articles/pdf/'+ids.join('-')
+			console.log(this.selected_articles_id)
+			let link = process.env.VUE_APP_API_URL+'/api/articles/pdf/'+this.selected_articles_id.join('-')
 			window.open(link)
 		},
 		byPercentage() {

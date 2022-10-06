@@ -5,11 +5,8 @@
 	<!-- <delete-special-price></delete-special-price>
 	<create-special-price></create-special-price>
 	<special-prices></special-prices> -->
-	<create-brand></create-brand>
-	<edit-brand></edit-brand>
+	<price-types></price-types>
 	<brands></brands>
-	<create-condition></create-condition>
-	<edit-condition></edit-condition>
 	<conditions></conditions>
 	<create-category></create-category>
 	<create-sub-category></create-sub-category>
@@ -17,8 +14,6 @@
 	@setArticleCategory="setArticleCategory"></categories>
 	<edit-category></edit-category>
 	<edit-sub-category></edit-sub-category>
-	<providers
-	@setArticleProvider="setArticleProvider"></providers>
 	<edit-article
 	@clearArticle="clearArticle"></edit-article>
 
@@ -82,7 +77,6 @@
 // Modals
 import DeleteCategory from '@/components/ingresar/modals/categories/Delete'
 import ArticleVariants from '@/components/listado/modals/images/ArticleVariants'
-import Providers from '@/components/ingresar/modals/providers/Index'
 import Categories from '@/components/ingresar/modals/categories/Index'
 import CreateCategory from '@/components/ingresar/modals/categories/CreateCategory'
 import CreateSubCategory from '@/components/ingresar/modals/categories/CreateSubCategory'
@@ -90,18 +84,15 @@ import EditCategory from '@/components/ingresar/modals/categories/EditCategory'
 import EditSubCategory from '@/components/ingresar/modals/categories/EditSubCategory'
 import SpecialPrices from '@/components/ingresar/modals/special-prices/Index'
 import CreateSpecialPrice from '@/components/ingresar/modals/special-prices/Create'
-import Brands from '@/components/ingresar/modals/brands/Index'
-import CreateBrand from '@/components/ingresar/modals/brands/Create'
-import EditBrand from '@/components/ingresar/modals/brands/Edit'
-import Conditions from '@/components/ingresar/modals/conditions/Index'
-import EditCondition from '@/components/ingresar/modals/conditions/Edit'
-import CreateCondition from '@/components/ingresar/modals/conditions/Create'
+import PriceTypes from '@/components/ingresar/modals/PriceTypes'
+import Brands from '@/components/ingresar/modals/Brands'
+import Conditions from '@/components/ingresar/modals/Conditions'
 import EditArticle from '@/components/common/EditArticle'
 import PrintTickets from '@/components/ingresar/modals/PrintTickets'
 import BarCodes from '@/components/ingresar/modals/BarCodes'
 import DeleteSpecialPrice from '@/components/ingresar/modals/DeleteSpecialPrice'
 
-import Locations from '@/components/ingresar/modals/locations/Index'
+import Locations from '@/components/ingresar/modals/Locations'
 
 // Components
 import BarCodeName from '@/components/ingresar/components/barcode-name/Index'
@@ -129,7 +120,6 @@ export default {
 	components: {
 		DeleteCategory,
 		ArticleVariants,
-		Providers,
 		Categories,
 		CreateCategory,
 		CreateSubCategory,
@@ -137,12 +127,9 @@ export default {
 		EditSubCategory,
 		SpecialPrices,
 		CreateSpecialPrice,
+		PriceTypes,
 		Brands,
-		CreateBrand,
-		EditBrand,
 		Conditions,
-		CreateCondition,
-		EditCondition,
 		EditArticle,
 		PrintTickets,
 		BarCodes,
@@ -181,6 +168,7 @@ export default {
 				new_bar_code: '',
 				name: '',
 				cost: '',
+				cost_in_dollars: 0,
 				price: '',
 				percentage_gain: '',
 				stock: '',
@@ -256,7 +244,10 @@ export default {
 		},
 		validate() {
 			var ok = true
-			if (this.article.price == '' && this.article.percentage_gain == '') {
+			let provider = this.modelsStoreFromName('provider').find(model => {
+				return model.id == this.article.provider_id
+			})
+			if (this.article.price == '' && this.article.percentage_gain == '' && (typeof provider == 'undefined' || !provider.percentage_gain)) {
 				ok = false
 				this.$toast.error('El campo precio es obligatorio')
 				document.getElementById('article-price').focus()
@@ -303,21 +294,18 @@ export default {
 		saveArticle() {
 			if (this.validate()) {
 				this.guardando = true
-				this.$api.post('articles', this.article)
+				this.$api.post('article', this.article)
 				.then( res => {
 					this.guardando = false
-					var article = res.data.article
-					if (this.article.bar_code != '') {
-						this.$store.commit('articles/addBarCode', this.article.bar_code)
-					}
-					this.$store.commit('articles/addArticle', article)
-					this.$store.commit('articles/setArticlesToShow')
+					var article = res.data.model
+					this.$store.commit('article/add', article)
+					this.$store.commit('article/setToShow')
 					this.articles_to_print.push(article)
 					this.clearArticle()
 					this.$toast.success('Articulo guardado')
 					document.getElementById('article-bar-code').focus()
 					if (this.article.add_photo) {
-						this.uploadArticlePhoto(article)
+						this.uploadImage('article', article)
 					}
 				})
 				.catch( err => {
@@ -387,10 +375,12 @@ export default {
 			this.article.provider_code = ''
 			this.article.name = ''
 			this.article.cost = ''
+			this.article.cost_in_dollars = 0
 			this.article.price = ''
 			this.article.percentage_gain = ''
 			this.article.online_price = ''
 			this.article.stock = ''
+			this.article.stock_min = ''
 			this.article.new_stock = ''
 			this.article.stock_null = 0
 			this.article.stock_null = false
@@ -405,6 +395,7 @@ export default {
 				})
 			}
 			document.getElementById('article-bar-code').focus()
+			document.getElementById('search-input').value = ''
 		},
 		setArticleProvider(provider) {
 			this.article.provider_id = provider.id

@@ -30,9 +30,11 @@
             <i class="icon-print"></i>
             Remito
         </b-button>
-        <div class="p-t-15">
+        <div 
+        v-if="sale.save_current_acount"
+        class="p-t-15">
             <b-button
-            v-b-modal="'current-acounts-pago'"
+            @click="savePago"
             block 
             variant="primary">
                 Registrar pago en cuenta corriente
@@ -42,7 +44,7 @@
 </div>
 </template>
 <script>
-import CurrentAcountsPago from '@/components/ventas/modals/current-acounts/pago/Index'
+import CurrentAcountsPago from '@/components/common/current-acounts/pago/Index'
 export default {
     components: {
         CurrentAcountsPago,
@@ -71,6 +73,11 @@ export default {
         }
     },
     methods: {
+        savePago() {
+            this.$store.commit('current_acount/setFromModelName', 'client')
+            this.$store.commit('current_acount/setFromModel', this.sale.client)
+            this.$bvModal.show('current-acounts-pago')
+        },
         pdfClient() {
             var link = process.env.VUE_APP_API_URL+`/sales/pdf/${this.sale.id}/0`
             window.open(link)

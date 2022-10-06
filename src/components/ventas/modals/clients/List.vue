@@ -1,97 +1,79 @@
 <template>
 	<div>
-		<div
-		v-if="!loading">
-			<b-table
-			class="shadow-1 b-r-1"
-			v-if="clients_to_show.length"
-			:fields="fields"
-			head-variant="dark"
-			:items="items">
-				<template #cell(options)="data">
-					<b-button
-					size="sm"
-					variant="primary"
-					@click="editClient(clients_to_show[data.index])">
-						<i class="icon-edit"></i>
-					</b-button>
-					<b-button
-					class="m-l-10"
-					size="sm"
-					variant="success"
-					@click="showCurrentAcounts(clients_to_show[data.index], true)">
-						C/Ctes
-					</b-button>
-					<b-button
-					class="m-l-10"
-					size="sm"
-					variant="danger"
-					@click="deleteClient(clients_to_show[data.index])">
-						<i class="icon-trash"></i>
-					</b-button>
-				</template>
-			</b-table>
-			<p 
-			v-else
-			class="text-with-icon">
-				<i class="icon-not"></i>
-				No hay clientes para este vendedor
-			</p>
-		</div>
-		<b-skeleton-table
-		v-else
-		:hide-header="false"
-		:rows="10"
-		:columns="6"
-		:table-props="{ bordered: true, striped: true }"
-		></b-skeleton-table>
-		<div 
-		v-if="clients_to_show.length >= 10"
-		class="j-center">
-			<b-button
-			variant="primary"
-			@click="addClientsToShow">
-				<i class="icon-down"></i>
-				Ver mas
-			</b-button>
-		</div>
+		<table-component
+		:loading="loading"
+		:models="to_show"
+		:model_name="model_name"
+		:properties="properties"
+		:model_name_spanish="model_name_spanish">
+			<template v-slot:default="slotProps">
+				<b-button
+				@click="showCurrentAcounts(slotProps.model, true)"
+				class="m-l-15"
+				variant="success">
+					C/C
+				</b-button>
+			</template>
+		</table-component>
 	</div>
 </template>
 <script>
+import TableComponent from '@/components/common/display/TableComponent'
+
 import clients from '@/mixins/clients'
 export default {
 	name: 'ClientsList',
 	mixins: [clients],
+	components: {
+		TableComponent,
+	},
 	computed: {
+		model_name() {
+			return 'client'
+		},
+		model_name_spanish() {
+			return 'cliente'
+		},
+		display() {
+			return this.$store.state[this.model_name].display
+		},
 		loading() {
-			return this.$store.state.clients.loading
+			return this.$store.state[this.model_name].loading
 		},
-		search_query() {
-			return this.$store.state.clients.search_query
+		to_show() {
+			return this.$store.state[this.model_name].to_show
 		},
-		fields() {
-			return [
-				{ key: 'name', label: 'Nombre', class: 'text-center'},
-				// { key: 'address', label: 'Direccion', class: 'text-center'},
-				// { key: 'cuit', label: 'CUIT', class: 'text-center'},
-				// { key: 'iva', label: 'Iva', class: 'text-center'},
-				{ key: 'saldo', label: 'Saldo', class: 'text-center'},
-				{ key: 'options', label: 'Opciones', class: 'text-center'},
-			]
+		models() {
+			return this.$store.state[this.model_name].models
 		},
-		items() {
-			let items = []
-			this.clients_to_show.forEach(client => {
-				items.push({
-					name: client.name,
-					address: client.address,
-					cuit: client.cuit,
-					iva: client.iva ? client.iva.name : '-',
-					saldo: this.price(client.saldo),
-				})
-			})
-			return items
+		model() {
+			return this.$store.state[this.model_name].model
 		},
+		delete() {
+			return this.$store.state[this.model_name].delete
+		},
+		text_delete() {
+			if (this.delete) {
+				return 'el '+this.delete.name
+			}
+			return ''
+		},
+		properties() {
+			return require(`@/models/${this.model_name}`).default.properties 
+		},
+		// items() {
+		// 	let items = []
+		// 	this.clients_to_show.forEach(client => {
+		// 		items.push({
+		// 			name: client.name,
+		// 			address: client.address,
+		// 			cuit: client.cuit,
+		// 			iva: client.iva ? client.iva.name : '-',
+		// 			saldo: this.price(client.saldo),
+		// 		})
+		// 	})
+		// 	return items
+		// },
 		clients() {
 			return this.$store.state.clients.models
 		},

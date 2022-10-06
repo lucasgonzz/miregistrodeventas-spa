@@ -33,13 +33,13 @@ export default {
 	computed: {
 		mySteps() {
 			let items = []
-			this.statuses().forEach(item => {
+			this.statuses.forEach(item => {
 				items.push(item.name)
 			})
 			return items
 		},
 		currentStep() {
-			return this.statuses().findIndex(status => {
+			return this.statuses.findIndex(status => {
 				return status.id == this.edit.order_production_status_id
 			})
 		}

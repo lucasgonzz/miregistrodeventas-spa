@@ -9,13 +9,15 @@
 		striped
 		:fields="fields"
 		:items="items">
-			<template #cell(received)="data">
-				<b-button
-				@click="received(articles[data.index])"
-				size="sm"
-				variant="primary"> 
-					{{ articles[data.index].received }}
-				</b-button>
+			<template #cell(code)="data">
+				<b-form-input
+				v-if="showInputName(articles[data.index])"
+				placeholder="Nombre"
+				v-model="articles[data.index].bar_code"></b-form-input>
+				<span
+				v-else>
+					{{ articles[data.index].bar_code }}
+				</span>
 			</template>
 			<template #cell(name)="data">
 				<b-form-input
@@ -27,10 +29,25 @@
 					{{ articles[data.index].name }}
 				</span>
 			</template>
+			<template #cell(amount)="data">
+				<b-form-input
+				class="input-amount"
+				placeholder="Cantidad"
+				type="number"
+				v-model="articles[data.index].amount"></b-form-input>
+			</template>
 			<template #cell(notes)="data">
 				<b-form-textarea
 				placeholder="Notas"
 				v-model="articles[data.index].notes"></b-form-textarea>
+			</template>
+			<template #cell(received)="data">
+				<b-button
+				@click="received(articles[data.index])"
+				size="sm"
+				variant="primary"> 
+					{{ articles[data.index].received }}
+				</b-button>
 			</template>
 			<template #cell(options)="data">
 				<b-button
@@ -79,10 +96,9 @@ export default {
 	},
 	methods: {
 		showInputName(article) {
-			console.log(article)
 			if (!this.edit_order && article.from_provider_order) {
 				return true 
-			} else if (this.edit_order && article.status == 'from_provider_order') {
+			} else if (this.edit_order && (article.from_provider_order || article.status == 'from_provider_order')) {
 				return true
 			}
 			return false
@@ -97,3 +113,8 @@ export default {
 	}
 }
 </script>
+<style lang="sass">
+.input-amount
+	width: 80px
+</style>
+	

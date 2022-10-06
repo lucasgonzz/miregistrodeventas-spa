@@ -51,7 +51,7 @@ hide-footer>
 	label="Proveedor de estos articulos">
 		<b-form-select
 		v-model="provider_id"
-		:options="providers_options"></b-form-select>
+		:options="getOptions('provider_id', 'Proveedor')"></b-form-select>
 	</b-form-group>
 	<b-button
 	:disabled="!file"
@@ -86,13 +86,13 @@ export default {
 			form_data.append('articles', this.file);
 			form_data.append('percentage', this.percentage);
 			form_data.append('provider_id', this.provider_id);
-			this.$api.post('articles/excel/import', form_data, config)
+			this.$api.post('article/excel/import', form_data, config)
 			.then(res => {
 				this.loading = false
 				this.file = null
 				this.$bvModal.hide('import-articles')
-				this.$store.dispatch('articles/getArticles')
-				this.$store.dispatch('providers/getModels')
+				this.$store.dispatch('article/getModels')
+				this.$store.dispatch('provider/getModels')
 				console.log(res)
 			})
 			.catch(err => {

@@ -14,6 +14,12 @@
 			@keydown.enter="changeToPrice"
 			autocomplete="off"></b-form-input>
 		</b-form-group>
+		<b-form-checkbox
+		:value="1"
+		:unchecked-value="0"
+		v-model="article.cost_in_dollars">
+			Costo en dolares
+		</b-form-checkbox>
 	</b-col>
 </template>
 <script>

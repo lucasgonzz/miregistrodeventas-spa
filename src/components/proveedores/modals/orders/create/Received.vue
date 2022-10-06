@@ -61,6 +61,7 @@ export default {
 					this.$store.commit('articles/addArticle', article)
 					this.editArticle(article)
 					this.$bvModal.show('edit-article')
+					this.$store.commit('articles/setArticlesToShow')
 				} else {
 					this.$store.commit('articles/update', article)
 				}

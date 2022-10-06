@@ -31,7 +31,7 @@ export default {
 	},
 	data() {
 		return {
-			send_email: 1,
+			send_email: 0,
 			saving: false,
 		}
 	},

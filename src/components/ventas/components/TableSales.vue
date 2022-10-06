@@ -78,13 +78,13 @@ export default {
 	mixins: [Sales, Clients],
 	computed: {
 		all_sales_selected() {
-			return this.$store.state.sales.all_sales_selected
+			return this.$store.state.sale.all_sales_selected
 		},
 		to_show() {
-			return this.$store.state.sales.to_show
+			return this.$store.state.sale.to_show
 		},
 		loading() {
-			return this.$store.state.sales.loading
+			return this.$store.state.sale.loading
 		},
 		items() {
 			let items = []
@@ -171,7 +171,7 @@ export default {
 			// return ''
 		},
 		onRowSelected(items) {
-			this.$store.commit('sales/setSelected', items)
+			this.$store.commit('sale/setSelected', items)
 		},
 		date_format(value) {
 			return this.date(value)
@@ -269,18 +269,18 @@ export default {
 			this.$emit('selectAllSales')
 		},
 		showSaleDetails(sale) {
-			this.$store.commit('sales/setDetails', sale)
+			this.$store.commit('sale/setDetails', sale)
 			setTimeout(() => {
 				this.$bvModal.show('sale-details')
 			}, 100)
 		},
 		printSale(sale) {
-			this.$store.commit('sales/setSelected', [sale])
-			// this.$store.commit('sales/setPrint', sale)
+			this.$store.commit('sale/setSelected', [sale])
+			// this.$store.commit('sale/setPrint', sale)
 			this.$bvModal.show('print-sales')
 		},
 		deleteSale(sale) {
-			this.$store.commit('sales/setDelete', sale)
+			this.$store.commit('sale/setDelete', sale)
 			this.$bvModal.show('delete-sales')
 		}
 	},

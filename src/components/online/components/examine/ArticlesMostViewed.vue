@@ -77,7 +77,7 @@ export default {
 			this.$api.get(`/orders/deliver/${order.id}`)
 			.then(res => {
 				this.loading_deliver = false
-				this.$store.commit('sales/addSale', res.data.sale)
+				this.$store.commit('sale/addSale', res.data.sale)
 				this.$store.dispatch('online/orders/getConfirmedFinishedOrders')
 			})
 			.catch(err => {

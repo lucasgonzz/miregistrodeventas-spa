@@ -2,21 +2,17 @@
 <b-modal :id="id" hide-footer hide-header size="sm">
 	<p
 	class="text-center">
-		{{ text }}
+		{{ confirm_text }}
 	</p>
-	<b-button
-	block
-	class="m-b-0"
-	@click="confirm"
-	:variant="variant">
-		<btn-loader
-		:text="btn_text"
-		:loader="loading"></btn-loader>
-	</b-button>
+	<btn-loader
+	:variant="variant"
+	@clicked="confirm"
+	:text="btn_text"
+	:loader="loading"></btn-loader>
 </b-modal>
 </template>
 <script>
-import BtnLoader from '@/components/common/BtnLoader'
+import BtnLoader from '@/components/common/BtnLoader2'
 export default {
 	name: 'Confirm',
 	components: {
@@ -31,7 +27,10 @@ export default {
 		text: String,
 		actions: Array,
 		id: String,
-		toast: String,
+		toast: {
+			type: String,
+			default: 'Eliminado'
+		},
 		btn_text: {
 			type: String,
 			default: 'Eliminar'
@@ -39,6 +38,18 @@ export default {
 		variant: {
 			type: String,
 			default: 'danger'
+		},
+		not_show_delete_text: {
+			type: Boolean,
+			default: false,
+		},
+	},
+	computed: {
+		confirm_text() {
+			if (this.not_show_delete_text) {
+				return this.text
+			} 
+			return '¿Seguro que quiere eliminar '+this.text+'?'
 		},
 	},
 	methods: {

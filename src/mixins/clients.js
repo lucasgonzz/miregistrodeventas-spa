@@ -9,9 +9,9 @@ export default {
             this.$bvModal.show('client')
         },
         updateClient(client) {
-            this.$api.get('clients/'+client.id)
+            this.$api.get('client/'+client.id)
             .then(res => {
-                this.$store.commit('clients/update', res.data.client)
+                this.$store.commit('client/add', res.data.model)
             })
             .catch(err => {
                 console.log(err)
@@ -19,13 +19,14 @@ export default {
         },
         showCurrentAcounts(sale, is_client = false) {
             if (sale.client || is_client) {
+                this.$store.commit('current_acount/setFromModelName', 'client')
                 if (is_client) {
-                    this.$store.commit('clients/current_acounts/setClient', sale)
+                    this.$store.commit('current_acount/setFromModel', sale)
                 } else {
-                    this.$store.commit('clients/current_acounts/setClient', sale.client)
+                    this.$store.commit('current_acount/setFromModel', sale.client)
                 }
-                this.$store.dispatch('clients/current_acounts/getCurrentAcounts')
-                this.$store.commit('clients/current_acounts/setSelected', [])
+                this.$store.dispatch('current_acount/getModels')
+                this.$store.commit('current_acount/setSelected', [])
                 this.$bvModal.show('current-acounts')
             } 
         },

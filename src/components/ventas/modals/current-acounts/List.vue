@@ -1,6 +1,36 @@
 <template>
 <div>
-	<div
+    <table-component
+    :loading="loading"
+    :models="models"
+    :properties="properties"
+    :model_name="model_name"
+    :set_model_on_click="false"
+    :show_btn_edit="false"
+    @showDetails="showDetails">
+        <template v-slot:default="slotProps">
+            <b-button
+            class="m-r-15"
+            v-if="slotProps.model.payment_method && slotProps.model.payment_method.name == 'Cheque'"
+            size="sm"
+            variant="primary"
+            @click="showChecks(slotProps.model)"> 
+                <div class="d-flex">
+                    <i class="icon-eye m-r-5"></i>
+                    Checke
+                </div>
+            </b-button>
+            <b-button
+            size="sm"
+            v-if="canDelete(slotProps.model)"
+            @click="deleteCurrentAcount(slotProps.model)"
+            variant="danger">
+                <i class="icon-trash"></i>
+            </b-button>
+        </template>  
+    </table-component>  
+
+    <!-- <div
     v-if="!loading_current_acounts">
         <div 
         v-if="current_acounts.length">
@@ -61,22 +91,39 @@
             <i class="icon-eye-slash"></i>
             No hay cuentas corrientes
         </p>
-    </div>
-    <b-skeleton-table
-    v-else
-    :hide-header="false"
-    :rows="10"
-    :columns="5"
-    :table-props="{ bordered: true, striped: true }"
-    ></b-skeleton-table>
+    </div> -->
 </div>
 </template>
 <script>
+import TableComponent from '@/components/common/display/TableComponent'
+
 import current_acounts from '@/mixins/current_acounts' 
 import budgets from '@/mixins/budgets' 
+import display from '@/mixins/display' 
 export default {
-    mixins: [current_acounts, budgets],
+    mixins: [current_acounts, budgets, display],
+    components: {
+        TableComponent,
+    },
     computed: {
+        model_name() {
+            return 'current_acount'
+        },
+        model_name_spanish() {
+            return 'cuentas corrientes'
+        },
+        loading() {
+            return this.$store.state[this.model_name].loading
+        },
+        to_show() {
+            return this.$store.state[this.model_name].to_show
+        },
+        models() {
+            return this.$store.state[this.model_name].models
+        },
+        properties() {
+            return require(`@/models/${this.model_name}`).default.properties 
+        },
         fields() {
             return [
                 { key: 'fecha', class: 'text-center' },
@@ -107,17 +154,6 @@ export default {
         }
     },
     methods: {
-        getNum(current_acount) {
-            if (current_acount.num_receipt) {
-                return current_acount.num_receipt
-            }
-            if (current_acount.sale) {
-                return current_acount.sale.num_sale
-            }
-            if (current_acount.budget) {
-                return current_acount.budget.num
-            }
-        },
         // paymentMethod(current_acount) {
         //     if (current_acount.payment_method) {
         //         return current_acount.payment_method.name 
@@ -125,7 +161,7 @@ export default {
         //     return '-'
         // },
         showChecks(current_acount) {
-            this.$store.commit('clients/current_acounts/setShowChecks', current_acount)
+            this.$store.commit('current_acount/setToShowChecks', current_acount)
             this.$bvModal.show('checks-details')
         },
         canDelete(current_acount) {
@@ -137,7 +173,7 @@ export default {
             console.log(items)
         },
         deleteCurrentAcount(current_acount) {
-            this.$store.commit('clients/current_acounts/setDelete', current_acount)
+            this.$store.commit('current_acount/setDelete', current_acount)
             this.$bvModal.show('delete-current-acount')
         },
         showButtonDebe(current_acount) {
@@ -149,18 +185,19 @@ export default {
         },
         showDetails(current_acount) {
             if (current_acount.sale) {
-                this.$store.commit('sales/setDetails', current_acount.sale)
+                this.$store.commit('sale/setDetails', current_acount.sale)
                 setTimeout(() => {
                     this.$bvModal.show('sale-details')
                 }, 100)
             } else if (current_acount.budget) {
-                this.$store.commit('produccion/budgets/create/setCanEdit', false)
-                this.$store.commit('produccion/budgets/create/setShowBtnProduction', true)
-                this.setBudgetEdit(current_acount.budget)
-                this.$router.push({name: this.route_name, params: {view: 'presupuesto', sub_view: 'productos'}})
-                setTimeout(() => {
-                    this.$bvModal.show('create-budget')
-                }, 100)
+                this.setModel(current_acount.budget, 'budget')
+                // this.$store.commit('produccion/budgets/create/setCanEdit', false)
+                // this.$store.commit('produccion/budgets/create/setShowBtnProduction', true)
+                // this.setBudgetEdit(current_acount.budget)
+                // this.$router.push({name: this.route_name, params: {view: 'presupuesto', sub_view: 'productos'}})
+                // setTimeout(() => {
+                //     this.$bvModal.show('create-budget')
+                // }, 100)
             }
         },
         getDetalleColorText(current_acount) {

@@ -3,13 +3,23 @@
 <!-- MODALS -->
     <confirm
     :text="text_delete"
-    :actions="['sales/delete']"
+    :actions="['sale/delete']"
     id="delete-sales"
     toast="Ventas eliminadas"
     @finished="checkClientsSaldos"></confirm>
+
+    <confirm
+    :text="text_afip"
+    :actions="['sale/makeAfipTicket']"
+    id="afip-confirmation"
+    toast="Factura emitida"
+    btn_text="Confirmar"
+    variant="primary"
+    not_show_delete_text
+    @finished="printSales(selected_sales[0].id)"></confirm>
+
 	<current-acounts></current-acounts>
 	<discounts></discounts>
-	<clients></clients>
 	<sellers></sellers>
 	<commissioners></commissioners>
 	<from-date></from-date>
@@ -20,11 +30,12 @@
 	<afip-details></afip-details> 
 
 <!-- COMPONENTS -->
-	<nav-component></nav-component>
+	<previus-days></previus-days>
 
 	<total-dropdown-print-info></total-dropdown-print-info>
 
 	<address-nav></address-nav>
+	<employee-nav></employee-nav>
 
 	<table-sales 
 	@selectAllSales="selectAllSales"></table-sales>
@@ -35,28 +46,27 @@
 import moment from 'moment'
 
 // Modals
-import CurrentAcounts from '@/components/ventas/modals/current-acounts/Index.vue'
+import CurrentAcounts from '@/components/common/current-acounts/Index' 
 
-import Discounts from '@/components/ventas/modals/discounts/Index.vue'
+import Discounts from '@/components/ventas/modals/Discounts'
 import FromDate from '../components/ventas/modals/FromDate.vue'
 import SaleDetails from '../components/ventas/modals/details/Index'
 import Confirm from '@/components/common/Confirm.vue'
 import AfipDetails from '../components/ventas/modals/afip/Index.vue'
 import PrintSales from '../components/ventas/modals/PrintSales.vue'
-import Clients from '../components/ventas/modals/clients/Index.vue'
 import Commissioners from '../components/ventas/modals/commissioners/Index.vue'
-import Sellers from '../components/ventas/modals/sellers/Index.vue'
+import Sellers from '../components/ventas/modals/Sellers'
 
-import NavComponent from '../components/ventas/components/nav/Index'
+import PreviusDays from '@/components/ventas/components/PreviusDays'
 import TotalDropdownPrintInfo from '../components/ventas/components/total-dropdown-print-info/Index.vue'
 import AddressNav from '@/components/ventas/components/AddressNav'
+import EmployeeNav from '@/components/ventas/components/EmployeeNav'
 import TableSales from '../components/ventas/components/TableSales.vue'
 
 import clients from '@/mixins/clients'
-
-
+import print_sale from '@/mixins/print_sale'
 export default {
-	mixins: [clients],
+	mixins: [clients, print_sale],
 	components: {
 		// Modals
 		FromDate,
@@ -66,29 +76,29 @@ export default {
 		AfipDetails,
 		PrintSales,
 		Discounts,
-		Clients,
 		Commissioners,
 		Sellers,
 
 		// Components
-		NavComponent,
+		PreviusDays,
 		TotalDropdownPrintInfo,
 		AddressNav,
+		EmployeeNav,
 		TableSales,
 	},
 	computed: {
-		// sales() {
-		// 	return this.$store.state.sales.sales
-		// },
-		// total() {
-		// 	return this.$store.state.sales.total
-		// },
-		text_delete() {
-			return '¿Seguro que quiere eliminar las ventas seleccionadas? Se repondra el stock de los articulos'
+		selected_sales() {
+			return this.$store.state.sale.selected
 		},
+		text_delete() {
+			return 'las ventas seleccionadas'
+		},
+		text_afip() {
+			return '¿Seguro que quiere hacer una factura para esta venta?'
+		}
 	},
 	beforeRouteLeave(to, from, next) {
-		this.$store.commit('sales/setSelected', [])
+		this.$store.commit('sale/setSelected', [])
 		next()
 	},
 	methods: {

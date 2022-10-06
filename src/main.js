@@ -6,6 +6,8 @@ import user from './mixins/user'
 Vue.mixin(user)
 import general from './mixins/general'
 Vue.mixin(general)
+import generals from './mixins/generals'
+Vue.mixin(generals)
 import images from './mixins/images'
 Vue.mixin(images)
 import dates from './mixins/dates'
@@ -16,6 +18,8 @@ import percentageCard from './mixins/percentageCard'
 Vue.mixin(percentageCard)
 import articles from './mixins/articles'
 Vue.mixin(articles)
+import model_functions from './mixins/model_functions'
+Vue.mixin(model_functions)
 
 // Metadata
 import VueMeta from 'vue-meta'

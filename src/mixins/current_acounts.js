@@ -1,19 +1,16 @@
 export default {
 	computed: {
-        client() {
-            return this.$store.state.clients.current_acounts.client
+        from_model_name() {
+            return this.$store.state.current_acount.from_model_name
+        },
+        from_model() {
+            return this.$store.state.current_acount.from_model
         },
         current_acounts() {
-            return this.$store.state.clients.current_acounts.current_acounts
+            return this.$store.state.current_acount.models
         },
-        delete() {
-            return this.$store.state.clients.current_acounts.delete
-        },
-        loading_current_acounts() {
-            return this.$store.state.clients.current_acounts.loading
-        },
-        selected_currents_acounts() {
-            return this.$store.state.clients.current_acounts.selected
+        selected_current_acounts() {
+            return this.$store.state.current_acount.selected
         },
 	}
 }

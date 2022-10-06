@@ -83,9 +83,9 @@ export default {
 			.then(res => {
 				console.log(res.data.sale)
 				this.loading_deliver = 0
-				this.$store.commit('sales/add', res.data.sale)
-				this.$store.commit('sales/setToShow', null)
-				this.$store.commit('sales/setTotal')
+				this.$store.commit('sale/add', res.data.sale)
+				this.$store.commit('sale/setToShow', null)
+				this.$store.commit('sale/setTotal')
 				this.$store.dispatch('online/orders/getConfirmedFinishedOrders')
 			})
 			.catch(err => {

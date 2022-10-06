@@ -1,6 +1,5 @@
 <template>
-	<b-form-row
-	v-if="can('articles.discounts')">
+	<b-form-row>
 		<b-col>
 			<p
 			class="c-p"

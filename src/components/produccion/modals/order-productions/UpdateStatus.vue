@@ -4,7 +4,7 @@ id="update-status"
 title="Actualizar estado"
 hide-footer>
     <b-form-radio
-    v-for="status in statuses()"
+    v-for="status in statuses"
     :value="status.id"
     v-model="edit.order_production_status_id">
         {{ status.name }}

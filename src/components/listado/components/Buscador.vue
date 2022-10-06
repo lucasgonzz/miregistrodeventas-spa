@@ -1,8 +1,9 @@
 <template>
-<b-row>
+<b-row
+class="m-b-15">
 	<!-- Buscador -->
 	<b-col cols="12" class="col-autocomplete" md="6">
-		<autocomplete 
+		<!-- <autocomplete 
 		v-intro-step="1"
 		v-intro="'Busca un producto mediante su nombre'"
 		:search="search" 
@@ -10,7 +11,13 @@
 		ref="article-search"			
 		:get-result-value="getResultValue"
 		placeholder="Buscar un artículo"
-		@submit="setArticle"></autocomplete>
+		@submit="setArticle"></autocomplete> -->
+
+		<search-nav
+		:models="modelsStoreFromName('article')"
+		model_name="article"
+		:properties_to_filter="properties_to_filter"></search-nav>
+
 	</b-col>
 	<b-col class="botones-opciones" 
 	cols="12" 
@@ -41,6 +48,11 @@
 				<i class="icon-download"></i>
 				Importar Excel
 			</b-dropdown-item>
+			<b-dropdown-item
+			v-b-modal="'inactive-articles'">
+				<i class="icon-trash"></i>
+				Papelera
+			</b-dropdown-item>
 		</b-dropdown>
 		<b-button 
 		variant="secondary"
@@ -58,10 +70,12 @@
 </b-row>
 </template>
 <script>
+import SearchNav from '@/components/common/search-nav/Index'
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
 export default {
 	components: {
+		SearchNav,
 		Autocomplete,
 	},
 	data() {
@@ -70,6 +84,34 @@ export default {
 		}
 	},
 	computed: {
+		properties_to_filter() {
+			return [
+				{
+					text: 'Nombre',
+					key: 'name',
+					type: 'text',
+					value: '',
+				},
+				{
+					text: 'Codigo de Barras',
+					key: 'bar_code',
+					type: 'text',
+					value: '',
+				},
+				{
+					text: 'Codigo Proveedor',
+					key: 'provider_code',
+					type: 'text',
+					value: '',
+				},
+				{
+					text: 'N°',
+					key: 'num',
+					type: 'text',
+					value: '',
+				},
+			]
+		},
 		selected_articles() {
 			return this.$store.state.articles.selected_articles
 		},

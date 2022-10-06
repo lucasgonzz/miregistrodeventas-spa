@@ -9,7 +9,7 @@
 	<b-form-group>
 		<b-form-checkbox
 		:value="1"
-		:unchecked-value="1"
+		:unchecked-value="0"
 		v-model="sub_category.show_in_vender">
 			Mostrar en VENDER
 		</b-form-checkbox>
@@ -48,6 +48,7 @@ export default {
 			sub_category: {
 				name: '',
 				category_id: 0,
+				show_in_vender: 0,
 			},
 			loading: false,
 		}

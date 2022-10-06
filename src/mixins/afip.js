@@ -7,13 +7,13 @@ export default {
 			return false
 		},
 		loading() {
-			return this.$store.state.sales.afip.loading
+			return this.$store.state.sale.afip.loading
 		},
 		sale() {
-			return this.$store.state.sales.afip.sale
+			return this.$store.state.sale.afip.sale
 		},
 		importes() {
-			return this.$store.state.sales.afip.importes
+			return this.$store.state.sale.afip.importes
 		},
 	},
 	methods: {

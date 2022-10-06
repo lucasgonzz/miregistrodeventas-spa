@@ -1,6 +1,5 @@
 <template>
 	<b-col 
-	v-if="can('articles.stock')"
 	md="6">
 		<b-form-group
 		label="Stock">

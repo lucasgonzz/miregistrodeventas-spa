@@ -1,26 +1,59 @@
 <template>
 <div id="proveedores">
-	<order></order>
+	<!-- <order></order> -->
+	<model
+	:modal_title="'Nuevo '+model_name_spanish"
+	:model="model"
+	size="xl"
+	:model_name="model_name"
+	:text_delete="text_delete"
+	:properties="properties" />
 
 	<nav-component></nav-component>
-	<list></list>
+
+
+	<providers></providers>
+
 	<orders></orders>
 </div>
 </template>
 <script>
-import Order from '@/components/proveedores/modals/orders/create/Index'
+import Model from '@/components/common/model/Index'
 
 import NavComponent from '@/components/proveedores/components/Nav'
-import List from '@/components/proveedores/components/list/Index'
+import Providers from '@/components/proveedores/components/providers/Index'
 import Orders from '@/components/proveedores/components/orders/Index'
 export default {
 	components: {
-		Order,
+		Model,
 		
 		NavComponent,
-		List,
+		Providers,
 		Orders,
 	},
+	computed: {
+		model_name() {
+			return 'provider_order'
+		},
+		model_name_spanish() {
+			return 'pedido'
+		},
+		model() {
+			return this.$store.state[this.model_name].model
+		},
+		delete() {
+			return this.$store.state[this.model_name].delete
+		},
+		text_delete() {
+			if (this.delete) {
+				return 'el pedido N° '+this.delete.num
+			}
+			return ''
+		},
+		properties() {
+			return require(`@/models/${this.model_name}`).default.properties 
+		}
+	}
 }
 </script>
 <style scoped lang="sass">

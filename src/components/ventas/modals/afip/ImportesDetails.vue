@@ -56,10 +56,10 @@ class="s">
 export default {
 	computed: {
 		importes() {
-			return this.$store.state.sales.afip.importes
+			return this.$store.state.sale.afip.importes
 		},
 		loading() {
-			return this.$store.state.sales.afip.loading
+			return this.$store.state.sale.afip.loading
 		},
 	},
 }

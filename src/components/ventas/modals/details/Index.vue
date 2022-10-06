@@ -6,8 +6,10 @@ id="sale-details"
 size="xl" 
 hide-footer 
 body-class="p-0">
+    <budget-info></budget-info>
     <sale-info></sale-info>
     <b-table
+    v-if="!sale_details.budget"
     responsive
     head-variant="dark"
     :fields="fields"
@@ -15,11 +17,13 @@ body-class="p-0">
 </b-modal>
 </template>
 <script>
+import BudgetInfo from '@/components/ventas/modals/details/BudgetInfo'
 import SaleInfo from '@/components/ventas/modals/details/SaleInfo'
 import sales from '@/mixins/sales'
 export default {
     name: 'SaleDetails',
     components: {
+        BudgetInfo,
         SaleInfo,
     },
     mixins: [sales],
@@ -55,7 +59,7 @@ export default {
             this.sale_details.services.forEach(service => {
                 items.push({
                     name: 'servicio '+service.name,
-                    amount: 1,
+                    amount: service.pivot.amount,
                     discount: service.pivot.discount,
                     price: this.price(service.price),
                     sub_total: this.price(this.getTotalArticle(service, true)),

@@ -75,8 +75,8 @@ export default {
 				with_card: false,
 			})
 			.then(res => {
-				commit('sales/updateSale', res.data.sale, {root: true})
-				commit('sales/setToShow', null, {root: true})
+				commit('sale/updateSale', res.data.sale, {root: true})
+				commit('sale/setToShow', null, {root: true})
 				commit('setUpdating', false)
 			})
 			.catch(err => {

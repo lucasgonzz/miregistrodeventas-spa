@@ -1,7 +1,7 @@
 <template>
 	<b-col
 	cols="12"
-	class="j-end col-info-prints">
+	class="j-end col-info-prints m-b-15">
 		<b-list-group 
 		class="colors"
 		horizontal>

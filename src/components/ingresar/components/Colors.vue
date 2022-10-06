@@ -1,6 +1,6 @@
 <template>
 	<b-form-row
-	v-if="can('colors')">
+	v-if="has_online">
 		<b-col>
 			<p
 			class="c-p"

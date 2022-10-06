@@ -20,7 +20,7 @@
 				Seleccionar todo
 			</b-dropdown-item>
 			<b-dropdown-item
-			@click="print">
+			@click="callPrintSales()">
 				<i class="icon-print"></i>
 				Imprimir
 			</b-dropdown-item>
@@ -32,7 +32,7 @@
 			</b-dropdown-item>
 			<b-dropdown-item
 			v-if="selected_sales.length == 1 && !selected_sales[0].afip_ticket"
-			@click="showAfipDetails()">
+			@click="afipConfirm()">
 				<i class="icon-clipboard"></i>
 				Factura						
 			</b-dropdown-item>
@@ -43,6 +43,7 @@
 				Factura PDF
 			</b-dropdown-item>
 			<b-dropdown-item
+			v-if="can('sale.delete')"
 			v-b-modal="'delete-sales'">
 				<i class="icon-trash"></i>
 				Eliminar
@@ -51,40 +52,30 @@
 	</b-col>
 </template>
 <script>
+import print_sale from '@/mixins/print_sale'
 import afip from '@/mixins/afip'
 import sale_ticket from '@/mixins/sale_ticket'
 export default {
-	mixins: [afip, sale_ticket],
+	mixins: [print_sale, afip, sale_ticket],
 	computed: {
 		selected_sales() {
-			return this.$store.state.sales.selected
+			return this.$store.state.sale.selected
 		},
 	},
 	methods: {
-		showAfipDetails() {
-			this.$store.dispatch('sales/afip/getImportes', this.selected_sales[0])
-			.then(() => {
-				this.$bvModal.show('afip-details')
-			})
+		callPrintSales() {
+			let ids = this.selected_sales.map(sale => sale.id)
+			this.printSales(ids.join('-'))
+		},
+		afipConfirm() {
+			this.$bvModal.show('afip-confirmation')
 		},
 		selectAll() {
-			this.$store.commit('sales/setAllSalesSelected', true)
+			this.$store.commit('sale/setAllSalesSelected', true)
 		},
 		deselectAll() {
-			this.$store.commit('sales/setAllSalesSelected', false)
+			this.$store.commit('sale/setAllSalesSelected', false)
 		},
-		print() {
-			if (this.user_configuration.limit_items_in_sale_per_page) {
-				this.$bvModal.show('print-sales')
-			} else {
-	            var sales_id_ = []
-	            this.selected_sales.forEach(sale => {
-	                sales_id_.push(sale.id)
-	            })
-	            let link = process.env.VUE_APP_API_URL+'/sales/new-pdf/'+sales_id_.join('-')
-	            window.open(link)
-			}
-		}
 	}
 }
 </script>

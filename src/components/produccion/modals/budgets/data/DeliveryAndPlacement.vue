@@ -3,39 +3,31 @@
 	v-if="sub_view == 'fechas'"
 	class="m-b-15">
 		<p class="title">
-			Modo de entrega
+			Etapas opcionales
 		</p>
 		<div
 		v-if="can_edit">
-		    <b-form-radio
-		    :value="0"
-		    v-model="delivery_and_placement">
-		        Solo entrega
-		    </b-form-radio>
-		    <b-form-radio
-		    :value="1"
-		    v-model="delivery_and_placement">
-		        Entrega y colocación
-		    </b-form-radio>
+		    <b-form-checkbox
+		    v-for="status_optional in statuses_optionals"
+		    :value="status_optional"
+		    v-model="optional_statuses">
+		        {{ status_optional.name }}
+		    </b-form-checkbox>
 		</div>
 		<div
 		v-else>
-			<p
-			v-if="delivery_and_placement">
-				<i class="icon-right"></i>
-				<strong>Entrega y colocación</strong>
-			</p>
-			<p
-			v-else>
+			<!-- <p
+			v-for="">
 				<i class="icon-right"></i>
 				<strong>Solo entrega</strong>
-			</p>
+			</p> -->
 		</div>
 	</div>
 </template>
 <script>
 import budgets from '@/mixins/budgets'
+import order_productions from '@/mixins/order_productions'
 export default {
-	mixins: [budgets],
+	mixins: [budgets, order_productions],
 }
 </script>

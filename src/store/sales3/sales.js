@@ -30,20 +30,20 @@ export default {
 			state.loading = value
 		},
 		setSales(state, value) {
-			state.sales = value
+			state.sale = value
 		},
 		setSalesToShow(state, value = null) {
 			if (value) {
-				state.sales_to_show = value
+				state.sale_to_show = value
 			} else {
-				state.sales_to_show = state.sales
+				state.sale_to_show = state.sale
 			}
 		},
 		setSelectedClient(state, value) {
 			state.selected_client = value
 		},
 		addSale(state, value) {
-			state.sales.unshift(value)
+			state.sale.unshift(value)
 		},
 		setTotal(state) {
 			state.total = 0
@@ -51,7 +51,7 @@ export default {
 			state.total_articles = 0
 			state.without_cost = false
 			let total_sale = 0
-			state.sales_to_show.forEach(sale => {
+			state.sale_to_show.forEach(sale => {
 				console.log(sale)
 				sale.articles.forEach(article => {
 					if (!article.pivot.cost || article.pivot.cost == 0) {
@@ -112,24 +112,24 @@ export default {
 		delete(state) {
 			let index
 			state.selected_sales.forEach(selected_sale => {
-				index = state.sales.findIndex(sale => {
+				index = state.sale.findIndex(sale => {
 					return sale.id == selected_sale.id
 				})
-				state.sales.splice(index, 1)
+				state.sale.splice(index, 1)
 				console.log('se eliminio la venta con indice '+index)
-				index = state.sales_to_show.findIndex(sale => {
+				index = state.sale_to_show.findIndex(sale => {
 					return sale.id == selected_sale.id
 				})
-				state.sales_to_show.splice(index, 1)
+				state.sale_to_show.splice(index, 1)
 				console.log('se eliminio la venta to show con indice '+index)
 			})
 		},
 		updateSale(state, sale) {
-			let index = state.sales.findIndex(sal => {
+			let index = state.sale.findIndex(sal => {
 				return sal.id == sale.id
 			})
 			if (index != -1) {
-				state.sales.splice(index, 1, sale)
+				state.sale.splice(index, 1, sale)
 			}
 		},
 		setSelectedSales(state, value) {

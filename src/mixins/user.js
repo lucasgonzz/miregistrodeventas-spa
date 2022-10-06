@@ -49,7 +49,6 @@ export default {
 					})
 					return has_one_extencion_permission
 				} 
-				console.log(extencion)
 				return typeof extencion != 'undefined'
 			}
 		},
@@ -102,24 +101,26 @@ export default {
 		hasPermissionForRoute(route) {
 			console.log('viendo permisos para la ruta: '+route)
 			let slug = ''
-			if (route == '/vender') {
-				slug = 'sales.store'
+			if (route.includes('vender')) {
+				slug = 'sale.store'
 			} else if (route.includes('produccion')) {
 				if (route.includes('presupuestos')) {
-					slug = 'budgets.index'
+					slug = 'budget.index'
 				} else if (route.includes('ordenes-de-produccion')) {
-					slug = 'order_productions.index'
+					slug = 'order_production.index'
 				}
 			} else if (route == '/ingresar') {
-				slug = 'articles.store'
+				slug = 'article.store'
 			} else if (route == '/listado') {
-				slug = 'articles.index'
+				slug = 'article.index'
 			} else if (route.includes('ventas')) {
-				slug = 'sales.index'
+				slug = 'sale.index'
+			} else if (route.includes('clientes')) {
+				slug = 'client.index'
 			} else if (route == '/empleados') {
-				slug = 'employees'
+				slug = 'employee'
 			} else if (route.includes('proveedores')) {
-				slug = 'providers'
+				slug = 'provider.index'
 			} else if (route.includes('configuracion')) {
 				slug = 'configuration'
 			} else if (route == '/mapa') {

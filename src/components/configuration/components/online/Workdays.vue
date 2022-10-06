@@ -6,7 +6,7 @@
 	    id="delete-schedule"
 	    toast="Horario eliminado"></confirm>
 		<b-card
-		class="shadow-2 b-r-1 m-b-25"
+		class="shadow b-r-1 m-b-25"
 		title="Horarios del comerico">
 			<ul class="horizontal-ul">
 				<li

@@ -1,8 +1,8 @@
 <template>
 <div
 class="nav-items">
-    <b-nav-item :to="{name: 'Vender'}"
-    v-if="can('sales.store')"
+    <b-nav-item :to="{name: 'Vender', params: {view: 'remito'}}"
+    v-if="can('sale.store')"
     :class="activeLink('Vender')">
         Vender
     </b-nav-item>
@@ -13,31 +13,37 @@ class="nav-items">
         Produccion
     </b-nav-item>
     <b-nav-item :to="{name: 'Ingresar'}"
-    v-if="can('articles.store')"
+    v-if="can('article.store')"
     :class="activeLink('Ingresar')">
         Ingresar
     </b-nav-item>
     <b-nav-item 
     @click="toListado"
-    v-if="can('articles.index')"
+    v-if="can('article.index')"
     :class="activeLink('Listado')">
         Listado
     </b-nav-item>
     <b-nav-item 
-    :to="{name: 'Proveedores', params: {view: 'lista'}}"
     v-if="hasExtencion('providers')"
+    :to="{name: 'Proveedores', params: {view: 'proveedores', sub_view: 'lista'}}"
     :class="activeLink('Proveedores')">
         Proveedores
     </b-nav-item>
     <b-nav-item
     @click="toVentas"
-    v-if="can('sales.index')"
+    v-if="can('sale.index')"
     :class="activeLink('Ventas')">
         Ventas
     </b-nav-item>
+    <b-nav-item
+    @click="toClientes"
+    v-if="can('client.index')"
+    :class="activeLink('Clientes')">
+        Clientes
+    </b-nav-item>
     <b-nav-item 
-    :to="{name: 'Empleados'}"
-    v-if="can('employees')"
+    @click="toEmpleados"
+    v-if="can('employee')"
     :class="activeLink('Empleados')">
         Empleados
     </b-nav-item>

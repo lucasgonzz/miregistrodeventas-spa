@@ -11,7 +11,7 @@ export default {
 		observations: [],
 		start_at: '',
 		finish_at: '',
-		delivery_and_placement: false,
+		optional_statuses: [],
 		can_edit: false,
 		show_btn_production: false,
 		show_btn_make_order_production: false,
@@ -52,8 +52,11 @@ export default {
 		setFinishAt(state, value) {
 			state.finish_at = value
 		},
-		setDeliveryAndPlacement(state, value) {
-			state.delivery_and_placement = value
+		setOptionalStatuses(state, value) {
+			state.optional_statuses = value
+		},
+		addOptionalStatuses(state, value) {
+			state.optional_statuses.push(value)
 		},
 		setCanEdit(state, value) {
 			state.can_edit = value

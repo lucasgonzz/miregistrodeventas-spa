@@ -1,7 +1,8 @@
 import clients from '@/mixins/clients'
+import previus_sales from '@/mixins/previus_sales'
 import sale_ticket from '@/mixins/sale_ticket'
 export default {
-	mixins: [clients, sale_ticket],
+	mixins: [clients, previus_sales, sale_ticket],
 	computed: {
 		items() {
 			return this.$store.state.vender.items
@@ -34,27 +35,40 @@ export default {
         maked_sale() {
             return this.$store.state.vender.sale
         },
-		discounts() {
-			return this.$store.state.discounts.discounts
-		},
 		sale_types() {
 			return this.$store.state.sale_types.sale_types
-		},
-		client_discounts() {
-			return this.discounts.filter(discount => {
-				return this.client && (discount.client_id == this.client.id)
-			})
-		},
-		common_discounts() {
-			return this.discounts.filter(discount => {
-				return !discount.client_id
-			})
 		},
 		has_discounts_or_sale_types() {
             return this.discounts.length || this.sale_types.length
 		},
+		save_current_acount: {
+			get() {
+				return this.$store.state.vender.save_current_acount
+			},
+			set(value) {
+				this.$store.commit('vender/setSaveCurrentAcount', value)
+			}
+		},
+		make_current_acount_pago: {
+			get() {
+				return this.$store.state.vender.make_current_acount_pago
+			},
+			set(value) {
+				this.$store.commit('vender/setMakeCurrentAcountPago', value)
+			}
+		},
 	},
 	methods: {
+		setItemsPrices(only_the_last = false, from_pivot = false) {
+			if (only_the_last) {
+				let last_item = this.items[0] 
+				last_item.price_vender = this.getPriceVender(last_item) 
+			} else {
+				this.items.forEach(item => {
+					item.price_vender = this.getPriceVender(item, from_pivot) 
+				})
+			}
+		},
 		callVender() {
 			if (!this.is_provider) {
 				this.vender()
@@ -62,14 +76,14 @@ export default {
 		},
 		vender(print_ticket = false) {
 			if (this.items.length) {
-				this.$store.commit('articles/removeStock', this.items)
+				this.$store.commit('article/removeStock', this.items)
 				this.$store.dispatch('vender/vender', {
 					dolar_blue: this.dolar_blue, 
 					selected_address: this.selected_address
 				})
 				.then(() => {
-					this.$bvModal.hide('clients')
-					this.$store.commit('vender/clients/setView', 0)
+					// this.$bvModal.hide('clients')
+					// this.$store.commit('vender/clients/setView', 0)
 					if (this.is_provider) {
 						this.$bvModal.show('successful-sale')
 					} else {
@@ -86,7 +100,7 @@ export default {
 				})
 			}
 		},
-		setArticleForSale(article) {
+		setArticleToSale(article) {
 			// this.articles.slice(0,33).forEach(art => {
 			// 	this.addArticleForSale(art)
 			// })
@@ -99,31 +113,37 @@ export default {
 			if (this.checkRegister(article)) {
 				let article_to_add = {
 					...article,
-					is_article: true,
 					amount: '',
 				}
 				this.$store.commit('vender/setArticle', article_to_add)
 				if (this.is_provider) {
-					document.getElementById('article-amount').focus()
+					setTimeout(() => {
+						document.getElementById('article-amount').focus()
+					}, 500)
 				} else {
 					if (!this.isRepeat()) {
 						this.article.amount = 1
-						this.addArticleToArticlesSale()
+						this.addArticleToSale()
 					} 
 				} 
 			}
 		},
-		addArticleToArticlesSale() {
+		addArticleToSale() {
 			if (!this.isRepeat()) {
-				console.log('no estaba repetidooo')
 				this.addArticleAndSetTotal()
 			} 
 		},
 		addArticleAndSetTotal() {
 			let item = {
-				...this.article
+				...this.article,
+				is_article: true,
 			}
 			this.$store.commit('vender/addItem', item)
+			if (this.index_previus_sales > 0) {
+				this.setItemsPrices(true, false)
+			} else {
+				this.setItemsPrices()
+			}
 			this.$store.commit('vender/setTotal')
 			console.log('Se agrego item')
 			this.clearArticle()
@@ -131,6 +151,7 @@ export default {
 		checkRegister(article) {
 			if (!article || typeof article == 'undefined') {
 				let bar_code = this.getBarCode(this.article.bar_code)
+				console.log(this.article)
 				if (bar_code != '') {
 					this.setNewArticle({bar_code})
 				} else {
@@ -171,6 +192,7 @@ export default {
 		clearArticle() {
 			this.$store.commit('vender/setArticle', null)
 			document.getElementById('article-bar-code').focus()
+			document.getElementById('search-article').value = ''
 			console.log('Se limpio articulo')
 		},
 		getItemsPreviusSale(sale) {
@@ -180,8 +202,9 @@ export default {
 			sale.articles.forEach(article => {
 				item.id = article.id
 				item.name = article.name
+				item.pivot = article.pivot
 				item.cost = Number(article.pivot.cost)
-				item.price = Number(article.pivot.price)
+				item.price = Number(article.price)
 				item.discount = Number(article.pivot.discount)
 				item.amount = Number(article.pivot.amount)
 				item_to_add = {
@@ -193,7 +216,8 @@ export default {
 			sale.combos.forEach(combo => {
 				item.id = combo.id
 				item.name = combo.name
-				item.price = Number(combo.pivot.price)
+				item.pivot = article.pivot
+				// item.price = Number(combo.pivot.price)
 				item.amount = Number(combo.pivot.amount)
 				item_to_add = {
 					...item,
@@ -204,7 +228,8 @@ export default {
 			sale.services.forEach(service => {
 				item.id = service.id
 				item.name = service.name
-				item.price = Number(service.pivot.price)
+				item.pivot = service.pivot
+				// item.price = Number(service.pivot.price)
 				item.discount = Number(service.pivot.discount)
 				item.amount = Number(service.pivot.amount)
 				item_to_add = {

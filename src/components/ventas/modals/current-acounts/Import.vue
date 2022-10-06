@@ -33,7 +33,10 @@ hide-footer>
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
+
+import current_acounts from '@/mixins/current_acounts'
 export default {
+	mixins: [current_acounts],
 	components: {
 		BtnLoader,
 	},
@@ -44,11 +47,6 @@ export default {
 			file: null,
 		}
 	},
-	computed: {
-        client() {
-            return this.$store.state.clients.current_acounts.client
-        },
-	},
 	methods: {
 		upload() {
 			this.loading = true
@@ -58,7 +56,7 @@ export default {
 			this.$api.post('current-acounts/excel/import/'+this.client.id, form_data, config)
 			.then(res => {
 				this.loading = false
-				this.$store.dispatch('clients/current_acounts/getCurrentAcounts')
+				this.$store.dispatch('current_acount/getModels')
 				this.$store.dispatch('clients/current_acounts/updateClient')
 				this.file = null
 				this.$bvModal.hide('import-current-acounts')
@@ -68,7 +66,7 @@ export default {
 				this.loading = false
 				this.file = null
 				this.$bvModal.hide('import-current-acounts')
-				this.$store.dispatch('clients/current_acounts/getCurrentAcounts')
+				this.$store.dispatch('current_acount/getModels')
 				this.$store.dispatch('clients/current_acounts/updateClient')
 				console.log(err)
 			})

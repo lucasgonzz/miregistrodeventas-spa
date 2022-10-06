@@ -14,20 +14,26 @@ export default {
             this.Echo.channel('created_article.'+this.user.id)
             .notification((notification) => {
                 console.log('articulo creado')
+                console.log('llego por: '+'created_article.'+this.user.id)
                 console.log(notification)
-                this.$api.get('articles/'+notification.article_id)
+                this.$api.get('article/'+notification.article_id)
                 .then(res => {
-                    this.$store.commit('articles/addArticle', res.data.article)
-                    this.$store.commit('articles/setArticlesToShow')
+                    if (res.data.model.status == 'active') {
+                        this.$store.commit('article/add', res.data.model)
+                        this.$store.commit('article/setToShow')
+                    }
                 })
             });
             this.Echo.channel('updated_article.'+this.user.id)
             .notification((notification) => {
                 console.log('articulo actualizado')
                 console.log(notification)
-                this.$api.get('articles/'+notification.article_id)
+                this.$api.get('article/'+notification.article_id)
                 .then(res => {
-                    this.$store.commit('articles/update', res.data.article)
+                    if (res.data.model.status == 'active') {
+                        this.$store.commit('article/add', res.data.model)
+                        this.$store.commit('article/setToShow')
+                    }
                 })
                 // this.$store.commit('articles/setArticlesToShow')
             });

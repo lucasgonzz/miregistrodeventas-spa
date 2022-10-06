@@ -7,7 +7,7 @@
 	    toast="Zona de envio eliminada"></confirm>
 	    <delivery-zone></delivery-zone>
 		<b-card
-		class="shadow-2 b-r-1 m-b-25"
+		class="shadow b-r-1 m-b-25"
 		title="Zonas de Envio">
 			<b-table
 			class="shadow-2 b-r-1 m-b-15"

@@ -1,13 +1,20 @@
 <template>
 <div>
-    <confirm
-    :text="text_delete"
-    :actions="['clients/delete']"
-    id="delete-client"
-    toast="Cliente eliminado"></confirm>
-	<model></model>	
-	<import></import>	
-	<b-modal id="clients" title="Clientes" hide-footer size="lg">
+	<import></import>
+
+	<model
+	:modal_title="'Nuevo '+model_name_spanish"
+	:model="model"
+	:model_name="model_name"
+	:text_delete="text_delete"
+	:properties="properties"
+	check_can_delete></model>
+
+	<b-modal 
+	id="clients" 
+	title="Clientes" 
+	hide-footer 
+	size="xl">
 		<buscador></buscador>
 		<clients-nav></clients-nav>
 		<list></list>
@@ -16,7 +23,7 @@
 </template>
 <script>
 import Confirm from '@/components/common/Confirm.vue'
-import Model from '@/components/ventas/modals/clients/Model.vue'
+import Model from '@/components/common/model/Index'
 import Import from '@/components/ventas/modals/clients/Import.vue'
 import Buscador from '@/components/ventas/modals/clients/Buscador'
 import ClientsNav from '@/components/ventas/modals/clients/Nav'
@@ -32,12 +39,27 @@ export default {
 		List,
 	},
 	computed: {
+		model_name() {
+			return 'client'
+		},
+		model_name_spanish() {
+			return 'cliente'
+		},
+		model() {
+			return this.$store.state[this.model_name].model
+		},
 		delete() {
-			return this.$store.state.clients.delete
+			return this.$store.state[this.model_name].delete
 		},
 		text_delete() {
-			return '¿Seguro que quiere eliminar el cliente '+this.delete.name+'?'
-		}
+			if (this.delete) {
+				return 'el '+this.delete.name
+			}
+			return ''
+		},
+		properties() {
+			return require(`@/models/${this.model_name}`).default.properties 
+		},
 	}
 }
 </script>

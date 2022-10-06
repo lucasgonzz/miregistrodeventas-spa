@@ -1,6 +1,7 @@
 <template>
 	<b-row
-	v-if="can('categories')">
+	class="m-b-15"
+	v-if="has_online">
 		<article-category
 		:article="article"></article-category>
 		<article-subcategory

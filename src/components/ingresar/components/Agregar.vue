@@ -6,34 +6,27 @@
 			<i class="icon-plus"></i>
 		</template>
 		<b-dropdown-item
-		v-if="can('providers')"
+		v-b-modal="'price_types'">
+			Tipos de precio
+		</b-dropdown-item>
+		<b-dropdown-item
 		v-b-modal="'locations'">
 			Localidades
 		</b-dropdown-item>
 		<b-dropdown-item
-		v-if="can('providers')"
-		v-b-modal="'providers'">
-			Proveedores
-		</b-dropdown-item>
-		<b-dropdown-item
-		v-if="can('categories')"
+		v-if="has_online"
 		v-b-modal="'categories'">
 			Categorias
 		</b-dropdown-item>
 		<b-dropdown-item
-		v-if="can('brands')"
+		v-if="has_online"
 		v-b-modal="'brands'">
 			Marcas
 		</b-dropdown-item>
 		<b-dropdown-item
-		v-if="can('conditions')"
+		v-if="has_online"
 		v-b-modal="'conditions'">
 			Condiciones
-		</b-dropdown-item>
-		<b-dropdown-item
-		v-if="can('special_prices')"
-		v-b-modal="'special-prices'">
-			Precios especiales
 		</b-dropdown-item>
 	</b-dropdown>
 </template>

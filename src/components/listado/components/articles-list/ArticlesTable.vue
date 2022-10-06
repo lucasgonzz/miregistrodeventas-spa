@@ -166,7 +166,11 @@ export default {
 			if (this.can('articles.images')) {
 				fields.push({ key: 'photo', label: 'Foto' })
 			}
-			fields.push({ key: 'bar_code', label: 'Codigo' })
+			fields.push({ key: 'num', label: 'Cod Unico' })
+			if (this.hasExtencion('providers')) {
+				fields.push({ key: 'provider_code', label: 'Cod Prov' })
+			}
+			fields.push({ key: 'bar_code', label: 'Cod Barras' })
 			fields.push({ key: 'name', label: 'Nombre', sortable: true })
 			if (this.can('articles.cost')) {
 				fields.push({ key: 'cost', label: 'Costo', sortable: true })
@@ -184,6 +188,8 @@ export default {
 			this.articles.forEach(article => {
 				items.push({
 					id: article.id,
+					num: article.num,
+					provider_code: article.provider_code,
 					bar_code: this.barCode(article),
 					name: article.name,
 					cost: this.articleCost(article),

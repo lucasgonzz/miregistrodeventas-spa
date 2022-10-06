@@ -1,7 +1,6 @@
 <template>
 	<div
-	class="m-t-15"
-	v-if="sub_view == 'planos'">
+	class="m-t-15">
 		<vue-pdf-embed 
 		v-if="edit.pdf && edit.pdf != ''"
 		class="shadow m-b-15"

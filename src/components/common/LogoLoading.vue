@@ -7,7 +7,7 @@
         variant="primary"></b-spinner>
         <p
         v-if="loading_message != ''"
-        class="text-loader text-primary">Cargando {{ loading_message }}...</p>
+        class="text-loader text-primary">Descargando {{ loading_message }}...</p>
 	</div>
 </template>
 <script>

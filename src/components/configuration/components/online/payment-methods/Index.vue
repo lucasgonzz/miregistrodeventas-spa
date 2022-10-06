@@ -16,8 +16,8 @@
     	</model>
 
 		<b-card
-		class="shadow-2 b-r-1 m-b-25"
-		header="Metodos de Pago">
+		class="shadow b-r-1 m-b-25"
+		title="Metodos de Pago">
 
 			<payment-methods-table></payment-methods-table>
 			

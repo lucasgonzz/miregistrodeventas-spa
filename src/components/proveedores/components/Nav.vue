@@ -1,5 +1,6 @@
 <template>
-	<b-row>
+	<b-row
+	class="m-t--15 m-b--15">
 		<b-col>
 			<horizontal-nav
 			:items="items"
@@ -10,7 +11,7 @@
 	</b-row>
 </template>
 <script>
-import HorizontalNav from '@/components/common/HorizontalNav'
+import HorizontalNav from '@/components/common/horizontal-nav/Index'
 export default {
 	components: {
 		HorizontalNav,
@@ -18,23 +19,23 @@ export default {
 	computed: {
 		items() {
 			let items = []
-			if (this.can('providers.index') || this.can('providers.orders.create')) {
-				items.push({name: 'lista'})
+			if (this.can('provider.index') || this.can('provider.create')) {
+				items.push({name: 'proveedores', action: 'provider/getModels'})
 			}
-			if (this.can('providers.orders.index') || this.can('providers.orders.create')) {
-				items.push({name: 'pedidos'})
-			}
+			if (this.can('provider_order.index') || this.can('provider_order.create')) {
+				items.push({name: 'pedidos', action: 'provider_order/getModels'})
+			} 
 			return items
 		}
 	},
 	methods: {
 		setSelected(item) {
-			if (item.name == 'lista') {
-				this.$store.dispatch('providers/getModels')
-			}
-			if (item.name == 'pedidos') {
-				this.$store.dispatch('providers/orders/getModels')
-			}
+			// if (item.name == 'lista') {
+			// 	this.$store.dispatch('providers/getModels')
+			// }
+			// if (item.name == 'pedidos') {
+			// 	this.$store.dispatch('providers/orders/getModels')
+			// }
 		},
 	}
 }

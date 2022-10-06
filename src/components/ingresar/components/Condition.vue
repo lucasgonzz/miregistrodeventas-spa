@@ -1,6 +1,6 @@
 <template>
 	<b-form-row
-	v-if="can('conditions')">
+	v-if="has_online">
 		<b-col>
 			<p
 			class="c-p"
@@ -42,7 +42,7 @@ export default {
 	},
 	computed: {
 		conditions() {
-			return this.$store.state.conditions.conditions
+			return this.$store.state.condition.models
 		},
 	},
 	data() {

@@ -14,7 +14,7 @@
 <script>
 import moment from 'moment'
 
-import HorizontalNav from '@/components/common/HorizontalNav'
+import HorizontalNav from '@/components/common/horizontal-nav/Index'
 export default {
 	name: 'AddressNav',
 	components: {
@@ -31,27 +31,27 @@ export default {
 			return items
 		},
 		selected_day() {
-			return this.$store.state.sales.previus_days.selected_day
+			return this.$store.state.sale.previus_days.selected_day
 		},
 		selected_address() {
-			return this.$store.state.sales.selected_address
+			return this.$store.state.sale.selected_address
 		},
 		current_sales() {
-			return this.$store.state.sales.models
+			return this.$store.state.sale.models
 		},
 		from_date() {
-			return this.$store.state.sales.from_date
+			return this.$store.state.sale.from_date
 		},
 	},
 	watch: {
-		selected_day() {
-			this.$store.commit('sales/setSelectedAddress', {street: 'todas'})
+		from_date() {
+			this.$store.commit('sale/setSelectedAddress', {street: 'todas'})
 			this.$router.push({name: this.route_name, params: {view: 'todas'}})
 		},
 	},
 	methods: {
 		setSelected(address) {
-			this.$store.commit('sales/setSelectedAddress', address)
+			this.$store.commit('sale/setSelectedAddress', address)
 			this.setSales()
 		},
 		setSales() {
@@ -70,8 +70,8 @@ export default {
 				})
 			}
 			console.log(sales)
-			this.$store.commit('sales/setToShow', sales)
-			this.$store.commit('sales/setTotal')
+			this.$store.commit('sale/setToShow', sales)
+			this.$store.commit('sale/setTotal')
 		},
 	}
 }

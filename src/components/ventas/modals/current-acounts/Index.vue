@@ -11,7 +11,15 @@
     <saldo-inicial></saldo-inicial>    
     <checks-details></checks-details>    
 
-    <create-budget></create-budget>
+    <model
+    size="xl"
+    modal_title="Presupuesto"
+    :model="modelStoreFromName('budget')"
+    model_name="budget"
+    text_delete="este presupuesto"
+    :properties="modelPropertiesFromName('budget')">
+    </model>
+
     <print-budget></print-budget>
 
     <b-modal id="current-acounts" :title="title" hide-footer size="xl" body-class="p-0">
@@ -33,6 +41,7 @@ import SaldoInicial from '@/components/ventas/modals/current-acounts/SaldoInicia
 import ChecksDetails from '@/components/ventas/modals/current-acounts/ChecksDetails.vue'
 import CreateBudget from '@/components/produccion/modals/budgets/Create'
 import PrintBudget from '@/components/produccion/modals/budgets/Print'
+import Model from '@/components/common/model/Index'
 
 // Components
 import CurrentAcountsNav from '@/components/ventas/modals/current-acounts/Nav'
@@ -51,6 +60,7 @@ export default {
         ChecksDetails,
         CreateBudget,
         PrintBudget,
+        Model,
         
         // Components
         CurrentAcountsNav,
@@ -65,14 +75,19 @@ export default {
             }
             return ''
         },
+        delete() {
+            return this.$store.state.current_acount.delete
+        },
         text_delete() {
-            return '¿Seguro que quiere eliminar la cuenta corriente?'
+            if (this.delete) {
+                return 'este pago por $'+this.delete.haber
+            }
+            return ''
         },
         actions() {
             return [
-                'clients/current_acounts/delete',
-                'clients/current_acounts/getCurrentAcounts',
-                'clients/current_acounts/updateClient',
+                'current_acount/delete',
+                'current_acount/getModels',
             ]
         }
     },

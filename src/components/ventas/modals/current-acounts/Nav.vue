@@ -23,11 +23,11 @@
 		class="m-l-15">
 			<i class="icon-print"></i>
 			<span
-			v-show="selected_currents_acounts.length">
-				{{ selected_currents_acounts.length }}
+			v-show="selected_current_acounts.length">
+				{{ selected_current_acounts.length }}
 			</span>
 			<span
-			v-show="!selected_currents_acounts.length">
+			v-show="!selected_current_acounts.length">
 				todas
 			</span>
 		</b-button>
@@ -38,14 +38,6 @@
 		variant="primary">
 			Saldo inicial
 		</b-button>
-		<!-- <b-button
-		@click="checkSaldos"
-		variant="primary"
-		class="m-l-15">
-			<btn-loader
-			:loader="loading_check_saldos"
-			text="Checkear saldos"></btn-loader>
-		</b-button> -->
 	</b-form>
 </template>
 <script>
@@ -63,17 +55,14 @@ export default {
 				this.$store.commit('clients/current_acounts/setMonthsAgo', value)
 			},
 			get() {
-				return this.$store.state.clients.current_acounts.months_ago
+				return this.$store.state.current_acount.months_ago
 			}
 		},
 		loading() {
-			return this.$store.state.clients.current_acounts.loading
-		},
-		loading_check_saldos() {
-			return this.$store.state.clients.current_acounts.loading_check_saldos
+			return this.$store.state.current_acount.loading
 		},
         client() {
-            return this.$store.state.clients.current_acounts.client
+            return this.$store.state.current_acount.client
         },
 	},
 	methods: {
@@ -82,7 +71,7 @@ export default {
             this.$bvModal.show('saldo-inicial-client')
         },
 		getCurrentAcounts() {
-			this.$store.dispatch('clients/current_acounts/getCurrentAcounts')
+			this.$store.dispatch('current_acount/getModels')
 		},
 		checkSaldos() {
 			this.$store.dispatch('clients/current_acounts/checkSaldos')
@@ -93,9 +82,9 @@ export default {
 		},
 		print() {
 			let link = ''
-			if (this.selected_currents_acounts.length) {
+			if (this.selected_current_acounts.length) {
 				let ids = []
-				this.selected_currents_acounts.forEach(current_acount => {
+				this.selected_current_acounts.forEach(current_acount => {
 					ids.push(current_acount.id)
 				})
             	link = process.env.VUE_APP_API_URL+'/current-acounts/pdf/'+ids.join('-')

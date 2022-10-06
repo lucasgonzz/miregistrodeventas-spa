@@ -1,5 +1,6 @@
 <template>
-	<b-row>
+	<b-row
+	class="m-b-15">
 		<article-cost
 		:article="article"></article-cost>
 		<article-price

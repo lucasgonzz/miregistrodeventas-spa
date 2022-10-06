@@ -20,7 +20,7 @@ export default {
 				if (res.data.login) {
 					this.$store.commit('auth/setAuthenticated', true)
 					this.$store.commit('auth/setUser', res.data.user)
-					this.$router.replace({ name: 'Vender' })
+					this.$router.replace({ name: 'Vender', params: {view: 'remito'} })
 				} 
 			})
 			.catch(err => {

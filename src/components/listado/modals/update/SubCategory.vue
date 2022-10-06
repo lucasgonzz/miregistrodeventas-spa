@@ -1,6 +1,5 @@
 <template>
 <b-modal 
-v-if="can('categories')"
 id="update-sub-category" 
 title="Actualizar Sub Categoria" 
 hide-footer>

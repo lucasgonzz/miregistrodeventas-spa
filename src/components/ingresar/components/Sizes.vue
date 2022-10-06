@@ -1,6 +1,6 @@
 <template>
 	<b-form-row
-	v-if="can('sizes')">
+	v-if="has_online">
 		<b-col>
 			<p
 			class="c-p"

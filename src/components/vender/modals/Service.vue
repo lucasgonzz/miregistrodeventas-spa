@@ -23,8 +23,10 @@ hide-footer>
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
+import vender from '@/mixins/vender'
 export default {
 	props: ['service'],
+	mixins: [vender],
 	components: {
 		BtnLoader,
 	},
@@ -46,6 +48,11 @@ export default {
 						amount: 1,
 					}
 					this.$store.commit('vender/addItem', service)
+					if (this.index_previus_sales > 0) {
+						this.setItemsPrices(true, false)
+					} else {
+						this.setItemsPrices()
+					}
 					this.$store.commit('vender/setTotal')
 					this.$bvModal.hide('service')
 					this.service.name = ''

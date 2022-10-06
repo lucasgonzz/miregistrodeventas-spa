@@ -13,7 +13,7 @@
 			<platelets></platelets>	
 			<payment-methods></payment-methods>	
 			<delivery-zones></delivery-zones>	
-			<dolar></dolar>	
+			<!-- <dolar></dolar>	 -->
 			<title-image></title-image>	
 			<addresses></addresses>	
 			<workdays></workdays>	

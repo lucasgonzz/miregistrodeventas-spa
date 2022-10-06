@@ -34,7 +34,7 @@ export default {
     },
     computed: {
         selected_sales() {
-            return this.$store.state.sales.selected_sales
+            return this.$store.state.sale.selected_sales
         }
     },
     methods: {
@@ -49,8 +49,8 @@ export default {
                 this.loading = false
                 this.$bvModal.hide('delete-sales')
                 this.$store.commit('articles/updateStock', this.selected_sales)
-                this.$store.commit('sales/delete')
-                this.$store.commit('sales/setTotal')
+                this.$store.commit('sale/delete')
+                this.$store.commit('sale/setTotal')
                 this.$toast.success('Venta eliminada')
                 this.checkClientsSaldos()
             })

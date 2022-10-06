@@ -22,7 +22,7 @@
                     Hay una nueva version disponible, click para actualizar
                 </b-button>
                 <transition name="fade" mode="out-in">
-                    <router-view/>
+                    <router-view/> 
                 </transition>
             </b-container>
         </div>
@@ -143,13 +143,13 @@ export default {
             } else {
                 if (this.user.trial_expired) {
                     route = '/prueba-terminada'
-                } else if (this.can('sales.store')) {
-                    route = '/vender'
-                } else if (this.can('articles.store')) {
+                } else if (this.can('sale.store')) {
+                    route = '/vender/remito'
+                } else if (this.can('article.store')) {
                     route = '/ingresar'
-                } else if (this.can('articles.index')) {
+                } else if (this.can('article.index')) {
                     route = '/listado'
-                } else if (this.can('sales.index')) {
+                } else if (this.can('sale.index')) {
                     route = '/ventas'
                 } else if (this.can('online.orders')) {
                     route = '/tienda-online/pedidos'
@@ -163,13 +163,13 @@ export default {
                     route = '/tienda-online/cupones'
                 } else if (this.can('online.calls')) {
                     route = '/tienda-online/llamadas'
-                } else if (this.can('budgets.index') || this.can('budgets.store')) {
+                } else if (this.can('budget.index') || this.can('budget.store')) {
                     route = '/produccion/presupuestos'
-                } else if (this.can('order_productions.index')) {
+                } else if (this.can('order_production.index')) {
                     route = '/produccion/ordenes-de-produccion'
-                } else if (this.can('providers.index')) {
+                } else if (this.can('provider.index')) {
                     route = '/proveedores/lista'
-                } else if (this.can('providers.orders.create') || this.can('providers.orders.index')) {
+                } else if (this.can('provider_order.create') || this.can('provider_order.index')) {
                     route = '/proveedores/pedidos'
                 }
                 console.log('redireccionando a: '+route)
@@ -181,82 +181,65 @@ export default {
                 console.log('Es un comercio')
                 this.$store.commit('auth/setLoading', true)
                 this.loading_message = 'articulos'
-                await this.$store.dispatch('articles/getArticles')
+                await this.$store.dispatch('article/getModels')
                 this.loading_message = 'ventas'
-                await this.$store.dispatch('sales/previus_days/getDays')
-                await this.$store.dispatch('sales/getModels')
-                if (this.hasExtencion('budgets')) {
+                await this.$store.dispatch('sale/getModels')
+                if (this.hasExtencion('budgets') && this.can('budget.index')) {
                     this.loading_message = 'presupuestos'
-                    this.$store.dispatch('produccion/budgets/getModels')
+                    this.$store.dispatch('budget/getModels')
+                    this.$store.dispatch('budget_status/getModels')
                 }
-                if (this.hasExtencion('order_productions')) {
+                if (this.hasExtencion('order_productions') && this.can('order_production.index')) {
                     this.loading_message = 'ordenes de produccion'
-                    this.$store.dispatch('produccion/order_productions/getModels')
-                    this.$store.dispatch('produccion/order_productions/statuses/getModels')
-                }
-                if (this.can('special_prices')) {
-                    this.$store.dispatch('special_prices/getSpecialPrices')
+                    this.$store.dispatch('order_production/getModels')
+                    this.$store.dispatch('order_production_status/getModels')
                 }
                 if (this.hasExtencion('combos')) {
                     this.$store.dispatch('combos/getModels')
                 }
-                // if (this.can('providers')) {
+                this.loading_message = 'tipos de precios'
+                await this.$store.dispatch('price_type/getModels')
+                if (this.hasExtencion('providers')) {
                     this.loading_message = 'proveedores'
-                    await this.$store.dispatch('providers/getModels')
-                    if (this.hasExtencion('proveedores')) {
-                        this.loading_message = 'pedidos de proveedores'
-                        await this.$store.dispatch('providers/orders/getModels')
-                    }
-                    this.loading_message = 'localidades'
-                    await this.$store.dispatch('locations/getModels')
-                // }
-                // if (this.can('categories')) {
+                    await this.$store.dispatch('provider/getModels')
+                    this.loading_message = 'pedidos de proveedores'
+                    await this.$store.dispatch('provider_order/getModels')
+                }
+                this.loading_message = 'localidades'
+                await this.$store.dispatch('location/getModels')
+                if (this.has_online) {
                     this.loading_message = 'categorias'
                     await this.$store.dispatch('categories/getCategories')
                     this.loading_message = 'subcategorias'
                     await this.$store.dispatch('sub_categories/getSubCategories')
-                    this.loading_message = 'iconos'
-                    await this.$store.dispatch('icons/getIcons')
-                // }
-                // if (this.can('clients')) {
+                    this.loading_message = 'etiquetas'
+                    await this.$store.dispatch('tags/getTags')
+                    this.loading_message = 'colores'
+                    await this.$store.dispatch('colors/getColors')
+                    this.loading_message = 'talles'
+                    await this.$store.dispatch('sizes/getSizes')
+                    this.loading_message = 'marcas'
+                    await this.$store.dispatch('brand/getModels')
+                }
+                if (this.can('client.index') || this.can('sale.store')) {
                     this.loading_message = 'clientes'
-                    await this.$store.dispatch('clients/getModels')
+                    await this.$store.dispatch('client/getModels')
                     await this.$store.dispatch('current_acount_payment_methods/getModels')
-                // }
-                if (this.can('afip_tickets')) {
+                }
+                // if (this.can('afip_tickets')) {
                     this.loading_message = 'iva'
-                    await this.$store.dispatch('ivas/getModels')
+                    await this.$store.dispatch('iva/getModels')
                     this.loading_message = 'condiciones de iva'
-                    await this.$store.dispatch('iva_conditions/getModels')
-                }
-                if (this.can('employees')) {
+                    await this.$store.dispatch('iva_condition/getModels')
+                // }
+                if (this.can('employee')) {
                     this.loading_message = 'empleados'
-                    await this.$store.dispatch('employees/getEmployees')
+                    await this.$store.dispatch('employee/getModels')
                 }
-                if (this.can('articles.index')) {
+                if (this.can('article.index')) {
                     this.loading_message = 'listas de precios'
                     await this.$store.dispatch('prices_lists/getPircesLists')
                 } 
-                if (this.can('tags')) {
-                    this.loading_message = 'etiquetas'
-                    await this.$store.dispatch('tags/getTags')
-                } 
-                if (this.can('articles.with_dolar')) {
-                    this.loading_message = 'monedas'
-                    await this.$store.dispatch('coins/getCoins')
-                }
-                if (this.can('colors')) {
-                    this.loading_message = 'colores'
-                    await this.$store.dispatch('colors/getColors')
-                }
-                if (this.can('sizes')) {
-                    this.loading_message = 'talles'
-                    await this.$store.dispatch('sizes/getSizes')
-                }
-                if (this.can('brands')) {
-                    this.loading_message = 'marcas'
-                    await this.$store.dispatch('brands/getBrands')
-                }
                 if (this.has_online) {
                     this.loading_message = 'metodos de pago'
                     await this.$store.dispatch('payment_methods/getModels')
@@ -267,7 +250,7 @@ export default {
                     this.loading_message = 'titulos'
                     await this.$store.dispatch('titles/getTitles')
                     this.loading_message = 'condiciones'
-                    await this.$store.dispatch('conditions/getConditions')
+                    await this.$store.dispatch('condition/getModels')
                     this.loading_message = 'dias de trabajo'
                     await this.$store.dispatch('workdays/getWorkdays')
                     this.loading_message = 'horarios de trabajo'
@@ -278,19 +261,19 @@ export default {
                     this.getCalls()
                     this.listenChannels()
                 }
-                if (this.can('discounts_sellers')) {
-                    this.loading_message = 'descuentos'
-                    await this.$store.dispatch('discounts/getDiscounts')
-                    this.loading_message = 'vendedores'
-                    await this.$store.dispatch('sellers/getModels')
-                    this.loading_message = 'comisiones'
-                    await this.$store.dispatch('commissioners/getCommissioners')
-                    this.loading_message = 'tipos de venta'
-                    await this.$store.dispatch('sale_types/getSaleTypes')
-                    this.$store.commit('vender/setSaleType', 1)
-                } 
+
+                this.loading_message = 'descuentos'
+                await this.$store.dispatch('discount/getModels')
+                this.loading_message = 'vendedores'
+                await this.$store.dispatch('seller/getModels')
+                this.loading_message = 'comisiones'
+                await this.$store.dispatch('commissioners/getCommissioners')
+                this.loading_message = 'tipos de venta'
+                await this.$store.dispatch('sale_types/getSaleTypes')
+
+                this.$store.commit('vender/setSaleType', 1)
                 this.$store.commit('auth/setLoading', false)
-                this.loading_message = 'informacion'
+                this.loading_message = ''
                 this.checkAddress()
                 this.setSubCategoriesInVender()
             } else if (this.is_super) {
@@ -307,13 +290,13 @@ export default {
 @import "./sass/fonts/styles.css"
 @import "@/sass/app.sass"
 #app 
-    background: #FFF
+    background: #F3F3F3
     font-family: Roboto, Nunito, Helvetica, Arial, sans-serif
     -webkit-font-smoothing: antialiased
     -moz-osx-font-smoothing: grayscale
     text-align: center
     color: #2c3e50
-    height: 100vh
+    min-height: 100vh
 .fade-enter-active,
 .fade-leave-active 
     transition-duration: 0.3s

@@ -7,7 +7,7 @@ hide-footer>
 	label="Iva">
 		<b-form-select
 		v-model="iva_id"
-		:options="iva_options"></b-form-select>
+		:options="getOptions('iva_id', 'Iva', 'percentage')"></b-form-select>
 	</b-form-group>
 	<b-form-group>
 		<b-button
@@ -40,15 +40,15 @@ export default {
 	methods: {
 		update() {
 			this.loading = true
-			this.$api.put('/articles/iva_id', {
+			this.$api.put('/article/update-prop/iva_id', {
 				iva_id: this.iva_id,
 				articles_ids: this.selected_articles_id
 			})
 			.then(res => {
 				this.loading = false
-				let articles = res.data.articles
+				let articles = res.data.models
 				articles.forEach(article => {
-					this.$store.commit('articles/update', article)
+					this.$store.commit('article/add', article)
 				})
 				this.$bvModal.hide('update-iva')
 				this.clear()

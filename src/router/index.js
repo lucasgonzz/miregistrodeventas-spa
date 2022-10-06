@@ -9,6 +9,7 @@ import Produccion from '../views/Produccion.vue'
 import Ingresar from '../views/Ingresar.vue'
 import Listado from '../views/Listado.vue'
 import Ventas from '../views/Ventas.vue'
+import Clientes from '../views/Clientes.vue'
 import Empleados from '../views/Empleados.vue'
 import Online from '../views/Online.vue'
 import Proveedores from '../views/Proveedores.vue'
@@ -72,7 +73,7 @@ Vue.use(VueRouter)
         component: Admin,
     },
     {
-        path: '/vender',
+        path: '/vender/:view?',
         name: 'Vender',
         component: Vender,
     },
@@ -97,6 +98,11 @@ Vue.use(VueRouter)
         component: Ventas,
     },
     {
+        path: '/clientes',
+        name: 'Clientes',
+        component: Clientes,
+    },
+    {
         path: '/ventas-completas',
         name: 'VentasAll',
         component: Ventas,
@@ -112,7 +118,7 @@ Vue.use(VueRouter)
         component: Online,
     },
     {
-        path: '/proveedores/:view',
+        path: '/proveedores/:view/:sub_view',
         name: 'Proveedores',
         component: Proveedores,
     },

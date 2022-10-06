@@ -4,7 +4,7 @@
 	<import-articles></import-articles>
     <confirm
     :text="text_delete"
-    :actions="['articles/delete']"
+    :actions="['article/delete']"
     id="delete-articles"
     toast="Articulos eliminados"></confirm>
 	<edit-article></edit-article>
@@ -28,14 +28,8 @@
 	<buscador></buscador>
 	<filtered-selected-stock-info></filtered-selected-stock-info>
 
-	<!-- <articles-table></articles-table>
-	<articles-mobile></articles-mobile> -->
-
-	<articles-list
-	:loading="loading"
-	:articles="articles_to_show"></articles-list>
+	<list></list>
 	
-	<add-articles></add-articles>
 </div>
 </template>
 
@@ -65,8 +59,7 @@ import StockInfo from '@/components/listado/modals/stock-info/Index.vue'
 import Buscador from '../components/listado/components/Buscador.vue'
 // import ArticlesTable from '../components/listado/components/articles-list/ArticlesTable.vue'
 // import ArticlesMobile from '../components/listado/components/articles-list/ArticlesMobile.vue'
-import ArticlesList from '@/components/listado/components/articles-list/Index'
-import AddArticles from '../components/listado/components/AddArticles.vue'
+import List from '@/components/listado/components/List'
 import FilteredSelectedStockInfo from '@/components/listado/components/filtered-selected-stock-info/Index' 
 			
 export default {
@@ -96,8 +89,7 @@ export default {
 		Buscador,
 		// ArticlesTable,
 		// ArticlesMobile,
-		ArticlesList,
-		AddArticles,
+		List,
 		FilteredSelectedStockInfo,
 	},
 	computed: {
@@ -109,9 +101,9 @@ export default {
 		},
 		text_delete() {
 			if (this.from_filter) {
-				return '¿Seguro que quiere eliminar todos los articulos filtrados?'
+				return 'todos los articulos filtrados'
 			}
-			return '¿Seguro que quiere eliminar los articulos seleccionados?'
+			return 'los articulos seleccionados'
 		},
 		articles_to_show() {
 			return this.$store.state.articles.articles_to_show
@@ -121,7 +113,7 @@ export default {
 		},
 	},
 	beforeRouteLeave(to, from, next) {
-		this.$store.commit('articles/setSelectedArticles', [])
+		this.$store.commit('article/setSelected', [])
 		next()
 	},
 	data() {

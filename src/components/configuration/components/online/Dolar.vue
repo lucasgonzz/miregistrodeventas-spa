@@ -1,8 +1,16 @@
 <template>
 <b-card 
-class="shadow-2 b-r-1 m-b-25"
+class="shadow b-r-1 m-b-25"
 title="Dolar">
 	<b-form-group
+	label="Precio del dolar para calcular costos">
+		<b-form-input
+		class="m-t-10"
+		type="number"
+		placeholder="Ingrese el precio del dolar"
+		v-model="user.dollar"></b-form-input>
+	</b-form-group>
+	<!-- <b-form-group
 	label="Que valor del dolar user">
 		<b-form-radio
 		value="compra"
@@ -45,7 +53,7 @@ title="Dolar">
 	<p
 	class="title">
 		Precio final: <strong>{{ price(dolar_blue) }}</strong>
-	</p>
+	</p> -->
 	<b-button
 	block
 	variant="primary"

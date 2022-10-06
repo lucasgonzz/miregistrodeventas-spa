@@ -41,8 +41,11 @@
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
+
+import selected_articles from '@/mixins/selected_articles'
 export default {
 	name: 'UpdateByPorcentage',
+	mixins: [selected_articles],
 	components: {
 		BtnLoader
 	},
@@ -53,18 +56,6 @@ export default {
 			// round: 'up',
 			decimals: 0,
 			updating_by_porcentage: false,
-		}
-	},
-	computed: {
-		selected_articles() {
-			return this.$store.state.articles.selected_articles
-		},
-		selected_articles_id() {
-			let ids = []
-			this.selected_articles.forEach(art => {
-				ids.push(art.id)
-			})
-			return ids
 		}
 	},
 	methods: {
@@ -80,9 +71,10 @@ export default {
 				console.log(res)
 				this.updating_by_porcentage = false
 				this.clear()
-				let articles = res.data.articles
+				let articles = res.data.models
 				articles.forEach(article => {
-					this.$store.commit('articles/update', article)
+					this.$store.commit('article/add', article)
+					this.$store.commit('article/setToShow')
 				})
 				// this.$emit('updateArticlesList')
 				this.$bvModal.hide('update-by-porcentage')

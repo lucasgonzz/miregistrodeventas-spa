@@ -32,11 +32,13 @@
 </b-modal>
 </template>
 <script>
-import clients from '@/mixins/clients'
 import BtnLoader from '@/components/common/BtnLoader'
+
+import clients from '@/mixins/clients'
+import current_acounts from '@/mixins/current_acounts'
 export default {
 	name: 'SaldoInicialClient',
-	mixins: [clients],
+	mixins: [clients, current_acounts],
 	components: {
 		BtnLoader,
 	},
@@ -45,11 +47,6 @@ export default {
 			saldo_inicial: '',
 			is_for_debe: true,
 			loading: false,
-		}
-	},
-	computed: {
-		client() {
-			return this.$store.state.clients.saldo_inicial
 		}
 	},
 	methods: {
@@ -66,7 +63,7 @@ export default {
 					this.$toast.success('Saldo inicial agregado')
 					this.$bvModal.hide('saldo-inicial-client')
 					this.clear()
-					this.$store.dispatch('clients/current_acounts/getCurrentAcounts')
+					this.$store.dispatch('current_acount/getModels')
 					this.updateClient(this.client)
 				})
 				.catch(err => {

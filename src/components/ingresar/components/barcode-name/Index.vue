@@ -1,5 +1,6 @@
 <template>
-	<b-row>
+	<b-row
+	class="m-b-15">
 		<article-bar-code
 		:article="article"></article-bar-code>
 		<article-name

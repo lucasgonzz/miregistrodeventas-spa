@@ -28,11 +28,13 @@
 </b-modal>
 </template>
 <script>
-import clients from '@/mixins/clients'
 import BtnLoader from '@/components/common/BtnLoader'
+
+import clients from '@/mixins/clients'
+import current_acounts from '@/mixins/current_acounts'
 export default {
 	name: 'CurrentAcountNotaCredito',
-    mixins: [clients],
+    mixins: [clients, current_acounts],
     components: {
         BtnLoader
     },
@@ -46,9 +48,6 @@ export default {
         }
     },
     computed: {
-        client() {
-            return this.$store.state.clients.current_acounts.client
-        },
         placeholder() {
         	return `Ingrese el monto de la nota de credito para ${this.client.name}`
         },
@@ -61,7 +60,7 @@ export default {
     			form:        this.form,
     		})
     		.then(res => {
-                this.$store.dispatch('clients/current_acounts/getCurrentAcounts')
+                this.$store.dispatch('current_acount/getModels')
     			this.loading = false
     			this.$toast.success('Nota de credito registrada correctamente')
                 this.$bvModal.hide('current-acounts-nota-credito')

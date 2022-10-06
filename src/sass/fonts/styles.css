@@ -287,3 +287,15 @@
 .icon-dots:before {
   content: "\3f";
 }
+.icon-bag:before {
+  content: "\40";
+}
+.icon-exclamation:before {
+  content: "\5b";
+}
+.icon-list:before {
+  content: "\5d";
+}
+.icon-grid:before {
+  content: "\5e";
+}

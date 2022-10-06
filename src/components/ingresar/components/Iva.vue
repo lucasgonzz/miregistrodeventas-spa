@@ -1,6 +1,5 @@
 <template>
-	<b-form-row
-	v-if="can('afip_tickets')">
+	<b-form-row>
 		<b-col>
 			<p
 			class="c-p"
@@ -13,7 +12,7 @@
 			class="m-b-15"
 			v-show="show"
 			v-model="article.iva_id"
-			:options="iva_options">
+			:options="getOptions('iva_id', 'Iva', 'percentage')">
 			</b-form-select>
 		</b-col>
 	</b-form-row>

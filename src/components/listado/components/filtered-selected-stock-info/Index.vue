@@ -5,6 +5,14 @@
 	cols="12"
 	md="6"
 	class="j-start">
+		<b-button
+		class="m-r-15"
+		variant="primary"
+		v-if="filtered.length"
+		@click="clearFilter">
+			<i class="icon-undo"></i>
+			Quitar filtro
+		</b-button>
 		<drop-down
 		class="m-r-15"
 		from_filter></drop-down>
@@ -27,6 +35,12 @@ export default {
 		DropDown,
 		StockInfo,
 	},
+	methods: {
+		clearFilter() {
+			this.$store.commit('article/setFiltered', [])
+			this.$store.commit('article/setToShow')
+		},
+	},
 	computed: {
 		offset() {
 			if (!this.show) {
@@ -38,10 +52,10 @@ export default {
 			return this.filtered.length || this.selected_articles.length
 		},
 		filtered() {
-			return this.$store.state.articles.filtered
+			return this.$store.state.article.filtered
 		},
 		selected_articles() {
-			return this.$store.state.articles.selected_articles
+			return this.$store.state.article.selected
 		}
 	}
 }

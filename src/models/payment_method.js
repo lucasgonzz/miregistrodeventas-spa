@@ -1,5 +1,5 @@
 export default {
-	props: [
+	properties: [
 		{
 			text: 'Nombre',
 			key: 'name',

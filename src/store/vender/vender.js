@@ -16,17 +16,18 @@ export default {
 		update_price: {},
 		new_article: '',
 		article_for_sale: {},
-		article_variant: {},
 		total: 0,
 		client: null,
 		with_card: false,
 		discounts: [],
+		price_type: null,
+		save_current_acount: 1,
+		make_current_acount_pago: 0,
 
 		sub_categories: [],
 
 		sale_type: null,
 		vendiendo: false,
-		special_price_id: 0,
 		sale: {},
 	},
 	mutations: {
@@ -66,6 +67,15 @@ export default {
 		setDiscounts(state, value) {
 			state.discounts = value
 		},
+		setPriceType(state, value) {
+			state.price_type = value
+		},
+		setSaveCurrentAcount(state, value) {
+			state.save_current_acount = value
+		},
+		setMakeCurrentAcountPago(state, value) {
+			state.make_current_acount_pago = value
+		},
 		setSubCategories(state, value) {
 			state.sub_categories = value 
 		},
@@ -98,6 +108,11 @@ export default {
 					percentage_card = percentage_card_mixin.methods.percentageCardFormated(user_percentage_card)
 					state.total = state.total * percentage_card
 				} 
+				if (state.discounts.length) {
+					state.discounts.forEach(discount => {
+						state.total -= total * discount.percentage / 100
+					})
+				}
 			}
 		},
 		removeItem(state, item) {
@@ -123,6 +138,8 @@ export default {
 				with_card: state.with_card,
 				client_id: state.client ? state.client.id : null ,
 				discounts: state.discounts,
+				save_current_acount: state.save_current_acount,
+				make_current_acount_pago: state.make_current_acount_pago,
 				sale_type: state.sale_type,
 				dolar_blue: info.dolar_blue,
 				selected_address: info.selected_address,
@@ -137,9 +154,9 @@ export default {
 				commit('setSaleType', 1)
 				commit('setClient', null)
 				commit('setTotal', 0)
-				commit('sales/add', sale, {root: true})
-				commit('sales/setTotal', null, {root: true})
-				commit('sales/setToShow', null, {root: true})
+				commit('sale/add', sale, {root: true})
+				commit('sale/setTotal', null, {root: true})
+				commit('sale/setToShow', null, {root: true})
 			})
 			.catch(err => {
 				commit('setVendiendo', false)

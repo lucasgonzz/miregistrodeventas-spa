@@ -19,7 +19,7 @@ export default {
 			}
 			return url
 		},
-		uploadImage(model_name, model, commit) {
+		uploadImage(model_name, model, commit = null) {
 			this.$store.commit('auth/setLoading', true)
 			setTimeout(() => {
 				this.$store.commit('auth/setLoading', false)
@@ -27,11 +27,15 @@ export default {
 			var myCropWidget = cloudinary.createUploadWidget(this.widget_info, (error, result) => { 
 				if (result.event == 'success') {
 					let image_url = result.info.path
-					this.$api.put(`/${model_name.replace('_', '-')}s/image/${model.id}`, {
+					this.$api.put(`/${model_name.replace('_', '-')}/image/${model.id}`, {
 						image_url
 					})
 					.then(res => {
-						this.$store.commit(commit, res.data[model_name])
+						if (commit) {
+							this.$store.commit(commit, res.data.model)
+						} else {
+							this.$store.commit(model_name+'/add', res.data.model)
+						}
 					})
 					.catch(err => {
 						console.log(err)
@@ -45,14 +49,17 @@ export default {
 			this.$store.commit('articles/setImagesToShow', article)
 			this.$bvModal.show('article-images')
 		},
-		imageUrl(path, cropped = false) {
-			let url
-			if (cropped) {
-				url = `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom/${path}`
-			} else {
-				url = `https://res.cloudinary.com/lucas-cn/image/upload/${path}`
+		imageUrl(path = null, cropped = false) {
+			if (path) {
+				let url
+				if (cropped) {
+					url = `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom/${path}`
+				} else {
+					url = `https://res.cloudinary.com/lucas-cn/image/upload/${path}`
+				}
+				return url
 			}
-			return url
+			return null
 		},
 		imageCropedUrlfromImage(image) {
 			let url = `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom/${image.url}`

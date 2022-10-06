@@ -1,6 +1,6 @@
 <template>
 	<b-form-row
-	v-if="can('articles.images')">
+	v-if="has_online">
 		<b-col>
 			<b-form-group
 			class="m-b-15">

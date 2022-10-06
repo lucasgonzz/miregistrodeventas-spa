@@ -4,8 +4,18 @@
 		class="col-autocomplete"
 		label="Nombre"
 		label-for="article-name">
+			<search-component
+			v-if="article.bar_code == ''"
+			class="m-b-15"
+			@setSelected="setSelectedArticle"
+			:models="modelsStoreFromName('article')"
+			model_name="article"
+			:properties_to_filter="properties_to_filter"
+			:clear_query="false"
+			placeholder="Nombre"></search-component>
+
 			<b-form-input
-			v-show="article.bar_code != ''"
+			v-else
 			type="text"
 			id="article-name"
 			@keydown.enter="changeToCost"
@@ -23,7 +33,7 @@
 			:models="articles"></select-component> -->
 
 
-			<select-component
+			<!-- <select-component
 			v-show="article.bar_code == ''"
 			:id="id_name"
 			:model="article"
@@ -32,7 +42,7 @@
 			:props_to_show="['bar_code', 'price']"
 			select_empty
 			@selectEmpty="changeToCost"
-			@setSelected="setSelectedArticle"></select-component>
+			@setSelected="setSelectedArticle"></select-component> -->
 
 			<!-- <autocomplete 
 			data-position="below"
@@ -47,6 +57,7 @@
 	</b-col>
 </template>
 <script>
+import SearchComponent from '@/components/common/search/Index'
 import SelectComponent from '@/components/common/select/Index'
 // import Autocomplete from '@trevoreyre/autocomplete-vue'
 // import '@trevoreyre/autocomplete-vue/dist/style.css'
@@ -54,6 +65,7 @@ import edit_articles from '@/mixins/edit_articles'
 export default {
 	props: ['article'],
 	components: {
+		SearchComponent,
 		SelectComponent,
 		// Autocomplete
 	},
@@ -65,14 +77,50 @@ export default {
 		id_name() {
 			return 'select-article-name'
 		},
+		properties_to_filter() {
+			return [
+				{
+					text: 'Nombre',
+					key: 'name',
+					type: 'text',
+					value: '',
+				},
+				{
+					text: 'Codigo de Barras',
+					key: 'bar_code',
+					type: 'text',
+					value: '',
+				},
+				{
+					text: 'Codigo Proveedor',
+					key: 'provider_code',
+					type: 'text',
+					value: '',
+				},
+				{
+					text: 'N°',
+					key: 'num',
+					type: 'text',
+					value: '',
+				},
+			]
+		},
 	},
 	methods: {
 		changeToCost() {
 			document.getElementById('article-cost').focus()
 		},
 		setSelectedArticle(result) {
-			this.$store.commit('articles/setEdit', this.setArticle(result))
-			this.$bvModal.show('edit-article')
+			console.log(result)
+			if (result.model) {
+				this.$store.commit('article/setModel', {model: this.setArticle(result.model), properties: []})
+				this.$bvModal.show('edit-article')
+			} else {
+				this.article.name = result.query
+				setTimeout(() => {
+					this.changeToCost()
+				}, 200)
+			}
 		},
 	},
 }

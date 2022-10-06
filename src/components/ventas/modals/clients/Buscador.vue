@@ -1,16 +1,18 @@
 <template>
 	<div class="buscador m-b-15">
-		<autocomplete 
-		:search="search" 
-		ref="article-search"			
-		placeholder="Buscar un cliente"></autocomplete>
-		<b-dropdown
+
+		<search-nav
+		:models="models"
+		:model_name="model_name"
+		:properties_to_filter="properties"></search-nav>
+		<b-dropdown 
 		class="m-l-10" 
 		text="Mas"
 		right
 		variant="primary">
 			<b-dropdown-item
-			@click="createClient">
+			v-if="can('client.store')"
+			@click="setModel(null, 'client')">
 				<i class="icon-plus"></i>
 				Nuevo cliente
 			</b-dropdown-item>
@@ -28,19 +30,30 @@
 	</div>
 </template>
 <script>
-import Autocomplete from '@trevoreyre/autocomplete-vue'
-import '@trevoreyre/autocomplete-vue/dist/style.css'
+import SearchNav from '@/components/common/search-nav/Index'
 
 import clients from '@/mixins/clients'
+import display from '@/mixins/display'
 export default {
 	name: 'BuscadorClients',
-	mixins: [clients],
+	mixins: [clients, display],
 	components: {
-		Autocomplete
+		SearchNav,
+	},
+	computed: {
+		model_name() {
+			return 'client'
+		},
+		models() {
+			return this.$store.state[this.model_name].models
+		},
+		properties() {
+			return this.propsToFilter(this.model_name)
+		},
 	},
 	methods: {
 		updateClients() {
-			this.$store.dispatch('clients/getModels')
+			this.$store.dispatch('client/getModels')
 		},
 		getResultValue(value) {
 			return ''

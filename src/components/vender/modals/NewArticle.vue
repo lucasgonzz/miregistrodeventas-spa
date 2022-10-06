@@ -43,19 +43,23 @@ export default {
         saveNewArticle() {
             if (this.check()) {
                 this.loading = true
-                this.$api.post('articles/new-article', this.new_article)
+                this.$api.post('article/new-article', this.new_article)
                 .then(res => {
                     this.loading = false
-                    let article = res.data.article
+                    let article = res.data.model
                     this.$toast.success('Articulo guardado')
-                    this.$store.commit('articles/addArticle', article)
-                    this.$store.commit('articles/setArticlesToShow')
-                    this.setArticleForSale(article)
+                    this.$store.commit('article/add', article)
+                    this.$store.commit('article/setToShow')
+                    
+                    this.$store.commit('vender/setArticle', article)
                     this.$bvModal.hide('new-article')
                     if (this.is_provider) {
                         setTimeout(() => {
                             document.getElementById('article-amount').focus()
                         }, 300)
+                    } else {
+                        this.article.amount = 1
+                        this.addArticleToSale()
                     }
                 })
                 .catch(err => {

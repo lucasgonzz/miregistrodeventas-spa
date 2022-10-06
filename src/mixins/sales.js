@@ -1,41 +1,42 @@
 import online from '@/mixins/online'
+import model_functions from '@/mixins/model_functions'
 export default {
 	mixins: [online],
 	computed: {
         sale_details() {
-            return this.$store.state.sales.details
+            return this.$store.state.sale.details
         },
         total_with_discounts: {
         	get() {
-        		return this.$store.state.sales.total_with_discounts
+        		return this.$store.state.sale.total_with_discounts
         	},
         	set(value) {
-        		this.$store.commit('sales/setTotalWithDiscounts', value)
-        		this.$store.commit('sales/setTotal')
+        		this.$store.commit('sale/setTotalWithDiscounts', value)
+        		this.$store.commit('sale/setTotal')
         	},
         },
         total_with_commissions: {
         	get() {
-        		return this.$store.state.sales.total_with_commissions
+        		return this.$store.state.sale.total_with_commissions
         	},
         	set(value) {
-        		this.$store.commit('sales/setTotalWithCommissions', value)
-        		this.$store.commit('sales/setTotal')
+        		this.$store.commit('sale/setTotalWithCommissions', value)
+        		this.$store.commit('sale/setTotal')
         	},
         },
         total: {
         	get() {
-        		return this.$store.state.sales.total
+        		return this.$store.state.sale.total
         	},
         	set(value) {
-        		this.$store.commit('sales/setTotal', value)
+        		this.$store.commit('sale/setTotal', value)
         	}
         },
         total_cost() {
-        	return this.$store.state.sales.total_cost
+        	return this.$store.state.sale.total_cost
         },
         without_cost() {
-        	return this.$store.state.sales.without_cost
+        	return this.$store.state.sale.without_cost
         },
 	},
 	methods: {
@@ -109,8 +110,7 @@ export default {
 				total += combo.pivot.price * combo.pivot.amount		
 			})
 			sale.services.forEach(service => {
-				total_service = Number(service.pivot.price)
-				console.log('total_service: '+total_service)
+				total_service = Number(service.pivot.price) * Number(service.pivot.amount)
 				if (service.pivot.discount && service.pivot.discount != '') {
 					total_service -= total_service * Number(service.pivot.discount) / 100
 				}
@@ -122,6 +122,9 @@ export default {
 			}
 			if (sale.order) {
 				total = online.methods.discountCupon(sale.order, total)
+			}
+			if (sale.budget) {
+				total = model_functions.methods.budgetTotal(sale.budget)
 			}
 			if (with_discounts && sale.discounts.length) {
 				sale.discounts.forEach(dis => {

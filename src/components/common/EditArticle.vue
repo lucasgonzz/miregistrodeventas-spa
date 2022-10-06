@@ -7,7 +7,7 @@ size="lg">
 	<div>
 		<b-form-row>
 			<b-col
-			v-if="can('articles.images')"
+			v-if="has_online"
 			cols="12">
 				<b-form-group
 				v-if="article.images && article.images.length">
@@ -18,13 +18,13 @@ size="lg">
 				</b-form-group>
 			</b-col>
 			<b-col
-			v-if="can('articles.images')"
+			v-if="has_online"
 			cols="12">
 				<b-form-group>
 					<b-button
 					variant="primary"
 					block
-					@click="uploadArticlePhoto(article)">
+					@click="uploadImage('article', article)">
 						Agregar foto
 					</b-button>
 				</b-form-group>
@@ -98,9 +98,6 @@ size="lg">
 				<condition
 				:article="article"></condition>
 				
-				<with-dolar
-				:article="article"></with-dolar>
-
 			</b-col>
 			
 			<b-col
@@ -135,7 +132,6 @@ import Sizes from '@/components/ingresar/components/Sizes.vue'
 import Colors from '@/components/ingresar/components/Colors.vue'
 import Description from '@/components/ingresar/components/Description'
 import Condition from '@/components/ingresar/components/Condition.vue'
-import WithDolar from '@/components/ingresar/components/WithDolar.vue'
 import BtnLoader from '@/components/common/BtnLoader'
 export default {
 	name: 'EditArticle',
@@ -153,7 +149,6 @@ export default {
 		Colors,
 		Description,
 		Condition,
-		WithDolar,
 		BtnLoader,
 	},
 	data() {
@@ -163,7 +158,7 @@ export default {
 	},
 	computed: {
 		article() {
-			return this.$store.state.articles.article_to_edit
+			return this.$store.state.article.model
 		},
 		title() {
 			let title = 'Editar '+this.article.name 
@@ -177,11 +172,12 @@ export default {
 		updateArticle() {
 			if (this.check()) {
 				this.loading = true
-				this.$api.put('/articles', this.article)
+				this.$api.put('/article', this.article)
 				.then(res => {
-					console.log(res.data.article)
+					console.log(res.data.model)
 					this.loading = false
-					this.$store.commit('articles/update', res.data.article)
+					this.$store.commit('article/add', res.data.model)
+					this.$store.commit('article/setToShow')
 					this.$toast.success('Articulo actualizado')
 					this.$bvModal.hide('edit-article')
 					let input = document.getElementById('article-bar-code')

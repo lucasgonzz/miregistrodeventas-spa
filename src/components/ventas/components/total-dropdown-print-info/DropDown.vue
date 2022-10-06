@@ -18,26 +18,23 @@
 			</b-button>
 		</b-button-group>
 		<b-dropdown text="Mas" right variant="primary" class="m-l-10">
-			<b-dropdown-item
-			v-if="can('clients')"
+			<!-- <b-dropdown-item
+			v-if="can('client.index')"
 			v-b-modal="'clients'">
 				<i class="icon-user"></i>
 				Clientes
-			</b-dropdown-item>
+			</b-dropdown-item> -->
 			<b-dropdown-item
-			v-if="can('discounts_sellers')"
 			v-b-modal="'commissioners'">
 				<i class="icon-user"></i>
 				Comisiones
 			</b-dropdown-item>
 			<b-dropdown-item
-			v-if="can('discounts_sellers')"
 			v-b-modal="'sellers'">
 				<i class="icon-user"></i>
 				Vendedores
 			</b-dropdown-item>
 			<b-dropdown-item
-			v-if="can('discounts_sellers')"
 			v-b-modal="'discounts'">
 				<i class="icon-tag"></i>
 				Descuentos
@@ -49,7 +46,7 @@
 export default {
 	computed: {
 		selected_sales() {
-			return this.$store.state.sales.selected
+			return this.$store.state.sale.selected
 		},
 		offset_col_options() {
 			if (this.selected_sales.length) {
@@ -58,10 +55,10 @@ export default {
 			return 2
 		},		
 		loading() {
-			return this.$store.state.sales.loading
+			return this.$store.state.sale.loading
 		},
 		to_show() {
-			return this.$store.state.sales.to_show
+			return this.$store.state.sale.to_show
 		},
 	}
 }

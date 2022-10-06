@@ -85,7 +85,7 @@ export default {
 			})
 			.then(res => {
 				this.updating = false
-				this.$store.commit('clients/update', res.data.client)
+				this.$store.commit('client/add', res.data.model)
 				this.$toast.success('Cliente actualizado')
 				this.$bvModal.hide('edit-client')
 			})

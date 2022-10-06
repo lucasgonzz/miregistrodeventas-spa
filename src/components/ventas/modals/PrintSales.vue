@@ -52,10 +52,10 @@ export default {
     },
     computed: {
         selected_sales() {
-            return this.$store.state.sales.selected
+            return this.$store.state.sale.selected
         },
         sales_to_show() {
-            return this.$store.state.sales.sales_to_show
+            return this.$store.state.sale.sales_to_show
         },
     },
     methods: {
@@ -84,7 +84,7 @@ export default {
                 })
                 sale.impressions.push(impression)
                 console.log(sale)
-                this.$store.commit('sales/updateSale', sale)
+                this.$store.commit('sale/updateSale', sale)
             })
         },
         clear() {

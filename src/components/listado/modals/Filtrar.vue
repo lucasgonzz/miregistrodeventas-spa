@@ -109,7 +109,7 @@ export default {
     },
     computed: {
         providers() {
-            return this.$store.state.providers.models
+            return this.$store.state.provider.models
         },
         categories() {
             return this.$store.state.categories.categories
@@ -140,7 +140,7 @@ export default {
             return options
         },
         articles() {
-            return this.$store.state.articles.articles
+            return this.$store.state.article.models
         },
     },
     methods: {
@@ -210,8 +210,8 @@ export default {
                 })
             }
             console.log(filters)
-            this.$store.commit('articles/setArticlesToShow', filters)
-            this.$store.commit('articles/setFiltered', filters)
+            this.$store.commit('article/setToShow', filters)
+            this.$store.commit('article/setFiltered', filters)
             this.$bvModal.hide('listado-filtrar')
             if (!this.filtro.mantener) {
                 this.clear()
@@ -232,7 +232,7 @@ export default {
         clear() {
             this.filtro.category_id = 0
             this.filtro.sub_category_id = 0
-            this.filtro.provider_id = ''
+            this.filtro.provider_id = 0
             this.filtro.precio_min = ''
             this.filtro.precio_max = ''
             this.filtro.fecha_min = ''

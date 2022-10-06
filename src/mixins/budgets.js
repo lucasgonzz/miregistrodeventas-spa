@@ -36,12 +36,17 @@ export default {
 				this.$store.commit('produccion/budgets/create/setFinishAt', value)
 			}
 		},
-		delivery_and_placement: {
+		// optional_statuses() {
+		// 	return this.$store.state.produccion.budgets.create.optional_statuses
+		// },
+		optional_statuses: {
 			get() {
-				return this.$store.state.produccion.budgets.create.delivery_and_placement
+				return this.$store.state.produccion.budgets.create.optional_statuses
 			},
 			set(value) {
-				this.$store.commit('produccion/budgets/create/setDeliveryAndPlacement', value)
+				console.log(value)
+				this.$store.commit('produccion/budgets/create/setOptionalStatuses', value)
+				// this.$store.commit('produccion/budgets/create/addOptionalStatuses', value)
 			}
 		},
 		can_edit() {
@@ -61,7 +66,7 @@ export default {
 			this.$store.commit('produccion/budgets/create/setProducts', budget.products)
 			this.$store.commit('produccion/budgets/create/setStartAt', budget.start_at)
 			this.$store.commit('produccion/budgets/create/setFinishAt', budget.finish_at)
-			this.$store.commit('produccion/budgets/create/setDeliveryAndPlacement', budget.delivery_and_placement)
+			this.$store.commit('produccion/budgets/create/setOptionalStatuses', budget.optional_order_production_statuses)
 			this.$store.commit('produccion/budgets/create/setObservations', budget.observations)
 		},
 		numBudget(budget) {

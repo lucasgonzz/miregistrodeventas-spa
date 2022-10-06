@@ -12,7 +12,7 @@
 				size="sm"
 				block 
 				variant="primary"
-				@click="uploadImage(model_name, model, modelPlural(model_name)+'/update', model_name)">
+				@click="uploadImage(model_name, model)">
 					Cambiar imagen
 				</b-button>
 				<hr>
@@ -60,7 +60,7 @@
 				size="sm"
 				block 
 				variant="primary"
-				@click="uploadImage(model_name, model, modelPlural(model_name)+'/update'), model_name">
+				@click="uploadImage(model_name, model">
 					Agregar imagen
 				</b-button>
 			</div>

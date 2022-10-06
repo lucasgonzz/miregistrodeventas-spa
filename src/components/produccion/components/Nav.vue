@@ -1,10 +1,9 @@
 <template>
 	<b-row
-	class="m-b-0">
+	class="m-b-15">
 		<b-col
 		cols="12"
-		md="10"
-		lg="8">
+		xl="10">
 			<horizontal-nav
 			:items="items"
 			prop_name="name"
@@ -23,10 +22,10 @@ export default {
 	computed: {
 		items() {
 			let items = []
-			if (this.can('budgets.index')) {
+			if (this.can('budget.index')) {
 				items.push({name: 'presupuestos'})
 			}
-			if (this.can('order_productions.index')) {
+			if (this.can('order_production.index')) {
 				items.push({name: 'ordenes-de-produccion'})
 			}
 			return items
@@ -35,10 +34,10 @@ export default {
 	methods: {
 		setSelected(item) {
 			if (item.name == 'presupuestos') {
-				this.$store.dispatch('produccion/budgets/getModels')
+				this.$store.dispatch('budget/getModels')
 			}
 			if (item.name == 'ordenes-de-produccion') {
-				this.$store.dispatch('produccion/order_productions/getModels')
+				this.$store.dispatch('order_production/getModels')
 			}
 		},
 		// setView(view) {

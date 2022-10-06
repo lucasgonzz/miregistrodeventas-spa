@@ -1,20 +1,27 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
+
 import previus_days from '@/store/sales/previus_days'
 import afip from '@/store/sales/afip'
 import sales_mixin from '@/mixins/sales'
+
+import moment from 'moment'
 export default {
 	namespaced: true,
 	state: {
 		models: [],
 		selected: [],
-		from_date: [],
 		to_show: [],
 
+		from_date: moment().format('YYYY-MM-DD'),
+		until_date: '',
+
 		details: null,
+		afip_ticket: null,
 
 		selected_address: {street: 'todas'},
+		selected_employee: {street: 'todos'},
 
 		only_date: '',
 
@@ -67,8 +74,14 @@ export default {
 		setDetails(state, value) {
 			state.details = value
 		},
+		setAfipTicket(state, value) {
+			state.afip_ticket = value
+		},
 		setSelectedAddress(state, value) {
 			state.selected_address = value
+		},
+		setSelectedEmployee(state, value) {
+			state.selected_employee = value
 		},
 		delete(state) {
 			let index
@@ -78,15 +91,10 @@ export default {
 				})
 				state.models.splice(index, 1)
 
-				index = state.from_date.findIndex(sale => {
-					return sale.id == selected_sale.id
-				})
-				state.from_date.splice(index, 1)
-
-				index = state.to_show.findIndex(sale => {
-					return sale.id == selected_sale.id
-				})
-				state.to_show.splice(index, 1)
+				// index = state.to_show.findIndex(sale => {
+				// 	return sale.id == selected_sale.id
+				// })
+				// state.to_show.splice(index, 1)
 			})
 		},
 		updateSale(state, sale) {
@@ -103,29 +111,22 @@ export default {
 		setFromDate(state, value) {
 			state.from_date = value
 		},
+		setUntilDate(state, value) {
+			state.until_date = value
+		},
 	},
 	actions: {
-		getModels({ commit }) {
+		getModels({ commit, state }) {
 			commit('setLoading', true)
-			return axios.get('/api/sales')
+			let url = '/api/sale/'+state.from_date
+			if (state.until_date != '') {
+				url += '/'+state.until_date
+			}
+			return axios.get(url)
 			.then(res => {
 				commit('setLoading', false)
-				commit('setModels', res.data.sales)
-				commit('setToShow', res.data.sales)
-				commit('setTotal')
-			})
-			.catch(err => {
-				commit('setLoading', false)
-				console.log(err)
-			})
-		},
-		getFromDate({ commit, state }) {
-			commit('setLoading', true)
-			return axios.get('/api/sales/from-date/'+state.only_date)
-			.then(res => {
-				commit('setLoading', false)
-				commit('setFromDate', res.data.sales)
-				commit('setToShow', res.data.sales)
+				commit('setModels', res.data.models)
+				commit('setToShow')
 				commit('setTotal')
 			})
 			.catch(err => {
@@ -138,10 +139,17 @@ export default {
 			state.selected.forEach(selected => {
 				sales_id.push(selected.id)
 			})
-			return axios.delete('api/sales/'+sales_id.join('-'))
+			return axios.delete('api/sale/'+sales_id.join('-'))
 			.then(res => {
 				commit('delete')
+				commit('setToShow')
 			})
+			.catch(err => {
+				console.log(err)
+			})
+		},
+		makeAfipTicket({ state }) {
+			return axios.post('api/sale/make-afip-ticket/'+state.selected[0].id)
 			.catch(err => {
 				console.log(err)
 			})

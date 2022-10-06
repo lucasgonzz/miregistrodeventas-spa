@@ -1,26 +1,17 @@
 <template>
 <div id="vender">
-	<clients></clients>
-	<select-variant></select-variant>
+	<!-- <clients></clients>
+	<select-variant></select-variant> -->
 	<successful-sale></successful-sale>
 	<new-article></new-article>
 	<change-percentage-card></change-percentage-card>
 	<update-price></update-price>
 
-	<sub-categories></sub-categories>
+	<nav-component></nav-component>
 
-	<header-form></header-form>
-
-	<total-card-previus-sales></total-card-previus-sales>
-
-	<previus-sale-data></previus-sale-data>
-
-	<articles-table></articles-table>
-
-	<button-clients></button-clients>
-	
-	<!-- <cargando 
-	size="md"></cargando> -->
+	<client></client>	
+	<remito></remito>	
+	<btn-save></btn-save>	
 
 </div>
 </template>
@@ -34,13 +25,10 @@ import ChangePercentageCard from '../components/vender/modals/ChangePercentageCa
 import UpdatePrice from '../components/vender/modals/UpdatePrice.vue'
 
 // Componentes
-import Cargando from '../components/common/Cargando.vue'
-import SubCategories from '../components/vender/components/sub-categories/Index.vue'
-import HeaderForm from '../components/vender/components/header-form/Index.vue'
-import ArticlesTable from '../components/vender/components/ArticlesTable.vue'
-import TotalCardPreviusSales from '../components/vender/components/total-card-previus-sales/Index.vue'
-import PreviusSaleData from '../components/vender/components/PreviusSaleData.vue'
-import ButtonClients from '../components/vender/components/ButtonClients.vue'
+import NavComponent from '../components/vender/components/NavComponent'
+import Client from '../components/vender/components/client/Index'
+import Remito from '../components/vender/components/remito/Index'
+import BtnSave from '../components/vender/components/BtnSave'
 
 // Mixins
 import Vender from '@/mixins/vender'
@@ -54,13 +42,10 @@ export default {
 		UpdatePrice,
 		
 		// Componentes
-		Cargando,
-		SubCategories,
-		HeaderForm,
-		ArticlesTable,
-		TotalCardPreviusSales,
-		PreviusSaleData,
-		ButtonClients,
+		NavComponent,
+		Client,
+		Remito,
+		BtnSave,
 	},
 	mixins: [Vender],
 	computed: {

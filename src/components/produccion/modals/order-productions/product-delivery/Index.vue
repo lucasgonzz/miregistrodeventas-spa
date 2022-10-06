@@ -33,7 +33,7 @@ export default {
 	},
 	computed: {
 		title() {
-			return 'Entrgas de '+this.product.name
+			return 'Entregas de '+this.product.name
 		},
 		text_delete() {
 			return '¿Seguro quiere eliminar esta entrega?'

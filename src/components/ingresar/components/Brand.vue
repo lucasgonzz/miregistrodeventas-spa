@@ -1,6 +1,6 @@
 <template>
 	<b-form-row
-	v-if="can('brands')">
+	v-if="has_online">
 		<b-col>
 			<p
 			class="c-p"
@@ -14,7 +14,7 @@
 			class="m-b-15"
 			id="article-brand"
 			v-model="article.brand_id"
-			:options="brands_options"></b-form-select>
+			:options="getOptions('brand_id', 'Marca')"></b-form-select>
 		</b-col>
 	</b-form-row>
 </template>

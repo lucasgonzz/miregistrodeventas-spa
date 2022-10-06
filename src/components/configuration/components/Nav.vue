@@ -30,7 +30,7 @@
 </template>
 <script>
 import configuration from '@/mixins/configuration'
-import HorizontalNav from '@/components/common/HorizontalNav'
+import HorizontalNav from '@/components/common/horizontal-nav/Index'
 export default {
 	name: 'NavConfiguration',
 	mixins: [configuration],
@@ -42,7 +42,7 @@ export default {
 			let items = []
 			items.push({name: 'cuenta'})
 			if (this.has_online) {
-				items.push({name: 'tienda-online'})
+				items.push({name: 'tienda online'})
 			}
 			items.push({name: 'suscripcion'})
 			items.push({name: 'facturacion'})

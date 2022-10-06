@@ -25,8 +25,11 @@ export default {
 		setAuthenticated(state, value) {
 			state.authenticated = value
 		},
-		setUser(state, value) {
-			state.user = value
+		setUser(state, user) {
+			if (user && user.owner_id) {
+				user.addresses = user.owner_addresses
+			}
+			state.user = user
 		},
 		setSelectedAddress(state, value) {
 			state.selected_address = value

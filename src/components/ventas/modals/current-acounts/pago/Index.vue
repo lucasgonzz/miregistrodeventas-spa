@@ -40,14 +40,15 @@
 </b-modal>
 </template>
 <script>
-import clients from '@/mixins/clients'
-
 import PaymentMethod from '@/components/ventas/modals/current-acounts/pago/PaymentMethod'
 import Checks from '@/components/ventas/modals/current-acounts/pago/Checks'
 import BtnLoader from '@/components/common/BtnLoader'
+
+import clients from '@/mixins/clients'
+import current_acounts from '@/mixins/current_acounts'
 export default {
 	name: 'CurrentAcountPago',
-    mixins: [clients],
+    mixins: [clients, current_acounts],
     components: {
         PaymentMethod,
         Checks,
@@ -73,9 +74,6 @@ export default {
         }
     },
     computed: {
-        client() {
-            return this.$store.state.clients.current_acounts.client
-        },
         title() {
             return `Cuentas corriente de ${this.client.name}`
         },
@@ -83,20 +81,20 @@ export default {
             return `Ingrese el pago de ${this.client.name}`
         },
         to_pay() {
-            return this.$store.state.clients.current_acounts.to_pay
+            return this.$store.state.current_acount.to_pay
         },
     },
     methods: {
     	hacerPago() {
             if (this.check()) {
         		this.loading = true
-        		this.$api.post('/clients/pago', {
+        		this.$api.post('/current-acount/pago', {
         			client_id: this.client.id,
         			...this.pago,
                     to_pay: this.to_pay,
         		})
         		.then(res => {
-                    this.$store.dispatch('clients/current_acounts/getCurrentAcounts')
+                    this.$store.dispatch('current_acount/getModels')
         			this.loading = false
         			this.$toast.success('Pago registrado correctamente')
                     this.$bvModal.hide('current-acounts-pago')
@@ -152,8 +150,8 @@ export default {
                     },
                 ],
             }
-            this.$store.commit('clients/current_acounts/setToPay', null)
-            this.$store.commit('clients/current_acounts/setSelected', [])
+            this.$store.commit('current_acount/setToPay', null)
+            this.$store.commit('current_acount/setSelected', [])
         }
     }
 }

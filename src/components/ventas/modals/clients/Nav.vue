@@ -2,18 +2,9 @@
 	<div
 	v-if="sellers.length"
 	class="nav-clients">
-		<b-nav tabs class="m-b-10">
-			<b-nav-item 
-			:active="isActive('mios')"
-			@click="setSelectedSeller(null)">Mios</b-nav-item>
-			<b-nav-item
-			@click="setSelectedSeller(seller)"
-			:active="isActive(seller)"
-			v-for="seller in sellers"
-			:key="seller.id">
-				{{ seller.name }}
-			</b-nav-item>
-		</b-nav>
+		<horizontal-nav
+		@setSelected="setSelectedSeller"
+		:items="items"></horizontal-nav>
 		<b-button
 		@click="printClients"
 		variant="danger">
@@ -22,31 +13,36 @@
 	</div>
 </template>
 <script>
+import HorizontalNav from '@/components/common/horizontal-nav/Index'
 export default {
 	name: 'SellersNav',
+	components: {
+		HorizontalNav,
+	},
 	computed: {
 		sellers() {
-			return this.$store.state.sellers.models
+			return this.$store.state.seller.models
 		},
 		selected_seller() {
 			return this.$store.state.clients.selected_seller
 		},
+		items() {
+			let items = []
+			this.sellers.forEach(seller => {
+				items.push({
+					name: seller.name 
+				})
+			})
+			return items 
+		}
 	},
 	methods: {
-		isActive(seller) {
-			if (!this.selected_seller && seller == 'mios') {
-				return true
-			} 
-			if (this.selected_seller && this.selected_seller.id == seller.id) {
-				return true
-			}
-			return false
-		},
-		setSelectedSeller(seller) {
-			this.$store.commit('clients/setSelectedSeller', seller)
-			this.$store.commit('clients/setIndexToShow', 1)
-			// this.$store.commit('sales/clients/setSelectedSeller', seller)
-			// this.$store.commit('sales/clients/setIndexToShow', 1)
+		setSelectedSeller(item) {
+			let seller = this.sellers.find(s => {
+				return s.name == item.name 
+			})
+			this.$store.commit('client/setSelectedSeller', seller)
+			this.$store.commit('client/setToShow')
 		},
 		printClients() {
 			let seller_id = this.isActive('mios') ? undefined : this.selected_seller.id

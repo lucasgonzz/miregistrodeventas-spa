@@ -1,9 +1,13 @@
 import VueScreenSize from 'vue-screen-size'
+import moment from 'moment'
 export default {
 	mixins: [VueScreenSize.VueScreenSizeMixin],
 	computed: {
         user() {
         	return this.$store.state.auth.user
+        },
+        today() {
+        	return moment().format('YYYY-MM-DD')
         },
         dolar_blue() {
         	let coins_dolar = this.$store.state.coins.dolar
@@ -46,8 +50,57 @@ export default {
 		variant_color() {
 			return '#007bff'
 		},
+		price_types() {
+			return this.$store.state.price_type.models
+		},
+		price_types_with_position() {
+			return this.price_types.filter(model => model.position != null)
+		},
+		client_vender() {
+			return this.$store.state.vender.client
+		},
+		price_type_vender() {
+			return this.$store.state.vender.price_type
+		},
 	},
 	methods: {
+		getPriceVender(item, from_pivot = false) {
+			console.log('getPriceVender item')
+			console.log(item)
+			let price 
+			if (from_pivot) {
+				price = item.pivot.price 
+			} else {
+				price = item.price
+				if (this.price_types_with_position.length) {
+					console.log(this.price_types_with_position)
+					let limit 
+					if (this.price_type_vender) {
+						limit = this.price_type_vender
+						console.log('position limit de vender: '+limit.position)
+					} else {
+						let last_position = 0
+						this.price_types_with_position.forEach(price_type => {
+							if (price_type.position > last_position) {
+								limit = price_type
+								last_position = price_type.position
+							}
+						})
+					}
+					console.log('precio arranca en: '+price)
+					console.log('posision limite: '+limit.position)
+					this.price_types_with_position.forEach(price_type => {
+						if (price_type.position <= limit.position) {
+							console.log('sumando el '+price_type.percentage)
+							price = Number(price) + Number(price * price_type.percentage / 100) 
+							console.log('quedo en: '+price)
+						}
+					})
+				}
+			}
+			console.log('return price: '+price)
+			return price
+		},
 		getTotalArticle(article, from_pivot = false) {
 			let price 
 			let amount 
@@ -57,7 +110,7 @@ export default {
 				amount = article.pivot.amount
 				discount = article.pivot.discount
 			} else {
-				price = article.price
+				price = article.price_vender 
 				amount = article.amount
 				discount = article.discount
 			}
@@ -77,22 +130,22 @@ export default {
 			}
 			return model
 		},
-		getOptions(options_store, model_name, prop_name = 'name') {
-			let store = options_store.substring(0, options_store.length-3)
-			console.log(store)
-			store = this.modelPlural(store)
-			console.log(store)
-			let models = this.$store.state[store].models
+		// getOptions(options_store, model_name, prop_name = 'name') {
+		// 	let store = options_store.substring(0, options_store.length-3)
+		// 	console.log(store)
+		// 	store = this.modelPlural(store)
+		// 	console.log(store)
+		// 	let models = this.$store.state[store].models
 
-			let options = []
-			options.push({
-				value: 0, text: 'Seleccione '+model_name
-			})
-			models.forEach(item => {
-				options.push({value: item.id, text: item[prop_name]})
-			})
-			return options
-		},
+		// 	let options = []
+		// 	options.push({
+		// 		value: 0, text: 'Seleccione '+model_name
+		// 	})
+		// 	models.forEach(item => {
+		// 		options.push({value: item.id, text: item[prop_name]})
+		// 	})
+		// 	return options
+		// },
 		routeString(value) {
 			return value.toLowerCase().replaceAll(' ', '-')
 		},

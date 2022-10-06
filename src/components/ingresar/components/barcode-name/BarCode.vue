@@ -22,7 +22,7 @@
 				id="article-provider-code"
 				type="text"
 				autocomplete="off"
-				@keydown.enter="toName"
+				@keydown.enter="isRegisterProviderCode"
 				v-model="article.provider_code"
 				placeholder="Ingresa el codigo del proveedor"></b-form-input>
 			</b-input-group>
@@ -37,21 +37,18 @@ export default {
 	props: ['article'],
 	computed: {
 		bar_codes() {
-			return this.$store.state.articles.bar_codes
+			return this.articles.map(item => item.bar_code)
 		},
 		articles() {
-			return this.$store.state.articles.articles
+			return this.$store.state.article.models
 		},
 	},
 	methods: {
 		isRegister() {
-			// Controla que el codigo no este registrado con otro articulo
 			let bar_code = this.getBarCode(this.article.bar_code)
-			if (this.bar_codes.includes(bar_code)) {
-				let article = this.articles.find(art => {
-					return art.bar_code == bar_code
-				})
-				this.$store.commit('articles/setEdit', this.setArticle(article))
+			let finded = this.articles.find(item => item.bar_code == bar_code)
+			if (typeof finded != 'undefined') {
+				this.$store.commit('articles/setEdit', this.setArticle(finded))
 				this.$bvModal.show('edit-article')
 			} else {
 				if (this.hasExtencion('providers')) {
@@ -61,8 +58,15 @@ export default {
 				}
 			}
 		},
-		toName() {
-			document.getElementById('article-name').focus()
+		isRegisterProviderCode() {
+			let provider_code = this.getBarCode(this.article.provider_code)
+			let finded = this.articles.find(item => item.provider_code == provider_code)
+			if (typeof finded != 'undefined') {
+				this.$store.commit('articles/setEdit', this.setArticle(finded))
+				this.$bvModal.show('edit-article')
+			} else {
+				document.getElementById('article-name').focus()
+			}
 		}
 	},
 }

@@ -2,13 +2,13 @@
 	<div>
 	    <confirm
 	    :text="text_delete"
-	    :actions="[modelPlural(model_name)+'/delete']"
+	    :actions="[model_name+'/delete']"
 	    :id="'delete-'+model_name"></confirm>
 
 	    <confirm
 	    v-if="delete_img"
 	    text="la imagen"
-	    :actions="[modelPlural(model_name)+'/deleteImage']"
+	    :actions="[model_name+'/deleteImage']"
 	    :id="'delete-'+model_name+'-image'"
 	    toast="Imagen eliminada"></confirm>
 
@@ -18,15 +18,18 @@
 		:title="title"
 		:id="model_name">
 
-			<images
-			:model="model"
-			:model_name="model_name"></images>	
-
 			<model-form
 			:model="model"
 			:model_name="model_name"
-			:props="props">
-				<slot></slot>
+			:properties="properties"
+			:actions_after_save="actions_after_save"
+			:check_can_delete="check_can_delete">
+				<template v-slot:belongs="slotProps">
+					<slot name="belongs" :model="slotProps.model"></slot>
+				</template> 
+				<template v-slot:default>
+					<slot></slot>
+				</template>
 			</model-form>
 
 		</b-modal>
@@ -37,14 +40,13 @@ import Confirm from '@/components/common/Confirm'
 import BtnLoader from '@/components/common/BtnLoader'
 import BtnDelete from '@/components/common/BtnDelete'
 
-import Images from '@/components/common/Images'
 import ModelForm from '@/components/common/model/ModelForm'
 export default {
 	props: {
 		model: {
 			type: Object,
 		},
-		props: {
+		properties: {
 			type: Array,
 		},
 		model_name: {
@@ -62,17 +64,23 @@ export default {
 			type: String,
 			default: 'md',
 		},
+		actions_after_save: {
+			type: Array,
+			default: () => {
+				return []
+			}
+		},
+		check_can_delete: Boolean,
 	},
 	components: {
 		Confirm,
 
-		Images,
 		ModelForm,
 	},
 	computed: {
 		title() {
 			if (this.model.id) {
-				return 'Actualizar '+this.model.name
+				return 'Actualizar'
 			}
 			return this.modal_title
 		},

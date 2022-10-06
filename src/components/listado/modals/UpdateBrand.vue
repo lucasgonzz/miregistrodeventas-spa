@@ -1,6 +1,5 @@
 <template>
 <b-modal 
-v-if="can('brands')"
 id="update-brand" 
 title="Seleccionar Marca" 
 hide-footer>
@@ -9,7 +8,7 @@ hide-footer>
 		label="Categoria">
 			<b-form-select
 			v-model="form.brand_id"
-			:options="brands_options"></b-form-select>
+			:options="getOptions('brand_id', 'Marca')"></b-form-select>
 		</b-form-group>
 		<b-form-group>
 			<b-button
@@ -26,10 +25,11 @@ hide-footer>
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader'
-import brands from '@/mixins/brands'
+
+import selected_articles from '@/mixins/selected_articles'
 export default {
-	name: 'UpdateCategories',
-	mixins: [brands],
+	name: 'UpdateBrand',
+	mixins: [selected_articles],
 	components: {
 		BtnLoader,
 	},
@@ -43,7 +43,7 @@ export default {
 	},
 	computed: {
 		selected_articles() {
-			return this.$store.state.articles.selected_articles
+			return this.$store.state.article.selected
 		},
 		selected_articles_id() {
 			let ids = []
@@ -62,10 +62,11 @@ export default {
 			})
 			.then(res => {
 				this.loading = false
-				let articles = res.data.articles
+				let articles = res.data.models
 				console.log(res)
 				articles.forEach(article => {
-					this.$store.commit('articles/update', article)
+					this.$store.commit('article/add', article)
+					this.$store.commit('article/setToShow')
 				})
 				this.$bvModal.hide('update-brand')
 				this.clear()

@@ -23,17 +23,20 @@ hide-footer>
 </b-modal>
 </template>
 <script>
-import budgets from '@/mixins/budgets'
 export default {
-	mixins: [budgets],
 	data() {
 		return {
 			only_deliveries: 0,
 		}
 	},
+	computed: {
+		model() {
+			return this.$store.state.budget.model 
+		},
+	},
 	methods: {
 		print() {
-            var link = process.env.VUE_APP_API_URL+'/budgets/pdf/'+this.only_deliveries+'/'+this.edit.id
+            var link = process.env.VUE_APP_API_URL+'/budgets/pdf/'+this.only_deliveries+'/'+this.model.id
             window.open(link)
 		},
 	}

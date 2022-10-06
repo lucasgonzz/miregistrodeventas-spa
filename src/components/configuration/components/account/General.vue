@@ -1,6 +1,6 @@
 <template>
 	<b-card
-	class="shadow-5 b-r-1"
+	class="shadow b-r-1"
 	title="Cuenta">
 		<b-form-group
 		label="Nombre"
@@ -29,6 +29,14 @@
 			<b-form-input
 			v-model="user.email"
 			@keyup.enter="updateUser"></b-form-input>
+		</b-form-group>
+		<b-form-group
+		label="Precio del dolar para calcular costos">
+			<b-form-input
+			class="m-t-10"
+			type="number"
+			placeholder="Ingrese el precio del dolar"
+			v-model="user.dollar"></b-form-input>
 		</b-form-group>
 		<div
 		class="cont-image">

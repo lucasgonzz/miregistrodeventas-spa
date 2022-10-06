@@ -4,8 +4,9 @@
 		v-for="permission in permissions"
 		:key="permission.id"
 		:id="`${employee.id}-permission-${permission.id}`"
+		:value="permission.id"
 		v-model="employee.permissions_id"
-		:value="permission.id">
+		@change="setPermission(permission)">
 			{{ permission.name }}
 		</b-form-checkbox>
 		<div
@@ -23,8 +24,9 @@
 				v-for="permission in extencion.permissions"
 				:key="permission.id"
 				:id="`${employee.id}-permission-${permission.id}`"
+				:value="permission.id"
 				v-model="employee.permissions_id"
-				:value="permission.id">
+				@change="setPermission(permission)">
 					{{ permission.name }}
 				</b-form-checkbox>
 			</div>
@@ -41,6 +43,9 @@ export default {
 		},
 	},
 	methods: {
+		setPermission(permission) {
+			this.$store.commit('employee/addPermissionId', permission)
+		}
 	},
 }
 </script>

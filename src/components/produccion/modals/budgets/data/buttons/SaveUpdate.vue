@@ -55,7 +55,7 @@ export default {
 						start_at: this.start_at,
 						finish_at: this.finish_at,
 						observations: this.observations,
-						delivery_and_placement: this.delivery_and_placement,
+						optional_statuses: this.optional_statuses,
 						send_mail: this.send_mail,
 					})
 					.then(res => {
@@ -77,7 +77,7 @@ export default {
 						start_at: this.start_at,
 						finish_at: this.finish_at,
 						observations: this.observations,
-						delivery_and_placement: this.delivery_and_placement,
+						optional_statuses: this.optional_statuses,
 						send_mail: this.send_mail,
 					})
 					.then(res => {

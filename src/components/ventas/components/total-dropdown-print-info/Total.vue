@@ -15,7 +15,7 @@
 				</span>
 			</b-button>
 			<b-button
-			v-if="total_cost != 0 && can('articles.cost') && !without_cost"
+			v-if="total_cost != 0 && can('article.cost') && !without_cost"
 			variant="danger">
 				<span v-show="loading">
 					<span class="spinner-border spinner-border-sm"></span>
@@ -53,10 +53,10 @@ export default {
 	mixins: [sales],
 	computed: {
 		loading() {
-			return this.$store.state.sales.loading
+			return this.$store.state.sale.loading
 		},
 		discounts() {
-			return this.$store.state.discounts.discounts
+			return this.$store.state.discount.models
 		},
 		commissioners() {
 			return this.$store.state.commissioners.commissioners

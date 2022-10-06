@@ -1,5 +1,6 @@
 <template>
-	<b-row>
+	<b-row
+	class="m-b-15">
 		<article-provider
 		:show_checkboxs="show_checkboxs"
 		:article="article"></article-provider>
