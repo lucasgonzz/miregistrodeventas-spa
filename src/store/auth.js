@@ -12,6 +12,7 @@ export default {
 		selected_address: null,
 		schedule_edit: {},
 		loading: false,
+		message: '',
 	},
 	getters: {
 		authenticated(state) {
@@ -51,6 +52,9 @@ export default {
 		},
 		setLoading(state, value) {
 			state.loading = value
+		},
+		setMessage(state, value) {
+			state.message = value
 		},
 		setScheduleEdit(state, value) {
 			state.schedule_edit = value

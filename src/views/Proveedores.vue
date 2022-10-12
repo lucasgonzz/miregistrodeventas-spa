@@ -1,16 +1,8 @@
 <template>
 <div id="proveedores">
 	<!-- <order></order> -->
-	<model
-	:modal_title="'Nuevo '+model_name_spanish"
-	:model="model"
-	size="xl"
-	:model_name="model_name"
-	:text_delete="text_delete"
-	:properties="properties" />
 
 	<nav-component></nav-component>
-
 
 	<providers></providers>
 
@@ -18,15 +10,11 @@
 </div>
 </template>
 <script>
-import Model from '@/components/common/model/Index'
-
 import NavComponent from '@/components/proveedores/components/Nav'
 import Providers from '@/components/proveedores/components/providers/Index'
 import Orders from '@/components/proveedores/components/orders/Index'
 export default {
 	components: {
-		Model,
-		
 		NavComponent,
 		Providers,
 		Orders,

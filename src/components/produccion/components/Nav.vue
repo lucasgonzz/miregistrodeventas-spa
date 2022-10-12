@@ -28,6 +28,7 @@ export default {
 			if (this.can('order_production.index')) {
 				items.push({name: 'ordenes-de-produccion'})
 			}
+			// items.push({name: 'recetas'})
 			return items
 		}
 	},
@@ -38,6 +39,9 @@ export default {
 			}
 			if (item.name == 'ordenes-de-produccion') {
 				this.$store.dispatch('order_production/getModels')
+			}
+			if (item.name == 'recetas') {
+				this.$store.dispatch('recipe/getModels')
 			}
 		},
 		// setView(view) {

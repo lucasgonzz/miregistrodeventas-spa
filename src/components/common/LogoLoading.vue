@@ -3,17 +3,24 @@
 	class="container-logo">
         <img class="logo" src="@/assets/logo.png" alt="">
         <b-spinner 
-        v-if="loading_message != ''"
+        v-if="message != ''"
         variant="primary"></b-spinner>
         <p
-        v-if="loading_message != ''"
-        class="text-loader text-primary">Descargando {{ loading_message }}...</p>
+        v-if="message != ''"
+        class="text-loader text-primary">{{ message }}</p>
 	</div>
 </template>
 <script>
 export default {
 	name: 'LogoLoading',
-	props: ['loading', 'loading_message'],
+	computed: {
+		loading() {
+			return this.$store.state.auth.loading
+		},
+		message() {
+			return this.$store.state.auth.message
+		}
+	}
 }
 </script>
 <style scoped lang="sass">

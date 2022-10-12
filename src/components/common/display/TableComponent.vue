@@ -56,14 +56,13 @@
 								</b-button>
 							</slot>
 
-
 							<div
 							class="cont-pivot-inputs"
 							v-if="pivot && pivot.properties_to_set">
 								<div
 								v-for="(prop, index) in pivot.properties_to_set">
 									<b-form-group
-									v-if="prop.type == 'text' || prop.type == 'textarea' || prop.type == 'number'"
+									v-if="prop.type == 'text' || prop.type == 'textarea' || prop.type == 'number' || prop.type == 'select'"
 									:key="'pivot-prop-'+index"
 									class="pivot-input"
 									:label="prop.text">
@@ -72,12 +71,15 @@
 										:type="prop.type"
 										:placeholder="'Ingrese '+prop.text"
 										v-model="models[data.index].pivot[prop.key]"></b-form-textarea>
+										<b-form-select
+										v-else-if="prop.type == 'select'"
+										v-model="models[data.index].pivot[prop.key]"
+										:options="getOptions(prop.key, prop.text)"></b-form-select>
 										<b-form-input
 										v-else
 										:type="prop.type"
 										:placeholder="'Ingrese '+prop.text"
 										v-model="models[data.index].pivot[prop.key]"></b-form-input>
-
 									</b-form-group>
 									<b-button
 									v-else-if="prop.type == 'button'"

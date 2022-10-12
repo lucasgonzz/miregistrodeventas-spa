@@ -1,18 +1,31 @@
 <template>
 <b-modal
-:title="'Buscar '+model_name"
+:title="title"
 size="xl"
 hide-footer
 :id="modal_id">
 	<div
 	class="search-component">
 		<b-form-input
-		@keyup="search"
+		@keyup="callSearch"
 		@keydown.enter="enterSelect"
 		v-model="query"
 		:id="_id+'-search-modal-input'"
 		:placeholder="_placeholder"></b-form-input>
-
+		<!-- <p
+		v-if="interval && waiting_time > 0">
+			Buscando en {{ waiting_time }}
+		</p> -->
+		<div
+		v-if="interval"
+		class="align-center m-t-15">
+			<b-spinner 
+			small
+			type="grow"
+			class="m-r-10" 
+			variant="primary"></b-spinner>
+			Buscando
+		</div>
 		<div
 		v-if="results.length">
 			<p
@@ -64,6 +77,9 @@ export default {
 	},
 	data() {
 		return {
+			interval: 0,
+			waiting_time: 2,
+			searching: false,
 			results: [],
 			props_to_filter: [],
 		}
@@ -71,6 +87,12 @@ export default {
 	computed: {
 		modal_id() {
 			return this._id+'-search-modal'
+		},
+		title() {
+			if (this.prop) {
+				return 'Buscar '+this.prop.text.toLowerCase()
+			}
+			return 'Buscar'
 		},
 		query: {
 			get() {
@@ -109,11 +131,31 @@ export default {
 		// }
 	},
 	methods: {
+		callSearch() {
+			if (this.interval) {
+	            window.clearInterval(this.interval)
+				this.interval = null
+			}
+			if (this.query.length >= this.str_limint) {
+				this.waiting_time = 2
+				this.interval = window.setInterval(() => {
+					if (this.waiting_time == 0) {
+	                    window.clearInterval(this.interval)
+	                    console.log('Se termino intervalo, llamando a search')
+						this.search()
+					} else {
+						this.waiting_time--
+					}		
+				}, 500)
+			}
+		},
 		search() {
 			this.results = []
 			if (this.query.length >= this.str_limint) {
 				if (this.props_to_filter.length >= 1) {
 					let results = []
+					console.log('Empezando a buscar')
+					this.searching = true
 					this.props_to_filter.forEach(prop => {
 						results = this.models.filter(model => {
 							let value = ''+model[prop.key]
@@ -127,6 +169,9 @@ export default {
 						})
 						this.results = this.results.concat(results)
 					})
+					this.searching = false
+					this.interval = null
+					console.log('Terminando a buscar')
 				}
 			}
 		},

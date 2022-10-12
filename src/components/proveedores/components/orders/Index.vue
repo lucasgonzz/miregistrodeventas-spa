@@ -12,8 +12,6 @@
     	:text_delete="text_delete"
     	:properties="properties" />
 
-    	<received></received>	
-
 		<b-row>
 			<b-col
 			cols="12">
@@ -24,6 +22,10 @@
 				:create_model_name_spanish="create_model_name_spanish"
 				:display="display"
 				set_sub_view></horizontal-nav>
+
+				<previus-days
+				model_name="provider_order"
+				model_name_spanish="Pedidos"></previus-days>
 
 				<display
 				:display="display"
@@ -40,10 +42,10 @@
 </template>
 <script>
 import Model from '@/components/common/model/Index'
-import Received from '@/components/proveedores/modals/orders/Received'
 import EditArticle from '@/components/common/EditArticle.vue'
 
 import HorizontalNav from '@/components/common/horizontal-nav/Index'
+import PreviusDays from '@/components/common/previus-days/Index'
 import Display from '@/components/common/display/Index'
 export default {
 	computed: {
@@ -114,10 +116,10 @@ export default {
 	},
 	components: {
 		Model,
-		Received,
 		EditArticle,
 		
 		HorizontalNav,
+		PreviusDays,
 		Display,
 	}
 }

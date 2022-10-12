@@ -37,32 +37,17 @@ export default {
 	},
 	actions: {
 		previusSale({ commit, state }) {
-			commit('incrementIndex')
-			commit('setLoadingPrevius', true)
-			// this.loading_articles = true
 			return axios.get('/api/sales/previus-next/'+state.index)
 			.then(res => {
 				console.log(res.data.sale)
 				commit('setLoadingPrevius', false)
+				commit('setLoadingNext', false)
 				if (res.data.sale) {
 					commit('setPreviusSale', res.data.sale)
 				}
 			})
 			.catch(err => {
 				commit('setLoadingPrevius', false)
-				console.log(err)
-			})
-		},
-		nextSale({ commit, state }) {
-			commit('decrementIndex')
-			commit('setLoadingNext', true)
-			return axios.get('/api/sales/previus-next/'+state.index)
-			.then(res => {
-				console.log(res.data.sale)
-				commit('setLoadingNext', false)
-				commit('setPreviusSale', res.data.sale)
-			})
-			.catch(err => {
 				commit('setLoadingNext', false)
 				console.log(err)
 			})
@@ -70,6 +55,7 @@ export default {
 		updatePreviusSale({ commit, state }, info) {
 			commit('setUpdating', true)
 			return axios.put('/api/sales/'+state.previus_sale.id, {
+				client_id: info.client_id,
 				items: info.items,
 				dolar_blue: info.dolar_blue,
 				with_card: false,

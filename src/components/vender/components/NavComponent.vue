@@ -5,28 +5,20 @@
 </template>
 <script>
 import HorizontalNav from '@/components/common/horizontal-nav/Index'
-
-import previus_sales from '@/mixins/previus_sales'
 export default {
-	mixins: [previus_sales],
 	computed: {
+		client() {
+			return this.$store.state.vender.client
+		},
 		items() {
 			let items = []
-			if (this.index_previus_sales == 0 || (this.index_previus_sales > 0 && !this.previus_sale.client)) {
-				return [
-					{
-						name: 'cliente'
-					},
-					{
-						name: 'remito'
-					},
-				]
-			} 
-			return [
-				{
-					name: 'remito'
-				},
-			]
+			if (this.client) {
+				items.push({name: 'cliente ('+this.client.name+')'})
+			} else {
+				items.push({name: 'cliente'})
+			}
+			items.push({name: 'remito'})
+			return items
 		},
 	},
 	components: {

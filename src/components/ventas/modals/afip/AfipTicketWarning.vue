@@ -1,6 +1,8 @@
 <template>
-<div
-v-if="!loading && has_warnings">
+<b-modal
+v-if="sale"
+id="afip-ticket-warning"
+hide-footer>
 	<b-list-group
 	class="m-t-15 s">
 		<b-list-group-item
@@ -10,14 +12,19 @@ v-if="!loading && has_warnings">
 			</strong>
 		</b-list-group-item>
 		<b-list-group-item
-		v-if="!sale.client.cuit">
+		v-if="!sale.client">
 			<i class="icon-right"></i>
-			El cliente no tiene un <strong>CUIT</strong> asignado 
+			La venta no tiene un <strong>cliente</strong> asignado 
 		</b-list-group-item>
 		<b-list-group-item
-		v-if="!sale.client.iva_condition_id">
+		v-if="sale.client && !sale.client.iva_condition_id">
 			<i class="icon-right"></i>
 			El cliente no tiene una <strong>condicion frente al iva</strong> asignada 
+		</b-list-group-item>
+		<b-list-group-item
+		v-if="sale.client && !sale.client.cuit">
+			<i class="icon-right"></i>
+			El cliente no tiene un <strong>CUIT</strong> asignado 
 		</b-list-group-item>
 	</b-list-group>
 	<b-button
@@ -27,12 +34,12 @@ v-if="!loading && has_warnings">
 	variant="outline-primary">
 		Editar cliente
 	</b-button>
-</div>
+</b-modal>
 </template>
 <script>
 import clients from '@/mixins/clients'
-import afip from '@/mixins/afip'
+import afip_ticket from '@/mixins/afip_ticket'
 export default {
-	mixins: [clients, afip],
+	mixins: [clients, afip_ticket],
 }
 </script>

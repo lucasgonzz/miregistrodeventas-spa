@@ -46,7 +46,14 @@ export default {
 			}
 		},
 		add(state, value) {
-			state.models.unshift(value)
+			let index = state.models.findIndex(item => {
+				return item.id == value.id
+			})
+			if (index == -1) {
+				state.models.unshift(value)
+			} else {
+				state.models.splice(index, 1, value)
+			}
 		},
 		setTotalWithDiscounts(state, value) {
 			state.total_with_discounts = value
@@ -148,8 +155,13 @@ export default {
 				console.log(err)
 			})
 		},
-		makeAfipTicket({ state }) {
+		makeAfipTicket({ commit, state }) {
 			return axios.post('api/sale/make-afip-ticket/'+state.selected[0].id)
+			.then(res => {
+				console.log(res)
+				commit('add', res.data.model)
+				commit('setToShow')
+			})
 			.catch(err => {
 				console.log(err)
 			})

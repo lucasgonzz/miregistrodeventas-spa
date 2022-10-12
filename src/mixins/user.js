@@ -108,6 +108,8 @@ export default {
 					slug = 'budget.index'
 				} else if (route.includes('ordenes-de-produccion')) {
 					slug = 'order_production.index'
+				} else if (route.includes('recetas')) {
+					slug = 'recipe.index'
 				}
 			} else if (route == '/ingresar') {
 				slug = 'article.store'

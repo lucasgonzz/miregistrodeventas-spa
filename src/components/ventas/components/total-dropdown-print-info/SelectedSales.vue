@@ -1,6 +1,5 @@
 <template>
 	<b-col
-	class="col-ver"
 	v-if="selected_sales.length" 
 	cols="12"
 	md="6"
@@ -32,9 +31,9 @@
 			</b-dropdown-item>
 			<b-dropdown-item
 			v-if="selected_sales.length == 1 && !selected_sales[0].afip_ticket"
-			@click="afipConfirm()">
+			@click="afipTicket()">
 				<i class="icon-clipboard"></i>
-				Factura						
+				Hacer Factura						
 			</b-dropdown-item>
 			<b-dropdown-item
 			v-if="selected_sales.length == 1 && selected_sales[0].afip_ticket"
@@ -53,10 +52,9 @@
 </template>
 <script>
 import print_sale from '@/mixins/print_sale'
-import afip from '@/mixins/afip'
 import sale_ticket from '@/mixins/sale_ticket'
 export default {
-	mixins: [print_sale, afip, sale_ticket],
+	mixins: [print_sale, sale_ticket],
 	computed: {
 		selected_sales() {
 			return this.$store.state.sale.selected
@@ -67,7 +65,7 @@ export default {
 			let ids = this.selected_sales.map(sale => sale.id)
 			this.printSales(ids.join('-'))
 		},
-		afipConfirm() {
+		afipTicket() {
 			this.$bvModal.show('afip-confirmation')
 		},
 		selectAll() {

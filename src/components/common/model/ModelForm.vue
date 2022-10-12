@@ -30,7 +30,7 @@
 					<div
 					v-if="saving_belongs_to_many && prop.belongs_to_many"
 					class="align-center">
-						<b-spinner class="m-r-10" variant="primary"></b-spinner>
+						<b-spinner small class="m-r-10" variant="primary"></b-spinner>
 						Guardando
 					</div>
 				</div>

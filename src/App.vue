@@ -2,9 +2,7 @@
     <div id="app">
         <div
         v-if="auth_loading">
-            <logo-loading
-            :auth_loading="auth_loading"
-            :loading_message="loading_message"></logo-loading>
+            <logo-loading></logo-loading>
         </div>
         <div
         v-else>
@@ -93,7 +91,6 @@ export default {
     },
     data() {
         return {
-            loading_message: '',
             new_version: false,
         }
     },
@@ -180,80 +177,80 @@ export default {
             if (this.is_commerce) {
                 console.log('Es un comercio')
                 this.$store.commit('auth/setLoading', true)
-                this.loading_message = 'articulos'
+                this.$store.commit('auth/setMessage', 'Cargando articulos')
                 await this.$store.dispatch('article/getModels')
-                this.loading_message = 'ventas'
+                this.$store.commit('auth/setMessage', 'Cargando ventas')
                 await this.$store.dispatch('sale/getModels')
                 if (this.hasExtencion('budgets') && this.can('budget.index')) {
-                    this.loading_message = 'presupuestos'
+                    this.$store.commit('auth/setMessage', 'Cargando presupuestos')
                     this.$store.dispatch('budget/getModels')
                     this.$store.dispatch('budget_status/getModels')
                 }
                 if (this.hasExtencion('order_productions') && this.can('order_production.index')) {
-                    this.loading_message = 'ordenes de produccion'
+                    this.$store.commit('auth/setMessage', 'Cargando ordenes de produccion')
                     this.$store.dispatch('order_production/getModels')
                     this.$store.dispatch('order_production_status/getModels')
                 }
                 if (this.hasExtencion('combos')) {
                     this.$store.dispatch('combos/getModels')
                 }
-                this.loading_message = 'tipos de precios'
+                this.$store.commit('auth/setMessage', 'Cargando tipos de precios')
                 await this.$store.dispatch('price_type/getModels')
                 if (this.hasExtencion('providers')) {
-                    this.loading_message = 'proveedores'
+                    this.$store.commit('auth/setMessage', 'Cargando proveedores')
                     await this.$store.dispatch('provider/getModels')
-                    this.loading_message = 'pedidos de proveedores'
+                    this.$store.commit('auth/setMessage', 'Cargando pedidos de proveedores')
                     await this.$store.dispatch('provider_order/getModels')
                 }
-                this.loading_message = 'localidades'
+                this.$store.commit('auth/setMessage', 'Cargando localidades')
                 await this.$store.dispatch('location/getModels')
                 if (this.has_online) {
-                    this.loading_message = 'categorias'
+                    this.$store.commit('auth/setMessage', 'Cargando categorias')
                     await this.$store.dispatch('categories/getCategories')
-                    this.loading_message = 'subcategorias'
+                    this.$store.commit('auth/setMessage', 'Cargando subcategorias')
                     await this.$store.dispatch('sub_categories/getSubCategories')
-                    this.loading_message = 'etiquetas'
+                    this.$store.commit('auth/setMessage', 'Cargando etiquetas')
                     await this.$store.dispatch('tags/getTags')
-                    this.loading_message = 'colores'
+                    this.$store.commit('auth/setMessage', 'Cargando colores')
                     await this.$store.dispatch('colors/getColors')
-                    this.loading_message = 'talles'
+                    this.$store.commit('auth/setMessage', 'Cargando talles')
                     await this.$store.dispatch('sizes/getSizes')
-                    this.loading_message = 'marcas'
+                    this.$store.commit('auth/setMessage', 'Cargando marcas')
                     await this.$store.dispatch('brand/getModels')
                 }
                 if (this.can('client.index') || this.can('sale.store')) {
-                    this.loading_message = 'clientes'
+                    this.$store.commit('auth/setMessage', 'Cargando clientes')
                     await this.$store.dispatch('client/getModels')
                     await this.$store.dispatch('current_acount_payment_methods/getModels')
                 }
                 // if (this.can('afip_tickets')) {
-                    this.loading_message = 'iva'
+                    this.$store.commit('auth/setMessage', 'Cargando iva')
                     await this.$store.dispatch('iva/getModels')
-                    this.loading_message = 'condiciones de iva'
+                    this.$store.commit('auth/setMessage', 'Cargando condiciones de iva')
                     await this.$store.dispatch('iva_condition/getModels')
                 // }
                 if (this.can('employee')) {
-                    this.loading_message = 'empleados'
+                    this.$store.commit('auth/setMessage', 'Cargando empleados')
                     await this.$store.dispatch('employee/getModels')
                 }
                 if (this.can('article.index')) {
-                    this.loading_message = 'listas de precios'
+                    this.$store.commit('auth/setMessage', 'Cargando listas de precios')
                     await this.$store.dispatch('prices_lists/getPircesLists')
                 } 
                 if (this.has_online) {
-                    this.loading_message = 'metodos de pago'
+                    this.$store.commit('auth/setMessage', 'Cargando metodos de pago')
                     await this.$store.dispatch('payment_methods/getModels')
-                    this.loading_message = 'tipos de metodos de pago'
+                    this.$store.commit('auth/setMessage', 'Cargando tipos de metodos de pago')
                     await this.$store.dispatch('payment_method_types/getModels')
-                    this.loading_message = 'zonas de envio'
+                    this.$store.commit('auth/setMessage', 'Cargando zonas de envio')
                     await this.$store.dispatch('delivery_zones/getModels')
-                    this.loading_message = 'titulos'
+                    this.$store.commit('auth/setMessage', 'Cargando titulos')
                     await this.$store.dispatch('titles/getTitles')
-                    this.loading_message = 'condiciones'
+                    this.$store.commit('auth/setMessage', 'Cargando condiciones')
                     await this.$store.dispatch('condition/getModels')
-                    this.loading_message = 'dias de trabajo'
+                    this.$store.commit('auth/setMessage', 'Cargando dias de trabajo')
                     await this.$store.dispatch('workdays/getWorkdays')
-                    this.loading_message = 'horarios de trabajo'
+                    this.$store.commit('auth/setMessage', 'Cargando horarios de trabajo')
                     await this.$store.dispatch('schedules/getSchedules')
                     this.getOrdersAndQuestions()
                     this.getBuyers()
@@ -262,18 +259,18 @@ export default {
                     this.listenChannels()
                 }
 
-                this.loading_message = 'descuentos'
+                this.$store.commit('auth/setMessage', 'Cargando descuentos')
                 await this.$store.dispatch('discount/getModels')
-                this.loading_message = 'vendedores'
+                this.$store.commit('auth/setMessage', 'Cargando vendedores')
                 await this.$store.dispatch('seller/getModels')
-                this.loading_message = 'comisiones'
+                this.$store.commit('auth/setMessage', 'Cargando comisiones')
                 await this.$store.dispatch('commissioners/getCommissioners')
-                this.loading_message = 'tipos de venta'
+                this.$store.commit('auth/setMessage', 'Cargando tipos de venta')
                 await this.$store.dispatch('sale_types/getSaleTypes')
 
                 this.$store.commit('vender/setSaleType', 1)
                 this.$store.commit('auth/setLoading', false)
-                this.loading_message = ''
+                this.$store.commit('auth/setMessage', '')
                 this.checkAddress()
                 this.setSubCategoriesInVender()
             } else if (this.is_super) {

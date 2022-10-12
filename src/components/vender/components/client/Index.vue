@@ -1,6 +1,6 @@
 <template>
 	<b-row
-	v-if="view == 'cliente'">
+	v-if="view.includes('cliente')">
 		<b-col
 		cols="12"
 		md="8">

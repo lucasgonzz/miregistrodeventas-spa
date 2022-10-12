@@ -1,6 +1,15 @@
 <template>
 	<b-card
-	class="shadow-5 b-r-1">
+	class="shadow b-r-1">
+		<b-form-group
+		label="Facturacion en modo Produccion, o en modo de prueba">
+			<b-form-checkbox
+			:value="1"
+			:unchecked-value="0"
+			v-model="user.afip_information.afip_ticket_production">
+				Facturacion modo Produccion
+			</b-form-checkbox>
+		</b-form-group>
 		<b-form-group
 		label="Razon social">
 			<b-form-input
@@ -10,7 +19,7 @@
         <b-form-group
         label="Condicion frente al IVA">
             <b-form-select
-            :options="iva_condition_options"
+            :options="getOptions('iva_condition_id', 'Condicion frente al IVA')"
             v-model="user.afip_information.iva_condition_id"></b-form-select>
         </b-form-group>
 		<b-form-group
@@ -44,10 +53,8 @@
 	</b-card>
 </template>
 <script>
-import iva_conditions from '@/mixins/iva_conditions'
 import SaveBtn from '@/components/configuration/components/facturacion/SaveBtn'
 export default {
-	mixins: [iva_conditions],
 	components: {
 		SaveBtn,
 	},

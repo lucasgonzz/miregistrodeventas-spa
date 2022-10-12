@@ -2,7 +2,7 @@
 	<div>
 
 		<table-component
-		:loading="loading"
+		:loading="loading_prop"
 		:models="models"
 		:model_name="model_name"
 		:model_name_spanish="model_name_spanish"
@@ -22,7 +22,7 @@
 		</table-component>
 
 		<cards-component
-		:loading="loading"
+		:loading="loading_prop"
 		:models="models"
 		:model_name="model_name"
 		:model_name_spanish="model_name_spanish"
@@ -41,8 +41,10 @@ import TableComponent from '@/components/common/display/TableComponent'
 import CardsComponent from '@/components/common/display/cards/Index'
 export default {
 	props: {
-		display: String,
-		loading: Boolean,
+		loading: {
+			type: Boolean,
+			default: null
+		},
 		models: Array,
 		model_name: String,
 		model_name_spanish: {
@@ -57,6 +59,17 @@ export default {
 		on_click_set_property: {
 			type: String,
 			default: null,
+		},
+	},
+	computed: {
+		display() {
+			return this.$store.state[this.model_name].display
+		},
+		loading_prop() {
+			if (this.loading) {
+				return this.loading
+			}
+			return this.$store.state[this.model_name].loading
 		},
 	},
 	methods: {

@@ -52,6 +52,7 @@ import platelets from './platelets'
 import payment_method_types from './payment_method_types'
 import price_type from './price_type'
 import budget_status from './budget_status'
+import recipe from './recipe'
 
 Vue.use(Vuex)
 Vue.config.devtools = true
@@ -122,5 +123,6 @@ export default new Vuex.Store({
 		payment_method_types,
 		price_type,
 		budget_status,
+		recipe,
 	}
 })

@@ -1,15 +1,15 @@
 export default {
 	properties: [
 		{
-			text: 'Proveedor',
-			key: 'provider_id',
-			store: 'provider',
+			text: 'Articulo',
+			store: 'article',
+			key: 'article_id',
 			type: 'search',
-			value: 0,
 			is_title: true,
+			value: '',
 		},
 		{
-			text: 'Articulos',
+			text: 'Insumos',
 			store: 'article',
 			key: 'articles',
 			belongs_to_many: {
@@ -45,10 +45,10 @@ export default {
 						type: 'number'
 					},
 					{
-						text: 'Costo',
-						key: 'cost',
-						value: '',
-						type: 'number'
+						text: 'Estado',
+						key: 'order_production_status_id',
+						value: 0,
+						type: 'select', 
 					},
 					{
 						text: 'Notas',
@@ -56,20 +56,6 @@ export default {
 						value: '',
 						type: 'textarea'
 					},
-					{
-						text: 'Recibidas',
-						key: 'received',
-						value: 0,
-						type: 'number',
-					},
-					// {
-					// 	text: 'Recibidas',
-					// 	key: 'received',
-					// 	value: 0,
-					// 	type: 'button',
-					// 	commit: 'provider_order/setReceived',
-					// 	modal: 'provider-order-article-received',
-					// },
 				],
 				if_null: {
 					prop_to_set_with_query: 'name',

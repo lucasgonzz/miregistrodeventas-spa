@@ -25,14 +25,6 @@
 				:loader="vendiendo"></btn-loader>
 			</b-button>
 			<b-button 
-			v-intro-step="3"
-			v-intro="'Selecciona un cliente para la venta (opcional)'"
-			v-if="can('client.index')"
-			variant="success"
-			v-b-modal="'clients'">
-				<i class="icon-user"></i>
-			</b-button>
-			<b-button 
 			v-if="hasExtencion('combos')"
 			variant="danger"
 			@click="vender(true)">
@@ -41,11 +33,11 @@
 		</b-button-group>
 		<b-button-group
 		v-if="!is_provider && index_previus_sale > 0">
-			<b-button 
+			<!-- <b-button 
 			variant="primary"
 			@click="updatePreviusSale">
 				<btn-loader :loader="updating" text="Actualizar"></btn-loader>
-			</b-button>
+			</b-button> -->
 			<b-button 
 			v-if="hasExtencion('combos')"
 			variant="danger"

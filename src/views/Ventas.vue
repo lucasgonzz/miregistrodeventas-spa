@@ -10,24 +10,23 @@
 
     <confirm
     :text="text_afip"
-    :actions="['sale/makeAfipTicket']"
+    emit="checkAfipTicket"
+    @checkAfipTicket="checkAfipTicket"
     id="afip-confirmation"
-    toast="Factura emitida"
     btn_text="Confirmar"
     variant="primary"
-    not_show_delete_text
-    @finished="printSales(selected_sales[0].id)"></confirm>
+    not_show_delete_text></confirm>
+
+    <afip-ticket-warning></afip-ticket-warning>
 
 	<current-acounts></current-acounts>
 	<discounts></discounts>
 	<sellers></sellers>
 	<commissioners></commissioners>
-	<from-date></from-date>
 	
 	<sale-details></sale-details>
 
 	<print-sales></print-sales> 
-	<afip-details></afip-details> 
 
 <!-- COMPONENTS -->
 	<previus-days></previus-days>
@@ -39,41 +38,40 @@
 
 	<table-sales 
 	@selectAllSales="selectAllSales"></table-sales>
-</div>
+</div> 
 </template>
 <script>
 // Librerias
 import moment from 'moment'
 
 // Modals
+import AfipTicketWarning from '@/components/ventas/modals/AfipTicketWarning' 
 import CurrentAcounts from '@/components/common/current-acounts/Index' 
 
 import Discounts from '@/components/ventas/modals/Discounts'
-import FromDate from '../components/ventas/modals/FromDate.vue'
 import SaleDetails from '../components/ventas/modals/details/Index'
 import Confirm from '@/components/common/Confirm.vue'
-import AfipDetails from '../components/ventas/modals/afip/Index.vue'
 import PrintSales from '../components/ventas/modals/PrintSales.vue'
 import Commissioners from '../components/ventas/modals/commissioners/Index.vue'
 import Sellers from '../components/ventas/modals/Sellers'
 
 import PreviusDays from '@/components/ventas/components/PreviusDays'
-import TotalDropdownPrintInfo from '../components/ventas/components/total-dropdown-print-info/Index.vue'
+import TotalDropdownPrintInfo from '../components/ventas/components/total-dropdown-print-info/Index.vue' 
 import AddressNav from '@/components/ventas/components/AddressNav'
 import EmployeeNav from '@/components/ventas/components/EmployeeNav'
 import TableSales from '../components/ventas/components/TableSales.vue'
 
 import clients from '@/mixins/clients'
 import print_sale from '@/mixins/print_sale'
+import afip_ticket from '@/mixins/afip_ticket'
 export default {
-	mixins: [clients, print_sale],
+	mixins: [clients, print_sale, afip_ticket],
 	components: {
-		// Modals
-		FromDate,
+		// Modals 
+		AfipTicketWarning,
 		CurrentAcounts,
 		SaleDetails,
 		Confirm,
-		AfipDetails,
 		PrintSales,
 		Discounts,
 		Commissioners,

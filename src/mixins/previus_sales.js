@@ -3,6 +3,9 @@ export default {
 		updating() {
 			return this.$store.state.vender.previus_sales.updating
 		},
+		client() {
+			return this.$store.state.vender.client
+		},
 		items() {
 			return this.$store.state.vender.items
 		},
@@ -16,7 +19,9 @@ export default {
 	methods: {
 		updatePreviusSale() {
 			this.$store.dispatch('vender/previus_sales/updatePreviusSale', {
-				items: this.items, dolar_blue: this.dolar_blue
+				client_id: this.client ? this.client.id : null, 
+				items: this.items, 
+				dolar_blue: this.dolar_blue
 			})
 			.then(res => {
 				this.$toast.success('Venta actualizada')
