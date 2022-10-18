@@ -60,7 +60,7 @@
 							class="cont-pivot-inputs"
 							v-if="pivot && pivot.properties_to_set">
 								<div
-								v-for="(prop, index) in pivot.properties_to_set">
+								v-for="(prop, index) in propsToSet()">
 									<b-form-group
 									v-if="prop.type == 'text' || prop.type == 'textarea' || prop.type == 'number' || prop.type == 'select'"
 									:key="'pivot-prop-'+index"
@@ -148,6 +148,15 @@ export default {
 		emit_selected_on_row: {
 			type: Boolean,
 			default: false,
+		},
+		set_selected_models: {
+			type: Boolean,
+			default: true,
+		},
+	},
+	data() {
+		return {
+			last_selection: [],
 		}
 	},
 	computed: {
@@ -182,20 +191,54 @@ export default {
 	},
 	methods: {
 		onRowSelected(items) {
-			let items_to_set = []
-			let item_to_add = []
-			items.forEach(item => {
-				item_to_add = this.models.find(model => model.id == item.id)
-				items_to_set.push(item_to_add)
-			})
-			this.$store.commit(this.model_name+'/setSelected', items_to_set)
-			if (this.emit_selected_on_row) {
-				let model = this.models.find(_model => {
-					return _model.id == items[0].id 
-				})
-				this.clicked(model)
+			console.log(items)
+			if (!this.isTheSameSelection(items)) {
+				console.log('emitiendo')
+				if (this.set_selected_models) {
+					let items_to_set = []
+					let item_to_add = []
+					items.forEach(item => {
+						item_to_add = this.models.find(model => model.id == item.id)
+						items_to_set.push(item_to_add)
+					})
+					this.$store.commit(this.model_name+'/setSelected', items_to_set)
+				}
+				if (this.emit_selected_on_row) {
+					let model = this.models.find(_model => {
+						return _model.id == items[0].id 
+					})
+					this.clicked(model)
+				}
+				this.last_selection = items
 			}
 		},
+		isTheSameSelection(items) {
+			if (this.last_selection.length == items.length) {
+				console.log('es la misma seleccion')
+				return true 
+			} else {
+				console.log('NO es la misma seleccion')
+				return false
+			}
+		},
+		propsToSet() {
+			let props = []
+			this.pivot.properties_to_set.forEach(prop => {
+				if (prop.from_store) {
+					let models = this.modelsStoreFromName(prop.store)
+					models.forEach(model => {
+						props.push({
+							type: prop.type,
+							text: model.name,
+							key: prop.store+'_'+model.id
+						})
+					})
+				} else {
+					props.push(prop)
+				}
+			})
+			return props 
+		},	
 		toCellName(slot) {
 			return `cell(${slot})`
 		},

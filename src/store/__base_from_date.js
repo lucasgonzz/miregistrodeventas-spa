@@ -12,7 +12,8 @@ export default {
 		models: [],
 		model: {},
 		to_show: [],
-		
+		selected: [],
+
 		from_date: moment().format('YYYY-MM-DD'),
 		until_date: '',
 
@@ -66,6 +67,9 @@ export default {
 		},
 		addToShow(state, value) {
 			state.to_show = state.to_show.concat(state.models.slice(state.to_show.length, state.to_show.length + 20))
+		},
+		setSelected(state, value) {
+			state.selected = []
 		},
 		add(state, value) {
 			let index = state.models.findIndex(item => {

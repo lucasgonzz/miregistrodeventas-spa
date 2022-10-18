@@ -9,6 +9,8 @@ hide-footer
 		<b-form-input
 		@keyup="callSearch"
 		@keydown.enter="enterSelect"
+		@keydown.up="selectUp"
+		@keydown.down="selectDown"
 		v-model="query"
 		:id="_id+'-search-modal-input'"
 		:placeholder="_placeholder"></b-form-input>
@@ -16,7 +18,7 @@ hide-footer
 		v-if="interval && waiting_time > 0">
 			Buscando en {{ waiting_time }}
 		</p> -->
-		<div
+		<!-- <div
 		v-if="interval"
 		class="align-center m-t-15">
 			<b-spinner 
@@ -25,20 +27,21 @@ hide-footer
 			class="m-r-10" 
 			variant="primary"></b-spinner>
 			Buscando
-		</div>
-		<div
-		v-if="results.length">
+		</div> -->
+		<div>
 			<p
+			v-if="results.length"
 			class="results-title">
 				<i class="icon-down"></i>
 				Resultados
 			</p>
 			<table-component
-			:loading="false"
+			:loading="loading"
 			:models="results"
 			:properties="modelPropertiesFromName(get_model_name)"
 			:model_name="get_model_name"
 			:set_model_on_click="false"
+			:show_btn_edit="false"
 			emit_selected_on_row
 			@clicked="setSelected"></table-component>	
 		</div>
@@ -77,8 +80,9 @@ export default {
 	},
 	data() {
 		return {
+			loading: false,
 			interval: 0,
-			waiting_time: 2,
+			waiting_time: 1,
 			searching: false,
 			results: [],
 			props_to_filter: [],
@@ -132,12 +136,13 @@ export default {
 	},
 	methods: {
 		callSearch() {
+			this.loading = true 
 			if (this.interval) {
 	            window.clearInterval(this.interval)
 				this.interval = null
 			}
 			if (this.query.length >= this.str_limint) {
-				this.waiting_time = 2
+				this.waiting_time = 1
 				this.interval = window.setInterval(() => {
 					if (this.waiting_time == 0) {
 	                    window.clearInterval(this.interval)
@@ -146,7 +151,9 @@ export default {
 					} else {
 						this.waiting_time--
 					}		
-				}, 500)
+				}, 200)
+			} else {
+				this.loading = false 
 			}
 		},
 		search() {
@@ -171,6 +178,7 @@ export default {
 					})
 					this.searching = false
 					this.interval = null
+					this.loading = false 
 					console.log('Terminando a buscar')
 				}
 			}
@@ -184,7 +192,15 @@ export default {
 			this.results = []
 			this.$bvModal.hide(this.modal_id)
 		},
+		selectUp() {
+			// let selected = this.$store.state[this.model_name].selected 
+			// this.$store.commit(this.model_name+'/setSelected', this.results[])
+		},	
+		selectDown() {
+			// this.$store.commit(this.model_name+'/setSelected',)
+		},	
 		setSelected(model) {
+			console.log('se llamoooo')
 			console.log(model)
 			this.results = []
 			this.$emit('setSelected', model)

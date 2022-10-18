@@ -1,16 +1,29 @@
 <template>
 <div
 class="nav-items">
-    <b-nav-item :to="{name: 'Vender', params: {view: 'remito'}}"
+    <b-nav-item 
+    v-for="route in routes" 
+    @click="toRoute(route)"
+    v-if="showRoute(route)"
+    :class="activeLink(route)">
+        {{ route.text }}
+    </b-nav-item>
+    <!-- <b-nav-item :to="{name: 'Vender', params: {view: 'remito'}}"
     v-if="can('sale.store')"
     :class="activeLink('Vender')">
         Vender
     </b-nav-item>
     <b-nav-item 
-    v-if="hasExtencion('budgets') || hasExtencion('order_productions')"
+    v-if="hasExtencion('order_productions')"
     @click="toProduccion"
     :class="activeLink('Produccion')">
         Produccion
+    </b-nav-item>
+    <b-nav-item 
+    v-if="hasExtencion('budgets') || hasExtencion('order_productions')"
+    @click="toBudgets"
+    :class="activeLink('Produccion')">
+        Presupuestos
     </b-nav-item>
     <b-nav-item :to="{name: 'Ingresar'}"
     v-if="can('article.store')"
@@ -57,7 +70,7 @@ class="nav-items">
         v-show="unconfirmed_orders_questions_calls_length > 0">
             {{ unconfirmed_orders_questions_calls_length }}
         </b-badge>
-    </b-nav-item>
+    </b-nav-item> -->
 </div>
 </template>
 <script>

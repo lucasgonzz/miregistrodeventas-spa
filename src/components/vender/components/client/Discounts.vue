@@ -50,10 +50,11 @@ export default {
 		},
 		sale_discounts: {
 			get() {
-				return this.$store.state.vender.discounts
+				return this.$store.state.vender.discounts_id
 			},
 			set(value) {
-				this.$store.commit('vender/setDiscounts', value)
+				this.$store.commit('vender/setDiscountsId', value)
+				this.$store.commit('vender/setTotal')
 			}
 		}
 	}

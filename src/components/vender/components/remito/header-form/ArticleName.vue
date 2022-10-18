@@ -40,7 +40,7 @@ export default {
 	methods: {
 		setSelected(result) {
 			this.article.name = result.query
-			this.setArticleToSale(result.model)
+			this.setVenderArticle(result.model)
 		},
   //       search(input) {
   //           if (input.length < 3) { return [] }

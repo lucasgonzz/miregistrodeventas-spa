@@ -7,15 +7,12 @@ size="lg">
 	<div>
 		<b-form-row>
 			<b-col
-			v-if="has_online"
+			v-if="has_online && article.images && article.images.length"
 			cols="12">
-				<b-form-group
-				v-if="article.images && article.images.length">
-					<img 
-					@click="showImages(article)"
-					class="article-image b-r-1"
-					:src="articleImageUrl(article, false)">
-				</b-form-group>
+				<img 
+				@click="showImages(article)"
+				class="article-image b-r-1"
+				:src="articleImageUrl(article, false)">
 			</b-col>
 			<b-col
 			v-if="has_online"
@@ -232,6 +229,8 @@ export default {
 
 .article-image
 	width: 100%
+	max-width: 500px
+	margin: auto
 hr 
 	border: .1px solid rgba(0, 0, 0, .1) !important
 	width: 100%

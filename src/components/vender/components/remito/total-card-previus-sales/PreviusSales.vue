@@ -73,9 +73,20 @@ export default {
 			.then(() => {
 				let items = this.getItemsPreviusSale(this.previus_sale)
 				this.$store.commit('vender/setItems', items)
+				if (this.previus_sale.discounts.length) {
+					let discounts = this.previus_sale.discounts.map(discount => discount.id)
+					console.log(discounts)
+					this.$store.commit('vender/setDiscountsId', discounts)
+				} else {
+					this.$store.commit('vender/setDiscountsId', [])
+				}
 				if (this.previus_sale.client) {
 					this.$store.commit('vender/setClient', this.previus_sale.client)
 					this.$store.commit('vender/setPriceType', this.previus_sale.client.price_type)
+				} else {
+					console.log('se seteo con null')
+					this.$store.commit('vender/setClient', null)
+					this.$store.commit('vender/setPriceType', null)
 				}
 				this.checkWithCard()
 				this.setItemsPrices(false, true)
@@ -93,6 +104,7 @@ export default {
 			this.$store.commit('vender/previus_sales/setIndex', 0)
 			this.$store.commit('vender/previus_sales/setPreviusSale', {})
 			this.$store.commit('vender/setItems', [])
+			this.$store.commit('vender/setDiscountsId', [])
 			this.$store.commit('vender/setClient', null)
 			this.$store.commit('vender/setTotal')
 		},

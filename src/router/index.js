@@ -6,6 +6,7 @@ import Admin from '../views/Admin.vue'
 import Super from '../views/Super.vue'
 import Vender from '../views/Vender.vue'
 import Produccion from '../views/Produccion.vue'
+import Presupuestos from '../views/Presupuestos.vue'
 import Ingresar from '../views/Ingresar.vue'
 import Listado from '../views/Listado.vue'
 import Ventas from '../views/Ventas.vue'
@@ -81,6 +82,11 @@ Vue.use(VueRouter)
         path: '/produccion/:view?/:sub_view?',
         name: 'Produccion',
         component: Produccion,
+    },
+    {
+        path: '/presupuestos/:view?/:sub_view?',
+        name: 'Presupuestos',
+        component: Presupuestos,
     },
     {
         path: '/ingresar',

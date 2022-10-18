@@ -100,7 +100,7 @@ export default {
 				})
 			}
 		},
-		setArticleToSale(article) {
+		setVenderArticle(article) {
 			// this.articles.slice(0,33).forEach(art => {
 			// 	this.addArticleForSale(art)
 			// })
@@ -134,6 +134,10 @@ export default {
 			} 
 		},
 		addArticleAndSetTotal() {
+			if (this.article.amount == '') {
+				console.log
+				this.article.amount = 1
+			} 
 			let item = {
 				...this.article,
 				is_article: true,
@@ -153,7 +157,7 @@ export default {
 				let bar_code = this.getBarCode(this.article.bar_code)
 				console.log(this.article)
 				if (bar_code != '') {
-					this.setNewArticle({bar_code})
+					this.setNewArticle({name: '', bar_code})
 				} else {
 					this.setNewArticle({name: this.article.name})
 				}

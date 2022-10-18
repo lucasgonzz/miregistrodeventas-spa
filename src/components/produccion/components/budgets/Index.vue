@@ -9,7 +9,7 @@
     	:model_name="model_name"
     	:text_delete="text_delete"
     	:properties="properties">
-    		<template v-slot:default>
+    		<template #modal_buttons>
     			<btn-loader
     			v-if="model.budget_status && model.budget_status.name == 'Confirmado' && !model.order_production"
     			variant="outline-primary"

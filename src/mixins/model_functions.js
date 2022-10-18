@@ -3,8 +3,12 @@ export default {
 	methods: {
 		getFunctionValue(prop, model) {
 			return this[prop.function](model)
+			console.log('se llamo a '+prop.function)
+			console.log('con el modelo')
+			console.log(model)
 		},
-		budgetTotal(budget) {
+		budgetTotal(budget, formated = true) {
+			console.log('se llamo a budgetTotal')
 			let total = 0 
 			budget.articles.forEach(article => {
 				let total_article = article.pivot.price * article.pivot.amount
@@ -13,7 +17,10 @@ export default {
 				}
 				total += total_article
 			})
-			return dates.methods.price(total)
+			if (formated) {
+				return dates.methods.price(total)
+			} 
+			return total  
 		}
 	}
 }

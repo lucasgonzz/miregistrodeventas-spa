@@ -99,7 +99,7 @@ export default {
 		},
 		show_selected() {
 			if (this.model) {
-				return this.prop && this.model[this.modelNameFromRelationKey(this.prop)]
+				return this.prop && typeof this.prop.belongs_to_many == 'undefined' && this.model[this.modelNameFromRelationKey(this.prop)]
 			}
 		},
 		get_model_name() {

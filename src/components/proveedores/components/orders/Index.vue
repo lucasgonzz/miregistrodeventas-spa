@@ -4,14 +4,6 @@
 
 		<edit-article></edit-article>
 
-    	<model
-    	:modal_title="'Nuevo '+model_name_spanish"
-    	:model="model"
-    	size="xl"
-    	:model_name="model_name"
-    	:text_delete="text_delete"
-    	:properties="properties" />
-
 		<b-row>
 			<b-col
 			cols="12">
@@ -41,7 +33,6 @@
     </div>
 </template>
 <script>
-import Model from '@/components/common/model/Index'
 import EditArticle from '@/components/common/EditArticle.vue'
 
 import HorizontalNav from '@/components/common/horizontal-nav/Index'
@@ -115,7 +106,6 @@ export default {
 		}
 	},
 	components: {
-		Model,
 		EditArticle,
 		
 		HorizontalNav,

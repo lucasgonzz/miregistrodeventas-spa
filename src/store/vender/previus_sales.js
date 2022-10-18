@@ -57,6 +57,7 @@ export default {
 			return axios.put('/api/sales/'+state.previus_sale.id, {
 				client_id: info.client_id,
 				items: info.items,
+				discounts_id: info.discounts_id,
 				dolar_blue: info.dolar_blue,
 				with_card: false,
 			})

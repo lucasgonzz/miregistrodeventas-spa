@@ -15,7 +15,7 @@ import moment from 'moment'
 
 import HorizontalNav from '@/components/common/horizontal-nav/Index'
 export default {
-	name: 'AddressNav',
+	name: 'EmployeeNav',
 	components: {
 		HorizontalNav,
 	},
@@ -34,10 +34,11 @@ export default {
 		},
 		items() {
 			let items = []
+			let text 
 			items.push({name: 'todos'})
-			items.push(this.user)
+			items.push(this.countSales(this.user, false))
 			this.employees.forEach(employee => {
-				items.push(employee)
+				items.push(this.countSales(employee))
 			})
 			return items
 		},
@@ -62,6 +63,23 @@ export default {
 			console.log(employee)
 			this.$store.commit('sale/setSelectedEmployee', employee)
 			this.setSales()
+		},
+		countSales(user, is_employee = true) {
+			let user_result = {...user}
+			let sales
+			if (is_employee) {
+				sales = this.sales.filter(sale => {
+					return sale.employee_id && sale.employee_id == user.id 
+				})
+			} else {
+				sales = this.sales.filter(sale => {
+					return !sale.employee_id
+				})
+			}
+			if (sales.length) {
+				user_result.name += ' ('+ sales.length + ')'
+			}
+			return user_result
 		},
 		setSales() {
 			let sales 

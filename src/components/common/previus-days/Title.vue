@@ -1,7 +1,7 @@
 <template>
 <h5>
 	<strong
-	v-if="from_date == today">
+	v-if="date(from_date) == date(today)">
 		{{ model_name_spanish }} de hoy
 	</strong>
 	<strong

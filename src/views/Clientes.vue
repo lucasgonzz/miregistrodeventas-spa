@@ -3,6 +3,8 @@
 
     	<current-acounts></current-acounts>
 
+    	<sale-details></sale-details>
+
     	<import></import>
 
     	<model
@@ -69,6 +71,7 @@
 </template>
 <script>
 import CurrentAcounts from '@/components/common/current-acounts/Index'
+import SaleDetails from '@/components/ventas/modals/details/Index'
 import Import from '@/components/clientes/modals/Import'
 
 import HorizontalNav from '@/components/common/horizontal-nav/Index'
@@ -131,6 +134,7 @@ export default {
 	},
 	components: {
 		CurrentAcounts,
+		SaleDetails,
 		Import,
 		
 		HorizontalNav,

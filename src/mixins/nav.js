@@ -19,6 +19,80 @@ export default {
         show_nav_content() {
         	return this.user.status != 'super'
         },
+        routes() {
+        	return [
+        		{
+        			text: 'Vender',
+        			name: 'Vender',
+        			params: { view: 'remito' },
+        			can: 'sale.store',
+        		},
+        		{
+        			text: 'Ingresar',
+        			name: 'Ingresar',
+        			can: 'article.store',
+        		},
+        		{
+        			text: 'Listado',
+        			name: 'Listado',
+        			get_models: 'article',
+        			can: 'article.index',
+        		},
+        		{
+        			text: 'Ventas',
+        			name: 'Ventas',
+        			get_models: 'sale',
+        			params: { view: 'todas', sub_view: 'todos'},
+        			can: 'sale.index',
+        			commits: [
+        				{
+        					key: 'sale/setFromDate',
+        					param: moment().format('YYYY-MM-DD'),
+        				},
+        				{
+        					key: 'sale/setSelected',
+        					param: [],
+        				},
+        			],
+        		},
+        		{
+        			text: 'Presupuestos',
+        			name: 'Presupuestos',
+        			get_models: 'budget',
+        			can: 'budget.index',
+        		},
+        		{
+        			text: 'Produccion',
+        			name: 'Produccion',
+        			params: { view: 'ordenes-de-produccion' },
+        			get_models: 'order_production',
+        			can: 'order_production.index',
+        		},
+        		{
+        			text: 'Proveedores',
+        			name: 'Proveedores',
+        			get_models: 'provider',
+        			can: 'providers.index',
+        		},
+        		{
+        			text: 'Clientes',
+        			name: 'Clientes',
+        			get_models: 'client',
+        			can: 'client.index',
+        		},
+        		{
+        			text: 'Empleados',
+        			name: 'Empleados',
+        			get_models: 'employee',
+        			can: 'employee',
+        		},
+        		{
+        			text: 'Online',
+        			name: 'Online',
+        			if: 'has_online',
+        		},
+        	]
+        },
 	},
 	methods: {
         logout() {
@@ -27,9 +101,34 @@ export default {
                 this.$router.replace({name: 'Login'})
             })
 		},
-        activeLink(url) {
-            return this.current_page == url ? 'active-link' : ''
-            // active-link-mobile
+		showRoute(route) {
+			if (route.can) {
+				return this.can(route.can)				
+			} else if (route.if) {
+				return this[route.if]
+			}
+			return true
+		},
+        activeLink(route) {
+            return this.current_page == route.name ? 'active-link' : ''
+        },
+        toRoute(route) {
+        	if (this.current_page == route.name && route.get_models) {
+        		if (route.commits && route.commits.length) {
+        			route.commits.forEach(commit => {
+        				this.$store.commit(commit.key, commit.param)
+        				// this.$store.commit('sale/setFromDate', moment().format('YYYY-MM-DD'))
+        				console.log('commiteando '+commit.key+' con param '+commit.param)
+        			})
+        		}
+        		this.$store.dispatch(route.get_models+'/getModels')
+        	} else {
+        		let _route = {name: route.name}
+        		if (route.params) {
+        			_route.params = route.params
+        		}
+        		this.$router.push(_route)
+        	}
         },
         toProduccion() {
         	if (this.can('budget.index')) {

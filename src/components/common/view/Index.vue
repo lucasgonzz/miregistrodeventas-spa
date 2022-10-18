@@ -8,7 +8,7 @@
     	:text_delete="text_delete"
     	:properties="properties">
     		<template v-slot:default>
-    			<slot></slot>
+    			<slot name="modal_buttons"></slot>
     		</template>
     	</model>
 

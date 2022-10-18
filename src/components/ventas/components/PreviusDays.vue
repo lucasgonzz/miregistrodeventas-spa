@@ -2,7 +2,7 @@
 	<previus-days
 	v-if="show_previus_sales"
 	model_name="sale"
-	model_name_spanish="ventas"
+	model_name_spanish="Ventas"
 	clear_selected></previus-days>
 </template>
 <script>

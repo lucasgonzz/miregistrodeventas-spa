@@ -86,6 +86,11 @@ export default {
 						value: '',
 						type: 'textarea'
 					},
+					// {
+					// 	from_store: true,
+					// 	store: 'order_production_status',
+					// 	type: 'number',
+					// },
 					{
 						text: 'Entrgados',
 						key: 'delivered',

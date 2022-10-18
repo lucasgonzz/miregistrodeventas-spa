@@ -6,7 +6,7 @@
 		<b-dropdown-item
 		v-for="article in sub_category.articles"
 		:key="article.id"
-		@click="setArticleToSale(article)">
+		@click="setVenderArticle(article)">
 			{{ article.name }} | {{ price(article.price) }}
 		</b-dropdown-item>
 	</b-dropdown>

@@ -5,6 +5,7 @@ axios.defaults.baseURL = process.env.VUE_APP_API_URL
 import previus_sales from '@/store/vender/previus_sales'
 import clients from '@/store/vender/clients'
 import auth from '@/store/auth'
+import discounts_store from '@/store/discount'
 import mixin_vender from '@/mixins/vender'
 import general from '@/mixins/general'
 import percentage_card_mixin from '@/mixins/percentageCard'
@@ -19,7 +20,7 @@ export default {
 		total: 0,
 		client: null,
 		with_card: false,
-		discounts: [],
+		discounts_id: [],
 		price_type: null,
 		save_current_acount: 1,
 		make_current_acount_pago: 0,
@@ -64,8 +65,12 @@ export default {
 		setVendiendo(state, value) {
 			state.vendiendo = value
 		},
-		setDiscounts(state, value) {
-			state.discounts = value
+		setDiscountsId(state, value) {
+			state.discounts_id = value
+		},
+		addDiscountId(state, value) {
+			console.log(value)
+			state.discounts_id.push(value)
 		},
 		setPriceType(state, value) {
 			state.price_type = value
@@ -108,9 +113,19 @@ export default {
 					percentage_card = percentage_card_mixin.methods.percentageCardFormated(user_percentage_card)
 					state.total = state.total * percentage_card
 				} 
-				if (state.discounts.length) {
-					state.discounts.forEach(discount => {
-						state.total -= total * discount.percentage / 100
+				if (state.discounts_id.length) {
+					let discounts = discounts_store.state.models 
+					console.log(discounts) 
+					let sale_discounts = []
+					state.discounts_id.forEach(id => {
+						sale_discounts.push(discounts.find(item => item.id == id))
+					}) 
+					console.log(sale_discounts) 
+					let dis 
+					sale_discounts.forEach(discount => {
+						dis = state.total * Number(discount.percentage) / 100
+						console.log('restando '+dis+' a '+state.total)
+						state.total -= dis 
 					})
 				}
 			}
@@ -137,7 +152,7 @@ export default {
 				items: state.items,
 				with_card: state.with_card,
 				client_id: state.client ? state.client.id : null ,
-				discounts: state.discounts,
+				discounts_id: state.discounts_id,
 				save_current_acount: state.save_current_acount,
 				make_current_acount_pago: state.make_current_acount_pago,
 				sale_type: state.sale_type,
@@ -150,7 +165,7 @@ export default {
 				commit('setSale', sale)
 				commit('setVendiendo', false)
 				commit('setItems', [])
-				commit('setDiscounts', [])
+				commit('setDiscountsId', [])
 				commit('setSaleType', 1)
 				commit('setClient', null)
 				commit('setTotal', 0)

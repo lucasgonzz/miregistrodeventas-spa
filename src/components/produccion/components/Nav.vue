@@ -22,9 +22,6 @@ export default {
 	computed: {
 		items() {
 			let items = []
-			if (this.can('budget.index')) {
-				items.push({name: 'presupuestos'})
-			}
 			if (this.can('order_production.index')) {
 				items.push({name: 'ordenes-de-produccion'})
 			}
@@ -34,9 +31,6 @@ export default {
 	},
 	methods: {
 		setSelected(item) {
-			if (item.name == 'presupuestos') {
-				this.$store.dispatch('budget/getModels')
-			}
 			if (item.name == 'ordenes-de-produccion') {
 				this.$store.dispatch('order_production/getModels')
 			}

@@ -56,18 +56,21 @@ export default {
 		saldoInicial() {
 			if (this.check()) {
 				this.loading = true
-				this.$api.post('/clients/saldo-inicial', {
-					client_id	 : this.client.id,
+				this.$api.post('/current-acount/saldo-inicial', {
+					model_name	 : this.from_model_name,
+					model_id	 : this.from_model.id,
 					is_for_debe  : this.is_for_debe,
 					saldo_inicial: this.saldo_inicial,
 				})
 				.then(res => {
 					this.loading = false
-					this.$toast.success('Saldo inicial agregado')
-					this.$bvModal.hide('saldo-inicial-client')
+					this.$toast.success('Saldo inicial registrado')
+					this.$bvModal.hide('saldo-inicial')
 					this.clear()
 					this.$store.dispatch('current_acount/getModels')
-					this.updateClient(this.client)
+					if (this.model_name == 'client') {
+						this.updateClient(this.client)
+					}
 				})
 				.catch(err => {
 					console.log(err)

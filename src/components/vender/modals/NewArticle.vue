@@ -2,6 +2,13 @@
 <b-modal id="new-article" title="Nuevo artículo" hide-footer>
     <b-form-group>
         <b-form-input
+        id="new-article-name"
+        v-model="new_article.name"
+        placeholder="Ingrese el nombre del artículo"
+        @keyup.enter="changeToPrice"></b-form-input>
+    </b-form-group>
+    <b-form-group>
+        <b-form-input
         type="number"
         id="new-article-price"
         min="0"
@@ -40,6 +47,9 @@ export default {
         },
     },
     methods: {
+        changeToPrice() {
+            document.getElementById('new-article-price').focus()
+        },
         saveNewArticle() {
             if (this.check()) {
                 this.loading = true
@@ -50,17 +60,9 @@ export default {
                     this.$toast.success('Articulo guardado')
                     this.$store.commit('article/add', article)
                     this.$store.commit('article/setToShow')
-                    
-                    this.$store.commit('vender/setArticle', article)
+
                     this.$bvModal.hide('new-article')
-                    if (this.is_provider) {
-                        setTimeout(() => {
-                            document.getElementById('article-amount').focus()
-                        }, 300)
-                    } else {
-                        this.article.amount = 1
-                        this.addArticleToSale()
-                    }
+                    this.setVenderArticle(article)
                 })
                 .catch(err => {
                     this.loading = false
@@ -69,7 +71,6 @@ export default {
             }
         },
         check() {
-            console.log(this.new_article.price)
             if (this.new_article.price == '' || typeof this.new_article.price == 'undefined') {
                 this.$toast.error('Ingrese un precio para el articulo')
                 return false

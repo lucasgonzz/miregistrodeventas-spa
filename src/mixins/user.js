@@ -104,13 +104,13 @@ export default {
 			if (route.includes('vender')) {
 				slug = 'sale.store'
 			} else if (route.includes('produccion')) {
-				if (route.includes('presupuestos')) {
-					slug = 'budget.index'
-				} else if (route.includes('ordenes-de-produccion')) {
+				if (route.includes('ordenes-de-produccion')) {
 					slug = 'order_production.index'
 				} else if (route.includes('recetas')) {
 					slug = 'recipe.index'
 				}
+			} else if (route.includes('presupuestos')) {
+				slug = 'budget.index'
 			} else if (route == '/ingresar') {
 				slug = 'article.store'
 			} else if (route == '/listado') {

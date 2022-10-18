@@ -43,10 +43,12 @@ export default {
 	},
 	methods: {
 		setArticle() {
-			let article = this.articles.find(article => {
-				return article.bar_code == this.getBarCode(this.article.bar_code)
-			})
-			this.setArticleToSale(article)
+			if (this.article.bar_code != '') {
+				let article = this.articles.find(article => {
+					return article.bar_code && article.bar_code == this.getBarCode(this.article.bar_code)
+				})
+				this.setVenderArticle(article)
+			}
 		},
 	}
 }

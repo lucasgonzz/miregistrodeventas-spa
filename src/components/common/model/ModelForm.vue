@@ -327,7 +327,12 @@ export default {
 		setBelongsToManyPivotProps(prop, model_to_add, result) {
 			model_to_add.pivot = {}
 			prop.belongs_to_many.properties_to_set.forEach(prop_to_set => {
-				if (typeof prop_to_set.value === 'object') {
+				if (prop_to_set.from_store) {
+					let models = this.modelsStoreFromName(prop_to_set.store)
+					models.forEach(model => {
+						model_to_add.pivot[prop_to_set.store+'_'+model.id] = ''
+					})
+				} else if (typeof prop_to_set.value === 'object') {
 					if (model_to_add[prop_to_set.value.key]) {
 						model_to_add.pivot[prop_to_set.key] = model_to_add[prop_to_set.value.key] 
 					} else {
@@ -337,6 +342,7 @@ export default {
 					model_to_add.pivot[prop_to_set.key] = prop_to_set.value 
 				}
 			})
+			console.log(model_to_add)
 			this.model[result.prop.key].unshift(model_to_add)
 		},
 		save() {

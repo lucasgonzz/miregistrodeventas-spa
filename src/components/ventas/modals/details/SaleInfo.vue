@@ -6,7 +6,7 @@
 			<p
 			class="m-0">
 				<strong>
-					Total: {{ getTotalSale(sale_details).total }}
+					Total: {{ getTotalSale(sale_details, true, true, false).total }}
 				</strong>
 			</p>
 			<b-button

@@ -6,6 +6,9 @@ export default {
 		client() {
 			return this.$store.state.vender.client
 		},
+		discounts_id() {
+			return this.$store.state.vender.discounts_id
+		},
 		items() {
 			return this.$store.state.vender.items
 		},
@@ -20,10 +23,13 @@ export default {
 		updatePreviusSale() {
 			this.$store.dispatch('vender/previus_sales/updatePreviusSale', {
 				client_id: this.client ? this.client.id : null, 
+				discounts_id: this.discounts_id, 
 				items: this.items, 
 				dolar_blue: this.dolar_blue
 			})
 			.then(res => {
+				this.$store.commit('vender/setClient', null)
+				this.$store.commit('vender/setDiscountsId', [])
 				this.$toast.success('Venta actualizada')
 			})
 		},
