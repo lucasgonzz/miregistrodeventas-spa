@@ -2,8 +2,7 @@
 	<b-row
 	class="m-b-15">
 		<b-col
-		cols="12"
-		xl="10">
+		cols="12">
 			<horizontal-nav
 			:items="items"
 			prop_name="name"
@@ -25,7 +24,7 @@ export default {
 			if (this.can('order_production.index')) {
 				items.push({name: 'ordenes-de-produccion'})
 			}
-			// items.push({name: 'recetas'})
+			items.push({name: 'recetas'})
 			return items
 		}
 	},

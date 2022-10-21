@@ -256,11 +256,6 @@ export default {
 				return '-'
 			}
 		},
-		providersHistory(article) {
-			this.orderProvidersHistory(article)
-			this.$store.commit('articles/setProvidersHistory', article)
-			this.$bvModal.show('providers-history')
-		},
 
 		/* -----------------------------------------------------------------------------------
 			* Setea las propiedades del articulos con las del articulo pasado por parametro

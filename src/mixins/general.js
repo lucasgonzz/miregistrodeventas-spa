@@ -72,7 +72,7 @@ export default {
 				price = item.pivot.price 
 			} else {
 				price = item.price
-				if (this.price_types_with_position.length) {
+				if (this.price_types_with_position.length && this.checkService(item)) {
 					console.log(this.price_types_with_position)
 					let limit 
 					if (this.price_type_vender) {
@@ -100,6 +100,12 @@ export default {
 			}
 			console.log('return price: '+price)
 			return price
+		},
+		checkService(item) {
+			if (item.is_service) {
+				return this.user_configuration.apply_price_type_in_services
+			}
+			return true
 		},
 		getTotalArticle(article, from_pivot = false) {
 			let price 

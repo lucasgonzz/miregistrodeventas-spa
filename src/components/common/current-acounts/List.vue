@@ -120,6 +120,8 @@ export default {
                 }, 100)
             } else if (current_acount.budget) {
                 this.setModel(current_acount.budget, 'budget')
+            } else if (current_acount.order_production) {
+                this.setModel(current_acount.order_production, 'order_production')
             } else if (current_acount.provider_order) {
                 this.setModel(current_acount.provider_order, 'provider_order')
             }

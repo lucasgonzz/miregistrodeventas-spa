@@ -1,13 +1,17 @@
 <template>
 	<div
 	v-if="view == 'ordenes-de-produccion'">
-		<order-production-status></order-production-status>
 
 		<view-component 
 		model_name="order_production"
 		model_name_spanish="Ordenes de produccion"
 		create_model_name_spanish="Nueva orden de produccion"
 		check_can_create>
+			<template #modals>
+				<order-production-status></order-production-status>
+				<finish></finish>	
+			</template>
+			
 			<template #modal_buttons>
 				<modal-buttons></modal-buttons>
 			</template>
@@ -20,18 +24,29 @@
 					Estados
 				</b-button>
 			</template>
+
+			<!-- <template v-slot:default="props">
+				<btn-activate-article
+				:model="props.model"></btn-activate-article>
+			</template> -->
 		</view-component>
 	</div>
 </template>
 <script>
+import OrderProductionStatus from '@/components/produccion/components/order-productions/OrderProductionStatus'
+import Finish from '@/components/produccion/modals/order-productions/Finish'
+
 import ViewComponent from '@/components/common/view/Index'
 import ModalButtons from '@/components/produccion/components/order-productions/ModalButtons'
-import OrderProductionStatus from '@/components/produccion/components/order-productions/OrderProductionStatus'
+import BtnActivateArticle from '@/components/common/BtnActivateArticle'
 export default {
 	components: {
+		OrderProductionStatus,
+		Finish,
+		
 		ViewComponent,
 		ModalButtons,
-		OrderProductionStatus,
+		BtnActivateArticle,
 	},
 }
 </script>

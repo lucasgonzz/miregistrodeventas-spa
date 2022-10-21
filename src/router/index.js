@@ -124,7 +124,7 @@ Vue.use(VueRouter)
         component: Online,
     },
     {
-        path: '/proveedores/:view/:sub_view',
+        path: '/proveedores/:view',
         name: 'Proveedores',
         component: Proveedores,
     },

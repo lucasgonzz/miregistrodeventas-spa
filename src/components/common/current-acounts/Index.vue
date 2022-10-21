@@ -18,6 +18,21 @@
     model_name="budget"
     text_delete="este presupuesto"
     :properties="modelPropertiesFromName('budget')">
+        <template>
+            <budget-modal-buttons></budget-modal-buttons>
+        </template>
+    </model>
+
+    <model 
+    size="xl"
+    modal_title="Orden de produccion"
+    :model="modelStoreFromName('order_production')"
+    model_name="order_production"
+    text_delete="esta orden de produccion"
+    :properties="modelPropertiesFromName('order_production')">
+        <template>
+            <order-production-modal-buttons></order-production-modal-buttons>
+        </template>
     </model>
 
     <print-budget></print-budget>
@@ -49,6 +64,8 @@ import PrintBudget from '@/components/produccion/modals/budgets/Print'
 import Model from '@/components/common/model/Index'
 
 // Components
+import BudgetModalButtons from '@/components/presupuestos/components/ModalButtons'
+import OrderProductionModalButtons from '@/components/produccion/components/order-productions/ModalButtons'
 import CurrentAcountsNav from '@/components/common/current-acounts/Nav'
 import ColorInfo from '@/components/common/current-acounts/ColorInfo'
 import List from '@/components/common/current-acounts/List'
@@ -68,6 +85,8 @@ export default {
         Model,
         
         // Components
+        BudgetModalButtons,
+        OrderProductionModalButtons,
         CurrentAcountsNav,
         ColorInfo,
         List,

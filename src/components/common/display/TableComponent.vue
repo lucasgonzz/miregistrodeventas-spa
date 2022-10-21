@@ -123,11 +123,19 @@ export default {
 		BtnAddToShow,
 	},
 	props: {
-		loading: Boolean,
+		loading: {
+			type: Boolean,
+			default: false,
+		},
 		models: Array,
 		model_name: String,
 		model_name_spanish: String,
-		properties: Array,
+		properties: {
+			type: Array,
+			default() {
+				return require('@/models/'+this.model_name).default.properties
+			}
+		},
 		set_model_on_click: {
 			type: Boolean,
 			default: true,

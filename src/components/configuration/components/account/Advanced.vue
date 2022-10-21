@@ -22,6 +22,13 @@ title="Avanzado">
 	v-model="user_configuration.set_articles_updated_at_always">
 		Setear fecha de actualizacion en los articulos solo cuando se actualiza su precio
 	</b-form-checkbox>
+	<b-form-checkbox
+	class="m-b-15"
+	:value="1"
+	:unchecked-value="0"
+	v-model="user_configuration.apply_price_type_in_services">
+		Aplicar el margen de ganancia de los tipos de precio a los SERVICIOS en las ventas. 
+	</b-form-checkbox>
 	<b-form-group>
 		<b-button
 		block

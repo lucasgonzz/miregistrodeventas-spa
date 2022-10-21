@@ -161,7 +161,8 @@ export default {
 			if (this.query.length >= this.str_limint) {
 				if (this.props_to_filter.length >= 1) {
 					let results = []
-					console.log('Empezando a buscar')
+					console.log('Empezando a buscar en')
+					console.log(this.models)
 					this.searching = true
 					this.props_to_filter.forEach(prop => {
 						results = this.models.filter(model => {

@@ -1,5 +1,6 @@
 <template>
 	<b-button
+	:size="size"
 	@click="clicked"
 	:block="block"
 	:variant="variant">
@@ -36,6 +37,10 @@ export default {
 		block: {
 			type: Boolean,
 			default: true,
+		},
+		size: {
+			type: String,
+			default: 'md',
 		}
 	},
 	methods: {

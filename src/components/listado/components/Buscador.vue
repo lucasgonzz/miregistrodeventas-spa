@@ -1,80 +1,85 @@
 <template>
-<b-row
-class="m-b-15">
-	<!-- Buscador -->
-	<b-col cols="12" class="col-autocomplete" md="6">
-		<!-- <autocomplete 
-		v-intro-step="1"
-		v-intro="'Busca un producto mediante su nombre'"
-		:search="search" 
-		@keydown.enter="filterArticles"
-		ref="article-search"			
-		:get-result-value="getResultValue"
-		placeholder="Buscar un artículo"
-		@submit="setArticle"></autocomplete> -->
+<div>
+	<inactive-articles></inactive-articles>
+	<b-row
+	class="m-b-15">
+		<!-- Buscador -->
+		<b-col cols="12" class="col-autocomplete" md="6">
+			<!-- <autocomplete 
+			v-intro-step="1"
+			v-intro="'Busca un producto mediante su nombre'"
+			:search="search" 
+			@keydown.enter="filterArticles"
+			ref="article-search"			
+			:get-result-value="getResultValue"
+			placeholder="Buscar un artículo"
+			@submit="setArticle"></autocomplete> -->
 
-		<search-nav
-		:models="modelsStoreFromName('article')"
-		model_name="article"
-		:properties_to_filter="properties_to_filter"></search-nav>
+			<search-nav
+			:models="modelsStoreFromName('article')"
+			model_name="article"
+			:properties_to_filter="properties_to_filter"></search-nav>
 
-	</b-col>
-	<b-col class="botones-opciones" 
-	cols="12" 
-	md="6">
-		<b-dropdown
-		class="m-l-10" 
-		text="Mas"
-		right
-		variant="primary">
-			<b-dropdown-item
-			v-if="hasExtencion('combos')"
-			v-b-modal="'combos'">
-				<i class="icon-print"></i>
-				Combos
-			</b-dropdown-item>
-			<b-dropdown-item
-			v-b-modal="'prices-lists'">
-				<i class="icon-print"></i>
-				Listas de precios
-			</b-dropdown-item>
-			<b-dropdown-item
-			@click="excel">
-				<i class="icon-upload"></i>
-				Exportar Excel
-			</b-dropdown-item>
-			<b-dropdown-item
-			v-b-modal="'import-articles'">
-				<i class="icon-download"></i>
-				Importar Excel
-			</b-dropdown-item>
-			<b-dropdown-item
-			v-b-modal="'inactive-articles'">
-				<i class="icon-trash"></i>
-				Papelera
-			</b-dropdown-item>
-		</b-dropdown>
-		<b-button 
-		variant="secondary"
-		v-intro-step="4"
-		v-intro-position="'left'"
-		v-intro="'Filtra tus productos mediante diferentes opciones'"
-		class="m-l-10" 
-		v-b-modal="'listado-filtrar'"
-		data-step="2"
-		data-intro="Filtre sus artículos segun el proveedor o un rango de precios.">
-			<i class="icon-filter"></i>
-			Filtrar
-		</b-button>
-	</b-col>
-</b-row>
+		</b-col>
+		<b-col class="botones-opciones" 
+		cols="12" 
+		md="6">
+			<b-dropdown
+			class="m-l-10" 
+			text="Mas"
+			right
+			variant="primary">
+				<b-dropdown-item
+				v-if="hasExtencion('combos')"
+				v-b-modal="'combos'">
+					<i class="icon-print"></i>
+					Combos
+				</b-dropdown-item>
+				<b-dropdown-item
+				v-b-modal="'prices-lists'">
+					<i class="icon-print"></i>
+					Listas de precios
+				</b-dropdown-item>
+				<b-dropdown-item
+				@click="excel">
+					<i class="icon-upload"></i>
+					Exportar Excel
+				</b-dropdown-item>
+				<b-dropdown-item
+				v-b-modal="'import-articles'">
+					<i class="icon-download"></i>
+					Importar Excel
+				</b-dropdown-item>
+				<b-dropdown-item
+				v-b-modal="'inactive-articles'">
+					<i class="icon-trash"></i>
+					Articulos inactivos
+				</b-dropdown-item>
+			</b-dropdown>
+			<b-button 
+			variant="secondary"
+			v-intro-step="4"
+			v-intro-position="'left'"
+			v-intro="'Filtra tus productos mediante diferentes opciones'"
+			class="m-l-10" 
+			v-b-modal="'listado-filtrar'"
+			data-step="2"
+			data-intro="Filtre sus artículos segun el proveedor o un rango de precios.">
+				<i class="icon-filter"></i>
+				Filtrar
+			</b-button>
+		</b-col>
+	</b-row>
+</div>
 </template>
 <script>
+import InactiveArticles from '@/components/listado/modals/inactive-articles/Index'
 import SearchNav from '@/components/common/search-nav/Index'
 import Autocomplete from '@trevoreyre/autocomplete-vue'
 import '@trevoreyre/autocomplete-vue/dist/style.css'
 export default {
 	components: {
+		InactiveArticles,
 		SearchNav,
 		Autocomplete,
 	},

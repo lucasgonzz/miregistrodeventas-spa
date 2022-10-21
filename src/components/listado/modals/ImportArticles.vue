@@ -93,6 +93,8 @@ export default {
 				this.$bvModal.hide('import-articles')
 				this.$store.dispatch('article/getModels')
 				this.$store.dispatch('provider/getModels')
+				this.$store.dispatch('categories/getCategories')
+				this.$store.dispatch('sub_categories/getSubCategories')
 				console.log(res)
 			})
 			.catch(err => {

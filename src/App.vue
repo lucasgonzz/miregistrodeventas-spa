@@ -179,6 +179,7 @@ export default {
                 this.$store.commit('auth/setLoading', true)
                 this.$store.commit('auth/setMessage', 'Cargando articulos')
                 await this.$store.dispatch('article/getModels')
+                await this.$store.dispatch('article/getInactiveModels')
                 this.$store.commit('auth/setMessage', 'Cargando ventas')
                 await this.$store.dispatch('sale/getModels')
                 if (this.hasExtencion('budgets') && this.can('budget.index')) {

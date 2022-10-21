@@ -12,8 +12,8 @@ export default {
 			text: 'Estado',
 			key: 'order_production_status_id',
 			store: 'order_production_status',
-			type: 'radio',
-			value: '',
+			type: 'select',
+			value: 0,
 			show: true,
 		},
 		{
@@ -39,6 +39,12 @@ export default {
 			belongs_to_many: {
 				model_name: 'article',
 				props_to_show: [
+					// {
+					// 	text: 'Activar',
+					// 	type: 'button',
+					// 	show: true,
+					// 	show_if: ['status', '=', 'inactive']
+					// },
 					{
 						text: 'Nombre',
 						key: 'name',
@@ -86,17 +92,17 @@ export default {
 						value: '',
 						type: 'textarea'
 					},
-					// {
-					// 	from_store: true,
-					// 	store: 'order_production_status',
-					// 	type: 'number',
-					// },
 					{
-						text: 'Entrgados',
-						key: 'delivered',
-						value: '',
-						type: 'number'
+						from_store: true,
+						store: 'order_production_status',
+						type: 'number',
 					},
+					// {
+					// 	text: 'Entrgados',
+					// 	key: 'delivered',
+					// 	value: '',
+					// 	type: 'number'
+					// },
 				],
 				if_null: {
 					prop_to_set_with_query: 'name',
@@ -113,6 +119,14 @@ export default {
 			text: 'Observaciones',
 			key: 'observations',
 			type: 'textarea',
+			value: '',
+			show: true,
+		},
+		{
+			text: 'Finalizada',
+			key: 'finished',
+			type: '',
+			is_boolean: true,
 			value: '',
 			show: true,
 		},

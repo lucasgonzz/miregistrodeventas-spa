@@ -3,6 +3,10 @@ export default {
 		{
 			text: 'Articulo',
 			store: 'article',
+			combine_with: { 
+				store: 'article',
+				prop: 'inactive_models',
+			},
 			key: 'article_id',
 			type: 'search',
 			is_title: true,
@@ -11,6 +15,10 @@ export default {
 		{
 			text: 'Insumos',
 			store: 'article',
+			combine_with: { 
+				store: 'article',
+				prop: 'inactive_models',
+			},
 			key: 'articles',
 			belongs_to_many: {
 				model_name: 'article',
@@ -39,16 +47,16 @@ export default {
 				],
 				properties_to_set: [
 					{
-						text: 'Cantidad',
-						key: 'amount',
-						value: '',
-						type: 'number'
-					},
-					{
 						text: 'Estado',
 						key: 'order_production_status_id',
 						value: 0,
 						type: 'select', 
+					},
+					{
+						text: 'Cantidad',
+						key: 'amount',
+						value: '',
+						type: 'number'
 					},
 					{
 						text: 'Notas',

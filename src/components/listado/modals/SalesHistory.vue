@@ -1,9 +1,9 @@
 <template>
 <b-modal 
 v-if="model && model.providers"
-id="providers-history" 
+id="sales-history" 
 size="md" 
-:title="`Proveedores de ${this.model.name}`" 
+:title="`Ventas de ${this.model.name}`" 
 hide-footer>
 	<b-table 
 	class="m-b-0 shadow-2 b-r-1"

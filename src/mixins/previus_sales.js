@@ -28,8 +28,8 @@ export default {
 				dolar_blue: this.dolar_blue
 			})
 			.then(res => {
-				this.$store.commit('vender/setClient', null)
-				this.$store.commit('vender/setDiscountsId', [])
+				// this.$store.commit('vender/setClient', null)
+				// this.$store.commit('vender/setDiscountsId', [])
 				this.$toast.success('Venta actualizada')
 			})
 		},

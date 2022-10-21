@@ -27,8 +27,8 @@
 				<template v-slot:belongs="slotProps">
 					<slot name="belongs" :model="slotProps.model"></slot>
 				</template> 
-				<template v-slot:default>
-					<slot></slot>
+				<template v-slot:default="slotProps">
+					<slot :model="slotProps.model"></slot>
 				</template>
 			</model-form>
 

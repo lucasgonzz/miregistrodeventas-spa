@@ -19,6 +19,9 @@
 			v-slot:[prop.key]>
 				<slot :name="prop.key"></slot>
 			</template> -->
+			<template v-slot:default="slotProps">
+				<slot :model="slotProps.model"></slot>
+			</template>
 		</table-component>
 
 		<cards-component

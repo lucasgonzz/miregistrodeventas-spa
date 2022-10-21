@@ -16,6 +16,12 @@ export default {
         		return this.user.owner_configuration 
         	}
         },
+        owner_id() {
+        	if (this.user.owner_id) {
+        		return this.user.owner_id
+        	}
+        	return this.user.id
+        },
 		is_owner() {
 			return !this.user.owner_id
 		},

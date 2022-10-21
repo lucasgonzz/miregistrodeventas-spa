@@ -1,9 +1,8 @@
 <template>
-    <div>
+    <div
+    v-if="view == 'proveedores'">
 
     	<current-acounts></current-acounts>
-
-    	<sale-details></sale-details>
 
     	<import></import>
 
@@ -12,14 +11,7 @@
     	:model="model"
     	:model_name="model_name"
     	:text_delete="text_delete"
-    	:properties="properties">
-    		<template
-    		v-slot:default="slotProps">
-	    		<comercio-city-user  
-	    		:model="slotProps.model"
-	    		model_name="client"></comercio-city-user>
-    		</template>
-    	</model>
+    	:properties="properties"></model>
 
 		<b-row>
 			<b-col
@@ -34,16 +26,16 @@
 						<b-dropdown
 						right
 						variant="primary"
-						text="Nuevo Cliente">
+						text="Nuevo Proveedor">
 							<b-dropdown-item
-							@click="setModel(null, 'client')">
+							@click="setModel(null, 'provider')">
 								<i class="icon-plus"></i>
 								{{ create_model_name_spanish }}
 							</b-dropdown-item>
 							<b-dropdown-item
-							v-b-modal="'import-clients'">
+							v-b-modal="'import-providers'">
 								<i class="icon-download"></i>
-								Importar clientes
+								Importar proveedores
 							</b-dropdown-item>
 						</b-dropdown>
 					</template>
@@ -78,27 +70,25 @@
 </template>
 <script>
 import CurrentAcounts from '@/components/common/current-acounts/Index'
-import SaleDetails from '@/components/ventas/modals/details/Index'
-import Import from '@/components/clientes/modals/Import'
+import Import from '@/components/proveedores/modals/providers/Import'
 
 import HorizontalNav from '@/components/common/horizontal-nav/Index'
 import SearchNav from '@/components/common/search-nav/Index'
 import TableComponent from '@/components/common/display/TableComponent'
 import Model from '@/components/common/model/Index'
-import ComercioCityUser from '@/components/common/ComercioCityUser'
 
 import display from '@/mixins/display'
 export default {
 	mixins: [display],
 	computed: {
 		model_name() {
-			return 'client'
+			return 'provider'
 		},
 		model_name_spanish() {
-			return 'cliente'
+			return 'proveedor'
 		},
 		create_model_name_spanish() {
-			return 'Nuevo cliente'
+			return 'Nuevo proveedor'
 		},
 		display() {
 			return this.$store.state[this.model_name].display
@@ -120,9 +110,20 @@ export default {
 		},
 		text_delete() {
 			if (this.delete) {
-				return 'el cliente '+this.delete.name
+				return 'el proveedor '+this.delete.name
 			}
 			return ''
+		},
+		items() {
+			return [
+				{
+					name: 'Nuevo '+this.model_name_spanish,
+					is_for_create: this.model_name
+				},
+				{
+					name: 'Lista',
+				},
+			] 
 		},
 		properties() {
 			return require(`@/models/${this.model_name}`).default.properties 
@@ -134,7 +135,7 @@ export default {
 		},
 		showCurrentAcounts(model) {
 			console.log(model)
-			this.$store.commit('current_acount/setFromModelName', 'client')
+			this.$store.commit('current_acount/setFromModelName', 'provider')
 			this.$store.commit('current_acount/setFromModel', model)
 			this.$store.dispatch('current_acount/getModels')
 			this.$bvModal.show('current-acounts')
@@ -142,14 +143,12 @@ export default {
 	},
 	components: {
 		CurrentAcounts,
-		SaleDetails,
 		Import,
 		
 		HorizontalNav,
 		SearchNav,
 		TableComponent,
 		Model,
-		ComercioCityUser,
 	}
 }
 </script>

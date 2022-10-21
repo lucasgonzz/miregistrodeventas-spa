@@ -31,7 +31,7 @@
             Remito
         </b-button>
         <div 
-        v-if="sale.save_current_acount"
+        v-if="sale.client && sale.save_current_acount"
         class="p-t-15">
             <b-button
             @click="savePago"

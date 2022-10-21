@@ -1,5 +1,8 @@
 <template>
 	<div>
+		
+		<slot name="modals"></slot>
+
     	<model
     	:size="modal_size"
     	:modal_title="create_model_name_spanish"
@@ -7,28 +10,36 @@
     	:model_name="model_name"
     	:text_delete="text_delete"
     	:properties="properties">
-    		<template v-slot:default>
-    			<slot name="modal_buttons"></slot>
+    		<template v-slot:default="slotProps">
+    			<slot name="modal_buttons" :model="slotProps.model"></slot>
     		</template>
     	</model>
 
 		<b-row>
 			<b-col
 			cols="12"
-			xl="10">
+			:xl="col_xl">
 				<horizontal-nav
-				:show_btn_create="show_btn_create"
+				:show_btn_create="_show_btn_create"
 				:create_model_name_spanish="create_model_name_spanish"
 				:model_name="model_name"
 				:display="display">
+					<template v-slot:btn_create>
+						<slot name="horizontal_nav_btn_create"></slot>
+					</template>
 					<template v-slot:buttons>
 						<slot name="horizontal_nav_buttons"></slot>
 					</template>
 				</horizontal-nav>
 				<list
 				:show_previus_days="show_previus_days"
+				:show_search_nav="show_search_nav"
 				:model_name="model_name"
-				:model_name_spanish="model_name_spanish"></list>
+				:model_name_spanish="model_name_spanish">
+					<template v-slot:default="slotProps">
+						<slot :model="slotProps.model"></slot>
+					</template>
+				</list>
 			</b-col>
 		</b-row>
 	</div>
@@ -61,6 +72,10 @@ export default {
 			type: String,
 			default: 'lg'
 		},
+		show_btn_create: {
+			type: Boolean,
+			default: true,
+		},
 		check_can_create: {
 			type: Boolean,
 			default: false
@@ -68,6 +83,14 @@ export default {
 		show_previus_days: {
 			type: Boolean,
 			default: true,
+		},
+		show_search_nav: {
+			type: Boolean,
+			default: false,
+		},
+		col_xl: {
+			type: String,
+			default: '12'
 		},
 	},
 	computed: {
@@ -86,11 +109,11 @@ export default {
 		properties() {
 			return require(`@/models/${this.model_name}`).default.properties 
 		},
-		show_btn_create() {
+		_show_btn_create() {
 			if (this.check_can_create) {
 				return this.can(this.model_name+'.store')
 			}
-			return true
+			return this.show_btn_create
 		}
 	},
 }

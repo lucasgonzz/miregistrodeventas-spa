@@ -71,8 +71,9 @@ export default {
         		{
         			text: 'Proveedores',
         			name: 'Proveedores',
+        			params: { view: 'proveedores'},
         			get_models: 'provider',
-        			can: 'providers.index',
+        			can: 'provider.index',
         		},
         		{
         			text: 'Clientes',

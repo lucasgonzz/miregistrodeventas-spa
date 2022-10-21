@@ -59,7 +59,7 @@ import StockInfo from '@/components/listado/modals/stock-info/Index.vue'
 import Buscador from '../components/listado/components/Buscador.vue'
 // import ArticlesTable from '../components/listado/components/articles-list/ArticlesTable.vue'
 // import ArticlesMobile from '../components/listado/components/articles-list/ArticlesMobile.vue'
-import List from '@/components/listado/components/List'
+import List from '@/components/listado/components/list/Index'
 import FilteredSelectedStockInfo from '@/components/listado/components/filtered-selected-stock-info/Index' 
 			
 export default {

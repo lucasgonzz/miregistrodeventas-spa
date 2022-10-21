@@ -8,6 +8,7 @@ export default {
 	state: {
 		model_name: 'article',
 
+		inactive_models: [],
 		models: [],
 		model: {},
 		to_show: [],
@@ -21,9 +22,13 @@ export default {
 
 		display: 'table',
 
+		inactive_loading: false,
 		loading: false,
 	},
 	mutations: {
+		setInactiveLoading(state, value) {
+			state.inactive_loading = value
+		},
 		setLoading(state, value) {
 			state.loading = value
 		},
@@ -55,6 +60,13 @@ export default {
 				state.models = value
 			} else {
 				state.models = []
+			}
+		},
+		setInactiveModels(state, value) {
+			if (value) {
+				state.inactive_models = value
+			} else {
+				state.inactive_models = []
 			}
 		},
 		setToShow(state, value) {
@@ -141,7 +153,7 @@ export default {
 	actions: {
 		getModels({ commit, state }) {
 			commit('setLoading', true)
-			return axios.get(`/api/${generals.methods.routeString(state.model_name)}`)
+			return axios.get(`/api/${generals.methods.routeString(state.model_name)}/index/active`)
 			.then(res => {
 				commit('setLoading', false)
 				commit('setModels', res.data.models)
@@ -150,6 +162,18 @@ export default {
 			})
 			.catch(err => {
 				commit('setLoading', false)
+				console.log(err)
+			})
+		},
+		getInactiveModels({ commit, state }) {
+			commit('setInactiveLoading', true)
+			return axios.get(`/api/${generals.methods.routeString(state.model_name)}/index/inactive`)
+			.then(res => {
+				commit('setInactiveLoading', false)
+				commit('setInactiveModels', res.data.models)
+			})
+			.catch(err => {
+				commit('setInactiveLoading', false)
 				console.log(err)
 			})
 		},

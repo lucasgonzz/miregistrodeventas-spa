@@ -153,8 +153,34 @@
 			</div>
 
 		</b-form-group>
-
-		<slot></slot>
+		
+		<div
+		v-if="model.id">
+			<b-form-group>
+				<label
+				class="form-label">
+					<i class="icon-right"></i>
+					Creado
+				</label>
+				<b-form-input
+				disabled
+				:value="date(model.created_at)+' '+since(model.created_at)"></b-form-input>
+				<hr>
+			</b-form-group>
+			<b-form-group>
+				<label
+				class="form-label">
+					<i class="icon-right"></i>
+					Actualizado
+				</label>
+				<b-form-input
+				disabled
+				:value="date(model.updated_at)+' '+since(model.updated_at)"></b-form-input>
+				<hr>
+			</b-form-group>
+		</div>
+		
+		<slot :model="model"></slot>
 
 		<slot name="buttons">
 			<btn-loader

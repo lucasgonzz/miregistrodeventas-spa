@@ -25,6 +25,7 @@ export default {
 			}
 		},
 		search() {
+			this.$store.commit(this.model_name+'/setLoading', true)
 			this.results = []
 			this.properties_to_filter.forEach(prop => {
 				let coincidences = this.models.filter(model => {
@@ -56,6 +57,7 @@ export default {
 				// console.log('results tiene ahora '+results.length+' elementos')
 			})
 			this.$store.commit(this.model_name+'/setToShow', this.results)
+			this.$store.commit(this.model_name+'/setLoading', false)
 		}
 	}
 }

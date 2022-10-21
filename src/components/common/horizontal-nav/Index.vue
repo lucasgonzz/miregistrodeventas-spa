@@ -1,7 +1,6 @@
 <template>
 	<div
 	class="cont-navs">
-
 		<div 
 		v-if="items"
 		class="horizontal-nav">
