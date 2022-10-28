@@ -54,6 +54,11 @@ import price_type from './price_type'
 import budget_status from './budget_status'
 import recipe from './recipe'
 
+// SUPER
+import user from './user'
+import super_budget from './super_budget'
+import extencion from './extencion'
+
 Vue.use(Vuex)
 Vue.config.devtools = true
 
@@ -124,5 +129,8 @@ export default new Vuex.Store({
 		price_type,
 		budget_status,
 		recipe,
+		user,
+		super_budget,
+		extencion,
 	}
 })

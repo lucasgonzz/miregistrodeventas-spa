@@ -1,11 +1,42 @@
 <template>
-    <div>
+	<view-component
+	model_name="client"
+	model_name_spanish="clientes"
+	create_model_name_spanish="cliente"
+	:show_previus_days="false"
+	show_search_nav>
+		<template #modals>
+	    	<current-acounts></current-acounts>
 
-    	<current-acounts></current-acounts>
+	    	<sale-details></sale-details>
 
-    	<sale-details></sale-details>
+	    	<import></import>
+		</template>
 
-    	<import></import>
+		<template #horizontal_nav_btn_create>
+			<create-dropdown></create-dropdown>
+		</template>
+
+		<template
+		v-slot:modal_buttons="slotProps">
+    		<comercio-city-user  
+    		:model="slotProps.model"
+    		model_name="client"></comercio-city-user>
+		</template>
+
+		<template v-slot:default="slotProps">
+			<b-button
+			class="m-l-15"
+			@click="showCurrentAcounts(slotProps.model)"
+			variant="success">
+				C/C
+			</b-button>
+		</template>
+
+	</view-component>
+
+    <!-- <div>
+
 
     	<model
     	:modal_title="'Nuevo '+model_name_spanish"
@@ -74,12 +105,16 @@
 			</b-col>
 		</b-row>
 
-    </div>
+    </div> -->
 </template>
 <script>
 import CurrentAcounts from '@/components/common/current-acounts/Index'
 import SaleDetails from '@/components/ventas/modals/details/Index'
 import Import from '@/components/clientes/modals/Import'
+
+import CreateDropdown from '@/components/clientes/components/CreateDropdown'
+import ViewComponent from '@/components/common/view/Index'
+
 
 import HorizontalNav from '@/components/common/horizontal-nav/Index'
 import SearchNav from '@/components/common/search-nav/Index'
@@ -144,6 +179,9 @@ export default {
 		CurrentAcounts,
 		SaleDetails,
 		Import,
+
+		CreateDropdown,
+		ViewComponent,
 		
 		HorizontalNav,
 		SearchNav,

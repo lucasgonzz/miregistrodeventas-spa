@@ -7,13 +7,13 @@
 		<div class="float-right m-l-5 d-none d-sm-block">
 			<b-button-group>
 				<b-button
-				@click="callPreviusSale(true)"
+				@click="setIndexAndCallPreviusSale(true)"
 				variant="primary">
 					<btn-loader :loader="loading_previus" icon="left"></btn-loader>
 				</b-button>
 				<b-button
 				:disabled="index_previus_sales < 2"
-				@click="callPreviusSale(false)"
+				@click="setIndexAndCallPreviusSale(false)"
 				variant="primary">
 					<btn-loader :loader="loading_next" icon="right"></btn-loader>
 				</b-button>
@@ -61,7 +61,7 @@ export default {
 		},
 	},
 	methods: {
-		callPreviusSale(from_previus) {
+		setIndexAndCallPreviusSale(from_previus) {
 			if (from_previus) {
 				this.$store.commit('vender/previus_sales/incrementIndex')
 				this.$store.commit('vender/previus_sales/setLoadingPrevius', true)
@@ -69,44 +69,7 @@ export default {
 				this.$store.commit('vender/previus_sales/decrementIndex')
 				this.$store.commit('vender/previus_sales/setLoadingNext', true)
 			}
-			this.$store.dispatch('vender/previus_sales/previusSale')
-			.then(() => {
-				let items = this.getItemsPreviusSale(this.previus_sale)
-				this.$store.commit('vender/setItems', items)
-				if (this.previus_sale.discounts.length) {
-					let discounts = this.previus_sale.discounts.map(discount => discount.id)
-					console.log(discounts)
-					this.$store.commit('vender/setDiscountsId', discounts)
-				} else {
-					this.$store.commit('vender/setDiscountsId', [])
-				}
-				if (this.previus_sale.client) {
-					this.$store.commit('vender/setClient', this.previus_sale.client)
-					this.$store.commit('vender/setPriceType', this.previus_sale.client.price_type)
-				} else {
-					console.log('se seteo con null')
-					this.$store.commit('vender/setClient', null)
-					this.$store.commit('vender/setPriceType', null)
-				}
-				this.checkWithCard()
-				this.setItemsPrices(false, true)
-				this.$store.commit('vender/setTotal')
-			})
-		},
-		checkWithCard() {
-			if (this.previus_sale.percentage_card) {
-				this.$store.commit('vender/setWithCard', true)
-			} else {
-				this.$store.commit('vender/setWithCard', false)
-			}
-		},
-		cancelPreviusSale() {
-			this.$store.commit('vender/previus_sales/setIndex', 0)
-			this.$store.commit('vender/previus_sales/setPreviusSale', {})
-			this.$store.commit('vender/setItems', [])
-			this.$store.commit('vender/setDiscountsId', [])
-			this.$store.commit('vender/setClient', null)
-			this.$store.commit('vender/setTotal')
+			this.callPreviusSale()
 		},
 	}
 }

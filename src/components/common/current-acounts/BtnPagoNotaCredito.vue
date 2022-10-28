@@ -2,6 +2,12 @@
     <b-form-group
     class="p-15 j-end">
         <b-button
+        v-b-modal="'current-acounts-nota-debito'"
+        variant="outline-danger">
+            Nota de debito
+        </b-button>
+        <b-button
+        class="m-l-10"
         v-b-modal="'current-acounts-nota-credito'"
         variant="danger">
             Nota de credito

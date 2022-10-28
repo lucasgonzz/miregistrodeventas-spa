@@ -1,8 +1,7 @@
 import clients from '@/mixins/clients'
-import previus_sales from '@/mixins/previus_sales'
 import sale_ticket from '@/mixins/sale_ticket'
 export default {
-	mixins: [clients, previus_sales, sale_ticket],
+	mixins: [clients, sale_ticket],
 	computed: {
 		items() {
 			return this.$store.state.vender.items
@@ -56,6 +55,9 @@ export default {
 			set(value) {
 				this.$store.commit('vender/setMakeCurrentAcountPago', value)
 			}
+		},
+		returned_articles() {
+			return this.$store.state.vender.returned_articles
 		},
 	},
 	methods: {
@@ -198,52 +200,6 @@ export default {
 			document.getElementById('article-bar-code').focus()
 			document.getElementById('search-article').value = ''
 			console.log('Se limpio articulo')
-		},
-		getItemsPreviusSale(sale) {
-			let items = []
-			let item = {}
-			let item_to_add 
-			sale.articles.forEach(article => {
-				item.id = article.id
-				item.name = article.name
-				item.pivot = article.pivot
-				item.cost = Number(article.pivot.cost)
-				item.price = Number(article.price)
-				item.discount = Number(article.pivot.discount)
-				item.amount = Number(article.pivot.amount)
-				item_to_add = {
-					...item,
-					is_article: true,
-				}
-				items.push(item_to_add)
-			})
-			sale.combos.forEach(combo => {
-				item.id = combo.id
-				item.name = combo.name
-				item.pivot = article.pivot
-				// item.price = Number(combo.pivot.price)
-				item.amount = Number(combo.pivot.amount)
-				item_to_add = {
-					...item,
-					is_combo: true,
-				}
-				items.push(item_to_add)
-			})
-			sale.services.forEach(service => {
-				item.id = service.id
-				item.name = service.name
-				item.pivot = service.pivot
-				// item.price = Number(service.pivot.price)
-				item.discount = Number(service.pivot.discount)
-				item.amount = Number(service.pivot.amount)
-				item_to_add = {
-					...item,
-					is_service: true,
-				}
-				items.push(item_to_add)
-			})
-			console.log(items)
-			return items
 		},
 	}
 }

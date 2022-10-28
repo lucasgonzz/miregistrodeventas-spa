@@ -27,6 +27,12 @@ hide-footer>
         :placeholder="placeholder"
         v-model="pago.haber"></b-form-input>
     </b-form-group>
+    <b-form-group>
+        <b-form-textarea
+        @keydown.enter="hacerPago"
+        placeholder="Ingrese una descripcion"
+        v-model="pago.description"></b-form-textarea>
+    </b-form-group>
     <payment-method
     :pago="pago"></payment-method>
     <checks
@@ -62,6 +68,7 @@ export default {
         return {
         	pago: {
                 current_date: true,
+                description: '',
                 created_at: '',
                 haber: '',
                 current_acount_payment_method_id: 0,

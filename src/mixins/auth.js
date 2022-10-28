@@ -15,13 +15,15 @@ export default {
 			console.log('login')
 			return this.$axios.post('/login', form)
 			.then(res => {
-				console.log('retmino login')
+				console.log('termino login')
 				console.log(res.data)
 				if (res.data.login) {
 					this.$store.commit('auth/setAuthenticated', true)
 					this.$store.commit('auth/setUser', res.data.user)
 					this.$router.replace({ name: 'Vender', params: {view: 'remito'} })
-				} 
+				}  else {
+					this.$store.commit('auth/setAuthenticated', false)
+				}
 			})
 			.catch(err => {
 				this.$toast.error('Error al ingresar, intentelo mas tarde')

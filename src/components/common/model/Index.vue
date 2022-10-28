@@ -62,7 +62,7 @@ export default {
 		modal_title: String,
 		size: {
 			type: String,
-			default: 'md',
+			default: 'lg',
 		},
 		actions_after_save: {
 			type: Array,

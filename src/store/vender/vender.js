@@ -24,6 +24,10 @@ export default {
 		price_type: null,
 		save_current_acount: 1,
 		make_current_acount_pago: 0,
+		save_nota_credito: 0,
+		nota_credito_description: '',
+
+		returned_articles: [],
 
 		sub_categories: [],
 
@@ -80,6 +84,25 @@ export default {
 		},
 		setMakeCurrentAcountPago(state, value) {
 			state.make_current_acount_pago = value
+		},
+		setSaveNotaCredito(state, value) {
+			state.save_nota_credito = value
+		},
+		setNotaCreditoDescription(state, value) {
+			state.nota_credito_description = value
+		},
+		setReturnedArticles(state, value) {
+			state.returned_articles = value
+		},
+		addReturnedArticle(state, value) {
+			let index = state.returned_articles.findIndex(item => {
+				return item.id == value.id 
+			})
+			if (index == -1) {
+				state.returned_articles.push(value)
+			} else {
+				state.returned_articles.splice(index, 1, value)
+			}
 		},
 		setSubCategories(state, value) {
 			state.sub_categories = value 

@@ -5,157 +5,177 @@
 		:model="model"
 		:model_name="model_name"></images>	
 
-		<b-form-group
-		v-for="(prop, index) in properties"
-		:key="'model-prop-'+index">
-			<label
+		<b-form-row>
+			<b-col
+			v-for="(prop, index) in properties"
 			v-if="showProperty(prop, model, false, true)"
-			class="form-label">
-				<i class="icon-right"></i>
-				{{ label(prop) }}
-			</label>
-			<div
-			v-if="showProperty(prop, model, false, true)">
-
-				<div
-				v-if="prop.type == 'search' || (prop.belongs_to_many && !prop.belongs_to_many.related_with_all)">
-					<search-component
-					class="m-b-15"
-					:id="model_name+'-'+prop.key"
-					@setSelected="setSelected"
-					:models="modelsToSearch(prop)"
-					:model_name="prop.store"
-					:model="model"
-					:prop="prop"></search-component>
-					<div
-					v-if="saving_belongs_to_many && prop.belongs_to_many"
-					class="align-center">
-						<b-spinner small class="m-r-10" variant="primary"></b-spinner>
-						Guardando
-					</div>
-				</div>
-
-		        <b-form-datepicker
-				v-if="prop.type == 'date'"
-		        placeholder="Fecha"
-		        :disabled="isDisabled(prop)"
-		        v-model="model[prop.key]"></b-form-datepicker>
-
-				<div
-				v-if="prop.type == 'radio'">
-					<b-form-radio
-					v-for="model_radio in modelsToSearch(prop, model)"
-					:key="prop.key+'-'+model_radio.id"
-					:value="model_radio.id"
-					:name="model_name+'-'+prop.key"
-					:id="prop.key+'-'+model_radio.id"
-					v-model="model[prop.key]">
+			:md="getCol(prop, 6)"
+			:lg="getCol(prop, 4)"
+			:xl="getCol(prop, 3)"
+			:key="'model-prop-'+index">
+				<b-form-group>
+					<label
+					class="form-label">
+						<i 
+						v-if="prop.has_many"
+						class="icon-down"></i>
+						<i 
+						v-else
+						class="icon-right"></i>
+						{{ label(prop) }}
+					</label>
+					<div>
 						<div
-						v-if="prop.props_to_show_in_radio">
-							<p
-							v-for="prop_to_show in prop.props_to_show_in_radio">
-								{{ model_radio[prop_to_show] }}
-							</p>
+						v-if="userSearch(prop)">
+							<search-component
+							class="m-b-15"
+							:id="model_name+'-'+prop.key"
+							@setSelected="setSelected"
+							:models="modelsToSearch(prop)"
+							:model_name="prop.store"
+							:model="model"
+							:prop="prop"></search-component>
+							<div
+							v-if="saving_belongs_to_many && prop.belongs_to_many"
+							class="align-center">
+								<b-spinner small class="m-r-10" variant="primary"></b-spinner>
+								Guardando
+							</div>
 						</div>
-						<span
-						v-else>
-							{{ model_radio.name }}
-						</span>
-					</b-form-radio>
-				</div>
 
-				<b-form-input
-				v-if="prop.type == 'text' || prop.type == 'number'"
-		        :disabled="isDisabled(prop)"
-				:placeholder="'Ingresar '+prop.text"
-				:type="prop.type"
-				v-model="model[prop.key]"></b-form-input>
+						<belongs-to-many-checkbox
+						v-if="prop.belongs_to_many && prop.belongs_to_many.with_checkbox"
+						:model="model"
+						:prop="prop"></belongs-to-many-checkbox>
 
-				<b-form-textarea
-				v-if="prop.type == 'textarea'"
-		        :disabled="isDisabled(prop)"
-				:placeholder="'Ingresar '+prop.text"
-				:type="prop.type"
-				v-model="model[prop.key]"></b-form-textarea>
+						<has-many
+						v-if="prop.has_many"
+						:parent_model="model"
+						:prop="prop"></has-many>
 
-				<b-form-select
-				v-else-if="prop.type == 'select'"
-				@change="setChange(prop)"
-		        :disabled="isDisabled(prop)"
-				v-model="model[prop.key]"
-				:options="getOptions(prop.key, prop.text)"></b-form-select>
+				        <b-form-datepicker
+						v-if="prop.type == 'date'"
+				        placeholder="Fecha"
+				        :disabled="isDisabled(prop)"
+				        v-model="model[prop.key]"></b-form-datepicker>
 
-				<b-form-checkbox
-				v-else-if="prop.type == 'checkbox'"
-		        :disabled="isDisabled(prop)"
-				v-model="model[prop.key]"
-				:value="prop.value"
-				:unchecked-value="prop.unchecked_value">
-					{{ prop.text }}
-				</b-form-checkbox>
+						<div
+						v-if="prop.type == 'radio'">
+							<b-form-radio
+							v-for="model_radio in modelsToSearch(prop, model)"
+							:key="prop.key+'-'+model_radio.id"
+							:value="model_radio.id"
+							:name="model_name+'-'+prop.key"
+							:id="prop.key+'-'+model_radio.id"
+							v-model="model[prop.key]">
+								<div
+								v-if="prop.props_to_show_in_radio">
+									<p
+									v-for="prop_to_show in prop.props_to_show_in_radio">
+										{{ model_radio[prop_to_show] }}
+									</p>
+								</div>
+								<span
+								v-else>
+									{{ model_radio.name }}
+								</span>
+							</b-form-radio>
+						</div>
 
-		    	<model-component
-		    	v-if="prop.show_model"
-		    	:modal_title="'Agregar '+prop.btn_model_text"
-		    	:model="modelStoreFromName(prop.store)"
-		    	:model_name="routeString(modelNameFromRelationKey(prop))"
-		    	:text_delete="prop.text"
-		    	:properties="modelPropertiesFromRelationKey(prop)"></model-component>
+						<b-form-input
+						v-if="prop.type == 'text' || prop.type == 'number'"
+				        :disabled="isDisabled(prop)"
+						:placeholder="'Ingresar '+prop.text"
+						:type="prop.type"
+						v-model="model[prop.key]"></b-form-input>
 
-				<b-button
-		    	v-if="prop.show_model"
-		    	class="m-r-15"
-		    	@click="setModel(prop)"
-				variant="primary">
-					<i class="icon-plus"></i>
-					{{ btnText(prop) }}
-				</b-button>
+						<b-form-textarea
+						v-if="prop.type == 'textarea'"
+				        :disabled="isDisabled(prop)"
+						:placeholder="'Ingresar '+prop.text"
+						:type="prop.type"
+						v-model="model[prop.key]"></b-form-textarea>
 
-				<div
-		    	v-if="prop.belongs_to_many">
-					<table-component
-					:loading="false"
-					:models="model[prop.key]"
-					:properties="propsToShowInBelongsToMany(prop)"
-					:model_name="prop.belongs_to_many.model_name"
-					:pivot="prop.belongs_to_many"
-					:pivot_model="model"
-					:set_model_on_click="false"
-					:show_btn_edit="false">
-						<template v-slot:default="slotProps">
-							<slot name="belongs" :model="slotProps.model"></slot>
-							<b-button
-							class="m-l-15"
-							variant="danger"
-							@click="removeModel(prop, slotProps.model)">
-								<i class="icon-trash"></i>
-							</b-button>
-						</template>  
-					</table-component>	
-				</div>
+						<b-form-select
+						v-else-if="prop.type == 'select'"
+						@change="setChange(prop)"
+				        :disabled="isDisabled(prop)"
+						v-model="model[prop.key]"
+						:options="getOptions(prop.key, prop.text)"></b-form-select>
 
-				<p
-				class="function-value"
-				v-if="prop.function">
-					{{ getFunctionValue(prop, model) }}
-				</p>
+						<b-form-checkbox
+						v-else-if="prop.type == 'checkbox'"
+				        :disabled="isDisabled(prop)"
+						v-model="model[prop.key]"
+						:value="prop.value"
+						:unchecked-value="prop.unchecked_value">
+							{{ prop.text }}
+						</b-form-checkbox>
 
-				<b-button
-				v-if="(prop.type == 'radio' || prop.type == 'search') && model[prop.key] != prop.value"
-				variant="outline-primary"
-				size="sm"
-				@click="clear(prop)">
-					Limpiar
-				</b-button>
+				    	<model-component
+				    	v-if="prop.show_model"
+				    	:modal_title="'Agregar '+prop.btn_model_text"
+				    	:model="modelStoreFromName(prop.store)"
+				    	:model_name="routeString(modelNameFromRelationKey(prop))"
+				    	:text_delete="prop.text"
+				    	:properties="modelPropertiesFromRelationKey(prop)"></model-component>
 
-				<hr>
+						<b-button
+				    	v-if="prop.show_model"
+				    	class="m-r-15"
+				    	@click="setModel(prop)"
+						variant="primary">
+							<i class="icon-plus"></i>
+							{{ btnText(prop) }}
+						</b-button>
 
-			</div>
+						<div
+				    	v-if="prop.belongs_to_many && !prop.belongs_to_many.related_with_all && !prop.belongs_to_many.with_checkbox">
+							<table-component
+							:loading="false"
+							:models="model[prop.key]"
+							:properties="propsToShowInBelongsToMany(prop)"
+							:model_name="prop.belongs_to_many.model_name"
+							:pivot="prop.belongs_to_many"
+							:pivot_model="model"
+							:set_model_on_click="false"
+							:show_btn_edit="false">
+								<template v-slot:default="slotProps">
+									<slot name="belongs" :model="slotProps.model"></slot>
+									<b-button
+									class="m-l-15"
+									variant="danger"
+									@click="removeModel(prop, slotProps.model)">
+										<i class="icon-trash"></i>
+									</b-button>
+								</template>  
+							</table-component>	
+						</div>
 
-		</b-form-group>
+						<p
+						class="function-value"
+						v-if="prop.function">
+							{{ getFunctionValue(prop, model) }}
+						</p>
+
+						<b-button
+						v-if="(prop.type == 'radio' || prop.type == 'search') && model[prop.key] != prop.value"
+						variant="outline-primary"
+						size="sm"
+						@click="clear(prop)">
+							Limpiar
+						</b-button>
+
+						<!-- <hr> -->
+
+					</div>
+
+				</b-form-group>
+			</b-col>
+		</b-form-row>
 		
 		<div
-		v-if="model.id">
+		v-if="model.id && !from_has_many">
 			<b-form-group>
 				<label
 				class="form-label">
@@ -182,7 +202,9 @@
 		
 		<slot :model="model"></slot>
 
-		<slot name="buttons">
+		<slot 
+		v-if="!from_has_many"
+		name="buttons">
 			<btn-loader
 			@clicked="save"
 			:loader="loading"
@@ -199,6 +221,8 @@
 </template>
 <script>
 import SearchComponent from '@/components/common/search/Index'
+import HasMany from '@/components/common/model/HasMany'
+import BelongsToManyCheckbox from '@/components/common/model/BelongsToManyCheckbox'
 import Cards from '@/components/common/display/cards/Index'
 import TableComponent from '@/components/common/display/TableComponent'
 import Images from '@/components/common/model/Images'
@@ -217,6 +241,14 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		from_has_many: {
+			type: Boolean,
+			default: false,
+		},
+		parent_model: {
+			type: Object,
+			default: null,
+		},
 		actions_after_save: Array,
 	},
 	data() {
@@ -234,6 +266,15 @@ export default {
 		},
 	},
 	methods: {
+		userSearch(prop) {
+			return prop.type == 'search' || (prop.belongs_to_many && !prop.belongs_to_many.related_with_all && !prop.belongs_to_many.with_checkbox)
+		},
+		getCol(prop, size) {
+			if (this.userSearch(prop)) {
+				return 12
+			} 
+			return size
+		},
 		removeModel(prop, model) {
 			let index = this.model[prop.key].findIndex(_model => {
 				return _model.id == model.id 
@@ -434,6 +475,8 @@ export default {
 		ModelComponent: () => import('@/components/common/model/Index'),
 
 		SearchComponent,
+		HasMany,
+		BelongsToManyCheckbox,
 		Cards,
 		TableComponent,
 		Images,
@@ -444,6 +487,10 @@ export default {
 </script>
 <style lang="sass">
 .model-form 
+	[class^='col-']
+		padding-bottom: 15px
+		margin-bottom: 15px
+		border-bottom: 1px solid rgba(0,0,0,.1)
 	.custom-radio 
 		margin-bottom: 1em 
 		p 

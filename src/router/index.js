@@ -3,7 +3,6 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Admin from '../views/Admin.vue'
-import Super from '../views/Super.vue'
 import Vender from '../views/Vender.vue'
 import Produccion from '../views/Produccion.vue'
 import Presupuestos from '../views/Presupuestos.vue'
@@ -20,6 +19,11 @@ import PruebaTerminada from '../views/PruebaTerminada.vue'
 import PreguntasFrecuentes from '../views/PreguntasFrecuentes.vue'
 import Subscription from '../views/Subscription.vue'
 import store from '@/store'
+
+// SUPER
+import SuperUsers from '../views/super/Users'
+import SuperPlans from '../views/super/Plans'
+import SuperBudgets from '../views/super/Budgets.vue'  
 
 function hasPermissionTo(permission_name) {
     if (store.state.auth.authenticated) {
@@ -64,9 +68,21 @@ Vue.use(VueRouter)
         component: Login,
     },
     {
-        path: '/super/:view',
-        name: 'Super',
-        component: Super,
+        path: '/super/usuarios',
+        name: 'SuperUsers',
+        component: SuperUsers,
+    },
+    {
+        path: '/super/planes',
+        name: 'SuperPlans',
+        component: SuperPlans,
+
+    },
+    {
+        path: '/super/presupuestos',
+        name: 'SuperBudgets',
+        component: SuperBudgets,
+
     },
     {
         path: '/admin',

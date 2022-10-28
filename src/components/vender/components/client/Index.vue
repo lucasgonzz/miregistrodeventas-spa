@@ -8,18 +8,22 @@
 
 			<discounts></discounts>	
 
-			<current-acount></current-acount>
+			<nota-credito></nota-credito>
+
+			<!-- <current-acount></current-acount> -->
 		</b-col>
 	</b-row>
 </template>
 <script>
 import SelectClient from '@/components/vender/components/client/SelectClient'
 import Discounts from '@/components/vender/components/client/Discounts'
+import NotaCredito from '@/components/vender/components/client/NotaCredito'
 import CurrentAcount from '@/components/vender/components/client/CurrentAcount'
 export default {
 	components: {
 		SelectClient,
 		Discounts,
+		NotaCredito,
 		CurrentAcount,
 	},
 }

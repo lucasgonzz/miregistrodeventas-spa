@@ -9,12 +9,23 @@
 					Total: {{ getTotalSale(sale_details, true, true, false).total }}
 				</strong>
 			</p>
-			<b-button
-			@click="printSales(sale_details.id)"
-			variant="danger">
-				<i class="icon-print"></i>
-				Imprimir
-			</b-button>
+			<div>
+				<btn-loader
+				class="m-r-10"
+				text="Actualizar"
+				:block="false"
+				:loader="loading_index"
+				@clicked="updateSale(sale_details)">
+					<i class="icon-undo"></i>
+					Actualizar
+				</btn-loader>
+				<b-button
+				@click="printSales(sale_details.id)"
+				variant="danger">
+					<i class="icon-print"></i>
+					Imprimir
+				</b-button>
+			</div>
 		</div>
 		<div 
 		class="m-t-15"
@@ -39,8 +50,9 @@ import BtnLoader from '@/components/common/BtnLoader2'
 import ClientInfo from '@/components/common/ClientInfo'
 import sales from '@/mixins/sales'
 import print_sale from '@/mixins/print_sale'
+import previus_sales from '@/mixins/previus_sales'
 export default {
-	mixins: [print_sale, sales],
+	mixins: [print_sale, sales, previus_sales],
 	components: {
 		BtnLoader,
 		ClientInfo,
@@ -48,9 +60,24 @@ export default {
 	data() {
 		return {
 			loading: false,
+			loading_index: false,
 		}
 	},
 	methods: {
+		updateSale(sale) {
+			this.loading_index = true 
+			this.$api.get('sale/get-previus-next-index/'+sale.id)
+			.then(res => {
+				this.loading_index = false
+				this.$store.commit('vender/previus_sales/setIndex', res.data.index)
+				this.callPreviusSale()
+				this.$router.push({name: 'Vender', params: {view: 'remito'}})
+			})
+			.catch(err => {
+				this.loading_index = false
+				console.log(err)
+			})
+		},	
 		saveCurrentAcount() {
 			this.loading = true 
 			this.$api.put('sale/save-current-acount/'+this.sale_details.id)
@@ -77,4 +104,7 @@ export default {
 	justify-content: space-between
 	p 
 		font-size: 1.5em 
+	div
+		display: flex
+		align-items: center
 </style>

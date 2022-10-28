@@ -3,6 +3,7 @@
 		<b-col
 		cols="12"
 		class="col-nav">
+
 			<b-nav tabs>
 				<b-nav-item
 				@click="setView('usuarios')"
@@ -22,7 +23,15 @@
 import mixin from '@/mixins/super'
 export default {
 	mixins: [mixin],
+	components: {
+	},
 	name: 'NavSuper',
+	computed: {
+		items() {
+			return [
+			]
+		}
+	},
 	methods: {
 		setView(view) {
 			console.log('esta en la vista '+this.view+' y cambia a '+view)

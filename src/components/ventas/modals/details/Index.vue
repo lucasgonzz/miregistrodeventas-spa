@@ -31,9 +31,10 @@ export default {
         fields() {
             return [
                 {key: 'name', label: 'Nombre', class: 'text-center'},
-                {key: 'amount', label: 'Cantidad', class: 'text-center', sortable: true},
                 {key: 'price', label: 'Precio', class: 'text-center', sortable: true},
                 {key: 'discount', label: 'Descuento', class: 'text-center', sortable: true},
+                {key: 'amount', label: 'Cantidad', class: 'text-center', sortable: true},
+                {key: 'returned_amount', label: 'U. Devueltas', class: 'text-center', sortable: true},
                 {key: 'sub_total', label: 'Total', class: 'text-center', sortable: true},
             ]
         },
@@ -43,6 +44,7 @@ export default {
                 items.push({
                     name: article.name,
                     amount: article.pivot.amount,
+                    returned_amount: article.pivot.returned_amount,
                     discount: article.pivot.discount,
                     price: this.price(article.pivot.price),
                     sub_total: this.price(this.getTotalArticle(article, true)),

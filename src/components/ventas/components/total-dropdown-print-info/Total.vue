@@ -26,7 +26,7 @@
 				</span>
 			</b-button>
 		</b-button-group>
-		<div
+		<!-- <div
 		v-if="show"
 		class="p-l-15">
 			<b-form-checkbox
@@ -43,7 +43,7 @@
 			v-model="total_with_commissions">
 				Con comisiones
 			</b-form-checkbox>
-		</div>
+		</div> -->
 	</b-col>
 	
 </template>

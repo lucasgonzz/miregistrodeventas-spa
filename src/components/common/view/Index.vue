@@ -32,6 +32,7 @@
 					</template>
 				</horizontal-nav>
 				<list
+				:models_to_show="models_to_show"
 				:show_previus_days="show_previus_days"
 				:show_search_nav="show_search_nav"
 				:model_name="model_name"
@@ -91,6 +92,12 @@ export default {
 		col_xl: {
 			type: String,
 			default: '12'
+		},
+		models_to_show: {
+			type: Array,
+			default: () => {
+				return []
+			},
 		},
 	},
 	computed: {

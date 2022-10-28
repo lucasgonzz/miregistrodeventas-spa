@@ -25,6 +25,7 @@
 		</div>
 		<b-button
 		v-if="client"
+		class="m-b-15"
 		variant="outline-primary"
 		@click="removeClient">
 			Quitar cliente seleccionado

@@ -7,6 +7,7 @@
     toast="Cuenta corriente eliminada"></confirm>
     <pago></pago>    
     <nota-credito></nota-credito>    
+    <nota-debito></nota-debito>    
     <import></import>    
     <saldo-inicial></saldo-inicial>    
     <checks-details></checks-details>    
@@ -56,6 +57,7 @@ import current_acounts from '@/mixins/current_acounts'
 import Confirm from '@/components/common/Confirm.vue' 
 import Pago from '@/components/common/current-acounts/pago/Index'
 import NotaCredito from '@/components/common/current-acounts/NotaCredito.vue'
+import NotaDebito from '@/components/common/current-acounts/NotaDebito.vue'
 import Import from '@/components/common/current-acounts/Import.vue'
 import SaldoInicial from '@/components/common/current-acounts/SaldoInicial.vue'
 import ChecksDetails from '@/components/common/current-acounts/ChecksDetails.vue'
@@ -77,6 +79,7 @@ export default {
         Confirm,
         Pago, 
         NotaCredito,
+        NotaDebito,
         Import,
         SaldoInicial,
         ChecksDetails,
@@ -104,7 +107,7 @@ export default {
         },
         text_delete() {
             if (this.delete) {
-                return 'este pago por $'+this.delete.haber
+                return 'este cuenta con saldo de $'+this.delete.saldo
             }
             return ''
         },

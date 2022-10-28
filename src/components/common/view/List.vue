@@ -9,8 +9,7 @@
 		<search-nav
 		v-if="show_search_nav"
 		:models="models"
-		:model_name="model_name"
-		:properties_to_filter="propsToFilter(model_name)"></search-nav>
+		:model_name="model_name"></search-nav>
 
 		<display
 		:models="to_show"
@@ -33,9 +32,18 @@ export default {
 		model_name_spanish: String,
 		show_previus_days: Boolean,
 		show_search_nav: Boolean,
+		models_to_show: {
+			type: Array,
+			default: () => {
+				return []
+			},
+		},
 	},
 	computed: {
 		to_show() {
+			if (this.models_to_show.length) {
+				return this.models_to_show
+			}
 			return this.$store.state[this.model_name].to_show
 		},
 		models() {

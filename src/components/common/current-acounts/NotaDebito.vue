@@ -1,32 +1,31 @@
 <template>
 <b-modal 
 v-if="from_model" 
-id="current-acounts-nota-credito" 
+id="current-acounts-nota-debito" 
 title="Nota Credito" 
 hide-footer>
     <b-form-group>
         <b-form-input
         type="number"
         min="0"
-        @keydown.enter="notaCredito"
+        @keydown.enter="save"
         :placeholder="placeholder"
-        v-model="form.nota_credito"></b-form-input>
+        v-model="debe"></b-form-input>
     </b-form-group>
     <b-form-group>
         <b-form-textarea
-        type="text"
-        @keydown.enter="notaCredito"
+        @keydown.enter="save"
         placeholder="Ingrese una descripcion"
-        v-model="form.description"></b-form-textarea>
+        v-model="description"></b-form-textarea>
     </b-form-group>
     <b-form-group>
     	<b-button
         block
     	variant="primary"
-    	@click="notaCredito">
+    	@click="save">
     		<btn-loader
     		:loader="loading"
-    		text="Registrar nota de credito"></btn-loader>
+    		text="Registrar nota de debito"></btn-loader>
     	</b-button>
     </b-form-group>
 </b-modal>
@@ -44,43 +43,42 @@ export default {
     },
     data() {
         return {
-            form: {
-        	   nota_credito: '',
-               description: '',
-            },
-        	loading: false,
+    	    debe: '',
+            description: '',
+            loading: false,
         }
     },
     computed: {
         placeholder() {
-        	return `Ingrese el monto de la nota de credito para ${this.from_model.name}`
+        	return `Ingrese el monto de la nota de debito para ${this.from_model.name}`
         },
     },
     methods: {
-    	notaCredito() {
+    	save() {
     		this.loading = true
-    		this.$api.post('/current-acount/nota-credito', {
+    		this.$api.post('/current-acount/nota-debito', {
                 model_id         : this.from_model.id,
     			model_name       : this.from_model_name,
-    			form             : this.form,
+                debe             : this.debe,
+    			description      : this.description,
     		})
     		.then(res => {
                 this.$store.dispatch('current_acount/getModels')
     			this.loading = false
-    			this.$toast.success('Nota de credito registrada')
-                this.$bvModal.hide('current-acounts-nota-credito')
+    			this.$toast.success('Nota de debito registrada')
+                this.$bvModal.hide('current-acounts-nota-debito')
                 this.clear()
                 // this.updateClient(this.client)
     		})
     		.catch(err => {
     			this.loading = false
     			console.log(err)
-    			this.$toast.error('Error al registrar nota de credito')
+    			this.$toast.error('Error al registrar nota de debito')
     		})
     	},
         clear() {
-            this.form.nota_credito = ''
-            this.form.description = ''
+            this.debe = ''
+            this.description = ''
         }
     }
 }

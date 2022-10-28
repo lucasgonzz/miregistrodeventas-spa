@@ -3,6 +3,7 @@
 	v-if="view == 'ordenes-de-produccion'">
 
 		<view-component 
+		:models_to_show="models_to_show"
 		model_name="order_production"
 		model_name_spanish="Ordenes de produccion"
 		create_model_name_spanish="Nueva orden de produccion"
@@ -48,5 +49,34 @@ export default {
 		ModalButtons,
 		BtnActivateArticle,
 	},
+	computed: {
+		models_to_show() {
+			if (!this.is_owner) {
+				let models = []
+				let articles = []
+				let order_production_has_articles = false 
+				this.models.forEach(order_production => {
+					order_production.articles.forEach(article => {
+						if (article.pivot.employee_id == this.user.id) {
+							console.log('agregando el articulo '+article.name)
+							articles.push(article)
+							order_production_has_articles = true 
+						}
+					})
+					if (order_production_has_articles) {
+						order_production.articles = articles
+						models.push(order_production)
+						order_production_has_articles = false 
+						articles = []
+					}
+				})
+				return models 
+			}
+			return []
+		},
+		models() {
+			return this.$store.state.order_production.models
+		}
+	}
 }
 </script>

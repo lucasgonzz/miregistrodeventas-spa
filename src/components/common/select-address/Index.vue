@@ -1,5 +1,6 @@
 <template>
 <b-modal
+v-if="authenticated"
 id="select-address"
 hide-header
 hide-footer

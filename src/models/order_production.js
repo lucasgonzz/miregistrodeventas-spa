@@ -50,7 +50,8 @@ export default {
 						key: 'name',
 						type: 'textarea',
 						show: true,
-						show_in_input_if: ['status', '=', 'inactive']
+						show_in_input_if: ['status', '=', 'inactive'],
+						size: 'lg',
 					},
 					{
 						text: 'Codigo barras',
@@ -72,30 +73,43 @@ export default {
 						text: 'Precio',
 						key: 'price',
 						value: {key: 'price', value_if_undefined: ''},
-						type: 'number'
+						type: 'number',
+						can: 'order_production.article.price',
 					},
 					{
 						text: 'Cantidad',
 						key: 'amount',
 						value: '',
-						type: 'number'
+						type: 'number',
+						size: 'sm',
 					},
 					{
 						text: 'Bonif',
 						key: 'bonus',
 						value: '',
-						type: 'number'
+						type: 'number',
+						can: 'order_production.article.price',
+						size: 'sm',
 					},
 					{
 						text: 'Ubicacion',
 						key: 'location',
 						value: '',
-						type: 'textarea'
+						type: 'textarea',
+						size: 'lg',
+					},
+					{
+						text: 'Empleado',
+						key: 'employee_id',
+						value: 0,
+						type: 'select',
+						size: 'md',
 					},
 					{
 						from_store: true,
 						store: 'order_production_status',
 						type: 'number',
+						size: 'sm',
 					},
 					// {
 					// 	text: 'Entrgados',

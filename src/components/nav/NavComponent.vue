@@ -16,13 +16,12 @@
                 </template>
             </b-navbar-toggle>
             <b-collapse 
-            :class="!show_nav_content ? 'j-end' : ''"
             id="nav-collapse" is-nav>
-                <b-navbar-nav
-                v-if="show_nav_content">
+                <b-navbar-nav>
                     <nav-items></nav-items>
                 </b-navbar-nav>
-                <b-nav-item-dropdown right>
+                <b-nav-item-dropdown 
+                right>
                     <template v-slot:button-content>
                         {{ user.name }}
                     </template>
@@ -32,7 +31,7 @@
                         Configuracion
                     </b-dropdown-item>
                     <b-dropdown-item
-                    v-if="user.addresses.length >= 2 && selected_address"
+                    v-if="!is_super && user.addresses.length >= 2 && selected_address"
                     v-b-modal="'select-address'">
                         <div class="p-15">
                             <p

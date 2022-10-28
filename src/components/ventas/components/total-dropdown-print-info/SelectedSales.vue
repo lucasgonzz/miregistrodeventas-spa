@@ -53,8 +53,9 @@
 <script>
 import print_sale from '@/mixins/print_sale'
 import sale_ticket from '@/mixins/sale_ticket'
+import afip_ticket from '@/mixins/afip_ticket'
 export default {
-	mixins: [print_sale, sale_ticket],
+	mixins: [print_sale, sale_ticket, afip_ticket],
 	computed: {
 		selected_sales() {
 			return this.$store.state.sale.selected

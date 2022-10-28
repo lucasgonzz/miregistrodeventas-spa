@@ -99,8 +99,8 @@ export default {
 					hour: this.hour(sale.created_at),
 					cantidad_productos: this.getCantidadProducts(sale),
 					cantidad_unidades: this.getCantidadUnidades(sale),
-					cost: this.getTotalSale(sale).cost,
-					total: this.getTotalSale(sale).total,
+					cost: this.getTotalSale(sale, true, true, false).cost,
+					total: this.getTotalSale(sale, true, true, false).total,
 					_rowVariant: this.getRowVariant(sale),
 				})
 			})

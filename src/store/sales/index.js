@@ -68,7 +68,7 @@ export default {
 			state.total = 0
 			let res
 			state.to_show.forEach(sale => {
-				res = sales_mixin.methods.getTotalSale(sale, false, state.total_with_discounts, state.total_with_commissions)
+				res = sales_mixin.methods.getTotalSale(sale, false, true, state.total_with_commissions)
 				state.without_cost = res.without_cost
 				state.total_articles += res.total_articles
 				state.total_cost += res.total_cost

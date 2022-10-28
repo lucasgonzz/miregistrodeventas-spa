@@ -15,11 +15,35 @@ export default {
 			let properties_to_add = []
 			if (properties) {
 				properties.forEach(prop => {
-					if (prop.belongs_to_many && !prop.belongs_to_many.related_with_all) {
+					if (prop.belongs_to_many && !prop.belongs_to_many.related_with_all && !prop.belongs_to_many.with_checkbox) {
 						if (!model) {
 							properties_to_add.push({
 								key: prop.key,
 								value: [],
+							})
+						}
+					} else if (prop.belongs_to_many && prop.belongs_to_many.with_checkbox) {
+						if (!model) {
+							properties_to_add.push({
+								key: prop.key+'_id',
+								value: []
+							})
+							console.log(properties_to_add)
+						} else {
+							let ids_to_add = []
+							model[prop.key].forEach(relation => {
+								ids_to_add.push(relation.id)
+							})
+							model[prop.key+'_id'] = ids_to_add
+						}
+					} else if (prop.has_many) {
+						if (!model) {
+							let model_to_add = {
+								...prop.has_many.model
+							}
+							properties_to_add.push({
+								key: prop.key,
+								value: [model_to_add],
 							})
 						}
 					} else if (prop.belongs_to_many && prop.belongs_to_many.related_with_all) {

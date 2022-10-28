@@ -20,79 +20,99 @@ export default {
         	return this.user.status != 'super'
         },
         routes() {
-        	return [
-        		{
-        			text: 'Vender',
-        			name: 'Vender',
-        			params: { view: 'remito' },
-        			can: 'sale.store',
-        		},
-        		{
-        			text: 'Ingresar',
-        			name: 'Ingresar',
-        			can: 'article.store',
-        		},
-        		{
-        			text: 'Listado',
-        			name: 'Listado',
-        			get_models: 'article',
-        			can: 'article.index',
-        		},
-        		{
-        			text: 'Ventas',
-        			name: 'Ventas',
-        			get_models: 'sale',
-        			params: { view: 'todas', sub_view: 'todos'},
-        			can: 'sale.index',
-        			commits: [
-        				{
-        					key: 'sale/setFromDate',
-        					param: moment().format('YYYY-MM-DD'),
-        				},
-        				{
-        					key: 'sale/setSelected',
-        					param: [],
-        				},
-        			],
-        		},
-        		{
-        			text: 'Presupuestos',
-        			name: 'Presupuestos',
-        			get_models: 'budget',
-        			can: 'budget.index',
-        		},
-        		{
-        			text: 'Produccion',
-        			name: 'Produccion',
-        			params: { view: 'ordenes-de-produccion' },
-        			get_models: 'order_production',
-        			can: 'order_production.index',
-        		},
-        		{
-        			text: 'Proveedores',
-        			name: 'Proveedores',
-        			params: { view: 'proveedores'},
-        			get_models: 'provider',
-        			can: 'provider.index',
-        		},
-        		{
-        			text: 'Clientes',
-        			name: 'Clientes',
-        			get_models: 'client',
-        			can: 'client.index',
-        		},
-        		{
-        			text: 'Empleados',
-        			name: 'Empleados',
-        			get_models: 'employee',
-        			can: 'employee',
-        		},
-        		{
-        			text: 'Online',
-        			name: 'Online',
-        			if: 'has_online',
-        		},
-        	]
+        	if (this.user.status == 'super') {
+        		return [
+	        		{
+	        			text: 'Usuarios',
+	        			name: 'SuperUsers',
+	        			get_models: 'user',
+	        		},
+	        		{
+	        			text: 'Planes',
+	        			name: 'SuperPlans',
+	        			get_models: 'plan',
+	        		},
+	        		{
+	        			text: 'Presupuestos',
+	        			name: 'SuperBudgets',
+	        			get_models: 'super_budget',
+	        		},
+        		]
+        	} else {
+	        	return [
+	        		{
+	        			text: 'Vender',
+	        			name: 'Vender',
+	        			params: { view: 'remito' },
+	        			can: 'sale.store',
+	        		},
+	        		{
+	        			text: 'Ingresar',
+	        			name: 'Ingresar',
+	        			can: 'article.store',
+	        		},
+	        		{
+	        			text: 'Listado',
+	        			name: 'Listado',
+	        			get_models: 'article',
+	        			can: 'article.index',
+	        		},
+	        		{
+	        			text: 'Ventas',
+	        			name: 'Ventas',
+	        			get_models: 'sale',
+	        			params: { view: 'todas', sub_view: 'todos'},
+	        			can: 'sale.index',
+	        			commits: [
+	        				{
+	        					key: 'sale/setFromDate',
+	        					param: moment().format('YYYY-MM-DD'),
+	        				},
+	        				{
+	        					key: 'sale/setSelected',
+	        					param: [],
+	        				},
+	        			],
+	        		},
+	        		{
+	        			text: 'Presupuestos',
+	        			name: 'Presupuestos',
+	        			get_models: 'budget',
+	        			can: 'budget.index',
+	        		},
+	        		{
+	        			text: 'Produccion',
+	        			name: 'Produccion',
+	        			params: { view: 'ordenes-de-produccion' },
+	        			get_models: 'order_production',
+	        			can: 'order_production.index',
+	        		},
+	        		{
+	        			text: 'Proveedores',
+	        			name: 'Proveedores',
+	        			params: { view: 'proveedores'},
+	        			get_models: 'provider',
+	        			can: 'provider.index',
+	        		},
+	        		{
+	        			text: 'Clientes',
+	        			name: 'Clientes',
+	        			get_models: 'client',
+	        			can: 'client.index',
+	        		},
+	        		{
+	        			text: 'Empleados',
+	        			name: 'Empleados',
+	        			get_models: 'employee',
+	        			can: 'employee',
+	        		},
+	        		{
+	        			text: 'Online',
+	        			name: 'Online',
+	        			if: 'has_online',
+	        		},
+	        	]
+        	}
         },
 	},
 	methods: {

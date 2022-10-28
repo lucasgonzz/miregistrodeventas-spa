@@ -58,7 +58,8 @@ export default {
 				client_id: info.client_id,
 				items: info.items,
 				discounts_id: info.discounts_id,
-				dolar_blue: info.dolar_blue,
+				save_nota_credito: info.save_nota_credito,
+				nota_credito_description: info.nota_credito_description,
 				with_card: false,
 			})
 			.then(res => {

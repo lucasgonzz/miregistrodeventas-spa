@@ -20,7 +20,8 @@ export default {
 						key: 'name',
 						type: 'textarea',
 						show: true,
-						show_in_input_if: ['status', '=', 'inactive']
+						show_in_input_if: ['status', '=', 'inactive'],
+						size: 'lg',
 					},
 					{
 						text: 'Codigo barras',

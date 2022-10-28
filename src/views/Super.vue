@@ -1,13 +1,13 @@
 <template>
 <div id="super">
-	<edit-commerce></edit-commerce>
+	<!-- <edit-commerce></edit-commerce>
 	<plan-permissions></plan-permissions>
 	<plan-subscriptions></plan-subscriptions>
 	<nav-component></nav-component>
 	<users-table></users-table>
-	<plans-table></plans-table>
+	<plans-table></plans-table> -->
 </div>
-</template>
+</template> 
 <script>
 import EditCommerce from '@/components/super/modals/EditCommerce'
 import PlanPermissions from '@/components/super/modals/PlanPermissions'

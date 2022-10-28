@@ -80,7 +80,7 @@ export default {
 				this.selected_current_acounts.forEach(current_acount => {
 					ids.push(current_acount.id)
 				})
-            	link = process.env.VUE_APP_API_URL+'/current-acounts/pdf/'+ids.join('-')
+            	link = process.env.VUE_APP_API_URL+'/current-acounts/pdf/'+ids.join('-')+'/'+this.from_model_name
 			} else {
             	link = process.env.VUE_APP_API_URL+'/current-acounts/pdf/'+this.from_model_name+'/'+this.from_model.id+
             	'/'+this.months_ago

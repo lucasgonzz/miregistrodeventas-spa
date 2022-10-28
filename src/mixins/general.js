@@ -111,14 +111,20 @@ export default {
 			let price 
 			let amount 
 			let discount
+			let returned_amount = 0
 			if (from_pivot) {
 				price = article.pivot.price
 				amount = article.pivot.amount
 				discount = article.pivot.discount
+				returned_amount = article.pivot.returned_amount
 			} else {
 				price = article.price_vender 
 				amount = article.amount
 				discount = article.discount
+				returned_amount = article.returned_amount
+			}
+			if (returned_amount > 0) {
+				amount -= returned_amount
 			}
 			let total = price * amount
 			if (discount && discount != '') {

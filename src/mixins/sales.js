@@ -92,6 +92,8 @@ export default {
 			let total_article = 0
 			let total_service = 0
 			let total_articles = 0
+			let amount = 0
+			let returned_amount = 0 
 			sale.articles.forEach(article => {
 				if (article.pivot.cost) {
 					total_cost += article.pivot.cost * article.pivot.amount			
@@ -99,7 +101,12 @@ export default {
 					without_cost = true
 				}
 
-				total_article = article.pivot.price * article.pivot.amount	
+				amount = article.pivot.amount
+				returned_amount = article.pivot.returned_amount
+				if (returned_amount > 0) {
+					amount -= returned_amount
+				}
+				total_article = article.pivot.price * amount	
 				if (article.pivot.discount && article.pivot.discount != '') {
 					total_article -= total_article * Number(article.pivot.discount) / 100
 				}

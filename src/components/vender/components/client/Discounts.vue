@@ -1,11 +1,8 @@
 <template>
-	<div
-	class="m-b-15"
+	<b-card
+	class="m-b-15 b-r-5 s"
+	header="Seleccionar descuentos"
 	v-if="client_discounts.length || common_discounts.length">
-		<p
-		class="title">
-			Seleccionar descuentos
-		</p>
 		<b-form-group
 		v-if="client_discounts.length"
 		:label="'Descuentos del cliente '+client.name">
@@ -28,7 +25,7 @@
 				{{ discount.name }} {{ discount.percentage }}%
 			</b-form-checkbox>
 		</b-form-group>
-	</div>
+	</b-card>
 </template>
 <script>
 import vender from '@/mixins/vender'

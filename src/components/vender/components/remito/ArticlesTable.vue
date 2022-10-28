@@ -34,6 +34,17 @@ class="m-b-15">
 					v-model="items[data.index].discount"></b-form-input>
 				</b-input-group>
 			</template>
+			<template #cell(returned_amount)="data">
+				<b-input-group
+				class="input-discount">
+					<b-form-input
+					@keyup="setReturnedArticles(items[data.index])"
+					@click="setReturnedArticles(items[data.index])"
+					type="number"
+					min="0"
+					v-model="items[data.index].returned_amount"></b-form-input>
+				</b-input-group>
+			</template>
 			<template #cell(options)="data">
 				<div class="options">
 					<b-button 
@@ -59,8 +70,9 @@ class="m-b-15">
 </template>
 <script>
 import vender from '@/mixins/vender'
+import previus_sales from '@/mixins/previus_sales'
 export default {
-	mixins: [vender],
+	mixins: [vender, previus_sales],
 	watch: {
 		special_price_id() {
 			console.log('watcher de special_price_id')
@@ -89,6 +101,11 @@ export default {
 					{ key: 'discount', label: 'Descuento' },
 				)
 			}
+			if (this.index_previus_sales > 0) {
+				fields.push(
+					{ key: 'returned_amount', label: 'U. Devueltas' },
+				)
+			}
 			fields = fields.concat([
 				{ key: 'total', label: 'Total' },
 				{ key: 'options', label: 'Opciones' },
@@ -115,6 +132,21 @@ export default {
 		},
 	},
 	methods: {
+		setReturnedArticles(item) {
+			this.setTotal()
+			this.$store.commit('vender/addReturnedArticle', item)
+			this.setNotaCreditoDescription()
+		},
+		setNotaCreditoDescription() {
+			this.nota_credito_description = ''
+			this.returned_articles.forEach(article => {
+				if (this.nota_credito_description == '') {
+					this.nota_credito_description = 'Devolucion de: '+article.returned_amount+' '+article.name 
+				} else {
+					this.nota_credito_description += ', '+article.returned_amount+' '+article.name 
+				}
+			})
+		},
 		setTotal() {
 			this.$store.commit('vender/setTotal')
 		},

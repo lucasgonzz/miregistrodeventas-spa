@@ -98,8 +98,7 @@ export default {
             this.$bvModal.show('checks-details')
         },
         canDelete(current_acount) {
-            return current_acount.status == 'pago_from_client' || current_acount.status == 'nota_credito'
-            return (current_acount.status == 'pago_from_client' || current_acount.status == 'nota_credito' || current_acount.detalle == 'Saldo inicial') && current_acount.id == this.current_acounts[this.current_acounts.length - 1].id
+            return current_acount.status == 'pago_from_client' || current_acount.status == 'nota_credito' || current_acount.detalle == 'Nota de debito' || current_acount.detalle == 'Saldo inicial'
         },
         deleteCurrentAcount(current_acount) {
             this.$store.commit('current_acount/setDelete', current_acount)

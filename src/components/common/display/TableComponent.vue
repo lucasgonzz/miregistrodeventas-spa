@@ -25,10 +25,12 @@
 						v-else-if="showInput(prop, models[data.index])">
 							<b-form-textarea
 							v-if="prop.type == 'textarea'"
+							:class="getInputSize(prop)"
 							:placeholder="propText(models[data.index], prop)"
 							v-model="models[data.index][prop.key]"></b-form-textarea>
 							<b-form-input
 							v-if="prop.type == 'text'"
+							:class="getInputSize(prop)"
 							:placeholder="propText(models[data.index], prop)"
 							v-model="models[data.index][prop.key]"></b-form-input>
 						</div>
@@ -67,6 +69,7 @@
 									class="pivot-input"
 									:label="prop.text">
 										<b-form-textarea
+										:class="getInputSize(prop)"
 										v-if="prop.type == 'textarea'"
 										:type="prop.type"
 										:placeholder="'Ingrese '+prop.text"
@@ -74,10 +77,12 @@
 										<b-form-select
 										v-else-if="prop.type == 'select'"
 										v-model="models[data.index].pivot[prop.key]"
+										:class="getInputSize(prop)"
 										:options="getOptions(prop.key, prop.text)"></b-form-select>
 										<b-form-input
 										v-else
 										:type="prop.type"
+										:class="getInputSize(prop)"
 										:placeholder="'Ingrese '+prop.text"
 										v-model="models[data.index].pivot[prop.key]"></b-form-input>
 									</b-form-group>
@@ -198,6 +203,21 @@ export default {
 		},
 	},
 	methods: {
+		getInputSize(prop) {
+			let _class = 'input-'
+			if (prop.size) {
+				if (prop.size == 'sm') {
+					_class += 'sm'
+				} else if (prop.size == 'md') {
+					_class += 'md'
+				} else if (prop.size == 'lg') {
+					_class += 'lg'
+				}
+			} else {
+				_class += 'md'
+			}
+			return _class
+		},
 		onRowSelected(items) {
 			console.log(items)
 			if (!this.isTheSameSelection(items)) {
@@ -232,17 +252,20 @@ export default {
 		propsToSet() {
 			let props = []
 			this.pivot.properties_to_set.forEach(prop => {
-				if (prop.from_store) {
-					let models = this.modelsStoreFromName(prop.store)
-					models.forEach(model => {
-						props.push({
-							type: prop.type,
-							text: model.name,
-							key: prop.store+'_'+model.id
+				if (!prop.can || (prop.can && this.can(prop.can))) {
+					if (prop.from_store) {
+						let models = this.modelsStoreFromName(prop.store)
+						models.forEach(model => {
+							props.push({
+								type: prop.type,
+								text: model.name,
+								key: prop.store+'_'+model.id,
+								size: prop.size,
+							})
 						})
-					})
-				} else {
-					props.push(prop)
+					} else {
+						props.push(prop)
+					}
 				}
 			})
 			return props 
@@ -309,6 +332,12 @@ export default {
 				flex-direction: column
 				align-items: center
 				justify-content: center
-			.pivot-input
-				width: 200px
+			// .pivot-input
+			// 	width: 200px
+	.input-sm 
+		width: 70px !important
+	.input-md 
+		width: 150px !important
+	.input-lg
+		width: 300px !important
 </style>

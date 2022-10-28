@@ -79,7 +79,9 @@ export default {
 		},
 		hasPermissionTo(permission_slug) {
 			let has_permission = false
-			if (this.is_owner) {
+			if (this.is_super) {
+				has_permission = true 
+			} else if (this.is_owner) {
 				this.user.plan.permissions.forEach(permission => {
 		            if (permission.slug == permission_slug) {
 		                has_permission = true

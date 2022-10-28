@@ -63,7 +63,7 @@ export default {
 	actions: {
 		me({commit}) {
 			commit('setLoading', true)
-			return axios.get('/api/user')
+			return axios.get('/api/auth-user')
 			.then(res => {
 				console.log(res.data.user)
 				commit('setLoading', false)

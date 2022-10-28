@@ -174,6 +174,9 @@ export default {
             }
         },
         async callMethods() {
+            if (this.is_super) {
+                this.$store.dispatch('extencion/getModels')
+            }
             if (this.is_commerce) {
                 console.log('Es un comercio')
                 this.$store.commit('auth/setLoading', true)
@@ -230,7 +233,7 @@ export default {
                     this.$store.commit('auth/setMessage', 'Cargando condiciones de iva')
                     await this.$store.dispatch('iva_condition/getModels')
                 // }
-                if (this.can('employee')) {
+                if (this.can('employee') || this.can('order_production.index')) {
                     this.$store.commit('auth/setMessage', 'Cargando empleados')
                     await this.$store.dispatch('employee/getModels')
                 }
