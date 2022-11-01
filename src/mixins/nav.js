@@ -109,6 +109,7 @@ export default {
 	        		{
 	        			text: 'Online',
 	        			name: 'Online',
+	        			params: {view: 'pedidos'},
 	        			if: 'has_online',
 	        		},
 	        	]
@@ -138,8 +139,6 @@ export default {
         		if (route.commits && route.commits.length) {
         			route.commits.forEach(commit => {
         				this.$store.commit(commit.key, commit.param)
-        				// this.$store.commit('sale/setFromDate', moment().format('YYYY-MM-DD'))
-        				console.log('commiteando '+commit.key+' con param '+commit.param)
         			})
         		}
         		this.$store.dispatch(route.get_models+'/getModels')
@@ -147,7 +146,8 @@ export default {
         		let _route = {name: route.name}
         		if (route.params) {
         			_route.params = route.params
-        		}
+        		} 
+        		console.log(_route)
         		this.$router.push(_route)
         	}
         },

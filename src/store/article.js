@@ -13,6 +13,18 @@ export default {
 		model: {},
 		to_show: [],
 
+		filter: {
+            category_id: 0,
+            sub_category_id: 0,
+            provider_id: 0,
+            with_images: false,
+            featured: false,
+            precio_min: '',
+            precio_max: '',
+            fecha_min: '',
+            fecha_max: '',
+            mantener: false,
+		},
 		from_filter: false,
 		filtered: [],
 		selected: [],
@@ -68,6 +80,27 @@ export default {
 			} else {
 				state.inactive_models = []
 			}
+		},
+		setFilter(state, value) {
+			if (value) {
+				state.filter = value 
+			} else {
+				state.filter = {
+			        category_id: 0,
+			        sub_category_id: 0,
+			        provider_id: 0,
+			        with_images: false,
+			        featured: false,
+			        precio_min: '',
+			        precio_max: '',
+			        fecha_min: '',
+			        fecha_max: '',
+			        mantener: false,
+				}
+			}
+		},
+		setFromFilter(state, value) {
+			state.from_filter = value
 		},
 		setToShow(state, value) {
 			if (value) {

@@ -22,26 +22,11 @@
 			<i class="icon-print"></i>
 			Tickets
 		</b-dropdown-item>
-		<b-dropdown-item
-		@click="byPercentage">
-			<i class="icon-plus"></i>
-			Aumentar %
-		</b-dropdown-item>
-		<b-dropdown-item
-		@click="subcategory">
+		<!-- <b-dropdown-item
+		@click="updateProps">
 			<i class="icon-redo"></i>
-			SubCategoria
-		</b-dropdown-item>
-		<b-dropdown-item
-		@click="iva">
-			<i class="icon-redo"></i>
-			Iva
-		</b-dropdown-item>
-		<b-dropdown-item
-		@click="brand">
-			<i class="icon-redo"></i>
-			Marca
-		</b-dropdown-item>
+			Actualizar propiedades
+		</b-dropdown-item> -->
 		<b-dropdown-item
 		v-if="can('article.delete')"
 		@click="deleteArticles">
@@ -93,9 +78,9 @@ export default {
 			this.$store.commit('articles/setFromFilter', this.from_filter)
 			this.$bvModal.show('update-by-porcentage')
 		},
-		subcategory() {
-			this.$store.commit('articles/setFromFilter', this.from_filter)
-			this.$bvModal.show('update-sub-category')
+		updateProps() {
+			this.$store.commit('article/setFromFilter', this.from_filter)
+			this.$bvModal.show('update-article-props')
 		},
 		iva() {
 			this.$store.commit('articles/setFromFilter', this.from_filter)

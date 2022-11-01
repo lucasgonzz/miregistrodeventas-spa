@@ -7,6 +7,7 @@ export default {
 			type: 'search',
 			value: 0,
 			is_title: true,
+			use_to_filter_in_modal: true,
 		},
 		{
 			text: 'Fecha de inicio',
@@ -36,7 +37,8 @@ export default {
 						key: 'name',
 						type: 'textarea',
 						show: true,
-						show_in_input_if: ['status', '=', 'inactive']
+						show_in_input_if: ['status', '=', 'inactive'],
+						size: 'lg',
 					},
 					{
 						text: 'Codigo barras',
@@ -107,6 +109,7 @@ export default {
 			value: 1,
 			show: true,
 			filterable: true,
+			use_to_filter_in_modal: true,
 		},
 		{
 			text: 'Total',

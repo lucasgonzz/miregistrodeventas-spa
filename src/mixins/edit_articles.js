@@ -87,6 +87,13 @@ export default {
 				new_article.provider_id = 0
 			}
 
+			if (!article.provider_price_list_id) {
+				new_article.provider_price_list_id = 0
+			} else {
+				new_article.provider_price_list_id = article.provider_price_list_id
+			}
+
+
 			new_article.save_provider = 1
 			
 			if (this.special_prices.length && article.special_prices) {

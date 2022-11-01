@@ -41,6 +41,7 @@ export default {
 							let model_to_add = {
 								...prop.has_many.model
 							}
+							console.log(model_to_add)
 							properties_to_add.push({
 								key: prop.key,
 								value: [model_to_add],

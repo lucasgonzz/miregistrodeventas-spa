@@ -162,6 +162,7 @@ export default {
 				bar_code: '',
 				category_id: 0,
 				provider_id: 0,
+				provider_price_list_id: 0,
 				brand_id: 0,
 				iva_id: 2,
 				discounts: [{percentage: ''}],

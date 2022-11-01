@@ -1,38 +1,52 @@
 <template>
 	<div
 	class="cont-navs">
-		<div 
-		v-if="items"
-		class="horizontal-nav">
+		<div
+		class="j-center">
+			<div 
+			v-if="items"
+			class="horizontal-nav">
 
-			<div
-			class="item apretable"
-			v-for="(item, i) in items"
-			:key="i"
-			@click="select(item)"
-			:class="isActive(item)">
-				{{ itemName(item) }}
-				<b-badge
-				variant="danger"
-				v-if="item.alert">
-					{{ item.alert }}
-				</b-badge>
+				<div
+				class="item apretable"
+				v-for="(item, i) in items"
+				:key="i"
+				@click="select(item)"
+				:class="isActive(item)">
+					{{ itemName(item) }}
+					<b-badge
+					variant="danger"
+					v-if="item.alert">
+						{{ item.alert }}
+					</b-badge>
+				</div>
+
 			</div>
-
+			<div
+			v-if="show_filter_modal">
+				<filter-modal
+				:model_name="model_name"></filter-modal>	
+				<b-button
+				class="m-r-15"
+				variant="outline-primary"
+				v-b-modal="'filter-modal'">
+					<i class="icon-search"></i>
+					Buscar
+				</b-button>
+			</div>
+			<div class="buttons">
+				<slot name="btn_create">
+					<btn-create
+					v-if="show_btn_create"
+					:with_margin="false"
+					:block="false"
+					:text="create_model_name_spanish"
+					:model_name="model_name"></btn-create>
+				</slot>
+				<slot name="buttons"></slot>
+			</div>
 		</div>
 
-
-		<div class="buttons">
-			<slot name="btn_create">
-				<btn-create
-				v-if="show_btn_create"
-				:with_margin="false"
-				:block="false"
-				:text="create_model_name_spanish"
-				:model_name="model_name"></btn-create>
-			</slot>
-			<slot name="buttons"></slot>
-		</div>
 
 		<display-nav
 		v-if="display != ''"
@@ -44,6 +58,7 @@
 </template>
 <script>
 import BtnCreate from '@/components/common/BtnCreate'
+import FilterModal from '@/components/common/horizontal-nav/FilterModal'
 import DisplayNav from '@/components/common/horizontal-nav/DisplayNav'
 
 import display from '@/mixins/display'
@@ -52,6 +67,7 @@ export default {
 	mixins: [display],
 	components: {
 		BtnCreate,
+		FilterModal,
 		DisplayNav,
 	},
 	props: {
@@ -74,6 +90,10 @@ export default {
 			default: false,
 		},
 		set_sub_view: {
+			type: Boolean,
+			default: false,
+		},
+		show_filter_modal: {
 			type: Boolean,
 			default: false,
 		},

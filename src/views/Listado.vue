@@ -8,10 +8,13 @@
     id="delete-articles"
     toast="Articulos eliminados"></confirm>
 	<edit-article></edit-article>
+
 	<update-iva></update-iva>
 	<update-sub-category></update-sub-category>
 	<update-by-porcentage></update-by-porcentage>
 	<update-brand></update-brand>
+	<update-props></update-props>
+
 	<providers-history></providers-history>
 	<filtrar></filtrar>
 	<images-copy></images-copy>
@@ -47,6 +50,7 @@ import UpdateIva from '../components/listado/modals/update/Iva.vue'
 import UpdateSubCategory from '../components/listado/modals/update/SubCategory.vue'
 import UpdateByPorcentage from '../components/listado/modals/UpdateByPorcentage.vue'
 import UpdateBrand from '../components/listado/modals/UpdateBrand.vue'
+import UpdateProps from '../components/listado/modals/UpdateProps.vue'
 import Confirm from '../components/common/Confirm.vue'
 import ProvidersHistory from '../components/listado/modals/ProvidersHistory.vue'
 import ArticlesPdf from '../components/listado/modals/ArticlesPdf.vue'
@@ -81,6 +85,7 @@ export default {
 		UpdateSubCategory,
 		UpdateByPorcentage,
 		UpdateBrand,
+		UpdateProps,
 		Confirm,
 		// PrintTickets,
 		ProvidersHistory,

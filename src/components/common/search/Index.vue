@@ -22,11 +22,12 @@
 			:placeholder="_placeholder"></b-form-input>
 		</div>
 		<div
-		v-if="show_selected">
+		v-if="show_selected && selected_model">
 			<p
 			class="m-t-15 m-l-15 m-b-0">
 				<i class="icon-right"></i>
-				{{ prop.text }} seleccionado: <strong>{{ model[modelNameFromRelationKey(prop)].name }}</strong>
+				{{ prop.text }} seleccionado: <strong>{{ selected_model.name }}</strong>
+				<!-- <span>{{ prop.text }} seleccionado: <strong>{{ model[modelNameFromRelationKey(prop)].name }}</strong></span> -->
 			</p> 
 		</div>
 	</div>
@@ -81,12 +82,17 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		show_selected: {
+			type: Boolean,
+			default: true,
+		},
 	},
 	data() {
 		return {
 			query: '',
 			results: [],
 			props_to_filter: [],
+			selected_model: null,
 		}
 	},
 	computed: {
@@ -97,11 +103,11 @@ export default {
 				return 'Buscar '+this.prop.text.toLowerCase()
 			}
 		},
-		show_selected() {
-			if (this.model) {
-				return this.prop && typeof this.prop.belongs_to_many == 'undefined' && this.model[this.modelNameFromRelationKey(this.prop)]
-			}
-		},
+		// show_selected() {
+		// 	if (this.model) {
+		// 		return this.prop && typeof this.prop.belongs_to_many == 'undefined' && this.model[this.modelNameFromRelationKey(this.prop)]
+		// 	}
+		// },
 		get_model_name() {
 			if (this.model_name) {
 				return this.model_name
@@ -139,6 +145,7 @@ export default {
 		setSelected(model) {
 			console.log('emitiendo setSelected desde index con model =')
 			console.log(model)
+			this.selected_model = model 
 			this.results = []
 			this.$emit('setSelected', {
 				model,

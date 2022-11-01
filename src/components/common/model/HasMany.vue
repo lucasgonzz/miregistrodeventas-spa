@@ -13,8 +13,7 @@
 			<b-button 
 			@click="addHasMany"
 			size="sm"
-			variant="outline-primary"
-			block>
+			variant="outline-primary">
 				Agregar {{ prop.has_many.text }}
 			</b-button>
 			<hr>
@@ -33,7 +32,8 @@ export default {
 	},
 	methods: {
 		addHasMany() {
-			this.$set(this.parent_model, this.prop.key, this.parent_model[this.prop.key].concat([this.prop.has_many.model]))
+			let model_to_add = {...this.prop.has_many.model}
+			this.$set(this.parent_model, this.prop.key, this.parent_model[this.prop.key].concat([model_to_add]))
 		},
 	}
 }

@@ -18,6 +18,29 @@ export default {
 			use_to_filter_in_search: true,
 		},
 		{
+			text: 'Listas de precios',
+			key: 'provider_price_lists',
+			has_many: {
+				text: 'Lista de precios',
+				model: {
+					name: '',
+					percentage: '',
+				},
+				properties: [
+					{
+						text: 'Nombre',
+						key: 'name',
+						type: 'text',
+					},
+					{
+						text: 'Margen de ganancia',
+						key: 'percentage',
+						type: 'number',
+					},
+				],
+			}
+		},
+		{
 			text: 'Telefono',
 			key: 'phone',
 			type: 'text',

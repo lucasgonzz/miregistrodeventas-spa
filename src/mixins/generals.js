@@ -70,6 +70,16 @@ export default {
 			}
 			return props
 		},
+		propsToFilterInModal(model_name) {
+			let props = this.modelPropertiesFromName(model_name)
+			let to_filter = props.filter(prop => {
+				return prop.use_to_filter_in_modal
+			})
+			if (to_filter.length) {
+				return to_filter
+			}
+			return props
+		},
 		modelsToSearch(prop, model) {
 			let store 
 			if (prop.store) {

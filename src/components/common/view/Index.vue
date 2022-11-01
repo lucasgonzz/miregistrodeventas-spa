@@ -20,6 +20,7 @@
 			cols="12"
 			:xl="col_xl">
 				<horizontal-nav
+				:show_filter_modal="show_filter_modal"
 				:show_btn_create="_show_btn_create"
 				:create_model_name_spanish="create_model_name_spanish"
 				:model_name="model_name"
@@ -86,6 +87,10 @@ export default {
 			default: true,
 		},
 		show_search_nav: {
+			type: Boolean,
+			default: false,
+		},
+		show_filter_modal: {
 			type: Boolean,
 			default: false,
 		},

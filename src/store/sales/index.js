@@ -72,7 +72,6 @@ export default {
 				state.without_cost = res.without_cost
 				state.total_articles += res.total_articles
 				state.total_cost += res.total_cost
-				console.log('llego total a sale_store: ')
 				console.log(res.total)
 				state.total += res.total
 			})

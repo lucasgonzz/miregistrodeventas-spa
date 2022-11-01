@@ -106,7 +106,7 @@ export default {
 				if (returned_amount > 0) {
 					amount -= returned_amount
 				}
-				total_article = article.pivot.price * amount	
+				total_article = Number(article.pivot.price) * amount	
 				if (article.pivot.discount && article.pivot.discount != '') {
 					total_article -= total_article * Number(article.pivot.discount) / 100
 				}
@@ -135,7 +135,8 @@ export default {
 			}
 			if (with_discounts && sale.discounts.length) {
 				sale.discounts.forEach(dis => {
-					total -= total * this.percentageFormated(dis.pivot.percentage)
+					total -= total * Number(dis.pivot.percentage) / 100
+					// total -= total * this.percentageFormated(dis.pivot.percentage)
 				})
 			}
 			if (with_commissions && sale.commissions.length) {

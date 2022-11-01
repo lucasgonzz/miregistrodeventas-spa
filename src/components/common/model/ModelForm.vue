@@ -270,7 +270,7 @@ export default {
 			return prop.type == 'search' || (prop.belongs_to_many && !prop.belongs_to_many.related_with_all && !prop.belongs_to_many.with_checkbox)
 		},
 		getCol(prop, size) {
-			if (this.userSearch(prop)) {
+			if (this.userSearch(prop) || prop.has_many) {
 				return 12
 			} 
 			return size

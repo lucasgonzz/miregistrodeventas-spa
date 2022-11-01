@@ -13,9 +13,11 @@
 			<i class="icon-undo"></i>
 			Quitar filtro
 		</b-button>
+
 		<drop-down
 		class="m-r-15"
 		from_filter></drop-down>
+		
 		<drop-down></drop-down>
 	</b-col>
 	<b-col 

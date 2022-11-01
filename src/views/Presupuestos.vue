@@ -1,5 +1,6 @@
 <template>
 	<view-component 
+	show_filter_modal
 	model_name="budget"
 	model_name_spanish="Presupuestos"
 	create_model_name_spanish="Nuevo presupuesto">
