@@ -123,11 +123,9 @@ export default {
 		} else if (this.prop) {
 			this.props_to_filter = this.propsToFilter(this.prop.store)
 		} 
-		// if (this.prop) {
-		// 	this.props_to_filter = this.modelPropertiesFromRelationKey(this.prop)
-		// } else {
-		// 	this.props_to_filter = this.modelPropertiesFromName(this.model_name)
-		// }
+		if (this.prop.store && this.model[this.prop.store]) {
+			this.selected_model = this.model[this.prop.store]
+		} 
 	},
 	methods: {
 		setQuery(value) {

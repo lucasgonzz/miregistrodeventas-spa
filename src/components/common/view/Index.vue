@@ -4,6 +4,8 @@
 		<slot name="modals"></slot>
 
     	<model
+    	v-if="show_modal"
+    	:show_btn_pdf="show_btn_pdf"
     	:size="modal_size"
     	:modal_title="create_model_name_spanish"
     	:model="model"
@@ -93,6 +95,14 @@ export default {
 		show_filter_modal: {
 			type: Boolean,
 			default: false,
+		},
+		show_btn_pdf: {
+			type: Boolean,
+			default: false,
+		},
+		show_modal: {
+			type: Boolean,
+			default: true,
 		},
 		col_xl: {
 			type: String,

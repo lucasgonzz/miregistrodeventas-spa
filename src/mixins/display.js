@@ -9,7 +9,9 @@ export default {
 				model,
 				properties
 			})
+			console.log('mostrando modal')
 			this.$bvModal.show(model_name)
+			console.log('se mostro modal')
 		},
 		getPivotProperties(model, properties) {
 			let properties_to_add = []

@@ -29,7 +29,14 @@
 				</template> 
 				<template v-slot:default="slotProps">
 					<slot :model="slotProps.model"></slot>
+
+	    			<btn-pdf
+	    			v-if="show_btn_pdf"
+	    			:model_name="model_name"
+	    			:model="slotProps.model"></btn-pdf>
+
 				</template>
+
 			</model-form>
 
 		</b-modal>
@@ -39,6 +46,7 @@
 import Confirm from '@/components/common/Confirm'
 import BtnLoader from '@/components/common/BtnLoader'
 import BtnDelete from '@/components/common/BtnDelete'
+import BtnPdf from '@/components/common/BtnPdf'
 
 import ModelForm from '@/components/common/model/ModelForm'
 export default {
@@ -59,6 +67,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		show_btn_pdf: {
+			type: Boolean,
+			default: false,
+		},
 		modal_title: String,
 		size: {
 			type: String,
@@ -74,6 +86,7 @@ export default {
 	},
 	components: {
 		Confirm,
+		BtnPdf,
 
 		ModelForm,
 	},

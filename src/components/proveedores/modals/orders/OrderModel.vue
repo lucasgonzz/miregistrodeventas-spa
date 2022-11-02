@@ -1,6 +1,7 @@
 <template>
 
 	<model
+	show_btn_pdf
 	:modal_title="'Nuevo '+model_name_spanish"
 	:model="model"
 	size="xl"
