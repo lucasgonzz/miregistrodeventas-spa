@@ -19,7 +19,8 @@
 				Seleccionar todo
 			</b-dropdown-item>
 			<b-dropdown-item
-			@click="callPrintSales()">
+			v-if="selected_sales.length == 1"
+			@click="printSales(selected_sales[0].id)">
 				<i class="icon-print"></i>
 				Imprimir
 			</b-dropdown-item>
@@ -62,10 +63,10 @@ export default {
 		},
 	},
 	methods: {
-		callPrintSales() {
-			let ids = this.selected_sales.map(sale => sale.id)
-			this.printSales(ids.join('-'))
-		},
+		// callPrintSales() {
+		// 	let ids = this.selected_sales.map(sale => sale.id)
+		// 	this.printSales(ids.join('-'))
+		// },
 		afipTicket() {
 			this.$bvModal.show('afip-confirmation')
 		},

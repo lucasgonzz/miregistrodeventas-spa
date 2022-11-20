@@ -25,6 +25,7 @@
 	<commissioners></commissioners>
 	
 	<sale-details></sale-details>
+	<update-prices></update-prices>
 
 	<print-sales></print-sales> 
 
@@ -50,6 +51,7 @@ import CurrentAcounts from '@/components/common/current-acounts/Index'
 
 import Discounts from '@/components/ventas/modals/Discounts'
 import SaleDetails from '../components/ventas/modals/details/Index'
+import UpdatePrices from '../components/ventas/modals/update-prices/Index'
 import Confirm from '@/components/common/Confirm.vue'
 import PrintSales from '../components/ventas/modals/PrintSales.vue'
 import Commissioners from '../components/ventas/modals/commissioners/Index.vue'
@@ -71,6 +73,7 @@ export default {
 		AfipTicketWarning,
 		CurrentAcounts,
 		SaleDetails,
+		UpdatePrices,
 		Confirm,
 		PrintSales,
 		Discounts,

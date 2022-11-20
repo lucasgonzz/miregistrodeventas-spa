@@ -1,5 +1,6 @@
 <template>
 	<b-card
+	v-if="sub_view == 'direcciones'"
 	class="shadow b-r-1 m-b-25"
 	title="Direcciones">
 		<b-table

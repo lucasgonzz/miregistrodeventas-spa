@@ -2,7 +2,7 @@
 	<b-row>
 		<b-col
 		cols="12"
-		lg="8">
+		lg="10">
 			<horizontal-nav
 			:items="items"
 			prop_name="name"

@@ -51,13 +51,6 @@ export default {
 			show: true,
 		},
 		{
-			text: 'Met de pago',
-			key: 'payment_method.name',
-			type: 'text',
-			value: '',
-			show: true,
-		},
-		{
 			text: 'Descripcion',
 			key: 'description',
 			type: 'text',

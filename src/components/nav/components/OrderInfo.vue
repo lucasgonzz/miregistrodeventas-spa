@@ -1,26 +1,13 @@
 <template>
 	<b-alert
-	class="alert-online c-p"
+	class="alert-online c-p s apretable"
 	show
-	v-if="unconfirmed_orders_questions_calls_length >= 1 && !is_online_view"
+	v-if="unconfirmed_length >= 1 && !is_online_view"
 	variant="danger">
 		<div
 		@click="toOnline">
-			<h4 
-			v-if="unconfirmed_orders.length">
-				{{ orders_title }}
-			</h4>
-			<h4 
-			v-if="questions.length">
-				{{ questions_title }}
-			</h4>
-			<h4 
-			v-if="messages_not_read">
-				{{ messages_title }}
-			</h4>
-			<h4 
-			v-if="calls.length">
-				{{ calls_title }}
+			<h4 >
+				{{ unconfirmed_length }} pedidos sin confirmar
 			</h4>
 		</div>
 	</b-alert>

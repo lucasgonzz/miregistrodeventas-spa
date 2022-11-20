@@ -13,14 +13,12 @@ class="p-l-20 p-r-20">
         <template v-slot:default="slotProps">
             <b-button
             class="m-r-15"
-            v-if="slotProps.model.payment_method && slotProps.model.payment_method.name == 'Cheque'"
+            v-if="slotProps.model.current_acount_payment_methods.length"
             size="sm"
             variant="primary"
-            @click="showChecks(slotProps.model)"> 
-                <div class="d-flex"> 
-                    <i class="icon-eye m-r-5"></i>
-                    Checke
-                </div>
+            @click="showPaymentMethods(slotProps.model)"> 
+                <i class="icon-eye m-r-5"></i>
+                Metodos 
             </b-button>
             <b-button
             size="sm"
@@ -63,39 +61,11 @@ export default {
         properties() {
             return require(`@/models/${this.model_name}`).default.properties 
         },
-        fields() {
-            return [
-                { key: 'fecha', class: 'text-center' },
-                { key: 'detalle', class: 'text-center detalle' },
-                { key: 'numero', class: 'text-center' },
-                { key: 'debe', class: 'text-center' },
-                { key: 'haber', class: 'text-center' },
-                { key: 'saldo', class: 'text-center' },
-                { key: 'metodo', class: 'text-center' },
-                { key: 'description', label: 'Observaciones', class: 'text-center detalle' },
-                { key: 'options', label: '', class: 'text-center detalle' },
-            ]
-        }, 
-        items() {
-            let items = []
-            this.current_acounts.forEach(current_acount => {
-                items.push({
-                    id:             current_acount.id,
-                    fecha:          this.date(current_acount.created_at, true), 
-                    debe:           this.price(current_acount.debe),
-                    haber:          this.price(current_acount.haber),
-                    saldo:          this.price(current_acount.saldo),
-                    description:    current_acount.description,
-                    status:         current_acount.status,
-                })
-            })
-            return items
-        }
     },
     methods: {
-        showChecks(current_acount) {
-            this.$store.commit('current_acount/setToShowChecks', current_acount)
-            this.$bvModal.show('checks-details')
+        showPaymentMethods(current_acount) {
+            this.$store.commit('current_acount/setToShowPaymentMethods', current_acount)
+            this.$bvModal.show('payment-methods-details')
         },
         canDelete(current_acount) {
             return current_acount.status == 'pago_from_client' || current_acount.status == 'nota_credito' || current_acount.detalle == 'Nota de debito' || current_acount.detalle == 'Saldo inicial'

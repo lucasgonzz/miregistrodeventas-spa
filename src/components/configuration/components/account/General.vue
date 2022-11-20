@@ -42,14 +42,14 @@
 		class="cont-image">
 			<img 
 			class="shadow-1 b-r-1"
-			v-if="user.image_url"
+			v-if="user.hosting_image_url"
 			:src="image(user)">
 			<b-button
 			@click="uploadImage('user', user, 'auth/setUser')"
 			variant="primary">
 				<i class="icon-camera"></i>
 				<span
-				v-if="user.image_url">
+				v-if="user.hosting_image_url">
 					Cambiar imagen
 				</span>
 				<span v-else>

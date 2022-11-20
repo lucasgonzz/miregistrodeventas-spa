@@ -136,8 +136,7 @@ export default {
 			if (this.set_view) {
 				if (this.view != this.routeString(this.value(item))) {
 					this.$router.push({params: {view: this.routeString(this.value(item))}})
-				} 
-				if (item.action) {
+				} else if (item.action) {
 					this.$store.dispatch(item.action)
 				} 
 				if (item.commit) {
@@ -201,9 +200,11 @@ export default {
 		transition: all .2s
 		font-size: 1em
 		white-space: nowrap 
+		color: rgba(0, 0, 0, .6) !important
 	.active 
 		font-weight: bold
 		// transform: scale(1.1)
+		color: #000 !important
 		border-bottom: 3px solid $blue
 		// box-shadow: 0px 3px 7px rgb(0 0 0 / 15%) !important
 		// webkit-box-shadow: 0px -2px 4px -1px rgba(0,0,0,.7)

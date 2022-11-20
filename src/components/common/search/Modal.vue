@@ -5,7 +5,7 @@ size="xl"
 hide-footer
 :id="modal_id">
 	<div
-	class="search-component">
+	class="search-component-modal">
 		<b-form-input
 		@keyup="callSearch"
 		@keydown.enter="enterSelect"
@@ -14,36 +14,37 @@ hide-footer
 		v-model="query"
 		:id="_id+'-search-modal-input'"
 		:placeholder="_placeholder"></b-form-input>
-		<!-- <p
-		v-if="interval && waiting_time > 0">
-			Buscando en {{ waiting_time }}
-		</p> -->
-		<!-- <div
-		v-if="interval"
-		class="align-center m-t-15">
-			<b-spinner 
-			small
-			type="grow"
-			class="m-r-10" 
-			variant="primary"></b-spinner>
-			Buscando
-		</div> -->
-		<div>
-			<p
-			v-if="results.length"
-			class="results-title">
-				<i class="icon-down"></i>
-				Resultados
-			</p>
-			<table-component
-			:loading="loading"
-			:models="results"
-			:properties="modelPropertiesFromName(get_model_name)"
-			:model_name="get_model_name"
-			:set_model_on_click="false"
-			:show_btn_edit="false"
-			emit_selected_on_row
-			@clicked="setSelected"></table-component>	
+		<div
+		v-if="query.length >= 3">
+			<div
+			v-if="loading || results.length">
+				<p
+				class="results-title">
+					<i class="icon-down"></i>
+					Resultados
+				</p>
+				<table-component
+				:selected_index="selected_index"
+				select_mode="single"
+				:loading="loading"
+				:models="results"
+				:model_name="model_name"
+				:set_model_on_click="false"
+				:show_btn_edit="false"
+				emit_selected_on_row
+				@clicked="setSelected"></table-component>	
+			</div>
+			<div
+			v-else>
+				<div class="text-with-icon">
+					<i class="icon-search"></i>
+					No se encontraron resultados
+				</div>
+				<!-- <div class="text-with-icon">
+					<i class="icon-check"></i>
+					ENTER para crear {{ model_name }}
+				</div> -->
+			</div>
 		</div>
 	</div>
 </b-modal>
@@ -57,12 +58,6 @@ export default {
 	props: {
 		_id: String,
 		query_value: String,
-		models: {
-			type: Array,
-		},
-		model_name: {
-			type: String,
-		},
 		prop: {
 			type: Object,
 		},
@@ -72,11 +67,11 @@ export default {
 		},
 		auto_select: {
 			type: Boolean,
+			default: true,
 		},
 		placeholder: {
 			type: String,
 		},
-		properties_to_filter: Array,
 	},
 	data() {
 		return {
@@ -86,9 +81,13 @@ export default {
 			searching: false,
 			results: [],
 			props_to_filter: [],
+			selected_index: -1,
 		}
 	},
 	computed: {
+		model_name() {
+			return this.prop.store
+		},
 		modal_id() {
 			return this._id+'-search-modal'
 		},
@@ -122,87 +121,85 @@ export default {
 		},
 
 	},
-	created() {
-		if (this.properties_to_filter.length) {
-			this.props_to_filter = this.properties_to_filter
-		} else if (this.prop) {
-			this.props_to_filter = this.modelPropertiesFromRelationKey(this.prop)
-		} 
-		// if (this.prop) {
-		// 	this.props_to_filter = this.modelPropertiesFromRelationKey(this.prop)
-		// } else {
-		// 	this.props_to_filter = this.modelPropertiesFromName(this.model_name)
-		// }
-	},
 	methods: {
-		callSearch() {
-			this.loading = true 
-			if (this.interval) {
-	            window.clearInterval(this.interval)
-				this.interval = null
-			}
-			if (this.query.length >= this.str_limint) {
-				this.waiting_time = 1
-				this.interval = window.setInterval(() => {
-					if (this.waiting_time == 0) {
-	                    window.clearInterval(this.interval)
-	                    console.log('Se termino intervalo, llamando a search')
-						this.search()
-					} else {
-						this.waiting_time--
-					}		
-				}, 200)
-			} else {
-				this.loading = false 
+		callSearch(e) {
+			if (e.key != 'ArrowDown' && e.key != 'ArrowUp') {
+				this.loading = true 
+				if (this.interval) {
+		            window.clearInterval(this.interval)
+					this.interval = null
+				}
+				if (this.query.length >= this.str_limint) {
+					this.waiting_time = 1
+					this.interval = window.setInterval(() => {
+						if (this.waiting_time == 0) {
+		                    window.clearInterval(this.interval)
+		                    console.log('Se termino intervalo, llamando a search')
+							this.search()
+						} else {
+							this.waiting_time--
+						}		
+					}, 200)
+				} else {
+					this.loading = false 
+				}
 			}
 		},
 		search() {
 			this.results = []
 			if (this.query.length >= this.str_limint) {
-				if (this.props_to_filter.length >= 1) {
-					let results = []
-					console.log('Empezando a buscar en')
-					console.log(this.models)
-					this.searching = true
-					this.props_to_filter.forEach(prop => {
-						results = this.models.filter(model => {
-							let value = ''+model[prop.key]
-							return value && value.toLowerCase().includes(this.query.toLowerCase())
-						})
-						results = results.filter(model => {
-							let index = this.results.findIndex(result => {
-								return result.id == model.id 
-							})
-							return index == -1
-						})
-						this.results = this.results.concat(results)
+				let results = []
+				this.searching = true
+				this.propsToFilter(this.model_name).forEach(prop => {
+					results = this.modelsStoreFromName(this.model_name).filter(model => {
+						let value = ''+model[prop.key]
+						return value && value.toLowerCase().includes(this.query.toLowerCase())
 					})
-					this.searching = false
-					this.interval = null
-					this.loading = false 
-					console.log('Terminando a buscar')
-				}
+					results = results.filter(model => {
+						let index = this.results.findIndex(result => {
+							return result.id == model.id 
+						})
+						return index == -1
+					})
+					this.results = this.results.concat(results)
+				})
+				this.searching = false
+				this.interval = null
+				this.loading = false 
+				console.log('Terminando a buscar')
+				setTimeout(() => {
+					this.selected_index = -1
+					console.log('se selecciono fila '+this.selected_index)
+					setTimeout(() => {
+						this.selected_index = 0
+						console.log('se selecciono fila '+this.selected_index)
+					}, 100)
+				}, 100)
 			}
 		},
 		enterSelect() {
-			if (this.auto_select && this.results.length) {
-				this.$emit('setSelected', this.results[0])
+			if (!this.loading) {
+				console.log(this.results)
+				if (this.auto_select && this.results.length) {
+					this.$emit('setSelected', this.results[this.selected_index])
+				} else if (this.auto_select) {
+					this.$emit('setSelected', null)
+				} else {
+					this.$toast.error('No se encontraron coincidencias, cree un nuevo '+this.prop.text)
+				}
+				this.results = []
+				this.$bvModal.hide(this.modal_id)
 			} else {
-				this.$emit('setSelected', null)
+				this.$toast.error('Espere a que termine la busqueda, por favor')
 			}
-			this.results = []
-			this.$bvModal.hide(this.modal_id)
 		},
 		selectUp() {
-			// let selected = this.$store.state[this.model_name].selected 
-			// this.$store.commit(this.model_name+'/setSelected', this.results[])
+			this.selected_index--
 		},	
 		selectDown() {
-			// this.$store.commit(this.model_name+'/setSelected',)
+			this.selected_index++
 		},	
 		setSelected(model) {
-			console.log('se llamoooo')
-			console.log(model)
 			this.results = []
 			this.$emit('setSelected', model)
 			this.$bvModal.hide(this.modal_id)
@@ -212,8 +209,10 @@ export default {
 </script>
 <style lang="sass">
 @import '@/sass/_custom'
-.search-component
+.search-component-modal
 	width: 100%
+	display: flex
+	flex-direction: column
 	.results-title
 		font-size: 1.2em
 		font-weight: bold

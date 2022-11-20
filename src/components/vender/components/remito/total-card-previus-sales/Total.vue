@@ -1,7 +1,7 @@
 <template>
 	<b-col
 	cols="12"
-	lg="3"
+	lg="6"
 	class="col-total">
 		<p class="m-0">
 			<strong class="total">

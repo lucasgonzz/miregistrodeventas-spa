@@ -12,7 +12,7 @@ size="lg">
 				<img 
 				@click="showImages(article)"
 				class="article-image b-r-1"
-				:src="articleImageUrl(article, false)">
+				:src="image(article)">
 			</b-col>
 			<b-col
 			v-if="has_online"

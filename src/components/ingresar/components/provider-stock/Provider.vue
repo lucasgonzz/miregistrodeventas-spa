@@ -73,7 +73,9 @@ export default {
 				let provider = this.modelsStoreFromName('provider').find(model => {
 					return model.id == this.article.provider_id
 				})
-				return provider.provider_price_lists
+				if (typeof provider != 'undefined') {
+					return provider.provider_price_lists
+				}
 			}
 			return []
 		},

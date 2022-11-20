@@ -11,11 +11,12 @@ export default {
 		{
 			text: 'Saldo',
 			key: 'saldo',
-			type: 'text',
+			only_show: true,
+			type: 'number',
 			value: '',
 			show: true,
-			not_show_on_form: true,
 			is_price: true,
+			use_to_filter_in_modal: true,
 		},
 		{
 			text: 'Telefono',
@@ -46,6 +47,7 @@ export default {
 			type: 'select',
 			value: 0,
 			show: true,
+			use_to_filter_in_modal: true,
 		},
 		{
 			text: 'Localidad',
@@ -54,6 +56,7 @@ export default {
 			value: 0,
 			show: true,
 			use_to_filter_in_search: true,
+			use_to_filter_in_modal: true,
 		},
 		{
 			text: 'Cuit',
@@ -76,6 +79,7 @@ export default {
 			type: 'select',
 			value: 0,
 			show: false,
+			use_to_filter_in_modal: true,
 		},
 		{
 			text: 'Descripcion',

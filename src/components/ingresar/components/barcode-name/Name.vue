@@ -8,9 +8,8 @@
 			v-if="article.bar_code == ''"
 			class="m-b-15"
 			@setSelected="setSelectedArticle"
-			:models="modelsStoreFromName('article')"
-			model_name="article"
-			:properties_to_filter="properties_to_filter"
+			:prop="{text: 'Articulo', key: 'name', store: 'article'}"
+			:show_selected="false"
 			:clear_query="false"
 			placeholder="Nombre"></search-component>
 
@@ -22,37 +21,6 @@
 			placeholder="Ingresa el nombre del producto"
 			autocomplete="off"
 			v-model="article.name"></b-form-input>
-
-			<!-- <select-component
-			full_width
-			select_empty
-			:id="id_name"
-			@setSelected="setSelectedArticle"
-			placeholder="Nombre del artículo"
-			:model="article"
-			:models="articles"></select-component> -->
-
-
-			<!-- <select-component
-			v-show="article.bar_code == ''"
-			:id="id_name"
-			:model="article"
-			:models="articles"
-			placeholder="Nombre"
-			:props_to_show="['bar_code', 'price']"
-			select_empty
-			@selectEmpty="changeToCost"
-			@setSelected="setSelectedArticle"></select-component> -->
-
-			<!-- <autocomplete 
-			data-position="below"
-			ref="articleName"
-			v-show="article.bar_code == ''"
-			:search="search" 
-			@change="change"
-			:get-result-value="getResultValue"
-			placeholder="Buscar un artículo"
-			@submit="setSelectedArticle"></autocomplete> -->
 		</b-form-group>
 	</b-col>
 </template>

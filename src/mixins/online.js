@@ -107,7 +107,7 @@ export default {
 			this.$store.dispatch('online/cupons/getActiveCupons')
 		},
 		getBuyers() {
-			this.$store.dispatch('online/buyers/getBuyers')
+			this.$store.dispatch('buyer/getModels')
 		},
 		getOrders() {
 			this.$store.dispatch('online/orders/getUnconfirmedOrders')

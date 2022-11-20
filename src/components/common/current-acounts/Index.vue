@@ -11,6 +11,7 @@
     <import></import>    
     <saldo-inicial></saldo-inicial>    
     <checks-details></checks-details>    
+    <payment-methods-details></payment-methods-details>    
 
     <model 
     size="xl"
@@ -61,6 +62,7 @@ import NotaDebito from '@/components/common/current-acounts/NotaDebito.vue'
 import Import from '@/components/common/current-acounts/Import.vue'
 import SaldoInicial from '@/components/common/current-acounts/SaldoInicial.vue'
 import ChecksDetails from '@/components/common/current-acounts/ChecksDetails.vue'
+import PaymentMethodsDetails from '@/components/common/current-acounts/payment-methods-details/Index'
 import CreateBudget from '@/components/produccion/modals/budgets/Create'
 import PrintBudget from '@/components/produccion/modals/budgets/Print'
 import Model from '@/components/common/model/Index'
@@ -83,6 +85,7 @@ export default {
         Import,
         SaldoInicial,
         ChecksDetails,
+        PaymentMethodsDetails,
         CreateBudget,
         PrintBudget,
         Model,

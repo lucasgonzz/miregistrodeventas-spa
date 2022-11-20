@@ -5,7 +5,7 @@
 	class="card-component c-p s b-r-5 animate__animated animate__fadeIn">
 		<img 
 		v-if="hasImage(properties)"
-		:src="imageUrl(getImageProp(properties, model), true)"></img>
+		:src="image(model)"></img>
 		<div 
 		v-else-if="title"
 		class="title">
@@ -18,6 +18,12 @@
 			{{ prop.text }}
 			<strong>
 				{{ propText(model, prop) }}
+			</strong>
+		</p>
+		<p>
+			Creado:
+			<strong>
+				{{ date(model.created_at) }}
 			</strong>
 		</p>
 		<div

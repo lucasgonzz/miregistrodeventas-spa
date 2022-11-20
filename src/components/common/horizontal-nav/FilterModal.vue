@@ -4,45 +4,61 @@
 	hide-footer
 	id="filter-modal">
 		<div
-		v-for="prop in props">
+		v-for="filter in filters">
 
-			<search-component
-			v-if="prop.type == 'search'"
-			class="m-b-15"
-			:id="model_name+'-'+prop.key"
-			@setSelected="setSelected"
-			:models="modelsToSearch(prop)"
-			:model_name="prop.store"
-			:prop="prop"></search-component>
+			<b-form-group
+			v-if="filter.type == 'search'"
+			:label="filter.text">
+				<search-component
+				class="m-b-15"
+				:id="model_name+'-'+filter.key"
+				@setSelected="setSelected"
+				:model_name="filter.store"
+				:model="filter"
+				:prop="filter"></search-component>
+			</b-form-group>
 
-			<b-form-input
-			class="m-b-15"
-			v-if="prop.type == 'text' || prop.type == 'textarea'"
-			:placeholder="'Ingrese '+prop.text"></b-form-input>
+			<b-form-group
+			v-if="filter.type == 'text' || filter.type == 'textarea'"
+			:label="filter.text">
+				<b-form-input
+				class="m-b-15"
+				:placeholder="'Ingrese '+filter.text"></b-form-input>
+			</b-form-group>
 
 			<div
 			class="m-b-15"
-			v-if="prop.type == 'number'">
+			v-if="filter.type == 'number'">
 				<b-form-input
+				class="m-b-10"
+				v-if="filter.number_type == 'min'"
+				v-model="filter.value"
 				type="number"
-				:placeholder="'Que tengan '+prop.text+' menor a:'"></b-form-input>
+				:placeholder="'Que tengan '+filter.text+' menor a:'"></b-form-input>
 
 				<b-form-input
+				class="m-b-10"
+				v-if="filter.number_type == 'equal'"
+				v-model="filter.value"
 				type="number"
-				:placeholder="'Que tengan '+prop.text+' igual a:'"></b-form-input>
+				:placeholder="'Que tengan '+filter.text+' igual a:'"></b-form-input>
 
 				<b-form-input
+				class="m-b-10"
+				v-if="filter.number_type == 'max'"
+				v-model="filter.value"
 				type="number"
-				:placeholder="'Que tengan '+prop.text+' mayor a:'"></b-form-input>
+				:placeholder="'Que tengan '+filter.text+' mayor a:'"></b-form-input>
 			</div>
 
-			<div
+			<b-form-group
 			class="m-b-15"
-			v-if="prop.type != 'search' && isRelationKey(prop)">
+			v-if="filter.type != 'search' && isRelationKey(filter)"
+			:label="filter.text">
 				<b-form-select
-				v-model="filter[prop.key]"
-				:options="getOptions(prop.key, prop.text)"></b-form-select>
-			</div>
+				v-model="filter.value"
+				:options="getOptions(filter.key, filter.text)"></b-form-select>
+			</b-form-group>
 		</div>
 		<b-button
 		variant="primary"
@@ -63,7 +79,7 @@ export default {
 	},
 	data() {
 		return {
-			filter: {}
+			filters: []
 		}
 	},
 	computed: {
@@ -81,7 +97,7 @@ export default {
 			this.$bvModal.hide('filter-modal')
 			this.$api.post('search/'+this.model_name, {
 				props: this.props,
-				filter: this.filter,
+				filters: this.filters,
 			})
 			.then(res => {
 				this.$store.commit(this.model_name+'/setLoading', false)
@@ -94,16 +110,43 @@ export default {
 		},
 		initFilter() {	
 			this.props.forEach(prop => {
-				if (this.isRelationKey(prop)) {
-					this.filter[prop.key] = 0
+				if (prop.type == 'number') {
+					this.filters.push({
+						type: 'number',
+						text: prop.key,
+						number_type: 'min',
+						key: prop.key,
+						value: '',
+					})
+					this.filters.push({
+						type: 'number',
+						text: prop.key,
+						number_type: 'equal',
+						key: prop.key,
+						value: '',
+					})
+					this.filters.push({
+						type: 'number',
+						text: prop.key,
+						number_type: 'max',
+						key: prop.key,
+						value: '',
+					})
 				} else {
-					this.filter[prop.key] = ''
+					this.filters.push({
+						type: prop.type,
+						text: prop.text,
+						store: prop.store,
+						key: prop.key,
+						value: 0,
+					})
 				}
 			})
 		},
 		setSelected(result) {
 			console.log(result)
-			this.filter[result.prop.key] = result.model.id
+			result.prop.value = result.model.id
+			// this.filter[result.prop.key] = result.model.id
 			// this.filter[result.prop.store] = result.model
 		},
 	}

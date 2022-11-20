@@ -9,6 +9,9 @@ export default {
         today() {
         	return moment().format('YYYY-MM-DD')
         },
+		from_cloudinary() {
+			return this.user.from_cloudinary
+		},
         dolar_blue() {
         	let coins_dolar = this.$store.state.coins.dolar
         	let dolar 

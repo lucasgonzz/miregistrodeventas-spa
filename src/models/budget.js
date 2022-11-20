@@ -7,6 +7,7 @@ export default {
 			type: 'search',
 			value: 0,
 			is_title: true,
+			show_model: true,
 			use_to_filter_in_modal: true,
 		},
 		{
@@ -29,6 +30,7 @@ export default {
 			text: 'Articulos',
 			store: 'article',
 			key: 'articles',
+			type: 'search',
 			belongs_to_many: {
 				model_name: 'article',
 				props_to_show: [

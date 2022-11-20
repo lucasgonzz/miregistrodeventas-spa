@@ -12,13 +12,24 @@
 			<div>
 				<btn-loader
 				class="m-r-10"
-				text="Actualizar"
+				text="Actualizar venta"
 				:block="false"
 				:loader="loading_index"
-				@clicked="updateSale(sale_details)">
-					<i class="icon-undo"></i>
-					Actualizar
-				</btn-loader>
+				@clicked="updateSale(sale_details)" />
+				<b-button
+				v-b-modal="'update-prices'"
+				class="m-r-10"
+				variant="outline-primary">
+					Actualizar precios
+				</b-button>
+				<b-button
+				class="m-r-10"
+				v-if="hasExtencion('acopios')"
+				@click="printDeliveredArticles"
+				variant="outline-danger">
+					<i class="icon-print"></i>
+					Imprimir U entregadas
+				</b-button>
 				<b-button
 				@click="printSales(sale_details.id)"
 				variant="danger">
@@ -64,6 +75,10 @@ export default {
 		}
 	},
 	methods: {
+		printDeliveredArticles() {
+			let link = process.env.VUE_APP_API_URL+'/sale/pdf/delivered-articles/'+this.sale_details.id 
+			window.open(link)
+		},
 		updateSale(sale) {
 			this.loading_index = true 
 			this.$api.get('sale/get-previus-next-index/'+sale.id)

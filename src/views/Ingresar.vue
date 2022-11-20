@@ -5,6 +5,8 @@
 	<!-- <delete-special-price></delete-special-price>
 	<create-special-price></create-special-price>
 	<special-prices></special-prices> -->
+	<credit-cards></credit-cards>
+	<deposits></deposits>
 	<price-types></price-types>
 	<brands></brands>
 	<conditions></conditions>
@@ -75,6 +77,8 @@
 </template>
 <script>
 // Modals
+import CreditCards from '@/components/ingresar/modals/credit-cards/Index'
+import Deposits from '@/components/ingresar/modals/Deposits'
 import DeleteCategory from '@/components/ingresar/modals/categories/Delete'
 import ArticleVariants from '@/components/listado/modals/images/ArticleVariants'
 import Categories from '@/components/ingresar/modals/categories/Index'
@@ -118,6 +122,8 @@ import mixin from '@/mixins/ingresar'
 export default {
 	name: 'Ingresar',
 	components: {
+		CreditCards,
+		Deposits,
 		DeleteCategory,
 		ArticleVariants,
 		Categories,
@@ -173,6 +179,7 @@ export default {
 				price: '',
 				percentage_gain: '',
 				stock: '',
+				deposits: [],
 				tags: [],
 				descriptions: [{}],
 				sizes_id: [],
@@ -191,18 +198,9 @@ export default {
 		}
 	},
 	computed: {
-		user() {
-			return this.$store.state.auth.user
+		deposits() {
+			return this.$store.state.deposit.models
 		},
-		special_prices() {
-			return this.$store.state.special_prices.special_prices
-		},
-		articles() {
-			return this.$store.state.articles.articles
-		},
-		bar_codes() {
-			return this.$store.state.articles.bar_codes
-		}
 	},
 	created() {
 		this.listenEditArticle()
@@ -263,31 +261,6 @@ export default {
 				this.$toast.error("El nombre no puede contener una barra '/'")
 				document.getElementById('article-name').focus()
 			}
-			// if (this.article.provider_id == 0 && !this.is_provider(this.user)) {
-			// 	ok = false
-			// 	this.$toast.error('Debe seleccionar un preveedor')
-			// 	document.getElementById('article-provider').focus()
-			// }
-			// Controla que le codigo de barras no este registrado
-			if (this.bar_codes.includes(this.article.bar_code)) {
-				ok = false
-				this.$toast.error('Ya hay un artículo con este codigo de barras')
-			}
-
-			// Controla que si no tiene codigo de barras no haya otro
-			// articulo sin codigo de barras con el mismo nombre
-			// if (this.article.bar_code == '') {
-			// 	if (this.articles.length) {
-			// 		this.articles.forEach(article => {
-			// 			if (article.name && article.name.toLowerCase() == this.article.name.toLowerCase() && ok) {
-			// 				if (article.bar_code === null) {
-			// 					ok = false
-			// 					this.$toast.error('Ya hay un articulo con ese nombre y sin un codigo de barras, cambie el nombre o asignele un codigo de barras');
-			// 				}
-			// 			}
-			// 		})
-			// 	}
-			// }
 			return ok
 		},
 
@@ -390,11 +363,11 @@ export default {
 			this.sizes_id = []
 			this.colors = []
 			this.condition_id = null
-			if (this.special_prices.length) {
-				this.special_prices.forEach(special_price => {
-					this.article[special_price.name] = ''
-				})
-			}
+			// if (this.special_prices.length) {
+			// 	this.special_prices.forEach(special_price => {
+			// 		this.article[special_price.name] = ''
+			// 	})
+			// }
 			document.getElementById('article-bar-code').focus()
 			document.getElementById('search-input').value = ''
 		},

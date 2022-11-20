@@ -2,24 +2,45 @@ export default {
 	methods: {
 		image(model, from_model = false, cropped = true) {
 			let url 
-			let image_url 
+			let image_url = null
+			let model_prop_url
+			let image_prop_url
+			if (!this.from_cloudinary) {
+				model_prop_url = 'hosting_image_url'
+				image_prop_url = 'hosting_url'
+			} else {
+				model_prop_url = 'image_url'
+				image_prop_url = 'url'
+			}
 			if (!from_model) {
-				image_url = model.image_url
+
+				if (model[model_prop_url]) {
+					image_url = model[model_prop_url]
+				} else if (model.images && model.images.length) {
+					image_url = model.images[0][image_prop_url] 
+				}
 			} else {
 				image_url = model[from_model].image_url
 			}
+			if (!this.from_cloudinary) {
+				return image_url 
+			}
 			if (image_url) {
-				if (cropped) {
-					url = `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom,q_auto,f_auto/${image_url}`
+				if (from_cloudinary) {
+					if (cropped) {
+						url = `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom,q_auto,f_auto/${image_url}`
+					} else {
+						url = `https://res.cloudinary.com/lucas-cn/image/upload/q_auto,f_auto/${image_url}`
+					}
 				} else {
-					url = `https://res.cloudinary.com/lucas-cn/image/upload/q_auto,f_auto/${image_url}`
+					url = image_url
 				}
 			} else {
 				url = '@/assets/image-not-found.jpg'
 			}
 			return url
 		},
-		uploadImage(model_name, model, commit = null) {
+		uploadImage(model_name, model, commit = null, url = null) {
 			this.$store.commit('auth/setLoading', true)
 			setTimeout(() => {
 				this.$store.commit('auth/setLoading', false)
@@ -27,7 +48,13 @@ export default {
 			var myCropWidget = cloudinary.createUploadWidget(this.widget_info, (error, result) => { 
 				if (result.event == 'success') {
 					let image_url = result.info.path
-					this.$api.put(`/${model_name.replace('_', '-')}/image/${model.id}`, {
+					let link 
+					if (url) {
+						link = url 
+					} else {
+						link = `/${this.routeString(model_name)}/image/${model.id}`
+					}
+					this.$api.put(link, {
 						image_url
 					})
 					.then(res => {
@@ -49,13 +76,17 @@ export default {
 			this.$store.commit('articles/setImagesToShow', article)
 			this.$bvModal.show('article-images')
 		},
-		imageUrl(path = null, cropped = false) {
+		imageUrl(path = null, cropped = false, from_cloudinary = false) {
 			if (path) {
 				let url
-				if (cropped) {
-					url = `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom/${path}`
+				if (from_cloudinary) {
+					if (cropped) {
+						url = `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom/${path}`
+					} else {
+						url = `https://res.cloudinary.com/lucas-cn/image/upload/${path}`
+					}
 				} else {
-					url = `https://res.cloudinary.com/lucas-cn/image/upload/${path}`
+					url = path 
 				}
 				return url
 			}

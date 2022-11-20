@@ -45,6 +45,15 @@ class="m-b-15">
 					v-model="items[data.index].returned_amount"></b-form-input>
 				</b-input-group>
 			</template>
+			<template #cell(delivered_amount)="data">
+				<b-input-group
+				class="input-discount">
+					<b-form-input
+					type="number"
+					min="0"
+					v-model="items[data.index].delivered_amount"></b-form-input>
+				</b-input-group>
+			</template>
 			<template #cell(options)="data">
 				<div class="options">
 					<b-button 
@@ -105,6 +114,11 @@ export default {
 				fields.push(
 					{ key: 'returned_amount', label: 'U. Devueltas' },
 				)
+				if (this.hasExtencion('acopios')) {
+					fields.push(
+						{ key: 'delivered_amount', label: 'U. Entregadas' },
+					)
+				}
 			}
 			fields = fields.concat([
 				{ key: 'total', label: 'Total' },

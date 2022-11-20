@@ -12,7 +12,7 @@ export default {
 			if (this.user_configuration.limit_items_in_sale_per_page) {
 				this.$bvModal.show('print-sales')
 			} else {
-	            let link = process.env.VUE_APP_API_URL+'/sales/new-pdf/'+sales_id
+	            let link = process.env.VUE_APP_API_URL+'/sale/new-pdf/'+sales_id
 	            window.open(link)
 			}
 		}

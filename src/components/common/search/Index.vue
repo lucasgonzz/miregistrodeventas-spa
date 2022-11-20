@@ -3,31 +3,41 @@
 		<search-modal
 		:_id="id"
 		:query_value="query"
-		:models="models"
-		:model_name="model_name"
 		:prop="prop"
 		:auto_select="auto_select"
 		:placeholder="placeholder"
-		:properties_to_filter="props_to_filter"
 		:str_limint="str_limint"
 		@setQuery="setQuery"
 		@setSelected="setSelected"></search-modal>
 		<div
 		class="search-component">
+			<div 
+			:class="is_disabled ? 'bg-gray' : 'bg-withe'"
+			class="icon">
+				<i class="icon-search"></i>
+			</div>
 			<b-form-input
+			:disabled="is_disabled"
+			class="input-search"
 			:id="id"
 			@keyup="search"
-			@keydown.enter="select"
 			v-model="query"
 			:placeholder="_placeholder"></b-form-input>
 		</div>
 		<div
-		v-if="show_selected && selected_model">
+		class="align-center m-t-15"
+		v-if="show_selected && selected_model && !prop.belongs_to_many">
+			<b-button
+			v-if="!is_disabled"
+			size="sm"
+			@click="clearSelected"
+			variant="outline-primary">
+				Limpiar
+			</b-button>
 			<p
-			class="m-t-15 m-l-15 m-b-0">
+			class="m-b-0 m-l-15">
 				<i class="icon-right"></i>
 				{{ prop.text }} seleccionado: <strong>{{ selected_model.name }}</strong>
-				<!-- <span>{{ prop.text }} seleccionado: <strong>{{ model[modelNameFromRelationKey(prop)].name }}</strong></span> -->
 			</p> 
 		</div>
 	</div>
@@ -44,9 +54,6 @@ export default {
 		id: {
 			type: String,
 			default: 'search-input',
-		},
-		models: {
-			type: Array,
 		},
 		model: {
 			type: Object,
@@ -80,7 +87,7 @@ export default {
 		},
 		clear_query: {
 			type: Boolean,
-			default: true,
+			default: false,
 		},
 		show_selected: {
 			type: Boolean,
@@ -96,6 +103,12 @@ export default {
 		}
 	},
 	computed: {
+		is_disabled() {
+			if (this.prop.can_not_modify) {
+				return true 
+			}
+			return false
+		},
 		_placeholder() {
 			if (this.placeholder) {
 				return this.placeholder
@@ -103,37 +116,27 @@ export default {
 				return 'Buscar '+this.prop.text.toLowerCase()
 			}
 		},
-		// show_selected() {
-		// 	if (this.model) {
-		// 		return this.prop && typeof this.prop.belongs_to_many == 'undefined' && this.model[this.modelNameFromRelationKey(this.prop)]
-		// 	}
-		// },
-		get_model_name() {
-			if (this.model_name) {
-				return this.model_name
-			} else if (this.prop) {
-				return this.modelNameFromRelationKey(this.prop)
-			}
-		},
-
 	},
 	created() {
-		if (this.properties_to_filter.length) {
-			this.props_to_filter = this.properties_to_filter
-		} else if (this.prop) {
-			this.props_to_filter = this.propsToFilter(this.prop.store)
-		} 
-		if (this.prop.store && this.model[this.prop.store]) {
+		if (this.show_selected && this.prop.store && this.model[this.prop.store]) {
 			this.selected_model = this.model[this.prop.store]
+			this.query = this.model[this.prop.store].name
 		} 
 	},
 	methods: {
+		clearSelected() {
+			this.model[this.prop.store] = null
+			this.model[this.prop.key] = null
+			this.selected_model = null
+			this.query = ''
+		},
 		setQuery(value) {
 			this.query = value 
 		},
-		search() {
+		search(e) {
 			this.results = []
-			if (this.query.length >= (this.str_limint-1)) {
+			if (this.query.length >= (this.str_limint-1) && e.code != 'Enter' && e.code != 'Backspace') {
+				console.log('ABRIENDO')
 				this.$bvModal.show(this.id+'-search-modal')
 				setTimeout(() => {
 					document.getElementById(this.id+'-search-modal-input').focus()
@@ -141,8 +144,6 @@ export default {
 			}
 		},
 		setSelected(model) {
-			console.log('emitiendo setSelected desde index con model =')
-			console.log(model)
 			this.selected_model = model 
 			this.results = []
 			this.$emit('setSelected', {
@@ -150,9 +151,9 @@ export default {
 				prop: this.prop,
 				query: this.query,				
 			})
-			if (!this.clear_query && model) {
+			if (!this.prop.belongs_to_many && !this.clear_query && model) {
 				this.query = model.name
-			} else if (this.clear_query) {
+			} else {
 				this.query = '' 
 			}
 		}
@@ -164,22 +165,26 @@ export default {
 .search-component
 	position: relative
 	width: 100%
-	.search-results
-		position: absolute
-		background: $background
-		box-shadow: 0 0 0 0.2rem rgba($blue, .25)
-		z-index: 100
-		border-radius: 0 0 5px 5px
-		min-width: 400px
-		width: 100%
-		top: 100%
-		// transform: translateX(-100%)
-		max-height: 700px
-		overflow-y: scroll
-		&::-webkit-scrollbar 
-			display: none
-		.results-title
-			font-size: 1.2em
-			font-weight: bold
-			margin: 1em 1em 0
+	display: flex
+	flex-direction: row
+	box-shadow: 0 2px 4px rgb(0 0 0 / 15%) !important
+	border: 1px solid #ced4da
+	border-radius: 0.25rem 
+	.icon 
+		background: #FFF
+		width: 40px
+		display: flex
+		flex-direction: row
+		align-items: center
+		font-size: 1.2em
+		justify-content: flex-end
+		border-radius: 0.25rem 0 0 0.25rem
+		i
+			color: rgba(0, 0, 0, .6)
+	.bg-gray 
+		background: #e9ecef !important
+	.input-search
+		border-radius: 0 0.25rem 0.25rem 0 
+		box-shadow: none !important
+		border: none !important
 </style>

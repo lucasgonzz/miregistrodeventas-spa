@@ -46,7 +46,7 @@
 					Exportar Excel
 				</b-dropdown-item>
 				<b-dropdown-item
-				v-b-modal="'import-articles'">
+				v-b-modal="'import-article'">
 					<i class="icon-download"></i>
 					Importar Excel
 				</b-dropdown-item>

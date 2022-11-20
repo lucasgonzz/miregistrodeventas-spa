@@ -39,7 +39,8 @@
 <script>
 // Modals
 import DolarCalculator from '@/components/listado/modals/DolarCalculator.vue'
-import ImportArticles from '@/components/listado/modals/ImportArticles.vue'
+import ImportArticles from '@/components/listado/modals/import/Index'
+// import ImportArticles from '@/components/listado/modals/ImportArticles.vue'
 import ImagesCopy from '@/components/listado/modals/images/ImagesCopy.vue'
 import ArticleImages from '@/components/listado/modals/images/Index.vue'
 import ArticleImagesColors from '@/components/listado/modals/images/Colors.vue'

@@ -1,5 +1,6 @@
 <template>
 <b-card 
+	v-if="sub_view == 'general'"
 class="shadow b-r-1 m-b-25"
 title="Tienda Online">
 	<b-form-group
@@ -9,6 +10,7 @@ title="Tienda Online">
 		placeholder="Ingrese la descripcion de su tienda"
 		v-model="user.online_description"></b-form-textarea>
 	</b-form-group>
+	<hr>
 	<b-form-group
 	label="Quien puede ver los precios en la tienda">
 		<b-form-radio
@@ -45,15 +47,28 @@ title="Tienda Online">
 		</b-form-radio>
 	</b-form-group>
 	<hr>
-	<!-- <b-form-group
-	v-if="user.has_delivery"
-	label="Precio de envio">
-		<b-form-input
-		type="number"
-		v-model="user.delivery_price"
-		@keyup.enter="updateUser"></b-form-input>
+	<b-form-group
+	label="Articulos sin imagen">
+		<b-form-checkbox
+		v-model="user.show_articles_without_images"
+		:value="1"
+		:unchecked-value="0">
+			Mostrar articulos sin imagenes
+		</b-form-checkbox>
+		<img 
+		class="b-r-1 shadow m-t-15"
+		v-if="user.default_article_image_url"
+		:src="user.default_article_image_url">
+		<div 
+		class="j-start m-t-15">
+			<b-button
+			@click="uploadImage(null, null, null, '/user/default_article_image_url')"
+			variant="primary">
+				Agregar foto por defecto
+			</b-button>
+		</div>
 	</b-form-group>
-	<hr> -->
+	<hr>
 	<b-form-group>
 		<b-form-checkbox
 		:value="1"
@@ -64,14 +79,14 @@ title="Tienda Online">
 		</b-form-checkbox>
 	</b-form-group>
 	<hr>
-	<b-form-group
+	<!-- <b-form-group
 	label="Plus en pesos para precios en dolares">
 		<b-form-input
 		type="number"
 		v-model="user.dolar_plus"
 		@keyup.enter="updateUser"></b-form-input>
-	</b-form-group>
-	<hr>
+	</b-form-group> 
+	<hr> -->
 	<b-button
 	block
 	variant="primary"

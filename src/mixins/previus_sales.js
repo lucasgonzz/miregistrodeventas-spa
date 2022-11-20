@@ -102,6 +102,7 @@ export default {
 				item.discount = Number(article.pivot.discount)
 				item.amount = Number(article.pivot.amount)
 				item.returned_amount = Number(article.pivot.returned_amount)
+				item.delivered_amount = Number(article.pivot.delivered_amount)
 				item_to_add = {
 					...item,
 					is_article: true,

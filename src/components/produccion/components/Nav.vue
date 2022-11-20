@@ -6,8 +6,7 @@
 			<horizontal-nav
 			:items="items"
 			prop_name="name"
-			:set_view="true"
-			@setSelected="setSelected"></horizontal-nav>
+			:set_view="true"></horizontal-nav>
 		</b-col>
 	</b-row>
 </template>
@@ -22,9 +21,9 @@ export default {
 		items() {
 			let items = []
 			if (this.can('order_production.index')) {
-				items.push({name: 'ordenes-de-produccion'})
+				items.push({name: 'ordenes-de-produccion', action: 'order_production/getModels'})
 			}
-			items.push({name: 'recetas'})
+			items.push({name: 'recetas', action: 'recipe/getModels'})
 			return items
 		}
 	},

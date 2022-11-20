@@ -66,6 +66,13 @@ export default {
 				}]
 			}
 
+			new_article.deposits = []
+			if (article.deposits.length) {
+				article.deposits.forEach(deposit => {
+					new_article.deposits[deposit.id] = deposit.pivot.value
+				})
+			} 
+
 			if (!article.descriptions.length) {
 				new_article.descriptions = [{
 					title: '',

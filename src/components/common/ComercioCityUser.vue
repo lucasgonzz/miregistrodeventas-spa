@@ -1,17 +1,17 @@
 <template>
 	<div>
 		<div
-		v-if="!model.comercio_city_user">
+		v-if="model.id && !model[prop_to_set]">
 			<label 
 			class="form-label">
 				<i class="icon-right"></i>
-				Asignar a un usuario de ComercioCity
+				{{ text }}
 			</label>
 			<b-form-input
 			class="m-b-15"
 			@keyup.enter="searchUser"
 			:placeholder="placeholder"
-			v-model="company_name"></b-form-input>
+			v-model="prop_value"></b-form-input>
 			<btn-loader
 			@clicked="searchUser"
 			:loader="loading"
@@ -26,7 +26,7 @@
 			</label>
 			<p>
 				<i class="icon-user"></i>
-				{{ model.comercio_city_user.company_name }}
+				{{ model[prop_to_set][prop_to_find_model] }}
 			</p>
 		</div>
 		<hr> 
@@ -38,27 +38,45 @@ export default {
 	props: {
 		model: Object,
 		model_name: String,
+		model_name_to_attach: {
+			type: String,
+			default: 'user',
+		},
+		text: {
+			type: String,
+			default: 'Asignar a un usuario de ComercioCity',
+		},
+		prop_to_find_model: {
+			type: String,
+			default: 'company_name',
+		},
+		prop_to_set: {
+			type: String,
+			default: 'comercio_city_user'
+		},
+		placeholder: {
+			type: String,
+			default: `Nombre del negocio en ComercioCity`
+		},
 	},
 	components: {
 		BtnLoader,
 	},
 	data() {
 		return {
-			company_name: '',
+			prop_value: '',
 			loading: false
 		}
-	},
-	computed: {
-		placeholder() {
-			return `Nombre del negocio de ${this.model.name} en ComercioCity`
-		},
 	},
 	methods: {
 		searchUser() {
 			this.loading = true 
-			this.$api.post(this.model_name+'/set-comercio-city-user', {
+			this.$api.post('set-comercio-city-user', {
+				model_name_to_attach: this.model_name_to_attach,
+				prop_to_find_model: this.prop_to_find_model,
+				prop_value: this.prop_value,
+				model_name: this.model_name,
 				model_id: this.model.id,
-				company_name: this.company_name
 			})
 			.then(res => {
 				this.loading = false 
@@ -67,7 +85,7 @@ export default {
 					this.$toast.success('Actualizado')
 					this.$bvModal.hide(this.model_name)
 				} else {
-					this.$toast.error('No se encontro ningun negocio con ese nombre')
+					this.$toast.error('No se encontraron coincidencias')
 				}
 			})
 			.catch(err => {

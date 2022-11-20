@@ -18,10 +18,19 @@
 <script>
 export default {
 	props: ['display', 'model_name'],
+	computed: {
+		current_display() {
+			return this.$store.state[this.model_name].display
+		},
+	},
 	methods: {
 		setDisplay(display) {
 			this.$emit('setDisplay', display)
-			this.$store.commit(this.model_name+'/setDisplay', display)
+			if (this.current_display == display) {
+				this.$store.dispatch(this.model_name+'/getModels')
+			} else {
+				this.$store.commit(this.model_name+'/setDisplay', display)
+			}
 		},
 		isSelected(display) {
 			if (this.display == display) {

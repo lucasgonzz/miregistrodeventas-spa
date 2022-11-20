@@ -17,7 +17,7 @@ export default {
 		months_ago: 1,
 		from_model: {},
 		selected: [],
-		to_show_checks: {},
+		to_show_payment_methods: {},
 		to_pay: null,
 
 		delete: null,
@@ -83,8 +83,8 @@ export default {
 		setSelected(state, value) {
 			state.selected = value 
 		},
-		setToShowChecks(state, value) {
-			state.to_show_checks = value 
+		setToShowPaymentMethods(state, value) {
+			state.to_show_payment_methods = value 
 		},
 		setToPay(state, value) {
 			state.to_pay = value 

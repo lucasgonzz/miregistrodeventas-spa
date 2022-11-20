@@ -1,8 +1,7 @@
 <template>
 	<b-col
-	:offset-lg="offset"
 	cols="12"
-	lg="3"
+	lg="6"
 	class="j-end">
 		<div class="float-right m-l-5 d-none d-sm-block">
 			<b-button-group>

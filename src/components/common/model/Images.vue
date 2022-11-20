@@ -52,13 +52,13 @@
 				</b-button>
 			</div>
 			<div
-			v-else-if="typeof model.image_url != 'undefined' && model.image_url">
+			v-else-if="has_image">
 				<div
 				v-if="model.image_url">
 					<vue-load-image>
 						<img
 						slot="image"
-						class="slide-img b-r-1 shadow-1 m-b-10" 
+						class="slide-img b-r-1 shadow m-b-10" 
 						:src="image(model)">
 
 				        <b-spinner
@@ -70,15 +70,18 @@
 						</div>
 					</vue-load-image>
 					<b-button
+					size="sm"
+					block 
+					class="m-b-10"
 					@click="setDelete(image)"
-					variant="danger">
+					variant="outline-danger">
 						Eliminar imagen
 					</b-button>
 				</div>
 				<b-button
 				size="sm"
 				block 
-				variant="primary"
+				variant="outline-primary"
 				@click="uploadImage(model_name, model)">
 					Agregar imagen
 				</b-button>
@@ -97,6 +100,14 @@ export default {
 	    Carousel,
 	    Slide
 	},
+	computed: {
+		has_image() {
+			if (this.from_cloudinary) {
+				return typeof this.model.image_url != 'undefined' && this.model.image_url
+			} 
+			return typeof this.model.hosting_image_url != 'undefined' && this.model.hosting_image_url
+		},
+	},
 	methods: {
 		setDelete(image) {
 			this.$store.commit(this.modelPlural(this.model_name)+'/setDeleteImage', image)
@@ -108,7 +119,7 @@ export default {
 <style scoped lang="sass">
 .images
 	img 
-		width: 100%
+		max-width: 100%
 	.VueCarousel-slide
 		position: relative
 		display: flex

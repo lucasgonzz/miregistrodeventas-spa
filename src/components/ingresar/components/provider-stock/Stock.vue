@@ -26,6 +26,8 @@
 				autocomplete="off"></b-form-input>
 			</b-input-group>
 		</b-form-group>
+		<deposits
+		:article="article"></deposits>	
 		<div
 		v-if="show_checkboxs && article.stock != null">
 			<b-form-group
@@ -47,9 +49,13 @@
 	</b-col>
 </template>
 <script>
+import Deposits from '@/components/ingresar/components/provider-stock/Deposits'
 export default {
 	name: 'Stock',
 	props: ['article', 'show_checkboxs'],
+	components: {
+		Deposits,
+	},
 	methods: {
 		changeToStockMin() {
 			document.getElementById('article-stock-min').focus()

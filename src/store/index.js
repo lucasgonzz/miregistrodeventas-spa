@@ -31,7 +31,7 @@ import workdays from './workdays'
 import schedules from './schedules'
 import prices_lists from './prices_lists'
 import icons from './icons'
-import titles from './titles'
+import title from './title'
 import brand from './brand'
 import sizes from './sizes'
 import plans from './plans'
@@ -45,14 +45,20 @@ import order_production_status from './order_production_status'
 import current_acount from './current_acount'
 import current_acount_payment_methods from './current_acount_payment_methods'
 import combos from './combos/index'
-import payment_methods from './payment_methods'
-import delivery_zones from './delivery_zones'
+import payment_method from './payment_method'
+import delivery_zone from './delivery_zone'
 import location from './location'
-import platelets from './platelets'
+import platelet from './platelet'
 import payment_method_types from './payment_method_types'
 import price_type from './price_type'
 import budget_status from './budget_status'
 import recipe from './recipe'
+import deposit from './deposit'
+import order from './order'
+import buyer from './buyer'
+import order_status from './order_status'
+import provider_order_status from './provider_order_status'
+import credit_card from './credit_card'
 
 // SUPER
 import user from './user'
@@ -107,7 +113,7 @@ export default new Vuex.Store({
 		schedules,
 		prices_lists,
 		icons,
-		titles,
+		title,
 		brand,
 		sizes,
 		plans,
@@ -121,14 +127,20 @@ export default new Vuex.Store({
 		current_acount,
 		current_acount_payment_methods,
 		combos,
-		payment_methods,
-		delivery_zones,
+		payment_method,
+		delivery_zone,
 		location,
-		platelets,
+		platelet,
 		payment_method_types,
 		price_type,
 		budget_status,
 		recipe,
+		deposit,
+		order,
+		buyer,
+		order_status,
+		provider_order_status,
+		credit_card,
 		user,
 		super_budget,
 		extencion,

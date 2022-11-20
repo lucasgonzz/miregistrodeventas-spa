@@ -22,8 +22,10 @@ export default {
                 this.$store.commit('current_acount/setFromModelName', 'client')
                 if (is_client) {
                     this.$store.commit('current_acount/setFromModel', sale)
-                } else {
+                } else if (sale.client) {
                     this.$store.commit('current_acount/setFromModel', sale.client)
+                } else if (sale.buyer && sale.buyer.comercio_city_client) {
+                    this.$store.commit('current_acount/setFromModel', sale.buyer.comercio_city_client)
                 }
                 this.$store.dispatch('current_acount/getModels')
                 this.$store.commit('current_acount/setSelected', [])

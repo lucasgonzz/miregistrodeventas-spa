@@ -145,7 +145,7 @@ Vue.use(VueRouter)
         component: Proveedores,
     },
     {
-        path: '/configuracion/:view',
+        path: '/configuracion/:view/:sub_view?',
         name: 'Configuration',
         component: Configuration,
     },

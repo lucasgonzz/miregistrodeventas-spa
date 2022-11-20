@@ -2,8 +2,8 @@
 <b-row
 class="row-total-card-previus-sales m-b-15">
 	<total></total>	
-	<card-btn></card-btn>	
-	<special-prices></special-prices>
+	<!-- <card-btn></card-btn>	 -->
+	<!-- <special-prices></special-prices> -->
 	<previus-sales></previus-sales>
 </b-row>
 </template>

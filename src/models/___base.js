@@ -1,12 +1,20 @@
 export default {
 	properties: [
-		// RADIO
 		{
+			// Label
 			text: 'Tipo de operacion',
 			key: 'order_operation_id',
-			type: 'radio',
+			type: [
+				// Posibles valores
+				// text: Input 
+				// textarea: Textarea
+				// search: SearchComponent
+				// only_show: P con el valor 
+			],
 			value: 0,
 			show: true,
+			// Se va a usar para filtrar los modelos en SearchComponent
+			use_to_filter_in_search: true,
 			filterable: true,
 		},
 		// SEARCH

@@ -6,6 +6,7 @@
     	<model
     	v-if="show_modal"
     	:show_btn_pdf="show_btn_pdf"
+    	:show_btn_delete="show_btn_delete"
     	:size="modal_size"
     	:modal_title="create_model_name_spanish"
     	:model="model"
@@ -99,6 +100,10 @@ export default {
 		show_btn_pdf: {
 			type: Boolean,
 			default: false,
+		},
+		show_btn_delete: {
+			type: Boolean,
+			default: true,
 		},
 		show_modal: {
 			type: Boolean,

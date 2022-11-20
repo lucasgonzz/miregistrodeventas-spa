@@ -19,7 +19,7 @@
 </template>
 <script>
 import NavComponent from '@/components/online/components/NavComponent'
-import Orders from '@/components/online/components/orders/Orders'
+import Orders from '@/components/online/components/orders/Index'
 import Questions from '@/components/online/components/questions/Questions'
 import Buyers from '@/components/online/components/buyers/Index'
 import Messages from '@/components/online/components/messages/Index'

@@ -10,6 +10,14 @@
 			Tipos de precio
 		</b-dropdown-item>
 		<b-dropdown-item
+		v-b-modal="'deposits'">
+			Depositos
+		</b-dropdown-item>
+		<b-dropdown-item
+		v-b-modal="'credit-cards'">
+			Tarjetas de credito
+		</b-dropdown-item>
+		<b-dropdown-item
 		v-b-modal="'locations'">
 			Localidades
 		</b-dropdown-item>

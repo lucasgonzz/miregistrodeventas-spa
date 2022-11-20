@@ -1,5 +1,6 @@
 <template>
-	<div>
+	<div
+	v-if="sub_view == 'horarios'">
 	    <confirm
 	    :text="text_delete"
 	    :actions="['schedules/delete']"

@@ -42,8 +42,7 @@ export default {
                 console.log(notification)
                 this.$api.get('sale-show/'+notification.sale_id)
                 .then(res => {
-                    this.$store.commit('sale/add', res.data.model)
-                    this.$store.commit('sale/setToShow')
+                    this.addModel('sale', res.data.model)
                 })
             });
             this.Echo.channel('message.from_buyer.'+this.owner_id)
@@ -57,8 +56,10 @@ export default {
             this.Echo.channel('order.'+this.owner_id)
             .notification((notification) => {
                 console.log(notification)
-                // this.$store.commit('online/orders/addUnconfirmedOrder', notification.order)
-                this.$store.dispatch('online/orders/getUnconfirmedOrders')
+                this.$api.get('order-show/'+notification.order_id)
+                .then(res => {
+                    this.addModel('order', res.data.model)
+                })
             });
             this.Echo.channel('question.'+this.owner_id)
             .notification((notification) => {

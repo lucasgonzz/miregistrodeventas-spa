@@ -13,14 +13,15 @@
 				:items="items"
 				hover 
 				selectable 
-				select-mode="multi"
+				ref="tableComponent"
+				:select-mode="select_mode"
 				@row-selected="onRowSelected">
 					<template 
 					v-for="prop in properties"
 					v-slot:[toCellName(prop.key)]="data">
 						<img 
 						v-if="isImageProp(prop)"
-						:src="imageUrl(getImageProp(properties, models[data.index]), true)">
+						:src="image(models[data.index])">
 						<div
 						v-else-if="showInput(prop, models[data.index])">
 							<b-form-textarea
@@ -45,6 +46,11 @@
 							{{ propText(models[data.index], prop) }}
 						</span>
 					</template>
+
+					<template #cell(created_at)="data">
+						{{ date(models[data.index].created_at) }}
+					</template>
+
 					<template #cell(edit)="data">
 						<div class="cont-edit">
 							<slot 
@@ -166,11 +172,30 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		selected_index: {
+			type: Number,
+			default: 0,
+		},
+		select_mode: {
+			type: String,
+			default: 'multi',
+		},
 	},
 	data() {
 		return {
 			last_selection: [],
+			is_from_keydown: false,
 		}
+	},
+	watch: {
+		selected_index() {
+			this.is_from_keydown = true
+			this.$refs.tableComponent.selectRow(this.selected_index)
+			setTimeout(() => {
+				this.is_from_keydown = false
+			}, 200)
+			console.log('se selecciono la fila '+this.selected_index)
+		},
 	},
 	computed: {
 		fields() {
@@ -180,6 +205,10 @@ export default {
 					key: prop.key,
 					label: prop.text,
 				})
+			})
+			fields.push({
+				key: 'created_at',
+				label: 'Creado',
 			})
 			fields.push({
 				key: 'edit',
@@ -219,8 +248,7 @@ export default {
 			return _class
 		},
 		onRowSelected(items) {
-			console.log(items)
-			if (!this.isTheSameSelection(items)) {
+			if (!this.isTheSameSelection(items) && !this.is_from_keydown) {
 				console.log('emitiendo')
 				if (this.set_selected_models) {
 					let items_to_set = []

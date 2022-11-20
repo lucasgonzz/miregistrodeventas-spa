@@ -17,6 +17,10 @@ export default {
         },
 	},
 	methods: {
+		addModel(model_name, model) {
+			this.$store.commit(model_name+'/add', model)
+			this.$store.commit(model_name+'/setToShow')
+		},
 
 		// --------------------------------- Model ---------------------------------
 
@@ -90,8 +94,6 @@ export default {
 			let models = this.$store.state[store].models 
 			if (prop.combine_with) {
 				let models_to_combine = this.$store.state[prop.combine_with.store][prop.combine_with.prop]
-				console.log('se va a combinar con')
-				console.log(models_to_combine)
 				models = models.concat(models_to_combine)
 			}
 			if (prop.belongs_to) {
@@ -99,8 +101,6 @@ export default {
 					return _model[prop.belongs_to+'_id'] == model[prop.belongs_to+'_id'] 
 				})
 			}
-			console.log('quedo como')
-			console.log(models)
 			return models 
 		},
 		relationshipNameFromKey(key) {
@@ -149,7 +149,7 @@ export default {
 				}
 				return 'No'
 			}
-			if (prop.type == 'date') {
+			if (prop.is_date) {
 				return this.date(model[prop.key] )
 			}
 			let array = prop.key.split('.')
@@ -218,7 +218,7 @@ export default {
 		},
 		hasImage(props) {
 			let img_prop = props.find(prop => {
-				return prop.is_images || prop.is_image 
+				return this.isImageProp(prop)
 			})
 			return typeof img_prop != 'undefined' 
 		},

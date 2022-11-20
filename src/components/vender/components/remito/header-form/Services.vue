@@ -1,5 +1,6 @@
 <template>
 	<b-col
+	class="m-b-15 m-lg-b-0"
 	v-if="hasExtencion('services')"
 	cols="12"
 	lg="3">

@@ -35,6 +35,7 @@ export default {
 		{
 			text: 'Articulos',
 			store: 'article',
+			type: 'search',
 			key: 'articles',
 			belongs_to_many: {
 				model_name: 'article',

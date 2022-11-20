@@ -5,13 +5,12 @@
 	class="col-autocomplete margin-bottom-since-lg">
 		<search-component
 		id="search-article"
+		model_name="article"
 		@setSelected="setSelected"
-		:models="modelsStoreFromName('article')"
+		:show_selected="false"
 		:model="article"
 		:str_limint="3"
-		:clear_query="false"
-		:properties_to_filter="properties_to_filter"
-		:prop="{text: 'Articulo', key: 'article_id'}"></search-component>
+		:prop="{text: 'Articulo', key: 'article_id', store: 'article'}"></search-component>
 	</b-col>
 </template>
 <script>
@@ -29,28 +28,13 @@ export default {
 		id() {
 			return 'article-sale-name'
 		},
-		properties_to_filter() {
-			return [
-				{key: 'num'},
-				{key: 'name'},
-				{key: 'provider_code'},
-			]
-		}
 	},
 	methods: {
 		setSelected(result) {
+			console.log(result)
 			this.article.name = result.query
 			this.setVenderArticle(result.model)
 		},
-  //       search(input) {
-  //           if (input.length < 3) { return [] }
-  //           return this.articles.filter(article => {
-  //               return article.name && article.name.toLowerCase().includes(input.toLowerCase())
-  //           })
-  //       },
-		// getResultValue(article) {
-		// 	return `${article.name} | ${this.price(article.price)}`
-		// },
 	}
 }
 </script>

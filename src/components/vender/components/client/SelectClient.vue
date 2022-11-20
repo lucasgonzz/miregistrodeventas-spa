@@ -12,10 +12,8 @@
 			<search-component
 			class="m-b-15"
 			@setSelected="setSelected"
-			:models="modelsStoreFromName('client')"
 			:model="vender"
-			:properties_to_filter="propsToFilter('client')"
-			:prop="{text: 'Cliente', key: 'client_id'}"></search-component>
+			:prop="{text: 'Cliente', key: 'client_id', store: 'client'}"></search-component>
 			<b-button
 			@click="setModel(null, 'client')"
 			variant="primary">
@@ -23,13 +21,13 @@
 				Nuevo cliente
 			</b-button>
 		</div>
-		<b-button
+		<!-- <b-button
 		v-if="client"
 		class="m-b-15"
 		variant="outline-primary"
 		@click="removeClient">
 			Quitar cliente seleccionado
-		</b-button>
+		</b-button> -->
 	</div>
 </template>
 <script>

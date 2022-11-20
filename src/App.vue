@@ -200,11 +200,14 @@ export default {
                 }
                 this.$store.commit('auth/setMessage', 'Cargando tipos de precios')
                 await this.$store.dispatch('price_type/getModels')
+                this.$store.commit('auth/setMessage', 'Cargando depositos')
+                await this.$store.dispatch('deposit/getModels')
                 if (this.hasExtencion('providers')) {
                     this.$store.commit('auth/setMessage', 'Cargando proveedores')
                     await this.$store.dispatch('provider/getModels')
                     this.$store.commit('auth/setMessage', 'Cargando pedidos de proveedores')
                     await this.$store.dispatch('provider_order/getModels')
+                    await this.$store.dispatch('provider_order_status/getModels')
                 }
                 this.$store.commit('auth/setMessage', 'Cargando localidades')
                 await this.$store.dispatch('location/getModels')
@@ -221,12 +224,16 @@ export default {
                     await this.$store.dispatch('sizes/getSizes')
                     this.$store.commit('auth/setMessage', 'Cargando marcas')
                     await this.$store.dispatch('brand/getModels')
+                    this.$store.commit('auth/setMessage', 'Cargando plaquetas')
+                    await this.$store.dispatch('platelet/getModels')
                 }
                 if (this.can('client.index') || this.can('sale.store')) {
                     this.$store.commit('auth/setMessage', 'Cargando clientes')
                     await this.$store.dispatch('client/getModels')
                     await this.$store.dispatch('current_acount_payment_methods/getModels')
                 }
+                this.$store.commit('auth/setMessage', 'Cargando tarjetas')
+                await this.$store.dispatch('credit_card/getModels')
                 // if (this.can('afip_tickets')) {
                     this.$store.commit('auth/setMessage', 'Cargando iva')
                     await this.$store.dispatch('iva/getModels')
@@ -243,23 +250,30 @@ export default {
                 } 
                 if (this.has_online) {
                     this.$store.commit('auth/setMessage', 'Cargando metodos de pago')
-                    await this.$store.dispatch('payment_methods/getModels')
+                    await this.$store.dispatch('payment_method/getModels')
                     this.$store.commit('auth/setMessage', 'Cargando tipos de metodos de pago')
                     await this.$store.dispatch('payment_method_types/getModels')
                     this.$store.commit('auth/setMessage', 'Cargando zonas de envio')
-                    await this.$store.dispatch('delivery_zones/getModels')
+                    await this.$store.dispatch('delivery_zone/getModels')
                     this.$store.commit('auth/setMessage', 'Cargando titulos')
-                    await this.$store.dispatch('titles/getTitles')
+                    await this.$store.dispatch('title/getModels')
                     this.$store.commit('auth/setMessage', 'Cargando condiciones')
                     await this.$store.dispatch('condition/getModels')
                     this.$store.commit('auth/setMessage', 'Cargando dias de trabajo')
                     await this.$store.dispatch('workdays/getWorkdays')
                     this.$store.commit('auth/setMessage', 'Cargando horarios de trabajo')
                     await this.$store.dispatch('schedules/getSchedules')
-                    this.getOrdersAndQuestions()
-                    this.getBuyers()
-                    this.getActiveCupons()
-                    this.getCalls()
+
+                    this.$store.commit('auth/setMessage', 'Cargando pedidos')
+                    await this.$store.dispatch('order/getModels')
+                    await this.$store.dispatch('order_status/getModels')
+                    this.$store.commit('auth/setMessage', 'Cargando clientes de la tienda')
+                    await this.$store.dispatch('buyer/getModels')
+
+                    // this.getOrdersAndQuestions()
+                    // this.getBuyers()
+                    // this.getActiveCupons()
+                    // this.getCalls()
                     this.listenChannels()
                 }
 

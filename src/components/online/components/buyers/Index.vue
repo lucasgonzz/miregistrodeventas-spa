@@ -1,24 +1,32 @@
 <template>
-	<b-row
-	v-show="view == 'clientes'">
-		<b-col>
-			<buscador></buscador>
-			<buyers-table></buyers-table>
-		</b-col>
-	</b-row>
-	<!-- <update-button></update-button> -->
+	<view-component
+	v-if="view == 'clientes'"
+	model_name="buyer"
+	model_name_spanish="clientes"
+	create_model_name_spanish="cliente"
+	:show_btn_create="false"
+	:show_previus_days="false"
+	show_search_nav>
+		<template
+		v-slot:modal_buttons="slotProps">
+    		<comercio-city-user  
+    		model_name_to_attach="client"
+    		prop_to_find_model="name"
+    		prop_to_set="comercio_city_client"
+    		text="Asignar a un cliente ya cargado en el sistema"
+    		:placeholder="'Ingrese el nombre del cliente '+slotProps.model.name+' tal como figura en el sistema'"
+    		:model="slotProps.model"
+    		model_name="buyer"></comercio-city-user>
+		</template>
+	</view-component>
 </template>
 <script>
-// import UpdateButton from '@/components/online/modals/examine/buyers/UpdateButton'
-import Buscador from '@/components/online/components/buyers/Buscador'
-import BuyersTable from '@/components/online/components/buyers/BuyersTable'
-import online from '@/mixins/online'
+import ViewComponent from '@/components/common/view/Index'
+import ComercioCityUser from '@/components/common/ComercioCityUser'
 export default {
-	mixins: [online],
 	components: {
-		// UpdateButton,
-		Buscador,
-		BuyersTable,
-	},
+		ViewComponent,
+		ComercioCityUser,
+	}
 }
 </script>

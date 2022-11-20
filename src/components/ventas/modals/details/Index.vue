@@ -8,12 +8,16 @@ hide-footer
 body-class="p-0">
     <budget-info></budget-info>
     <sale-info></sale-info>
-    <b-table
-    v-if="!sale_details.budget"
-    responsive
-    head-variant="dark"
-    :fields="fields"
-    :items="items"></b-table>
+    <div
+    class="p-15">
+        <b-table
+        class="shadow-2 b-r-1"
+        v-if="!sale_details.budget"
+        responsive
+        head-variant="dark"
+        :fields="fields"
+        :items="items"></b-table>
+    </div>
 </b-modal>
 </template>
 <script>
@@ -29,14 +33,22 @@ export default {
     mixins: [sales],
     computed: {
         fields() {
-            return [
+            let fields = [
                 {key: 'name', label: 'Nombre', class: 'text-center'},
                 {key: 'price', label: 'Precio', class: 'text-center', sortable: true},
                 {key: 'discount', label: 'Descuento', class: 'text-center', sortable: true},
                 {key: 'amount', label: 'Cantidad', class: 'text-center', sortable: true},
                 {key: 'returned_amount', label: 'U. Devueltas', class: 'text-center', sortable: true},
-                {key: 'sub_total', label: 'Total', class: 'text-center', sortable: true},
             ]
+            if (this.hasExtencion('acopios')) {
+                fields.push(
+                    {key: 'delivered_amount', label: 'U. Entregadas', class: 'text-center', sortable: true},
+                )
+            }
+            fields.push(
+                {key: 'sub_total', label: 'Total', class: 'text-center', sortable: true},
+            )
+            return fields
         },
         items() {
             let items = []
@@ -45,6 +57,7 @@ export default {
                     name: article.name,
                     amount: article.pivot.amount,
                     returned_amount: article.pivot.returned_amount,
+                    delivered_amount: article.pivot.delivered_amount,
                     discount: article.pivot.discount,
                     price: this.price(article.pivot.price),
                     sub_total: this.price(this.getTotalArticle(article, true)),

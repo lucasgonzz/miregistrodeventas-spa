@@ -8,7 +8,10 @@
 	<b-row
 	v-if="view == 'tienda-online'">
 		<b-col
-		lg="8">
+		lg="10">
+			<horizontal-nav
+			set_sub_view
+			:items="items"></horizontal-nav>
 			<general></general>	
 			<platelets></platelets>	
 			<payment-methods></payment-methods>	
@@ -22,6 +25,8 @@
 </div>
 </template>
 <script>
+import HorizontalNav from '@/components/common/horizontal-nav/Index'
+
 import Confirm from '@/components/common/Confirm.vue'
 import BtnLoader from '@/components/common/BtnLoader'
 import General from '@/components/configuration/components/online/General'
@@ -36,6 +41,8 @@ import configuration from '@/mixins/configuration'
 export default {
 	mixins: [configuration],
 	components: {
+		HorizontalNav,
+
 		Confirm,
 		BtnLoader,
 		General,
@@ -50,7 +57,18 @@ export default {
 	computed: {
 		text_delete() {
 			return '¿Seguro que quiere eliminar el titulo?'
-		}
+		},
+		items() {
+			return [
+				{name: 'General'},
+				{name: 'Plaquetas', action: 'platelet/getModels'},
+				{name: 'Metodos de pago', action: 'payment_method/getModels'},
+				{name: 'Zonas de envio', action: 'delivery_zone/getModels'},
+				{name: 'Imagenes', action: 'title/getModels'},
+				{name: 'Direcciones', action: 'addresses/getModels'},
+				{name: 'Horarios', action: 'schedules/getModels'},
+			]
+		},
 	},
 	data() {
 		return {

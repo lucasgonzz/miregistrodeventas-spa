@@ -41,13 +41,13 @@
 				</template>
 				<template #cell(client)="data">
 					<b-button
-					v-if="to_show[data.index].client || to_show[data.index].buyer"
+					v-if="to_show[data.index].client || (to_show[data.index].buyer && to_show[data.index].buyer.comercio_city_client)"
 					@click="showCurrentAcounts(to_show[data.index])"
 					variant="link">
 						{{ getClient(to_show[data.index]) }}
 					</b-button>
-					<span v-else>
-						<i class="icon-user-delete"></i>
+					<span v-else-if="to_show[data.index].buyer">
+						{{ to_show[data.index].buyer.name }}
 					</span>
 				</template>
 			</b-table>

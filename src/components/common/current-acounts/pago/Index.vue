@@ -33,10 +33,12 @@ hide-footer>
         placeholder="Ingrese una descripcion"
         v-model="pago.description"></b-form-textarea>
     </b-form-group>
-    <payment-method
-    :pago="pago"></payment-method>
-    <checks
-    :pago="pago"></checks>   
+
+    <hr>
+ 
+    <payment-methods
+    :pago="pago"></payment-methods>
+
     <b-form-group>
     	<b-button
         block
@@ -50,8 +52,7 @@ hide-footer>
 </b-modal>
 </template>
 <script>
-import PaymentMethod from '@/components/ventas/modals/current-acounts/pago/PaymentMethod'
-import Checks from '@/components/ventas/modals/current-acounts/pago/Checks'
+import PaymentMethods from '@/components/common/current-acounts/pago/PaymentMethods'
 import BtnLoader from '@/components/common/BtnLoader'
 
 import clients from '@/mixins/clients'
@@ -60,8 +61,7 @@ export default {
 	name: 'CurrentAcountPago',
     mixins: [clients, current_acounts],
     components: {
-        PaymentMethod,
-        Checks,
+        PaymentMethods,
     	BtnLoader,
     },
     data() {
@@ -71,15 +71,23 @@ export default {
                 description: '',
                 created_at: '',
                 haber: '',
-                current_acount_payment_method_id: 0,
-                checks: [
-                    {
-                        bank: '',
-                        payment_date: '',
-                        amount: '',
-                        num: '',
-                    },
-                ],
+                current_acount_payment_methods: [{
+                    current_acount_payment_method_id: 0,
+                    amount: '',
+                    bank: '',
+                    payment_date: '',
+                    num: '',
+                    credit_card_id: 0,
+                    credit_card_payment_plan_id: 0,
+                }],
+                // checks: [
+                //     {
+                //         bank: '',
+                //         payment_date: '',
+                //         amount: '',
+                //         num: '',
+                //     },
+                // ],
             },
         	loading: false,
         }
@@ -152,15 +160,15 @@ export default {
                 current_date: true,
                 created_at: '',
                 haber: '',
-                current_acount_payment_method_id: 0,
-                checks: [
-                    {
-                        bank: '',
-                        payment_date: '',
-                        amount: '',
-                        num: '',
-                    },
-                ],
+                current_acount_payment_methods: [{
+                    current_acount_payment_method_id: 0,
+                    amount: '',
+                    bank: '',
+                    payment_date: '',
+                    num: '',
+                    credit_card_id: 0,
+                    credit_card_payment_plan_id: 0,
+                }],
             }
             this.$store.commit('current_acount/setToPay', null)
             this.$store.commit('current_acount/setSelected', [])

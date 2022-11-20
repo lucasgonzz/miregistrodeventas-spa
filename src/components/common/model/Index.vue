@@ -23,6 +23,7 @@
 			:model_name="model_name"
 			:properties="properties"
 			:actions_after_save="actions_after_save"
+			:show_btn_delete="show_btn_delete"
 			:check_can_delete="check_can_delete">
 				<template v-slot:belongs="slotProps">
 					<slot name="belongs" :model="slotProps.model"></slot>
@@ -81,6 +82,10 @@ export default {
 			default: () => {
 				return []
 			}
+		},
+		show_btn_delete: {
+			type: Boolean,
+			default: true,
 		},
 		check_can_delete: Boolean,
 	},
