@@ -3,6 +3,9 @@ import moment from 'moment'
 export default {
 	mixins: [VueScreenSize.VueScreenSizeMixin],
 	computed: {
+		is_local() {
+			return process.env.VUE_APP_API_URL == 'http://miregistrodeventas.local:8001'
+		},
         user() {
         	return this.$store.state.auth.user
         },

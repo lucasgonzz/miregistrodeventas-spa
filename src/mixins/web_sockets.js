@@ -24,6 +24,7 @@ export default {
                     }
                 })
             });
+            console.log('escuchando updated_article.'+this.owner_id)
             this.Echo.channel('updated_article.'+this.owner_id)
             .notification((notification) => {
                 console.log('articulo actualizado')

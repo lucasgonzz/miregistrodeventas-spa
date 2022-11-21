@@ -4,6 +4,7 @@
 
 		<view-component 
 		:models_to_show="models_to_show"
+		show_filter_modal
 		model_name="order_production"
 		model_name_spanish="Ordenes de produccion"
 		create_model_name_spanish="Nueva orden de produccion"

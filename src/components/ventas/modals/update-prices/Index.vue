@@ -1,5 +1,6 @@
 <template>
 <b-modal
+v-if="sale"
 title="Actualizar precios"
 hide-footer
 size="lg"

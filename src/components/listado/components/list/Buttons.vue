@@ -1,5 +1,5 @@
 <template>
-	<div class="buttons">
+	<div class="buttons-listado">
 		<!-- Online -->
 		<btn-loader
 		v-if="has_online"
@@ -108,3 +108,7 @@ export default {
 	}
 }
 </script>
+<style lang="sass"> 
+.buttons-listado
+	width: 200px
+</style>

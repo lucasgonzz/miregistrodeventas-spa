@@ -344,7 +344,7 @@ export default {
 .table 
 	background: #FFF
 	img 
-		width: 150px
+		width: 100px
 	input, textarea
 		width: 200px
 	.cont-edit 

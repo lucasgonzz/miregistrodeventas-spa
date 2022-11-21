@@ -4,32 +4,45 @@ size="md"
 :title="title"
 :id="id"
 hide-footer>
-	<h5>
-		Opcion 1. Descargar el archivo Modelo en formato Excel
-	</h5>
+	<p>
+		<strong>
+			Opcion 1. Descargar el archivo Modelo en formato Excel
+		</strong>
+	</p>
 	<p
 	class="m-b-0">
 		Comience por descargar el archivo modelo con los títulos de las columnas que ComercioCity necesita para importar los datos de sus artículos
 	</p>
 	<b-button
+	class="m-t-10"
 	href="/files/articulos-base.xlsx" download
-	variant="link">
+	variant="success">
 		Descargar el archivo modelo
 	</b-button>
 	<hr>
-	<h5>
-		Opcion 2. Tambien puede tomar un archivo Excel ya existente, e indicar que columna de su archivo corresponde a que propiedad. 
-	</h5>
+	<p>
+		<strong>
+			Opcion 2. Tambien puede tomar un archivo Excel ya existente, e indicar que columna de su archivo corresponde a que propiedad. 
+		</strong>
+	</p>
 	<div>
 		<b-button
-		class="m-b-15"
+		class="m-b-15 m-t-15"
 		block
-		variant="primary"
-		@click="clear">
-			Limpiar
+		size="sm"
+		variant="outline-primary"
+		@click="setPositions">
+			<span
+			v-if="positions_seted">
+				Limpiar posiciones
+			</span>
+			<span
+			v-else>
+				Resetear posiciones
+			</span>
 		</b-button>
 		<div
-		v-for="column in columns">
+		v-for="(column, index) in columns">
 			<div 
 			class="cont-inputs">
 				<span>
@@ -37,7 +50,7 @@ hide-footer>
 				</span>
 				<b-form-input
 				type="number"
-				v-model="column.column"></b-form-input>
+				v-model="columns_position[index]"></b-form-input>
 			</div>
 			<p
 			class="m-t-10"
@@ -108,6 +121,9 @@ export default {
 			}
 		},
 	},
+	created() {
+		this.setPositions()
+	},
 	computed: {
 		title() {
 			return 'Importar '+this.model_name_spanish
@@ -122,11 +138,34 @@ export default {
 			file: null,
 			percentage: '',
 			provider_id: 0,
+			columns_position: [],
+			positions_seted: false,
 		}
 	},
 	methods: {
+		setPositions() {
+			if (this.positions_seted) {
+				this.clear()
+			} else {
+				this.setColumnsPositions()
+			}
+		},
+		setColumnsPositions() {
+			this.columns_position = []
+			let position = 1
+			this.columns.forEach(column => {
+				this.columns_position.push(position)
+				position++
+			})
+			this.positions_seted = true
+		},
 		clear() {
-			this.$emit('clear')
+			let index = 0
+			this.columns.forEach(column => {
+				this.columns_position[index] = ''
+				index++
+			})
+			this.positions_seted = false
 		},	
 		upload() {
 			this.loading = true

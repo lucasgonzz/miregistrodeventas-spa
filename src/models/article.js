@@ -3,6 +3,7 @@ export default {
 		{
 			text: 'Imagen',
 			key: 'images',
+			type: 'image',
 			is_images: true,
 			show: true,
 		},

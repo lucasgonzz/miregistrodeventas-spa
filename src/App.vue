@@ -174,9 +174,6 @@ export default {
             }
         },
         async callMethods() {
-            if (this.is_super) {
-                this.$store.dispatch('extencion/getModels')
-            }
             if (this.is_commerce) {
                 console.log('Es un comercio')
                 this.$store.commit('auth/setLoading', true)
@@ -274,7 +271,6 @@ export default {
                     // this.getBuyers()
                     // this.getActiveCupons()
                     // this.getCalls()
-                    this.listenChannels()
                 }
 
                 this.$store.commit('auth/setMessage', 'Cargando descuentos')
@@ -291,6 +287,7 @@ export default {
                 this.$store.commit('auth/setMessage', '')
                 this.checkAddress()
                 this.setSubCategoriesInVender()
+                this.listenChannels()
             } else if (this.is_super) {
                 console.log('Es super')
                 this.$store.dispatch('super/getCommerces')

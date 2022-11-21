@@ -9,7 +9,7 @@
 		<template #modals>
 	    	<current-acounts></current-acounts>
 
-	    	<update-prices></update-prices>
+	    	<!-- <update-prices></update-prices> -->
 
 	    	<sale-details></sale-details>
 

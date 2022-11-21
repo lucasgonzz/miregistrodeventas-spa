@@ -13,38 +13,47 @@ export default {
 				image_prop_url = 'url'
 			}
 			if (!from_model) {
-
 				if (model[model_prop_url]) {
 					image_url = model[model_prop_url]
 				} else if (model.images && model.images.length) {
 					image_url = model.images[0][image_prop_url] 
 				}
 			} else {
-				image_url = model[from_model].image_url
+				image_url = model[from_model][model_prop_url]
 			}
+			if (!this.is_local) {
+				image_url = this.getProductionUrl(image_url)
+			} 
 			if (!this.from_cloudinary) {
 				return image_url 
-			}
-			if (image_url) {
-				if (from_cloudinary) {
-					if (cropped) {
-						url = `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom,q_auto,f_auto/${image_url}`
-					} else {
-						url = `https://res.cloudinary.com/lucas-cn/image/upload/q_auto,f_auto/${image_url}`
-					}
+			} else if (image_url) {
+				if (cropped) {
+					url = `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom,q_auto,f_auto/${image_url}`
 				} else {
-					url = image_url
+					url = `https://res.cloudinary.com/lucas-cn/image/upload/q_auto,f_auto/${image_url}`
 				}
 			} else {
 				url = '@/assets/image-not-found.jpg'
 			}
 			return url
 		},
+		getProductionUrl(image_url) {
+			console.log('llego image_url:')
+			console.log(image_url)
+			if (image_url) {
+				let position = image_url.indexOf('storage')
+				let first = image_url.substring(0, position)
+				let end = image_url.substring(position)
+				return first+'public/'+end 
+			}
+		},
 		uploadImage(model_name, model, commit = null, url = null) {
+			this.$store.commit('auth/setMessage', 'Cargando interfaz de multimedia')
 			this.$store.commit('auth/setLoading', true)
 			setTimeout(() => {
+				this.$store.commit('auth/setMessage', '')
 				this.$store.commit('auth/setLoading', false)
-			}, 2000)
+			}, 5000)
 			var myCropWidget = cloudinary.createUploadWidget(this.widget_info, (error, result) => { 
 				if (result.event == 'success') {
 					let image_url = result.info.path
@@ -61,7 +70,7 @@ export default {
 						if (commit) {
 							this.$store.commit(commit, res.data.model)
 						} else {
-							this.$store.commit(model_name+'/add', res.data.model)
+							this.addModel(model_name, res.data.model)
 						}
 					})
 					.catch(err => {

@@ -3,12 +3,17 @@
 	title="Buscar"
 	hide-footer
 	id="filter-modal">
+		<p>
+			<strong>
+				Complete los campos que quiere usar para filtrar
+			</strong>
+		</p>
 		<div
-		v-for="filter in filters">
+		v-for="(filter, index) in filters">
 
 			<b-form-group
 			v-if="filter.type == 'search'"
-			:label="filter.text">
+			:label="filter.label">
 				<search-component
 				class="m-b-15"
 				:id="model_name+'-'+filter.key"
@@ -20,15 +25,20 @@
 
 			<b-form-group
 			v-if="filter.type == 'text' || filter.type == 'textarea'"
-			:label="filter.text">
+			:label="filter.label">
 				<b-form-input
 				class="m-b-15"
+				v-model="filter.value"
 				:placeholder="'Ingrese '+filter.text"></b-form-input>
 			</b-form-group>
 
 			<div
 			class="m-b-15"
 			v-if="filter.type == 'number'">
+				<p
+				v-if="filter.label">
+					{{ filter.label }}
+				</p>
 				<b-form-input
 				class="m-b-10"
 				v-if="filter.number_type == 'min'"
@@ -54,7 +64,7 @@
 			<b-form-group
 			class="m-b-15"
 			v-if="filter.type != 'search' && isRelationKey(filter)"
-			:label="filter.text">
+			:label="filter.label">
 				<b-form-select
 				v-model="filter.value"
 				:options="getOptions(filter.key, filter.text)"></b-form-select>
@@ -79,7 +89,7 @@ export default {
 	},
 	data() {
 		return {
-			filters: []
+			filters: [],
 		}
 	},
 	computed: {
@@ -112,28 +122,39 @@ export default {
 			this.props.forEach(prop => {
 				if (prop.type == 'number') {
 					this.filters.push({
+						label: prop.text,
 						type: 'number',
-						text: prop.key,
+						text: prop.text,
 						number_type: 'min',
 						key: prop.key,
 						value: '',
 					})
 					this.filters.push({
 						type: 'number',
-						text: prop.key,
+						text: prop.text,
 						number_type: 'equal',
 						key: prop.key,
 						value: '',
 					})
 					this.filters.push({
 						type: 'number',
-						text: prop.key,
+						text: prop.text,
 						number_type: 'max',
+						key: prop.key,
+						value: '',
+					})
+				} else if (prop.type == 'text' || prop.type == 'textarea') {
+					this.filters.push({
+						label: prop.text,
+						type: prop.type,
+						text: prop.text,
+						store: prop.store,
 						key: prop.key,
 						value: '',
 					})
 				} else {
 					this.filters.push({
+						label: prop.text,
 						type: prop.type,
 						text: prop.text,
 						store: prop.store,
