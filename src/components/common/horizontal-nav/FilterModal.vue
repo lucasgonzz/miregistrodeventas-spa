@@ -27,6 +27,7 @@
 			v-if="filter.type == 'text' || filter.type == 'textarea'"
 			:label="filter.label">
 				<b-form-input
+				@keyup.enter="search"
 				class="m-b-15"
 				v-model="filter.value"
 				:placeholder="'Ingrese '+filter.text"></b-form-input>
@@ -40,6 +41,7 @@
 					{{ filter.label }}
 				</p>
 				<b-form-input
+				@keyup.enter="search"
 				class="m-b-10"
 				v-if="filter.number_type == 'min'"
 				v-model="filter.value"
@@ -47,6 +49,7 @@
 				:placeholder="'Que tengan '+filter.text+' menor a:'"></b-form-input>
 
 				<b-form-input
+				@keyup.enter="search"
 				class="m-b-10"
 				v-if="filter.number_type == 'equal'"
 				v-model="filter.value"
@@ -54,6 +57,7 @@
 				:placeholder="'Que tengan '+filter.text+' igual a:'"></b-form-input>
 
 				<b-form-input
+				@keyup.enter="search"
 				class="m-b-10"
 				v-if="filter.number_type == 'max'"
 				v-model="filter.value"

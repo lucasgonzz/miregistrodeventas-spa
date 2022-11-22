@@ -369,7 +369,9 @@ export default {
 			// 	})
 			// }
 			document.getElementById('article-bar-code').focus()
-			document.getElementById('search-input').value = ''
+			if (document.getElementById('ingresar-article-name')) {
+				document.getElementById('ingresar-article-name').value = ''
+			}
 		},
 		setArticleProvider(provider) {
 			this.article.provider_id = provider.id

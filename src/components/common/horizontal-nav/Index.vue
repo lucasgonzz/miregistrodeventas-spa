@@ -25,14 +25,22 @@
 			<div
 			v-if="show_filter_modal">
 				<filter-modal
-				:model_name="model_name"></filter-modal>	
-				<b-button
-				class="m-r-15"
-				variant="outline-primary"
-				v-b-modal="'filter-modal'">
-					<i class="icon-search"></i>
-					Buscar
-				</b-button>
+				:model_name="model_name"></filter-modal>
+				<b-btn-group
+				class="m-r-15">
+					<b-button
+					variant="outline-primary"
+					v-b-modal="'filter-modal'">
+						<i class="icon-search"></i>
+						Buscar
+					</b-button>
+					<b-button
+					@click="restartSearch"
+					variant="outline-success">
+						<i class="icon-undo"></i>
+						Restaurar
+					</b-button>
+				</b-btn-group>	
 			</div>
 			<div class="buttons">
 				<slot name="btn_create">
@@ -113,6 +121,9 @@ export default {
 		},
 	},
 	methods: {
+		restartSearch() {
+			this.$store.commit(this.model_name+'/setToShow')
+		},
 		setDisplay(display) {
 			this.$emit('setDisplay', display)
 		},

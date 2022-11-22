@@ -87,7 +87,7 @@ export default {
             window.open(link)
         },
         newPdf() {
-            var link = process.env.VUE_APP_API_URL+`/sales/new-pdf/${this.sale.id}`
+            var link = process.env.VUE_APP_API_URL+`/sale/new-pdf/${this.sale.id}`
             window.open(link)
         },
     }

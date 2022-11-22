@@ -11,6 +11,8 @@
 			:prop="{text: 'Articulo', key: 'name', store: 'article'}"
 			:show_selected="false"
 			:clear_query="false"
+			:model="article"
+			id="ingresar-article-name"
 			placeholder="Nombre"></search-component>
 
 			<b-form-input
@@ -87,6 +89,7 @@ export default {
 				this.article.name = result.query
 				setTimeout(() => {
 					this.changeToCost()
+					console.log(this.article)
 				}, 200)
 			}
 		},

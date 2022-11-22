@@ -38,8 +38,6 @@ export default {
 			return url
 		},
 		getProductionUrl(image_url) {
-			console.log('llego image_url:')
-			console.log(image_url)
 			if (image_url) {
 				let position = image_url.indexOf('storage')
 				let first = image_url.substring(0, position)

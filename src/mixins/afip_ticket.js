@@ -1,7 +1,7 @@
 export default {
 	computed: {
 		has_warnings() {
-			return !this.sale.client || !this.sale.client.iva_condition || !this.sale.client.cuit
+			return false
 		},
 		loading() {
 			return this.$store.state.sale.afip.loading

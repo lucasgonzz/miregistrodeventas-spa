@@ -151,9 +151,10 @@ export default {
 				prop: this.prop,
 				query: this.query,				
 			})
-			if (!this.prop.belongs_to_many && !this.clear_query && model) {
-				this.query = model.name
+			if (!this.prop.belongs_to_many && !this.clear_query) {
+				// this.query = model.name
 			} else {
+				console.log('se limpio')
 				this.query = '' 
 			}
 		}

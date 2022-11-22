@@ -96,6 +96,10 @@ hide-footer>
 		text="Importar"
 		:loader="loading"></btn-loader>
 	</b-button>
+	<p
+	v-if="loading">
+		Por favor aguarde, esto podria tardar unos minutos...
+	</p>
 </b-modal>
 </template>
 <script>
@@ -172,8 +176,10 @@ export default {
 			let config = {headers: { 'content-type': 'multipart/form-data' }}
 			let form_data = new FormData();
 			form_data.append('models', this.file)
+			let index = 0
 			this.columns.forEach(column => {
-				form_data.append('prop_'+column.text, column.column)
+				form_data.append('prop_'+column.text, this.columns_position[index])
+				index++
 			})
 			this.props_to_send.forEach(prop => {
 				form_data.append(prop.key, prop.value)

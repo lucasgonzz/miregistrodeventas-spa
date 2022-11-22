@@ -96,13 +96,13 @@ export default {
 			let returned_amount = 0 
 			sale.articles.forEach(article => {
 				if (article.pivot.cost) {
-					total_cost += article.pivot.cost * article.pivot.amount			
+					total_cost += Number(article.pivot.cost) * Number(article.pivot.amount)			
 				} else {
 					without_cost = true
 				}
 
-				amount = article.pivot.amount
-				returned_amount = article.pivot.returned_amount
+				amount = Number(article.pivot.amount)
+				returned_amount = Number(article.pivot.returned_amount)
 				if (returned_amount > 0) {
 					amount -= returned_amount
 				}
