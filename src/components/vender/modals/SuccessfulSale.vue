@@ -22,14 +22,24 @@
                 Factura para el Comercio
             </b-button>
         </div>
-        <b-button 
-        v-else
-        block 
-        variant="danger"
-        @click="newPdf">
-            <i class="icon-print"></i>
-            Remito
-        </b-button>
+        <div
+        v-else>
+            <b-button 
+            v-if="sale.afip_ticket"
+            block 
+            variant="primary"
+            @click="printAfipTicket(sale)">
+                <i class="icon-print"></i>
+                Factura
+            </b-button>
+            <b-button 
+            block 
+            variant="danger"
+            @click="newPdf">
+                <i class="icon-print"></i>
+                Remito
+            </b-button>
+        </div>
         <div 
         v-if="sale.client && sale.save_current_acount"
         class="p-t-15">
@@ -45,7 +55,10 @@
 </template>
 <script>
 import CurrentAcountsPago from '@/components/common/current-acounts/pago/Index'
+
+import afip_ticket from '@/mixins/afip_ticket'
 export default {
+    mixins: [afip_ticket],
     components: {
         CurrentAcountsPago,
     },

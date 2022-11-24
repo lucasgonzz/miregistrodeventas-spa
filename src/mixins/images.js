@@ -83,19 +83,17 @@ export default {
 			this.$store.commit('articles/setImagesToShow', article)
 			this.$bvModal.show('article-images')
 		},
-		imageUrl(path = null, cropped = false, from_cloudinary = false) {
-			if (path) {
-				let url
-				if (from_cloudinary) {
+		imageUrl(model = null, cropped = false, from_cloudinary = false) {
+			if (model) {
+				if (this.from_cloudinary) {
 					if (cropped) {
-						url = `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom/${path}`
+						return `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom/${model}`
 					} else {
-						url = `https://res.cloudinary.com/lucas-cn/image/upload/${path}`
+						return `https://res.cloudinary.com/lucas-cn/image/upload/${model}`
 					}
 				} else {
-					url = path 
+					return model.hosting_url
 				}
-				return url
 			}
 			return null
 		},

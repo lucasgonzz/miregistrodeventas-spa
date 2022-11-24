@@ -5,6 +5,13 @@ class="j-center m-t-25">
 	<b-col 
 	cols="12"
 	lg="6">
+		<!-- <b-form-checkbox
+		class="m-b-15"
+		:value="1"
+		:unchecked-value="0"
+		v-model="save_afip_ticket">
+			Emitir comprobante
+		</b-form-checkbox> -->
 		<b-button 
 		block
 		size="lg"
@@ -38,6 +45,14 @@ export default {
 		},
 	},
 	computed: {
+		save_afip_ticket: {
+			get() {
+				return this.$store.state.vender.save_afip_ticket
+			},
+			set(value) {
+				this.$store.commit('vender/setSaveAfipTicket', value)
+			}
+		},
 		items() {
 			return this.$store.state.vender.items
 		},

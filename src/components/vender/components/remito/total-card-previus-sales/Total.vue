@@ -26,7 +26,11 @@ export default {
 			let cant = 0
 			this.items.forEach(item => {
 				cant += Number(item.amount)
+				if (item.returned_amount) {
+					cant -= Number(item.returned_amount)
+				}
 			})
+			cant = cant.toFixed(2)
 			return cant
 		},
 	}

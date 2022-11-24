@@ -12,16 +12,15 @@
 		v-for="image in article.images"
 		:key="image.id">
 			<template v-slot:img>
-				<vue-load-image>
-					<div slot="image" :data-src="imageUrl(image.url)"></div>
+				<!-- <vue-load-image>
+					<div slot="image" :data-src="imageUrl(image)"></div>
 					<b-skeleton-img></b-skeleton-img>
 					<div slot="error">Error al cargar la imagen</div>
-				</vue-load-image>
+				</vue-load-image> -->
 				<img
 				class="d-block img-fluid"
-				:src="imageUrl(image.url)"
-				:alt="article.name+'-image-'+image.id"
-				>
+				:src="imageUrl(image)"
+				:alt="article.name+'-image-'+image.id">
 			</template>
 		</b-carousel-slide>
 	</b-carousel>

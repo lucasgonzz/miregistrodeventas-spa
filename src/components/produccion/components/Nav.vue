@@ -11,7 +11,7 @@
 	</b-row>
 </template>
 <script>
-import HorizontalNav from '@/components/common/HorizontalNav'
+import HorizontalNav from '@/components/common/horizontal-nav/Index'
 export default {
 	name: 'NavProduccion',
 	components: {

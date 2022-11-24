@@ -18,7 +18,7 @@
 			@click="setModel(null, 'client')"
 			variant="primary">
 				<i class="icon-plus"></i>
-				Nuevo cliente
+				Cliente
 			</b-button>
 		</div>
 		<!-- <b-button

@@ -15,6 +15,7 @@ export default {
 		{
 			text: 'Insumos',
 			store: 'article',
+			type: 'search',
 			combine_with: { 
 				store: 'article',
 				prop: 'inactive_models',

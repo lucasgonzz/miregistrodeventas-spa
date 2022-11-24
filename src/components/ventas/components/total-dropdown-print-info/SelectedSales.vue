@@ -22,7 +22,7 @@
 			v-if="selected_sales.length == 1"
 			@click="printSales(selected_sales[0].id)">
 				<i class="icon-print"></i>
-				Imprimir
+				Remito
 			</b-dropdown-item>
 			<b-dropdown-item
 			v-if="hasExtencion('combos') && selected_sales.length == 1"

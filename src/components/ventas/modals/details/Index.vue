@@ -43,6 +43,7 @@ export default {
             if (this.hasExtencion('acopios')) {
                 fields.push(
                     {key: 'delivered_amount', label: 'U. Entregadas', class: 'text-center', sortable: true},
+                    {key: 'acopio', label: 'En acopio', class: 'text-center', sortable: true},
                 )
             }
             fields.push(
@@ -58,6 +59,7 @@ export default {
                     amount: article.pivot.amount,
                     returned_amount: article.pivot.returned_amount,
                     delivered_amount: article.pivot.delivered_amount,
+                    acopio: article.pivot.amount - article.pivot.delivered_amount,
                     discount: article.pivot.discount,
                     price: this.price(article.pivot.price),
                     sub_total: this.price(this.getTotalArticle(article, true)),

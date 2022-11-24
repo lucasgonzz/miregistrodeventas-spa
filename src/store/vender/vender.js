@@ -26,6 +26,7 @@ export default {
 		make_current_acount_pago: 0,
 		save_nota_credito: 0,
 		nota_credito_description: '',
+		save_afip_ticket: 0,
 
 		returned_articles: [],
 
@@ -90,6 +91,9 @@ export default {
 		},
 		setNotaCreditoDescription(state, value) {
 			state.nota_credito_description = value
+		},
+		setSaveAfipTicket(state, value) {
+			state.save_afip_ticket = value
 		},
 		setReturnedArticles(state, value) {
 			state.returned_articles = value
@@ -172,6 +176,7 @@ export default {
 			console.log('dolar_blue en vender: ')
 			console.log(info.dolar_blue)
 			return axios.post('/api/sales', {
+				save_afip_ticket: state.save_afip_ticket,
 				items: state.items,
 				with_card: state.with_card,
 				client_id: state.client ? state.client.id : null ,

@@ -205,8 +205,9 @@ export default {
 				cantidad_unidades += Number(article.pivot.amount)
 			})
 			sale.combos.forEach(combo => {
-				cantidad_unidades += Number(combo.pivot.amount)
+				cantidad_unidades += parseFloat(combo.pivot.amount)
 			})
+			cantidad_unidades = cantidad_unidades.toFixed(2)
 			return cantidad_unidades
 		},
 		getCost(sale) {

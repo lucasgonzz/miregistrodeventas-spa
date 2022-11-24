@@ -66,10 +66,10 @@ export default {
 			this.deleting = true
 			this.$api.delete(`images/${this.selected_image.id}`)
 			.then(res => {
-				console.log(res.data.article)
 				this.deleting = false
-				this.$store.commit('articles/update', res.data.article)
+				this.addModel('article', res.data.model)
 				this.$bvModal.hide('article-images')
+				this.$bvModal.hide('edit-article')
 				this.$toast.success('Imagen eliminada')
 			})
 			.catch(err => {
