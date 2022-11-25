@@ -44,13 +44,13 @@ export default {
 	},
 	computed: {
 		selected_buyer() {
-			return this.$store.state.online.messages.selected_buyer
+			return this.$store.state.message.selected_buyer
 		},
 		selected_article() {
-			return this.$store.state.online.messages.selected_article
+			return this.$store.state.message.selected_article
 		},
 		show_articles() {
-			return this.$store.state.online.messages.show_articles
+			return this.$store.state.message.show_articles
 		},
 		icon_class() {
 			if (!this.show_articles) {
@@ -73,21 +73,21 @@ export default {
 	methods: {
 		showArticles() {
 			if (this.show_articles) {
-				this.$store.commit('online/messages/setShowArticles', false)
+				this.$store.commit('message/setShowArticles', false)
 			} else {
-				this.$store.commit('online/messages/setShowArticles', true)
+				this.$store.commit('message/setShowArticles', true)
 			}
 		},
 		sendMessage() {
 			this.loading = true
-			this.$api.post('messages', {
+			this.$api.post('message', {
 				buyer_id: this.selected_buyer.id,
 				text: this.text,
 				article_id: this.getSelectedArticleId(),
 			})
 			.then(res => {
-				this.$store.commit('online/buyers/addBuyerMessage', res.data.message)
-				this.$store.commit('online/messages/setChatsToShow')
+				this.$store.commit('buyer/addMessage', res.data.model)
+				this.$store.commit('message/setChatsToShow')
 				this.scrollBottom('conversation-messages')
 				this.loading = false
 				this.scrollBottom('messages')
@@ -105,7 +105,7 @@ export default {
 			return this.selected_article.id
 		},
 		clear() {
-			this.$store.commit('online/messages/setSelectedArticle', null)
+			this.$store.commit('message/setSelectedArticle', null)
 			this.text = ''
 		}
 	}

@@ -63,6 +63,7 @@
 							<has-many
 							v-if="prop.has_many"
 							:parent_model="model"
+							:parent_model_name="model_name"
 							:prop="prop"></has-many>
 
 					        <b-form-datepicker

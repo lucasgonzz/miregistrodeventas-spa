@@ -22,6 +22,7 @@ export default {
 			key: 'provider_price_lists',
 			has_many: {
 				text: 'Lista de precios',
+				model_name: 'provider_price_list',
 				model: {
 					name: '',
 					percentage: '',

@@ -84,7 +84,7 @@
 										v-else-if="prop.type == 'select'"
 										v-model="models[data.index].pivot[prop.key]"
 										:class="getInputSize(prop)"
-										:options="getOptions(prop.key, prop.text)"></b-form-select>
+										:options="getOptions(prop.key, prop.text, prop.prop_name ? prop.prop_name : 'name')"></b-form-select>
 										<b-form-input
 										v-else
 										:type="prop.type"

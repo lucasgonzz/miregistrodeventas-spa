@@ -97,8 +97,11 @@ hide-footer>
 		:loader="loading"></btn-loader>
 	</b-button>
 	<p
+	class="m-t-15 text-primary text-center"
 	v-if="loading">
-		Por favor aguarde, esto podria tardar unos minutos...
+		<strong>
+			Por favor aguarde, esto podria tardar unos minutos...
+		</strong>
 	</p>
 </b-modal>
 </template>

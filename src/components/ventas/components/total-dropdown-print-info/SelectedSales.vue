@@ -20,9 +20,15 @@
 			</b-dropdown-item>
 			<b-dropdown-item
 			v-if="selected_sales.length == 1"
-			@click="printSales(selected_sales[0].id)">
+			@click="newPdf(selected_sales[0].id, 0)">
 				<i class="icon-print"></i>
-				Remito
+				Remito sin precios
+			</b-dropdown-item>
+			<b-dropdown-item
+			v-if="selected_sales.length == 1"
+			@click="newPdf(selected_sales[0].id, 1)">
+				<i class="icon-print"></i>
+				Remito con precios
 			</b-dropdown-item>
 			<b-dropdown-item
 			v-if="hasExtencion('combos') && selected_sales.length == 1"

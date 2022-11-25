@@ -2,17 +2,14 @@ import percentageCard from '@/mixins/percentageCard'
 export default {
 	mixins: [percentageCard],
 	computed: {
-		view() {
-			return this.$route.params.view
-		},
 		buyers() {
-			return this.$store.state.online.buyers.buyers
+			return this.$store.state.buyer.buyers
 		},
 		selected_buyer() {
-			return this.$store.state.online.messages.selected_buyer
+			return this.$store.state.message.selected_buyer
 		},
 		messages_not_read() {
-			return this.$store.state.online.buyers.messages_not_read
+			return this.$store.state.buyer.messages_not_read
 		},
 	},
 	methods: {
@@ -47,7 +44,7 @@ export default {
 		},
 		sendMessage(buyer) {
 			this.$router.push({name: 'Online', params: {view: 'mensajes', chat_id: buyer.id}})
-			this.$store.commit('online/messages/setSelectedBuyer', buyer)
+			this.$store.commit('message/setSelectedBuyer', buyer)
 			this.$bvModal.hide('order-details')
 		},
 		messagesNotRead(buyer) {
@@ -102,36 +99,6 @@ export default {
 				return `${order.buyer.name} ${order.buyer.surname}`
 			}
 			return null
-		},
-		getActiveCupons() {
-			this.$store.dispatch('online/cupons/getActiveCupons')
-		},
-		getBuyers() {
-			this.$store.dispatch('buyer/getModels')
-		},
-		getOrders() {
-			this.$store.dispatch('online/orders/getUnconfirmedOrders')
-			this.$store.dispatch('online/orders/getConfirmedFinishedOrders')
-		},
-		getQuestions() {
-			this.$store.dispatch('online/questions/getQuestions')
-		},
-		getExamine() {
-			this.$store.dispatch('online/examine/getArticlesMostViewed')
-			this.$store.dispatch('online/examine/getSubCategoriesMostViewed')
-		},
-		getCalls() {
-			this.$store.dispatch('online/calls/getCalls')
-		},
-		getOrdersAndQuestions() {
-            this.$store.dispatch('online/orders/getUnconfirmedOrders')
-            this.$store.dispatch('online/orders/getConfirmedFinishedOrders')
-            this.$store.dispatch('online/questions/getQuestions')
-		},
-		getVariant(article) {
-			return article.variants.find(variant => {
-				return variant.id == article.pivot.variant_id
-			})
 		},
 		articleName(article) {
 			if (article.pivot.variant_id) {

@@ -48,32 +48,34 @@ export default {
 	},
 	computed: {
 		selected_buyer() {
-			return this.$store.state.online.messages.selected_buyer
+			return this.$store.state.message.selected_buyer
 		},
 		chats() {
-			return this.$store.state.online.messages.chats_to_show
+			return this.$store.state.message.chats_to_show
 		},
 		loading() {
-			return this.$store.state.online.buyers.loading
+			return this.$store.state.buyer.loading
 		},
 	},
-	watch: {
-		$route(to, from) {
-            let buyer = this.$store.state.online.buyers.buyers.find(b => {
-            	return b.id == this.$route.params.chat_id
-            })
-			this.$store.commit('online/messages/setSelectedBuyer', buyer)
-		}
-	},
+	// watch: {
+	// 	$route(to, from) {
+    //         let buyer = this.$store.state.buyer.models.find(b => {
+    //         	return b.id == this.$route.params.chat_id
+    //         })
+	// 		this.$store.commit('message/setSelectedBuyer', buyer)
+	// 	}
+	// },
 	methods: {
 		setSelectedBuyer(buyer) {
-			this.$store.commit('online/messages/setSelectedBuyer', buyer)
+			this.$store.commit('message/setSelectedBuyer', buyer)
 			if (this.$route.params.chat_id != buyer.id) {
 				this.$router.push({name: 'Online', params: {chat_id: buyer.id}})
+			} else {
+				this.$store.dispatch('message/getModels')
 			}
-			this.$store.dispatch('online/messages/setMessagesRead')
-			this.$store.commit('online/buyers/setMessagesRead', buyer)
-			this.$store.commit('online/buyers/setMessagesNotRead')
+			this.$store.dispatch('message/setMessagesRead')
+			this.$store.commit('buyer/setMessagesRead', buyer)
+			this.$store.commit('buyer/setMessagesNotRead')
 			this.$bvModal.hide('chats')
 		},
 		activeChat(buyer) {

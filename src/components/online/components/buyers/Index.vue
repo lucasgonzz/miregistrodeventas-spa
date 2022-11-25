@@ -18,15 +18,21 @@
     		:model="slotProps.model"
     		model_name="buyer"></comercio-city-user>
 		</template>
+		<template v-slot:default="props">
+			<btn-chat
+			:model="props.model"></btn-chat>
+		</template>
 	</view-component>
 </template>
 <script>
 import ViewComponent from '@/components/common/view/Index'
 import ComercioCityUser from '@/components/common/ComercioCityUser'
+import BtnChat from '@/components/online/components/buyers/BtnChat'
 export default {
 	components: {
 		ViewComponent,
 		ComercioCityUser,
+		BtnChat,
 	}
 }
 </script>

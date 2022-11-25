@@ -30,6 +30,9 @@ export default {
 					name: 'clientes',
 					action: 'buyer/getModels',
 				},
+				{
+					name: 'mensajes',
+				},
 			]
 		},
 	},

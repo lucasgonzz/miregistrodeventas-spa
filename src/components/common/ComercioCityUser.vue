@@ -13,6 +13,9 @@
 			:placeholder="placeholder"
 			v-model="prop_value"></b-form-input>
 			<btn-loader
+			variant="outline-primary"
+			size="sm"
+			:block="false"
 			@clicked="searchUser"
 			:loader="loading"
 			text="Buscar"></btn-loader>

@@ -1,8 +1,7 @@
 <template>
 <div>
 	<inactive-articles></inactive-articles>
-	<b-row
-	class="m-b-15">
+	<b-row>
 		<b-col>
 			<horizontal-nav
 			show_filter_modal

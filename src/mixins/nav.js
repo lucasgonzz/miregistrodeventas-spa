@@ -3,15 +3,6 @@ import online from '@/mixins/online'
 export default {
 	mixins: [online],
 	computed: {
-        unconfirmed_length() {
-            if (this.has_online) {
-                let orders = this.$store.state.order.models
-                return orders.filter(model => {
-                	return model.order_status.name == 'Sin confirmar'
-                }).length 
-            }
-            return null
-        },
         show_nav() {
             return this.current_page != 'Maps' && this.authenticated && this.current_page != 'Home'
         },

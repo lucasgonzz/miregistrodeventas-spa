@@ -58,6 +58,7 @@ export default {
 						key: 'iva_id',
 						value: 0,
 						type: 'select',
+						prop_name: 'percentage',
 						size: 'md',
 					},
 					{
@@ -98,6 +99,7 @@ export default {
 			key: 'provider_order_afip_tickets',
 			has_many: {
 				text: 'Factura',
+				model_name: 'provider_order_afip_ticket',
 				model: {
 					code: '',
 					total: '',
@@ -110,7 +112,7 @@ export default {
 						type: 'date',
 					},
 					{
-						text: 'Codigo',
+						text: 'Numero',
 						key: 'code',
 						type: 'text',
 					},

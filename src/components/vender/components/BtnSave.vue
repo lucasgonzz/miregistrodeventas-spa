@@ -5,13 +5,14 @@ class="j-center m-t-25">
 	<b-col 
 	cols="12"
 	lg="6">
-		<!-- <b-form-checkbox
+		<b-form-checkbox
+		v-if="user_configuration.can_make_afip_tickets"
 		class="m-b-15"
 		:value="1"
 		:unchecked-value="0"
 		v-model="save_afip_ticket">
 			Emitir comprobante
-		</b-form-checkbox> -->
+		</b-form-checkbox>
 		<b-button 
 		block
 		size="lg"

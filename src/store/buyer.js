@@ -2,6 +2,7 @@ import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
 
+import message_store from '@/store/message'
 import generals from '@/mixins/generals'
 export default {
 	namespaced: true,
@@ -15,6 +16,8 @@ export default {
 
 		delete: null,
 		delete_image: null,
+
+		messages_not_read: 0,
 
 		display: 'table',
 
@@ -77,6 +80,39 @@ export default {
 				state.models.splice(index, 1, value)
 			}
 		},
+		addMessage(state, message) {
+			let index = state.models.findIndex(b => {
+				return b.id == message.buyer_id
+			})
+			if (index != -1) {
+				let repeated = state.models[index].messages.findIndex(m => {
+					return m.id == message.id
+				})
+				if (repeated == -1) {
+					state.models[index].messages.push(message) 
+				}
+			}
+		},
+		setMessagesNotRead(state) {
+			state.messages_not_read = 0
+			state.models.forEach(buyer => {
+				buyer.messages.forEach(message => {
+					if (message.from_buyer && !message.read) {
+						state.messages_not_read++
+					}
+				})
+			})
+		},
+		setMessagesRead(state, buyer) {
+			let index = state.models.findIndex(b => {
+				return b.id == buyer.id
+			})
+			state.models[index].messages.forEach(message => {
+				if (message.from_buyer && !message.read) {
+					message.read = 1
+				}
+			})
+		},
 		setDelete(state, value) {
 			state.delete = value
 		},
@@ -107,6 +143,8 @@ export default {
 				commit('setLoading', false)
 				commit('setModels', res.data.models)
 				commit('setToShow')
+				commit('setMessagesNotRead')
+				commit('message/setChatsToShow', null, {root: true})
 			})
 			.catch(err => {
 				commit('setLoading', false)

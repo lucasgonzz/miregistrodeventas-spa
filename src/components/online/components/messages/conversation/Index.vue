@@ -23,10 +23,10 @@ export default {
 	},
 	computed: {
 		show_articles() {
-			return this.$store.state.online.messages.show_articles
+			return this.$store.state.message.show_articles
 		},
 		selected_article() {
-			return this.$store.state.online.messages.selected_article
+			return this.$store.state.message.selected_article
 		},
 	},
 	methods: {
@@ -35,11 +35,11 @@ export default {
 		},
 		articleSelected(article) {
 			if (this.isSelectedArticle(article)) {
-				this.$store.commit('online/messages/setSelectedArticle', null)
+				this.$store.commit('message/setSelectedArticle', null)
 			} else {
-				this.$store.commit('online/messages/setSelectedArticle', article)
+				this.$store.commit('message/setSelectedArticle', article)
 			}
-			this.$store.commit('online/messages/setShowArticles', false)
+			this.$store.commit('message/setShowArticles', false)
 		}
 	}
 }

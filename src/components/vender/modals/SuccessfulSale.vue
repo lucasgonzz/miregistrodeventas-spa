@@ -35,9 +35,16 @@
             <b-button 
             block 
             variant="danger"
-            @click="newPdf">
+            @click="newPdf(sale.id, 0)">
                 <i class="icon-print"></i>
-                Remito
+                Remito sin precios
+            </b-button>
+            <b-button 
+            block 
+            variant="danger"
+            @click="newPdf(sale.id, 1)">
+                <i class="icon-print"></i>
+                Remito con precios
             </b-button>
         </div>
         <div 
@@ -57,8 +64,9 @@
 import CurrentAcountsPago from '@/components/common/current-acounts/pago/Index'
 
 import afip_ticket from '@/mixins/afip_ticket'
+import print_sale from '@/mixins/print_sale'
 export default {
-    mixins: [afip_ticket],
+    mixins: [afip_ticket, print_sale],
     components: {
         CurrentAcountsPago,
     },
@@ -97,10 +105,6 @@ export default {
         },
         pdfCommerce() {
             var link = process.env.VUE_APP_API_URL+`/sales/pdf/${this.sale.id}/1`
-            window.open(link)
-        },
-        newPdf() {
-            var link = process.env.VUE_APP_API_URL+`/sale/new-pdf/${this.sale.id}`
             window.open(link)
         },
     }

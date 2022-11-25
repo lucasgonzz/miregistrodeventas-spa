@@ -49,9 +49,9 @@ export default {
             this.Echo.channel('message.from_buyer.'+this.owner_id)
             .notification((notification) => {
                 console.log(notification)
-                this.$store.commit('online/buyers/addMessage', notification.message)
-                this.$store.commit('online/buyers/setMessagesNotRead')
-                this.$store.commit('online/messages/setChatsToShow')
+                this.$store.commit('buyer/addMessage', notification.message)
+                this.$store.commit('buyer/setMessagesNotRead')
+                this.$store.commit('message/setChatsToShow')
                 this.checkIfIsMessagesView(notification)
             });
             this.Echo.channel('order.'+this.owner_id)

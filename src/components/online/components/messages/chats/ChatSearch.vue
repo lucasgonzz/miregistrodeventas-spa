@@ -15,7 +15,7 @@ export default {
 	},
 	computed: {
 		buyers() {
-			return this.$store.state.online.buyers.buyers
+			return this.$store.state.buyer.models
 		},
 	},
 	methods: {
@@ -27,9 +27,9 @@ export default {
 				let buyers_to_show = this.buyers.filter(buyer => {
 					return buyer.name.toLowerCase().includes(input.toLowerCase())
 				})
-				this.$store.commit('online/messages/setChatsToShow', buyers_to_show)
+				this.$store.commit('message/setChatsToShow', buyers_to_show)
 			} else {
-				this.$store.commit('online/messages/setChatsToShow')
+				this.$store.commit('message/setChatsToShow')
 			}
 			return []
 		},
