@@ -3,10 +3,9 @@
 
 		<table-component
 		:loading="loading_prop"
-		:models="models"
+		:models="models_to_show"
 		:model_name="model_name"
 		:model_name_spanish="model_name_spanish"
-		:properties="properties"
 		:set_model_on_click="set_model_on_click"
 		:on_click_set_property="on_click_set_property"
 		@clicked="clicked"
@@ -26,10 +25,9 @@
 
 		<cards-component
 		:loading="loading_prop"
-		:models="models"
+		:models="models_to_show"
 		:model_name="model_name"
 		:model_name_spanish="model_name_spanish"
-		:properties="properties"
 		:set_model_on_click="set_model_on_click"
 		:on_click_set_property="on_click_set_property"
 		@clicked="clicked"
@@ -37,18 +35,29 @@
 			<!-- <slot v-slot:default="model">f</slot> -->
 		</cards-component>
 
+		<btn-add-to-show
+		@add="add"
+		:models="_models"
+		:models_to_show="models_to_show"></btn-add-to-show>
+
 	</div>
 </template>
 <script>
 import TableComponent from '@/components/common/display/TableComponent'
 import CardsComponent from '@/components/common/display/cards/Index'
+import BtnAddToShow from '@/components/common/BtnAddToShow'
 export default {
 	props: {
 		loading: {
 			type: Boolean,
 			default: null
 		},
-		models: Array,
+		models: {
+			type: Array,
+			default() {
+				return []
+			},
+		},
 		model_name: String,
 		model_name_spanish: {
 			type: String,
@@ -64,6 +73,12 @@ export default {
 			default: null,
 		},
 	},
+	data() {
+		return {
+			index_to_show: 1,
+			cant_models_to_show: 20,
+		}
+	},
 	computed: {
 		display() {
 			return this.$store.state[this.model_name].display
@@ -74,15 +89,33 @@ export default {
 			}
 			return this.$store.state[this.model_name].loading
 		},
+		_models() {
+			if (this.models.length) {
+				return this.models
+			} else {
+				let filtered = this.$store.state[this.model_name].filtered 
+				if (typeof filtered != 'undefined' && filtered.length) {
+					return filtered
+				}  
+				return this.$store.state[this.model_name].models 
+			}
+		},
+		models_to_show() {
+			return this._models.slice(0, (this.cant_models_to_show * this.index_to_show))
+		}
 	},
 	methods: {
 		clicked(model) {
 			this.$emit('clicked', model)
 		},
+		add() {
+			this.index_to_show++
+		}
 	},
 	components: {
 		TableComponent,
 		CardsComponent,
+		BtnAddToShow,
 	}
 }
 </script>

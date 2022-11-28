@@ -275,6 +275,8 @@ export default {
 
                 this.$store.commit('auth/setMessage', 'Cargando descuentos')
                 await this.$store.dispatch('discount/getModels')
+                this.$store.commit('auth/setMessage', 'Cargando recargos')
+                await this.$store.dispatch('surchage/getModels')
                 this.$store.commit('auth/setMessage', 'Cargando vendedores')
                 await this.$store.dispatch('seller/getModels')
                 this.$store.commit('auth/setMessage', 'Cargando comisiones')

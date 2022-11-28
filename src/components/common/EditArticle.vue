@@ -177,6 +177,8 @@ export default {
 					this.$store.commit('article/setToShow')
 					this.$toast.success('Articulo actualizado')
 					this.$bvModal.hide('edit-article')
+					this.$bvModal.hide('articles-stock-min')
+					this.$bvModal.hide('articles-stock-0')
 					let input = document.getElementById('article-bar-code')
 					input.value = ''
 					input.focus()

@@ -41,6 +41,9 @@ export default {
 					text: 'Costo',
 				},
 				{
+					text: 'Costo Recibido',
+				},
+				{
 					text: 'Notas',
 				},
 				{

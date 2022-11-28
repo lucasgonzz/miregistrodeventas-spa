@@ -54,6 +54,12 @@ export default {
 						type: 'number'
 					},
 					{
+						text: 'Costo Recibido',
+						key: 'received_cost',
+						value: '',
+						type: 'number'
+					},
+					{
 						text: 'Iva',
 						key: 'iva_id',
 						value: 0,

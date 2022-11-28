@@ -12,6 +12,7 @@ export default {
 		model: {},
 		to_show: [],
 		selected: [],
+		filtered: [],
 
 		delete: null,
 		delete_image: null,
@@ -62,6 +63,9 @@ export default {
 			} else {
 				state.to_show = state.models.slice(0, 20)
 			}
+		},
+		setFiltered(state, value) {
+			state.filtered = []
 		},
 		addToShow(state, value) {
 			state.to_show = state.to_show.concat(state.models.slice(state.to_show.length, state.to_show.length + 20))

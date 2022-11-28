@@ -1,6 +1,6 @@
 <template>
 <b-card 
-	v-if="sub_view == 'general'"
+v-if="sub_view == 'general'"
 class="shadow b-r-1 m-b-25"
 title="Tienda Online">
 	<b-form-group
@@ -56,7 +56,7 @@ title="Tienda Online">
 			Mostrar articulos sin imagenes
 		</b-form-checkbox>
 		<img 
-		class="b-r-1 shadow m-t-15"
+		class="b-r-1 shadow m-t-15 img-defautl"
 		v-if="user.default_article_image_url"
 		:src="user.default_article_image_url">
 		<div 
@@ -126,3 +126,7 @@ export default {
 	}
 }
 </script>
+<style lang="sass">
+.img-defautl
+	width: 500px
+</style>

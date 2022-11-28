@@ -33,6 +33,10 @@ export default {
 				{
 					name: 'mensajes',
 				},
+				{
+					name: 'cupones',
+					action: 'cupon/getModels',
+				},
 			]
 		},
 	},

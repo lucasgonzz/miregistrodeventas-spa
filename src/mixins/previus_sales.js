@@ -11,6 +11,9 @@ export default {
 		discounts_id() {
 			return this.$store.state.vender.discounts_id
 		},
+		surchages_id() {
+			return this.$store.state.vender.surchages_id
+		},
 		items() {
 			return this.$store.state.vender.items
 		},
@@ -40,10 +43,15 @@ export default {
 				this.$store.commit('vender/setItems', items)
 				if (this.previus_sale.discounts.length) {
 					let discounts = this.previus_sale.discounts.map(discount => discount.id)
-					console.log(discounts)
 					this.$store.commit('vender/setDiscountsId', discounts)
 				} else {
 					this.$store.commit('vender/setDiscountsId', [])
+				}
+				if (this.previus_sale.surchages.length) {
+					let surchages = this.previus_sale.surchages.map(discount => discount.id)
+					this.$store.commit('vender/setSurchagesId', surchages)
+				} else {
+					this.$store.commit('vender/setSurchagesId', [])
 				}
 				if (this.previus_sale.client) {
 					this.$store.commit('vender/setClient', this.previus_sale.client)
@@ -69,6 +77,7 @@ export default {
 			this.$store.dispatch('vender/previus_sales/updatePreviusSale', {
 				client_id: this.client ? this.client.id : null, 
 				discounts_id: this.discounts_id, 
+				surchages_id: this.surchages_id, 
 				items: this.items, 
 				save_nota_credito: this.save_nota_credito,
 				nota_credito_description: this.nota_credito_description,
@@ -83,6 +92,7 @@ export default {
 			this.$store.commit('vender/previus_sales/setPreviusSale', {})
 			this.$store.commit('vender/setItems', [])
 			this.$store.commit('vender/setDiscountsId', [])
+			this.$store.commit('vender/setSurchagesId', [])
 			this.$store.commit('vender/setClient', null)
 			this.$store.commit('vender/setReturnedArticles', [])
 			this.$store.commit('vender/setSaveNotaCredito', 0)

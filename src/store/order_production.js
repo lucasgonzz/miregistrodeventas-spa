@@ -12,12 +12,16 @@ export default {
 		models: [],
 		model: {},
 		to_show: [],
-		
+		selected: [],
+		filtered: [],
+
 		from_date: moment().format('YYYY-MM-DD'),
 		until_date: '',
 
 		delete: null,
 		delete_image: null,
+		
+		prop_model_to_delete: null,
 
 		display: 'table',
 
@@ -67,6 +71,12 @@ export default {
 		addToShow(state, value) {
 			state.to_show = state.to_show.concat(state.models.slice(state.to_show.length, state.to_show.length + 20))
 		},
+		setSelected(state, value) {
+			state.selected = []
+		},
+		setFiltered(state, value) {
+			state.filtered = []
+		},
 		add(state, value) {
 			let index = state.models.findIndex(item => {
 				return item.id == value.id
@@ -94,6 +104,15 @@ export default {
 				return model.id == state.delete.id
 			})
 			state.models.splice(index, 1)
+		},
+		setPropModelToDelete(state, value) {
+			state.prop_model_to_delete = value
+		},
+		deletePropModel(state) {
+			let index = state.model[state.prop_model_to_delete.key].findIndex(model => {
+				return model.id == state.prop_model_to_delete.id
+			})
+			state.model[state.prop_model_to_delete.key].splice(index, 1)
 		},
 		setDisplay(state, value) {
 			state.display = value 
@@ -142,5 +161,14 @@ export default {
 				console.log(err)
 			})
 		},
+		deletePropModel({ commit, state }) {
+			return axios.delete(`/api/${generals.methods.routeString(state.prop_model_to_delete.has_many.model_name)}/${state.prop_model_to_delete.id}`)
+			.then(res => {
+				commit('deletePropModel')
+			})
+			.catch(err => {
+				console.log(err)
+			})
+		}
 	},
 }

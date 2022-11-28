@@ -115,7 +115,7 @@ export default {
 			})
 			.then(res => {
 				this.$store.commit(this.model_name+'/setLoading', false)
-				this.$store.commit(this.model_name+'/setToShow', res.data.models)
+				this.$store.commit(this.model_name+'/setFiltered', res.data.models)
 			})
 			.catch(err => {
 				console.log(err)

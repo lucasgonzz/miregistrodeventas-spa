@@ -67,12 +67,6 @@ export default {
 		model_name: {
 			type: String,
 		},
-		model_name_spanish: {
-			type: String,
-		},
-		create_model_name_spanish: {
-			type: String,
-		},
 		modal_size: {
 			type: String,
 			default: 'lg'
@@ -121,6 +115,12 @@ export default {
 		},
 	},
 	computed: {
+		model_name_spanish() {
+			return require('@/models/'+this.model_name).default.plural_model_name_spanish
+		},
+		create_model_name_spanish() {
+			return require('@/models/'+this.model_name).default.create_model_name_spanish
+		},
 		model() {
 			return this.$store.state[this.model_name].model
 		},

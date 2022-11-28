@@ -39,6 +39,22 @@
 							Articulos inactivos
 						</b-dropdown-item>
 					</b-dropdown>
+
+					<b-button
+					class="m-l-15"
+					v-b-modal="'articles-stock-min'"
+					variant="warning"
+					v-if="articles_stock_min.length">
+						{{ articles_stock_min.length }} articulos con stock minimo
+					</b-button>
+
+					<b-button
+					class="m-l-15"
+					v-b-modal="'articles-stock-0'"
+					variant="danger"
+					v-if="articles_stock_0.length">
+						{{ articles_stock_0.length }} articulos sin stock 
+					</b-button>
 				</template>
 			</horizontal-nav>
 		</b-col>
@@ -96,11 +112,21 @@ export default {
 			return this.$store.state.articles.selected_articles
 		},
 		articles() {
-			return this.$store.state.articles.articles
+			return this.$store.state.article.models
 		},
 		bar_codes() {
 			return this.$store.state.articles.bar_codes
-		}
+		},
+		articles_stock_min() {
+			return this.articles.filter(article => {
+				return article.stock && article.stock_min && article.stock <= article.stock_min  
+			})
+		},
+		articles_stock_0() {
+			return this.articles.filter(article => {
+				return article.stock <= 0
+			})
+		},
 	},
 	methods: {
 		excel() {

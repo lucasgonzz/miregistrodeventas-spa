@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div
-		v-if="model.id && !model[prop_to_set]">
+		v-if="model && model.id && !model[prop_to_set]">
 			<label 
 			class="form-label">
 				<i class="icon-right"></i>

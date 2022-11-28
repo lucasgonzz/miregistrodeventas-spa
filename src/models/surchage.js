@@ -14,14 +14,7 @@ export default {
 			value: '',
 			show: true,
 		},
-		{
-			text: 'Cliente',
-			key: 'client_id',
-			type: 'select',
-			value: 0,
-			show: true,
-		},
 	],
-	plural_model_name_spanish: 'Descuentos',
-	create_model_name_spanish: 'Nuevo descuento',
+	plural_model_name_spanish: 'Recargos',
+	create_model_name_spanish: 'Nuevo recargo',
 }

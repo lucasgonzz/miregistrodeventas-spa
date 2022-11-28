@@ -136,7 +136,11 @@ export default {
 			if (with_discounts && sale.discounts.length) {
 				sale.discounts.forEach(dis => {
 					total -= total * Number(dis.pivot.percentage) / 100
-					// total -= total * this.percentageFormated(dis.pivot.percentage)
+				})
+			}
+			if (sale.surchages.length) {
+				sale.surchages.forEach(surchage => {
+					total += total * Number(surchage.pivot.percentage) / 100
 				})
 			}
 			if (with_commissions && sale.commissions.length) {

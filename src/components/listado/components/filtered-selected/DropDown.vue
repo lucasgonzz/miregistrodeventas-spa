@@ -5,28 +5,16 @@
 	variant="primary"
 	v-show="show"
 	:text="text">
-		<!-- <b-dropdown-item
-		v-if="selected_articles.length"
-		@click="selectAll">
-			<i class="icon-check"></i>
-			Seleccionar todo
-		</b-dropdown-item>
-		<b-dropdown-item
-		v-if="selected_articles.length"
-		@click="deselectAll">
-			<i class="icon-not"></i>
-			Deseleccionar todo
-		</b-dropdown-item> -->
 		<b-dropdown-item
 		@click="ticketsPdf">
 			<i class="icon-print"></i>
 			Tickets
 		</b-dropdown-item>
-		<!-- <b-dropdown-item
+		<b-dropdown-item
 		@click="updateProps">
 			<i class="icon-redo"></i>
 			Actualizar propiedades
-		</b-dropdown-item> -->
+		</b-dropdown-item>
 		<b-dropdown-item
 		v-if="can('article.delete')"
 		@click="deleteArticles">
@@ -63,32 +51,14 @@ export default {
 		},
 	},
 	methods: {
-		selectAll() {
-			this.$store.commit('articles/setAllArticlesSelected', true)
-		},
-		deselectAll() {
-			this.$store.commit('articles/setAllArticlesSelected', false)
-		},
 		ticketsPdf() {
 			console.log(this.selected_articles_id)
 			let link = process.env.VUE_APP_API_URL+'/api/articles/pdf/'+this.selected_articles_id.join('-')
 			window.open(link)
 		},
-		byPercentage() {
-			this.$store.commit('articles/setFromFilter', this.from_filter)
-			this.$bvModal.show('update-by-porcentage')
-		},
 		updateProps() {
 			this.$store.commit('article/setFromFilter', this.from_filter)
 			this.$bvModal.show('update-article-props')
-		},
-		iva() {
-			this.$store.commit('articles/setFromFilter', this.from_filter)
-			this.$bvModal.show('update-iva')
-		},
-		brand() {
-			this.$store.commit('articles/setFromFilter', this.from_filter)
-			this.$bvModal.show('update-brand')
 		},
 		deleteArticles() {
 			this.$store.commit('articles/setFromFilter', this.from_filter)

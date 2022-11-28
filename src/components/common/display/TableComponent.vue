@@ -105,8 +105,8 @@
 						</div>
 					</template>
 				</b-table>
-				<btn-add-to-show
-				:model_name="model_name"></btn-add-to-show>
+				<!-- <btn-add-to-show
+				:model_name="model_name"></btn-add-to-show> -->
 			</div>
 			<p 
 			v-else-if="!models.length && model_name_spanish"
@@ -249,7 +249,6 @@ export default {
 		},
 		onRowSelected(items) {
 			if (!this.isTheSameSelection(items) && !this.is_from_keydown) {
-				console.log('emitiendo')
 				if (this.set_selected_models) {
 					let items_to_set = []
 					let item_to_add = []

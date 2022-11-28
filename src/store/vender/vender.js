@@ -6,6 +6,7 @@ import previus_sales from '@/store/vender/previus_sales'
 import clients from '@/store/vender/clients'
 import auth from '@/store/auth'
 import discounts_store from '@/store/discount'
+import surchages_store from '@/store/surchage'
 import mixin_vender from '@/mixins/vender'
 import general from '@/mixins/general'
 import percentage_card_mixin from '@/mixins/percentageCard'
@@ -21,6 +22,7 @@ export default {
 		client: null,
 		with_card: false,
 		discounts_id: [],
+		surchages_id: [],
 		price_type: null,
 		save_current_acount: 1,
 		make_current_acount_pago: 0,
@@ -74,8 +76,13 @@ export default {
 			state.discounts_id = value
 		},
 		addDiscountId(state, value) {
-			console.log(value)
 			state.discounts_id.push(value)
+		},
+		setSurchagesId(state, value) {
+			state.surchages_id = value
+		},
+		addSurchageId(state, value) {
+			state.surchages_id.push(value)
 		},
 		setPriceType(state, value) {
 			state.price_type = value
@@ -142,17 +149,26 @@ export default {
 				} 
 				if (state.discounts_id.length) {
 					let discounts = discounts_store.state.models 
-					console.log(discounts) 
 					let sale_discounts = []
 					state.discounts_id.forEach(id => {
 						sale_discounts.push(discounts.find(item => item.id == id))
 					}) 
-					console.log(sale_discounts) 
 					let dis 
 					sale_discounts.forEach(discount => {
 						dis = state.total * Number(discount.percentage) / 100
-						console.log('restando '+dis+' a '+state.total)
 						state.total -= dis 
+					})
+				}
+				if (state.surchages_id.length) {
+					let surchages = surchages_store.state.models 
+					let sale_surchages = []
+					state.surchages_id.forEach(id => {
+						sale_surchages.push(surchages.find(item => item.id == id))
+					}) 
+					let surchage 
+					sale_surchages.forEach(_surchage => {
+						surchage = state.total * Number(_surchage.percentage) / 100
+						state.total += surchage 
 					})
 				}
 			}
@@ -173,14 +189,13 @@ export default {
 	actions: {
 		vender({ commit, state }, info) {
 			commit('setVendiendo', true)
-			console.log('dolar_blue en vender: ')
-			console.log(info.dolar_blue)
 			return axios.post('/api/sales', {
 				save_afip_ticket: state.save_afip_ticket,
 				items: state.items,
 				with_card: state.with_card,
 				client_id: state.client ? state.client.id : null ,
 				discounts_id: state.discounts_id,
+				surchages_id: state.surchages_id,
 				save_current_acount: state.save_current_acount,
 				make_current_acount_pago: state.make_current_acount_pago,
 				sale_type: state.sale_type,
@@ -194,6 +209,7 @@ export default {
 				commit('setVendiendo', false)
 				commit('setItems', [])
 				commit('setDiscountsId', [])
+				commit('setSurchagesId', [])
 				commit('setSaleType', 1)
 				commit('setClient', null)
 				commit('setTotal', 0)

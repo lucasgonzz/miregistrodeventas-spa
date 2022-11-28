@@ -34,7 +34,7 @@
             </b-button>
             <b-button 
             block 
-            variant="danger"
+            variant="outline-danger"
             @click="newPdf(sale.id, 0)">
                 <i class="icon-print"></i>
                 Remito sin precios

@@ -122,7 +122,7 @@ export default {
 	},
 	methods: {
 		restartSearch() {
-			this.$store.commit(this.model_name+'/setToShow')
+			this.$store.commit(this.model_name+'/setFiltered', [])
 		},
 		setDisplay(display) {
 			this.$emit('setDisplay', display)

@@ -60,6 +60,8 @@ import order_status from './order_status'
 import provider_order_status from './provider_order_status'
 import credit_card from './credit_card'
 import message from './message'
+import cupon from './cupon'
+import surchage from './surchage'
 
 // SUPER
 import user from './user'
@@ -143,6 +145,9 @@ export default new Vuex.Store({
 		provider_order_status,
 		credit_card,
 		message,
+		cupon,
+		surchage,
+		
 		user,
 		super_budget,
 		extencion,

@@ -13,6 +13,7 @@ export default {
 		model: {},
 		to_show: [],
 		selected: [],
+		filtered: [],
 
 		from_date: moment().format('YYYY-MM-DD'),
 		until_date: '',
@@ -72,6 +73,9 @@ export default {
 		},
 		setSelected(state, value) {
 			state.selected = []
+		},
+		setFiltered(state, value) {
+			state.filtered = []
 		},
 		add(state, value) {
 			let index = state.models.findIndex(item => {

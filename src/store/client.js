@@ -11,11 +11,13 @@ export default {
 		models: [],
 		model: {},
 		to_show: [],
-
-		selected_seller: null,
+		selected: [],
+		filtered: [],
 
 		delete: null,
 		delete_image: null,
+
+		prop_model_to_delete: null,
 
 		display: 'table',
 
@@ -59,25 +61,17 @@ export default {
 			if (value) {
 				state.to_show = value
 			} else {
-				let models_to_show = null
-				if (!state.selected_seller) {
-					models_to_show = state.models.filter(model => {
-						return !model.seller_id
-					})
-				} else {
-					models_to_show = state.models.filter(model => {
-						return model.seller_id == state.selected_seller.id
-					})
-				}
-				models_to_show.sort((a, b) => (a.name > b.name) ? 1 : -1)
-				state.to_show = models_to_show.slice(0, 20)
+				state.to_show = state.models.slice(0, 20)
 			}
+		},
+		setFiltered(state, value) {
+			state.filtered = []
 		},
 		addToShow(state, value) {
 			state.to_show = state.to_show.concat(state.models.slice(state.to_show.length, state.to_show.length + 20))
 		},
-		setSelectedSeller(state, value) {
-			state.selected_seller = value
+		setSelected(state, value) {
+			state.selected = []
 		},
 		add(state, value) {
 			let index = state.models.findIndex(item => {
@@ -100,6 +94,15 @@ export default {
 		},
 		setDeleteImage(state, value) {
 			state.delete_image = value
+		},
+		setPropModelToDelete(state, value) {
+			state.prop_model_to_delete = value
+		},
+		deletePropModel(state) {
+			let index = state.model[state.prop_model_to_delete.key].findIndex(model => {
+				return model.id == state.prop_model_to_delete.id
+			})
+			state.model[state.prop_model_to_delete.key].splice(index, 1)
 		},
 		deleteImage(state, value) {
 			let index = state.models.images.findIndex(model => {
@@ -129,6 +132,7 @@ export default {
 			return axios.delete(`/api/${generals.methods.routeString(state.model_name)}/${state.delete.id}`)
 			.then(() => {
 				commit('delete')
+				commit('setToShow')
 			})
 			.catch((err) => {
 				console.log(err)
@@ -143,5 +147,14 @@ export default {
 				console.log(err)
 			})
 		},
+		deletePropModel({ commit, state }) {
+			return axios.delete(`/api/${generals.methods.routeString(state.prop_model_to_delete.has_many.model_name)}/${state.prop_model_to_delete.id}`)
+			.then(res => {
+				commit('deletePropModel')
+			})
+			.catch(err => {
+				console.log(err)
+			})
+		}
 	},
 }

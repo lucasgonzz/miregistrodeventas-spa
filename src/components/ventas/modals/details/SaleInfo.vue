@@ -1,14 +1,9 @@
 <template>
-	<div 
+	<b-row 
 	v-if="!sale_details.budget"
 	class="p-15">
-		<div class="sale-details-title">
-			<p
-			class="m-0">
-				<strong>
-					Total: {{ getTotalSale(sale_details, true, true, false).total }}
-				</strong>
-			</p>
+		<b-col
+		cols="12">
 			<div>
 				<btn-loader
 				class="m-r-10"
@@ -30,14 +25,41 @@
 					<i class="icon-print"></i>
 					Imprimir U entregadas
 				</b-button>
-				<b-button
-				@click="printSales(sale_details.id)"
-				variant="danger">
-					<i class="icon-print"></i>
-					Imprimir
-				</b-button>
+				<b-btn-group>
+					<b-button
+					@click="newPdf(sale_details.id, 1)"
+					variant="danger">
+						<i class="icon-print"></i>
+						Con precios
+					</b-button>
+					<b-button
+					@click="newPdf(sale_details.id, 0)"
+					variant="outline-danger">
+						<i class="icon-print"></i>
+						Sin precios
+					</b-button>
+				</b-btn-group>
 			</div>
-		</div>
+		</b-col>
+		<b-col 
+		cols="12">
+			<p
+			class="m-b-0 m-t-15 title">
+				Total: {{ getTotalSale(sale_details, true, true, false).total }}
+			</p>
+			<p
+			class="m-b-0"
+			v-for="discount in sale_details.discounts"
+			:key="'dis-'+discount.id">
+				- {{ discount.pivot.percentage }}% {{ discount.name }}
+			</p>
+			<p
+			class="m-b-0"
+			v-for="surchage in sale_details.surchages"
+			:key="'sur-'+surchage.id">
+				+ {{ surchage.pivot.percentage }}% {{ surchage.name }}
+			</p>
+		</b-col>
 		<div 
 		class="m-t-15"
 		v-if="!sale_details.save_current_acount">
@@ -51,10 +73,10 @@
 			text="Generar cuenta corriente" />
 		</div>
 		<client-info
-		class="m-t-15"
+		class="m-15"
 		v-if="sale_details.client"
 		:client="sale_details.client"></client-info>
-	</div>
+	</b-row>
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader2'

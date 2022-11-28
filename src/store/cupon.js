@@ -2,25 +2,20 @@ import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
 
-import moment from 'moment'
 import generals from '@/mixins/generals'
 export default {
 	namespaced: true,
 	state: {
-		model_name: 'budget',
+		model_name: 'cupon',
 
 		models: [],
 		model: {},
 		to_show: [],
 		selected: [],
-		filtered: [],
-
-		from_date: moment().format('YYYY-MM-DD'),
-		until_date: '',
 
 		delete: null,
 		delete_image: null,
-		
+
 		prop_model_to_delete: null,
 
 		display: 'table',
@@ -74,9 +69,6 @@ export default {
 		setSelected(state, value) {
 			state.selected = []
 		},
-		setFiltered(state, value) {
-			state.filtered = []
-		},
 		add(state, value) {
 			let index = state.models.findIndex(item => {
 				return item.id == value.id
@@ -99,12 +91,6 @@ export default {
 		setDeleteImage(state, value) {
 			state.delete_image = value
 		},
-		deleteImage(state, value) {
-			let index = state.models.images.findIndex(model => {
-				return model.id == state.delete.id
-			})
-			state.models.splice(index, 1)
-		},
 		setPropModelToDelete(state, value) {
 			state.prop_model_to_delete = value
 		},
@@ -114,24 +100,20 @@ export default {
 			})
 			state.model[state.prop_model_to_delete.key].splice(index, 1)
 		},
+		deleteImage(state, value) {
+			let index = state.models.images.findIndex(model => {
+				return model.id == state.delete.id
+			})
+			state.models.splice(index, 1)
+		},
 		setDisplay(state, value) {
 			state.display = value 
-		},
-		setFromDate(state, value) {
-			state.from_date = value
-		},
-		setUntilDate(state, value) {
-			state.until_date = value
 		},
 	},
 	actions: {
 		getModels({ commit, state }) {
 			commit('setLoading', true)
-			let url = '/api/'+generals.methods.routeString(state.model_name)+'/'+state.from_date
-			if (state.until_date != '') {
-				url += '/'+state.until_date
-			}
-			return axios.get(url)
+			return axios.get(`/api/${generals.methods.routeString(state.model_name)}`)
 			.then(res => {
 				commit('setLoading', false)
 				commit('setModels', res.data.models)

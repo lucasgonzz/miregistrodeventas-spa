@@ -48,7 +48,7 @@ export default {
 			let bar_code = this.getBarCode(this.article.bar_code)
 			let finded = this.articles.find(item => item.bar_code == bar_code)
 			if (typeof finded != 'undefined') {
-				this.$store.commit('articles/setEdit', this.setArticle(finded))
+				this.$store.commit('article/setModel', {model: this.setArticle(finded), properties: []})
 				this.$bvModal.show('edit-article')
 			} else {
 				if (this.hasExtencion('providers')) {

@@ -11,22 +11,17 @@
 <script>
 export default {
 	props: {
-		model_name: String,
+		models: Array,
+		models_to_show: Array,
 	},
 	computed: {
-		models() {
-			return this.$store.state[this.model_name].models
-		},
-		to_show() {
-			return this.$store.state[this.model_name].to_show
-		},
 		show() {
-			return this.to_show.length < this.models.length
+			return this.models_to_show.length < this.models.length
 		},
 	},
 	methods: {
 		add() {
-			this.$store.commit(this.model_name+'/addToShow')
+			this.$emit('add')
 		}
 	}
 }

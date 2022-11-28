@@ -1,6 +1,9 @@
 <template>
 <div id="listado">	
-	<dolar-calculator></dolar-calculator>
+
+	<stock-min></stock-min>
+	<stock-0></stock-0>
+
 	<import-articles></import-articles>
     <confirm
     :text="text_delete"
@@ -28,8 +31,8 @@
 
 	<stock-info></stock-info>
 	
-	<buscador></buscador>
-	<filtered-selected-stock-info></filtered-selected-stock-info>
+	<header-listado></header-listado>
+	<filtered-selected></filtered-selected>
 
 	<list></list>
 	
@@ -38,7 +41,8 @@
 
 <script>
 // Modals
-import DolarCalculator from '@/components/listado/modals/DolarCalculator.vue'
+import StockMin from '@/components/listado/modals/StockMin'
+import Stock0 from '@/components/listado/modals/Stock0'
 import ImportArticles from '@/components/listado/modals/import/Index'
 // import ImportArticles from '@/components/listado/modals/ImportArticles.vue'
 import ImagesCopy from '@/components/listado/modals/images/ImagesCopy.vue'
@@ -61,15 +65,15 @@ import Combos from '../components/listado/modals/combos/Index.vue'
 import StockInfo from '@/components/listado/modals/stock-info/Index.vue'
 
 // Components
-import Buscador from '../components/listado/components/Buscador.vue'
+import HeaderListado from '../components/listado/components/header/Index'
 // import ArticlesTable from '../components/listado/components/articles-list/ArticlesTable.vue'
 // import ArticlesMobile from '../components/listado/components/articles-list/ArticlesMobile.vue'
 import List from '@/components/listado/components/list/Index'
-import FilteredSelectedStockInfo from '@/components/listado/components/filtered-selected-stock-info/Index' 
-			
+import FilteredSelected from '@/components/listado/components/filtered-selected/Index' 
 export default {
 	components: {
-		DolarCalculator,
+		StockMin,
+		Stock0,
 		ImportArticles,
 		ArticlesPdf,
 		PricesLists,
@@ -92,11 +96,11 @@ export default {
 		ProvidersHistory,
 
 		// Components
-		Buscador,
+		HeaderListado,
 		// ArticlesTable,
 		// ArticlesMobile,
 		List,
-		FilteredSelectedStockInfo,
+		FilteredSelected, 
 	},
 	computed: {
 		special_prices() {

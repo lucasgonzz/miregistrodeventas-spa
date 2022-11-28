@@ -46,7 +46,12 @@ export default {
 		loading: Boolean,
 		models: Array,
 		model_name: String,
-		properties: Array,
+		properties: {
+			type: Array,
+			default() {
+				return require('@/models/'+this.model_name).default.properties
+			}
+		},
 		pivot: {
 			type: Object,
 			default: null,

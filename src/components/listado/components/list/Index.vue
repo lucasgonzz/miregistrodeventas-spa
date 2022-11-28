@@ -7,7 +7,6 @@
 	<display
 	:display="display"
 	:loading="loading"
-	:models="to_show"
 	:model_name="model_name"
 	:properties="properties"
 	:model_name_spanish="model_name_spanish">

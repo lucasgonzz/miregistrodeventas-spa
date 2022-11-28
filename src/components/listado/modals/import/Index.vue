@@ -1,17 +1,29 @@
 <template>
 	<import-component
-	@clear="clear"
 	model_name="article"
 	model_name_spanish="Articulos"
+	:props_to_send="props_to_send"
 	:columns="columns"
-	:actions="actions"/>
+	:actions="actions">
+		<select-provider
+		:props_to_send="props_to_send"></select-provider>
+	</import-component>
 </template>
 <script>
 import ImportComponent from '@/components/common/import/Index'
+import SelectProvider from '@/components/listado/modals/import/SelectProvider'
 
 export default {
 	components: {
 		ImportComponent,
+		SelectProvider,
+	},
+	data() {
+		return {
+			props_to_send: {
+				provider_id: 0,
+			}
+		}
 	},
 	computed: {
 		columns() {
@@ -61,7 +73,7 @@ export default {
 				},
 				{
 					text: 'Moneda',
-					description: 'USD para Dolares, ARS para pesos',
+					description: 'USD para Dolares, ARS para pesos (ARS por defecto)',
 				},
 			]
 			let index = 1
@@ -80,15 +92,5 @@ export default {
 			]
 		},
  	},
- 	methods: {
- 		clear() {
-			let index = 0
-			this.columns.forEach(model => {
-				this.$set(this.columns[index], 'column', 0)
-				index++
-			})
-			console.log(this.columns)
- 		}
- 	}
 }
 </script>

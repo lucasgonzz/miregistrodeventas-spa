@@ -1,6 +1,6 @@
 <template>
 <b-modal
-size="md"
+size="lg"
 :title="title"
 :id="id"
 hide-footer>
@@ -41,32 +41,58 @@ hide-footer>
 				Resetear posiciones
 			</span>
 		</b-button>
-		<div
-		v-for="(column, index) in columns">
-			<div 
-			class="cont-inputs">
-				<span>
-					{{ column.text }}
-				</span>
-				<b-form-input
-				type="number"
-				v-model="columns_position[index]"></b-form-input>
-			</div>
-			<p
-			class="m-t-10"
-			v-if="column.description">
-				<strong>
-					{{ column.description }}
-				</strong>
-			</p>
-			<hr>
-		</div>
+		<b-form-row> 
+			<b-col
+			cols="12"
+			md="4"
+			v-for="(column, index) in columns">
+				<div class="container shadow-3">
+					<div 
+					class="cont-inputs">
+						<span>
+							{{ column.text }}
+						</span>
+						<b-form-input
+						type="number"
+						v-model="columns_position[index]"></b-form-input>
+					</div>
+					<p
+					v-if="column.description">
+						{{ column.description }}
+					</p>
+				</div>
+			</b-col>
+		</b-form-row>
 	</div>
+
+	<hr>
+
+	<slot></slot>
+	
 	<b-form-group
-	class="m-t-15"
+	label="Fila a partir de la cual empezar a importar">
+		<b-form-input
+		type="number"
+		v-model="start_row"
+		placeholder="Fila a partir de la cual empezar a importar"></b-form-input>
+	</b-form-group>
+
+	<hr>
+	
+	<b-form-group
+	description="Dejar en blanco para importar hasta la ulitma fila"
+	label="Ultima fila hasta la cual importar">
+		<b-form-input
+		type="number"
+		v-model="finish_row"
+		placeholder="Ultima fila hasta la cual importar"></b-form-input>
+	</b-form-group>
+
+	<hr>
+
+	<b-form-group
 	label="Archivo Excel para importar">
 		<b-form-file
-		class="m-b-15"
 		browse-text="Buscar"
 		v-model="file"
 		variant="primary"
@@ -75,18 +101,8 @@ hide-footer>
 		drop-placeholder="Solta el archivo aqui..."
 		></b-form-file>
 	</b-form-group>
-	<!-- <b-form-group
-	label="Porcentaje para calcular los precios a partir de los costos">
-		<b-form-input
-		placeholder="Ingrese el porcentaje"
-		v-model="percentage"></b-form-input>
-	</b-form-group>
-	<b-form-group
-	label="Proveedor de estos articulos">
-		<b-form-select
-		v-model="provider_id"
-		:options="getOptions('provider_id', 'Proveedor')"></b-form-select>
-	</b-form-group> -->
+
+	<hr>
 	<b-button
 	:disabled="!file"
 	block
@@ -122,10 +138,8 @@ export default {
 			}
 		},
 		props_to_send: {
-			type: Array,
-			default() {
-				return []
-			}
+			type: Object,
+			default: null
 		},
 	},
 	created() {
@@ -143,6 +157,8 @@ export default {
 		return {
 			loading: false,
 			file: null,
+			start_row: 1,
+			finish_row: '',
 			percentage: '',
 			provider_id: 0,
 			columns_position: [],
@@ -179,14 +195,18 @@ export default {
 			let config = {headers: { 'content-type': 'multipart/form-data' }}
 			let form_data = new FormData();
 			form_data.append('models', this.file)
+			form_data.append('start_row', this.start_row)
+			form_data.append('finish_row', this.finish_row)
 			let index = 0
 			this.columns.forEach(column => {
 				form_data.append('prop_'+column.text, this.columns_position[index])
 				index++
 			})
-			this.props_to_send.forEach(prop => {
-				form_data.append(prop.key, prop.value)
-			})
+			if (this.props_to_send) {
+				Object.keys(this.props_to_send).forEach(key => {
+					form_data.append(key, this.props_to_send[key])
+				})
+			}
 			this.$api.post(this.routeString(this.model_name)+'/excel/import', form_data, config)
 			.then(res => {
 				this.loading = false
@@ -207,12 +227,20 @@ export default {
 }
 </script>
 <style lang="sass">
-.cont-inputs
-	display: flex
-	flex-direction: row
-	justify-content: space-between
-	align-items: center
-	// padding: .5em 0
-	input 
-		width: 100px
+.container 
+	border: 1px solid rgba(0,0,0,.2)
+	padding: 10px
+	margin-bottom: 5px
+	border-radius: 5px
+	.cont-inputs
+		display: flex
+		flex-direction: row
+		justify-content: space-between
+		align-items: center
+		input 
+			width: 100px
+	p 
+		margin-bottom: 0
+		font-size: .8em
+		color: rgba(0,0,0,.8)
 </style>
