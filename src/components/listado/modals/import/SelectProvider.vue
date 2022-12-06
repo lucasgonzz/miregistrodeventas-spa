@@ -5,7 +5,7 @@
 		label="Proveedor de estos articulos">
 			<b-form-select
 			v-model="props_to_send.provider_id"
-			:options="getOptions('provider_id', 'Proveedor')"></b-form-select>
+			:options="getOptions({key: 'provider_id', text: 'Proveedor'})"></b-form-select>
 		</b-form-group>
 		<hr>
 	</div>

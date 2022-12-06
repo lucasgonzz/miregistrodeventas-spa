@@ -9,7 +9,7 @@
 			{{ create_model_name_spanish }}
 		</b-dropdown-item>
 		<b-dropdown-item
-		v-b-modal="'import-providers'">
+		v-b-modal="'import-provider'">
 			<i class="icon-download"></i>
 			Importar proveedores
 		</b-dropdown-item>

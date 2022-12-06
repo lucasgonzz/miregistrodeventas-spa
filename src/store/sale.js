@@ -2,8 +2,6 @@ import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
 
-import previus_days from '@/store/sales/previus_days'
-import afip from '@/store/sales/afip'
 import sales_mixin from '@/mixins/sales'
 
 import moment from 'moment'
@@ -167,8 +165,4 @@ export default {
 			})
 		},
 	},
-	modules: {
-		previus_days,
-		afip,
-	}
 }

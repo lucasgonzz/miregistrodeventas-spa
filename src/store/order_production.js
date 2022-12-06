@@ -86,6 +86,13 @@ export default {
 			} else {
 				state.models.splice(index, 1, value)
 			}
+
+			index = state.filtered.findIndex(item => {
+				return item.id == value.id
+			})
+			if (index != -1) {
+				state.filtered.splice(index, 1, value)
+			} 
 		},
 		setDelete(state, value) {
 			state.delete = value

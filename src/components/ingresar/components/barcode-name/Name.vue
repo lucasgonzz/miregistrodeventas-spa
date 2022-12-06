@@ -5,13 +5,14 @@
 		label="Nombre"
 		label-for="article-name">
 			<search-component
-			v-if="article.bar_code == ''"
+			v-if="article.bar_code == '' && article.provider_code == ''"
 			class="m-b-15"
 			@setSelected="setSelectedArticle"
 			:prop="{text: 'Articulo', key: 'name', store: 'article'}"
 			:show_selected="false"
 			:clear_query="false"
 			:model="article"
+			:auto_select="false"
 			id="ingresar-article-name"
 			placeholder="Nombre"></search-component>
 

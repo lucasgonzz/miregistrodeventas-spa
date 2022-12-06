@@ -78,4 +78,7 @@ export default {
 			}
 		},
 	],
+	singular_model_name_spanish: 'Receta',
+	plural_model_name_spanish: 'Recetas',
+	create_model_name_spanish: 'Nueva receta',
 }

@@ -11,7 +11,7 @@ hide-footer>
 	</p>
 	<p
 	class="m-b-0">
-		Comience por descargar el archivo modelo con los títulos de las columnas que ComercioCity necesita para importar los datos de sus artículos
+		Comience por descargar el archivo modelo con los títulos de las columnas que ComercioCity necesita para importar los datos de sus {{ plural(model_name) }}.
 	</p>
 	<b-button
 	class="m-t-10"
@@ -45,7 +45,8 @@ hide-footer>
 			<b-col
 			cols="12"
 			md="4"
-			v-for="(column, index) in columns">
+			v-for="(column, index) in columns"
+			@click="setColumn(column, index)">
 				<div class="container shadow-3">
 					<div 
 					class="cont-inputs">
@@ -64,6 +65,9 @@ hide-footer>
 			</b-col>
 		</b-form-row>
 	</div>
+
+	<advises
+	:advises="advises"></advises>	
 
 	<hr>
 
@@ -122,14 +126,15 @@ hide-footer>
 </b-modal>
 </template>
 <script>
+import Advises from '@/components/common/import/Advises'
 import BtnLoader from '@/components/common/BtnLoader'
 export default {
 	components: {
+		Advises,
 		BtnLoader,
 	},
 	props: {
 		model_name: String,
-		model_name_spanish: String,
 		columns: Array,
 		actions: {
 			type: Array,
@@ -141,13 +146,19 @@ export default {
 			type: Object,
 			default: null
 		},
+		advises: {
+			type: Array,
+			default() {
+				return []
+			}
+		},
 	},
 	created() {
 		this.setPositions()
 	},
 	computed: {
 		title() {
-			return 'Importar '+this.model_name_spanish
+			return 'Importar '+this.plural(this.model_name)
 		},
 		id() {
 			return 'import-'+this.model_name
@@ -157,7 +168,7 @@ export default {
 		return {
 			loading: false,
 			file: null,
-			start_row: 1,
+			start_row: 2,
 			finish_row: '',
 			percentage: '',
 			provider_id: 0,
@@ -166,6 +177,19 @@ export default {
 		}
 	},
 	methods: {
+		setColumn(a, index) {
+			let last_columns_position = 0
+			this.columns_position.forEach(column => {
+				column = Number(column)
+				if (column != '') {
+					if (column > last_columns_position) {
+						last_columns_position = column  
+					}
+				}
+			}) 
+			last_columns_position++
+			this.$set(this.columns_position, index, ''+last_columns_position)
+		},
 		setPositions() {
 			if (this.positions_seted) {
 				this.clear()
@@ -203,6 +227,7 @@ export default {
 				index++
 			})
 			if (this.props_to_send) {
+				console.log(this.props_to_send)
 				Object.keys(this.props_to_send).forEach(key => {
 					form_data.append(key, this.props_to_send[key])
 				})

@@ -7,6 +7,7 @@ export default {
 			type: 'search',
 			value: 0,
 			is_title: true,
+			show_btn_create: true,
 			use_to_filter_in_modal: true,
 		},
 		{
@@ -116,12 +117,12 @@ export default {
 						type: 'number',
 						size: 'sm',
 					},
-					// {
-					// 	text: 'Entrgados',
-					// 	key: 'delivered',
-					// 	value: '',
-					// 	type: 'number'
-					// },
+					{
+						text: 'U Entrgadas',
+						key: 'delivered',
+						value: '',
+						type: 'number'
+					},
 				],
 				if_null: {
 					prop_to_set_with_query: 'name',
@@ -157,4 +158,7 @@ export default {
 			show: true,
 		},
 	],
+	singular_model_name_spanish: 'Orden de produccion',
+	plural_model_name_spanish: 'Ordenes de produccion',
+	create_model_name_spanish: 'Nueva orden de produccion',
 }

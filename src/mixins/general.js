@@ -76,8 +76,9 @@ export default {
 			let price 
 			if (from_pivot) {
 				price = item.pivot.price 
+				console.log('aca: '+price)
 			} else {
-				price = item.price
+				price = item.final_price
 				if (this.price_types_with_position.length && this.checkService(item)) {
 					console.log(this.price_types_with_position)
 					let limit 

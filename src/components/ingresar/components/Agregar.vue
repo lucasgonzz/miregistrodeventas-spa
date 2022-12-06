@@ -6,6 +6,25 @@
 			<i class="icon-plus"></i>
 		</template>
 		<b-dropdown-item
+		v-if="has_online"
+		v-b-modal="'category'">
+			Categorias
+		</b-dropdown-item>
+		<b-dropdown-item
+		v-if="has_online"
+		v-b-modal="'sub_category'">
+			Sub categorias
+		</b-dropdown-item>
+		<b-dropdown-item
+		v-if="has_online"
+		v-b-modal="'brands'">
+			Marcas
+		</b-dropdown-item>
+		<b-dropdown-item
+		v-b-modal="'locations'">
+			Localidades
+		</b-dropdown-item>
+		<b-dropdown-item
 		v-b-modal="'price_types'">
 			Tipos de precio
 		</b-dropdown-item>
@@ -16,20 +35,6 @@
 		<b-dropdown-item
 		v-b-modal="'credit-cards'">
 			Tarjetas de credito
-		</b-dropdown-item>
-		<b-dropdown-item
-		v-b-modal="'locations'">
-			Localidades
-		</b-dropdown-item>
-		<b-dropdown-item
-		v-if="has_online"
-		v-b-modal="'categories'">
-			Categorias
-		</b-dropdown-item>
-		<b-dropdown-item
-		v-if="has_online"
-		v-b-modal="'brands'">
-			Marcas
 		</b-dropdown-item>
 		<b-dropdown-item
 		v-if="has_online"

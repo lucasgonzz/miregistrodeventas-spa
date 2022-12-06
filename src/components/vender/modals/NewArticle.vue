@@ -59,7 +59,6 @@ export default {
                     let article = res.data.model
                     this.$toast.success('Articulo guardado')
                     this.$store.commit('article/add', article)
-                    this.$store.commit('article/setToShow')
 
                     this.$bvModal.hide('new-article')
                     this.setVenderArticle(article)

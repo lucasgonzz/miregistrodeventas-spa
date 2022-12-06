@@ -1,26 +1,13 @@
 <template>
-<b-modal
-id="prices-lists"
-title="Listas de precios"
-hide-footer
-body-class="p-0"
-size="lg">
-	<create-btn></create-btn>
-	<list></list>
-</b-modal>
+	<modal-model
+	show_btn_pdf
+	model_name="prices_list"></modal-model>
 </template>
 <script>
-import CreateBtn from '@/components/listado/modals/prices-lists/CreateBtn'
-import List from '@/components/listado/modals/prices-lists/List'
+import ModalModel from '@/components/common/ModalModel'
 export default {
 	components: {
-		CreateBtn,
-		List,
-	},
-	computed: {
-		selected_articles() {
-			return this.$store.state.articles.selected_articles
-		},
+		ModalModel,
 	},
 }
 </script>

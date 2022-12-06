@@ -57,7 +57,11 @@ export default {
 	},
 	watch: {
 		client() {
-			this.setItemsPrices()
+			if (this.index_previus_sales > 0) {
+				this.setItemsPrices(false, true)
+			} else {
+				this.setItemsPrices(false, false)
+			}
 			this.$store.commit('vender/setTotal') 
 		},
 	},

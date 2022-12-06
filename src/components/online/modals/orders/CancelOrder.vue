@@ -47,7 +47,6 @@ export default {
 					this.loading = false
 					this.$toast.success('Pedido cancelado')
 					this.$store.commit('order/add', res.data.model)
-					this.$store.commit('order/setToShow')
 					this.description = ''
 					this.$bvModal.hide('cancel-order')
 					this.$bvModal.hide('order')
@@ -60,7 +59,11 @@ export default {
 			}
 		},
 		check() {
-			return this.description != ''
+			if (this.description == '') {
+				this.$toast.error('Ingrese una descripcion')
+				return false 
+			}
+			return true
 		}
 	}
 }

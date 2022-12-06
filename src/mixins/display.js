@@ -40,13 +40,16 @@ export default {
 						}
 					} else if (prop.has_many) {
 						if (!model) {
-							let model_to_add = {
-								...prop.has_many.model
-							}
-							console.log(model_to_add)
+							// let model_to_add = {
+							// 	...prop.has_many.model
+							// }
+							// properties_to_add.push({
+							// 	key: prop.key,
+							// 	value: [model_to_add],
+							// })
 							properties_to_add.push({
 								key: prop.key,
-								value: [model_to_add],
+								value: [],
 							})
 						}
 					} else if (prop.belongs_to_many && prop.belongs_to_many.related_with_all) {

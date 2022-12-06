@@ -6,10 +6,10 @@ import articles from './articles'
 import article from './article'
 import client from './client'
 import online from './online/index'
-import sale from './sales/index'
+import sale from './sale'
 import vender from './vender/vender'
-import categories from './categories'
-import sub_categories from './sub_categories'
+import category from './category'
+import sub_category from './sub_category'
 import special_prices from './special_prices'
 import provider from './provider'
 import provider_order from './provider_order'
@@ -29,7 +29,7 @@ import colors from './colors'
 import condition from './condition'
 import workdays from './workdays'
 import schedules from './schedules'
-import prices_lists from './prices_lists'
+import prices_list from './prices_list'
 import icons from './icons'
 import title from './title'
 import brand from './brand'
@@ -93,8 +93,8 @@ export default new Vuex.Store({
 		online,
 		sale, 
 		vender,
-		categories,
-		sub_categories,
+		category,
+		sub_category,
 		special_prices,
 		provider,
 		provider_order,
@@ -114,7 +114,7 @@ export default new Vuex.Store({
 		condition,
 		workdays,
 		schedules,
-		prices_lists,
+		prices_list,
 		icons,
 		title,
 		brand,

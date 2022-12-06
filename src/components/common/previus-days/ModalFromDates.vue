@@ -30,11 +30,10 @@ export default {
     name: 'FromDate',
     props: {
         model_name: String,
-        model_name_spanish: String,
     },
     computed: {
         title() {
-            return 'Mostrar '+this.model_name_spanish+' por fecha'
+            return 'Mostrar '+this.singular(this.model_name)+' por fecha'
         },
         from_date: {
             get() {

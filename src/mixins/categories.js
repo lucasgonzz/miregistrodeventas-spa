@@ -1,18 +1,10 @@
 export default {
 	computed: {
 		categories() {
-			return this.$store.state.categories.categories
+			return this.$store.state.category.models 
 		},
-		sub_categories() {
-			return this.$store.state.sub_categories.sub_categories
-		},
-		categories_options() {
-			let options = []
-			options.push({text: 'Seleccione una categoria', value: 0})
-			this.categories.forEach(category => {
-				options.push({text: category.name, value: category.id})
-			})
-			return options
+		sub_categories() {  
+			return this.$store.state.sub_category.models 
 		},
 	},
 	methods: {

@@ -56,10 +56,8 @@ export default {
 				let article = res.data.article
 				article.provider_id = this.model.provider_id
 				this.$store.commit('article/add', article)
-				this.$store.commit('article/setToShow')
 				this.editArticle(article)
 				this.$bvModal.show('edit-article')
-				this.$store.commit('article/setToShow')
 				this.$bvModal.hide('provider-order-article-received')
 			})
 			.catch(err => {

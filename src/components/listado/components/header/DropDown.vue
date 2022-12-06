@@ -10,7 +10,7 @@
 			Combos
 		</b-dropdown-item>
 		<b-dropdown-item
-		v-b-modal="'prices-lists'">
+		v-b-modal="'prices_list'">
 			<i class="icon-print"></i>
 			Listas de precios
 		</b-dropdown-item>

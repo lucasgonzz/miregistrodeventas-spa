@@ -4,8 +4,15 @@ hide-footer
 :title="title"
 :id="model_name">
 	<view-component
+	:show_models_if_empty="show_models_if_empty"
+	:show_btn_pdf="show_btn_pdf"
 	:show_previus_days="false"
-	:model_name="model_name"></view-component>
+	:models_to_show="models_to_show"
+	:model_name="model_name">
+		<template #header>
+			<slot name="header"></slot>
+		</template>
+	</view-component>
 </b-modal>
 </template>
 <script>
@@ -16,6 +23,17 @@ export default {
 	},
 	props: {
 		model_name: String,
+		show_btn_pdf: {
+			type: Boolean,
+			default: false,
+		},
+		models_to_show: {
+			type: Array,
+			default() {
+				return []
+			} 
+		},
+		show_models_if_empty: Boolean,
 	},
 	computed: {
 		title() {

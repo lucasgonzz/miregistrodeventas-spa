@@ -70,7 +70,7 @@
 								<div
 								v-for="(prop, index) in propsToSet()">
 									<b-form-group
-									v-if="prop.type == 'text' || prop.type == 'textarea' || prop.type == 'number' || prop.type == 'select'"
+									v-if="prop.type == 'text' || prop.type == 'textarea' || prop.type == 'number' || prop.type == 'select' || prop.type == 'checkbox'"
 									:key="'pivot-prop-'+index"
 									class="pivot-input"
 									:label="prop.text">
@@ -84,7 +84,13 @@
 										v-else-if="prop.type == 'select'"
 										v-model="models[data.index].pivot[prop.key]"
 										:class="getInputSize(prop)"
-										:options="getOptions(prop.key, prop.text, prop.prop_name ? prop.prop_name : 'name')"></b-form-select>
+										:options="getOptions({key: prop.key, text: prop.text, select_prop_name: prop.select_prop_name})"></b-form-select>
+										<b-form-checkbox
+										v-else-if="prop.type == 'checkbox'"
+										:value="1"
+										:unchecked-value="0"
+										v-model="models[data.index].pivot[prop.key]">
+										</b-form-checkbox>
 										<b-form-input
 										v-else
 										:type="prop.type"
@@ -109,10 +115,10 @@
 				:model_name="model_name"></btn-add-to-show> -->
 			</div>
 			<p 
-			v-else-if="!models.length && model_name_spanish"
+			v-else-if="!models.length"
 			class="text-with-icon">
 				<i class="icon-eye-slash"></i>
-				No hay {{ model_name_spanish }}
+				No hay {{ singular(model_name) }}
 			</p>
 		</div>
 		<b-skeleton-table
@@ -140,7 +146,6 @@ export default {
 		},
 		models: Array,
 		model_name: String,
-		model_name_spanish: String,
 		properties: {
 			type: Array,
 			default() {
@@ -295,6 +300,7 @@ export default {
 					}
 				}
 			})
+			console.log(props)
 			return props 
 		},	
 		toCellName(slot) {

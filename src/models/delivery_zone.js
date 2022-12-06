@@ -24,4 +24,7 @@ export default {
 			show: true,
 		},
 	],
+	singular_model_name_spanish: 'Zona de envio',
+	plural_model_name_spanish: 'Zonas de envio',
+	create_model_name_spanish: 'Nueva zona de envio',
 }

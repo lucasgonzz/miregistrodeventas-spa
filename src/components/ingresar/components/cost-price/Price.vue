@@ -13,34 +13,34 @@
 				id="article-percentage-gain"
 				type="number"
 				min="0"
+				:disabled="disabled_percetange_gain"
 				@keydown.enter="changeToProvider"
 				placeholder="Ingresa el procentaje de ganancia"
 				v-model="article.percentage_gain"
 				autocomplete="off"></b-form-input>
 			</b-input-group>
 			<b-input-group
-			v-if="article.original_price"
 			class="m-b-10"
-			prepend="Precio original">
+			prepend="Precio">
 				<b-form-input
 				id="article-price"
 				type="number"
 				min="0"
+				:disabled="price_disabled"
 				@keydown.enter="saveArticle"
 				placeholder="Ingresa el precio del producto"
-				v-model="article.original_price"
+				v-model="article.price"
 				autocomplete="off"></b-form-input>
 			</b-input-group>
 			<b-input-group
+			v-if="route_name != 'Ingresar'"
 			class="m-b-10"
 			prepend="Precio final">
 				<b-form-input
 				id="article-price"
 				type="number"
-				min="0"
-				@keydown.enter="saveArticle"
-				placeholder="Ingresa el precio del producto"
-				v-model="article.price"
+				disabled 
+				v-model="article.final_price"
 				autocomplete="off"></b-form-input>
 			</b-input-group>
 		</b-form-group>
@@ -51,21 +51,22 @@ export default {
 	props: ['article'],
 	computed: {
 		disabled_percetange_gain() {
-			if (this.article.created_at) {
-				console.log('tiene created_at')
+			if (this.article.price == null) {
 				return false
-				// return !this.article.percentage_gain && this.article.price != ''
-			} else {
-				return this.article.price != ''
 			}
+			if (this.article.price == '') {
+				return false
+			}
+			return true
 		},
-		disabled_price() {
+		price_disabled() {
 			if (this.hasExtencion('articles.percentage_gain')) {
-				if (this.article.created_at) {
-					return this.article.percentage_gain == ''
-				} else {
-					return this.article.percentage_gain != ''
+				if (this.article.percentage_gain == null && this.article.percentage_gain == '') {
+					return false
+				} else if (this.article.percentage_gain == '' || this.article.percentage_gain == null) {
+					return false
 				}
+				return true
 			}
 			return false
 		},

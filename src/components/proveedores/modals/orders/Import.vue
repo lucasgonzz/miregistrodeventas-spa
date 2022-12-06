@@ -16,12 +16,9 @@ export default {
 			return this.$store.state.provider_order.model
 		},
 		props_to_send() {
-			return [
-				{
-					key: 'model_id',
-					value: this.model.id 
-				}
-			]
+			return {
+				model_id: this.model.id,
+			}
 		},
 		columns() {
 			let columns = [

@@ -2,12 +2,9 @@
 	<view-component 
 	v-if="view == 'pedidos'"
 	model_name="provider_order"
-	model_name_spanish="Pedidos"
 	show_filter_modal
 	:show_modal="false"
-	:show_btn_create="can('provider_order.store')"
-	:create_model_name_spanish="create_model_name_spanish"
-	show_search_nav>
+	:show_btn_create="can('provider_order.store')">
 		<template #modals>
 			<edit-article></edit-article>
 			<import></import>
@@ -35,11 +32,6 @@ export default {
 		
 		ViewComponent,
 		BtnImport,
-	},
-	computed: {
-		create_model_name_spanish() {
-			return 'Nuevo pedido'
-		},
 	},
 }
 </script>

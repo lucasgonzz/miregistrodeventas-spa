@@ -1,89 +1,58 @@
 <template>
-<b-modal
-title="Importar proveedores"
-id="import-providers"
-hide-footer>
-	<h4>
-		Paso 1, Descargar el archivo Modelo en formato Excel
-	</h4>
-	<p
-	class="m-b-0">
-		Comience por descargar el archivo modelo con los títulos de las columnas que ComercioCity necesita para importar los datos de sus proveedores
-	</p>
-	<b-button
-	href="/files/proveedores-base.xlsx" download
-	variant="link">
-		Descargar el archivo modelo
-	</b-button>
-	<hr>
-	<h4>
-		Paso 2. Copiar los datos de los proveedores en la planilla
-	</h4>
-	<p>
-		Exporte los datos de su viejo sistema o desde una planilla de Excel. Copie y pegue los datos de los proveedores dentro del archivo descargado en el Paso 1. Asegúrese de que los datos que se copian coincidan con los títulos de las columnas previstas en el archivo modelo.
-	</p>
-	<p class="text-danger">
-		IMPORTANTE: No cambie los títulos de las columnas en el archivo modelo. Estos tienen que permanecer sin cambios para que la importación funcione correctamente.
-	</p>
-	<hr>
-	<h4>
-		Paso 3. Importar el archivo generado
-	</h4>
-	<p>
-		Seleccione el archivo modelo que descargo y relleno en los pasos anteriores y hacer click en el botón Importar
-	</p>
-	<b-form-file
-	class="m-b-15"
-	browse-text="Buscar"
-	v-model="file"
-	variant="primary"
-	:state="Boolean(file)"
-	placeholder="Seleccione el archivo o arrastralo hasta aquí"
-	drop-placeholder="Solta el archivo aqui..."
-	></b-form-file>
-	<b-button
-	:disabled="!file"
-	block
-	@click="upload"
-	variant="primary">
-		<btn-loader
-		text="Importar"
-		:loader="loading"></btn-loader>
-	</b-button>
-</b-modal>
+	<import-component
+	model_name="provider"
+	:columns="columns"
+	:actions="actions">
+	</import-component> 
 </template>
 <script>
-import BtnLoader from '@/components/common/BtnLoader'
+import ImportComponent from '@/components/common/import/Index'
 export default {
 	components: {
-		BtnLoader,
+		ImportComponent,
 	},
-	data() {
-		return {
-			loading: false,
-			file: null,
-		}
-	},
-	methods: {
-		upload() {
-			this.loading = true
-			let config = {headers: { 'content-type': 'multipart/form-data' }}
-			let form_data = new FormData();
-			form_data.append('providers', this.file);
-			this.$api.post('provider/excel/import', form_data, config)
-			.then(res => {
-				this.loading = false
-				this.file = null
-				this.$bvModal.hide('import-providers')
-				this.$store.dispatch('provider/getModels')
-				this.$store.dispatch('location/getModels')
-				console.log(res)
-			})
-			.catch(err => {
-				this.loading = false
-				console.log(err)
-			})
-		}
-	}
+	computed: {
+		columns() {
+			let columns = [
+				{
+					text: 'Nombre',
+				},
+				{
+					text: 'Telefono',
+				},
+				{
+					text: 'Direccion',
+				},
+				{
+					text: 'Localidad',
+				},
+				{
+					text: 'Email',
+				},
+				{
+					text: 'Condicion de IVA',
+				},
+				{
+					text: 'Razon social',
+				},
+				{
+					text: 'Cuit',
+				},
+				{
+					text: 'Observaciones',
+				},
+				{
+					text: 'Codigo',
+				},
+			]
+			return columns
+		},
+		actions() {
+			return [
+				'provider/getModels',
+				'location/getModels',
+			]
+		},
+ 	},
 }
 </script>

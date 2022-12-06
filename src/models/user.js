@@ -21,5 +21,8 @@ export default {
 				with_checkbox: true,
 			}
 		},
-	]
+	],
+	singular_model_name_spanish: 'Usuario',
+	plural_model_name_spanish: 'Usuarios',
+	create_model_name_spanish: 'Nuevo usuario',
 }

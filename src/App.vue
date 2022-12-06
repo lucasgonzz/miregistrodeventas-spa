@@ -178,6 +178,7 @@ export default {
                 console.log('Es un comercio')
                 this.$store.commit('auth/setLoading', true)
                 this.$store.commit('auth/setMessage', 'Cargando articulos')
+                // this.getArticles()
                 await this.$store.dispatch('article/getModels')
                 await this.$store.dispatch('article/getInactiveModels')
                 this.$store.commit('auth/setMessage', 'Cargando ventas')
@@ -210,9 +211,9 @@ export default {
                 await this.$store.dispatch('location/getModels')
                 if (this.has_online) {
                     this.$store.commit('auth/setMessage', 'Cargando categorias')
-                    await this.$store.dispatch('categories/getCategories')
+                    await this.$store.dispatch('category/getModels')
                     this.$store.commit('auth/setMessage', 'Cargando subcategorias')
-                    await this.$store.dispatch('sub_categories/getSubCategories')
+                    await this.$store.dispatch('sub_category/getModels')
                     this.$store.commit('auth/setMessage', 'Cargando etiquetas')
                     await this.$store.dispatch('tags/getTags')
                     this.$store.commit('auth/setMessage', 'Cargando colores')
@@ -243,7 +244,7 @@ export default {
                 }
                 if (this.can('article.index')) {
                     this.$store.commit('auth/setMessage', 'Cargando listas de precios')
-                    await this.$store.dispatch('prices_lists/getPircesLists')
+                    await this.$store.dispatch('prices_list/getModels')
                 } 
                 if (this.has_online) {
                     this.$store.commit('auth/setMessage', 'Cargando metodos de pago')

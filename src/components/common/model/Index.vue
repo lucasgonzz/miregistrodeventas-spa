@@ -1,6 +1,7 @@
 <template>
 	<div>
 	    <confirm
+	    :model_name="model_name"
 	    :text="text_delete"
 	    :actions="[model_name+'/delete']"
 	    :id="'delete-'+model_name"></confirm>
@@ -51,13 +52,8 @@ import BtnPdf from '@/components/common/BtnPdf'
 
 import ModelForm from '@/components/common/model/ModelForm'
 export default {
+	name: 'ModelIndex',
 	props: {
-		model: {
-			type: Object,
-		},
-		properties: {
-			type: Array,
-		},
 		model_name: {
 			type: String,
 		},
@@ -72,7 +68,6 @@ export default {
 			type: Boolean,
 			default: false,
 		},
-		modal_title: String,
 		size: {
 			type: String,
 			default: 'lg',
@@ -96,11 +91,17 @@ export default {
 		ModelForm,
 	},
 	computed: {
+		model() {
+			return this.modelStoreFromName(this.model_name)
+		},
+		properties() {
+			return this.modelPropertiesFromName(this.model_name)
+		},
 		title() {
 			if (this.model.id) {
 				return 'Actualizar'
 			}
-			return this.modal_title
+			return this.create_spanish(this.model_name)
 		},
 	},
 }

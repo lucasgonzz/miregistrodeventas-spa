@@ -31,4 +31,7 @@ export default {
 			show: true,
 		},
 	],
+	singular_model_name_spanish: 'Cliente',
+	plural_model_name_spanish: 'Clientes',
+	create_model_name_spanish: 'Nuevo cliente',
 }

@@ -29,4 +29,7 @@ export default {
 			show: true,
 		},
 	],
+	singular_model_name_spanish: 'Imagen',
+	plural_model_name_spanish: 'Imagenes',
+	create_model_name_spanish: 'Nueva imagen',
 }

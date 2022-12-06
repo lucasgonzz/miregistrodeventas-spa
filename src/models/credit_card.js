@@ -31,4 +31,7 @@ export default {
 			}
 		},
 	],
+	singular_model_name_spanish: 'Tarjeta de credito',
+	plural_model_name_spanish: 'Tarjetas de credito',
+	create_model_name_spanish: 'Nueva tarjeta de credito',
 }

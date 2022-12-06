@@ -1,7 +1,8 @@
 import moment from 'moment'
 import online from '@/mixins/online'
+import app from '@/mixins/app'
 export default {
-	mixins: [online],
+	mixins: [online, app],
 	computed: {
         show_nav() {
             return this.current_page != 'Maps' && this.authenticated && this.current_page != 'Home'
@@ -131,7 +132,12 @@ export default {
         				this.$store.commit(commit.key, commit.param)
         			})
         		}
-        		this.$store.dispatch(route.get_models+'/getModels')
+        		if (route.get_models) {
+        			this.$store.dispatch(route.get_models+'/getModels')
+        		}
+        		if (route.function) {
+        			this[route.function]
+        		}
         	} else {
         		let _route = {name: route.name}
         		if (route.params) {

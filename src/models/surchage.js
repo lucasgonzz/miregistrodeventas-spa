@@ -15,6 +15,7 @@ export default {
 			show: true,
 		},
 	],
+	singular_model_name_spanish: 'Recargo',
 	plural_model_name_spanish: 'Recargos',
 	create_model_name_spanish: 'Nuevo recargo',
 }

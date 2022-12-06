@@ -30,7 +30,7 @@ hide-footer>
 	label="Iva">
 		<b-form-select
 		v-model="form.iva_id"
-		:options="getOptions('iva_id', 'Iva', 'percentage')"></b-form-select>
+		:options="getOptions({key: 'iva_id', text: 'Iva', select_prop_name: 'percentage'})"></b-form-select>
 	</b-form-group>
 	<hr>
 	<p>
@@ -38,7 +38,7 @@ hide-footer>
 			Categoria y SubCategoria
 		</strong>
 	</p>
-	<b-form-group
+	<!-- <b-form-group
 	label="Categoria">
 		<b-form-select
 		v-model="form.category_id"
@@ -49,7 +49,7 @@ hide-footer>
 		<b-form-select
 		v-model="form.sub_category_id"
 		:options="sub_categories_options(form)"></b-form-select>
-	</b-form-group>
+	</b-form-group> -->
  
 	<b-button
 	block

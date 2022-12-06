@@ -12,14 +12,9 @@
     toast="Articulos eliminados"></confirm>
 	<edit-article></edit-article>
 
-	<update-iva></update-iva>
-	<update-sub-category></update-sub-category>
-	<update-by-porcentage></update-by-porcentage>
-	<update-brand></update-brand>
 	<update-props></update-props>
 
 	<providers-history></providers-history>
-	<filtrar></filtrar>
 	<images-copy></images-copy>
 	<article-images></article-images>
 	<article-images-colors></article-images-colors>
@@ -49,12 +44,7 @@ import ImagesCopy from '@/components/listado/modals/images/ImagesCopy.vue'
 import ArticleImages from '@/components/listado/modals/images/Index.vue'
 import ArticleImagesColors from '@/components/listado/modals/images/Colors.vue'
 import ArticleVariants from '@/components/listado/modals/images/ArticleVariants.vue'
-import Filtrar from '../components/listado/modals/Filtrar.vue'
 import EditArticle from '../components/common/EditArticle.vue'
-import UpdateIva from '../components/listado/modals/update/Iva.vue'
-import UpdateSubCategory from '../components/listado/modals/update/SubCategory.vue'
-import UpdateByPorcentage from '../components/listado/modals/UpdateByPorcentage.vue'
-import UpdateBrand from '../components/listado/modals/UpdateBrand.vue'
 import UpdateProps from '../components/listado/modals/UpdateProps.vue'
 import Confirm from '../components/common/Confirm.vue'
 import ProvidersHistory from '../components/listado/modals/ProvidersHistory.vue'
@@ -84,12 +74,7 @@ export default {
 		ArticleImages,
 		ArticleImagesColors,
 		ArticleVariants,
-		Filtrar,
 		EditArticle,
-		UpdateIva,
-		UpdateSubCategory,
-		UpdateByPorcentage,
-		UpdateBrand,
 		UpdateProps,
 		Confirm,
 		// PrintTickets,

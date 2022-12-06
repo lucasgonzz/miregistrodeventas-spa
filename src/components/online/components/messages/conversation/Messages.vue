@@ -85,12 +85,11 @@ export default {
 <style lang="sass">
 .container-messages
 	height: 85%
+	overflow-y: scroll
 #messages
 	display: flex
 	flex-direction: column
-	overflow-y: scroll
 	padding: 1em
-	height: 100%
 .commerce-message
 	align-self: flex-end
 	color: #000 

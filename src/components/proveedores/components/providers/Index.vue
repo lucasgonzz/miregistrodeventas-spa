@@ -2,10 +2,8 @@
 	<view-component 
 	v-if="view == 'proveedores'"
 	model_name="provider"
-	model_name_spanish="Proveedor"
-	:create_model_name_spanish="create_model_name_spanish"
-	:show_previus_days="false"
-	show_search_nav>
+	show_filter_modal
+	:show_previus_days="false">
 		<template #modals>
 	    	<current-acounts></current-acounts>
 	    	<import></import>

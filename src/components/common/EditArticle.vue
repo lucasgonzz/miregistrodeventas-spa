@@ -174,7 +174,6 @@ export default {
 					console.log(res.data.model)
 					this.loading = false
 					this.$store.commit('article/add', res.data.model)
-					this.$store.commit('article/setToShow')
 					this.$toast.success('Articulo actualizado')
 					this.$bvModal.hide('edit-article')
 					this.$bvModal.hide('articles-stock-min')

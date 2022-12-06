@@ -134,7 +134,6 @@ export default {
 					this.interval = window.setInterval(() => {
 						if (this.waiting_time == 0) {
 		                    window.clearInterval(this.interval)
-		                    console.log('Se termino intervalo, llamando a search')
 							this.search()
 						} else {
 							this.waiting_time--
@@ -166,27 +165,29 @@ export default {
 				this.searching = false
 				this.interval = null
 				this.loading = false 
-				console.log('Terminando a buscar')
-				setTimeout(() => {
-					this.selected_index = -1
-					console.log('se selecciono fila '+this.selected_index)
+				if (this.auto_select) {
 					setTimeout(() => {
-						this.selected_index = 0
-						console.log('se selecciono fila '+this.selected_index)
+						this.selected_index = -1
+						setTimeout(() => {
+							this.selected_index = 0
+						}, 100)
 					}, 100)
-				}, 100)
+				}
 			}
 		},
 		enterSelect() {
+			console.log(this.selected_index)
 			if (!this.loading) {
-				console.log(this.results)
-				if (this.auto_select && this.results.length) {
+				if (this.selected_index != -1 && this.results.length) {
 					this.$emit('setSelected', this.results[this.selected_index])
-				} else if (this.auto_select) {
-					this.$emit('setSelected', null)
 				} else {
-					this.$toast.error('No se encontraron coincidencias, cree un nuevo '+this.prop.text)
+					this.$emit('setSelected', null)
 				}
+				// if (this.auto_select && this.results.length) {
+				// 	this.$emit('setSelected', this.results[this.selected_index])
+				// } else if (!this.auto_select) {
+				// 	this.$emit('setSelected', null)
+				// }
 				this.results = []
 				this.$bvModal.hide(this.modal_id)
 			} else {

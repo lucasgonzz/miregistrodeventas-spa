@@ -42,6 +42,13 @@ export default {
 			}
 		},
 		{
+			text: 'Margen de ganancia',
+			key: 'percentage_gain',
+			type: 'number',
+			value: '',
+			show: true,
+		},
+		{
 			text: 'Telefono',
 			key: 'phone',
 			type: 'text',
@@ -105,12 +112,8 @@ export default {
 			show: true, 
 			filterable: true,
 		},
-		{
-			text: 'Porcentaje',
-			key: 'percentage_gain',
-			type: 'number',
-			value: '',
-			show: true,
-		},
 	],
+	singular_model_name_spanish: 'Proveedor',
+	plural_model_name_spanish: 'Proveedores',
+	create_model_name_spanish: 'Nuevo proveedor',
 }

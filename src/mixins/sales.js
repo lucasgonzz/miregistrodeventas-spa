@@ -131,7 +131,7 @@ export default {
 				total = online.methods.discountCupon(sale.order, total)
 			}
 			if (sale.budget) {
-				total = model_functions.methods.budgetTotal(sale.budget, 'price', false)
+				total = model_functions.methods.budgetTotal(sale.budget, false)
 			}
 			if (with_discounts && sale.discounts.length) {
 				sale.discounts.forEach(dis => {

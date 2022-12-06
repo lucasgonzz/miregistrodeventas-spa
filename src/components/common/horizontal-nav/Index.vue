@@ -35,6 +35,7 @@
 						Buscar
 					</b-button>
 					<b-button
+					v-if="is_filtered"
 					@click="restartSearch"
 					variant="outline-success">
 						<i class="icon-undo"></i>
@@ -110,6 +111,18 @@ export default {
 			default: ''
 		},
 	},
+	created() {
+		if (!this.set_view && !this.set_sub_view) {
+			if (typeof this.items != 'undefined' && this.items.length && !this.selected_item) {
+				this.select(this.items[0])
+			}
+		}
+	},
+	data() {
+		return {
+			selected_item: null,
+		}
+	},
 	computed: {
 		selected() { 
 			if (this.set_view) {
@@ -118,10 +131,15 @@ export default {
 			if (this.set_sub_view) {
 				return this.sub_view
 			}
+			return this.selected_item
+		},
+		is_filtered() {
+			return this.$store.state[this.model_name].is_filtered 
 		},
 	},
 	methods: {
 		restartSearch() {
+			this.$store.commit(this.model_name+'/setIsFiltered', false)
 			this.$store.commit(this.model_name+'/setFiltered', [])
 		},
 		setDisplay(display) {
@@ -169,14 +187,17 @@ export default {
 					this.$store.commit(item.commit)
 				}
 			} 
+			this.selected_item = item.name
 			this.$emit('setSelected', item)
 		},
 		value(item) {
 			return item[this.prop_name]
 		},
 		isActive(item) {
-			if (this.selected == this.routeString(this.value(item))) {
-				return 'active'
+			if (this.selected) {
+				if (this.selected.toLowerCase() == this.routeString(this.value(item))) {
+					return 'active'
+				}
 			}
 		},
 	}

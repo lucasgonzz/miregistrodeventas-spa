@@ -21,7 +21,7 @@
 			text="Buscar"></btn-loader>
 		</div>
 		<div
-		v-else>
+		v-else-if="model && model.id && model[prop_to_set]">
 			<label 
 			class="form-label">
 				<i class="icon-right"></i>

@@ -6,7 +6,7 @@
 			<b-form-select
 			id="article-category"
 			v-model="article.category_id"
-			:options="categories_options"></b-form-select>
+			:options="getOptions({key: 'category_id', text: 'Categoria'})"></b-form-select>
 		</b-form-group>
 	</b-col>
 </template>
@@ -16,6 +16,5 @@ export default {
 	name: 'Categories',
 	props: ['article'],
 	mixins: [categories],
-	
 }
 </script>

@@ -3,8 +3,7 @@
 	class="w-100">
 		<previus-days
 		v-if="show_previus_days"
-		:model_name="model_name"
-		:model_name_spanish="model_name_spanish"></previus-days>
+		:model_name="model_name"></previus-days>
 
 		<search-nav
 		v-if="show_search_nav"
@@ -12,8 +11,9 @@
 		:model_name="model_name"></search-nav>
 
 		<display
-		:models="to_show"
+		:models="models_to_show"
 		:model_name="model_name"
+		:show_models_if_empty="show_models_if_empty"
 		:properties="properties"
 		:model_name_spanish="model_name_spanish">
 			<template v-slot:default="slotProps">
@@ -38,10 +38,14 @@ export default {
 				return []
 			},
 		},
+		show_models_if_empty: {
+			type: Boolean,
+			default: false,
+		}
 	},
 	computed: {
 		to_show() {
-			if (this.models_to_show.length) {
+			if (this.models_to_show.length || this.show_models_if_empty) {
 				return this.models_to_show
 			}
 			return this.$store.state[this.model_name].to_show

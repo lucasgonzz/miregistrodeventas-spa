@@ -47,6 +47,7 @@ export default {
 			type: String,
 			default: null,
 		},
+		model_name: String,
 	},
 	computed: {
 		confirm_text() {
@@ -73,6 +74,7 @@ export default {
 						this.loading = false
 						this.$toast.success(this.toast)
 						this.$bvModal.hide(this.id)
+						this.$bvModal.hide(this.model_name)
 					}
 					
 				}

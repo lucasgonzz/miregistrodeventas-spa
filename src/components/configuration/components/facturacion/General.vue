@@ -19,7 +19,7 @@
         <b-form-group
         label="Condicion frente al IVA">
             <b-form-select
-            :options="getOptions('iva_condition_id', 'Condicion frente al IVA')"
+            :options="getOptions({key: 'iva_condition_id', text: 'Condicion frente al IVA'})"
             v-model="user.afip_information.iva_condition_id"></b-form-select>
         </b-form-group>
 		<b-form-group

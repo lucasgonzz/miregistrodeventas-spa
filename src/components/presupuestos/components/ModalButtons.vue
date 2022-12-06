@@ -46,7 +46,6 @@ export default {
 				this.$toast.success('Orden de Produccion creada')
 				this.$bvModal.hide('budget')
 				this.$store.commit('order_production/add', res.data.model)
-				this.$store.commit('order_production/setToShow')
 				this.$router.push({name: 'Produccion', params: {view: 'ordenes-de-produccion'}})
 			})
 			.catch(err => {

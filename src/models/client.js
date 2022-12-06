@@ -7,6 +7,7 @@ export default {
 			value: '',
 			show: true,
 			use_to_filter_in_search: true,
+			use_to_filter_in_modal: true,
 		},
 		{
 			text: 'Saldo',
@@ -24,7 +25,7 @@ export default {
 			type: 'text',
 			value: '',
 			show: true,
-			use_to_filter_in_search: true,
+			use_to_filter_in_modal: true,
 		},
 		{
 			text: 'Correo',
@@ -39,7 +40,7 @@ export default {
 			type: 'text',
 			value: '',
 			show: true,
-			use_to_filter_in_search: true,
+			use_to_filter_in_modal: true,
 		},
 		{
 			text: 'Tipo de precio',
@@ -55,7 +56,6 @@ export default {
 			type: 'select',
 			value: 0,
 			show: true,
-			use_to_filter_in_search: true,
 			use_to_filter_in_modal: true,
 		},
 		{
@@ -96,4 +96,7 @@ export default {
 			show: true,
 		},
 	],
+	plural_model_name_spanish: 'Clientes',
+	singular_model_name_spanish: 'Cliente',
+	create_model_name_spanish: 'Nuevo cliente',
 }

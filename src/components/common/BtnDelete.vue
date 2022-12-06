@@ -14,7 +14,6 @@ export default {
 		callDelete() {
 			this.$store.commit(this.model_name+'/setDelete', this.model)
 			this.$bvModal.show(this.modal)
-			this.$bvModal.hide(this.model_name)
 		}
 	}
 }

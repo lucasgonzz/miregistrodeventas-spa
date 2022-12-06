@@ -100,6 +100,7 @@
 					        :disabled="isDisabled(prop)"
 							:placeholder="'Ingresar '+prop.text"
 							:type="prop.type"
+							@keyup.enter="save"
 							v-model="model[prop.key]"></b-form-input>
 
 							<b-form-textarea
@@ -114,7 +115,7 @@
 							@change="setChange(prop)"
 					        :disabled="isDisabled(prop)"
 							v-model="model[prop.key]"
-							:options="getOptions(prop.key, prop.text)"></b-form-select>
+							:options="getOptions(prop)"></b-form-select>
 
 							<b-form-checkbox
 							v-else-if="prop.type == 'checkbox'"
@@ -125,13 +126,13 @@
 								{{ prop.text }}
 							</b-form-checkbox>
 
-					    	<model-component
+					    	<!-- <model-component
 					    	v-if="prop.show_model"
-					    	:modal_title="'Agregar '+prop.btn_model_text"
+					    	:modal_title="'Agregara '+prop.btn_model_text"
 					    	:model="modelStoreFromName(prop.store)"
 					    	:model_name="prop.store"
 					    	:text_delete="prop.text"
-					    	:properties="modelPropertiesFromName(prop.store)"></model-component>
+					    	:properties="modelPropertiesFromName(prop.store)"></model-component> -->
 
 							<b-button
 					    	v-if="prop.show_model"
@@ -409,28 +410,27 @@ export default {
 				this.$set(this.model, result.prop.key, result.model.id)
 				this.$set(this.model, this.modelNameFromRelationKey(result.prop), result.model)
 			}
-
-			console.log(this.model)
 		},
 		setBelongsToManyPivotProps(prop, model_to_add, result) {
-			model_to_add.pivot = {}
-			prop.belongs_to_many.properties_to_set.forEach(prop_to_set => {
-				if (prop_to_set.from_store) {
-					let models = this.modelsStoreFromName(prop_to_set.store)
-					models.forEach(model => {
-						model_to_add.pivot[prop_to_set.store+'_'+model.id] = ''
-					})
-				} else if (typeof prop_to_set.value === 'object') {
-					if (model_to_add[prop_to_set.value.key]) {
-						model_to_add.pivot[prop_to_set.key] = model_to_add[prop_to_set.value.key] 
+			if (prop.belongs_to_many.properties_to_set) {
+				model_to_add.pivot = {}
+				prop.belongs_to_many.properties_to_set.forEach(prop_to_set => {
+					if (prop_to_set.from_store) {
+						let models = this.modelsStoreFromName(prop_to_set.store)
+						models.forEach(model => {
+							model_to_add.pivot[prop_to_set.store+'_'+model.id] = ''
+						})
+					} else if (typeof prop_to_set.value === 'object') {
+						if (model_to_add[prop_to_set.value.key]) {
+							model_to_add.pivot[prop_to_set.key] = model_to_add[prop_to_set.value.key] 
+						} else {
+							model_to_add.pivot[prop_to_set.key] = prop_to_set.value.value_if_undefined
+						}
 					} else {
-						model_to_add.pivot[prop_to_set.key] = prop_to_set.value.value_if_undefined
+						model_to_add.pivot[prop_to_set.key] = prop_to_set.value 
 					}
-				} else {
-					model_to_add.pivot[prop_to_set.key] = prop_to_set.value 
-				}
-			})
-			console.log(model_to_add)
+				})
+			}
 			this.model[result.prop.key].unshift(model_to_add)
 		},
 		save() {
@@ -443,7 +443,7 @@ export default {
 						this.loading = false 
 						this.$toast.success('Actualizado')
 						this.$store.commit(this.replaceGuion(this.model_name)+'/add', res.data.model)
-						this.$store.commit(this.replaceGuion(this.model_name)+'/setToShow')
+						// this.$store.commit(this.replaceGuion(this.model_name)+'/setToShow')
 						console.log('se agrego a '+this.model_name)
 						this.$bvModal.hide(this.model_name)
 						this.callActions()
@@ -459,7 +459,7 @@ export default {
 						this.loading = false 
 						this.$toast.success('Guardado')
 						this.$store.commit(this.replaceGuion(this.model_name)+'/add', res.data.model)
-						this.$store.commit(this.replaceGuion(this.model_name)+'/setToShow')
+						// this.$store.commit(this.replaceGuion(this.model_name)+'/setToShow')
 						this.$bvModal.hide(this.model_name)
 						this.callActions()
 					})
@@ -494,8 +494,7 @@ export default {
 	},
 	components: {
 		ModelComponent: () => import('@/components/common/model/Index'),
-
-		SearchComponent,
+		SearchComponent: () => import('@/components/common/search/Index'),
 		HasMany,
 		BelongsToManyCheckbox,
 		Cards,

@@ -67,11 +67,12 @@
 
 			<b-form-group
 			class="m-b-15"
-			v-if="filter.type != 'search' && isRelationKey(filter)"
+			v-if="filter.type == 'select'"
 			:label="filter.label">
 				<b-form-select
+				@change="setSelectOptions(filter)"
 				v-model="filter.value"
-				:options="getOptions(filter.key, filter.text)"></b-form-select>
+				:options="select_options[filter.key]"></b-form-select>
 			</b-form-group>
 		</div>
 		<b-button
@@ -94,6 +95,8 @@ export default {
 	data() {
 		return {
 			filters: [],
+			filter_model: {},
+			select_options: {},
 		}
 	},
 	computed: {
@@ -103,6 +106,7 @@ export default {
 	},
 	created() {	
 		this.initFilter()
+		this.setSelectOptions()
 	},
 	methods: {
 		search() {
@@ -115,11 +119,20 @@ export default {
 			})
 			.then(res => {
 				this.$store.commit(this.model_name+'/setLoading', false)
+				this.$store.commit(this.model_name+'/setIsFiltered', true) 
 				this.$store.commit(this.model_name+'/setFiltered', res.data.models)
+				this.clearFilter()
 			})
 			.catch(err => {
 				console.log(err)
 				this.$toast.error('Error al buscar')
+			})
+		},
+		clearFilter() {
+			this.filters.forEach(filter => {
+				if (filter.type == 'search') {
+					filter.value = 0
+				}
 			})
 		},
 		initFilter() {	
@@ -163,16 +176,25 @@ export default {
 						text: prop.text,
 						store: prop.store,
 						key: prop.key,
+						depends_on: prop.depends_on,
 						value: 0,
 					})
 				}
 			})
 		},
+		setSelectOptions() {
+			this.filters.forEach(filter => {
+				if (filter.type == 'select') {
+					this.filter_model[filter.key] = filter.value 
+					this.$set(this.select_options, filter.key, this.getOptions({key: filter.key, text: filter.label, depends_on: filter.depends_on}, this.filter_model))
+				}
+			})
+			console.log(this.filter_model)
+			console.log(this.select_options)
+		},
 		setSelected(result) {
 			console.log(result)
 			result.prop.value = result.model.id
-			// this.filter[result.prop.key] = result.model.id
-			// this.filter[result.prop.store] = result.model
 		},
 	}
 }

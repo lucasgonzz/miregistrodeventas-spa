@@ -35,12 +35,13 @@
 						<slot name="horizontal_nav_buttons"></slot>
 					</template>
 				</horizontal-nav>
+				<slot name="header"></slot>
 				<list
 				:models_to_show="models_to_show"
+				:show_models_if_empty="show_models_if_empty"
 				:show_previus_days="show_previus_days"
 				:show_search_nav="show_search_nav"
-				:model_name="model_name"
-				:model_name_spanish="model_name_spanish">
+				:model_name="model_name">
 					<template v-slot:default="slotProps">
 						<slot :model="slotProps.model"></slot>
 					</template>
@@ -113,6 +114,7 @@ export default {
 				return []
 			},
 		},
+		show_models_if_empty: Boolean,
 	},
 	computed: {
 		model_name_spanish() {

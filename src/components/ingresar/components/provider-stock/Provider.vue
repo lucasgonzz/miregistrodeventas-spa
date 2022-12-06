@@ -7,7 +7,7 @@
 			<b-form-select
 			id="article-provider"
 			v-model="article.provider_id"
-			:options="getOptions('provider_id', 'Proveedor')"></b-form-select>
+			:options="getOptions({key: 'provider_id', text: 'Proveedor'})"></b-form-select>
 		</b-form-group>
 		<b-form-group
 		v-if="provider_price_lists.length"
@@ -74,7 +74,9 @@ export default {
 					return model.id == this.article.provider_id
 				})
 				if (typeof provider != 'undefined') {
-					return provider.provider_price_lists
+					if (provider.provider_price_lists.length && provider.provider_price_lists[0].percentage) {
+						return provider.provider_price_lists
+					}
 				}
 			}
 			return []

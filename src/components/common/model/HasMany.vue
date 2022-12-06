@@ -6,25 +6,33 @@
 	    :text="text_delete"
 	    :actions="[parent_model_name+'/deletePropModel']"
 	    :id="'delete-'+prop.key"></confirm>
-
-		<div
-		v-for="model in parent_model[prop.key]">
-			<model-form-component 
-			:model="model"
-			from_has_many
-			:parent_model="parent_model"
-			:properties="prop.has_many.properties">
-				<btn-loader
-				@clicked="deleteModel(model)"
-				v-if="model.id"
-				:block="false"
-				size="sm"
-				variant="outline-danger"
-				:text="'Eliminar '+prop.has_many.text"
-				:loader="deleting == model.id">
-				</btn-loader>
-			</model-form-component>
-		</div>
+	    <div
+	    v-if="parent_model[prop.key].length">
+			<div
+			v-for="model in parent_model[prop.key]">
+				<model-form-component 
+				:model="model"
+				from_has_many
+				:parent_model="parent_model"
+				:properties="prop.has_many.properties">
+					<btn-loader
+					@clicked="deleteModel(model)"
+					v-if="model.id"
+					:block="false"
+					size="sm"
+					variant="outline-danger"
+					:text="'Eliminar '+prop.has_many.text"
+					:loader="deleting == model.id">
+					</btn-loader>
+				</model-form-component>
+			</div>
+	    </div>
+	    <p
+	    class="text-with-icon"
+	    v-else>
+	    	<i class="icon-eye-slash"></i>
+	    	No hay {{ prop.has_many.text }}
+	    </p>
 		<div>
 			<hr>
 			<b-button 

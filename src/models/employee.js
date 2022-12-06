@@ -23,4 +23,7 @@ export default {
 			// not_show_on_form: true,
 		},
 	],
+	singular_model_name_spanish: 'Empleado',
+	plural_model_name_spanish: 'Empleados',
+	create_model_name_spanish: 'Nuevo empleado',
 }

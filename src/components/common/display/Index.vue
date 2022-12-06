@@ -5,7 +5,6 @@
 		:loading="loading_prop"
 		:models="models_to_show"
 		:model_name="model_name"
-		:model_name_spanish="model_name_spanish"
 		:set_model_on_click="set_model_on_click"
 		:on_click_set_property="on_click_set_property"
 		@clicked="clicked"
@@ -27,7 +26,6 @@
 		:loading="loading_prop"
 		:models="models_to_show"
 		:model_name="model_name"
-		:model_name_spanish="model_name_spanish"
 		:set_model_on_click="set_model_on_click"
 		:on_click_set_property="on_click_set_property"
 		@clicked="clicked"
@@ -59,10 +57,6 @@ export default {
 			},
 		},
 		model_name: String,
-		model_name_spanish: {
-			type: String,
-			default: null,
-		},
 		properties: Array,
 		set_model_on_click: {
 			type: Boolean,
@@ -72,6 +66,10 @@ export default {
 			type: String,
 			default: null,
 		},
+		show_models_if_empty: {
+			type: Boolean,
+			default: false,
+		}
 	},
 	data() {
 		return {
@@ -90,13 +88,17 @@ export default {
 			return this.$store.state[this.model_name].loading
 		},
 		_models() {
-			if (this.models.length) {
+			if (this.models.length || this.show_models_if_empty) {
+				console.log('return models que vinieron por props')
 				return this.models
 			} else {
+				let is_filtered = this.$store.state[this.model_name].is_filtered 
 				let filtered = this.$store.state[this.model_name].filtered 
-				if (typeof filtered != 'undefined' && filtered.length) {
+				if (typeof is_filtered != 'undefined' && is_filtered) {
+					console.log('return filtered_models')
 					return filtered
 				}  
+				console.log('return store_models')
 				return this.$store.state[this.model_name].models 
 			}
 		},

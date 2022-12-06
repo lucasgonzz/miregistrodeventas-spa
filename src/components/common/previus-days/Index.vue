@@ -1,15 +1,13 @@
 <template>
 <div>
 	<modal-from-dates
-	:model_name="model_name"
-	:model_name_spanish="model_name_spanish"></modal-from-dates>
+	:model_name="model_name"></modal-from-dates>
 	<b-row>
 		<b-col
 		cols="12"
 		md="3">
 			<title-component
 			:model_name="model_name"
-			:model_name_spanish="model_name_spanish"
 			:clear_selected="clear_selected"
 			v-if="show_title"></title-component>
 		</b-col>
@@ -17,8 +15,7 @@
 		cols="12"
 		md="6">
 			<week-days-nav
-			:model_name="model_name"
-			:model_name_spanish="model_name_spanish"></week-days-nav>
+			:model_name="model_name"></week-days-nav>
 		</b-col>
 		<b-col
 		class="col-btn"
@@ -49,7 +46,6 @@ export default {
 	},
     props: {
     	model_name: String,
-    	model_name_spanish: String,
     	clear_selected: {
     		type: Boolean,
     		default: false

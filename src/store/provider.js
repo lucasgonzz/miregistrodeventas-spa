@@ -12,6 +12,8 @@ export default {
 		model: {},
 		to_show: [],
 		selected: [],
+		filtered: [],
+		is_filtered: false,
 
 		delete: null,
 		delete_image: null,
@@ -56,18 +58,14 @@ export default {
 				state.models = []
 			}
 		},
-		setToShow(state, value) {
-			if (value) {
-				state.to_show = value
-			} else {
-				state.to_show = state.models.slice(0, 20)
-			}
+		setFiltered(state, value) {
+			state.filtered = value
 		},
-		addToShow(state, value) {
-			state.to_show = state.to_show.concat(state.models.slice(state.to_show.length, state.to_show.length + 20))
+		setIsFiltered(state, value) {
+			state.is_filtered = value
 		},
 		setSelected(state, value) {
-			state.selected = []
+			state.selected = value 
 		},
 		add(state, value) {
 			let index = state.models.findIndex(item => {
@@ -78,6 +76,13 @@ export default {
 			} else {
 				state.models.splice(index, 1, value)
 			}
+
+			index = state.filtered.findIndex(item => {
+				return item.id == value.id
+			})
+			if (index != -1) {
+				state.filtered.splice(index, 1, value)
+			} 
 		},
 		setDelete(state, value) {
 			state.delete = value
@@ -117,7 +122,6 @@ export default {
 			.then(res => {
 				commit('setLoading', false)
 				commit('setModels', res.data.models)
-				commit('setToShow')
 			})
 			.catch(err => {
 				commit('setLoading', false)

@@ -12,7 +12,7 @@
 			class="m-b-15"
 			v-show="show"
 			v-model="article.iva_id"
-			:options="getOptions('iva_id', 'Iva', 'percentage')">
+			:options="getOptions({key: 'iva_id', text: 'Iva', select_prop_name: 'percentage'})">
 			</b-form-select>
 		</b-col>
 	</b-form-row>

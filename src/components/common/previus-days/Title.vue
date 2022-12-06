@@ -2,11 +2,11 @@
 <h5>
 	<strong
 	v-if="date(from_date) == date(today)">
-		{{ model_name_spanish }} de hoy
+		{{ singular(model_name) }} de hoy
 	</strong>
 	<strong
 	v-else-if="until_date == ''">
-		{{ model_name_spanish }} del {{ date(from_date) }}
+		{{ singular(model_name) }} del {{ date(from_date) }}
 	</strong>
 	<strong
 	v-else>
@@ -18,7 +18,6 @@
 export default {
     props: {
     	model_name: String,
-    	model_name_spanish: String,
     },
 	computed: {
 		from_date() {

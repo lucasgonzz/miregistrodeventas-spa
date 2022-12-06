@@ -24,4 +24,7 @@ export default {
 			show: true,
 		},
 	],
+	singular_model_name_spanish: 'Metodo de pago',
+	plural_model_name_spanish: 'Metodos de pago',
+	create_model_name_spanish: 'Nuevo metodo de pago',
 }

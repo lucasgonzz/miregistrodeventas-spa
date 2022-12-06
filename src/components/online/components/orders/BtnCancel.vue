@@ -1,6 +1,6 @@
 <template>
 	<b-button
-	v-if="model.status != 'canceled'"
+	v-if="model.order_status.name != 'cancelado'"
 	v-b-modal="'cancel-order'"
 	block
 	variant="danger">

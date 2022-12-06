@@ -1,8 +1,8 @@
 <template>
 	<import-component
 	model_name="article"
-	model_name_spanish="Articulos"
 	:props_to_send="props_to_send"
+	:advises="advises"
 	:columns="columns"
 	:actions="actions">
 		<select-provider
@@ -72,6 +72,9 @@ export default {
 					text: 'Precio',
 				},
 				{
+					text: 'Precio Final',
+				},
+				{
 					text: 'Moneda',
 					description: 'USD para Dolares, ARS para pesos (ARS por defecto)',
 				},
@@ -87,10 +90,15 @@ export default {
 			return [
 				'provider/getModels',
 				'iva/getModels',
-				'categories/getCategories',
-				'sub_categories/getSubCategories',
+				'category/getModels',
+				'sub_category/getModels',
 			]
 		},
+		advises() {
+			return [
+				'No modificar la columna PRECIO FINAL ya que esta propiedad se calcula luego de definir los costos y marguenes de ganancia.'
+			]
+		}
  	},
 }
 </script>

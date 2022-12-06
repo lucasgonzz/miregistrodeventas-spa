@@ -1,21 +1,12 @@
 <template>
 <div id="ingresar">
-	<!-- <delete-category></delete-category>
-	<article-variants></article-variants> -->
-	<!-- <delete-special-price></delete-special-price>
-	<create-special-price></create-special-price>
-	<special-prices></special-prices> -->
 	<credit-cards></credit-cards>
 	<deposits></deposits>
 	<price-types></price-types>
 	<brands></brands>
 	<conditions></conditions>
-	<create-category></create-category>
-	<create-sub-category></create-sub-category>
-	<categories
-	@setArticleCategory="setArticleCategory"></categories>
-	<edit-category></edit-category>
-	<edit-sub-category></edit-sub-category>
+	<categories></categories>
+	<sub-categories></sub-categories>
 	<edit-article
 	@clearArticle="clearArticle"></edit-article>
 
@@ -79,15 +70,8 @@
 // Modals
 import CreditCards from '@/components/ingresar/modals/credit-cards/Index'
 import Deposits from '@/components/ingresar/modals/Deposits'
-import DeleteCategory from '@/components/ingresar/modals/categories/Delete'
-import ArticleVariants from '@/components/listado/modals/images/ArticleVariants'
 import Categories from '@/components/ingresar/modals/categories/Index'
-import CreateCategory from '@/components/ingresar/modals/categories/CreateCategory'
-import CreateSubCategory from '@/components/ingresar/modals/categories/CreateSubCategory'
-import EditCategory from '@/components/ingresar/modals/categories/EditCategory'
-import EditSubCategory from '@/components/ingresar/modals/categories/EditSubCategory'
-import SpecialPrices from '@/components/ingresar/modals/special-prices/Index'
-import CreateSpecialPrice from '@/components/ingresar/modals/special-prices/Create'
+import SubCategories from '@/components/ingresar/modals/sub-categories/Index'
 import PriceTypes from '@/components/ingresar/modals/PriceTypes'
 import Brands from '@/components/ingresar/modals/Brands'
 import Conditions from '@/components/ingresar/modals/Conditions'
@@ -124,15 +108,8 @@ export default {
 	components: {
 		CreditCards,
 		Deposits,
-		DeleteCategory,
-		ArticleVariants,
 		Categories,
-		CreateCategory,
-		CreateSubCategory,
-		EditCategory,
-		EditSubCategory,
-		SpecialPrices,
-		CreateSpecialPrice,
+		SubCategories,
 		PriceTypes,
 		Brands,
 		Conditions,
@@ -166,9 +143,12 @@ export default {
 		return {
 			article: {
 				bar_code: '',
+				provider_code: '',
 				category_id: 0,
+				sub_category_id: 0,
 				provider_id: 0,
 				provider_price_list_id: 0,
+				apply_provider_percentage_gain: 0,
 				brand_id: 0,
 				iva_id: 2,
 				discounts: [{percentage: ''}],
@@ -273,7 +253,6 @@ export default {
 					this.guardando = false
 					var article = res.data.model
 					this.$store.commit('article/add', article)
-					this.$store.commit('article/setToShow')
 					this.articles_to_print.push(article)
 					this.clearArticle()
 					this.$toast.success('Articulo guardado')
@@ -352,6 +331,7 @@ export default {
 			this.article.cost_in_dollars = 0
 			this.article.price = ''
 			this.article.percentage_gain = ''
+			this.article.apply_provider_percentage_gain = 0
 			this.article.online_price = ''
 			this.article.stock = ''
 			this.article.stock_min = ''

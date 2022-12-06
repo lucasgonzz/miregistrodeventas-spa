@@ -22,10 +22,10 @@
 				</card-component>
 			</div>
 			<p 
-			v-else-if="!models.length && model_name_spanish"
+			v-else-if="!models.length"
 			class="text-with-icon">
 				<i class="icon-eye-slash"></i>
-				No hay {{ model_name_spanish }}
+				No hay {{ singular(model_name) }}
 			</p>
 		</div>
 		<div 
@@ -66,7 +66,6 @@ export default {
 			type: Boolean,
 			default: false,
 		},
-		model_name_spanish: String,
 	},
 	components: {
 		CardComponent,

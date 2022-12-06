@@ -64,8 +64,10 @@ export default {
 			if (typeof finded != 'undefined') {
 				this.$store.commit('articles/setEdit', this.setArticle(finded))
 				this.$bvModal.show('edit-article')
-			} else {
+			} else if (this.article.provider_code != '' || this.article.bar_code != '') {
 				document.getElementById('article-name').focus()
+			} else {
+				document.getElementById('ingresar-article-name').focus()
 			}
 		}
 	},

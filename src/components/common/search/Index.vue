@@ -11,18 +11,23 @@
 		@setSelected="setSelected"></search-modal>
 		<div
 		class="search-component">
-			<div 
-			:class="is_disabled ? 'bg-gray' : 'bg-withe'"
-			class="icon">
-				<i class="icon-search"></i>
+			<div class="cont-search">
+				<div 
+				:class="is_disabled ? 'bg-gray' : 'bg-withe'"
+				class="icon">
+					<i class="icon-search"></i>
+				</div>
+				<b-form-input
+				:disabled="is_disabled"
+				class="input-search"
+				:id="id"
+				@keyup="search"
+				v-model="query"
+				:placeholder="_placeholder"></b-form-input>
 			</div>
-			<b-form-input
-			:disabled="is_disabled"
-			class="input-search"
-			:id="id"
-			@keyup="search"
-			v-model="query"
-			:placeholder="_placeholder"></b-form-input>
+			<btn-create-model
+			v-if="prop.show_btn_create"
+			:model_name="model_name"></btn-create-model>
 		</div>
 		<div
 		class="align-center m-t-15"
@@ -44,10 +49,12 @@
 </template>
 <script>
 import SearchModal from '@/components/common/search/Modal'
+import BtnCreateModel from '@/components/common/search/BtnCreateModel'
 import TableComponent from '@/components/common/display/TableComponent'
 export default {
 	components: {
 		SearchModal,
+		BtnCreateModel,
 		TableComponent,
 	},
 	props: {
@@ -164,13 +171,15 @@ export default {
 <style lang="sass">
 @import '@/sass/_custom'
 .search-component
-	position: relative
 	width: 100%
-	display: flex
-	flex-direction: row
-	box-shadow: 0 2px 4px rgb(0 0 0 / 15%) !important
-	border: 1px solid #ced4da
-	border-radius: 0.25rem 
+	// display: flex
+	.cont-search
+		position: relative
+		display: flex
+		flex-direction: row
+		box-shadow: 0 2px 4px rgb(0 0 0 / 15%) !important
+		border: 1px solid #ced4da
+		border-radius: 0.25rem 
 	.icon 
 		background: #FFF
 		width: 40px

@@ -21,7 +21,7 @@ export default {
 		items() {
 			let items = []
 			if (this.can('order_production.index')) {
-				items.push({name: 'ordenes-de-produccion', action: 'order_production/getModels'})
+				items.push({name: 'ordenes de produccion', action: 'order_production/getModels'})
 			}
 			items.push({name: 'recetas', action: 'recipe/getModels'})
 			return items

@@ -1,10 +1,30 @@
 export default {
 	computed: {
 		sub_categories() {
-			return this.$store.state.sub_categories.sub_categories
+			return this.$store.state.sub_category.models 
+		},
+		loaded_models() {
+			return this.$store.state.article.loaded_models
 		},
 	},
 	methods: {
+		getArticles() {
+			this.$store.commit('article/setPage', 1)
+			this.$store.commit('article/setModels', [])
+			this.$store.commit('article/setLoadedModels', [])
+			this.callGetArticles()
+		},
+		callGetArticles() {
+			let per_page = 500
+			this.$store.dispatch('article/getModels')
+			.then(() => {
+				if (this.loaded_models.length == per_page) {
+					this.callGetArticles()
+				} else {
+					this.$store.commit('article/setLoading', false)
+				}
+			})
+		},
 		setSubCategoriesInVender() {
 			let sub_categories = this.sub_categories.filter(cat => {
 				return cat.show_in_vender 
@@ -16,7 +36,7 @@ export default {
 				})
 				this.$api.get('sub-categories/for-vender/'+ids.join('-'))
 				.then(res => {
-					this.$store.commit('vender/setSubCategories', res.data.sub_categories)
+					this.$store.commit('vender/setSubCategories', res.data.models)
 				})
 				.catch(err => {
 					console.log(err)

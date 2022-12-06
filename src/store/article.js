@@ -1,6 +1,7 @@
 import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
+import store_article from '@/mixins/store_article'
 
 import generals from '@/mixins/generals'
 export default {
@@ -10,22 +11,12 @@ export default {
 
 		inactive_models: [],
 		models: [],
+		loaded_models: [],
 		model: {},
 		to_show: [],
-		filtered: [],
+		is_filtered: false,
+		page: 1,
 
-		filter: {
-            category_id: 0,
-            sub_category_id: 0,
-            provider_id: 0,
-            with_images: false,
-            featured: false,
-            precio_min: '',
-            precio_max: '',
-            fecha_min: '',
-            fecha_max: '',
-            mantener: false,
-		},
 		from_filter: false,
 		filtered: [],
 		selected: [],
@@ -44,6 +35,12 @@ export default {
 		},
 		setLoading(state, value) {
 			state.loading = value
+		},
+		setPage(state, value) {
+			state.page = value
+		},
+		incrementPage(state) {
+			state.page++
 		},
 		setModel(state, value) {
 			if (value.model) {
@@ -75,6 +72,12 @@ export default {
 				state.models = []
 			}
 		},
+		setLoadedModels(state, value) {
+			state.loaded_models = value 
+		},
+		addModels(state, value) {
+			state.models = state.models.concat(value)
+		},
 		setInactiveModels(state, value) {
 			if (value) {
 				state.inactive_models = value
@@ -82,42 +85,14 @@ export default {
 				state.inactive_models = []
 			}
 		},
-		setFilter(state, value) {
-			if (value) {
-				state.filter = value 
-			} else {
-				state.filter = {
-			        category_id: 0,
-			        sub_category_id: 0,
-			        provider_id: 0,
-			        with_images: false,
-			        featured: false,
-			        precio_min: '',
-			        precio_max: '',
-			        fecha_min: '',
-			        fecha_max: '',
-			        mantener: false,
-				}
-			}
-		},
 		setFromFilter(state, value) {
 			state.from_filter = value
 		},
-		setToShow(state, value) {
-			if (value) {
-				state.to_show = value
-			} else {
-				state.to_show = state.models.slice(0, 20)
-			}
-		},
-		setFiltered(state, value) {
-			state.filtered = []
-		},
-		addToShow(state, value) {
-			state.to_show = state.to_show.concat(state.models.slice(state.to_show.length, state.to_show.length + 20))
-		},
 		setFiltered(state, value) {
 			state.filtered = value 
+		},
+		setIsFiltered(state, value) {
+			state.is_filtered = value 
 		},
 		setSelected(state, value) {
 			state.selected = value 
@@ -130,7 +105,14 @@ export default {
 				state.models.unshift(value)
 			} else {
 				state.models.splice(index, 1, value)
-			}
+			} 
+
+			index = state.filtered.findIndex(item => {
+				return item.id == value.id
+			})
+			if (index != -1) {
+				state.filtered.splice(index, 1, value)
+			} 
 		},
 		setDelete(state, value) {
 			state.delete = value
@@ -188,20 +170,53 @@ export default {
 		}
 	},
 	actions: {
-		getModels({ commit, state }) {
+		getModels({ commit, dispatch, state }) {
 			commit('setLoading', true)
-			return axios.get(`/api/${generals.methods.routeString(state.model_name)}/index/active`)
+			commit('setPage', 1)
+			commit('setModels', [])
+			commit('setLoadedModels', [])
+			return dispatch('getArticles')	
+		},
+		getArticles({ commit, dispatch, state }) {
+			let per_page = 500
+			console.log('page: '+state.page)
+			return axios.get(`/api/article/index/active?page=${state.page}`)
 			.then(res => {
-				commit('setLoading', false)
-				commit('setModels', res.data.models)
-				commit('setToShow')
-				commit('setSelected', [])
+
+				let loaded_models = res.data.models.data
+				commit('incrementPage')
+				commit('setLoadedModels', loaded_models)
+				console.log('loaded_models:')
+				console.log(loaded_models)
+				commit('addModels', loaded_models)
+
+				if (state.loaded_models.length == per_page) {
+					dispatch('getArticles')
+				} else {
+					commit('setLoading', false)
+				}
+
 			})
 			.catch(err => {
-				commit('setLoading', false)
 				console.log(err)
-			})
+			})		
 		},
+		// async getModels({ commit, state }) {
+		// 	commit('setLoading', true)
+		// 	console.log('page: '+state.page)
+		// 	return axios.get(`/api/article/index/active?page=${state.page}`)
+		// 	.then(res => {
+		// 		let loaded_models = res.data.models.data
+		// 		commit('incrementPage')
+		// 		commit('setLoadedModels', loaded_models)
+		// 		console.log('loaded_models:')
+		// 		console.log(loaded_models)
+		// 		commit('addModels', loaded_models)
+		// 	})
+		// 	.catch(err => {
+		// 		console.log(err)
+		// 	})		
+		// },
 		getInactiveModels({ commit, state }) {
 			commit('setInactiveLoading', true)
 			return axios.get(`/api/${generals.methods.routeString(state.model_name)}/index/inactive`)

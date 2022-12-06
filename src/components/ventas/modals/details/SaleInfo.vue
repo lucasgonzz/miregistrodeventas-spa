@@ -43,6 +43,25 @@
 		</b-col>
 		<b-col 
 		cols="12">
+			<div
+			v-if="sale_details.order">
+				<p
+				class="m-b-0 m-t-15">
+					Pertenece al pedido online N° {{ sale_details.order.num }}
+				</p>
+				<p
+				v-if="sale_details.order.cupon"
+				class="m-b-0 m-t-15">
+					<span
+					v-if="sale_details.order.cupon.percetage">
+						Cupon del {{ sale_details.order.cupon.percetage }}%
+					</span>
+					<span
+					v-else>
+						Cupon de ${{ sale_details.order.cupon.amount }}
+					</span>
+				</p>
+			</div>
 			<p
 			class="m-b-0 m-t-15 title">
 				Total: {{ getTotalSale(sale_details, true, true, false).total }}

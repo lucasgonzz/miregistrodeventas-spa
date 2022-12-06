@@ -7,7 +7,7 @@ export default {
 			type: 'search',
 			value: 0,
 			is_title: true,
-			show_model: true,
+			show_btn_create: true,
 			use_to_filter_in_modal: true,
 		},
 		{
@@ -106,10 +106,7 @@ export default {
 		{
 			text: 'Estado del presupuesto',
 			key: 'budget_status_id',
-			type: 'radio',
-			props_to_show_in_radio: [
-				'name',
-			],
+			type: 'select',
 			value: 1,
 			show: true,
 			filterable: true,
@@ -120,7 +117,11 @@ export default {
 			key: 'total',
 			function: 'budgetTotal',
 			value: '',
+			is_price: true,
 			show: true,
 		},
 	],
+	singular_model_name_spanish: 'Presupuesto',
+	plural_model_name_spanish: 'Presupuestos',
+	create_model_name_spanish: 'Nuevo presupuesto',
 }

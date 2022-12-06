@@ -1,5 +1,5 @@
 export default {
-	properties: [
+	properties: [ 
 		{
 			text: 'Cliente',
 			key: 'buyer_id',
@@ -85,5 +85,26 @@ export default {
 				]
 			}
 		},
+		{
+			text: 'Cupon',
+			key: 'cupon_id',
+			store: 'cupon',
+			type: '',
+			only_show: true,
+			value: '',
+			show: true,
+			relation_prop_name: 'code',
+		},
+		{
+			text: 'Total',
+			key: 'total',
+			function: 'orderTotal',
+			value: '',
+			is_price: true,
+			show: true,
+		},
 	],
+	singular_model_name_spanish: 'Pedido',
+	plural_model_name_spanish: 'Pedidos',
+	create_model_name_spanish: 'Nuevo pedido',
 }

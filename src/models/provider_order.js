@@ -7,6 +7,7 @@ export default {
 			type: 'search',
 			value: 0,
 			is_title: true,
+			show_btn_create: true,
 			use_to_filter_in_modal: true,
 		},
 		{
@@ -60,11 +61,17 @@ export default {
 						type: 'number'
 					},
 					{
+						text: 'Actualizar costo en el sistema',
+						key: 'update_cost',
+						value: 1,
+						type: 'checkbox'
+					},
+					{
 						text: 'Iva',
 						key: 'iva_id',
 						value: 0,
 						type: 'select',
-						prop_name: 'percentage',
+						select_prop_name: 'percentage',
 						size: 'md',
 					},
 					{
@@ -147,4 +154,7 @@ export default {
 			show: true,
 		},
 	],
+	singular_model_name_spanish: 'Pedido',
+	plural_model_name_spanish: 'Pedidos',
+	create_model_name_spanish: 'Nuevo pedido',
 }

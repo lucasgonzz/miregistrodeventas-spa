@@ -76,7 +76,6 @@ export default {
     mixins: [sales_from_date],
     props: {
     	model_name: String,
-    	model_name_spanish: String,
     	clear_selected: {
     		type: Boolean,
     		default: false
@@ -129,7 +128,7 @@ export default {
 			return moment(d).format('DD')
 		},
 		showNotModels() {
-			this.$toast.error('No se hicieron '+this.model_name_spanish+' en este dia')
+			this.$toast.error('No se hicieron '+this.singular(this.model_name)+' en este dia')
 		},
 		getDaysBefore() {
 			this.index++

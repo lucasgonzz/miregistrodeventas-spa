@@ -29,4 +29,7 @@ export default {
 			show: true,
 		},
 	],
+	singular_model_name_spanish: 'Cupon',
+	plural_model_name_spanish: 'Cupones',
+	create_model_name_spanish: 'Nueva cupon',
 }

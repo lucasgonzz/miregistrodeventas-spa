@@ -28,8 +28,8 @@ export default {
 			new_article.cost_in_dollars = article.cost_in_dollars
 			new_article.apply_provider_percentage_gain = article.apply_provider_percentage_gain
 			new_article.price = article.price
+			new_article.final_price = article.final_price
 			new_article.percentage_gain = article.percentage_gain
-			new_article.original_price = article.original_price
 			new_article.previus_price = article.previus_price
 			new_article.condition_id = article.condition_id 
 			new_article.stock = article.stock
@@ -85,14 +85,16 @@ export default {
 				new_article.sizes_id.push(size.id)
 			})
 
-			if (article.providers.length) {
-				new_article.provider_id = article.providers[article.providers.length-1].id
-				new_article.providers = article.providers
-			} else if (article.provider_id) {
-				new_article.provider_id = article.provider_id
-			} else {
-				new_article.provider_id = 0
-			}
+			new_article.provider_id = article.provider_id
+			new_article.provider = article.provider
+			// if (article.providers.length) {
+			// 	new_article.provider_id = article.providers[article.providers.length-1].id
+			// 	new_article.providers = article.providers
+			// } else if (article.provider_id) {
+			// 	new_article.provider_id = article.provider_id
+			// } else {
+			// 	new_article.provider_id = 0
+			// }
 
 			if (!article.provider_price_list_id) {
 				new_article.provider_price_list_id = 0

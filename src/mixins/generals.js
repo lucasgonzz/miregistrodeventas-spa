@@ -19,7 +19,16 @@ export default {
 	methods: {
 		addModel(model_name, model) {
 			this.$store.commit(model_name+'/add', model)
-			this.$store.commit(model_name+'/setToShow')
+			// this.$store.commit(model_name+'/setToShow')
+		},
+		plural(model_name) {
+			return require('@/models/'+model_name).default.plural_model_name_spanish
+		},
+		singular(model_name) {
+			return require('@/models/'+model_name).default.singular_model_name_spanish
+		},
+		create_spanish(model_name) {
+			return require('@/models/'+model_name).default.create_model_name_spanish
 		},
 
 		// --------------------------------- Model ---------------------------------
@@ -139,8 +148,21 @@ export default {
 			}
 			if (this.isRelationKey(prop)) {
 				let relationship = this.modelNameFromRelationKey(prop, false, false)
+				let prop_name = 'name'
+				if (prop.relation_prop_name) {
+					prop_name = prop.relation_prop_name
+				}
 				if (model[relationship]) {
-					return model[relationship].name 
+					// if (typeof prop_name == 'object') {
+					// 	prop.relation_prop_name.forEach(prop => {
+					// 		if (model[relationship][prop]) {
+					// 			return model[relationship][prop]
+					// 		}
+					// 	})
+					// } else {
+					// 	return model[relationship][prop_name] 
+					// }
+					return model[relationship][prop_name] 
 				}
 			}
 			if (prop.is_boolean) {
@@ -199,15 +221,23 @@ export default {
 			}
 			return plural
 		},
-		getOptions(options_store, model_name, prop_name = 'name') {
-			let store = options_store.substring(0, options_store.length-3)
-			// store = this.modelPlural(store)
+		getOptions(prop, model = null) {
+			let store = prop.key.substring(0, prop.key.length-3)
 			let models = this.$store.state[store].models
-
+			let prop_name = 'name'
+			if (prop.select_prop_name) {
+				prop_name = prop.select_prop_name
+			} 
 			let options = []
 			options.push({
-				value: 0, text: 'Seleccione '+model_name
+				value: 0, text: 'Seleccione '+prop.text 
 			})
+			if (prop.depends_on && model) {
+				console.log(model)
+				models = models.filter(_model => {
+					return _model[prop.depends_on] == model[prop.depends_on]
+				})
+			}
 			models.forEach(item => {
 				options.push({value: item.id, text: item[prop_name]})
 			})
