@@ -1,6 +1,6 @@
 <template>
 	<div 
-	v-if="payment_method.current_acount_payment_method_id == 5"
+	v-if="payment_method.current_acount_payment_method_id == 5 && modelsStoreFromName('credit_card').length"
 	class="m-t-15">
 		<b-form-group
 		class="m-b-0"
@@ -8,7 +8,7 @@
 			<b-form-select 
 			class="m-b-15"
 			v-model="payment_method.credit_card_id"
-			:options="getOptions('credit_card_id', 'Tarjeta', 'name')"></b-form-select>
+			:options="getOptions({key: 'credit_card_id', text: 'Tarjeta'})"></b-form-select>
 		</b-form-group>
 		<b-form-group
 		v-if="payment_plans_options.length > 1"

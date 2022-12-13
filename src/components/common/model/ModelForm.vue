@@ -437,6 +437,7 @@ export default {
 			if (this.check() && !this.loading) {
 				this.loading = true 
 				let route = this.routeString(this.model_name)
+				// let model_to_send = this.getModelToSend()
 				if (this.model.id) {
 					this.$api.put(route+'/'+this.model.id, this.model)
 					.then(res => {
@@ -471,6 +472,9 @@ export default {
 				}
 			}
 		},
+		// getModelToSend() {
+		// 	if (this.)
+		// },
 		check() {
 			let ok = true
 			this.properties.forEach(prop => {

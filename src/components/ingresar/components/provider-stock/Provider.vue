@@ -38,26 +38,19 @@
 	</b-col>
 </template>
 <script>
+import ingresar from '@/mixins/ingresar'
 export default {
+	mixins: [ingresar],
 	name: 'Provider',
 	props: ['article', 'show_checkboxs'],
 	computed: {
 		percentage_gain() {
 			if (this.provider_price_list) {
 				return this.provider_price_list.percentage
-			} else if (this.provider && this.provider.percentage_gain) {
-				return this.provider.percentage_gain
+			} else if (this.selectedProvider(this.article) && this.selectedProvider(this.article).percentage_gain) {
+				return this.selectedProvider(this.article).percentage_gain
 			}
 			return null 
-		},
-		provider() {
-			let provider = this.$store.state.provider.models.find(model => {
-				return model.id == this.article.provider_id
-			})
-			if (typeof provider != 'undefined') {
-				return provider
-			}
-			return null
 		},
 		provider_price_list() {
 			let provider_price_list = this.provider_price_lists.find(model => {

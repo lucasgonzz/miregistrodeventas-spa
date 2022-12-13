@@ -36,9 +36,10 @@ export default {
 						show: true,
 					},
 					{
-						text: 'Precio',
-						key: 'price',
+						text: 'Precio F',
+						key: 'final_price',
 						type: 'price',
+						is_price: true,
 						show: true,
 					},
 				],

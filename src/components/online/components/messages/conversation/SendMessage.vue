@@ -10,7 +10,7 @@
 		class="m-l-10"
         variant="success"
         target="_blank"
-        :href="'https://api.whatsapp.com/send?phone='+selected_buyer.phone">
+        :href="'https://wa.me/'+selected_buyer.phone">
             <i class="icon-whatsapp"></i>
         </b-button>
 		<img 

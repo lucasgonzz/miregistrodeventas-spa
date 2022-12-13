@@ -26,6 +26,7 @@ export default {
 			new_article.name = article.name
 			new_article.cost = article.cost
 			new_article.cost_in_dollars = article.cost_in_dollars
+			new_article.provider_cost_in_dollars = article.provider_cost_in_dollars
 			new_article.apply_provider_percentage_gain = article.apply_provider_percentage_gain
 			new_article.price = article.price
 			new_article.final_price = article.final_price

@@ -77,8 +77,8 @@ export default {
 				properties_to_set: [
 					{
 						text: 'Precio',
-						key: 'price',
-						value: {key: 'price', value_if_undefined: ''},
+						key: 'price', 
+						value: {key: 'final_price', value_if_undefined: ''},
 						type: 'number',
 						can: 'order_production.article.price',
 					},

@@ -1,5 +1,8 @@
 export default {
 	methods: {
+		create(model_name) {
+			this.setModel(null, model_name)
+		},
 		setModel(model, model_name, _properties = null) {
 			if (!_properties) {
 				_properties = this.modelPropertiesFromName(model_name)

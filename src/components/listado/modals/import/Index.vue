@@ -72,9 +72,6 @@ export default {
 					text: 'Precio',
 				},
 				{
-					text: 'Precio Final',
-				},
-				{
 					text: 'Moneda',
 					description: 'USD para Dolares, ARS para pesos (ARS por defecto)',
 				},

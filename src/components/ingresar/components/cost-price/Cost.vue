@@ -20,10 +20,20 @@
 		v-model="article.cost_in_dollars">
 			Costo en dolares
 		</b-form-checkbox>
+
+		<b-form-checkbox
+		v-if="selectedProvider(article) && selectedProvider(article).dolar"
+		:value="1"
+		:unchecked-value="0"
+		v-model="article.provider_cost_in_dollars">
+			Costo en dolares de {{ selectedProvider(article).name }} de ${{ selectedProvider(article).dolar }}
+		</b-form-checkbox>
 	</b-col>
 </template>
 <script>
+import ingresar from '@/mixins/ingresar'
 export default {
+	mixins: [ingresar],
 	props: ['article'],
 	computed: {
 		special_prices() {

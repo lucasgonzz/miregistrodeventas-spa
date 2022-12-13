@@ -156,6 +156,7 @@ export default {
 				name: '',
 				cost: '',
 				cost_in_dollars: 0,
+				provider_cost_in_dollars: 0,
 				price: '',
 				percentage_gain: '',
 				stock: '',
@@ -329,6 +330,7 @@ export default {
 			this.article.name = ''
 			this.article.cost = ''
 			this.article.cost_in_dollars = 0
+			this.article.provider_cost_in_dollars = 0
 			this.article.price = ''
 			this.article.percentage_gain = ''
 			this.article.apply_provider_percentage_gain = 0

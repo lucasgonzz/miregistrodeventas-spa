@@ -2,11 +2,14 @@
 	<div>
 		<p
 		class="j-between">
-			Metodo de pago
+			{{ model.name }}
 			<strong>
-				{{ model.name }}
+				{{ price(model.pivot.amount) }}
 			</strong>
 		</p>
+		<check-info 
+		:payment_method="model.pivot"
+		disabled_inputs></check-info>
 		<div
 		class="shadow-2 p-15 b-r-1"
 		v-if="model.credit_card">
@@ -38,7 +41,11 @@
 	</div>
 </template>
 <script>
-export default {
+import CheckInfo from '@/components/common/current-acounts/pago/CheckInfo'
+export default { 
+	components: {
+		CheckInfo,
+	},
 	props: {
 		model: Object,
 	},

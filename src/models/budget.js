@@ -63,7 +63,7 @@ export default {
 					{
 						text: 'Precio',
 						key: 'price',
-						value: {key: 'price', value_if_undefined: ''},
+						value: {key: 'final_price', value_if_undefined: ''},
 						type: 'number'
 					},
 					{

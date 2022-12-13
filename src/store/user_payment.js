@@ -7,17 +7,17 @@ import generals from '@/mixins/generals'
 export default {
 	namespaced: true,
 	state: {
-		model_name: 'order_production',
+		model_name: 'user_payment',
 
 		models: [],
 		model: {},
-		to_show: [],
 		selected: [],
 		filtered: [],
 		is_filtered: false,
+		selected_model: null,
 
-		from_date: moment().format('YYYY-MM-DD'),
-		until_date: '',
+		from_date: moment().subtract(1, 'months').format('YYYY-MM-DD'),
+		until_date: moment().format('YYYY-MM-DD'),
 
 		delete: null,
 		delete_image: null,
@@ -70,6 +70,9 @@ export default {
 		},
 		setIsFiltered(state, value) {
 			state.is_filtered = value
+		},
+		setSelectedModel(state, value) {
+			state.selected_model = value 
 		},
 		add(state, value) {
 			let index = state.models.findIndex(item => {
@@ -128,7 +131,7 @@ export default {
 	actions: {
 		getModels({ commit, state }) {
 			commit('setLoading', true)
-			let url = '/api/'+generals.methods.routeString(state.model_name)+'/'+state.from_date
+			let url = '/api/'+generals.methods.routeString(state.model_name)+'/'+state.selected_model.id+'/'+state.from_date
 			if (state.until_date != '') {
 				url += '/'+state.until_date
 			}

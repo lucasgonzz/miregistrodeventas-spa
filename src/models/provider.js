@@ -49,6 +49,14 @@ export default {
 			show: true,
 		},
 		{
+			text: 'Valor dolar',
+			key: 'dolar',
+			type: 'number',
+			value: '',
+			is_price: true,
+			show: true,
+		},
+		{
 			text: 'Telefono',
 			key: 'phone',
 			type: 'text',

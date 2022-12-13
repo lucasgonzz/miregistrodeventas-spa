@@ -29,7 +29,7 @@ export default {
 		},
 		articles_stock_0() {
 			return this.articles.filter(article => {
-				return article.stock <= 0
+				return article.stock && article.stock <= 0
 			})
 		},
 	},

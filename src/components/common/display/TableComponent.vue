@@ -118,7 +118,7 @@
 			v-else-if="!models.length"
 			class="text-with-icon">
 				<i class="icon-eye-slash"></i>
-				No hay {{ singular(model_name) }}
+				No hay {{ plural(model_name) }}
 			</p>
 		</div>
 		<b-skeleton-table

@@ -62,6 +62,7 @@ import credit_card from './credit_card'
 import message from './message'
 import cupon from './cupon'
 import surchage from './surchage'
+import user_payment from './user_payment'
 
 // SUPER
 import user from './user'
@@ -147,6 +148,7 @@ export default new Vuex.Store({
 		message,
 		cupon,
 		surchage,
+		user_payment,
 		
 		user,
 		super_budget,

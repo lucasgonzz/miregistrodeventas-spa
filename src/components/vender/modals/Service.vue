@@ -45,13 +45,14 @@ export default {
 					let service = {
 						...res.data.service,
 						is_service: true,
+						final_price: res.data.service.price,
 						amount: 1,
 					}
 					this.$store.commit('vender/addItem', service)
 					if (this.index_previus_sales > 0) {
 						this.setItemsPrices(true, false)
 					} else {
-						this.setItemsPrices()
+						this.setItemsPrices(true)
 					}
 					this.$store.commit('vender/setTotal')
 					this.$bvModal.hide('service')
