@@ -2,7 +2,7 @@
 	<div
 	class="cont-navs">
 		<div
-		class="j-center">
+		class="j-start">
 			<div 
 			v-if="items"
 			class="horizontal-nav">
@@ -44,23 +44,26 @@
 				</b-btn-group>	
 			</div>
 			<div class="buttons">
+
 				<slot name="btn_create">
+					<excel-drop-down
+					v-if="show_excel_drop_down"
+					:model_name="model_name"></excel-drop-down>
+
 					<btn-create
-					v-if="show_btn_create"
+					v-else-if="show_btn_create"
 					:with_margin="false"
 					:block="false"
-					:text="create_model_name_spanish"
 					:model_name="model_name"></btn-create>
 				</slot>
+
 				<slot name="buttons"></slot>
 			</div>
 		</div>
 
-
 		<display-nav
-		v-if="display != ''"
+		v-if="show_display"
 		:model_name="model_name"
-		:display="display"
 		@setDisplay="setDisplay"></display-nav>
 
 	</div>
@@ -68,6 +71,7 @@
 <script>
 import BtnCreate from '@/components/common/BtnCreate'
 import FilterModal from '@/components/common/horizontal-nav/FilterModal'
+import ExcelDropDown from '@/components/common/horizontal-nav/ExcelDropDown'
 import DisplayNav from '@/components/common/horizontal-nav/DisplayNav'
 
 import display from '@/mixins/display'
@@ -77,6 +81,7 @@ export default {
 	components: {
 		BtnCreate,
 		FilterModal,
+		ExcelDropDown,
 		DisplayNav,
 	},
 	props: {
@@ -85,7 +90,6 @@ export default {
 			type: Boolean,
 			default: false,
 		},
-		create_model_name_spanish: String,
 		prop_name: {
 			type: String,
 			default: 'name',
@@ -106,9 +110,13 @@ export default {
 			type: Boolean,
 			default: false,
 		},
-		display: {
-			type: String,
-			default: ''
+		show_display: {
+			type: Boolean,
+			default: true,
+		},
+		show_excel_drop_down: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	created() {
@@ -210,12 +218,14 @@ export default {
 	align-items: center
 	margin: 1em 0
 	justify-content: space-between
+	& > div 
+		width: 100%
 .col-nav 
 	justify-content: flex-start
 .horizontal-nav
 	width: 100%
 	display: flex
-	overflow-x: auto
+	overflow-x: scroll
 	overflow-y: hidden
 	-ms-overflow-style: none
 	scrollbar-width: none

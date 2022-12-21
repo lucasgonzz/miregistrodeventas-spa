@@ -35,6 +35,7 @@ export default {
 			type: 'search',
 			belongs_to_many: {
 				model_name: 'article',
+				create_if_not_exist: true,
 				props_to_show: [
 					{
 						text: 'Nombre',
@@ -124,4 +125,5 @@ export default {
 	singular_model_name_spanish: 'Presupuesto',
 	plural_model_name_spanish: 'Presupuestos',
 	create_model_name_spanish: 'Nuevo presupuesto',
+	text_delete: 'el',
 }

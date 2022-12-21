@@ -32,4 +32,5 @@ export default {
 	singular_model_name_spanish: 'Imagen',
 	plural_model_name_spanish: 'Imagenes',
 	create_model_name_spanish: 'Nueva imagen',
+	text_delete: 'el',
 }

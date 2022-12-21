@@ -8,11 +8,7 @@
     	:show_btn_pdf="show_btn_pdf"
     	:show_btn_delete="show_btn_delete"
     	:size="modal_size"
-    	:modal_title="create_model_name_spanish"
-    	:model="model"
-    	:model_name="model_name"
-    	:text_delete="text_delete"
-    	:properties="properties">
+    	:model_name="model_name">
     		<template v-slot:default="slotProps">
     			<slot name="modal_buttons" :model="slotProps.model"></slot>
     		</template>
@@ -25,9 +21,9 @@
 				<horizontal-nav
 				:show_filter_modal="show_filter_modal"
 				:show_btn_create="_show_btn_create"
-				:create_model_name_spanish="create_model_name_spanish"
-				:model_name="model_name"
-				:display="display">
+				:show_excel_drop_down="show_excel_drop_down"
+				:show_display="show_display"
+				:model_name="model_name">
 					<template v-slot:btn_create>
 						<slot name="horizontal_nav_btn_create"></slot>
 					</template>
@@ -76,6 +72,10 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		show_excel_drop_down: {
+			type: Boolean,
+			default: false,
+		},
 		check_can_create: {
 			type: Boolean,
 			default: false
@@ -104,6 +104,10 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		show_display: {
+			type: Boolean,
+			default: true,
+		},
 		col_xl: {
 			type: String,
 			default: '12'
@@ -128,9 +132,6 @@ export default {
 		},
 		delete() {
 			return this.$store.state[this.model_name].delete
-		},
-		text_delete() {
-			return 'la '+this.model_name_spanish
 		},
 		display() {
 			return this.$store.state[this.model_name].display

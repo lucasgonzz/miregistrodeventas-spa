@@ -5,7 +5,7 @@
 	:block="block ? true : false" 
 	variant="primary">
 		<i class="icon-plus"></i>
-		{{ text }}
+		{{ create_spanish(model_name) }}
 	</b-button>
 </template>
 <script>

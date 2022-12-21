@@ -61,14 +61,12 @@ export default {
 		prop: {
 			type: Object,
 		},
+		model_name: String,
 		str_limint: {
 			type: Number,
 			default: 2,
 		},
-		auto_select: {
-			type: Boolean,
-			default: true,
-		},
+		auto_select: Boolean,
 		placeholder: {
 			type: String,
 		},
@@ -85,9 +83,6 @@ export default {
 		}
 	},
 	computed: {
-		model_name() {
-			return this.prop.store
-		},
 		modal_id() {
 			return this._id+'-search-modal'
 		},
@@ -112,14 +107,6 @@ export default {
 				return 'Buscar '+this.prop.text.toLowerCase()
 			}
 		},
-		get_model_name() {
-			if (this.model_name) {
-				return this.model_name
-			} else if (this.prop) {
-				return this.modelNameFromRelationKey(this.prop)
-			}
-		},
-
 	},
 	methods: {
 		callSearch(e) {
@@ -183,11 +170,6 @@ export default {
 				} else {
 					this.$emit('setSelected', null)
 				}
-				// if (this.auto_select && this.results.length) {
-				// 	this.$emit('setSelected', this.results[this.selected_index])
-				// } else if (!this.auto_select) {
-				// 	this.$emit('setSelected', null)
-				// }
 				this.results = []
 				this.$bvModal.hide(this.modal_id)
 			} else {
@@ -195,14 +177,17 @@ export default {
 			}
 		},
 		selectUp() {
-			this.selected_index--
+			if (this.selected_index > 0) {
+				this.selected_index--
+			}
 		},	
 		selectDown() {
+			if (this.selected_index < this.results.length-1)
 			this.selected_index++
 		},	
 		setSelected(model) {
-			this.results = []
 			this.$emit('setSelected', model)
+			this.results = []
 			this.$bvModal.hide(this.modal_id)
 		}
 	}

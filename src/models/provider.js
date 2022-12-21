@@ -23,22 +23,6 @@ export default {
 			has_many: {
 				text: 'Lista de precios',
 				model_name: 'provider_price_list',
-				model: {
-					name: '',
-					percentage: '',
-				},
-				properties: [
-					{
-						text: 'Nombre',
-						key: 'name',
-						type: 'text',
-					},
-					{
-						text: 'Margen de ganancia',
-						key: 'percentage',
-						type: 'number',
-					},
-				],
 			}
 		},
 		{
@@ -124,4 +108,5 @@ export default {
 	singular_model_name_spanish: 'Proveedor',
 	plural_model_name_spanish: 'Proveedores',
 	create_model_name_spanish: 'Nuevo proveedor',
+	text_delete: 'el',
 }

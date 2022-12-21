@@ -3,23 +3,17 @@
 	<inactive-articles></inactive-articles>
 	<b-row>
 		<b-col
-		cols="12"
-		md="6">
-			<div 
-			class="j-start align-center">
-				<horizontal-nav
-				show_filter_modal
-				:show_btn_create="false"
-				model_name="article" />
-				<drop-down></drop-down>
-			</div>
+		cols="12">
+			<horizontal-nav
+			show_filter_modal
+			:show_btn_create="false"
+			model_name="article">
+				<template #btn_create>
+					<drop-down></drop-down>
+				</template>
+			</horizontal-nav>
 		</b-col>
-		<!-- <b-col
-		class="align-center"
-		cols="4"
-		md="2">
-			<drop-down></drop-down>
-		</b-col> -->
+		
 		<b-col
 		class="j-end align-center"
 		cols="12"

@@ -46,6 +46,11 @@
                         </div>
                     </b-dropdown-item>
                     <b-dropdown-item 
+                    v-b-modal="'update-features'">
+                        <i class="icon-eye"></i>
+                        Nueva version
+                    </b-dropdown-item>
+                    <b-dropdown-item 
                     @click="logout">
                         <i class="icon-sign-out"></i>
                         Salir

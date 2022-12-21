@@ -12,6 +12,7 @@ export default {
 		model: {},
 		to_show: [],
 		selected: [],
+		filters: [],
 		filtered: [],
 		is_filtered: false,
 
@@ -58,6 +59,9 @@ export default {
 				state.models = []
 			}
 		},
+		setFilters(state, value) {
+			state.filters = value
+		},
 		setFiltered(state, value) {
 			state.filtered = value
 		},
@@ -96,6 +100,14 @@ export default {
 		setDeleteImage(state, value) {
 			state.delete_image = value
 		},
+		deleteImage(state, value) {
+			let index = state.models.images.findIndex(model => {
+				return model.id == state.delete_image.id
+			})
+			if (index != -1) {
+				state.model.images.splice(index, 1)
+			}
+		},
 		setPropModelToDelete(state, value) {
 			state.prop_model_to_delete = value
 		},
@@ -132,7 +144,6 @@ export default {
 			return axios.delete(`/api/${generals.methods.routeString(state.model_name)}/${state.delete.id}`)
 			.then(() => {
 				commit('delete')
-				commit('setToShow')
 			})
 			.catch((err) => {
 				console.log(err)

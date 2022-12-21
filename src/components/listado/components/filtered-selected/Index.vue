@@ -1,6 +1,5 @@
 <template>
-<b-row
-class="m-t-15">
+<b-row>
 	<b-col 
 	v-show="show"
 	cols="12"

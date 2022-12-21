@@ -6,6 +6,7 @@ export default {
 			store: 'client',
 			type: 'search',
 			value: 0,
+			sortable: true,
 			is_title: true,
 			show_btn_create: true,
 			use_to_filter_in_modal: true,
@@ -17,6 +18,7 @@ export default {
 			type: 'select',
 			value: 0,
 			show: true,
+			sortable: true,
 			use_to_filter_in_modal: true,
 		},
 		{
@@ -26,6 +28,7 @@ export default {
 			is_date: true,
 			value: '',
 			show: true,
+			sortable: true,
 			filterable: true,
 		},
 		{
@@ -35,6 +38,7 @@ export default {
 			is_date: true,
 			value: '',
 			show: true,
+			sortable: true,
 			filterable: true,
 		},
 		{
@@ -44,6 +48,7 @@ export default {
 			key: 'articles',
 			belongs_to_many: {
 				model_name: 'article',
+				create_if_not_exist: true,
 				props_to_show: [
 					// {
 					// 	text: 'Activar',
@@ -145,15 +150,17 @@ export default {
 		{
 			text: 'Finalizada',
 			key: 'finished',
-			type: '',
+			type: 'boolean',
 			is_boolean: true,
 			value: '',
 			show: true,
+			use_to_filter_in_modal: true,
 		},
 		{
 			text: 'Total',
 			key: 'total',
 			function: 'budgetTotal',
+			sortable: true,
 			value: '',
 			show: true,
 		},
@@ -161,4 +168,5 @@ export default {
 	singular_model_name_spanish: 'Orden de produccion',
 	plural_model_name_spanish: 'Ordenes de produccion',
 	create_model_name_spanish: 'Nueva orden de produccion',
+	text_delete: 'la',
 }

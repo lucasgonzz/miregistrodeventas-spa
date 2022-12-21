@@ -3,39 +3,19 @@ export default {
 		image(model, from_model = false, cropped = true) {
 			let url 
 			let image_url = null
-			let model_prop_url
-			let image_prop_url
-			if (!this.from_cloudinary) {
-				model_prop_url = 'hosting_image_url'
-				image_prop_url = 'hosting_url'
-			} else {
-				model_prop_url = 'image_url'
-				image_prop_url = 'url'
-			}
 			if (!from_model) {
-				if (model[model_prop_url]) {
-					image_url = model[model_prop_url]
-				} else if (model.images && model.images.length) {
-					image_url = model.images[0][image_prop_url] 
+				if (model.hosting_image_url) {
+					image_url = model.hosting_image_url
+				} else if (model.images && model.images[0]) {
+					image_url = model.images[0].hosting_url 
 				}
 			} else {
-				image_url = model[from_model][model_prop_url]
+				image_url = model[from_model].hosting_image_url
 			}
 			if (!this.is_local) {
 				image_url = this.getProductionUrl(image_url)
 			} 
-			if (!this.from_cloudinary) {
-				return image_url 
-			} else if (image_url) {
-				if (cropped) {
-					url = `https://res.cloudinary.com/lucas-cn/image/upload/c_crop,g_custom,q_auto,f_auto/${image_url}`
-				} else {
-					url = `https://res.cloudinary.com/lucas-cn/image/upload/q_auto,f_auto/${image_url}`
-				}
-			} else {
-				url = '@/assets/image-not-found.jpg'
-			}
-			return url
+			return image_url 
 		},
 		getProductionUrl(image_url) {
 			if (image_url) {
@@ -79,10 +59,6 @@ export default {
 			})
 			myCropWidget.open()
 		},
-		showImages(article) {
-			this.$store.commit('articles/setImagesToShow', article)
-			this.$bvModal.show('article-images')
-		},
 		imageUrl(model = null, cropped = false, from_cloudinary = false) {
 			if (model) {
 				if (this.from_cloudinary) {
@@ -92,6 +68,9 @@ export default {
 						return `https://res.cloudinary.com/lucas-cn/image/upload/${model}`
 					}
 				} else {
+					if (!this.is_local) {
+						return this.getProductionUrl(model.hosting_url)
+					} 
 					return model.hosting_url
 				}
 			}

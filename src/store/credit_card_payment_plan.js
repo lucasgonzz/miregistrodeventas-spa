@@ -2,26 +2,23 @@ import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
 
-import moment from 'moment'
 import generals from '@/mixins/generals'
 export default {
 	namespaced: true,
 	state: {
-		model_name: '',
+		model_name: 'credit_card_payment_plan',
 
 		models: [],
 		model: {},
+		to_show: [],
 		selected: [],
+		filters: [],
 		filtered: [],
 		is_filtered: false,
-		selected_model: null,
-
-		from_date: moment().subtract(1, 'months').format('YYYY-MM-DD'),
-		until_date: moment().format('YYYY-MM-DD'),
 
 		delete: null,
 		delete_image: null,
-		
+
 		prop_model_to_delete: null,
 
 		display: 'table',
@@ -62,8 +59,8 @@ export default {
 				state.models = []
 			}
 		},
-		setSelected(state, value) {
-			state.selected = value
+		setFilters(state, value) {
+			state.filters = value
 		},
 		setFiltered(state, value) {
 			state.filtered = value
@@ -71,8 +68,8 @@ export default {
 		setIsFiltered(state, value) {
 			state.is_filtered = value
 		},
-		setSelectedModel(state, value) {
-			state.selected_model = value 
+		setSelected(state, value) {
+			state.selected = value 
 		},
 		add(state, value) {
 			let index = state.models.findIndex(item => {
@@ -105,9 +102,11 @@ export default {
 		},
 		deleteImage(state, value) {
 			let index = state.models.images.findIndex(model => {
-				return model.id == state.delete.id
+				return model.id == state.delete_image.id
 			})
-			state.models.splice(index, 1)
+			if (index != -1) {
+				state.model.images.splice(index, 1)
+			}
 		},
 		setPropModelToDelete(state, value) {
 			state.prop_model_to_delete = value
@@ -121,21 +120,11 @@ export default {
 		setDisplay(state, value) {
 			state.display = value 
 		},
-		setFromDate(state, value) {
-			state.from_date = value
-		},
-		setUntilDate(state, value) {
-			state.until_date = value
-		},
 	},
 	actions: {
 		getModels({ commit, state }) {
 			commit('setLoading', true)
-			let url = '/api/'+generals.methods.routeString(state.model_name)+'/'+state.selected_model.id+'/'+state.from_date
-			if (state.until_date != '') {
-				url += '/'+state.until_date
-			}
-			return axios.get(url)
+			return axios.get(`/api/${generals.methods.routeString(state.model_name)}`)
 			.then(res => {
 				commit('setLoading', false)
 				commit('setModels', res.data.models)
@@ -149,7 +138,6 @@ export default {
 			return axios.delete(`/api/${generals.methods.routeString(state.model_name)}/${state.delete.id}`)
 			.then(() => {
 				commit('delete')
-				commit('setToShow')
 			})
 			.catch((err) => {
 				console.log(err)

@@ -14,6 +14,9 @@ export default {
 	computed: {
 		columns() {
 			let columns = [
+				{ 
+					text: 'Codigo',
+				},
 				{
 					text: 'Nombre',
 				},
@@ -40,9 +43,6 @@ export default {
 				},
 				{
 					text: 'Observaciones',
-				},
-				{
-					text: 'Codigo',
 				},
 			]
 			return columns

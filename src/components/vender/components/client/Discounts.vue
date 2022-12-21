@@ -13,7 +13,7 @@
 				</p>
 				<b-button
 				variant="outline-primary"
-				v-b-modal="'discount'">
+				v-b-modal="'discounts'">
 					<i class="icon-eye"></i>
 					Descuentos
 				</b-button>

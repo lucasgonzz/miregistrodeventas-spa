@@ -2,11 +2,9 @@
 	<view-component
 	v-if="view == 'clientes'"
 	model_name="buyer"
-	model_name_spanish="clientes"
-	create_model_name_spanish="cliente"
 	:show_btn_create="false"
 	:show_previus_days="false"
-	show_search_nav>
+	show_filter_modal>
 		<template
 		v-slot:modal_buttons="slotProps">
     		<comercio-city-user  

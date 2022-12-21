@@ -18,4 +18,5 @@ export default {
 	singular_model_name_spanish: 'Deposito',
 	plural_model_name_spanish: 'Depositos',
 	create_model_name_spanish: 'Nuevo deposito',
+	text_delete: 'el',
 }

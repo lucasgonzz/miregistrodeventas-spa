@@ -2,53 +2,48 @@
 	<b-col
 	v-if="hasExtencion('combos')"
 	cols="12"
-	lg="3">
-		<select-component
-		:id="id"
-		:model="combo"
-		:models="combos"
-		prop_name="name"
-		placeholder="Buscar un combo"
-		:props_to_show="['price']"
-		@setSelected="setSelectedCombo"></select-component>
+	class="margin-bottom-since-lg"
+	:lg="col_lg_extencions">
+		<search-component
+		id="select-combo"
+		model_name="combo"
+		@setSelected="setSelectedCombo"
+		clear_query
+		:show_selected="false"
+		:str_limint="3"></search-component>
 	</b-col>
 </template>
 <script>
-import SelectComponent from '@/components/common/select/Index'
+import SearchComponent from '@/components/common/search/Index'
 import vender from '@/mixins/vender'
 export default {
 	mixins: [vender],
 	components : {
-		SelectComponent,
+		SearchComponent,
 	},
 	computed: {
 		combos() {
-			return this.$store.state.combos.models
+			return this.$store.state.combo.models
 		},
 		id() {
 			return 'select-combo'
 		},
 	},
-	data() {
-		return {
-			combo: {
-				name: '',
-			},
-		}
-	},
 	methods: {
 		setSelectedCombo(result) {
 			let combo = {
-				...result,
+				...result.model,
 				is_combo: true,
 				amount: 1,
 			}
+			combo.final_price = Number(combo.price)
 			console.log(combo)
 			this.$store.commit('vender/addItem', combo)
-			this.combo = {
-				name: '',
+			if (this.index_previus_sales > 0) {
+				this.setItemsPrices(true, false)
+			} else {
+				this.setItemsPrices(true, false)
 			}
-			
 		},
 	}
 }

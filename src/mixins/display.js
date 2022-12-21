@@ -1,7 +1,10 @@
 export default {
 	methods: {
-		create(model_name) {
+		create(model_name, selected_model = null) {
 			this.setModel(null, model_name)
+			if (selected_model) {
+				this.$store.commit(model_name+'/setSelectedModel', selected_model)
+			}
 		},
 		setModel(model, model_name, _properties = null) {
 			if (!_properties) {

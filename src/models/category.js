@@ -11,4 +11,5 @@ export default {
 	singular_model_name_spanish: 'Categoria',
 	plural_model_name_spanish: 'Categorias',
 	create_model_name_spanish: 'Nueva categoria',
+	text_delete: 'la',
 }

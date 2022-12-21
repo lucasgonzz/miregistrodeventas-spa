@@ -11,6 +11,7 @@
 		lg="10">
 			<horizontal-nav
 			set_sub_view
+			:show_display="false"
 			:items="items"></horizontal-nav>
 			<general></general>	
 			<platelets></platelets>	

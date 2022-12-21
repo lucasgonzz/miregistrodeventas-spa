@@ -17,6 +17,7 @@ export default {
 			key: 'articles',
 			belongs_to_many: {
 				model_name: 'article',
+				create_if_not_exist: true,
 				props_to_show: [
 					{
 						text: 'Nombre',
@@ -113,28 +114,6 @@ export default {
 			has_many: {
 				text: 'Factura',
 				model_name: 'provider_order_afip_ticket',
-				model: {
-					code: '',
-					total: '',
-					issued_at: '',
-				},
-				properties: [
-					{
-						text: 'Fecha de emision',
-						key: 'issued_at',
-						type: 'date',
-					},
-					{
-						text: 'Numero',
-						key: 'code',
-						type: 'text',
-					},
-					{
-						text: 'Total',
-						key: 'total',
-						type: 'number',
-					},
-				],
 			}
 		},
 		{
@@ -157,4 +136,5 @@ export default {
 	singular_model_name_spanish: 'Pedido',
 	plural_model_name_spanish: 'Pedidos',
 	create_model_name_spanish: 'Nuevo pedido',
+	text_delete: 'el',
 }

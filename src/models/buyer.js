@@ -34,4 +34,5 @@ export default {
 	singular_model_name_spanish: 'Cliente',
 	plural_model_name_spanish: 'Clientes',
 	create_model_name_spanish: 'Nuevo cliente',
+	text_delete: 'el',
 }

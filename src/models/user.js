@@ -25,4 +25,5 @@ export default {
 	singular_model_name_spanish: 'Usuario',
 	plural_model_name_spanish: 'Usuarios',
 	create_model_name_spanish: 'Nuevo usuario',
+	text_delete: 'el',
 }

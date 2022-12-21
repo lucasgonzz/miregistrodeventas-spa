@@ -38,18 +38,18 @@ hide-footer>
 			Categoria y SubCategoria
 		</strong>
 	</p>
-	<!-- <b-form-group
+	<b-form-group
 	label="Categoria">
 		<b-form-select
 		v-model="form.category_id"
-		:options="categories_options"></b-form-select>
+		:options="getOptions({key: 'category_id', text: 'Categoria', select_prop_name: 'name'})"></b-form-select>
 	</b-form-group>
 	<b-form-group
 	label="Sub categoria">
 		<b-form-select
 		v-model="form.sub_category_id"
 		:options="sub_categories_options(form)"></b-form-select>
-	</b-form-group> -->
+	</b-form-group>
  
 	<b-button
 	block
@@ -108,7 +108,7 @@ export default {
 				})
 				this.$bvModal.hide('update-article-props')
 				this.$toast.success('Artículos actualizados')
-				this.$store.commit('article/setFilter')
+				// this.$store.commit('article/setFilter')
 				this.clear()
 			})
 			.catch(err => {

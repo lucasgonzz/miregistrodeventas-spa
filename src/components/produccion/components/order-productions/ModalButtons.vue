@@ -2,20 +2,13 @@
 	<div>
 		<b-button
 		block
-		@click="print"
-		variant="outline-danger">
-			<i class="icon-print"></i>
-			Imprimir
-		</b-button>
-		<b-button
-		block
 		@click="printTickets"
 		variant="outline-primary">
 			<i class="icon-print"></i>
 			Imprimir etiquetas
 		</b-button>
 		<b-button
-		v-if="is_finished"
+		v-if="is_finished && !model.finished"
 		block
 		@click="finish"
 		variant="primary">
@@ -35,23 +28,34 @@ export default {
 			return this.$store.state[this.model_name].model
 		},
 		is_finished() {
-			let is_finished = true 
-			if (this.model.finished) {
-				is_finished = false
-			}
-			let statuses = this.modelsStoreFromName('order_production_status').filter(status => {
-				return status.position
-			})
+			let is_finished = false 
+			let statuses = this.modelsStoreFromName('order_production_status')
 			let last_status = statuses[statuses.length-1]
-			console.log('ulitmo estado: '+last_status.name)
-			this.model.articles.forEach(article => {
-				if (Number(article.pivot['order_production_status_'+last_status.id]) != Number(article.pivot.amount)) {
-					console.log('No entro con '+article.name+', tiene '+article.pivot['order_production_status_'+last_status.id])
-					is_finished = false 
-					console.log('tiene que tener: '+article.pivot.amount)
-				} 
-			})
+			if (this.model.id && last_status && this.model.order_production_status.id == last_status.id) {
+				is_finished = true 
+			}
 			return is_finished
+
+
+
+
+			// let is_finished = true 
+			// if (this.model.finished) {
+			// 	is_finished = false
+			// }
+			// let statuses = this.modelsStoreFromName('order_production_status').filter(status => {
+			// 	return status.position
+			// })
+			// let last_status = statuses[statuses.length-1]
+			// console.log('ulitmo estado: '+last_status.name)
+			// this.model.articles.forEach(article => {
+			// 	if (Number(article.pivot['order_production_status_'+last_status.id]) != Number(article.pivot.amount)) {
+			// 		console.log('No entro con '+article.name+', tiene '+article.pivot['order_production_status_'+last_status.id])
+			// 		is_finished = false 
+			// 		console.log('tiene que tener: '+article.pivot.amount)
+			// 	} 
+			// })
+			// return is_finished
 			
 			// let statuses = this.modelsStoreFromName('order_production_status').filter(status => {
 			// 	return status.position

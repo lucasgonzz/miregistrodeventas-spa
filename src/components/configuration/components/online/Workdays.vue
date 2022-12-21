@@ -2,7 +2,7 @@
 	<div
 	v-if="sub_view == 'horarios'">
 	    <confirm
-	    :text="text_delete"
+	    :text="_text_delete"
 	    :actions="['schedules/delete']"
 	    id="delete-schedule"
 	    toast="Horario eliminado"></confirm>
@@ -55,7 +55,7 @@ export default {
 		delete() {
 			return this.$store.state.schedules.delete 
 		},
-		text_delete() {
+		_text_delete() {
 			if (this.delete) {
 				return '¿Seguro que quiere eliminiar el horario '+this.delete.name+'?'
 			}

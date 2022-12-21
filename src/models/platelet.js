@@ -18,4 +18,5 @@ export default {
 	singular_model_name_spanish: 'Plaqueta',
 	plural_model_name_spanish: 'Plaquetas',
 	create_model_name_spanish: 'Nueva plaqueta',
+	text_delete: 'la',
 }

@@ -57,6 +57,9 @@ export default {
 			return this.$store.state.buyer.loading
 		},
 	},
+	mounted() {
+		this.setSelectedBuyer(null)
+	},
 	// watch: {
 	// 	$route(to, from) {
     //         let buyer = this.$store.state.buyer.models.find(b => {
@@ -68,15 +71,17 @@ export default {
 	methods: {
 		setSelectedBuyer(buyer) {
 			this.$store.commit('message/setSelectedBuyer', buyer)
-			if (this.$route.params.chat_id != buyer.id) {
-				this.$router.push({name: 'Online', params: {chat_id: buyer.id}})
-			} else {
-				this.$store.dispatch('message/getModels')
+			if (buyer) {
+				if (this.$route.params.chat_id != buyer.id) {
+					this.$router.push({name: 'Online', params: {chat_id: buyer.id}})
+				} else {
+					this.$store.dispatch('message/getModels')
+				}
+				this.$store.dispatch('message/setMessagesRead')
+				this.$store.commit('buyer/setMessagesRead', buyer)
+				this.$store.commit('buyer/setMessagesNotRead')
+				this.$bvModal.hide('chats')
 			}
-			this.$store.dispatch('message/setMessagesRead')
-			this.$store.commit('buyer/setMessagesRead', buyer)
-			this.$store.commit('buyer/setMessagesNotRead')
-			this.$bvModal.hide('chats')
 		},
 		activeChat(buyer) {
 			return this.selected_buyer && buyer.id == this.selected_buyer.id ? 'active-chat' : ''

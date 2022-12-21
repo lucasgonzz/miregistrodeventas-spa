@@ -24,7 +24,10 @@ export default {
 		}
 	},
 	props: {
-		text: String,
+		text: {
+			type: String,
+			default: null,
+		},
 		actions: Array,
 		id: String,
 		toast: {
@@ -53,8 +56,11 @@ export default {
 		confirm_text() {
 			if (this.not_show_delete_text) {
 				return this.text
-			} 
-			return '¿Seguro que quiere eliminar '+this.text+'?'
+			} else if (this.text) {
+				return '¿Seguro que quiere eliminar '+this.text+'?'
+			} else {
+				return '¿Seguro que quiere eliminar '+this.text_delete(this.model_name)+' '+this.singular(this.model_name).toLowerCase()+'?'
+			}
 		},
 	},
 	methods: {
@@ -66,11 +72,9 @@ export default {
 				let action_index = 0
 				this.loading = true
 				while (this.actions[action_index] !== undefined) {
-					console.log('actions['+action_index+']')
 					let res = await this.$store.dispatch(this.actions[action_index])
 					action_index++
 					if (this.actions[action_index] === undefined) {
-						console.log('termino en actions['+action_index+']')
 						this.loading = false
 						this.$toast.success(this.toast)
 						this.$bvModal.hide(this.id)

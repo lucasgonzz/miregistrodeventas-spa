@@ -107,4 +107,5 @@ export default {
 	singular_model_name_spanish: 'Pedido',
 	plural_model_name_spanish: 'Pedidos',
 	create_model_name_spanish: 'Nuevo pedido',
+	text_delete: 'el',
 }

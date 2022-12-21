@@ -6,6 +6,7 @@
 			<horizontal-nav
 			:items="items"
 			set_sub_view
+			:show_display="false"
 			@setSelected="setSelected"></horizontal-nav>
 		</b-col>
 	</b-row>

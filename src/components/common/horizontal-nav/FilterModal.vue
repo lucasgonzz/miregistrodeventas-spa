@@ -74,6 +74,16 @@
 				v-model="filter.value"
 				:options="select_options[filter.key]"></b-form-select>
 			</b-form-group>
+
+			<b-form-group
+			class="m-b-15"
+			v-if="filter.type == 'boolean'"
+			:label="filter.label">
+				<b-form-select
+				:options="booleanOptions(filter)"
+				v-model="filter.value"></b-form-select>
+			</b-form-group>
+
 		</div>
 		<b-button
 		variant="primary"
@@ -103,6 +113,13 @@ export default {
 		props() {
 			return this.propsToFilterInModal(this.model_name)
 		},
+		// filters() {
+		// 	let filters = this.$store.state[this.model_name].filters
+		// 	if (typeof filters != 'undefined') {
+		// 		return filters 
+		// 	} 
+		// 	return this._filters
+		// }
 	},
 	created() {	
 		this.initFilter()
@@ -168,6 +185,15 @@ export default {
 						store: prop.store,
 						key: prop.key,
 						value: '',
+					})
+				} else if (prop.type == 'boolean') {
+					this.filters.push({
+						label: prop.text,
+						type: prop.type,
+						text: prop.text,
+						store: prop.store,
+						key: prop.key,
+						value: -1,
 					})
 				} else {
 					this.filters.push({

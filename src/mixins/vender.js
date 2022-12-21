@@ -22,14 +22,21 @@ export default {
 			return this.$store.state.vender.client
 		},
 		col_header_lg() {
-			let col = 5
-			if (this.hasExtencion('combos')) {
-				col -= 2 
-			}
-			if (this.hasExtencion('services')) {
-				col -= 2 
+			let col = 4
+			if (this.hasExtencion('combos') && this.hasExtencion('services')) {
+				col -= 3
+			} else if (this.hasExtencion('combos') && !this.hasExtencion('services')) {
+				col -= 1 
+			} else if (this.hasExtencion('services') && !this.hasExtencion('combos')) {
+				col -= 1 
 			}
 			return col
+		},
+		col_lg_extencions() {
+			if (this.hasExtencion('combos') && this.hasExtencion('services')) {
+				return 2
+			}
+			return 3
 		},
         maked_sale() {
             return this.$store.state.vender.sale

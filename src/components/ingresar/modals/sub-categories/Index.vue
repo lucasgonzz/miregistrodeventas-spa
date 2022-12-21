@@ -5,6 +5,7 @@
 	model_name="sub_category">
 		<template #header>
 			<horizontal-nav
+			set_view
 			@setSelected="setSelected"
 			:items="items"></horizontal-nav>
 		</template>
@@ -40,6 +41,7 @@ export default {
 	},
 	created() {
 		this.setSelected(this.categories[0])
+		this.$router.push({params: {view: this.routeString(this.categories[0].name)}})
 	},
 	methods: {
 		setSelected(category) {

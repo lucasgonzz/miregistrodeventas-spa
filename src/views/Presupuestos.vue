@@ -1,9 +1,8 @@
 <template>
 	<view-component 
 	show_filter_modal
-	model_name="budget"
-	model_name_spanish="Presupuestos"
-	create_model_name_spanish="Nuevo presupuesto">
+	show_btn_pdf
+	model_name="budget">
 		<template #modal_buttons>
 			<modal-buttons></modal-buttons>
 		</template>

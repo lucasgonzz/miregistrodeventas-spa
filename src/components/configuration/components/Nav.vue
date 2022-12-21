@@ -5,26 +5,8 @@
 		lg="10">
 			<horizontal-nav
 			:items="items"
-			prop_name="name"
-			:set_view="true"></horizontal-nav>
-			<!-- <b-nav tabs>
-				<b-nav-item
-				@click="setView('cuenta')"
-				:active="isActive('cuenta')">
-					Cuenta
-				</b-nav-item>
-				<b-nav-item
-				v-if="has_online"
-				@click="setView('tienda-online')"
-				:active="isActive('tienda-online')">
-					Tienda online
-				</b-nav-item>
-				<b-nav-item
-				@click="setView('suscripcion')"
-				:active="isActive('suscripcion')">
-					Suscripción
-				</b-nav-item>
-			</b-nav> -->
+			:show_display="false"
+			set_view></horizontal-nav>
 		</b-col>
 	</b-row>
 </template>

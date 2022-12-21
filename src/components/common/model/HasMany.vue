@@ -2,54 +2,39 @@
 	<div
 	class="m-l-15">
 
+		<model-component
+		:has_many_parent_model="parent_model"
+		:has_many_prop_name="prop.key"
+		:model_name="prop.has_many.model_name"></model-component>	
+
 	    <confirm
-	    :text="text_delete"
+	    :model_name="prop.has_many.model_name"
 	    :actions="[parent_model_name+'/deletePropModel']"
 	    :id="'delete-'+prop.key"></confirm>
-	    <div
-	    v-if="parent_model[prop.key].length">
-			<div
-			v-for="model in parent_model[prop.key]">
-				<model-form-component 
-				:model="model"
-				from_has_many
-				:parent_model="parent_model"
-				:properties="prop.has_many.properties">
-					<btn-loader
-					@clicked="deleteModel(model)"
-					v-if="model.id"
-					:block="false"
-					size="sm"
-					variant="outline-danger"
-					:text="'Eliminar '+prop.has_many.text"
-					:loader="deleting == model.id">
-					</btn-loader>
-				</model-form-component>
-			</div>
-	    </div>
-	    <p
-	    class="text-with-icon"
-	    v-else>
-	    	<i class="icon-eye-slash"></i>
-	    	No hay {{ prop.has_many.text }}
-	    </p>
-		<div>
-			<hr>
-			<b-button 
-			@click="addHasMany"
-			size="sm"
-			variant="outline-primary">
-				Agregar {{ prop.has_many.text }}
-			</b-button>
-			<hr>
-		</div>
+	    
+	    <table-component
+	    :has_many_parent_model="parent_model"
+	    :models="parent_model[prop.key]"
+	    :model_name="prop.has_many.model_name"></table-component>
+	    
+		<b-button
+		class="m-t-15" 
+		@click="create(prop.has_many.model_name, parent_model)"
+		size="sm"
+		variant="outline-primary">
+			Agregar {{ prop.has_many.text }}
+		</b-button>
 	</div>
 </template>
 <script>
 import BtnLoader from '@/components/common/BtnLoader2'
+import TableComponent from '@/components/common/display/TableComponent'
 
 import Confirm from '@/components/common/Confirm'
+
+import display from '@/mixins/display'
 export default {
+	mixins: [display],
 	name: 'HasMany',
 	props: {
 		prop: Object,
@@ -59,7 +44,9 @@ export default {
 	components: {
 		ModelFormComponent: () => import('@/components/common/model/ModelForm'),
 		BtnLoader,
+		TableComponent,
 
+		ModelComponent: () => import('@/components/common/model/Index'),
 		Confirm,
 	},
 	data() {
@@ -71,12 +58,12 @@ export default {
 		prop_model_to_delete() {
 			return this.$store.state[this.parent_model_name].prop_model_to_delete
 		},
-		text_delete() {
-			if (this.prop_model_to_delete) {
-				return this.prop_model_to_delete.text 
-			}
-			return ''
-		},
+		// text_delete_() {
+		// 	if (this.prop_model_to_delete) {
+		// 		return this.prop_model_to_delete.text 
+		// 	}
+		// 	return ''
+		// },
 	},
 	methods: {
 		addHasMany() {

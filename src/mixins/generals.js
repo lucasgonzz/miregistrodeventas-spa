@@ -30,6 +30,9 @@ export default {
 		create_spanish(model_name) {
 			return require('@/models/'+model_name).default.create_model_name_spanish
 		},
+		text_delete(model_name) {
+			return require('@/models/'+model_name).default.text_delete
+		},
 
 		// --------------------------------- Model ---------------------------------
 
@@ -153,15 +156,6 @@ export default {
 					prop_name = prop.relation_prop_name
 				}
 				if (model[relationship]) {
-					// if (typeof prop_name == 'object') {
-					// 	prop.relation_prop_name.forEach(prop => {
-					// 		if (model[relationship][prop]) {
-					// 			return model[relationship][prop]
-					// 		}
-					// 	})
-					// } else {
-					// 	return model[relationship][prop_name] 
-					// }
 					return model[relationship][prop_name] 
 				}
 			}
@@ -241,6 +235,15 @@ export default {
 			models.forEach(item => {
 				options.push({value: item.id, text: item[prop_name]})
 			})
+			return options
+		},
+		booleanOptions(prop, model = null) {
+			let options = []
+			options.push({
+				value: -1, text: 'Seleccione '+prop.text 
+			})
+			options.push({value: 1, text: 'Si'})
+			options.push({value: 0, text: 'No'})
 			return options
 		},
 		isImageProp(prop) {

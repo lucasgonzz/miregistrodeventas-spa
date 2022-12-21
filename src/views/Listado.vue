@@ -18,7 +18,6 @@
 	<images-copy></images-copy>
 	<article-images></article-images>
 	<article-images-colors></article-images-colors>
-	<article-variants></article-variants>
 	<articles-pdf></articles-pdf>
 	<prices-lists></prices-lists>
 	<create-prices-list></create-prices-list>
@@ -43,7 +42,6 @@ import ImportArticles from '@/components/listado/modals/import/Index'
 import ImagesCopy from '@/components/listado/modals/images/ImagesCopy.vue'
 import ArticleImages from '@/components/listado/modals/images/Index.vue'
 import ArticleImagesColors from '@/components/listado/modals/images/Colors.vue'
-import ArticleVariants from '@/components/listado/modals/images/ArticleVariants.vue'
 import EditArticle from '../components/common/EditArticle.vue'
 import UpdateProps from '../components/listado/modals/UpdateProps.vue'
 import Confirm from '../components/common/Confirm.vue'
@@ -61,6 +59,7 @@ import HeaderListado from '../components/listado/components/header/Index'
 import List from '@/components/listado/components/list/Index'
 import FilteredSelected from '@/components/listado/components/filtered-selected/Index' 
 export default {
+	name: 'Lisado',
 	components: {
 		StockMin,
 		Stock0,
@@ -73,7 +72,6 @@ export default {
 		ImagesCopy,
 		ArticleImages,
 		ArticleImagesColors,
-		ArticleVariants,
 		EditArticle,
 		UpdateProps,
 		Confirm,
@@ -94,11 +92,16 @@ export default {
 		from_filter() {
 			return this.$store.state.articles.from_filter
 		},
-		text_delete() {
-			if (this.from_filter) {
-				return 'todos los articulos filtrados'
+		text_delete: {
+			get() {
+				if (this.from_filter) {
+					return 'todos los articulos filtrados'
+				}
+				return 'los articulos seleccionados'
+			},
+			set(value) {
+				
 			}
-			return 'los articulos seleccionados'
 		},
 		articles_to_show() {
 			return this.$store.state.articles.articles_to_show

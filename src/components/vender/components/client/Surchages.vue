@@ -13,7 +13,7 @@
 				</p>
 				<b-button
 				variant="outline-primary"
-				v-b-modal="'surchage'">
+				v-b-modal="'surchages'">
 					<i class="icon-eye"></i>
 					Recargos
 				</b-button>

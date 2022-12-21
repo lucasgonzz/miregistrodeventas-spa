@@ -17,4 +17,5 @@ export default {
 	singular_model_name_spanish: 'Pago',
 	plural_model_name_spanish: 'Pagos',
 	create_model_name_spanish: 'Nuevo pago',
+	text_delete: 'el',
 }

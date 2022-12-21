@@ -1,25 +1,12 @@
 <template>
-<b-modal
-hide-footer
-title="Tarjetas"
-id="credit-cards">
-	<view-component
-	:show_previus_days="false"
-	model_name_spanish="Tarjetas"
-	create_model_name_spanish="Tarjeta"
-	:model_name="model_name"></view-component>
-</b-modal>
+	<modal-model
+	model_name="credit_card"></modal-model>
 </template>
 <script>
-import ViewComponent from '@/components/common/view/Index'
+import ModalModel from '@/components/common/ModalModel'
 export default {
 	components: {
-		ViewComponent,
+		ModalModel,
 	},
-	computed: {
-		model_name() {
-			return 'credit_card'
-		},
-	}
 }
 </script>

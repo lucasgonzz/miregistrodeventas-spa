@@ -142,6 +142,10 @@ export default {
 			if (this.clear_selected) {
 				this.$store.commit('sale/setSelected', [])
 			}
+			if (typeof this.$store.state[this.model_name].filtered != 'undefined') {
+				this.$store.commit(this.model_name+'/setFiltered', [])
+				this.$store.commit(this.model_name+'/setIsFiltered', false)
+			}
 			this.$store.commit(this.model_name+'/setFromDate', date)
 			if (this.has_until) {
 				this.$store.commit(this.model_name+'/setUntilDate', '')

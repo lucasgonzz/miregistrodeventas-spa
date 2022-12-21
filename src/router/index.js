@@ -105,7 +105,7 @@ Vue.use(VueRouter)
         component: Presupuestos,
     },
     {
-        path: '/ingresar',
+        path: '/ingresar/:view?/:sub_view?',
         name: 'Ingresar',
         component: Ingresar,
     },

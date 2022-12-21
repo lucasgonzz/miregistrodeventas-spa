@@ -5,10 +5,12 @@
 		:query_value="query"
 		:prop="prop"
 		:auto_select="auto_select"
-		:placeholder="placeholder"
+		:model_name="model_name"
+		:placeholder="_placeholder"
 		:str_limint="str_limint"
 		@setQuery="setQuery"
 		@setSelected="setSelected"></search-modal>
+
 		<div
 		class="search-component">
 			<div class="cont-search">
@@ -21,12 +23,12 @@
 				:disabled="is_disabled"
 				class="input-search"
 				:id="id"
-				@keyup="search"
+				@keyup="callSearchModal"
 				v-model="query"
 				:placeholder="_placeholder"></b-form-input>
 			</div>
 			<btn-create-model
-			v-if="prop.show_btn_create"
+			v-if="show_btn_create"
 			:model_name="model_name"></btn-create-model>
 		</div>
 		<div
@@ -82,17 +84,11 @@ export default {
 			type: Boolean,
 			default: true,
 		},
-		placeholder: {
-			type: String,
-			default: null,
-		},
-		properties_to_filter: {
-			type: Array,
-			default: () => {
-				return []
-			}
-		},
 		clear_query: {
+			type: Boolean,
+			default: false,
+		},
+		show_btn_create: {
 			type: Boolean,
 			default: false,
 		},
@@ -100,50 +96,66 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		placeholder: {
+			type: String,
+			default: null,
+		}
 	},
 	data() {
 		return {
 			query: '',
-			results: [],
 			props_to_filter: [],
 			selected_model: null,
 		}
 	},
 	computed: {
+		_placeholder() {
+			if (this.placeholder) {
+				return this.placeholder
+			}
+			return 'Buscar '+this.singular(this.model_name)
+		},
 		is_disabled() {
-			if (this.prop.can_not_modify) {
+			if (this.prop && this.prop.can_not_modify) {
 				return true 
 			}
 			return false
 		},
-		_placeholder() {
-			if (this.placeholder) {
-				return this.placeholder
-			} else if (this.prop) {
-				return 'Buscar '+this.prop.text.toLowerCase()
-			}
-		},
+		// _placeholder() {
+		// 	if (this.placeholder) {
+		// 		return this.placeholder
+		// 	} else if (this.prop) {
+		// 		return 'Buscar '+this.singular(this.model_name)
+		// 		// return 'Buscar '+this.prop.text.toLowerCase()
+		// 	}
+		// },
 	},
 	created() {
-		if (this.show_selected && this.prop.store && this.model[this.prop.store]) {
-			this.selected_model = this.model[this.prop.store]
-			this.query = this.model[this.prop.store].name
-		} 
+		this.setSelectedModelProp()
 	},
 	methods: {
+		setSelectedModelProp() {
+			if (this.show_selected) {
+				if (this.model && this.model[this.prop.store]) {
+					this.selected_model = this.model[this.prop.store]
+					this.query = this.model[this.prop.store].name
+				} 
+			} 
+		},
 		clearSelected() {
-			this.model[this.prop.store] = null
-			this.model[this.prop.key] = null
+			if (this.model) {
+				this.model[this.prop.store] = null
+				this.model[this.prop.key] = null
+			}
 			this.selected_model = null
 			this.query = ''
 		},
 		setQuery(value) {
 			this.query = value 
 		},
-		search(e) {
+		callSearchModal(e) {
 			this.results = []
 			if (this.query.length >= (this.str_limint-1) && e.code != 'Enter' && e.code != 'Backspace') {
-				console.log('ABRIENDO')
 				this.$bvModal.show(this.id+'-search-modal')
 				setTimeout(() => {
 					document.getElementById(this.id+'-search-modal-input').focus()
@@ -152,18 +164,21 @@ export default {
 		},
 		setSelected(model) {
 			this.selected_model = model 
-			this.results = []
 			this.$emit('setSelected', {
 				model,
 				prop: this.prop,
 				query: this.query,				
 			})
-			if (!this.prop.belongs_to_many && !this.clear_query) {
-				// this.query = model.name
-			} else {
+			if (this.clear_query) {
+				this.query = ''
 				console.log('se limpio')
-				this.query = '' 
 			}
+			// if (!this.prop.belongs_to_many && !this.clear_query) {
+			// 	// this.query = model.name
+			// } else {
+			// 	console.log('se limpio')
+			// 	this.query = '' 
+			// }
 		}
 	}
 }

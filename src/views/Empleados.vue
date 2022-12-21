@@ -10,14 +10,14 @@
 				<permissions-list
 				:employee="props.model"></permissions-list>
 			</template>
-			<!-- <template v-slot:default="props">
+			<template v-slot:default="props">
 				<b-button
 				@click="setUserPayment(props.model)"
 				class="m-l-15"
 				variant="success">
 					Pagos
 				</b-button>
-			</template> -->
+			</template>
 		</view-component>
 	</div>
 </template>
@@ -34,7 +34,8 @@ export default {
 	methods: {
 		setUserPayment(model) {
 			this.$store.commit('user_payment/setSelectedModel', model)
-			this.$bvModal.show('user_payment')
+			this.$store.dispatch('user_payment/getModels')
+			this.$bvModal.show('Pagos')
 		}
 	},
 	components: {

@@ -15,7 +15,8 @@ export default {
 			show: true,
 		},
 	],
-	singular_model_name_spanish: 'Condiciones',
-	plural_model_name_spanish: 'Condicion',
+	singular_model_name_spanish: 'Condicion',
+	plural_model_name_spanish: 'Condiciones',
 	create_model_name_spanish: 'Nueva condicion',
+	text_delete: 'la',
 }

@@ -1,6 +1,7 @@
 <template>
 	<horizontal-nav
 	set_view
+	:show_display="false"
 	:items="items"></horizontal-nav>
 </template>
 <script>

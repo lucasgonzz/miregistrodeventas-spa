@@ -1,9 +1,9 @@
 <template>
 	<b-col
-	class="m-b-15 m-lg-b-0"
+	class="m-b-15 m-lg-b-0" 
 	v-if="hasExtencion('services')"
 	cols="12"
-	lg="3">
+	:lg="col_lg_extencions">
 		<service
 		:service="service"></service>	
 		<b-form-input

@@ -44,12 +44,12 @@ import order_production from './order_production'
 import order_production_status from './order_production_status'
 import current_acount from './current_acount'
 import current_acount_payment_methods from './current_acount_payment_methods'
-import combos from './combos/index'
+import combo from './combos/index'
 import payment_method from './payment_method'
 import delivery_zone from './delivery_zone'
 import location from './location'
 import platelet from './platelet'
-import payment_method_types from './payment_method_types'
+import payment_method_type from './payment_method_type'
 import price_type from './price_type'
 import budget_status from './budget_status'
 import recipe from './recipe'
@@ -63,6 +63,10 @@ import message from './message'
 import cupon from './cupon'
 import surchage from './surchage'
 import user_payment from './user_payment'
+import provider_order_afip_ticket from './provider_order_afip_ticket'
+import provider_price_list from './provider_price_list'
+import update_feature from './update_feature'
+import credit_card_payment_plan from './credit_card_payment_plan'
 
 // SUPER
 import user from './user'
@@ -130,12 +134,12 @@ export default new Vuex.Store({
 		order_production_status,
 		current_acount,
 		current_acount_payment_methods,
-		combos,
+		combo,
 		payment_method,
 		delivery_zone,
 		location,
 		platelet,
-		payment_method_types,
+		payment_method_type,
 		price_type,
 		budget_status,
 		recipe,
@@ -149,6 +153,10 @@ export default new Vuex.Store({
 		cupon,
 		surchage,
 		user_payment,
+		provider_order_afip_ticket,
+		provider_price_list,
+		update_feature,
+		credit_card_payment_plan,
 		
 		user,
 		super_budget,

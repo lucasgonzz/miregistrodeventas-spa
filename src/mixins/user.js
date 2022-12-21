@@ -119,7 +119,7 @@ export default {
 				}
 			} else if (route.includes('presupuestos')) {
 				slug = 'budget.index'
-			} else if (route == '/ingresar') {
+			} else if (route.includes('ingresar')) {
 				slug = 'article.store'
 			} else if (route == '/listado') {
 				slug = 'article.index'

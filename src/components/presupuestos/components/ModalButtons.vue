@@ -6,13 +6,13 @@
 		:loader="loading"
 		text="Crear orden de produccion"
 		@clicked="createOrderProduction" />
-		<b-button
+		<!-- <b-button
 		block
 		@click="print"
 		variant="outline-danger">
 			<i class="icon-edit"></i>
 			Imprimir
-		</b-button>
+		</b-button> -->
 		<hr>
 	</div>
 </template>

@@ -19,9 +19,23 @@
 					<template 
 					v-for="prop in properties"
 					v-slot:[toCellName(prop.key)]="data">
-						<img 
+
+						<vue-load-image
 						v-if="isImageProp(prop)"
-						:src="image(models[data.index])">
+						class="img-fluid">
+							<img 
+							slot="image"
+							:src="image(models[data.index])">
+
+					        <b-spinner
+							slot="preloader"
+					        variant="primary"></b-spinner>
+
+							<div slot="error">Imagen no encontrada</div>
+
+						</vue-load-image>
+
+
 						<div
 						v-else-if="showInput(prop, models[data.index])">
 							<b-form-textarea
@@ -45,7 +59,7 @@
 						v-else>
 							{{ propText(models[data.index], prop) }}
 						</span>
-					</template>
+					</template> 
 
 					<template #cell(created_at)="data">
 						{{ date(models[data.index].created_at) }}
@@ -131,12 +145,14 @@
 	</div>
 </template>
 <script>
+import VueLoadImage from 'vue-load-image'
 import BtnAddToShow from '@/components/common/BtnAddToShow'
 
 import display from '@/mixins/display'
 export default {
 	mixins: [display],
 	components: {
+		VueLoadImage,
 		BtnAddToShow,
 	},
 	props: {
@@ -185,6 +201,10 @@ export default {
 			type: String,
 			default: 'multi',
 		},
+		has_many_parent_model: {
+			type: Object,
+			default: null,
+		},
 	},
 	data() {
 		return {
@@ -209,8 +229,17 @@ export default {
 				fields.push({
 					key: prop.key,
 					label: prop.text,
+					sortable: prop.sortable,
 				})
 			})
+			// if (this.pivot && this.pivot.properties_to_set) {
+			// 	this.propsToSet().forEach(prop => {
+			// 		fields.push({
+			// 			key: prop.key,
+			// 			label: prop.text,
+			// 		})
+			// 	})
+			// }
 			fields.push({
 				key: 'created_at',
 				label: 'Creado',
@@ -274,10 +303,8 @@ export default {
 		},
 		isTheSameSelection(items) {
 			if (this.last_selection.length == items.length) {
-				console.log('es la misma seleccion')
 				return true 
 			} else {
-				console.log('NO es la misma seleccion')
 				return false
 			}
 		},
@@ -336,6 +363,9 @@ export default {
 				if (this.on_click_set_property) {
 					this.setModel(model[this.on_click_set_property], this.model_name, this.properties)
 				} else {
+					if (this.has_many_parent_model) {
+						this.$store.commit(this.model_name+'/setSelectedModel', this.has_many_parent_model)
+					}
 					this.setModel(model, this.model_name, this.properties)
 				}
 			} else {

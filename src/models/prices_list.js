@@ -14,6 +14,7 @@ export default {
 			type: 'search',
 			belongs_to_many: {
 				model_name: 'article',
+				create_if_not_exist: false,
 				props_to_show: [
 					{
 						text: 'Nombre',
@@ -49,4 +50,5 @@ export default {
 	singular_model_name_spanish: 'Lista de precios',
 	plural_model_name_spanish: 'Listas de precios',
 	create_model_name_spanish: 'Nueva lista de precios',
+	text_delete: 'la',
 }

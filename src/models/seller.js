@@ -19,5 +19,6 @@ export default {
 	],
 	singular_model_name_spanish: 'Vendedor',
 	plural_model_name_spanish: 'Vendedores',
-	create_model_name_spanish: 'Nueva vendedor',
+	create_model_name_spanish: 'Nuevo vendedor',
+	text_delete: 'el',
 }

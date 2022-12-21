@@ -9,6 +9,7 @@
 			class="m-b-15"
 			@setSelected="setSelectedArticle"
 			:prop="{text: 'Articulo', key: 'name', store: 'article'}"
+			model_name="article"
 			:show_selected="false"
 			:clear_query="false"
 			:model="article"

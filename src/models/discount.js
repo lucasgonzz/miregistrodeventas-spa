@@ -25,4 +25,5 @@ export default {
 	singular_model_name_spanish: 'Descuento',
 	plural_model_name_spanish: 'Descuentos',
 	create_model_name_spanish: 'Nuevo descuento',
+	text_delete: 'el',
 }

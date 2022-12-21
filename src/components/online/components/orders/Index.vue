@@ -2,11 +2,8 @@
 	<view-component
 	v-if="view == 'pedidos'"
 	model_name="order"
-	model_name_spanish="Pedidos"
-	create_model_name_spanish="Pedido"
 	:show_btn_create="false"
-	:show_btn_delete="false"
-	show_search_nav>
+	:show_btn_delete="false">
 		<template v-slot:modal_buttons="slotProps">
 			<btn-status
 			:model="slotProps.model"></btn-status>

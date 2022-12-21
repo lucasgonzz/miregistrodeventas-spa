@@ -5,8 +5,8 @@
 		cols="12">
 			<horizontal-nav
 			:items="items"
-			prop_name="name"
-			:set_view="true"></horizontal-nav>
+			:show_display="false"
+			set_view></horizontal-nav>
 		</b-col>
 	</b-row>
 </template>

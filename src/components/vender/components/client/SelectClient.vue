@@ -1,25 +1,14 @@
 <template>
 	<div>
 		
-    	<model
-    	:modal_title="'Nuevo Cliente'"
-    	:model="{}"
-    	model_name="client"
-    	:properties="modelPropertiesFromName('client')"></model>
-
-		<div
-		class="cont-client">
+		<div>
 			<search-component
 			class="m-b-15"
 			@setSelected="setSelected"
 			:model="vender"
-			:prop="{text: 'Cliente', key: 'client_id', store: 'client'}"></search-component>
-			<b-button
-			@click="setModel(null, 'client')"
-			variant="primary">
-				<i class="icon-plus"></i>
-				Cliente
-			</b-button>
+			model_name="client"
+			show_btn_create
+			:prop="{text: 'Cliente', key: 'client_id'}"></search-component>
 		</div>
 		<!-- <b-button
 		v-if="client"

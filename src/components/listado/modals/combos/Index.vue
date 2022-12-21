@@ -1,46 +1,38 @@
 <template>
 <div>
-    <confirm
-    :text="text_delete"
-    :actions="['combos/delete']"
-    id="delete-combo"
-    toast="Combo eliminado"></confirm>
-	<model></model>	
-	<edit></edit>	
+
+	<model
+	:model_name="model_name"></model>
+
 	<b-modal
-	id="combos"
-	title="Combos"
-	hide-footer
-	body-class="p-0"
-	size="lg">
-		<create-btn></create-btn>
-		<list></list>
+	:id="modelPlural(model_name)"
+	:title="plural(model_name)"
+	hide-footer>
+ 
+		<btn-create
+		:model_name="model_name"></btn-create>
+
+		<display
+		:model_name="model_name"></display>
+
 	</b-modal>
+
 </div>
 </template>
 <script>
-import Confirm from '@/components/common/Confirm'
-import Model from '@/components/listado/modals/combos/Model'
-import Edit from '@/components/listado/modals/combos/Edit'
-
-import CreateBtn from '@/components/listado/modals/combos/CreateBtn'
-import List from '@/components/listado/modals/combos/List'
+import Model from '@/components/common/model/Index'
+import BtnCreate from '@/components/common/BtnCreate'
+import Display from '@/components/common/display/Index'
 export default {
-	components: {
-		Confirm,
-		Model,
-		Edit,
-		
-		CreateBtn,
-		List,
-	},
 	computed: {
-		delete() {
-			return this.$store.state.combos.delete
+		model_name() {
+			return 'combo'
 		},
-		text_delete() {
-			return '¿Seguro que quiere eliminar el combo '+this.delete.name+'?'
-		},
+	},
+	components: {
+		Model,
+		BtnCreate,
+		Display,
 	}
 }
 </script>

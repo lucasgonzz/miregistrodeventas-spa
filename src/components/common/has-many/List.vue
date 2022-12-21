@@ -1,5 +1,6 @@
 <template>
 	<display
+	class="m-b-15"
 	:model_name="model_name"></display>
 </template>
 <script>

@@ -5,6 +5,7 @@
 		class="col-nav">
 			<horizontal-nav
 			set_view
+			:show_display="false"
 			:items="items"></horizontal-nav>
 		</b-col>
 	</b-row>

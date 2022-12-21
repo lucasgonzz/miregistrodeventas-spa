@@ -8,7 +8,7 @@
 	hide-footer
 	:title="plural(model_name)"
 	size="lg"
-	:id="model_name">
+	:id="plural(model_name)">
 		<nav-component
 		:model_name="model_name"></nav-component>
 

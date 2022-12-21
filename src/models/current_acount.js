@@ -58,4 +58,8 @@ export default {
 			show: true,
 		},
 	],
+	singular_model_name_spanish: 'Cuenta corriente',
+	plural_model_name_spanish: 'Cuentas corrientes',
+	create_model_name_spanish: 'Nueva cuenta corriente',
+	text_delete: 'la',
 }

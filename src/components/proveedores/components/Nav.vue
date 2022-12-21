@@ -4,8 +4,8 @@
 		<b-col>
 			<horizontal-nav
 			:items="items"
-			prop_name="name"
-			:set_view="true" 
+			set_view
+			:show_display="false"
 			@setSelected="setSelected"></horizontal-nav>
 		</b-col>
 	</b-row>

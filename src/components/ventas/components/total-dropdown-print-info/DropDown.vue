@@ -34,11 +34,6 @@
 				<i class="icon-user"></i>
 				Vendedores
 			</b-dropdown-item>
-			<b-dropdown-item
-			v-b-modal="'discounts'">
-				<i class="icon-tag"></i>
-				Descuentos
-			</b-dropdown-item>
 		</b-dropdown>
 	</b-col>
 </template>

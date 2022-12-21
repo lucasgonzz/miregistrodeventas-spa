@@ -24,29 +24,6 @@ export default {
 		Providers,
 		Orders,
 	},
-	computed: {
-		model_name() {
-			return 'provider_order'
-		},
-		model_name_spanish() {
-			return 'pedido'
-		},
-		model() {
-			return this.$store.state[this.model_name].model
-		},
-		delete() {
-			return this.$store.state[this.model_name].delete
-		},
-		text_delete() {
-			if (this.delete) {
-				return 'el pedido N° '+this.delete.num
-			}
-			return ''
-		},
-		properties() {
-			return require(`@/models/${this.model_name}`).default.properties 
-		}
-	}
 }
 </script>
 <style scoped lang="sass">

@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+        <update-features></update-features>
         <div
         v-if="auth_loading">
             <logo-loading></logo-loading>
@@ -27,6 +28,7 @@
     </div>
 </template>
 <script>
+import UpdateFeatures from '@/components/nav/modals/UpdateFeatures'
 import SelectAddress from './components/common/select-address/Index'
 import NavComponent from './components/nav/NavComponent'
 import NavHome from './components/home/components/Nav'
@@ -47,6 +49,7 @@ export default {
         }
     },
     components: {
+        UpdateFeatures,
         SelectAddress,
         NavComponent,
         NavHome,
@@ -88,6 +91,7 @@ export default {
             this.setView()
             this.$store.dispatch('plans/getPlans')
         })
+        this.checkUpdateFeaturesCookie()
     },
     data() {
         return {
@@ -100,6 +104,7 @@ export default {
             this.new_version = true
         },
         refreshApp () {
+            this.$cookies.set('update_features_watched', false, -1)
             console.log('Se llamo refreshApp.')
             location.reload(true)
         },
@@ -194,7 +199,7 @@ export default {
                     this.$store.dispatch('order_production_status/getModels')
                 }
                 if (this.hasExtencion('combos')) {
-                    this.$store.dispatch('combos/getModels')
+                    this.$store.dispatch('combo/getModels')
                 }
                 this.$store.commit('auth/setMessage', 'Cargando tipos de precios')
                 await this.$store.dispatch('price_type/getModels')
@@ -250,7 +255,7 @@ export default {
                     this.$store.commit('auth/setMessage', 'Cargando metodos de pago')
                     await this.$store.dispatch('payment_method/getModels')
                     this.$store.commit('auth/setMessage', 'Cargando tipos de metodos de pago')
-                    await this.$store.dispatch('payment_method_types/getModels')
+                    await this.$store.dispatch('payment_method_type/getModels')
                     this.$store.commit('auth/setMessage', 'Cargando zonas de envio')
                     await this.$store.dispatch('delivery_zone/getModels')
                     this.$store.commit('auth/setMessage', 'Cargando titulos')

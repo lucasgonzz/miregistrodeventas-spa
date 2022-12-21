@@ -2,16 +2,8 @@
 	<div>
 	    <confirm
 	    :model_name="model_name"
-	    :text="text_delete"
 	    :actions="[model_name+'/delete']"
 	    :id="'delete-'+model_name"></confirm>
-
-	    <confirm
-	    v-if="delete_img"
-	    text="la imagen"
-	    :actions="[model_name+'/deleteImage']"
-	    :id="'delete-'+model_name+'-image'"
-	    toast="Imagen eliminada"></confirm>
 
 		<b-modal
 		:size="size"
@@ -20,6 +12,8 @@
 		:id="model_name">
 
 			<model-form
+			:has_many_parent_model="has_many_parent_model"
+			:has_many_prop_name="has_many_prop_name"
 			:model="model"
 			:model_name="model_name"
 			:properties="properties"
@@ -57,13 +51,11 @@ export default {
 		model_name: {
 			type: String,
 		},
-		text_delete: {
-			type: String,
+		has_many_parent_model: {
+			type: Object,
+			default: null,
 		},
-		delete_img: {
-			type: Boolean,
-			default: false,
-		},
+		has_many_prop_name: String,
 		show_btn_pdf: {
 			type: Boolean,
 			default: false,

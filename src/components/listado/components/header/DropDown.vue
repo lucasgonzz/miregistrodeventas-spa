@@ -10,7 +10,7 @@
 			Combos
 		</b-dropdown-item>
 		<b-dropdown-item
-		v-b-modal="'prices_list'">
+		v-b-modal="'prices_lists'">
 			<i class="icon-print"></i>
 			Listas de precios
 		</b-dropdown-item>
@@ -33,8 +33,17 @@
 </template>
 <script>
 export default {
+	computed: {
+		filters() {
+			return this.$store.state.article.filters 
+		},
+	},
 	methods: {
 		excel() {
+			if (this.filters.length) {
+				console.log('tiene filtros')
+				// console.log(this.filters)
+			}
             var link = process.env.VUE_APP_API_URL+'/articles/excel/export'
             window.open(link)
 		},

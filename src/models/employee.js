@@ -26,4 +26,5 @@ export default {
 	singular_model_name_spanish: 'Empleado',
 	plural_model_name_spanish: 'Empleados',
 	create_model_name_spanish: 'Nuevo empleado',
+	text_delete: 'el',
 }

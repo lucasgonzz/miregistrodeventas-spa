@@ -3,16 +3,18 @@
 	v-if="view == 'proveedores'"
 	model_name="provider"
 	show_filter_modal
+	show_excel_drop_down
 	:show_previus_days="false">
 		<template #modals>
 	    	<current-acounts></current-acounts>
 	    	<import></import>
+			<update-prices></update-prices>
 		</template>
 
-		<template #horizontal_nav_btn_create>
+		<!-- <template #horizontal_nav_btn_create>
 			<btn-create
 			:create_model_name_spanish="create_model_name_spanish"></btn-create>
-		</template>
+		</template> -->
 
 		<template v-slot:default="slotProps">
 			<btn-current-acounts
@@ -30,6 +32,7 @@
 <script>
 import CurrentAcounts from '@/components/common/current-acounts/Index'
 import Import from '@/components/proveedores/modals/providers/Import'
+import UpdatePrices from '@/components/ventas/modals/update-prices/Index'
 
 import ViewComponent from '@/components/common/view/Index'
 import BtnCurrentAcounts from '@/components/proveedores/components/providers/BtnCurrentAcounts'
@@ -39,6 +42,7 @@ export default {
 	components: {
 		CurrentAcounts,
 		Import,
+		UpdatePrices,
 		
 		ViewComponent,
 		BtnCurrentAcounts,

@@ -2,6 +2,13 @@
 	<div
 	class="images"
 	v-if="model.id">
+
+	    <confirm
+	    text="la imagen"
+	    :actions="[model_name+'/deleteImage']"
+	    :id="'delete-'+model_name+'-image'"
+	    toast="Imagen eliminada"></confirm>
+
 		<div>
 			<div
 			class="p-l-25 p-r-25"
@@ -54,7 +61,7 @@
 			<div
 			v-else-if="has_image">
 				<div
-				v-if="model.image_url">
+				class="j-center">
 					<vue-load-image>
 						<img
 						slot="image"
@@ -69,21 +76,21 @@
 							Imagen no encontrada
 						</div>
 					</vue-load-image>
-					<b-button
-					size="sm"
-					block 
-					class="m-b-10"
-					@click="setDelete(image)"
-					variant="outline-danger">
-						Eliminar imagen
-					</b-button>
 				</div>
+				<b-button
+				size="sm"
+				block 
+				class="m-b-10"
+				@click="setDelete(model[image_prop])"
+				variant="outline-danger">
+					Eliminar imagen
+				</b-button>
 				<b-button
 				size="sm"
 				block 
 				variant="outline-primary"
 				@click="uploadImage(model_name, model)">
-					Agregar imagen
+					Cambiar imagen
 				</b-button>
 				<hr>
 			</div>
@@ -91,11 +98,13 @@
 	</div>
 </template>
 <script>
+import Confirm from '@/components/common/Confirm'
 import VueLoadImage from 'vue-load-image'
 import { Carousel, Slide } from 'vue-carousel'
 export default {
 	props: ['model', 'model_name'],
 	components: {
+		Confirm,
 		VueLoadImage,
 	    Carousel,
 	    Slide
@@ -107,10 +116,17 @@ export default {
 			} 
 			return typeof this.model.hosting_image_url != 'undefined' && this.model.hosting_image_url
 		},
+		image_prop() {
+			if (this.from_cloudinary) {
+				return 'image_url'
+			}
+			return 'hosting_image_url'
+		}
 	},
 	methods: {
 		setDelete(image) {
-			this.$store.commit(this.modelPlural(this.model_name)+'/setDeleteImage', image)
+			console.log(image)
+			this.$store.commit(this.model_name+'/setDeleteImage', image)
 			this.$bvModal.show('delete-'+this.model_name+'-image')
 		}
 	}

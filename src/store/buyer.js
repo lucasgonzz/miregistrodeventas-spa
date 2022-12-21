@@ -2,7 +2,6 @@ import axios from 'axios'
 axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.VUE_APP_API_URL
 
-import message_store from '@/store/message'
 import generals from '@/mixins/generals'
 export default {
 	namespaced: true,
@@ -13,11 +12,13 @@ export default {
 		model: {},
 		to_show: [],
 		selected: [],
+		filtered: [],
+		is_filtered: false,
 
 		delete: null,
 		delete_image: null,
 
-		messages_not_read: 0,
+		prop_model_to_delete: null,
 
 		display: 'table',
 
@@ -57,18 +58,14 @@ export default {
 				state.models = []
 			}
 		},
-		setToShow(state, value) {
-			if (value) {
-				state.to_show = value
-			} else {
-				state.to_show = state.models.slice(0, 20)
-			}
+		setFiltered(state, value) {
+			state.filtered = value
 		},
-		addToShow(state, value) {
-			state.to_show = state.to_show.concat(state.models.slice(state.to_show.length, state.to_show.length + 20))
+		setIsFiltered(state, value) {
+			state.is_filtered = value
 		},
 		setSelected(state, value) {
-			state.selected = []
+			state.selected = value 
 		},
 		add(state, value) {
 			let index = state.models.findIndex(item => {
@@ -79,39 +76,13 @@ export default {
 			} else {
 				state.models.splice(index, 1, value)
 			}
-		},
-		addMessage(state, message) {
-			let index = state.models.findIndex(b => {
-				return b.id == message.buyer_id
+
+			index = state.filtered.findIndex(item => {
+				return item.id == value.id
 			})
 			if (index != -1) {
-				let repeated = state.models[index].messages.findIndex(m => {
-					return m.id == message.id
-				})
-				if (repeated == -1) {
-					state.models[index].messages.push(message) 
-				}
-			}
-		},
-		setMessagesNotRead(state) {
-			state.messages_not_read = 0
-			state.models.forEach(buyer => {
-				buyer.messages.forEach(message => {
-					if (message.from_buyer && !message.read) {
-						state.messages_not_read++
-					}
-				})
-			})
-		},
-		setMessagesRead(state, buyer) {
-			let index = state.models.findIndex(b => {
-				return b.id == buyer.id
-			})
-			state.models[index].messages.forEach(message => {
-				if (message.from_buyer && !message.read) {
-					message.read = 1
-				}
-			})
+				state.filtered.splice(index, 1, value)
+			} 
 		},
 		setDelete(state, value) {
 			state.delete = value
@@ -124,6 +95,15 @@ export default {
 		},
 		setDeleteImage(state, value) {
 			state.delete_image = value
+		},
+		setPropModelToDelete(state, value) {
+			state.prop_model_to_delete = value
+		},
+		deletePropModel(state) {
+			let index = state.model[state.prop_model_to_delete.key].findIndex(model => {
+				return model.id == state.prop_model_to_delete.id
+			})
+			state.model[state.prop_model_to_delete.key].splice(index, 1)
 		},
 		deleteImage(state, value) {
 			let index = state.models.images.findIndex(model => {
@@ -142,9 +122,6 @@ export default {
 			.then(res => {
 				commit('setLoading', false)
 				commit('setModels', res.data.models)
-				commit('setToShow')
-				commit('setMessagesNotRead')
-				commit('message/setChatsToShow', null, {root: true})
 			})
 			.catch(err => {
 				commit('setLoading', false)
@@ -155,7 +132,6 @@ export default {
 			return axios.delete(`/api/${generals.methods.routeString(state.model_name)}/${state.delete.id}`)
 			.then(() => {
 				commit('delete')
-				commit('setToShow')
 			})
 			.catch((err) => {
 				console.log(err)
@@ -170,5 +146,14 @@ export default {
 				console.log(err)
 			})
 		},
+		deletePropModel({ commit, state }) {
+			return axios.delete(`/api/${generals.methods.routeString(state.prop_model_to_delete.has_many.model_name)}/${state.prop_model_to_delete.id}`)
+			.then(res => {
+				commit('deletePropModel')
+			})
+			.catch(err => {
+				console.log(err)
+			})
+		}
 	},
 }

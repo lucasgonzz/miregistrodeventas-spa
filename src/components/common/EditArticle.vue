@@ -166,6 +166,10 @@ export default {
 		},
 	},
 	methods: {
+		showImages(article) {
+			this.$store.commit('articles/setImagesToShow', article)
+			this.$bvModal.show('article-images')
+		},
 		updateArticle() {
 			if (this.check()) {
 				this.loading = true

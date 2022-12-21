@@ -9,7 +9,6 @@
 		class="p-15"
 		lg="4">
 			<image-info></image-info>
-			<variant-info></variant-info>
 		</b-col>
 	</b-row>
 </b-modal>
@@ -18,7 +17,6 @@
 import Carousel from '@/components/listado/modals/images/Carousel'
 import ImageInfo from '@/components/listado/modals/images/ImageInfo'
 import BtnLoader from '@/components/common/BtnLoader'
-import VariantInfo from '@/components/listado/modals/images/VariantInfo'
 import article_images from '@/mixins/article_images'
 export default {
 	name: 'ArticleImagesIndex',
@@ -27,7 +25,6 @@ export default {
 		Carousel,
 		ImageInfo,
 		BtnLoader,
-		VariantInfo,
 	},
 	computed: {
 		title() {

@@ -13,12 +13,12 @@ export default {
 		models: [],
 		loaded_models: [],
 		model: {},
-		to_show: [],
-		is_filtered: false,
 		page: 1,
 
 		from_filter: false,
+		filters: [],
 		filtered: [],
+		is_filtered: false,
 		selected: [],
 
 		delete: null,
@@ -87,6 +87,9 @@ export default {
 		},
 		setFromFilter(state, value) {
 			state.from_filter = value
+		},
+		setFilters(state, value) {
+			state.filters = value
 		},
 		setFiltered(state, value) {
 			state.filtered = value 

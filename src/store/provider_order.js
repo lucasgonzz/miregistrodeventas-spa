@@ -102,9 +102,11 @@ export default {
 		},
 		deleteImage(state, value) {
 			let index = state.models.images.findIndex(model => {
-				return model.id == state.delete.id
+				return model.id == state.delete_image.id
 			})
-			state.models.splice(index, 1)
+			if (index != -1) {
+				state.model.images.splice(index, 1)
+			}
 		},
 		setPropModelToDelete(state, value) {
 			state.prop_model_to_delete = value

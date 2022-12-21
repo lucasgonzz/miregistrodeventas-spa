@@ -33,7 +33,7 @@ export default {
 			}
 		},
 		isSelected(display) {
-			if (this.display == display) {
+			if (this.current_display == display) {
 				return 'selected-display'
 			}
 			return 'nooo'

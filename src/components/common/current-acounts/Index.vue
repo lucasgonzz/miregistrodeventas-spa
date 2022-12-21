@@ -1,7 +1,8 @@
 <template>
 <div>
     <confirm
-    :text="text_delete"
+    model_name="current_acount"
+    :text="delete_text"
     :actions="actions"
     id="delete-current-acount"
     toast="Cuenta corriente eliminada"></confirm>
@@ -15,11 +16,7 @@
 
     <model 
     size="xl"
-    modal_title="Presupuesto"
-    :model="modelStoreFromName('budget')"
-    model_name="budget"
-    text_delete="este presupuesto"
-    :properties="modelPropertiesFromName('budget')">
+    model_name="budget">
         <template>
             <budget-modal-buttons></budget-modal-buttons>
         </template>
@@ -27,11 +24,7 @@
 
     <model 
     size="xl"
-    modal_title="Orden de produccion"
-    :model="modelStoreFromName('order_production')"
-    model_name="order_production"
-    text_delete="esta orden de produccion"
-    :properties="modelPropertiesFromName('order_production')">
+    model_name="order_production">
         <template>
             <order-production-modal-buttons></order-production-modal-buttons>
         </template>
@@ -75,6 +68,7 @@ import ColorInfo from '@/components/common/current-acounts/ColorInfo'
 import List from '@/components/common/current-acounts/List'
 import BtnPagoNotaCredito from '@/components/common/current-acounts/BtnPagoNotaCredito'
 export default {
+    name: 'CurrentAcountIndex',
     mixins: [current_acounts],
     components: {
         // Modals
@@ -108,7 +102,7 @@ export default {
         delete() {
             return this.$store.state.current_acount.delete
         },
-        text_delete() {
+        delete_text() {
             if (this.delete) {
                 return 'este cuenta con saldo de $'+this.delete.saldo
             }

@@ -35,6 +35,10 @@ Vue.prototype.$scrollToTop = (() => {
 	}, 500)
 }) 
 
+// VueCookies
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies)
+
 // VueScrollTo
 import VueScrollTo from 'vue-scrollto'
 Vue.use(VueScrollTo, {

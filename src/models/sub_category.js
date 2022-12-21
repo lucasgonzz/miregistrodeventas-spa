@@ -25,4 +25,5 @@ export default {
 	singular_model_name_spanish: 'Sub categoria',
 	plural_model_name_spanish: 'Sub categorias',
 	create_model_name_spanish: 'Nueva sub categoria',
+	text_delete: 'la',
 }

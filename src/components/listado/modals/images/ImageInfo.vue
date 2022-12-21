@@ -49,11 +49,11 @@ export default {
 	methods: {
 		imagenPrincipal() {
 			this.loading = true
-			this.$api.get(`articles/set-first-image/${this.selected_image.id}`)
+			this.$api.get(`article/set-first-image/${this.selected_image.id}`)
 			.then(res => {
-				console.log(res.data.article)
+				console.log(res.data.model)
 				this.loading = false
-				this.$store.commit('articles/update', res.data.article)
+				this.$store.commit('article/add', res.data.model)
 				this.$bvModal.hide('article-images')
 			})
 			.catch(err => {

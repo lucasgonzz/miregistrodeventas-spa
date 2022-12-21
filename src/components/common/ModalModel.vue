@@ -2,7 +2,7 @@
 <b-modal
 hide-footer
 :title="title"
-:id="model_name">
+:id="modelPlural(model_name)">
 	<view-component
 	:show_models_if_empty="show_models_if_empty"
 	:show_btn_pdf="show_btn_pdf"

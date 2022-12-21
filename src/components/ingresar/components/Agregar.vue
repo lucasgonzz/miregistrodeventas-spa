@@ -7,12 +7,12 @@
 		</template>
 		<b-dropdown-item
 		v-if="has_online"
-		v-b-modal="'category'">
+		v-b-modal="'categories'">
 			Categorias
 		</b-dropdown-item>
 		<b-dropdown-item
 		v-if="has_online"
-		v-b-modal="'sub_category'">
+		v-b-modal="'sub_categories'">
 			Sub categorias
 		</b-dropdown-item>
 		<b-dropdown-item
@@ -33,7 +33,7 @@
 			Depositos
 		</b-dropdown-item>
 		<b-dropdown-item
-		v-b-modal="'credit-cards'">
+		v-b-modal="'credit_cards'">
 			Tarjetas de credito
 		</b-dropdown-item>
 		<b-dropdown-item

@@ -29,9 +29,14 @@
 						<p
 						v-if="prop.only_show"
 						class="m-b-0 m-l-25">
-							<strong>
+							<strong 
+							v-if="propText(model, prop) != ''">
 								{{ propText(model, prop) }}
 							</strong>
+							<span
+							v-else>
+								No hay
+							</span>
 						</p>
 						<div
 						v-else>
@@ -41,9 +46,10 @@
 								class="m-b-15"
 								:id="model_name+'-'+prop.key"
 								@setSelected="setSelected"
-								:models="modelsToSearch(prop)"
 								:model_name="prop.store"
 								:model="model"
+								:show_btn_create="prop.show_btn_create"
+								clear_query
 								:prop="prop"></search-component>
 								
 								<div
@@ -125,6 +131,18 @@
 							:unchecked-value="prop.unchecked_value">
 								{{ prop.text }}
 							</b-form-checkbox>
+
+							<div
+							v-else-if="prop.type == 'boolean'">
+								<p
+								v-if="model[prop.key]">
+									Si
+								</p>
+								<p
+								v-else>
+									No
+								</p>
+							</div>
 
 					    	<!-- <model-component
 					    	v-if="prop.show_model"
@@ -250,6 +268,8 @@ export default {
 		model: Object,
 		properties: Array,
 		model_name: String,
+		has_many_parent_model: Object,
+		has_many_prop_name: String,
 		check_can_delete: {
 			type: Boolean,
 			default: false,
@@ -388,7 +408,7 @@ export default {
 			let prop = result.prop
 			if (prop.belongs_to_many) {
 				let model_to_add = result.model 
-				if (!model_to_add) {
+				if (!model_to_add && prop.belongs_to_many.create_if_not_exist) {
 					this.saving_belongs_to_many = true
 					this.$api.post(prop.store, {
 						name: result.query,
@@ -403,7 +423,7 @@ export default {
 						this.saving_belongs_to_many = false 
 						console.log(err)
 					})
-				} else {
+				} else if (model_to_add) {
 					this.setBelongsToManyPivotProps(prop, model_to_add, result)
 				}
 			} else {
@@ -437,15 +457,22 @@ export default {
 			if (this.check() && !this.loading) {
 				this.loading = true 
 				let route = this.routeString(this.model_name)
-				// let model_to_send = this.getModelToSend()
+				let model_to_send = this.getModelToSend()
 				if (this.model.id) {
-					this.$api.put(route+'/'+this.model.id, this.model)
+					this.$api.put(route+'/'+this.model.id, model_to_send)
 					.then(res => {
 						this.loading = false 
 						this.$toast.success('Actualizado')
-						this.$store.commit(this.replaceGuion(this.model_name)+'/add', res.data.model)
-						// this.$store.commit(this.replaceGuion(this.model_name)+'/setToShow')
-						console.log('se agrego a '+this.model_name)
+						if (this.has_many_parent_model) {
+							let index = this.has_many_parent_model[this.has_many_prop_name].findIndex(model => {
+								return model.id == this.model.id 
+							})
+							if (index != -1) {
+								this.has_many_parent_model[this.has_many_prop_name].splice(index, 1, res.data.model)
+							}
+						} else {
+							this.$store.commit(this.replaceGuion(this.model_name)+'/add', res.data.model)
+						}
 						this.$bvModal.hide(this.model_name)
 						this.callActions()
 					})
@@ -455,12 +482,15 @@ export default {
 						this.loading = false
 					})
 				} else {
-					this.$api.post(route, this.model)
+					this.$api.post(route, model_to_send)
 					.then(res => {
 						this.loading = false 
 						this.$toast.success('Guardado')
-						this.$store.commit(this.replaceGuion(this.model_name)+'/add', res.data.model)
-						// this.$store.commit(this.replaceGuion(this.model_name)+'/setToShow')
+						if (this.has_many_parent_model) {
+							this.$set(this.has_many_parent_model, this.has_many_prop_name, this.has_many_parent_model[this.has_many_prop_name].concat([res.data.model]))
+						} else {
+							this.$store.commit(this.replaceGuion(this.model_name)+'/add', res.data.model)
+						}
 						this.$bvModal.hide(this.model_name)
 						this.callActions()
 					})
@@ -472,9 +502,16 @@ export default {
 				}
 			}
 		},
-		// getModelToSend() {
-		// 	if (this.)
-		// },
+		getModelToSend() {
+			let model_to_send = {
+				...this.model
+			}
+			let selected_model = this.$store.state[this.model_name].selected_model 
+			if (typeof selected_model != 'undefined') {
+				model_to_send.model_id = selected_model.id 
+			}
+			return model_to_send
+		},
 		check() {
 			let ok = true
 			this.properties.forEach(prop => {

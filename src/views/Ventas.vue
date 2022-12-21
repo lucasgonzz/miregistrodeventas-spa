@@ -2,7 +2,7 @@
 <div id="ventas">	
 <!-- MODALS -->
     <confirm
-    :text="text_delete"
+    text="las ventas seleccionadas"
     :actions="['sale/delete']"
     id="delete-sales"
     toast="Ventas eliminadas"
@@ -17,10 +17,7 @@
     variant="primary"
     not_show_delete_text></confirm>
 
-    <afip-ticket-warning></afip-ticket-warning>
-
 	<current-acounts></current-acounts>
-	<discounts></discounts>
 	<sellers></sellers>
 	<commissioners></commissioners>
 	
@@ -46,10 +43,8 @@
 import moment from 'moment'
 
 // Modals
-import AfipTicketWarning from '@/components/ventas/modals/AfipTicketWarning' 
 import CurrentAcounts from '@/components/common/current-acounts/Index' 
 
-import Discounts from '@/components/ventas/modals/Discounts'
 import SaleDetails from '../components/ventas/modals/details/Index'
 import UpdatePrices from '../components/ventas/modals/update-prices/Index'
 import Confirm from '@/components/common/Confirm.vue'
@@ -70,13 +65,11 @@ export default {
 	mixins: [clients, print_sale, afip_ticket],
 	components: {
 		// Modals 
-		AfipTicketWarning,
 		CurrentAcounts,
 		SaleDetails,
 		UpdatePrices,
 		Confirm,
 		PrintSales,
-		Discounts,
 		Commissioners,
 		Sellers,
 
@@ -90,9 +83,6 @@ export default {
 	computed: {
 		selected_sales() {
 			return this.$store.state.sale.selected
-		},
-		text_delete() {
-			return 'las ventas seleccionadas'
 		},
 		text_afip() {
 			return '¿Seguro que quiere hacer una factura para esta venta?'
