@@ -36,7 +36,7 @@ export default {
 		},
         unconfirmed_length() {
             if (this.has_online) {
-                let orders = this.$store.state.order.models
+                let orders = this.$store.state.order.unconfirmed_models
                 return orders.filter(model => {
                 	return model.order_status.name == 'Sin confirmar'
                 }).length 

@@ -10,6 +10,7 @@ export default {
 		model_name: 'order',
 
 		models: [],
+		unconfirmed_models: [],
 		model: {},
 		to_show: [],
 		selected: [],
@@ -56,6 +57,13 @@ export default {
 				state.models = value
 			} else {
 				state.models = []
+			}
+		},
+		setUnconfirmedModels(state, value) {
+			if (value) {
+				state.unconfirmed_models = value
+			} else {
+				state.unconfirmed_models = []
 			}
 		},
 		setToShow(state, value) {
@@ -120,7 +128,19 @@ export default {
 			.then(res => {
 				commit('setLoading', false)
 				commit('setModels', res.data.models)
-				commit('setToShow')
+			})
+			.catch(err => {
+				commit('setLoading', false)
+				console.log(err)
+			})
+		},
+		getUnconfirmedModels({ commit, state }) {
+			commit('setLoading', true)
+			let url = '/api/'+generals.methods.routeString(state.model_name)+'-unconfirmed'
+			return axios.get(url)
+			.then(res => {
+				commit('setLoading', false)
+				commit('setUnconfirmedModels', res.data.models)
 			})
 			.catch(err => {
 				commit('setLoading', false)

@@ -15,6 +15,8 @@ export default {
 		filtered: [],
 		is_filtered: false,
 
+		messages_not_read: 0,
+
 		delete: null,
 		delete_image: null,
 
@@ -114,6 +116,32 @@ export default {
 		setDisplay(state, value) {
 			state.display = value 
 		},
+		setMessagesNotRead(state) {
+			state.messages_not_read = 0
+			state.models.forEach(buyer => {
+				buyer.messages.forEach(message => {
+					if (message.from_buyer && !message.read) {
+						state.messages_not_read++
+					}
+				})
+			})
+		},
+		setMessagesRead(state, buyer) {
+			let index = state.models.findIndex(b => {
+				return b.id == buyer.id
+			})
+			state.models[index].messages.forEach(message => {
+				if (message.from_buyer && !message.read) {
+					message.read = 1
+				}
+			})
+		},
+		addMessage(state, message) {
+			let index = state.models.findIndex(buyer => {
+				return buyer.id == message.buyer_id 
+			})
+			state.models[index].messages.push(message)
+		}
 	},
 	actions: {
 		getModels({ commit, state }) {

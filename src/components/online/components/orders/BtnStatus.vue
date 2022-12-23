@@ -59,7 +59,7 @@ export default {
 				this.loading = false
 				// this.$store.dispatch('online/messages/getMessages', this.model.buyer_id)
 				this.$store.commit('order/add', res.data.model)
-				this.$store.commit('order/setToShow')
+				// this.$store.commit('order/setToShow')
 				this.$bvModal.hide('order')
 			})
 			.catch(err => {
