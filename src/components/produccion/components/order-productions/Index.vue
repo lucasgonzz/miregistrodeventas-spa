@@ -3,6 +3,7 @@
 	v-if="view == 'ordenes-de-produccion'">
 
 		<view-component 
+		@modelSaved="modelSaved" 
 		:models_to_show="models_to_show"
 		show_filter_modal
 		show_btn_pdf
@@ -76,6 +77,13 @@ export default {
 		},
 		models() {
 			return this.$store.state.order_production.models
+		}
+	},
+	methods: {
+		modelSaved(model) {
+			if (model.client_id) {
+				this.loadModel('client', model.client_id)
+			}
 		}
 	}
 }

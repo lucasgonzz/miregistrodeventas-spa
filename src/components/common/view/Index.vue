@@ -5,6 +5,7 @@
 
     	<model
     	v-if="show_modal"
+    	@modelSaved="modelSaved"
     	:show_btn_pdf="show_btn_pdf"
     	:show_btn_delete="show_btn_delete"
     	:size="modal_size"
@@ -21,7 +22,7 @@
 				<horizontal-nav
 				:show_filter_modal="show_filter_modal"
 				:show_btn_create="_show_btn_create"
-				:show_excel_drop_down="show_excel_drop_down"
+				:show_plus_dropdown="show_plus_dropdown"
 				:show_display="show_display"
 				:model_name="model_name">
 					<template v-slot:btn_create>
@@ -72,7 +73,7 @@ export default {
 			type: Boolean,
 			default: true,
 		},
-		show_excel_drop_down: {
+		show_plus_dropdown: {
 			type: Boolean,
 			default: false,
 		},
@@ -146,5 +147,10 @@ export default {
 			return this.show_btn_create
 		}
 	},
+	methods: {
+		modelSaved(model) {
+			this.$emit('modelSaved', model)
+		}
+	}
 }
 </script>

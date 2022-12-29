@@ -7,6 +7,8 @@
 	<change-percentage-card></change-percentage-card>
 	<update-price></update-price>
 
+	<articles-loading-advise></articles-loading-advise>
+
 	<nav-component></nav-component>
 
 	<client></client>	
@@ -25,6 +27,7 @@ import ChangePercentageCard from '../components/vender/modals/ChangePercentageCa
 import UpdatePrice from '../components/vender/modals/UpdatePrice.vue'
 
 // Componentes
+import ArticlesLoadingAdvise from '../components/vender/components/ArticlesLoadingAdvise'
 import NavComponent from '../components/vender/components/NavComponent'
 import Client from '../components/vender/components/client/Index'
 import Remito from '../components/vender/components/remito/Index'
@@ -42,6 +45,7 @@ export default {
 		UpdatePrice,
 		
 		// Componentes
+		ArticlesLoadingAdvise,
 		NavComponent,
 		Client,
 		Remito,

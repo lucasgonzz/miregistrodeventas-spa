@@ -46,15 +46,16 @@
 			<div class="buttons">
 
 				<slot name="btn_create">
-					<excel-drop-down
-					v-if="show_excel_drop_down"
-					:model_name="model_name"></excel-drop-down>
-
 					<btn-create
-					v-else-if="show_btn_create"
+					v-if="show_btn_create"
 					:with_margin="false"
 					:block="false"
 					:model_name="model_name"></btn-create>
+					
+					<plus-dropdown
+					class="m-l-15"
+					v-if="show_plus_dropdown"
+					:model_name="model_name"></plus-dropdown>
 				</slot>
 
 				<slot name="buttons"></slot>
@@ -71,7 +72,7 @@
 <script>
 import BtnCreate from '@/components/common/BtnCreate'
 import FilterModal from '@/components/common/horizontal-nav/FilterModal'
-import ExcelDropDown from '@/components/common/horizontal-nav/ExcelDropDown'
+import PlusDropdown from '@/components/common/horizontal-nav/PlusDropdown'
 import DisplayNav from '@/components/common/horizontal-nav/DisplayNav'
 
 import display from '@/mixins/display'
@@ -81,7 +82,7 @@ export default {
 	components: {
 		BtnCreate,
 		FilterModal,
-		ExcelDropDown,
+		PlusDropdown,
 		DisplayNav,
 	},
 	props: {
@@ -114,7 +115,7 @@ export default {
 			type: Boolean,
 			default: true,
 		},
-		show_excel_drop_down: {
+		show_plus_dropdown: {
 			type: Boolean,
 			default: false,
 		},
@@ -149,6 +150,7 @@ export default {
 		restartSearch() {
 			this.$store.commit(this.model_name+'/setIsFiltered', false)
 			this.$store.commit(this.model_name+'/setFiltered', [])
+			this.$store.commit(this.model_name+'/setFilters', [])
 		},
 		setDisplay(display) {
 			this.$emit('setDisplay', display)
@@ -233,6 +235,7 @@ export default {
 		display: none
 	.buttons 
 		display: flex
+		flex-direction: column
 
 	.item
 		border-bottom: 3px solid lighten($blue, 30)

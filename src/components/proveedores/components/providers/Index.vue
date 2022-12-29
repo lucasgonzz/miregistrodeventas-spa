@@ -3,7 +3,7 @@
 	v-if="view == 'proveedores'"
 	model_name="provider"
 	show_filter_modal
-	show_excel_drop_down
+	show_plus_dropdown
 	:show_previus_days="false">
 		<template #modals>
 	    	<current-acounts></current-acounts>

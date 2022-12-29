@@ -2,6 +2,7 @@
 	<view-component
 	v-if="view == 'pedidos'"
 	model_name="order"
+	show_btn_pdf
 	:show_btn_create="false"
 	:show_btn_delete="false">
 		<template v-slot:modal_buttons="slotProps">

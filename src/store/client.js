@@ -12,6 +12,8 @@ export default {
 		model: {},
 		to_show: [],
 		selected: [],
+		
+		filters: [],
 		filtered: [],
 		is_filtered: false,
 
@@ -57,6 +59,9 @@ export default {
 			} else {
 				state.models = []
 			}
+		},
+		setFilters(state, value) {
+			state.filters = value
 		},
 		setFiltered(state, value) {
 			state.filtered = value

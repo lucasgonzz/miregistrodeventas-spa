@@ -52,29 +52,41 @@ export default {
 			let items = []
 			this.sale.articles.forEach(article => {
 				items.push({
+					is_article: true,
 					id: article.id,
 					name: article.name,
 					actual_price: article.pivot.price,
 					price_vender: this.getActualPrice(article)
 				})
 			})
+			this.sale.services.forEach(service => {
+				items.push({
+					is_service: true,
+					id: service.id,
+					name: service.name,
+					actual_price: service.pivot.price,
+					price_vender: this.getActualPrice(service)
+				})
+			})
 			return items 
 		},
 	},
 	methods: {
-		getActualPrice(article) {
-			let finded = this.articles.find(model => {
-				return model.id == article.id 
-			})
-			if (typeof finded != 'undefined') {
-				return finded.price 
+		getActualPrice(item) {
+			if (item.is_article) {
+				let finded = this.articles.find(model => {
+					return model.id == item.id 
+				})
+				if (typeof finded != 'undefined') {
+					return finded.final_price 
+				}
 			}
 			return ''
 		},
 		update() {
 			this.loading = true 
 			this.$api.put('sale/update-prices/'+this.sale.id, {
-				articles: this.items 
+				items: this.items 
 			})
 			.then(res => {
 				this.loading = false 

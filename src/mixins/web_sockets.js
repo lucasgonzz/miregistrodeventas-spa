@@ -41,7 +41,11 @@ export default {
                 console.log(notification)
                 this.$api.get('sale-show/'+notification.sale_id)
                 .then(res => {
-                    this.addModel('sale', res.data.model)
+                    let sale = res.data.model
+                    this.addModel('sale', sale)
+                    if (sale.client_id) {
+                        this.loadModel('client', sale.client_id)
+                    } 
                 })
             });
             this.Echo.channel('message.from_buyer.'+this.owner_id)

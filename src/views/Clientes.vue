@@ -1,6 +1,7 @@
 <template>
 	<view-component
 	:model_name="model_name"
+	show_plus_dropdown
 	:show_previus_days="false"
 	show_filter_modal>
 		<template #modals>
@@ -11,10 +12,6 @@
 	    	<sale-details></sale-details>
 
 	    	<import></import>
-		</template>
-
-		<template #horizontal_nav_btn_create>
-			<create-dropdown></create-dropdown>
 		</template>
 
 		<template

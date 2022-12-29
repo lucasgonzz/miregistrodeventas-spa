@@ -103,9 +103,6 @@ export default {
 					} else {
 						document.getElementById('article-bar-code').focus()
 					}
-					if (this.client) {
-						this.updateClient(this.client)
-					}
 					this.$store.commit('vender/previus_sales/setIndex', 0)
 					this.$store.commit('vender/previus_sales/setPreviusSale', {})
 					if (print_ticket) {

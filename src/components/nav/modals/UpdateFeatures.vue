@@ -22,7 +22,7 @@ id="update-features">
 	block 
 	variant="primary"
 	@click="close">
-		Cerrar
+		Entendido
 	</b-button>
 </b-modal>
 </template>

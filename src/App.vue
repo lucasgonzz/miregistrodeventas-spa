@@ -272,6 +272,7 @@ export default {
                     await this.$store.dispatch('order_status/getModels')
                     this.$store.commit('auth/setMessage', 'Cargando clientes de la tienda')
                     await this.$store.dispatch('buyer/getModels')
+                    await this.$store.commit('message/setChatsToShow')
                     this.$store.commit('auth/setMessage', 'Cargando pedidos sin confirmar')
                     await this.$store.dispatch('order/getUnconfirmedModels')
 

@@ -102,7 +102,7 @@
 							</div>
 
 							<b-form-input
-							v-if="prop.type == 'text' || prop.type == 'number'"
+							v-if="prop.type == 'text' || prop.type == 'number' || prop.type == 'password'"
 					        :disabled="isDisabled(prop)"
 							:placeholder="'Ingresar '+prop.text"
 							:type="prop.type"
@@ -531,6 +531,7 @@ export default {
 			this.actions_after_save.forEach(action => {
 				this.$store.dispatch(action)
 			})
+			this.$emit('modelSaved', this.model)
 		}
 	},
 	components: {

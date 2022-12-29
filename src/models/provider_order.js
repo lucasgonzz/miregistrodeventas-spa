@@ -126,6 +126,14 @@ export default {
 			use_to_filter_in_modal: true,
 		},
 		{
+			key: 'total_with_iva',
+			text: 'Total con IVA',
+			type: 'checkbox',
+			value: 1,
+			show: true,
+			use_to_filter_in_modal: true,
+		},
+		{
 			text: 'Total',
 			key: 'total',
 			function: 'providerOrderTotal',

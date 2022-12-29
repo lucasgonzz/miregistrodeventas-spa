@@ -1,6 +1,15 @@
 export default {
 	properties: [
 		{
+			text: 'N°',
+			key: 'num',
+			type: 'text',
+			value: '',
+			show: true,
+			not_show_on_form: true,
+			use_to_filter_in_search: true,
+		},
+		{
 			text: 'Nombre',
 			key: 'name',
 			type: 'text',

@@ -16,11 +16,9 @@ export default {
 		},
 		{
 			text: 'Contraseña',
-			key: 'password',
+			key: 'visible_password',
 			type: 'text',
 			value: '',
-			show: false,
-			// not_show_on_form: true,
 		},
 	],
 	singular_model_name_spanish: 'Empleado',

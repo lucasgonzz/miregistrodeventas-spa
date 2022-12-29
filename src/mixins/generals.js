@@ -17,6 +17,16 @@ export default {
         },
 	},
 	methods: {
+		loadModel(model_name, id) {
+			this.$api.get(model_name+'-show/'+id)
+			.then(res => {
+				this.$store.commit(model_name+'/add', res.data.model)
+				this.$toast.success(this.singular(model_name)+' actualizado')
+			})
+			.catch(err => {
+				console.log(err)
+			})
+		},
 		addModel(model_name, model) {
 			this.$store.commit(model_name+'/add', model)
 			// this.$store.commit(model_name+'/setToShow')

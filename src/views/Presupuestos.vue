@@ -1,5 +1,5 @@
 <template>
-	<view-component 
+	<view-component
 	show_filter_modal
 	show_btn_pdf
 	model_name="budget">

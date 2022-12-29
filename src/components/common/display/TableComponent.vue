@@ -66,7 +66,7 @@
 					</template>
 
 					<template #cell(edit)="data">
-						<div class="cont-edit">
+						<div class="cont-edit asd">
 							<slot 
 							name="btn-edit"
 							:model="models[data.index]">
@@ -378,6 +378,8 @@ export default {
 <style lang="sass">
 .table 
 	background: #FFF
+	// td 
+	// 	max-width: 400px
 	img 
 		width: 100px
 	input, textarea

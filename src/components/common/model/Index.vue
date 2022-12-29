@@ -12,6 +12,7 @@
 		:id="model_name">
 
 			<model-form
+			@modelSaved="modelSaved"
 			:has_many_parent_model="has_many_parent_model"
 			:has_many_prop_name="has_many_prop_name"
 			:model="model"
@@ -94,6 +95,11 @@ export default {
 				return 'Actualizar'
 			}
 			return this.create_spanish(this.model_name)
+		},
+	},
+	methods: {
+		modelSaved(model) {
+			this.$emit('modelSaved', model)
 		},
 	},
 }

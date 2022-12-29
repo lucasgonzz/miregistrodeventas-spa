@@ -129,6 +129,7 @@ export default {
 		search() {
 			this.$store.commit(this.model_name+'/setLoading', true)
 			this.$store.commit(this.model_name+'/setFromDate', '')
+			this.$store.commit(this.model_name+'/setFilters', this.filters)
 			this.$bvModal.hide('filter-modal')
 			this.$api.post('search/'+this.model_name, {
 				props: this.props,

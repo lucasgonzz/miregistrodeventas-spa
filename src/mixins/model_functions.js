@@ -40,7 +40,7 @@ export default {
 			let total = 0 
 			model.articles.forEach(article => {
 				let total_article = article.pivot.cost * article.pivot.amount
-				if (article.pivot.iva_id && article.pivot.iva_id != 0) {
+				if (model.total_with_iva && article.pivot.iva_id && article.pivot.iva_id != 0) {
 					let iva = this.modelsStoreFromName('iva').find(model => {
 						return model.id == article.pivot.iva_id
 					})
