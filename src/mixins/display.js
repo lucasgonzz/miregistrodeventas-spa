@@ -6,11 +6,26 @@ export default {
 				this.$store.commit(model_name+'/setSelectedModel', selected_model)
 			}
 		},
-		setModel(model, model_name, _properties = null) {
+		setModel(model, model_name, _properties = null, properties_to_add = null) {
 			if (!_properties) {
 				_properties = this.modelPropertiesFromName(model_name)
 			}
+			console.log(_properties)
+			if (properties_to_add) {
+				properties_to_add.forEach(prop => {
+					let index = _properties.findIndex(_prop => {
+						return _prop.key == prop.key
+					})
+					if (index != -1) {
+						_properties[index].value = prop.value 
+					} else {
+						_properties.push(prop)
+					}
+				})
+			}
+			console.log(_properties)
 			let properties =  this.getPivotProperties(model, _properties)
+			console.log(properties)
 			this.$store.commit(model_name+'/setModel', {
 				model,
 				properties

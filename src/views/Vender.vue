@@ -27,7 +27,7 @@ import ChangePercentageCard from '../components/vender/modals/ChangePercentageCa
 import UpdatePrice from '../components/vender/modals/UpdatePrice.vue'
 
 // Componentes
-import ArticlesLoadingAdvise from '../components/vender/components/ArticlesLoadingAdvise'
+import ArticlesLoadingAdvise from '@/components/common/ArticlesLoadingAdvise'
 import NavComponent from '../components/vender/components/NavComponent'
 import Client from '../components/vender/components/client/Index'
 import Remito from '../components/vender/components/remito/Index'

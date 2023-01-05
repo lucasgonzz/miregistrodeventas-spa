@@ -73,13 +73,13 @@ export default {
 					{
 						text: 'Precio',
 						key: 'price',
-						type: 'text',
+						type: 'number',
 						show: true,
 					},
 					{
 						text: 'Cantidad',
 						key: 'amount',
-						type: 'text',
+						type: 'number',
 						show: true,
 					},
 				]

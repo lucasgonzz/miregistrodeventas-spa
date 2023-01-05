@@ -2,6 +2,12 @@
 	<div
 	v-if="view == 'ordenes-de-produccion'">
 
+		<order-production-status></order-production-status>
+		<finish></finish>	
+
+		<model
+		model_name="recipe"></model>	
+
 		<view-component 
 		@modelSaved="modelSaved" 
 		:models_to_show="models_to_show"
@@ -9,11 +15,12 @@
 		show_btn_pdf
 		model_name="order_production"
 		check_can_create>
-			<template #modals>
-				<order-production-status></order-production-status>
-				<finish></finish>	
+
+			<template v-slot:belongs="props">
+				<recipe-btn
+				:model="props.model"></recipe-btn>
 			</template>
-			
+
 			<template #modal_buttons>
 				<modal-buttons></modal-buttons>
 			</template>
@@ -37,16 +44,20 @@
 <script>
 import OrderProductionStatus from '@/components/produccion/components/order-productions/OrderProductionStatus'
 import Finish from '@/components/produccion/modals/order-productions/Finish'
+import Model from '@/components/common/model/Index'
 
 import ViewComponent from '@/components/common/view/Index'
+import RecipeBtn from '@/components/produccion/components/order-productions/RecipeBtn'
 import ModalButtons from '@/components/produccion/components/order-productions/ModalButtons'
 import BtnActivateArticle from '@/components/common/BtnActivateArticle'
 export default {
 	components: {
 		OrderProductionStatus,
 		Finish,
+		Model,
 		
 		ViewComponent,
+		RecipeBtn,
 		ModalButtons,
 		BtnActivateArticle,
 	},

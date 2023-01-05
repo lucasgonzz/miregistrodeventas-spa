@@ -220,8 +220,8 @@ export default {
 	align-items: center
 	margin: 1em 0
 	justify-content: space-between
-	& > div 
-		width: 100%
+	// & > div 
+	// 	width: 100%
 .col-nav 
 	justify-content: flex-start
 .horizontal-nav

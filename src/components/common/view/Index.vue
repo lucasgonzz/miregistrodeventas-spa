@@ -13,6 +13,9 @@
     		<template v-slot:default="slotProps">
     			<slot name="modal_buttons" :model="slotProps.model"></slot>
     		</template>
+    		<template v-slot:belongs="slotProps">
+    			<slot name="belongs" :model="slotProps.model"></slot>
+    		</template>
     	</model>
 
 		<b-row>

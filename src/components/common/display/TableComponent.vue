@@ -327,7 +327,6 @@ export default {
 					}
 				}
 			})
-			console.log(props)
 			return props 
 		},	
 		toCellName(slot) {

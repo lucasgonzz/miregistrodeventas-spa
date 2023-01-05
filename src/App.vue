@@ -182,9 +182,8 @@ export default {
             if (this.is_commerce) {
                 console.log('Es un comercio')
                 this.$store.commit('auth/setLoading', true)
-                this.$store.commit('auth/setMessage', 'Cargando articulos')
-                // this.getArticles()
-                await this.$store.dispatch('article/getModels')
+                // this.$store.commit('auth/setMessage', 'Cargando articulos')
+                // await this.$store.dispatch('article/getModels')
                 await this.$store.dispatch('article/getInactiveModels')
                 this.$store.commit('auth/setMessage', 'Cargando ventas')
                 await this.$store.dispatch('sale/getModels')
@@ -299,6 +298,8 @@ export default {
                 this.checkAddress()
                 this.setSubCategoriesInVender()
                 this.listenChannels()
+                this.$store.commit('auth/setMessage', 'Cargando articulos')
+                await this.$store.dispatch('article/getModels')
             } else if (this.is_super) {
                 console.log('Es super')
                 this.$store.dispatch('super/getCommerces')

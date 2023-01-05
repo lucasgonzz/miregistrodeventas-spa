@@ -25,6 +25,8 @@
 
 	<stock-info></stock-info>
 	
+	<articles-loading-advise></articles-loading-advise>
+
 	<header-listado></header-listado>
 	<filtered-selected></filtered-selected>
 
@@ -54,8 +56,7 @@ import StockInfo from '@/components/listado/modals/stock-info/Index.vue'
 
 // Components
 import HeaderListado from '../components/listado/components/header/Index'
-// import ArticlesTable from '../components/listado/components/articles-list/ArticlesTable.vue'
-// import ArticlesMobile from '../components/listado/components/articles-list/ArticlesMobile.vue'
+import ArticlesLoadingAdvise from '@/components/common/ArticlesLoadingAdvise'
 import List from '@/components/listado/components/list/Index'
 import FilteredSelected from '@/components/listado/components/filtered-selected/Index' 
 export default {
@@ -80,8 +81,7 @@ export default {
 
 		// Components
 		HeaderListado,
-		// ArticlesTable,
-		// ArticlesMobile,
+		ArticlesLoadingAdvise,
 		List,
 		FilteredSelected, 
 	},

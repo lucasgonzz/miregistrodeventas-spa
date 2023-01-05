@@ -16,6 +16,7 @@
 
     <model 
     size="xl"
+    show_btn_pdf
     model_name="budget">
         <template>
             <budget-modal-buttons></budget-modal-buttons>
@@ -24,6 +25,7 @@
 
     <model 
     size="xl"
+    show_btn_pdf
     model_name="order_production">
         <template>
             <order-production-modal-buttons></order-production-modal-buttons>

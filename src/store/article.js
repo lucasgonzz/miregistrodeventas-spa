@@ -14,6 +14,7 @@ export default {
 		loaded_models: [],
 		model: {},
 		page: 1,
+		per_page: 100,
 
 		from_filter: false,
 		filters: [],
@@ -181,7 +182,6 @@ export default {
 			return dispatch('getArticles')	
 		},
 		getArticles({ commit, dispatch, state }) {
-			let per_page = 500
 			console.log('page: '+state.page)
 			return axios.get(`/api/article/index/active?page=${state.page}`)
 			.then(res => {
@@ -193,7 +193,7 @@ export default {
 				console.log(loaded_models)
 				commit('addModels', loaded_models)
 
-				if (state.loaded_models.length == per_page) {
+				if (state.loaded_models.length == state.per_page) {
 					dispatch('getArticles')
 				} else {
 					commit('setLoading', false)
