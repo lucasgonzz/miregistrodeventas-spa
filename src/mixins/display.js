@@ -10,29 +10,24 @@ export default {
 			if (!_properties) {
 				_properties = this.modelPropertiesFromName(model_name)
 			}
-			console.log(_properties)
+			let properties =  this.getPivotProperties(model, _properties)
 			if (properties_to_add) {
 				properties_to_add.forEach(prop => {
-					let index = _properties.findIndex(_prop => {
+					let index = properties.findIndex(_prop => {
 						return _prop.key == prop.key
 					})
 					if (index != -1) {
-						_properties[index].value = prop.value 
+						properties[index].value = prop.value 
 					} else {
-						_properties.push(prop)
+						properties.push(prop)
 					}
 				})
 			}
-			console.log(_properties)
-			let properties =  this.getPivotProperties(model, _properties)
-			console.log(properties)
 			this.$store.commit(model_name+'/setModel', {
 				model,
 				properties
 			})
-			console.log('mostrando modal')
 			this.$bvModal.show(model_name)
-			console.log('se mostro modal')
 		},
 		getPivotProperties(model, properties) {
 			let properties_to_add = []

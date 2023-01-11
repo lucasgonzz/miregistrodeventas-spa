@@ -47,6 +47,15 @@ export default {
 	        			name: 'Listado',
 	        			get_models: 'article',
 	        			can: 'article.index',
+	        			actions: [
+	        				'article.getInactiveModels'
+	        			],
+	        			commits: [
+	        				{
+	        					key: 'article/setSelected',
+	        					param: [],
+	        				},
+	        			],
 	        		},
 	        		{
 	        			text: 'Ventas',
@@ -134,6 +143,11 @@ export default {
         		}
         		if (route.get_models) {
         			this.$store.dispatch(route.get_models+'/getModels')
+        		}
+        		if (route.actions) {
+        			route.actions.forEach(action => {
+        				this.$store.dispatch(action)
+        			})
         		}
         		if (route.function) {
         			this[route.function]

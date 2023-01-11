@@ -213,7 +213,7 @@ export default {
 	}
 }
 </script>
-<style scoped lang="sass">
+<style lang="sass">
 @import '@/sass/_custom'
 .cont-navs
 	display: flex
@@ -222,20 +222,19 @@ export default {
 	justify-content: space-between
 	// & > div 
 	// 	width: 100%
-.col-nav 
-	justify-content: flex-start
+	.j-start
+		width: 100%
 .horizontal-nav
 	width: 100%
 	display: flex
+	flex-wrap: no-wrap
 	overflow-x: scroll
-	overflow-y: hidden
-	-ms-overflow-style: none
-	scrollbar-width: none
-	&::-webkit-scrollbar 
-		display: none
-	.buttons 
-		display: flex
-		flex-direction: column
+	// overflow-y: hidden
+	// @media screen and (max-width: 576px)
+		// -ms-overflow-style: none
+		// scrollbar-width: none
+		// &::-webkit-scrollbar 
+		// 	display: none
 
 	.item
 		border-bottom: 3px solid lighten($blue, 30)

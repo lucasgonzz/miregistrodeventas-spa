@@ -144,14 +144,6 @@
 								</p>
 							</div>
 
-					    	<!-- <model-component
-					    	v-if="prop.show_model"
-					    	:modal_title="'Agregara '+prop.btn_model_text"
-					    	:model="modelStoreFromName(prop.store)"
-					    	:model_name="prop.store"
-					    	:text_delete="prop.text"
-					    	:properties="modelPropertiesFromName(prop.store)"></model-component> -->
-
 							<b-button
 					    	v-if="prop.show_model"
 					    	class="m-r-15"
@@ -254,15 +246,9 @@
 	</div>
 </template>
 <script>
-import SearchComponent from '@/components/common/search/Index'
 import HasMany from '@/components/common/model/HasMany'
 import BelongsToManyCheckbox from '@/components/common/model/BelongsToManyCheckbox'
-import Cards from '@/components/common/display/cards/Index'
-import TableComponent from '@/components/common/display/TableComponent'
 import Images from '@/components/common/model/Images'
-import BtnLoader from '@/components/common/BtnLoader2'
-import BtnDelete from '@/components/common/BtnDelete'
-import Model from '@/components/common/model/Index'
 export default {
 	props: {
 		model: Object,
@@ -418,6 +404,7 @@ export default {
 						model_to_add = res.data.model
 						this.saving_belongs_to_many = false 
 						this.setBelongsToManyPivotProps(prop, model_to_add, result)
+						this.$store.commit(prop.store+'/addInactiveModel', model_to_add)
 					})
 					.catch(err => {
 						this.saving_belongs_to_many = false 
@@ -510,6 +497,8 @@ export default {
 			if (typeof selected_model != 'undefined') {
 				model_to_send.model_id = selected_model.id 
 			}
+			console.log('model_to_send')
+			console.log(model_to_send)
 			return model_to_send
 		},
 		check() {
@@ -539,11 +528,10 @@ export default {
 		SearchComponent: () => import('@/components/common/search/Index'),
 		HasMany,
 		BelongsToManyCheckbox,
-		Cards,
-		TableComponent,
+		TableComponent: () => import('@/components/common/display/TableComponent'),
 		Images,
-		BtnLoader,
-		BtnDelete,
+		BtnLoader: () => import('@/components/common/BtnLoader2'),
+		BtnDelete: () => import('@/components/common/BtnDelete'),
 	}
 }
 </script>

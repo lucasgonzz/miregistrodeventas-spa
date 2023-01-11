@@ -196,6 +196,8 @@ export default {
                     this.$store.commit('auth/setMessage', 'Cargando ordenes de produccion')
                     this.$store.dispatch('order_production/getModels')
                     this.$store.dispatch('order_production_status/getModels')
+                    this.$store.commit('auth/setMessage', 'Cargando recetas')
+                    this.$store.dispatch('recipe/getModels')
                 }
                 if (this.hasExtencion('combos')) {
                     this.$store.dispatch('combo/getModels')

@@ -12,16 +12,6 @@ export default {
 			use_to_filter_in_modal: true,
 		},
 		{
-			text: 'Estado',
-			key: 'order_production_status_id',
-			store: 'order_production_status',
-			type: 'select',
-			value: 0,
-			show: true,
-			sortable: true,
-			use_to_filter_in_modal: true,
-		},
-		{
 			text: 'Fecha de inicio',
 			key: 'start_at',
 			type: 'date',
@@ -40,6 +30,16 @@ export default {
 			show: true,
 			sortable: true,
 			filterable: true,
+		},
+		{
+			text: 'Estado',
+			key: 'order_production_status_id',
+			store: 'order_production_status',
+			type: 'select',
+			value: 0,
+			show: true,
+			sortable: true,
+			use_to_filter_in_modal: true,
 		},
 		{
 			text: 'Articulos',

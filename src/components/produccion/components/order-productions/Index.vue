@@ -5,8 +5,8 @@
 		<order-production-status></order-production-status>
 		<finish></finish>	
 
-		<model
-		model_name="recipe"></model>	
+		<model-component
+		model_name="recipe"></model-component>	
 
 		<view-component 
 		@modelSaved="modelSaved" 
@@ -44,19 +44,20 @@
 <script>
 import OrderProductionStatus from '@/components/produccion/components/order-productions/OrderProductionStatus'
 import Finish from '@/components/produccion/modals/order-productions/Finish'
-import Model from '@/components/common/model/Index'
 
 import ViewComponent from '@/components/common/view/Index'
 import RecipeBtn from '@/components/produccion/components/order-productions/RecipeBtn'
 import ModalButtons from '@/components/produccion/components/order-productions/ModalButtons'
 import BtnActivateArticle from '@/components/common/BtnActivateArticle'
 export default {
+	name: 'OrderProductions',
 	components: {
 		OrderProductionStatus,
 		Finish,
-		Model,
+		ModelComponent: () => import('@/components/common/model/Index'),
 		
-		ViewComponent,
+		ViewComponent: () => import('@/components/common/view/Index'),
+		// ViewComponent,
 		RecipeBtn,
 		ModalButtons,
 		BtnActivateArticle,
@@ -92,7 +93,7 @@ export default {
 	},
 	methods: {
 		modelSaved(model) {
-			if (model.client_id) {
+			if (model.client_id && model.finished) {
 				this.loadModel('client', model.client_id)
 			}
 		}

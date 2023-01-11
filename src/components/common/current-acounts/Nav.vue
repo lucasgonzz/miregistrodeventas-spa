@@ -17,14 +17,14 @@
 			Buscar
 		</b-button>
 		<b-button 
-		v-if="current_acounts.length"
+		v-if="can_print"
 		@click="print"
 		variant="danger"
 		class="m-l-15"> 
 			<i class="icon-print"></i>
 			<span
-			v-show="selected_current_acounts.length">
-				{{ selected_current_acounts.length }}
+			v-show="is_selected_printable">
+				esta sola
 			</span>
 			<span
 			v-show="!selected_current_acounts.length">
@@ -64,6 +64,12 @@ export default {
         client() {
             return this.$store.state.current_acount.client
         },
+        can_print() {
+        	return this.selected_current_acounts.length == 0 || this.is_selected_printable
+        },
+        is_selected_printable() {
+        	return this.selected_current_acounts.length == 1 && (this.selected_current_acounts[0].status == 'nota_credito' || this.selected_current_acounts[0].status == 'pago_from_client')
+        }
 	},
 	methods: {
         saldoInicial() {

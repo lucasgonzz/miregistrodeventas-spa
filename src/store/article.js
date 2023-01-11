@@ -101,6 +101,9 @@ export default {
 		setSelected(state, value) {
 			state.selected = value 
 		},
+		addInactiveModel(state, value) {
+			state.inactive_models.push(value)
+		},
 		add(state, value) {
 			let index = state.models.findIndex(item => {
 				return item.id == value.id

@@ -137,7 +137,7 @@ export default {
 				let results = []
 				this.searching = true
 				this.propsToFilter(this.model_name).forEach(prop => {
-					results = this.modelsStoreFromName(this.model_name).filter(model => {
+					results = this.modelsToSearch(this.prop).filter(model => {
 						let value = ''+model[prop.key]
 						return value && value.toLowerCase().includes(this.query.toLowerCase())
 					})

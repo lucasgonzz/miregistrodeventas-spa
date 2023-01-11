@@ -15,6 +15,9 @@ export default {
 	},
 	methods: {
 		showRecipe() {
+			console.log('acaaaaa---')
+			console.log(this.model)
+
 			let props = [
 				{
 					key: 'article_id',
@@ -22,10 +25,16 @@ export default {
 				},
 				{
 					key: 'article',
-					value: this.model	
+					value: {
+						...this.model,
+						recipe: null
+					} 
 				},
 			]
 			this.setModel(this.model.recipe, 'recipe', null, props)
+			setTimeout(() => {
+				document.getElementById('recipe-articles').value = ''
+			}, 500)
 		}
 	}
 }

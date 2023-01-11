@@ -40,12 +40,6 @@
 	</div>
 </template>
 <script>
-import Confirm from '@/components/common/Confirm'
-import BtnLoader from '@/components/common/BtnLoader'
-import BtnDelete from '@/components/common/BtnDelete'
-import BtnPdf from '@/components/common/BtnPdf'
-
-import ModelForm from '@/components/common/model/ModelForm'
 export default {
 	name: 'ModelIndex',
 	props: {
@@ -78,10 +72,10 @@ export default {
 		check_can_delete: Boolean,
 	},
 	components: {
-		Confirm,
-		BtnPdf,
+		Confirm: () => import('@/components/common/Confirm'),
+		BtnPdf: () => import('@/components/common/BtnPdf'),
 
-		ModelForm,
+		ModelForm: () => import('@/components/common/model/ModelForm'),
 	},
 	computed: {
 		model() {

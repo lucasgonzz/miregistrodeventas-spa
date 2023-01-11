@@ -106,7 +106,7 @@ export default {
 			}
 			return props
 		},
-		modelsToSearch(prop, model) {
+		modelsToSearch(prop, model = null) {
 			let store 
 			if (prop.store) {
 				store = prop.store
@@ -118,7 +118,7 @@ export default {
 				let models_to_combine = this.$store.state[prop.combine_with.store][prop.combine_with.prop]
 				models = models.concat(models_to_combine)
 			}
-			if (prop.belongs_to) {
+			if (prop.belongs_to && model) {
 				return models.filter(_model => {
 					return _model[prop.belongs_to+'_id'] == model[prop.belongs_to+'_id'] 
 				})
